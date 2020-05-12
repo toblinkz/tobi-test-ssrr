@@ -1,5 +1,8 @@
 <template>
 <div>
+  <body class="navbar-top zm color-scheme-" data-gr-c-s-loaded="true">
+
+
   <div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
     <div class="pace-progress-inner"></div>
   </div>
@@ -78,6 +81,10 @@
   </div>
   <!-- /main navbar -->
 
+
+
+  </body>
+
 </div>
 </template>
 
@@ -102,25 +109,4 @@ export default {
 <style>
 
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
 </style>
