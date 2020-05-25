@@ -11,9 +11,17 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
+    script: [
+      {src: 'https://code.iconify.design/1/1.0.6/iconify.min.js' },
+      {src: '/js/static/intercom.js'},
+      {src: '/js/static/feedback.js'},
+    ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-
+      {href:"https://termii.com/css/entypo/css/entypo.css?v=9", rel:"stylesheet", type:"text/css"},
+      {href:"https://fonts.googleapis.com/css?family=Karla:400,700", rel:"stylesheet", type:"text/css"},
+      {href:"https://termii.com/assets/css/icons/icomoon/styles.css", rel:"stylesheet", type:"text/css"},
+      {href:"https://termii.com/assets/css/icons/fontawesome/styles.min.css", rel:"stylesheet", type:"text/css"},
 
     ]
   },
@@ -25,11 +33,13 @@ export default {
   ** Global CSS
   */
   css: [
+    '@assets/css/general_style/general_style.css'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/vue-intercom'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -41,7 +51,7 @@ export default {
   */
   modules: [
     // Doc: https://bootstrap-vue.js.org
-    'bootstrap-vue/nuxt',
+
   ],
   /*
   ** Build configuration
