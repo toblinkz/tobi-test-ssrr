@@ -8,7 +8,7 @@
       <div class="page-container" >
         <!--page content-->
         <div class="page-content">
-          <div class="row mb-50 mt-150">
+          <div class="row mb-50 mt-150 ">
             <center>
               <h1 class="mb-40">We power <strong class="text-bold blue-t">messaging across Africa</strong></h1>
             </center>

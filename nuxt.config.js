@@ -19,6 +19,7 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {href:"https://termii.com/css/entypo/css/entypo.css?v=9", rel:"stylesheet", type:"text/css"},
+      //{href: "https://termii.com/assets/pages/css/pages.css", rel: "stylesheet", type: "text/css"},
       {href:"https://fonts.googleapis.com/css?family=Karla:400,700", rel:"stylesheet", type:"text/css"},
       {href:"https://termii.com/assets/css/icons/icomoon/styles.css", rel:"stylesheet", type:"text/css"},
       {href:"https://termii.com/assets/css/icons/fontawesome/styles.min.css", rel:"stylesheet", type:"text/css"},
@@ -50,9 +51,12 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
-    // Doc: https://bootstrap-vue.js.org
+    '@nuxtjs/axios',
 
   ],
+  axios: {
+    // proxyHeaders: false
+  },
   /*
   ** Build configuration
   */

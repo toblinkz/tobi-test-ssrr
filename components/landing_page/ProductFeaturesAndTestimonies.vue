@@ -90,7 +90,7 @@
             <div class="col-md-6 text-right">
               <small class="mt-50">BUILT FOR AFRICAN BUSINESSES</small>
               <h1>
-                <strong class="text-bold font-40 blue-t text-center">Over 5,351,682+</strong>
+                <strong class="text-bold font-40 blue-t text-center">Over {{messages_processed}}+</strong>
               </h1>
               <h2 class="margin-minus transformed">Messages processed so far...</h2>
               <h4 class="margin-0">
@@ -142,7 +142,17 @@
         name: "testimony_section",
       components: {
         TrustedBySection,
-        SingleProductFeature, GradSection, Button, SingleProductFeatures, ProductFeatureHeader}
+        SingleProductFeature, GradSection, Button, SingleProductFeatures, ProductFeatureHeader
+        },
+      data () {
+          return{
+            messages_processed:""
+          }
+      },
+      async fetch() {
+          let registered_business_data = await this.$axios.$get('http://sandbox.termii.com/v1/utility/total/messages-processed',);
+        this.messages_processed = registered_business_data.data
+      }
     }
 </script>
 

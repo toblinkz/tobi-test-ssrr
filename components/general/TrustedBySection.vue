@@ -2,7 +2,7 @@
   <div class="grad-section z-in">
     <div class="container">
       <div class="col-md-5">
-        <h2 class="mt-30">Trusted by 2,031+ businesses.</h2>
+        <h2 class="mt-30"> Trusted by {{registered_business}}+ businesses.</h2>
         <h4 class="hidden-xs">Some of the best businesses across Africa use Termii to engage their customers daily.</h4>
         <a href="https://termii.com/register" title="Get started" class="btn bg-trans mt-10 mb-50"> Get started <i class="fa fa-angle-double-right padd-left"></i></a>
       </div>
@@ -15,8 +15,18 @@
 
 <script>
     export default {
-        name: "TrustedBySection"
+        name: "TrustedBySection",
+      data() {
+          return {
+            registered_business:"",
+          }
+      },
+      async fetch() {
+          let registered_business_data = await this.$axios.$get('http://sandbox.termii.com/v1/utility/total/registered-businesses',);
+          this.registered_business = registered_business_data.data
+      }
     }
+
 </script>
 
 <style scoped>
