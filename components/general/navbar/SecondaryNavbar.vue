@@ -7,14 +7,14 @@
 
 
         <!-- Main title -->
-        <a class="navbar-brand" href="https://termii.com/dashboard"> <img src="https://termii.com/assets/images/logo.png" alt="logo" style="margin-left: 30px;" data-src="https://termii.com/assets/images/logo.png" data-src-retina="https://termii.com/assets/images/logo.png" width="120px" height="auto" ></a>
+        <a class="navbar-brand" href="https://termii.com/dashboard"> <img src="/images/logo.png" alt="logo" style="margin-left: 30px;" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="120px" height="auto" ></a>
 
       </div>
 
       <!-- Expanded navigation -->
       <div class="navbar-collapse collapse hidden-xs">
 
-        <ul class="nav navbar-nav navbar-right" style="margin-right: 150px;">
+        <ul class="nav navbar-nav navbar-right" style="margin-right: 80px;">
 
           <li>
             <a class="li-a" href="https://termii.com/dashboard">
@@ -139,7 +139,20 @@
     display: block;
     padding: 10px 15px;
   }
+  @media (min-width: 768px){
+    .navbar-nav>li {
+      float: left;
+    }
 
+  }
+  .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
+    color: #777;
+    background-color: #efefef;
+  }
+  a {
+    color: #555;
+    text-decoration: none;
+  }
 
 
   .navbar-fixed-top {

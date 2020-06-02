@@ -22,8 +22,5 @@
 </script>
 
 <style scoped>
-  .wd-o {
-    width: 100% !important;
-    border-radius: 5px;
-  }
+
 </style>

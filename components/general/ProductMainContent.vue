@@ -29,15 +29,9 @@
 </script>
 
 <style scoped>
-  .text-bold {
-    font-weight: 700;
-  }
-  .mt-40 {
-    margin-top: 40px;
-  }
-  .background{
-    background: url('~assets/images/shape.png') no-repeat top ;
 
+  .background{
+    background: url('/images/shape.png') no-repeat top ;
     background-size: 100% 86%;
   }
 

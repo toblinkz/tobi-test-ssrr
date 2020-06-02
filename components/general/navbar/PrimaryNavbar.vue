@@ -5,7 +5,7 @@
     <div class="navbar navbar-verse navbar-fixed-top">
       <div class="navbar-header" style="background: #fff !important;">
         <a href="https://termii.com/dashboard">
-          <img class="margin-lx z-in" src="https://termii.com/assets/images/logo.png" alt="logo" data-src="https://termii.com/assets/images/logo.png" data-src-retina="https://termii.com/assets/images/logo.png" width="155px" height="auto" >
+          <img class="margin-lx z-in" src="/images/logo.png" alt="logo" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="155px" height="auto" >
         </a>
 
         <ul class="nav navbar-nav pull-right visible-xs-block">
@@ -285,6 +285,9 @@
     .navbar-right {
       margin-right: 140px;
     }
+  }
+  .up-top {
+    border-top: 1px solid #e5e5e5 !important;
   }
 
   @media (min-width: 769px){

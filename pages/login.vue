@@ -64,27 +64,7 @@
 <script>
     export default {
         name: "login",
-      head: {
-        script: [
-          { }
-        ],
-        link: [
 
-         // {href: "https://termii.com/assets/css/core.css", rel: "stylesheet", type: "text/css"},
-         //{href: "assets/css/general_style/pages.css", rel: "stylesheet", type: "text/css"},
-         // {href: "https://termii.com/assets/css/components.css", rel: "stylesheet", type: "text/css"},
-         // {href: "https://termii.com/assets/css/colors.css", rel: "stylesheet", type: "text/css"},
-         // {href: "https://termii.com/assets/css/responsive.css", rel: "stylesheet", type: "text/css"},
-
-
-          {href:"@icon/entypo/entypo.css", rel:"stylesheet", type:"text/css"},
-          {href:"https://termii.com/css/entypo/css/entypo.css?v=9", rel:"stylesheet", type:"text/css"},
-          {href:"https://fonts.googleapis.com/css?family=Karla:400,700", rel:"stylesheet", type:"text/css"},
-          {href:"https://termii.com/assets/css/icons/icomoon/styles.css", rel:"stylesheet", type:"text/css"},
-          {href:"https://termii.com/assets/css/icons/fontawesome/styles.min.css", rel:"stylesheet", type:"text/css"},
-
-        ]
-      },
     }
 </script>
 

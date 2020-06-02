@@ -9,10 +9,10 @@
       <div class="page-content">
         <ProductMainContent title="CUSTOMER ANALYTICS"
                       text_body="Get insights designed to help you understand customers' information and mobile network status"
-                      url="https://termii.com/assets/images/products/ssl.svg"
+                      url="/images/products/ssl.svg"
                       :styles="styles">
           <template>
-            <h1 class="mb-10 mt-50"><strong class="text-bold blue-t">Retrieve
+            <h1 class="mb-10 "><strong class="text-bold blue-t">Retrieve
               <span class="wrap"></span>
             </strong> detailed analytics.
             </h1>
@@ -27,10 +27,10 @@
           </template>
           <template v-slot:left_product_features>
             <SingleProductFeature head_title="SMS TOKEN"
-                       image_url="https://termii.com/assets/images/products/chat.png"
+                       image_url="/images/products/chat.png"
                        text="Authenticate customer transaction on your Application by enabling one-time sms tokens"></SingleProductFeature>
             <SingleProductFeature head_title="VOICE TOKEN"
-                       image_url="https://termii.com/assets/images/products/call-center.png"
+                       image_url="/images/products/call-center.png"
                        text="Prevent bots and spammers from accessing your platform by enabling voice tokens"></SingleProductFeature>
           </template>
           <template v-slot:right_product_features>
@@ -71,14 +71,20 @@
       data() {
         return {
           styles: {
-            marginTop: '-95px',
+            marginTop: '-70px',
             width: '80%',
-            marginLeft: '100px',
+            marginLeft: '50px',
             zIndex: '9999'
           }
         }
       },
+      mounted () {
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
 
+          setTimeout(() => this.$nuxt.$loading.finish(), 500)
+        })
+      }
 
     }
 </script>

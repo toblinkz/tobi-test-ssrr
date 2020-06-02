@@ -175,22 +175,23 @@
     import TheFooter from "../components/general/TheFooter";
     export default {
         name: "plans",
-      components: {TheFooter, TheNavbar}
+      components: {TheFooter, TheNavbar},
+      mounted () {
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
+
+          setTimeout(() => this.$nuxt.$loading.finish(), 500)
+        })
+      }
     }
 </script>
 
 <style>
 
-  .btn-tx {
-    background: #fff !important;
-    padding: 4px 14px 4px 15px !important;
-    border-radius: 5px !important;
-    margin-right: -20px !important;
-    margin-left: 16px !important;
-  }
-  .pad-w {
-    padding-left: 50px !important;
-    padding-right: 50px !important;
+  .nav {
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
   }
   .big-p {
     font-size: 1.8em;
@@ -225,15 +226,6 @@
     border-radius: 10px;
     border-top: 3px solid #1991bd;
   }
-  .hrr-4 {
-    border: 0;
-    height: 15px;
-    margin-top: 20px !important;
-    margin-bottom: 50px !important;
-    position: relative;
-    background: radial-gradient(ellipse at bottom, rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 70%);
-    width: 50% !important;
-  }
 
   .slash::before {
     content: '';
@@ -246,34 +238,10 @@
     transform: skew(0,-12deg);
     width: 100%;
   }
-  .white {
-    color: #fff !important;
-  }
-  .bg-blue {
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
-    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
-    color: #fff !important;
-    margin-bottom: 35px;
-    border-radius: 4px;
-    padding-top: 7px;
-    padding-bottom: 8px;
-    padding-left: 26px !important;
-    padding-right: 26px !important;
-  }
   .background{
-    background: url('~assets/images/suare.svg') no-repeat top ;
+    background: url('/images/suare.svg') no-repeat top ;
   }
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
-    outline: 1px solid #fafafa !important;
-  }
-  ::-webkit-scrollbar {
-    width: 9px !important;
-    height: 9px !important;
-  }
-  ::-webkit-scrollbar-track {
-    border-radius: 5px !important;
-  }
+
   .compress {
     margin-left: 50px !important;
     margin-right: 50px !important;

@@ -18,17 +18,5 @@
 
 <style scoped>
 
-  small {
-    font-size: 97%;
-  }
-  .margin-minus-5 {
-    margin-top: 5px !important;
-  }
-   h2 {
-    margin-bottom: 30px;
-    font-weight: 100;
-     font-size: 25px;
-  }
-
 
 </style>

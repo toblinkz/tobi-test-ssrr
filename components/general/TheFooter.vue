@@ -10,7 +10,7 @@
             <div class="panel-heading m-tp">
 
               <a href="https://termii.com/dashboard">
-                <img src="https://termii.com/assets/images/logo.png" alt="logo" data-src="https://termii.com/assets/images/logo.png" data-src-retina="https://termii.com/assets/images/logo.png" width="155px" height="auto">
+                <img src="/images/logo.png" alt="logo" data-src="https://termii.com/assets/images/logo.png" data-src-retina="/images/logo.png" width="155px" height="auto">
               </a>
               <p class="mt-20 mb-20">Termii helps African businesses use messaging channels to verify and communicate with customers</p>
               <div id="google_translate_element"></div>
@@ -22,7 +22,7 @@
 
               <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
               <br>
-              <a class="font-c" href="https://www.facebook.com/termiinetworks/"><i class=" entypo-facebook-circled font-bi"></i></a>
+              <a class="font-c" href="https://www.facebook.com/termiinetworks/"><i class="entypo-facebook-circled font-bi"></i></a>
               <a class="font-c" href="https://twitter.com/termii_network"><i class="entypo-twitter-circled font-bi"></i></a>
               <a class="font-c" href="https://www.linkedin.com/company/termii-networks/"><i class="entypo-linkedin-circled font-bi"></i></a>
               <br>
@@ -60,16 +60,18 @@
             </li>
           </ul>
         </div>
+
         <div class="col-md-3 hidden-xs">
-          <h5 class="text-bold"><img class="m-2" src="https://termii.com/assets/images/flags/ng.png"> ONIPANU, LAG</h5>
-          <p>150 Ikorodu Road, Onipanu,<br>Lagos, Nigeria</p>
-          <p>234-09022557951</p>
+          <h5 class="text-bold"><img class="m-2" src="/images/flags/us.png"> WASHINGTON D.C.</h5>
+          <p>601 Pennsylvania Avenue NW South Building Suite 920, Washington D.C. 20004, USA</p>
+          <p>1-669-241-1742</p>
           <p>sales@termii.com</p>
         </div>
         <div class="col-md-3 hidden-xs">
-          <h5 class="text-bold"><img class="m-2" src="https://termii.com/assets/images/flags/us.png"> WASHINGTON D.C.</h5>
-          <p>601 Pennsylvania Avenue NW South Building Suite 920, Washington D.C. 20004, USA</p>
-          <p>1-669-241-1742</p>
+          <h5 class="text-bold"><img class="m-2" src="/images/flags/us.png"> SAN JOSE, CA</h5>
+          <p>2880 Zanker Road Suite 203<br>San Jose CA 95134</p>
+          <h5 class="text-bold"><img class="m-2" src="/images/flags/ng.png"> ONIPANU, LAG</h5>
+          <p>150 Ikorodu Road, Onipanu,<br>Lagos, Nigeria</p>
         </div>
 
       </div>
@@ -159,6 +161,20 @@
       float: left;
     }
 
+  }
+  .goog-te-gadget-simple {
+    background-color: #fff;
+    border-left: 1px solid #d5d5d5;
+    border-top: 1px solid #9b9b9b;
+    border-bottom: 1px solid #e8e8e8;
+    border-right: 1px solid #d5d5d5;
+    font-size: 10pt;
+    display: inline-block;
+    padding-top: 1px;
+    padding-bottom: 2px;
+    cursor: pointer;
+    zoom: 1;
+    *display: inline;
   }
   .text-bold {
     font-weight: 700;

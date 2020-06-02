@@ -9,10 +9,10 @@
       <div class="page-content">
         <ProductMainContent title="CROSS-CHANNEL MESSAGING"
                       text_body="Guarantee delivery of messages by automatically routing them to alternative channels using a robust rules engine."
-                      url="https://termii.com/assets/images/products/ph.svg"
+                      url="/images/products/ph.svg"
                       :styles="styles">
           <template>
-            <h1 class="mb-10 mt-50"><strong class="text-bold blue-t">Send
+            <h1 class="mb-10 "><strong class="text-bold blue-t">Send
               <span class="wrap"></span>
             </strong> messages effectively.
             </h1>
@@ -83,6 +83,13 @@
           }
         }
       },
+      mounted () {
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
+
+          setTimeout(() => this.$nuxt.$loading.finish(), 500)
+        })
+      }
 
     }
 </script>

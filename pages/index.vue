@@ -27,42 +27,20 @@ export default {
     TheFooter,
     TheNavbar,
     MainContent},
-  head: {
-    script: [
-      { }
-    ],
-    link: [
+  mounted () {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
 
-     // {href: "https://termii.com/assets/pages/css/pages.css", rel: "stylesheet", type: "text/css"},
-     // {href: "https://termii.com/assets/css/core.css", rel: "stylesheet", type: "text/css"},
-      //{href: "https://termii.com/assets/css/components.css", rel: "stylesheet", type: "text/css"},
-    //  {href: "https://termii.com/assets/css/colors.css", rel: "stylesheet", type: "text/css"},
-    {href:"@icon/entypo/entypo.css", rel:"stylesheet", type:"text/css"},
-      {href:"https://termii.com/css/entypo/css/entypo.css?v=9", rel:"stylesheet", type:"text/css"},
-      {href:"https://fonts.googleapis.com/css?family=Karla:400,700", rel:"stylesheet", type:"text/css"},
-      {href:"https://termii.com/assets/css/icons/icomoon/styles.css", rel:"stylesheet", type:"text/css"},
-      {href:"https://termii.com/assets/css/icons/fontawesome/styles.min.css", rel:"stylesheet", type:"text/css"},
+      setTimeout(() => this.$nuxt.$loading.finish(), 500)
+    })
+  }
 
-    ]
-  },
 }
 
 </script>
 
 <style>
 
-
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
-    outline: 1px solid #fafafa !important;
-  }
-  ::-webkit-scrollbar {
-    width: 9px !important;
-    height: 9px !important;
-  }
-  ::-webkit-scrollbar-track {
-    border-radius: 5px !important;
-  }
 
 
 </style>

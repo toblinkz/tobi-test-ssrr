@@ -1,7 +1,7 @@
 <template>
-  <div class="body">
+  <div >
     <SecondaryNavbar></SecondaryNavbar>
-    <div class="container body">
+    <div class="container ">
       <div class="col-md-3">
         <div class="bs-sidebar hidden-print affix well" role="complementary" style="margin-top: 40px;">
         <ul class="nav bs-sidenav">
@@ -161,7 +161,14 @@ We use tools, such as cookies, to enable essential services and functionality on
     import SecondaryNavbar from "../components/general/navbar/SecondaryNavbar";
     export default {
         name: "privacy",
-      components: {SecondaryNavbar, GuidelineCard}
+      components: {SecondaryNavbar, GuidelineCard},
+      mounted () {
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
+
+          setTimeout(() => this.$nuxt.$loading.finish(), 500)
+        })
+      }
     }
 </script>
 
@@ -169,30 +176,19 @@ We use tools, such as cookies, to enable essential services and functionality on
 
   body {
     padding-top: 70px;
-    background:  url('~assets/images/grid.png') repeat-x fixed;
-    background-attachment: fixed;
-    background-color: #fff;
+    background:  url('/images/grid.png') repeat-x fixed;
+    font-family: "Karla", sans-serif;
   }
   ::-webkit-scrollbar {
     width: 9px !important;
     height: 89px !important;
     background: #fff !important;
   }
-  ::-webkit-scrollbar {
-    width: 9px !important;
-    height: 9px !important;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
-    outline: 1px solid #fafafa !important;
-  }
   ::-webkit-scrollbar-thumb {
     background-color: #C3C3C3 !important;
     outline: 1px solid #7D838B !important;
   }
-  ::-webkit-scrollbar-track {
-    border-radius: 5px !important;
-  }
+
 
   @media (min-width: 1200px){
     .bs-sidebar.affix-bottom, .bs-sidebar.affix {
@@ -342,10 +338,10 @@ We use tools, such as cookies, to enable essential services and functionality on
     margin-top: 100px;
     margin-bottom: 50px;
     text-align: center;
-    font-weight: 200;
+    font-weight: 100;
   }
   p{
-    font-size: 14px;
+    font-size: 13px;
   }
   .bs-sidebar .nav > li > a:hover, .bs-sidebar .nav > li > a:focus {
     text-decoration: none;

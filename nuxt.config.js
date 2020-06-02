@@ -12,29 +12,31 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     script: [
-      {src: 'https://code.iconify.design/1/1.0.6/iconify.min.js' },
-      {src: '/js/static/intercom.js'},
-      {src: '/js/static/feedback.js'},
+      {src: '/js/intercom.js'},
+      {src: '/js/feedback.js'},
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {href:"https://termii.com/css/entypo/css/entypo.css?v=9", rel:"stylesheet", type:"text/css"},
-      //{href: "https://termii.com/assets/pages/css/pages.css", rel: "stylesheet", type: "text/css"},
-      {href:"https://fonts.googleapis.com/css?family=Karla:400,700", rel:"stylesheet", type:"text/css"},
-      {href:"https://termii.com/assets/css/icons/icomoon/styles.css", rel:"stylesheet", type:"text/css"},
-      {href:"https://termii.com/assets/css/icons/fontawesome/styles.min.css", rel:"stylesheet", type:"text/css"},
 
     ]
   },
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: {
+    color: '#1991bd',
+    height: '2px',
+    throttle: 0
+  },
   /*
   ** Global CSS
   */
   css: [
-    '@assets/css/general_style/general_style.css'
+    '@assets/css/general_style/landing_page.css',
+    '@assets/font/karla/css/karla.css',
+    '@assets/icons/entypo/css/entypo.css',
+    '@assets/icons/fontawesome/styles.min.css',
+    '@assets/icons/icomoon/styles.css'
   ],
   /*
   ** Plugins to load before mounting the App

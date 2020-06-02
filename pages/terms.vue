@@ -1,7 +1,7 @@
 <template>
-  <div class="body">
+  <div >
     <SecondaryNavbar></SecondaryNavbar>
-    <div class="container body">
+    <div class="container ">
       <div class="col-md-3">
         <div class="bs-sidebar hidden-print affix well" role="complementary" style="margin-top: 40px;">
           <ul class="nav bs-sidenav">
@@ -20,9 +20,9 @@
       Last Revised: 01/02/2020</span></code></pre>
 
               <pre class="pad-p">
-These Terms of Service are a contract between you and Termii Webtech Inc. (referred to in these Terms of Service as "Termii", "us", "we" or "our"), the provider of the Termii website and the services accessible from the Termii website (which are collectively referred to in these Terms of Service as the "Termii Service").
+These Terms of Service are a contract between you and Termii Webtech Inc.(referred to in these Terms of Service as "Termii","us","we" or "our"), the provider of the Termii website and the services accessible from the Termii website (which are collectively referred to in these Terms of Service as the "Termii Service").
 
-You are agreeing to be bound by these Terms of Service. If you do not agree to these Terms of Service, please do not use the Termii Service. In these Terms of Service, "you" refers both to you as an individual and to the entity you represent. If you violate any of these Terms of Service, we reserve the right to cancel your account or block access to your account without notice.
+You are agreeing to be bound by these Terms of Service.If you do not agree to these Terms of Service, please do not use the Termii Service.In these Terms of Service,"you" refers both to you as an individual and to the entity you represent.If you violate any of these Terms of Service, we reserve the right to cancel your account or block access to your account without notice.
 
 <strong class="text-bold">Your Account</strong>
 
@@ -139,37 +139,35 @@ These Terms of Service (which include and incorporate the Termii Privacy Policy)
     import SecondaryNavbar from "../components/general/navbar/SecondaryNavbar";
     export default {
         name: "terms",
-      components: {SecondaryNavbar}
+      components: {SecondaryNavbar},
+      mounted () {
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
+
+          setTimeout(() => this.$nuxt.$loading.finish(), 500)
+        })
+      }
     }
 </script>
 
 <style>
   body {
     padding-top: 70px;
-    background:  url('~assets/images/grid.png') repeat-x fixed;
-    background-attachment: fixed;
-    background-color: #fff;
+    background:  url('/images/grid.png') repeat-x fixed;
+
+    font-family: "Karla", sans-serif;
   }
   ::-webkit-scrollbar {
     width: 9px !important;
     height: 89px !important;
     background: #fff !important;
   }
-  ::-webkit-scrollbar {
-    width: 9px !important;
-    height: 9px !important;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
-    outline: 1px solid #fafafa !important;
-  }
+
   ::-webkit-scrollbar-thumb {
     background-color: #C3C3C3 !important;
     outline: 1px solid #7D838B !important;
   }
-  ::-webkit-scrollbar-track {
-    border-radius: 5px !important;
-  }
+
 
   @media (min-width: 1200px){
     .bs-sidebar.affix-bottom, .bs-sidebar.affix {
@@ -319,10 +317,10 @@ These Terms of Service (which include and incorporate the Termii Privacy Policy)
     margin-top: 100px;
     margin-bottom: 50px;
     text-align: center;
-    font-weight: 200;
+    font-weight: 100;
   }
   p{
-    font-size: 14px;
+    font-size: 13px;
   }
   .bs-sidebar .nav > li > a:hover, .bs-sidebar .nav > li > a:focus {
     text-decoration: none;

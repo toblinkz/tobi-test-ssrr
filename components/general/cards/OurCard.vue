@@ -26,28 +26,9 @@
 </script>
 
 <style scoped>
-  .subscription-plans {
-    text-align: center;
-  }
-  .panel {
-    box-shadow: 0 10px 45px 0 rgba(0,0,0,.1);
-    background-color: #fff;
-    border: transparent;
-  }
-  .panel-plan {
-    display: inline-block;
-  }
-  .panel-body {
-    position: relative;
-    padding: 20px;
-  }
-  .pad-w {
-    padding-left: 50px !important;
-    padding-right: 50px !important;
-  }
-  pad-0 {
-    padding-top: 0px !important;
-  }
+
+
+
   .nav {
     margin-bottom: 0;
     padding-left: 0;

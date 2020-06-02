@@ -42,18 +42,18 @@
               </template>
             </OurCard>
           </div>
-          <div class="container mt-100">
+          <div class="container mt-100 ">
             <div class="row z-in mb-100">
               <div class="col-md-12">
                 <div class="col-md-6">
                   <div class="panel-flat">
                     <h2 class="mt-100 mb-100" style="font-size: 20px !important;">Africa is home to a billion people and as a new generation of businesses spring up to serve this populace, we aim to provide them with the best infrastructure for communicating with their customers.</h2>
-                    <img src="https://termii.com/assets/images/team/termii-2.jpg" class="wd-o mb-20">
+                    <img src="/images/team/termii-2.jpg" class="wd-o mb-20">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="panel-flat">
-                    <img src="https://termii.com/assets/images/team/termii-1.jpg" class="wd-o">
+                    <img src="/images/team/termii-1.jpg" class="wd-o">
                     <h2 class="mt-50" style="font-size: 20px !important;">So far we have supported <strong>2,075+</strong> businesses (across every sector) with messaging tools for communicating with their customers easily.</h2>
 
                   </div>
@@ -64,14 +64,14 @@
               <center class="row">
                 <h2 >We are backed by<strong class="text-bold blue-t"> global partners</strong></h2>
               </center>
-              <GlobalPartnersCard url="https://termii.com/assets/images/logo/ycombinator.png" styling="investors-y"></GlobalPartnersCard>
-              <GlobalPartnersCard url="https://termii.com/assets/images/logo/micro.png" styling="investors-m"></GlobalPartnersCard>
-              <GlobalPartnersCard url="https://termii.com/assets/images/logo/future-hub.png" styling="investors-f"></GlobalPartnersCard>
+              <GlobalPartnersCard url="/images/partners_logo/ycombinator.png" styling="investors-y"></GlobalPartnersCard>
+              <GlobalPartnersCard url="/images/partners_logo/micro.png" styling="investors-m"></GlobalPartnersCard>
+              <GlobalPartnersCard url="/images/partners_logo/future-hub.png" styling="investors-f"></GlobalPartnersCard>
             </div>
             <div class="row mt-10">
-              <GlobalPartnersCard url="https://termii.com/assets/images/logo/kepple.png" styling="investors-k"></GlobalPartnersCard>
-              <GlobalPartnersCard url="https://termii.com/assets/images/logo/brex.png" styling="investors-b"></GlobalPartnersCard>
-              <GlobalPartnersCard url="https://termii.com/assets/images/logo/av.png" styling="investors-av"></GlobalPartnersCard>
+              <GlobalPartnersCard url="/images/partners_logo/kepple.png" styling="investors-k"></GlobalPartnersCard>
+              <GlobalPartnersCard url="/images/partners_logo/brex.png" styling="investors-b"></GlobalPartnersCard>
+              <GlobalPartnersCard url="/images/partners_logo/av.png" styling="investors-av"></GlobalPartnersCard>
             </div>
             <!-- Group Team -->
             <div class="container mt-50">
@@ -82,35 +82,35 @@
                 </div>
                 <div class="col-md-9">
                   <div class="row mt-50">
-                    <TeamMembersCard url="https://termii.com/assets/images/team/1.jpg"
+                    <TeamMembersCard url="/images/team/1.jpg"
                                       team_member_name="Gbolade Emmanuel"
                                       role="CoFounder & CEO"></TeamMembersCard>
-                    <TeamMembersCard url="https://termii.com/assets/images/team/3.png"
+                    <TeamMembersCard url="/images/team/3.png"
                                      team_member_name="Awe Ayomide"
                                      role="CoFounder & CTO"></TeamMembersCard>
-                    <TeamMembersCard url="https://termii.com/assets/images/team/9.png"
+                    <TeamMembersCard url="/images/team/9.png"
                                      team_member_name="Osuala Jennifer"
                                      role="Commercials & Strategy"></TeamMembersCard>
                   </div>
                   <div class="row mt-50">
-                    <TeamMembersCard url="https://termii.com/assets/images/team/4.jpg"
+                    <TeamMembersCard url="/images/team/4.jpg"
                                      team_member_name="Ogunjubee Ifedolapo"
                                      role="Business & Partnership"></TeamMembersCard>
-                    <TeamMembersCard url="https://termii.com/assets/images/team/5.jpg"
+                    <TeamMembersCard url="/images/team/5.jpg"
                                      team_member_name="Abegunde Cecilia"
                                      role="Growth & Marketing"></TeamMembersCard>
-                    <TeamMembersCard url="https://termii.com/assets/images/team/6.png"
+                    <TeamMembersCard url="/images/team/6.png"
                                      team_member_name="Bakare Taiwo"
                                      role="Customer Success"></TeamMembersCard>
                   </div>
                   <div class="row mt-50">
-                    <TeamMembersCard url="https://termii.com/assets/images/team/8.png"
+                    <TeamMembersCard url="/images/team/8.png"
                                      team_member_name="Nyarko Mary"
                                      role="Customer Billing"></TeamMembersCard>
-                    <TeamMembersCard url="https://termii.com/assets/images/team/10.png"
+                    <TeamMembersCard url="/images/team/10.png"
                                      team_member_name="Egbayelo Tobi"
-                                     role="Growth & Marketing"></TeamMembersCard>
-                    <TeamMembersCard url="https://termii.com/assets/images/team/7.jpg"
+                                     role="Engineering"></TeamMembersCard>
+                    <TeamMembersCard url="/images/team/7.jpg"
                                      team_member_name="Deborah James"
                                      role="Design & Branding"></TeamMembersCard>
                   </div>
@@ -162,25 +162,22 @@
             paddingRight: '50px !important'
           }
         }
+      },
+      mounted () {
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
+
+          setTimeout(() => this.$nuxt.$loading.finish(), 500)
+        })
       }
     }
 </script>
 
 <style>
 
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
-    outline: 1px solid #fafafa !important;
-  }
-  ::-webkit-scrollbar {
-    width: 9px !important;
-    height: 9px !important;
-  }
-  ::-webkit-scrollbar-track {
-    border-radius: 5px !important;
-  }
+
   .background{
-    background: url('~assets/images/suare.svg') no-repeat top ;
+    background: url('/images/suare.svg') no-repeat top ;
 
   }
 

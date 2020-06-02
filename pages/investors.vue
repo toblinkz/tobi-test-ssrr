@@ -1,5 +1,5 @@
 <template>
-  <div class="home-y body">
+   <div class="home-y body">
     <div class="container background">
       <!--main nav-->
       <TheNavbar></TheNavbar>
@@ -11,8 +11,7 @@
             <center>
               <small>TERMII INC.</small>
               <h1 class="mb-40">2,088+ <strong class="text-bold blue-t">Businesses</strong></h1>
-              <p>Across every industry - from financial technology, health technology, agric technology, and retail use our sms,<br> emails, voice, & instant messaging APIs to verify and engage their customers daily.
-              </p>
+              <p>Across every industry - from financial technology, health technology, agric technology, and retail use our sms,<br> emails, voice, & instant messaging APIs to verify and engage their customers daily.</p>
             </center>
           </div>
           <div class="row">
@@ -204,25 +203,22 @@
     export default {
         name: "investors",
       components: {TheFooter, TermiiButton, PressMentionCard, OurCard, TheNavbar},
+      mounted () {
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
+
+          setTimeout(() => this.$nuxt.$loading.finish(), 500)
+        })
+      }
 
     }
 </script>
 
 <style >
   .background{
-    background: url('~assets/images/suare.svg') no-repeat top ;
+    background: url('/images/suare.svg') no-repeat top ;
   }
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
-    outline: 1px solid #fafafa !important;
-  }
-  ::-webkit-scrollbar {
-    width: 9px !important;
-    height: 9px !important;
-  }
-  ::-webkit-scrollbar-track {
-    border-radius: 5px !important;
-  }
+
   .page-timeline {
     margin: 30px auto 0 auto;
     position: relative;
@@ -287,7 +283,7 @@
     color: #fff;
     width: 20px;
     font-size: 8px;
-    padding: 5px 0px 0px 0px;
+    padding: -30px 0px 0px 0px;
     height: 20px;
     background: #365799;
     border-radius: 50%;

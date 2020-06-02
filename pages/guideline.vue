@@ -26,7 +26,7 @@
       <div class="col-md-8" role="main" style="margin-top: 50px;">
 
         <center>
-          <img src="https://termii.com/assets/images/api-doc.gif" style="width: 240px;margin-bottom: 20px;">
+          <img src="/images/api-doc.gif" style="width: 240px;margin-bottom: 20px;">
         </center>
         <div class="panel-flat timeline-content  text-center">
 
@@ -39,27 +39,27 @@
           <div class="col-md-1">
           </div>
 
-          <GuidelineCard image_url="https://termii.com/assets/images/products/note.png"
+          <GuidelineCard image_url="/images/products/note.png"
                          card_title="Guide"
                          card_text="Read API guide to learn more about our APIs"
                           start_url="http://developer.termii.com/docs/home"></GuidelineCard>
 
-          <GuidelineCard image_url="https://termii.com/assets/images/guide/up-arrow.png"
+          <GuidelineCard image_url="/images/products/up-arrow.png"
                          card_title="API Keys"
                          card_text="Visit user console to get your test or live API      key
                                         "
                          start_url="https://termii.com/account/api"></GuidelineCard>
 
-          <GuidelineCard image_url="https://termii.com/assets/images/products/payment.png"
+          <GuidelineCard image_url="/images/products/payment.png"
                          card_title="Top-up Wallet"
                          card_text="Credit your virtual wallet to go live"
                          start_url="https://termii.com/billing/fund"></GuidelineCard>
           <div class="col-md-1 ">
           </div>
         </div>
-        <div class="row">
+        <div class="row mt-70">
           <center>
-            <div class="hrr-5"></div>
+            <div class="hrr-5 "></div>
             <footer class="col-md-12">
               <p >Termii &copy; 2020. Termii is a registered trademark of Termii Inc. With our subsidiaries in Africa,<br> We collaborate with fast growing brands to deliver great customer messaging experience for African businesses.</p>
             </footer>
@@ -77,20 +77,24 @@
     import SecondaryNavbar from "../components/general/navbar/SecondaryNavbar";
     export default {
         name: "guideline",
-      components: {SecondaryNavbar, GuidelineCard, GuideLineNavbar}
+      components: {SecondaryNavbar, GuidelineCard, GuideLineNavbar},
+      mounted () {
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
+
+          setTimeout(() => this.$nuxt.$loading.finish(), 500)
+        })
+      }
     }
 </script>
 
 <style >
   body {
     padding-top: 70px;
-    background: white url('~assets/images/grid.png') repeat-x fixed ;
+    background: white url('/images/grid.png') repeat-x fixed ;
     color: #555;
   }
-  .row {
-    margin-right: -15px;
-    margin-left: -15px;
-  }
+
   .api-pad {
     padding: 0px 35px 0px 35px;
   }
@@ -186,34 +190,17 @@
     margin-top: 10px;
     margin-bottom: 10px;
   }
-  .hrr-5 {
-    border: 0;
-    height: 15px;
-    margin-top: 50px !important;
-    margin-bottom: 50px !important;
-    position: relative;
-    background: radial-gradient(ellipse at bottom, rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 70%);
-    width: 50% !important;
-  }
+
   ::-webkit-scrollbar {
     width: 9px !important;
     height: 89px !important;
     background: #fff !important;
   }
-  ::-webkit-scrollbar {
-    width: 9px !important;
-    height: 9px !important;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
-    outline: 1px solid #fafafa !important;
-  }
+
   ::-webkit-scrollbar-thumb {
     background-color: #C3C3C3 !important;
     outline: 1px solid #7D838B !important;
   }
-  ::-webkit-scrollbar-track {
-    border-radius: 5px !important;
-  }
+
 
 </style>

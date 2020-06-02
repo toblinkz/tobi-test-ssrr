@@ -9,10 +9,10 @@
       <div class="page-content">
         <ProductMainContent title="OTP VERIFICATION"
                       text_body="Generate one-time passwords to verify customer identity and transactions across multiple messaging channels"
-                      url="https://termii.com/assets/images/products/ms1.svg"
+                      url="/images/products/ms1.svg"
                       :styles="styles">
           <template>
-            <h1 class="mb-10 mt-50"><strong class="text-bold blue-t">Verify Customers
+            <h1 class="mb-10 "><strong class="text-bold blue-t">Verify Customers
               <span class="wrap"></span>
             </strong> transactions.
             </h1>
@@ -80,6 +80,13 @@
           }
         }
       },
+      mounted () {
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
+
+          setTimeout(() => this.$nuxt.$loading.finish(), 500)
+        })
+      }
 
     }
 </script>
