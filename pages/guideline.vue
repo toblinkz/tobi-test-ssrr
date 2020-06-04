@@ -42,18 +42,18 @@
           <GuidelineCard image_url="/images/products/note.png"
                          card_title="Guide"
                          card_text="Read API guide to learn more about our APIs"
-                          start_url="http://developer.termii.com/docs/home"></GuidelineCard>
+                          start_url="/"></GuidelineCard>
 
           <GuidelineCard image_url="/images/products/up-arrow.png"
                          card_title="API Keys"
                          card_text="Visit user console to get your test or live API      key
                                         "
-                         start_url="https://termii.com/account/api"></GuidelineCard>
+                         start_url="/"></GuidelineCard>
 
           <GuidelineCard image_url="/images/products/payment.png"
                          card_title="Top-up Wallet"
                          card_text="Credit your virtual wallet to go live"
-                         start_url="https://termii.com/billing/fund"></GuidelineCard>
+                         start_url="/"></GuidelineCard>
           <div class="col-md-1 ">
           </div>
         </div>

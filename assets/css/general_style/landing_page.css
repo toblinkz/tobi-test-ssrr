@@ -92,6 +92,9 @@
   width: 50% !important;
   margin-top: -25px !important;
 }
+a {
+  cursor: pointer;
+}
 .hrr-4 {
   border: 0;
   height: 15px;

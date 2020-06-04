@@ -183,8 +183,8 @@
 
                 <h2>Want to connect <strong class="text-bold blue-t">with your customers?</strong></h2>
                 <p>Create a free account to start verifying customer <br>transactions and sending product messages</p>
-                <TermiiButton label="Signup" url="https://termii.com/register" id="zio"></TermiiButton>
-                <a href="https://termii.com/plans" title="Edit" class="btn bg-green mt-40" id="zio"> Explore pricing<i class="fa fa-angle-double-right padd-left"></i></a>
+                <TermiiButton label="Signup" url="/register" id="zio"></TermiiButton>
+                <a href="/plans" title="Edit" class="btn bg-green mt-40" id="zio"> Explore pricing<i class="fa fa-angle-double-right padd-left"></i></a>
 
               </div>
             </div>

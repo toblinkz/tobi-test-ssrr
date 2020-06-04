@@ -1,5 +1,5 @@
 <template>
-   <div class="home-y body">
+  <div class="home-y body">
     <div class="container background">
       <!--main nav-->
       <TheNavbar></TheNavbar>
@@ -154,8 +154,8 @@
 
             </div>
             <PressMentionCard
-                card_text="All the companies from Y Combinator’s W20 Demo Day, Part I: B2B Companies"
-                explore_url="https://techcrunch.com/2020/03/17/all-the-companies-from-y-combinators-w20-demo-day-part-i-b2b-companies">
+              card_text="All the companies from Y Combinator’s W20 Demo Day, Part I: B2B Companies"
+              explore_url="https://techcrunch.com/2020/03/17/all-the-companies-from-y-combinators-w20-demo-day-part-i-b2b-companies">
               <template>
                 <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Mentions by</span> <span class="blue-t"> Techcrunch</span></h4>
               </template>
@@ -195,23 +195,23 @@
 </template>
 
 <script>
-    import TheNavbar from "../components/general/navbar/PrimaryNavbar";
-    import OurCard from "../components/general/cards/OurCard";
-    import PressMentionCard from "../components/general/cards/PressMentionCard";
-    import TermiiButton from "../components/general/TermiiButton";
-    import TheFooter from "../components/general/TheFooter";
-    export default {
-        name: "investors",
-      components: {TheFooter, TermiiButton, PressMentionCard, OurCard, TheNavbar},
-      mounted () {
-        this.$nextTick(() => {
-          this.$nuxt.$loading.start()
+  import TheNavbar from "../components/general/navbar/PrimaryNavbar";
+  import OurCard from "../components/general/cards/OurCard";
+  import PressMentionCard from "../components/general/cards/PressMentionCard";
+  import TermiiButton from "../components/general/TermiiButton";
+  import TheFooter from "../components/general/TheFooter";
+  export default {
+    name: "investors",
+    components: {TheFooter, TermiiButton, PressMentionCard, OurCard, TheNavbar},
+    mounted () {
+      this.$nextTick(() => {
+        this.$nuxt.$loading.start()
 
-          setTimeout(() => this.$nuxt.$loading.finish(), 500)
-        })
-      }
-
+        setTimeout(() => this.$nuxt.$loading.finish(), 500)
+      })
     }
+
+  }
 </script>
 
 <style >

@@ -46,7 +46,7 @@
                             </div>
                           </div>
                         </div>
-                        <a href="https://termii.com/register"
+                        <a href="/register"
                            title="Edit"
                            class="btn bg-blue"> Getstarted now
                         </a>
