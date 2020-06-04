@@ -49,7 +49,7 @@
                   <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Verification for</span> <span class="blue-t"> Financial Services</span></h4>
                   <p class="testimonial-text">Voguepay uses Termii's <strong>Token tools</strong> to verify and authenticate merchants financial transactions across Africa
                   </p>
-                  <a href="https://termii.com/verify-app" class="blue-p mb-20 font-case">Explore ⇢</a>
+                  <a href="/products/token" class="blue-p mb-20 font-case">Explore ⇢</a>
                   <!-- END PANEL -->
                 </div>
               </div>
@@ -63,7 +63,7 @@
                   <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Messaging for</span> <span class="blue-t"> Health Care</span></h4>
                   <p class="testimonial-text">Helium Health uses Termii's <strong>Messaging tools</strong> to help hospitals and clinics automate their processes as well as engage patients effectively
                   </p>
-                  <a href="https://termii.com/messaging-app" class="blue-p mb-20 font-case">Explore ⇢</a>
+                  <a href="/products/switch" class="blue-p mb-20 font-case">Explore ⇢</a>
                   <!-- END PANEL -->
                 </div>
               </div>
@@ -76,7 +76,7 @@
 
                   <p class="testimonial-text">Ulesson uses Termii's <strong>Insight tools</strong> to provide intuitive mobile learning experiences to students across Africa
                   </p>
-                  <a href="https://termii.com/analytics-app" class="blue-p mb-20 font-case">Explore ⇢</a>
+                  <a href="products/insight" class="blue-p mb-20 font-case">Explore ⇢</a>
                   <!-- END PANEL -->
                 </div>
               </div>
@@ -99,7 +99,7 @@
                 processes, so we simplified our APIs to reflect that.
               </h4>
               <br>
-              <Button label=" View API documentation"></Button>
+              <Button label=" View API documentation" url="/guideline"></Button>
             </div>
             <div class="col-md-6">
               <img alt="Image" id="zio" class="mt-50" style="width: 108%;margin-top: -45px !important;margin-left: -40px !important;margin-bottom: -500px !important;" src="/images/products/curl.svg">
@@ -120,7 +120,7 @@
                 We deliver messages across different networks in Africa, but have special arrangement for global network delivery!
               </p>
               <div>
-                <Button label=" Speak to an agent" class="mt-40"></Button>
+                <Button label=" Speak to an agent" class="mt-40" id="CHATID"></Button>
               </div>
             </div>
           </div>

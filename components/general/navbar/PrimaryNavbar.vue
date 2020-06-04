@@ -4,7 +4,7 @@
     <!-- Main navbar -->
     <div class="navbar navbar-verse navbar-fixed-top">
       <div class="navbar-header" style="background: #fff !important;">
-        <a href="https://termii.com/dashboard">
+        <a href="#">
           <img class="margin-lx z-in" src="/images/logo.png" alt="logo" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="155px" height="auto" >
         </a>
 
@@ -67,13 +67,13 @@
 
 
           <li>
-            <a class="li-a" href="https://termii.com/dashboard">
+            <a class="li-a" href="#">
               Dashboard
             </a>
           </li>
 
           <li>
-            <a class="li-a" href="https://termii.com/logout">
+            <a class="li-a" href="#">
               <span><i class="icon-switch2"></i> Logout</span>
             </a>
           </li>

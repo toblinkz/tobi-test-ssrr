@@ -90,7 +90,7 @@
                                      role="CoFounder & CTO"></TeamMembersCard>
                     <TeamMembersCard url="/images/team/9.png"
                                      team_member_name="Osuala Jennifer"
-                                     role="Commercials & Strategy"></TeamMembersCard>
+                                     role="People & Operations"></TeamMembersCard>
                   </div>
                   <div class="row mt-50">
                     <TeamMembersCard url="/images/team/4.jpg"

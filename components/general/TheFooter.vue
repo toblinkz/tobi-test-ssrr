@@ -10,7 +10,7 @@
             <div class="panel-heading m-tp">
 
               <a href="https://termii.com/dashboard">
-                <img src="/images/logo.png" alt="logo" data-src="https://termii.com/assets/images/logo.png" data-src-retina="/images/logo.png" width="155px" height="auto">
+                <img src="/images/logo.png" alt="logo" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="155px" height="auto">
               </a>
               <p class="mt-20 mb-20">Termii helps African businesses use messaging channels to verify and communicate with customers</p>
               <div id="google_translate_element"></div>
@@ -34,12 +34,12 @@
           <h5 class="text-bold">COMPANY</h5>
           <ul class="nav">
             <li>
-              <a href="https://termii.com/about" class="fi-a">
+              <a href="/about" class="fi-a">
                 About Termii
               </a>
             </li>
             <li>
-              <a href="https://termii.com/investors" class="fi-a">
+              <a href="/investors" class="fi-a">
                 Investor Relations
               </a>
             </li>
@@ -207,6 +207,9 @@
   .fi-a {
     color: #777 !important;
     padding-left: 0px !important;
+  }
+  a{
+    cursor: pointer;
   }
   .body {
     font-size: 14px;

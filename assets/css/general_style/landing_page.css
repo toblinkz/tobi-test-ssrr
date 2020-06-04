@@ -11,17 +11,12 @@
   border-radius: 5px !important;
 }
 
-.goog-te-gadget-simple {
-  background-color: #fff;
 
-  font-size: 10pt;
-  display: inline-block;
-  padding-top: 1px;
-  padding-bottom: 2px;
-  cursor: pointer;
-  zoom: 1;
-  *display: inline;
+.goog-te-gadget-simple {
+  border-radius: 15px !important;
+  border: transparent !important;
 }
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -97,6 +92,9 @@
   width: 50% !important;
   margin-top: -25px !important;
 }
+a {
+  cursor: pointer;
+}
 .hrr-4 {
   border: 0;
   height: 15px;
@@ -140,8 +138,24 @@
 }
 
 
+
 .mt-10{
   margin-top: 10px;
+}
+.mb-170{
+  margin-bottom: 170px;
+}
+.mb-160{
+  margin-bottom: 160px;
+}
+.mb-155{
+  margin-bottom: 155px;
+}
+.mb-158{
+  margin-bottom: 158px;
+}
+.mb-150{
+  margin-bottom: 150px;
 }
 .mb-100{
   margin-bottom: 100px;
