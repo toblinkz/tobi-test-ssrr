@@ -372,6 +372,10 @@ ol ol {
   padding-left: 15px !important;
 }
 
+.btn:hover, .btn:focus, .btn.focus {
+  -webkit-box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.05) inset;
+  box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.05) inset;
+}
 .wd-o {
   width: 100% !important;
   border-radius: 5px;
@@ -1069,6 +1073,32 @@ ol ol {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.bt-login {
+  background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
+  display: inline-block;
+  color: #fff !important;
+  border-radius: 4px;
+  vertical-align: bottom;
+  box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+  transition: .35s;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+}
+.btx-login {
+  background: #efefef;
+  color: #000 !important;
+  font-weight: 100 !important;
+  vertical-align: bottom;
+  box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+  transition: .35s;
+  padding-top: 7px !important;
+  padding-bottom: 8px !important;
+  margin-right: 30px;
+  margin-left: 60px;
+  font-size: 13px !important;
+  padding-left: 25px !important;
+  padding-right: 25px !important;
 }
 .btn-con {
   font-family: "Karla",sans-serif;
