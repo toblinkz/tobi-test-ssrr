@@ -6,7 +6,7 @@
         <!-- START Background Pic-->
 
         <div>
-          <img alt="Image" style="width: 45%;margin-top: -25px;margin-bottom: -85px;margin-left: 10px;" src="https://termii.com/assets/images/products/ds.svg">
+          <img alt="Image" style="width: 45%;margin-top: -25px;margin-bottom: -85px;margin-left: 10px;" src="/images/products/ds.svg">
         </div>
         <!-- END Background Pic-->
       </div>
@@ -14,7 +14,7 @@
       <!-- START Login Right Container-->
       <div class="login-container bg-white">
         <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40 wd-k">
-          <a href="https://termii.com"> <img src="https://termii.com/assets/images/logo.png" alt="logo" data-src-retina="https://termii.com/" width="150px" height="auto"></a>
+          <a href="/"> <img src="/images/logo.png" alt="logo" data-src-retina="/" width="150px" height="auto"></a>
           <!-- START Login Form -->
           <p class="p-t-35">Welcome back! Sign into your account, we've been waiting for you!</p>
           <!-- Advanced login -->
@@ -49,7 +49,7 @@
           <div class="m-t-50 m-b-45">
 
             <br>
-            Don't have an account with Termii? You can <a href="https://termii.com/register" class="text-info">Create an account here</a> <br>or speak to an agent <a id="CHATID">here</a>
+            Don't have an account with Termii? You can <a href="/register" class="text-info">Create an account here</a> <br>or speak to an agent <a id="CHATID">here</a>
           </div>
           <!-- /advanced login -->
         </div>

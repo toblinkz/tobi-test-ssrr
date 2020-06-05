@@ -6,7 +6,7 @@
         <!-- START Background Pic-->
 
         <div>
-          <img alt="Image" style="width: 45%;margin-top: -25px;margin-bottom: -85px;margin-left: 10px;" src="https://termii.com/assets/images/products/ds.svg">
+          <img alt="Image" style="width: 45%;margin-top: -25px;margin-bottom: -85px;margin-left: 10px;" src="/images/products/ds.svg">
         </div>
         <!-- END Background Pic-->
       </div>
@@ -14,11 +14,11 @@
       <!-- START Login Right Container-->
       <div class="login-container bg-white">
         <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40 wd-k">
-          <a href="https://termii.com"> <img src="https://termii.com/assets/images/logo.png" alt="logo" data-src-retina="https://termii.com/" width="150px" height="auto"></a>
+          <a href="/"> <img src="/images/logo.png" alt="logo" data-src-retina="/" width="150px" height="auto"></a>
 
-          <p class="p-t-35">Welcome to Termii! Join <strong class="text-bold font-40 blue-t text-center">Over 2,113+</strong> businesses across Africa building awesome products with our communication APIs, create an account now!</p>
+          <p class="p-t-35">Welcome to Termii! Join <strong class="text-bold   text-center">Over 2,113+</strong> businesses across Africa building awesome products with our communication APIs, create an account now!</p>
           <!-- register Form -->
-          <form class="" role="form" method="post" action="https://termii.com/register">
+          <form class="" role="form" method="post" action="/register">
             <input type="hidden" name="_token" value="b14kE8eN0PShnff6h5qfGK01KTJFPSYBJaIERQ6t">
 
             <div class="mt-20">
@@ -139,6 +139,10 @@
       font-size: 13px;
       line-height: 20px;
     }
+  }
+  .bg-white {
+    background-color: #fff;
+    color: #333333;
   }
   .bg-blue {
     background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
