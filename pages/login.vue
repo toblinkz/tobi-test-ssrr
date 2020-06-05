@@ -42,7 +42,7 @@
               </div>
               <div class="row" style="width: 95%">
                 <button type="submit" class="btnl bg-blue m-t-10">Proceed</button>
-                <a  href="https://termii.com/forgot-password" class="text-info pull-right">Forgot password</a></div>
+                <a  href="/forgot-password" class="text-info pull-right">Forgot password</a></div>
             </div>
 
           </form>
