@@ -1,72 +1,46 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        Termii
-      </h1>
-      <h2 class="subtitle">
-        Termii helps African businesses use sms, email, voice and instant messaging channels to verify and communicate with customers
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+  <div class="body navbar-top  container">
+    <!--main nav-->
+    <TheNavbar></TheNavbar>
+    <!--/main nav-->
+    <!--page container-->
+    <div class="login-container page-container">
+      <!--page content-->
+      <div class="page-content">
+        <MainContent></MainContent>
       </div>
+      <!--/page content-->
+      <TheFooter></TheFooter>
     </div>
+    <!--/page container-->
   </div>
+
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
 
+import MainContent from "../components/landing_page/MainContent";
+import TheNavbar from "../components/general/navbar/PrimaryNavbar";
+import TheFooter from "../components/general/TheFooter";
 export default {
   components: {
-    Logo
+    TheFooter,
+    TheNavbar,
+    MainContent},
+  mounted () {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+
+      setTimeout(() => this.$nuxt.$loading.finish(), 500)
+    })
   }
+
 }
+
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
 
-.links {
-  padding-top: 15px;
-}
 </style>
