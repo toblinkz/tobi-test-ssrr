@@ -4,7 +4,7 @@
     <!-- Main navbar -->
     <div class="navbar navbar-verse navbar-fixed-top">
       <div class="navbar-header" style="background: #fff !important;">
-        <a href="#">
+        <a href="/">
           <img class="margin-lx z-in" src="/images/logo.png" alt="logo" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="155px" height="auto" >
         </a>
 
@@ -64,20 +64,13 @@
             </a>
           </li>
 
-
-
           <li>
-            <a class="li-a" href="#">
-              Dashboard
+            <a class="btn btx-login " href="/login">Login
             </a>
           </li>
-
-          <li>
-            <a class="li-a" href="#">
-              <span><i class="icon-switch2"></i> Logout</span>
-            </a>
+          <li class="hidden-xs">
+            <a class="btn bt-login " href="/register"> Signup <i class="fa fa-angle-double-right ico-r"></i></a>
           </li>
-
 
         </ul>
       </div>
@@ -106,6 +99,12 @@
     border-bottom: 1px solid #fff !important;
     padding: 20px 50px 20px 50px !important;
   }
+  .ico-r {
+
+    vertical-align: bottom;
+    line-height: 1.3 !important;
+  }
+
   .navbar-fixed-top {
     top: 0;
     position: fixed;
@@ -120,6 +119,11 @@
     }
   }
 
+  .nav > li > a:hover, .nav > li > a:focus {
+    text-decoration: none;
+    background-color: #fff;
+    color: #777 !important;
+  }
 
   @media (min-width: 769px){
     .navbar-fixed-top {

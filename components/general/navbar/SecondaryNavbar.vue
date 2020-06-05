@@ -7,7 +7,7 @@
 
 
         <!-- Main title -->
-        <a class="navbar-brand" href="#"> <img src="/images/logo.png" alt="logo" style="margin-left: 30px;" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="120px" height="auto" ></a>
+        <a class="navbar-brand" href="/"> <img src="/images/logo.png" alt="logo" style="margin-left: 30px;" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="120px" height="auto" ></a>
 
       </div>
 
@@ -17,16 +17,13 @@
         <ul class="nav navbar-nav navbar-right" style="margin-right: 80px;">
 
           <li>
-            <a class="li-a" href="#">
-              Dashboard
+            <a class="btn btx-login" href="/login">Login
             </a>
+          </li>
+          <li>
+            <a class="btn bt-login btn-icon" href="/register"> Signup <i class="fa fa-angle-double-right ico-r"></i></a>
           </li>
 
-          <li>
-            <a class="li-a" href="#">
-              <span><i class="icon-switch2"></i> Logout</span>
-            </a>
-          </li>
 
         </ul>
       </div>
@@ -67,6 +64,7 @@
       float: left;
     }
   }
+
   .navbar-default .navbar-brand {
     color: #fff;
   }
