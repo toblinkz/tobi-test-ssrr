@@ -4,7 +4,7 @@
     <!-- Main navbar -->
     <div class="navbar navbar-verse navbar-fixed-top">
       <div class="navbar-header" style="background: #fff !important;">
-        <a href="#">
+        <a href="/">
           <img class="margin-lx z-in" src="/images/logo.png" alt="logo" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="155px" height="auto" >
         </a>
 
