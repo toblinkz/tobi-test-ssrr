@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="page-height">
     <div class="login-wrapper ">
       <!-- START Login Background Pic Wrapper-->
       <div class="bg-pic">
@@ -19,7 +19,7 @@
           <p class="p-t-100"> Your verification attempt failed! <br>Please generate a new link to verify your account.</p>
            <!-- Advanced login -->
 
-          <div class="p-t-85 mb-158">
+          <div class="p-t-85 ">
             <a class="bg-blue" href="http://sandbox.termii.com/account/verify/resend/5ed53b1c42b98">Click here to resend the email</a>
           </div>
 

@@ -1570,7 +1570,10 @@ hr.dotted {
   color: #10cfbd !important;
 }
 .text-info {
-  color: #3a8fc8 !important;
+  color: #04395E !important;
+}
+.text-info2 {
+  color: #2D74AC !important;
 }
 .text-blue {
   color: #3a8fc8 !important;
@@ -4766,7 +4769,7 @@ form legend {
   -webkit-appearance: none;
   color: #2c2c2c;
   outline: 0;
-  height: 35px;
+  height: 50px;
   padding: 9px 12px;
   line-height: normal;
   font-size: 14px;
@@ -4777,15 +4780,15 @@ form legend {
   transition: all 0.12s ease;
   -webkit-box-shadow: none;
   box-shadow: none;
-  border-radius: 2px;
+  border-radius: 10px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   -webkit-transition: background 0.2s linear 0s;
   transition: background 0.2s linear 0s;
 }
 .form-control:focus {
-  border-color: rgba(0, 0, 0, 0.1);
-  background-color: #f0f0f0;
+  border-color: #2D74AC;
+  background-color: #FFFFFF;
   outline: 0 !important;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -4817,7 +4820,7 @@ form legend {
 .form-control[disabled],
 .form-control[readonly],
 fieldset[disabled] .form-control {
-  background: #f8f8f8;
+  background: #2D74AC;
   color: rgba(98, 98, 98, 0.23);
 }
 /* Input Sizes
@@ -5221,14 +5224,14 @@ body.rtl .checkbox label::after {
   top: 6px;
 }
 .form-group-default.disabled {
-  background: #f8f8f8;
+  background: #FFFFFF;
   color: rgba(98, 98, 98, 0.23);
 }
 .form-group-default.disabled input {
   opacity: .6;
 }
 .form-group-default.disabled.focused {
-  background: #f8f8f8;
+  background: #FFFFFF;
 }
 .form-group-default.disabled.focused label {
   opacity: 1;

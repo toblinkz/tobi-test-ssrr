@@ -42,7 +42,7 @@
 
 
   .grad-section {
-    max-width: 90%;
+    max-width: 100%;
     margin: 0px auto 55px;
     box-shadow: 0 0 25px 0 rgba(113,150,193,.2);
     border-radius: 5px;

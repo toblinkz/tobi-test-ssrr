@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div style="height: 100vh">
     <div class="login-wrapper ">
       <!-- START Login Background Pic Wrapper-->
       <div class="bg-pic ">
@@ -27,7 +27,7 @@
 
               <button type="submit" class="btnl bg-blue m-t-25">Proceed</button>
             </div>
-            <div class="mb-150">
+            <div >
               <p class="m-l-20">Return back to <a href="/login" class="text-info">login</a></p>
             </div>
           </form>

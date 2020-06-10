@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="page-height">
     <div class="login-wrapper">
       <!-- START Login Background Pic Wrapper-->
       <div class="bg-pic">
@@ -13,7 +13,7 @@
       <!-- END Login Background Pic Wrapper-->
       <!-- START Login Right Container-->
       <div class="login-container bg-white">
-        <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40 wd-k">
+        <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 sm-p-l-15 sm-p-r-15 sm-p-t-40 wd-k">
           <a href="/"> <img src="/images/logo.png" alt="logo" data-src-retina="/" width="150px" height="auto"></a>
 
           <p class="p-t-35">Welcome to Termii! Join <strong class="text-bold   text-center">{{registered_business}}+</strong> businesses across Africa building awesome products with our communication APIs, create an account now!</p>
@@ -25,16 +25,16 @@
               <div class="row ">
                 <div class="col-md-6">
                   <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="first_name"  style="width: 100%" type="text" class="form-control" value="" required name="first_name" placeholder="First Name">
+                    <input id="first_name"   type="text" class="form-control round-form-input" value="" required name="first_name" placeholder="First Name">
                   </div>
                   <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="email"  style="width: 100%" type="text" class="form-control" value="" required name="email" placeholder="Email">
+                    <input id="email"   type="text" class="form-control round-form-input" value="" required name="email" placeholder="Email">
                   </div>
                   <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="password"  style="width: 100%" type="password" class="form-control"  required name="password" placeholder="Password">
+                    <input id="password"   type="password" class="form-control round-form-input"  required name="password" placeholder="Password">
                   </div>
                   <div class="form-group has-feedback has-feedback-left mt-20">
-                    <select v-model="selected_country" class="form-control" name="country" id="country" required>
+                    <select v-model="selected_country" class="form-control round-form-input" name="country" id="country" required>
                       <option value="">Select your country</option>
                       <option v-for="(country, countryIndex) in countries" :key="country.id" :value="country.id">{{country.name}}</option>
                     </select>
@@ -42,47 +42,29 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="last_name"  style="width: 100%" type="text" class="form-control" value="" required name="last_name" placeholder="Last Name">
+                    <input id="last_name"   type="text" class="form-control round-form-input" value="" required name="last_name" placeholder="Last Name">
                   </div>
                   <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="phone_number"  style="width: 100%" type="text" class="form-control" value="" required name="phone_number" placeholder="Phone Number">
+                  <select v-model="selected_sector"class="form-control round-form-input" name="sector" id="sector" required>
+                    <option value="" > your company's sector</option>
+                    <option v-for="sector in sectors" :key="sector.id" :value="sector.id">{{sector.name}}</option>
+                  </select>
                   </div>
                   <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="email"  style="width: 100%" type="password" class="form-control" required name="password_confirmation" placeholder="Confirm Password">
+                    <input id="password"   type="password" class="form-control round-form-input" required name="password_confirmation" placeholder="Confirm Password">
                   </div>
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                    <select v-model="selected_sector"class="form-control" name="sector" id="sector" required>
-                      <option value="" >Select your company's sector</option>
-                      <option v-for="sector in sectors" :key="sector.id" :value="sector.id">{{sector.name}}</option>
-
-                    </select>
-                  </div>
+                    <div class="form-group has-feedback has-feedback-left mt-20">
+                      <input id="phone_number"   type="text" class="form-control round-form-input" value="" required name="phone_number" placeholder="Phone Number">
+                    </div>
                 </div>
-
-
-              </div>
-
-            </div>
-            <div class="form-group login-options hidden">
-              <div class="row">
-                <div class="col-sm-6">
-                  <label class="checkbox-inline">
-                    <input type="checkbox" class="styled" checked="checked" name="remember">
-                    STAY LOGGED IN
-                  </label>
-                </div>
+                <button type="submit" class="btnl bg-blue m-t-10">Create My Account</button>
+                <a  href="/login" class="pull-right mt-20 m-r-40" style="color: black">Got an account? <span class="text-info2 bold">Sign In</span></a>
               </div>
             </div>
-            <div class="recaptcha-box">
-              <script src='https://www.google.com/recaptcha/api.js'></script>
-              <div class="g-recaptcha" data-sitekey="6LeyfRcUAAAAAMmAwfD1lOaPhLXyzH_QNClcwZ1n"></div>
-            </div>
-
-            <button type="submit" class="btnl bg-blue m-t-10 ">Create My Account</button>
           </form>
           <div class="mb-20">
             <br class="mt-10">
-            <span class="hidden-xs">By clicking the “Create My Account” button, you agree to Termii’s <a href="/terms" class="text-info">terms of acceptable use</a> and <a href="/privacy" class="text-info"> privacy policies</a></span>
+            <span class="hidden-xs">By clicking the “Create My Account” button, you agree to Termii’s <a href="/terms" class="text-info2">terms of acceptable use</a> and <a href="/privacy" class="text-info2"> privacy policies</a></span>
           </div>
           <!-- /register form -->
         </div>
@@ -125,24 +107,18 @@
 
 <style>
   @import "assets/css/general_style/pages.css";
-  body {
-    color: #626262;
-    font-family: "Karla",sans-serif;
-    font-size: 15px;
-    font-weight: normal;
-    letter-spacing: 0.01em;
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    -webkit-font-feature-settings: "kern" 1;
-    -moz-font-feature-settings: "kern" 1;
+
+  .round-form-input{
+    border-radius: 10px;
   }
   @media (max-width: 1400px){
     body, p {
       font-size: 13px;
       line-height: 20px;
     }
+  }
+  .select-css {
+    background: #FFFFFF ;
   }
   .bg-white {
     background-color: #fff;
@@ -187,7 +163,7 @@
   }
   .form-control {
     display: block;
-    width: 100%;
+    width: 85%;
   }
 
 
