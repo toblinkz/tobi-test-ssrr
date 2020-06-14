@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="page-height">
     <div class="login-wrapper ">
       <!-- START Login Background Pic Wrapper-->
       <div class="bg-pic">
@@ -19,7 +19,7 @@
           <p class="p-t-100"> Thank you for signing up on Termii! To complete our signup process, you need to confirm your identity by clicking the verification link we sent to your email address.</p>
           <!-- Advanced login -->
 
-          <div class="p-t-65 mb-158">
+          <div class="p-t-65 ">
             <a class="bg-blue" href="#">Click here to resend the email</a>
           </div>
 
@@ -42,14 +42,6 @@
 <style>
   @import "assets/css/general_style/pages.css";
 
-  body {
-    color: #626262;
-    font-family: "Karla",sans-serif;
-    font-size: 15px;
-    font-weight: normal;
-    letter-spacing: 0.01em;
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
-  }
 
   @media (max-width: 1400px){
     body, p {

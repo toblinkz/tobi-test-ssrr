@@ -11,6 +11,13 @@
   border-radius: 5px !important;
 }
 
+#_nuxt {
+  height: 100%
+}
+#_layout {
+  height: 100%;
+}
+
 
 .goog-te-gadget-simple {
   border-radius: 15px !important;
@@ -1084,6 +1091,18 @@ ol ol {
   transition: .35s;
   font-weight: 600 !important;
   font-size: 13px !important;
+}
+.page-height{
+  height: 100vh;
+}
+.btnl {
+  cursor: pointer;
+  transition: color 0.1s linear 0s, background-color 0.1s linear 0s, opacity 0.2s linear 0s !important;
+
+}
+.btnl:hover {
+  background-color: #fafafa;
+  border: 1px solid rgba(98, 98, 98, 0.27);
 }
 .btx-login {
   background: #efefef;
