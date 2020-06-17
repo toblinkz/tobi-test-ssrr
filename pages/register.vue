@@ -109,7 +109,7 @@
   @import "assets/css/general_style/pages.css";
 
   .round-form-input{
-    border-radius: 10px;
+    border-radius: 5px;
   }
   @media (max-width: 1400px){
     body, p {

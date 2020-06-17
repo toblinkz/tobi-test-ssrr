@@ -71,7 +71,7 @@
 <style>
   @import "assets/css/general_style/pages.css";
   .round-form-input{
-    border-radius: 10px;
+    border-radius: 5px;
   }
   .has-feedback-left .form-control {
     padding-right: 12px;
