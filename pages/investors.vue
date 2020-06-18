@@ -183,7 +183,7 @@
               <div class="panel-flat timeline-content mt-50 text-center">
                 <h2>Want to invest or partner <strong class="text-bold blue-t">with us?</strong></h2>
                 <p>Reach out to our corporate finance and legal team, <br>we are always ready to connect with you</p>
-                <TermiiButton id="CHATID" label="Talk to company@termii.com"></TermiiButton>
+                <a id="CHATID" class="btn bg-blue">Talk to company@termii.com<i class="fa fa-angle-double-right padd-left"></i></a>
               </div>
             </div>
           </div>
