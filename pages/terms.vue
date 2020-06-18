@@ -5,8 +5,8 @@
       <div class="col-md-3">
         <div class="bs-sidebar hidden-print affix well" role="complementary" style="margin-top: 40px;">
           <ul class="nav bs-sidenav">
-            <li class="main active"><a href="/privacy" class="blue-t">1. Privacy</a></li>
-            <li class="main"><a class="blue-t" style="font-weight: 300" href="/terms">2. Terms</a></li>
+            <li class="main active"><nuxt-link to="/privacy" class="blue-t">1. Privacy</nuxt-link></li>
+            <li class="main"><nuxt-link class="blue-t" style="font-weight: 300" to="/terms">2. Terms</nuxt-link></li>
           </ul>
         </div>
       </div>
@@ -150,7 +150,7 @@ These Terms of Service (which include and incorporate the Termii Privacy Policy)
     }
 </script>
 
-<style>
+<style scoped>
   body {
     padding-top: 70px;
     background:  url('/images/grid.png') repeat-x fixed;

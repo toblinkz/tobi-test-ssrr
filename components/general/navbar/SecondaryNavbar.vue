@@ -7,7 +7,7 @@
 
 
         <!-- Main title -->
-        <a class="navbar-brand" href="/"> <img src="/images/logo.png" alt="logo" style="margin-left: 30px;" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="120px" height="auto" ></a>
+        <nuxt-link class="navbar-brand" to="/"> <img src="/images/logo.png" alt="logo" style="margin-left: 30px;" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="120px" height="auto" ></nuxt-link>
 
       </div>
 

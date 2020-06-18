@@ -186,7 +186,7 @@
     }
 </script>
 
-<style>
+<style >
 
   .nav {
     margin-bottom: 0;

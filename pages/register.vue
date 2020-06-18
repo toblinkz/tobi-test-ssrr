@@ -14,7 +14,7 @@
       <!-- START Login Right Container-->
       <div class="login-container bg-white">
         <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 sm-p-l-15 sm-p-r-15 sm-p-t-40 wd-k">
-          <a href="/"> <img src="/images/logo.png" alt="logo" data-src-retina="/" width="150px" height="auto"></a>
+          <nuxt-link to="/"> <img src="/images/logo.png" alt="logo" data-src-retina="/" width="150px" height="auto"></nuxt-link>
 
           <p class="p-t-35">Welcome to Termii! Join <strong class="text-bold   text-center">{{registered_business}}+</strong> businesses across Africa building awesome products with our communication APIs, create an account now!</p>
           <!-- register Form -->
@@ -58,13 +58,13 @@
                     </div>
                 </div>
                 <button type="submit" class="btnl bg-blue m-t-10">Create My Account</button>
-                <a  href="/login" class="pull-right mt-20 m-r-40" style="color: black">Got an account? <span class="text-info2 bold">Sign In</span></a>
+                <nuxt-link  to="/login" class="pull-right mt-20 m-r-40" style="color: black">Got an account? <span class="text-info2 bold">Sign In</span></nuxt-link>
               </div>
             </div>
           </form>
           <div class="mb-20">
             <br class="mt-10">
-            <span class="hidden-xs">By clicking the “Create My Account” button, you agree to Termii’s <a href="/terms" class="text-info2">terms of acceptable use</a> and <a href="/privacy" class="text-info2"> privacy policies</a></span>
+            <span class="hidden-xs">By clicking the “Create My Account” button, you agree to Termii’s <nuxt-link to="/terms" class="text-info2">terms of acceptable use</nuxt-link> and <nuxt-link to="/privacy" class="text-info2"> privacy policies</nuxt-link></span>
           </div>
           <!-- /register form -->
         </div>

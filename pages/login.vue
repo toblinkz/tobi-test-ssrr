@@ -14,7 +14,7 @@
       <!-- START Login Right Container-->
       <div class="login-container bg-white">
         <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40 wd-k">
-          <a href="/"> <img src="/images/logo.png" alt="logo" data-src-retina="/" width="150px" height="auto"></a>
+          <nuxt-link to="/"> <img src="/images/logo.png" alt="logo" data-src-retina="/" width="150px" height="auto"></nuxt-link>
           <!-- START Login Form -->
 
           <form class="" role="form" method="post" action="/">
@@ -42,11 +42,11 @@
               </div>
               <div class="row" style="width: 100%">
                 <button type="submit" class="btnl bg-blue m-t-10">Proceed</button>
-                <a  href="/forgot-password" class="text-info pull-right mt-20">Forgot password</a>
+                <nuxt-link  to="/forgot-password" class="text-info pull-right mt-20">Forgot password</nuxt-link>
               </div>
               <div>
                 <br>
-                Don't have an account with Termii? You can <a href="/register" class="text-info2 bold">Create an account here</a> <br>or speak to an agent <a id="CHATID" class="text-info2">here</a>
+                Don't have an account with Termii? You can <nuxt-link to="/register" class="text-info2 bold">Create an account here</nuxt-link> <br>or speak to an agent <a id="CHATID" class="text-info2">here</a>
               </div>
             </div>
 
