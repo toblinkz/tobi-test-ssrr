@@ -64,6 +64,13 @@
 <script>
   export default {
     name: "login",
+    mounted () {
+      this.$nextTick(() => {
+        this.$nuxt.$loading.start()
+
+        setTimeout(() => this.$nuxt.$loading.finish(), 500)
+      })
+    }
 
   }
 </script>
@@ -106,10 +113,6 @@
       border: transparent;
       box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
       transition: .35s;
-      padding-top: 7px !important;
-      padding-bottom: 8px !important;
-      padding-left: 26px !important;
-      padding-right: 15px !important;
       font-weight: 600 !important;
       font-size: 13px !important;
     }
@@ -153,10 +156,7 @@
     border: transparent;
     box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
     transition: .35s;
-    padding-top: 7px !important;
-    padding-bottom: 8px !important;
-    padding-left: 26px !important;
-    padding-right: 15px !important;
+
     font-weight: 600 !important;
     font-size: 13px !important;
   }

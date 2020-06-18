@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btnl bg-blue m-t-10">Create My Account</button>
-                <a  href="/login" class="pull-right mt-20 m-r-40" style="color: black">Got an account? <span class="text-info2 bold">Sign In</span></a>
+                <a  href="/login" class="pull-right mt-20 " style="color: black">Got an account? <span class="text-info2 bold">Sign In</span></a>
               </div>
             </div>
           </form>
@@ -89,6 +89,13 @@
             countries: [],
             sectors:[]
           }
+      },
+      mounted () {
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
+
+          setTimeout(() => this.$nuxt.$loading.finish(), 500)
+        })
       },
       async fetch(){
           //fetch country data
@@ -134,10 +141,7 @@
     border: transparent;
     box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
     transition: .35s;
-    padding-top: 7px !important;
-    padding-bottom: 8px !important;
-    padding-left: 26px !important;
-    padding-right: 15px !important;
+
     font-weight: 600 !important;
     font-size: 13px !important;
   }
@@ -163,7 +167,7 @@
   }
   .form-control {
     display: block;
-    width: 85%;
+    width: 100%;
   }
 
 

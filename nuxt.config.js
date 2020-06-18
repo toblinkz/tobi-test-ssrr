@@ -14,6 +14,7 @@ export default {
     script: [
       {src: '/js/intercom.js'},
       {src: '/js/feedback.js'},
+      {src: '/js/customScrollbar.js'},
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
