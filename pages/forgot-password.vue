@@ -74,14 +74,6 @@
     padding-right: 12px;
     padding-left: 36px;
   }
-  body {
-    color: #626262;
-    font-family: "Karla",sans-serif;
-    font-size: 15px;
-    font-weight: normal;
-    letter-spacing: 0.01em;
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
-  }
 
   @media (max-width: 1400px){
     body, p {

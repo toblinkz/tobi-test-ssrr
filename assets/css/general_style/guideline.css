@@ -1,3 +1,8 @@
+.guidelineContainer{
+  padding-top: 70px;
+  background:  url('/images/grid.png') repeat-x fixed;
+  font-family: "Karla", sans-serif;
+}
 body {
   padding-top: 70px;
   background: white url('/images/grid.png') repeat-x fixed ;

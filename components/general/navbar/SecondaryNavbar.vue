@@ -17,11 +17,11 @@
         <ul class="nav navbar-nav navbar-right" style="margin-right: 80px;">
 
           <li>
-            <a class="btn btx-login" href="/login">Login
-            </a>
+            <nuxt-link no-prefetch class="btn btx-login" to="/login">Login
+            </nuxt-link>
           </li>
           <li>
-            <a class="btn bt-login btn-icon" href="/register"> Signup <i class="fa fa-angle-double-right ico-r"></i></a>
+            <nuxt-link no-prefetch class="btn bt-login btn-icon" to="/register"> Signup <i class="fa fa-angle-double-right ico-r"></i></nuxt-link>
           </li>
 
 

@@ -120,7 +120,7 @@
                 We deliver messages across different networks in Africa, but have special arrangement for global network delivery!
               </p>
               <div>
-                <Button label=" Speak to an agent" class="mt-40" id="CHATID"></Button>
+                <a  class="btn bg-blue mt-40" id="CHATID">Speak to an agent<i class="fa fa-angle-double-right padd-left"></i></a>
               </div>
             </div>
           </div>

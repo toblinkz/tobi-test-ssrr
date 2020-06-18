@@ -1,25 +1,26 @@
 <template>
-  <div >
-    <SecondaryNavbar></SecondaryNavbar>
-    <div class="container ">
-      <div class="col-md-3">
-        <div class="bs-sidebar hidden-print affix well" role="complementary" style="margin-top: 40px;">
-        <ul class="nav bs-sidenav">
-          <li class="main active"><nuxt-link to="/privacy" class="blue-t">1. Privacy</nuxt-link></li>
-          <li class="main"><nuxt-link class="blue-t" style="font-weight: 300" to="/terms">2. Terms</nuxt-link></li>
-        </ul>
-      </div>
-      </div>
-      <div class="col-md-9" style="margin-top: 40px;padding-left: 40px;">
-        <div class="row">
+  <div class="privacyContainer">
+    <div>
+      <SecondaryNavbar></SecondaryNavbar>
+      <div class="container ">
+        <div class="col-md-3">
+          <div class="bs-sidebar hidden-print affix well" role="complementary" style="margin-top: 40px;">
+            <ul class="nav bs-sidenav">
+              <li class="main active"><nuxt-link to="/privacy" class="blue-t">1. Privacy</nuxt-link></li>
+              <li class="main"><nuxt-link class="blue-t" style="font-weight: 300" to="/terms">2. Terms</nuxt-link></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-9" style="margin-top: 40px;padding-left: 40px;">
+          <div class="row">
 
-          <div class="row" id="delivery-mobile">
+            <div class="row" id="delivery-mobile">
 
-            <div class="col-md-12">
+              <div class="col-md-12">
     <pre class="code-top bt-login"><code class="sh"> <span><i class="entypo-docs" style="color: #bbb !important;"></i> <strong class="i-b">TERMII PRIVACY POLICY</strong></span><span class="code-e">
       Last Revised: 01/02/2020</span></code></pre>
 
-              <pre class="pad-p">
+                <pre class="pad-p">
 Termii cares about your privacy. For this reason, we collect and use personal data only as it might be needed for us to deliver to you our world-class products, services and websites (collectively, our “Services”). Your personal data includes information such as:
 
 1. Name
@@ -142,15 +143,16 @@ If you have any questions, concerns or complaints about our privacy Policy, our 
 We will respond to all requests, inquiries or concerns within thirty (30) days.
 We use tools, such as cookies, to enable essential services and functionality on our site and to collect data on how visitors interact with our site, products and services. By clicking Accept, you agree to our use of these tools for advertising, analytics and support
       </pre>
+              </div>
             </div>
           </div>
-        </div>
-        <footer class="col-md-12">
-          <center><div class="hrr-5"></div></center>
+          <footer class="col-md-12">
+            <center><div class="hrr-5"></div></center>
 
-          <p>Termii &copy; 2020. Termii is a registered trademark of Termii Inc. With our subsidiaries in Africa,<br>
-            We collaborate with fast growing brands to deliver great customer messaging experience for African businesses.</p>
-        </footer>
+            <p>Termii &copy; 2020. Termii is a registered trademark of Termii Inc. With our subsidiaries in Africa,<br>
+              We collaborate with fast growing brands to deliver great customer messaging experience for African businesses.</p>
+          </footer>
+        </div>
       </div>
     </div>
   </div>

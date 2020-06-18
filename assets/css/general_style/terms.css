@@ -1,6 +1,7 @@
-.privacyContainer {
+.termsContainer {
   padding-top: 70px;
   background:  url('/images/grid.png') repeat-x fixed;
+
   font-family: "Karla", sans-serif;
 }
 ::-webkit-scrollbar {
@@ -8,6 +9,7 @@
   height: 89px !important;
   background: #fff !important;
 }
+
 ::-webkit-scrollbar-thumb {
   background-color: #C3C3C3 !important;
   outline: 1px solid #7D838B !important;

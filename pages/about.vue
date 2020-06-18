@@ -1,6 +1,6 @@
 <template class="">
   <div class="home-y">
-    <div class="container background body">
+    <div class="container backgroundAbout body">
       <!--main nav-->
       <TheNavbar></TheNavbar>
       <!--/main nav-->
@@ -128,7 +128,7 @@
               <div class="col-md-12">
                 <div class="panel-flat timeline-content mt-20 text-center">
                   <p class="hidden-xs">Do you have a great personality and<br> would like to join our team?</p>
-                  <TermiiButton id="CHATID" label="Send CV to careers@termii.com" class="mt-40"></TermiiButton>
+                  <a id="CHATID"  class="btn bg-blue mt-40">Send CV to careers@termii.com<i class="fa fa-angle-double-right padd-left"></i></a>
                 </div>
               </div>
             </div>
@@ -176,7 +176,7 @@
 <style>
 
 
-  .background{
+  .backgroundAbout{
     background: url('/images/suare.svg') no-repeat top ;
 
   }
