@@ -5596,6 +5596,29 @@ body.rtl .checkbox label::after {
 .input-group-addon:last-child input {
   border-left: 0px;
 }
+
+.input-field_helper {
+  font-size: .7rem;
+  position: absolute;
+  opacity: 0;
+  background-color: #fff;
+  padding-left: 8px;
+  padding-right: 8px;
+  top: -7px;
+  font-weight: 600;
+  color: rgba(10,46,101,.5);
+  -webkit-transition: color .3s ease;
+  transition: color .3s ease;
+  left: 12px;
+}
+input[type=email]:focus+.input-field_helper, input[type=number]:focus+.input-field_helper, input[type=password]:focus+.input-field_helper, input[type=tel]:focus+.input-field_helper, input[type=text]:focus+.input-field_helper {
+  color: #2D74AC;
+  opacity: 1!important;
+}
+input[type=email]:focus, input[type=number]:focus,input[type=password]:focus,  input[type=tel]:focus, input[type=text]:focus {
+  color:transparent;
+}
+
 /* Plugins
 --------------------------------------------------
 Datepicker

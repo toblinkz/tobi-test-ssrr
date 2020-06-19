@@ -19,19 +19,20 @@
           <p class="p-t-35">Welcome to Termii! Join <strong class="text-bold   text-center">{{registered_business}}+</strong> businesses across Africa building awesome products with our communication APIs, create an account now!</p>
           <!-- register Form -->
           <form class="" role="form" method="post" action="/register">
-            <input type="hidden" name="_token" value="b14kE8eN0PShnff6h5qfGK01KTJFPSYBJaIERQ6t">
-
             <div class="mt-20">
               <div class="row ">
                 <div class="col-md-6">
                   <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="first_name"   type="text" class="form-control round-form-input" value="" required name="first_name" placeholder="First Name">
+                    <input id="first_name"   type="text" class="form-control round-form-input" value=""  name="first_name" placeholder="First Name">
+                    <span class="input-field_helper">First Name</span>
                   </div>
                   <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="email"   type="text" class="form-control round-form-input" value="" required name="email" placeholder="Email">
+                    <input id="email"   type="email" class="form-control round-form-input" value=""  name="email" placeholder="Email">
+                    <span class="input-field_helper">Email</span>
                   </div>
                   <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="password"   type="password" class="form-control round-form-input"  required name="password" placeholder="Password">
+                    <input id="password"   type="password" class="form-control round-form-input"   name="password" placeholder="Password">
+                    <span class="input-field_helper">Password</span>
                   </div>
                   <div class="form-group has-feedback has-feedback-left mt-20">
                     <select v-model="selected_country" class="form-control round-form-input" name="country" id="country" required>
@@ -42,7 +43,8 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="last_name"   type="text" class="form-control round-form-input" value="" required name="last_name" placeholder="Last Name">
+                    <input id="last_name"   type="text" class="form-control round-form-input" value=""  name="last_name" placeholder="Last Name">
+                    <span class="input-field_helper">Last Name</span>
                   </div>
                   <div class="form-group has-feedback has-feedback-left mt-20">
                   <select v-model="selected_sector"class="form-control round-form-input" name="sector" id="sector" required>
@@ -51,20 +53,22 @@
                   </select>
                   </div>
                   <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="password"   type="password" class="form-control round-form-input" required name="password_confirmation" placeholder="Confirm Password">
+                    <input id="password"   type="password" class="form-control round-form-input"  name="password_confirmation" placeholder="Confirm Password">
+                    <span class="input-field_helper">Confirm Password</span>
                   </div>
                     <div class="form-group has-feedback has-feedback-left mt-20">
-                      <input id="phone_number"   type="text" class="form-control round-form-input" value="" required name="phone_number" placeholder="Phone Number">
+                      <input id="phone_number"   type="tel" class="form-control round-form-input"  name="phone_number" placeholder="Phone Number">
+                      <span class="input-field_helper">Phone Number</span>
                     </div>
                 </div>
                 <button type="submit" class="btnl bg-blue m-t-10">Create My Account</button>
-                <nuxt-link  to="/login" class="pull-right mt-20 m-r-40" style="color: black">Got an account? <span class="text-info2 bold">Sign In</span></nuxt-link>
+                <nuxt-link no-prefetch  to="/login" class="pull-right mt-20 m-r-40" style="color: black">Got an account? <span class="text-info2 bold">Sign In</span></nuxt-link>
               </div>
             </div>
           </form>
           <div class="mb-20">
             <br class="mt-10">
-            <span class="hidden-xs">By clicking the “Create My Account” button, you agree to Termii’s <nuxt-link to="/terms" class="text-info2">terms of acceptable use</nuxt-link> and <nuxt-link to="/privacy" class="text-info2"> privacy policies</nuxt-link></span>
+            <span class="hidden-xs">By clicking the “Create My Account” button, you agree to Termii’s <nuxt-link no-prefetch to="/terms" class="text-info2">terms of acceptable use</nuxt-link> and <nuxt-link to="/privacy" class="text-info2"> privacy policies</nuxt-link></span>
           </div>
           <!-- /register form -->
         </div>
@@ -165,6 +169,7 @@
     display: block;
     width: 85%;
   }
+
 
 
 </style>

@@ -16,18 +16,19 @@
         <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40 wd-k">
           <nuxt-link to="/"> <img src="/images/logo.png" alt="logo" data-src-retina="/" width="150px" height="auto"></nuxt-link>
           <!-- START Login Form -->
-
           <form class="" role="form" method="post" action="/">
 
             <div class="panel panel-body ">
               <p class="p-t-20">Welcome back! Sign into your account, we've been waiting for you!</p>
               <div class="form-group has-feedback has-feedback-left m-t-35">
-                <input id="" style="width: 100%"  type="email" class="form-control round-form-input" required name="email" placeholder="Work email">
+                <input id="" style="width: 100%"  type="email" class="form-control round-form-input"  name="email" placeholder="Work email">
+                <span class="input-field_helper">Work email</span>
               </div>
 
 
-              <div class="form-group has-feedback has-feedback-left">
-                <input id="password" style="width: 100%"  type="password" class="form-control round-form-input" required name="password" placeholder="Password">
+              <div class="form-group has-feedback has-feedback-left m-t-30">
+                <input id="password" style="width: 100%"  type="password" class="form-control round-form-input"  name="password" placeholder="Password">
+                <span class="input-field_helper">Password</span>
               </div>
 
               <div class="form-group login-options ">
