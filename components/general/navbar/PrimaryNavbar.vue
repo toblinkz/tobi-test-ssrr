@@ -25,13 +25,13 @@
             <div class="drops">
               <a class="men">Why Termii?</a>
               <div class="dropdown-content menu-t">
-                <nuxt-link no-prefetch to="/about" class="pad-width">
+                <nuxt-link  to="/about" class="pad-width">
                   About Us
                 </nuxt-link>
-                <nuxt-link no-prefetch to="/usecases" class="pad-width">
+                <nuxt-link to="/usecases" class="pad-width">
                   Usecase
                 </nuxt-link>
-                <nuxt-link no-prefetch to="/investors" class="up-top pad-width">
+                <nuxt-link  to="/investors" class="up-top pad-width">
                   Milestones
                 </nuxt-link>
               </div>
@@ -52,7 +52,7 @@
 
           <ul class="nav navbar-nav">
             <div class="drops">
-              <nuxt-link no-prefetch class="men" to="/plans">
+              <nuxt-link  class="men" to="/plans">
                 Pricing
               </nuxt-link>
             </div>
@@ -65,11 +65,11 @@
           </li>
 
           <li>
-            <nuxt-link no-prefetch  class="btn btx-login " to="/login">Login
+            <nuxt-link   class="btn btx-login " to="/login">Login
             </nuxt-link>
           </li>
           <li class="hidden-xs">
-            <nuxt-link no-prefetch class="btn bt-login " to="/register"> Signup <i class="fa fa-angle-double-right ico-r"></i></nuxt-link>
+            <nuxt-link  class="btn bt-login " to="/register"> Signup <i class="fa fa-angle-double-right ico-r"></i></nuxt-link>
           </li>
 
         </ul>
