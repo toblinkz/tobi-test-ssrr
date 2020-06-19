@@ -106,7 +106,7 @@
 </script>
 
 <style>
-  @import "assets/css/general_style/pages.css";
+  @import "../assets/css/general_style/authentication_pages.css";
 
   .round-form-input{
     border-radius: 5px;

@@ -48,7 +48,7 @@
 </script>
 
 <style >
-  @import "assets/css/general_style/pages.css";
+  @import "../assets/css/general_style/authentication_pages.css";
 
   .form-group {
     margin-bottom: 20px;
