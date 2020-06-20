@@ -14,13 +14,13 @@
       <!-- START Login Right Container-->
       <div class="login-container bg-white col-md-6">
         <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40 wd-k">
-          <a href="/"> <img src="/images/logo.png" alt="logo" data-src-retina="https://termii.com/" width="150px" height="auto"></a>
+          <nuxt-link to="/"> <img src="/images/logo.png" alt="logo" data-src-retina="https://termii.com/" width="150px" height="auto"></nuxt-link>
           <!-- START Login Form -->
           <p class="p-t-100"> Your verification attempt failed! <br>Please generate a new link to verify your account.</p>
            <!-- Advanced login -->
 
           <div class="p-t-85 ">
-            <a class="bg-blue" href="http://sandbox.termii.com/account/verify/resend/5ed53b1c42b98">Click here to resend the email</a>
+            <nuxt-link class="bg-blue" to="#">Click here to resend the email</nuxt-link>
           </div>
 
 
