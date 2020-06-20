@@ -19,6 +19,8 @@
           <p class="p-t-35">Welcome to Termii! Join <strong class="text-bold   text-center">{{registered_business}}+</strong> businesses across Africa building awesome products with our communication APIs, create an account now!</p>
           <!-- register Form -->
           <form class="" role="form" method="post" action="/register">
+            <input type="hidden" name="_token" value="b14kE8eN0PShnff6h5qfGK01KTJFPSYBJaIERQ6t">
+
             <div class="mt-20">
               <div class="row ">
                 <div class="col-md-6">
@@ -62,13 +64,13 @@
                     </div>
                 </div>
                 <button type="submit" class="btnl bg-blue m-t-10">Create My Account</button>
-                <nuxt-link no-prefetch  to="/login" class="pull-right mt-20 m-r-40" style="color: black">Got an account? <span class="text-info2 bold">Sign In</span></nuxt-link>
+                <nuxt-link  to="/login" class="pull-right mt-20 m-r-40" style="color: black">Got an account? <span class="text-info2 bold">Sign In</span></nuxt-link>
               </div>
             </div>
           </form>
           <div class="mb-20">
             <br class="mt-10">
-            <span class="hidden-xs">By clicking the “Create My Account” button, you agree to Termii’s <nuxt-link no-prefetch to="/terms" class="text-info2">terms of acceptable use</nuxt-link> and <nuxt-link to="/privacy" class="text-info2"> privacy policies</nuxt-link></span>
+            <span class="hidden-xs">By clicking the “Create My Account” button, you agree to Termii’s <nuxt-link to="/terms" class="text-info2">terms of acceptable use</nuxt-link> and <nuxt-link to="/privacy" class="text-info2"> privacy policies</nuxt-link></span>
           </div>
           <!-- /register form -->
         </div>
@@ -110,7 +112,7 @@
 </script>
 
 <style>
-  @import "assets/css/general_style/pages.css";
+  @import "assets/css/general_style/authentication_pages.css";
 
   .round-form-input{
     border-radius: 5px;
@@ -128,35 +130,8 @@
     background-color: #fff;
     color: #333333;
   }
-  .bg-blue {
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
-    display: inline-block !important;
-    color: #fff !important;
-    border-radius: 4px;
-    vertical-align: bottom !important;
-    position: relative;
-    border: transparent;
-    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
-    transition: .35s;
-    padding-top: 7px !important;
-    padding-bottom: 8px !important;
-    padding-left: 26px !important;
-    padding-right: 15px !important;
-    font-weight: 600 !important;
-    font-size: 13px !important;
-  }
-  .text-info, .text-info:hover, .text-info:focus {
-    color: #00BCD4 !important;
-  }
-  .btnl {
-    cursor: pointer;
-    transition: color 0.1s linear 0s, background-color 0.1s linear 0s, opacity 0.2s linear 0s !important;
 
-  }
-  .btnl:hover {
-    background-color: #fafafa;
-    border: 1px solid rgba(98, 98, 98, 0.27);
-  }
+
   .has-feedback-left .form-control {
     padding-right: 12px;
     padding-left: 36px;
@@ -169,7 +144,6 @@
     display: block;
     width: 85%;
   }
-
 
 
 </style>

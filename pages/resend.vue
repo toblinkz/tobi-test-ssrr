@@ -40,16 +40,9 @@
 </script>
 
 <style>
-  @import "assets/css/general_style/pages.css";
+  @import "../assets/css/general_style/authentication_pages.css";
 
-  body {
-    color: #626262;
-    font-family: "Karla",sans-serif;
-    font-size: 15px;
-    font-weight: normal;
-    letter-spacing: 0.01em;
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
-  }
+
 
   @media (max-width: 1400px){
     body, p {
@@ -58,23 +51,7 @@
     }
 
   }
-  .bg-blue {
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
-    display: inline-block !important;
-    color: #fff !important;
-    border-radius: 4px;
-    vertical-align: bottom !important;
-    position: relative;
-    border: transparent;
-    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
-    transition: .35s;
-    padding-top: 7px !important;
-    padding-bottom: 8px !important;
-    padding-left: 26px !important;
-    padding-right: 15px !important;
-    font-weight: 600 !important;
-    font-size: 13px !important;
-  }
+
   @media (max-width: 768px) {
     .login-wrapper .login-container {
       width: 100% !important;

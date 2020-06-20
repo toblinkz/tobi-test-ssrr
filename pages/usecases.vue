@@ -4,7 +4,7 @@
       <!--main nav-->
       <TheNavbar></TheNavbar>
       <!--/main nav-->
-      <div class="page-container" >
+      <div class="usecase-container" >
         <!--page content-->
         <div class="page-content">
           <div class="row mb-100 mt-150">
@@ -225,6 +225,12 @@
   .padd-left {
     padding-left: 15px !important;
   }
-
+  @media (min-width: 769px){
+    .usecase-container {
+      width: 100%;
+      display: table;
+      table-layout: fixed;
+    }
+  }
 
 </style>
