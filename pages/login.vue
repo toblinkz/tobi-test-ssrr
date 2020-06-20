@@ -21,13 +21,14 @@
             <div class="panel panel-body ">
               <p class="p-t-20">Welcome back! Sign into your account, we've been waiting for you!</p>
               <div class="form-group has-feedback has-feedback-left m-t-35">
-                <input id="" style="width: 100%"  type="email" class="form-control round-form-input"  name="email" placeholder="Work email">
-                <span class="input-field_helper">Work email</span>
+                <input id="" style="width: 100%"  type="email" class="form-control round-form-input"   placeholder="Work email">
+                <span class="input-field_helper"></span>
+                <span class="mt-20 input_field_message" v-if="error_message.email">{{error_message.email}}</span>
               </div>
 
 
               <div class="form-group has-feedback has-feedback-left m-t-30">
-                <input id="password" style="width: 100%"  type="password" class="form-control round-form-input"  name="password" placeholder="Password">
+                <input id="password" style="width: 100%"  type="password" class="form-control round-form-input" v-model="password" placeholder="Password">
                 <span class="input-field_helper">Password</span>
               </div>
 
@@ -65,6 +66,27 @@
 <script>
   export default {
     name: "login",
+    data(){
+      return{
+        email:"",
+        password:"",
+        error_message:[]
+      }
+    },
+    watch: {
+
+    },
+    methods: {
+      validateEmail(value){
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)){
+          this.error_message['email'] = '';
+        }else {
+          this.error_message['email'] = 'The email field must be a valid email'
+        }
+      }
+
+    }
+
 
   }
 </script>
