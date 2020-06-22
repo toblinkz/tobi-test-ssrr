@@ -21,15 +21,16 @@
             <div class="auth-panel panel-body ">
               <p class="p-t-20">Welcome back! Sign into your account, we've been waiting for you!</p>
               <div class="form-group has-feedback has-feedback-left m-t-35">
-                <input id="" style="width: 100%"  type="email" class="form-control round-form-input"   placeholder="Work email">
+                <input id="" style="width: 100%"  type="email" class="form-control round-form-input" :class="{'error ' : hasEmailError}"  v-model="email"  placeholder="Work email">
                 <span class="input-field_helper">Email</span>
-                <span class="mt-20 input_field_message" v-if="error_message.email">{{error_message.email}}</span>
+                <span class=" input_field_message" v-if="error_message.email">{{error_message.email}}</span>
               </div>
 
 
-              <div class="form-group has-feedback has-feedback-left m-t-30">
-                <input id="password" style="width: 100%"  type="password" class="form-control round-form-input" v-model="password" placeholder="Password">
+              <div class="form-group has-feedback has-feedback-left ">
+                <input id="password" style="width: 100%"  type="password" class="form-control round-form-input" :class="{'error ' : hasPasswordError}" v-model="password" placeholder="Password">
                 <span class="input-field_helper">Password</span>
+                <span class=" input_field_message" v-if="error_message.password">{{error_message.password}}</span>
               </div>
 
               <div class="form-group login-options" style="margin-left: -20px">
@@ -43,7 +44,7 @@
                 </div>
               </div>
               <div class="row" style="width: 100%">
-                <button type="submit" class="btnl bg-blue m-t-10">Proceed</button>
+                <button type="submit" class="btnl bg-blue m-t-10" :disabled="isDisabled">Proceed</button>
                 <nuxt-link  to="/forgot-password" class="text-info2 pull-right mt-20">Forgot password</nuxt-link>
               </div>
               <div>
@@ -70,18 +71,47 @@
       return{
         email:"",
         password:"",
-        error_message:[]
+        valid: false,
+        error_message:[],
+        hasEmailError: false,
+        hasPasswordError: false,
       }
     },
+    computed: {
+      isDisabled: function () {
+            return (this.email === '' || this.password === '' || this.error_message.email !=='' || this.error_message.password !=='');
+      },
+    },
     watch: {
-
+      email(value) {
+            this.email = value;
+            this.validateEmail(value);
+            console.log(this.error_message.email);
+      },
+      password(value) {
+        this.password = value;
+        this.validatePassword(value);
+        console.log(this.error_message);
+      }
     },
     methods: {
       validateEmail(value){
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)){
           this.error_message['email'] = '';
+          this.hasEmailError = false;
         }else {
-          this.error_message['email'] = 'The email field must be a valid email'
+          this.error_message['email'] = 'The email field must be a valid email';
+          this.hasEmailError = true;
+        }
+      }
+      ,
+      validatePassword(value){
+        if (value.length < 6) {
+          this.error_message['password'] = 'The password field must be at least 5 characters';
+          this.hasPasswordError = true;
+        }else {
+          this.error_message['password'] = '';
+          this.hasPasswordError = false;
         }
       }
 
@@ -93,16 +123,13 @@
 
 <style>
   @import "../assets/css/general_style/authentication_pages.css";
+
   .round-form-input{
     border-radius: 5px;
   }
   .has-feedback-left .form-control {
     padding-right: 12px;
     padding-left: 36px;
-  }
-  input[type="text"], input[type="password"], input[type="search"], input[type="email"], input[type="number"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="url"], input[type="tel"], textarea {
-    -webkit-appearance: none;
-    border: 1px solid rgba(0, 0, 0, 0.07);
   }
 
   .bg-blue {
@@ -122,19 +149,6 @@
     font-weight: 600 !important;
     font-size: 13px !important;
   }
-  body {
-    color: #626262;
-    font-family: "Karla",sans-serif;
-    font-size: 15px;
-    font-weight: normal;
-    letter-spacing: 0.01em;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    -webkit-font-feature-settings: "kern" 1;
-    -moz-font-feature-settings: "kern" 1;
-    margin: 0;
-    padding: 0;
-  }
+
 
 </style>

@@ -41,12 +41,21 @@
   transition: color .3s ease;
   left: 12px;
 }
+.input_field_message {
+  font-size: 1.2rem;
+  color: #ce4c4c;
+  display: block;
+  margin-top: 10px;
+}
 input[type=email]:focus+.input-field_helper, input[type=number]:focus+.input-field_helper, input[type=password]:focus+.input-field_helper, input[type=tel]:focus+.input-field_helper, input[type=text]:focus+.input-field_helper {
   color: #2D74AC;
   opacity: 1!important;
 }
-input[type=email]:focus, input[type=number]:focus,input[type=password]:focus,  input[type=tel]:focus, input[type=text]:focus {
-  color:transparent;
+input[type=email].error, input[type=number].error, input[type=password].error, input[type=tel].error, input[type=text].error {
+  border-color: red!important;
+}
+input[type=email].error+.input-field_helper, input[type=number].error+.input-field_helper, input[type=password].error+.input-field_helper, input[type=tel].error+.input-field_helper, input[type=text].error+.input-field_helper {
+  color: red!important;
 }
 
 .form-control {
@@ -202,4 +211,8 @@ body {
 .btnl:hover {
   background-color: #fafafa;
   border: 1px solid rgba(98, 98, 98, 0.27);
+}
+button[disabled] {
+  opacity: .5;
+  pointer-events: none;
 }
