@@ -27,7 +27,36 @@
   transition: all 0.2s ease;
   position: relative;
 }
-
+.input-field_helper {
+  font-size: .9rem;
+  position: absolute;
+  opacity: 0;
+  background-color: #fff;
+  padding-left: 8px;
+  padding-right: 8px;
+  top: -7px;
+  font-weight: 600;
+  color: rgba(10,46,101,.5);
+  -webkit-transition: color .3s ease;
+  transition: color .3s ease;
+  left: 12px;
+}
+.input_field_message {
+  font-size: 1.2rem;
+  color: #ce4c4c;
+  display: block;
+  margin-top: 10px;
+}
+input[type=email]:focus+.input-field_helper, input[type=number]:focus+.input-field_helper, input[type=password]:focus+.input-field_helper, input[type=tel]:focus+.input-field_helper, input[type=text]:focus+.input-field_helper {
+  color: #2D74AC;
+  opacity: 1!important;
+}
+input[type=email].error, input[type=number].error, input[type=password].error, input[type=tel].error, input[type=text].error {
+  border-color: red!important;
+}
+input[type=email].error+.input-field_helper, input[type=number].error+.input-field_helper, input[type=password].error+.input-field_helper, input[type=tel].error+.input-field_helper, input[type=text].error+.input-field_helper {
+  color: red!important;
+}
 
 .form-control {
   background-color: #ffffff;
@@ -182,4 +211,8 @@ body {
 .btnl:hover {
   background-color: #fafafa;
   border: 1px solid rgba(98, 98, 98, 0.27);
+}
+button[disabled] {
+  opacity: .5;
+  pointer-events: none;
 }

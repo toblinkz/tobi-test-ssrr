@@ -18,14 +18,13 @@
 
           <p class="p-t-35 m-l-20">Oops, you forgot your password. Fill in your email, below let's help you out!</p>
           <form>
-            <input type="hidden" name="_token" value="">
-
             <div class="form-panel panel-body ">
               <div class="form-group has-feedback-left mt-20">
-                <input id="email" style="width: 100%" type="text" class="form-control" required placeholder="Work email">
+                <input id="email" style="width: 100%" type="text" class="form-control" v-model="email" :class="{'error ' : hasEmailError}" placeholder="Work email">
+                <span class="input-field_helper">Email</span>
+                <span class=" input_field_message" v-if="error_message.email">{{error_message.email}}</span>
               </div>
-
-              <button type="submit" class="btnl bg-blue m-t-25">Proceed</button>
+              <button type="submit" class="btnl bg-blue m-t-25" :disabled="isDisabled">Proceed</button>
             </div>
             <div >
               <p class="m-l-20">Return back to <nuxt-link to="/login" class="text-info">login</nuxt-link></p>
@@ -43,6 +42,36 @@
 <script>
   export default {
     name: "forgot-password",
+    data(){
+      return{
+        email: "",
+        error_message:[],
+        hasEmailError: false,
+      }
+    },
+    computed: {
+      isDisabled: function () {
+          return( this.email === '' || this.error_message.email !== '');
+      }
+    },
+    watch: {
+      email(value) {
+        this.email = value;
+        this.validateEmail(value);
+        console.log(this.error_message.email);
+      },
+    },
+    methods: {
+      validateEmail(value){
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)){
+          this.error_message['email'] = '';
+          this.hasEmailError = false;
+        }else {
+          this.error_message['email'] = 'The email field must be a valid email';
+          this.hasEmailError = true;
+        }
+      }
+    }
 
   }
 </script>
