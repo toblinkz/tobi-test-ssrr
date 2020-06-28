@@ -1,11 +1,11 @@
 <template class="">
   <div class="home-y">
-    <div class="container background body">
+    <div class="container backgroundAbout body">
       <!--main nav-->
       <TheNavbar></TheNavbar>
       <!--/main nav-->
       <!--page container-->
-      <div class="page-container" >
+      <div class="about-container" >
         <!--page content-->
         <div class="page-content">
           <div class="row mb-50 mt-150 ">
@@ -13,34 +13,36 @@
               <h1 class="mb-40">We power <strong class="text-bold blue-t">messaging across Africa</strong></h1>
             </center>
           </div>
-          <div class="row">
-            <OurCard :styles="styles">
-              <template v-slot:title>
-                <h2>Our<strong class="text-bold blue-t"> Mission </strong></h2>
-              </template>
-              <template v-slot:text_body>
-                <p class="text-semibold" style="text-align: center;">
-                  To power customer messaging for the next generation of African technology businesses</p>
-              </template>
-            </OurCard>
-            <OurCard :styles="styles">
-              <template v-slot:title>
-                <h2>Our<strong class="text-bold blue-t"> Vision </strong></h2>
-              </template>
-              <template v-slot:text_body>
-                <p class="text-semibold" style="text-align: center;">
-                  To help millions of African businesses communicate with their customers easily across multiple messaging channels</p>
-              </template>
-            </OurCard>
-            <OurCard :styles="styles">
-              <template v-slot:title>
-                <h2>Our<strong class="text-bold blue-t"> Culture </strong></h2>
-              </template>
-              <template v-slot:text_body>
-                <p class="text-semibold" style="text-align: center;">
-                  We believe in simplicity and creating awesome experiences for our customers</p>
-              </template>
-            </OurCard>
+          <div>
+            <div class="row">
+              <OurCard :styles="styles">
+                <template v-slot:title>
+                  <h2>Our<strong class="text-bold blue-t"> Mission </strong></h2>
+                </template>
+                <template v-slot:text_body>
+                  <p class="text-semibold" style="text-align: center;">
+                    To power customer messaging for the next generation of African technology businesses</p>
+                </template>
+              </OurCard>
+              <OurCard :styles="styles">
+                <template v-slot:title>
+                  <h2>Our<strong class="text-bold blue-t"> Vision </strong></h2>
+                </template>
+                <template v-slot:text_body>
+                  <p class="text-semibold" style="text-align: center;">
+                    To help millions of African businesses communicate with their customers easily across multiple messaging channels</p>
+                </template>
+              </OurCard>
+              <OurCard :styles="styles">
+                <template v-slot:title>
+                  <h2>Our<strong class="text-bold blue-t"> Culture </strong></h2>
+                </template>
+                <template v-slot:text_body>
+                  <p class="text-semibold" style="text-align: center;">
+                    We believe in simplicity and creating awesome experiences for our customers</p>
+                </template>
+              </OurCard>
+            </div>
           </div>
           <div class="container mt-100 ">
             <div class="row z-in mb-100">
@@ -128,7 +130,7 @@
               <div class="col-md-12">
                 <div class="panel-flat timeline-content mt-20 text-center">
                   <p class="hidden-xs">Do you have a great personality and<br> would like to join our team?</p>
-                  <TermiiButton id="CHATID" label="Send CV to careers@termii.com" class="mt-40"></TermiiButton>
+                  <a id="CHATID"  class="btn bg-blue mt-40">Send CV to careers@termii.com<i class="fa fa-angle-double-right padd-left"></i></a>
                 </div>
               </div>
             </div>
@@ -176,7 +178,7 @@
 <style>
 
 
-  .background{
+  .backgroundAbout{
     background: url('/images/suare.svg') no-repeat top ;
 
   }
@@ -203,5 +205,14 @@
     padding: 37px !important;
     width: 200px !important;
   }
+  @media (min-width: 769px){
+    .about-container {
+      width: 100%;
+      display: table;
+      table-layout: fixed;
+    }
+  }
+
+
 
 </style>

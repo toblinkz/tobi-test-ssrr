@@ -4,10 +4,10 @@
       <div class="col-md-5">
         <h2 class="mt-30"> Trusted by {{registered_business}}+ businesses.</h2>
         <h4 class="hidden-xs">Some of the best businesses across Africa use Termii to engage their customers daily.</h4>
-        <a href="/register" title="Get started" class="btn bg-trans mt-10 mb-50"> Get started <i class="fa fa-angle-double-right padd-left"></i></a>
+        <nuxt-link to="/register" title="Get started" class="btn bg-trans mt-10 mb-50"> Get started <i class="fa fa-angle-double-right padd-left"></i></nuxt-link>
       </div>
       <div class="col-md-6 hidden-xs">
-        <img alt="Image" class="mt-20 " style="width: 115%;margin-left: 3px;opacity: 0.5;margin-top: 28px !important; " src="/images/logo/log-p.png">
+        <img alt="Image" class="mt-20 " style="width: 100%;margin-left: 3px;opacity: 0.5;margin-top: 28px !important; " src="/images/logo/log-p.png">
       </div>
     </div>
   </div>

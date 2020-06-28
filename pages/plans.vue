@@ -8,7 +8,7 @@
         <div class="page-container" >
           <!--page content-->
           <div class="page-content">
-              <div class="row mb-50 mt-100 compress background">
+              <div class="row mb-50 mt-100 compress backgroundAbout">
                 <center>
                   <h1 class="mb-10">Flexible <strong class="text-bold blue-t">pricing.</strong></h1>
                   <h4>Start with our per-billing plan! <br>No credit card required. You can request for a custom plan!</h4>
@@ -186,7 +186,7 @@
     }
 </script>
 
-<style>
+<style >
 
   .nav {
     margin-bottom: 0;
@@ -238,7 +238,7 @@
     transform: skew(0,-12deg);
     width: 100%;
   }
-  .background{
+  .backgroundAbout{
     background: url('/images/suare.svg') no-repeat top ;
   }
 

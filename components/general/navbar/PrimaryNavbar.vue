@@ -4,15 +4,15 @@
     <!-- Main navbar -->
     <div class="navbar navbar-verse navbar-fixed-top">
       <div class="navbar-header" style="background: #fff !important;">
-        <a href="/">
+        <nuxt-link to="/">
           <img class="margin-lx z-in" src="/images/logo.png" alt="logo" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="155px" height="auto" >
-        </a>
+        </nuxt-link>
 
         <ul class="nav navbar-nav pull-right visible-xs-block">
           <li>
-            <a class="mobile-menu-button z-in" data-toggle="collapse" data-target="#navbar-mobile">
+            <nuxt-link to="/" class="mobile-menu-button z-in" data-toggle="collapse" data-target="#navbar-mobile">
               <i class="icon-menu7 blue-t"></i>
-            </a>
+            </nuxt-link>
           </li>
         </ul>
       </div>
@@ -25,15 +25,15 @@
             <div class="drops">
               <a class="men">Why Termii?</a>
               <div class="dropdown-content menu-t">
-                <a href="/about" class="pad-width">
+                <nuxt-link  to="/about" class="pad-width">
                   About Us
-                </a>
-                <a href="/usecases" class="pad-width">
+                </nuxt-link>
+                <nuxt-link to="/usecases" class="pad-width">
                   Usecase
-                </a>
-                <a href="/investors" class="up-top pad-width">
+                </nuxt-link>
+                <nuxt-link  to="/investors" class="up-top pad-width">
                   Milestones
-                </a>
+                </nuxt-link>
               </div>
             </div>
           </ul>
@@ -42,19 +42,19 @@
             <div class="drops">
               <a class="men">Products</a>
               <div class="dropdown-content menu-t">
-                <a href="/products/token" class="pad-width" style="width: 270px;"><small class="blue-t">TOKEN</small><br>OTP Verification</a>
-                <a href="/products/switch" class="pad-width" style="width: 270px;"><small class="blue-t">SWITCH</small><br>Cross-channel Messaging</a>
-                <a href="/products/insight" class="pad-width" style="width: 270px;"><small class="blue-t">INSIGHT</small><br>Customer Status Analytics</a>
-                <a href="/guideline" class="up-top pad-width" style="width: 270px;"><small class="blue-t">DEVELOPERS</small><br>Full API Documentation</a>
+                <nuxt-link to="/products/token" class="pad-width" style="width: 270px;"><small class="blue-t">TOKEN</small><br>OTP Verification</nuxt-link>
+                <nuxt-link to="/products/switch" class="pad-width" style="width: 270px;"><small class="blue-t">SWITCH</small><br>Cross-channel Messaging</nuxt-link>
+                <nuxt-link to="/products/insight" class="pad-width" style="width: 270px;"><small class="blue-t">INSIGHT</small><br>Customer Status Analytics</nuxt-link>
+                <nuxt-link to="/guideline" class="up-top pad-width" style="width: 270px;"><small class="blue-t">DEVELOPERS</small><br>Full API Documentation</nuxt-link>
               </div>
             </div>
           </ul>
 
           <ul class="nav navbar-nav">
             <div class="drops">
-              <a class="men" href="/plans">
+              <nuxt-link  class="men" to="/plans">
                 Pricing
-              </a>
+              </nuxt-link>
             </div>
           </ul>
 
@@ -65,11 +65,11 @@
           </li>
 
           <li>
-            <a class="btn btx-login " href="/login">Login
-            </a>
+            <nuxt-link   class="btn btx-login " to="/login">Login
+            </nuxt-link>
           </li>
           <li class="hidden-xs">
-            <a class="btn bt-login " href="/register"> Signup <i class="fa fa-angle-double-right ico-r"></i></a>
+            <nuxt-link  class="btn bt-login " to="/register"> Signup <i class="fa fa-angle-double-right ico-r"></i></nuxt-link>
           </li>
 
         </ul>

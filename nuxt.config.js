@@ -56,6 +56,7 @@ export default {
     '@nuxtjs/axios',
 
   ],
+
   axios: {
     // proxyHeaders: false
   },

@@ -1,25 +1,26 @@
 <template>
-  <div >
-    <SecondaryNavbar></SecondaryNavbar>
-    <div class="container ">
-      <div class="col-md-3">
-        <div class="bs-sidebar hidden-print affix well" role="complementary" style="margin-top: 40px;">
-          <ul class="nav bs-sidenav">
-            <li class="main active"><a href="/privacy" class="blue-t">1. Privacy</a></li>
-            <li class="main"><a class="blue-t" style="font-weight: 300" href="/terms">2. Terms</a></li>
-          </ul>
+  <div class="termsContainer">
+    <div>
+      <SecondaryNavbar></SecondaryNavbar>
+      <div class="container ">
+        <div class="col-md-3">
+          <div class="bs-sidebar hidden-print affix well" role="complementary" style="margin-top: 40px;">
+            <ul class="nav bs-sidenav">
+              <li class="main active"><nuxt-link to="/privacy" class="blue-t">1. Privacy</nuxt-link></li>
+              <li class="main"><nuxt-link class="blue-t" style="font-weight: 300" to="/terms">2. Terms</nuxt-link></li>
+            </ul>
+          </div>
         </div>
-      </div>
-      <div class="col-md-9" style="margin-top: 40px;padding-left: 40px;">
-        <div class="row">
+        <div class="col-md-9" style="margin-top: 40px;padding-left: 40px;">
+          <div class="row">
 
-          <div class="row" id="delivery-mobile">
+            <div class="row" id="delivery-mobile">
 
-            <div class="col-md-12">
+              <div class="col-md-12">
     <pre class="code-top bt-login"><code class="sh"> <span><i class="entypo-docs" style="color: #bbb !important;"></i> <strong class="i-b">TERMII USER TERMS</strong></span><span class="code-e">
       Last Revised: 01/02/2020</span></code></pre>
 
-              <pre class="pad-p">
+                <pre class="pad-p">
 These Terms of Service are a contract between you and Termii Webtech Inc.(referred to in these Terms of Service as "Termii","us","we" or "our"), the provider of the Termii website and the services accessible from the Termii website (which are collectively referred to in these Terms of Service as the "Termii Service").
 
 You are agreeing to be bound by these Terms of Service.If you do not agree to these Terms of Service, please do not use the Termii Service.In these Terms of Service,"you" refers both to you as an individual and to the entity you represent.If you violate any of these Terms of Service, we reserve the right to cancel your account or block access to your account without notice.
@@ -121,15 +122,16 @@ Accordingly, those persons who choose to access the Termii Service from other lo
 These Terms of Service (which include and incorporate the Termii Privacy Policy) contains the entire understanding, and supersedes all prior understandings, between you and Termii concerning its subject matter, and cannot be changed or modified by you. The section headings used in this Agreement are for convenience only and will not be given any legal import.
 
               </pre>
+              </div>
             </div>
           </div>
-        </div>
-        <footer class="col-md-12">
-          <center><div class="hrr-5"></div></center>
+          <footer class="col-md-12">
+            <center><div class="hrr-5"></div></center>
 
-          <p>Termii &copy; 2020. Termii is a registered trademark of Termii Inc. With our subsidiaries in Africa,<br>
-            We collaborate with fast growing brands to deliver great customer messaging experience for African businesses.</p>
-        </footer>
+            <p>Termii &copy; 2020. Termii is a registered trademark of Termii Inc. With our subsidiaries in Africa,<br>
+              We collaborate with fast growing brands to deliver great customer messaging experience for African businesses.</p>
+          </footer>
+        </div>
       </div>
     </div>
   </div>
@@ -150,182 +152,7 @@ These Terms of Service (which include and incorporate the Termii Privacy Policy)
     }
 </script>
 
-<style>
-  body {
-    padding-top: 70px;
-    background:  url('/images/grid.png') repeat-x fixed;
-
-    font-family: "Karla", sans-serif;
-  }
-  ::-webkit-scrollbar {
-    width: 9px !important;
-    height: 89px !important;
-    background: #fff !important;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #C3C3C3 !important;
-    outline: 1px solid #7D838B !important;
-  }
-
-
-  @media (min-width: 1200px){
-    .bs-sidebar.affix-bottom, .bs-sidebar.affix {
-      width: 263px;
-    }
-  }
-  @media (min-width: 992px){
-    .bs-sidebar.affix {
-      position: fixed;
-      top: 80px;
-    }
-  }
-
-  .bs-sidebar.well {
-    padding: 0;
-    max-height: 90%;
-    overflow-y: auto;
-  }
-  .bs-sidebar.affix {
-    position: static;
-  }
-  .well {
-    min-height: 20px;
-    padding: 19px;
-    margin-bottom: 20px;
-    background-color: #f5f5f5;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
-  }
-  @media (min-width: 992px){
-    .bs-sidebar.affix-bottom .bs-sidenav, .bs-sidebar.affix .bs-sidenav {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
-  .bs-sidenav {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-radius: 5px;
-  }
-  .nav {
-    padding-left: 0;
-    list-style: none;
-  }
-  ul.nav li.main {
-    font-weight: bold;
-  }
-  .nav>li {
-    position: relative;
-    display: block;
-  }
-  .affix {
-    position: fixed;
-  }
-  @media (min-width: 992px){
-    .bs-sidebar.affix {
-      position: fixed;
-      top: 80px;
-    }
-  }
-
-  .bs-sidebar .nav > li > a {
-    padding: 5px 20px;
-    z-index: 1;
-    border: none;
-    color: #717171;
-    display: block;
-    font-size: 14px;
-    transition: color .3s;
-  }
-  .bs-sidebar .nav > .active > a, .bs-sidebar .nav > .active:hover > a, .bs-sidebar .nav > .active:focus > a {
-    font-weight: bold;
-    background-color: transparent;
-    border-right: 1px solid;
-  }
-  .code-top {
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
-    font-family: "Karla",sans-serif !important;
-    margin-bottom: -13px !important;
-    border-radius: 5px 5px 0px 0px !important;
-  }
-  .bt-login {
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
-    display: inline-block;
-    color: #fff !important;
-    border-radius: 4px;
-    vertical-align: bottom;
-    position: relative;
-    border: transparent;
-    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
-    transition: .35s;
-    padding-top: 7px !important;
-    padding-bottom: 8px !important;
-    padding-left: 26px !important;
-    padding-right: 15px !important;
-    font-weight: 600 !important;
-    font-size: 13px !important;
-  }
-  pre {
-    font-family: monospace,serif;
-    font-size: 12px !important;
-    color: #fff;
-    max-width: 100%;
-    overflow-x: auto;
-    line-height: 1.428571429;
-    word-break: break-all;
-    word-wrap: break-word;
-    white-space: pre-wrap;
-    border-radius: 4px;
-    border: solid 1px #e1e4e5;
-  }
-  .pad-p {
-    padding: 65px;
-    background: #fff !important;
-    color: #717171 !important;
-    font-family: "Karla",sans-serif !important;
-    font-size: 13.4px !important;
-  }
-  pre code {
-    padding: 0;
-    font-size: inherit;
-    color: inherit;
-    white-space: pre-wrap;
-    background-color: transparent;
-    border-radius: 0;
-  }
-  code, kbd, pre, samp {
-    font-family: monospace,serif;
-    font-size: 12px !important;
-    background: #4f566b;
-    color: #fff;
-  }
-
-  .code-e {
-    float: right !important;
-    margin-right: 21px !important;
-    margin-top: -17px;
-  }
-  .i-b {
-    font-weight: 400 !important;
-    font-size: 13px !important;
-    font-family: "Karla",sans-serif !important;
-  }
-  footer {
-    margin-top: 100px;
-    margin-bottom: 50px;
-    text-align: center;
-    font-weight: 100;
-  }
-  p{
-    font-size: 13px;
-  }
-  .bs-sidebar .nav > li > a:hover, .bs-sidebar .nav > li > a:focus {
-    text-decoration: none;
-    border-right: 1px solid;
-  }
-
+<style scoped>
+ @import "assets/css/general_style/terms.css";
 
 </style>

@@ -9,9 +9,9 @@
           <div class="panel-flat timeline-content">
             <div class="panel-heading m-tp">
 
-              <a href="https://termii.com/dashboard">
+              <nuxt-link no-prefetch to="/">
                 <img src="/images/logo.png" alt="logo" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="155px" height="auto">
-              </a>
+              </nuxt-link>
               <p class="mt-20 mb-20">Termii helps African businesses use messaging channels to verify and communicate with customers</p>
               <div id="google_translate_element"></div>
               <script type="text/javascript">
@@ -34,14 +34,14 @@
           <h5 class="text-bold">COMPANY</h5>
           <ul class="nav">
             <li>
-              <a href="/about" class="fi-a">
+              <nuxt-link no-prefetch to="/about" class="fi-a">
                 About Termii
-              </a>
+              </nuxt-link>
             </li>
             <li>
-              <a href="/investors" class="fi-a">
+              <nuxt-link no-prefetch to="/investors" class="fi-a">
                 Investor Relations
-              </a>
+              </nuxt-link>
             </li>
             <li>
               <a class="fi-a" id="CHATID">
@@ -49,14 +49,14 @@
               </a>
             </li>
             <li>
-              <a href="/terms" class="fi-a">
+              <nuxt-link no-prefetch to="/terms" class="fi-a">
                 Terms of service
-              </a>
+              </nuxt-link>
             </li>
             <li>
-              <a href="/privacy" class="fi-a">
+              <nuxt-link no-prefetch to="/privacy" class="fi-a">
                 Privacy Policies
-              </a>
+              </nuxt-link>
             </li>
           </ul>
         </div>

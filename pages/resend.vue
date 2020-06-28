@@ -14,13 +14,13 @@
       <!-- START Login Right Container-->
       <div class="login-container bg-white col-md-6">
         <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40 wd-k">
-          <a href="/"> <img src="/images/logo.png" alt="logo" data-src-retina="https://termii.com/" width="150px" height="auto"></a>
+          <nuxt-link to="/"> <img src="/images/logo.png" alt="logo" data-src-retina="https://termii.com/" width="150px" height="auto"></nuxt-link>
           <!-- START Login Form -->
           <p class="p-t-100"> Your verification attempt failed! <br>Please generate a new link to verify your account.</p>
            <!-- Advanced login -->
 
           <div class="p-t-85 ">
-            <a class="bg-blue" href="http://sandbox.termii.com/account/verify/resend/5ed53b1c42b98">Click here to resend the email</a>
+            <nuxt-link class="bg-blue" to="#">Click here to resend the email</nuxt-link>
           </div>
 
 
@@ -40,16 +40,9 @@
 </script>
 
 <style>
-  @import "assets/css/general_style/pages.css";
+  @import "../assets/css/general_style/authentication_pages.css";
 
-  body {
-    color: #626262;
-    font-family: "Karla",sans-serif;
-    font-size: 15px;
-    font-weight: normal;
-    letter-spacing: 0.01em;
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
-  }
+
 
   @media (max-width: 1400px){
     body, p {
@@ -58,23 +51,7 @@
     }
 
   }
-  .bg-blue {
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
-    display: inline-block !important;
-    color: #fff !important;
-    border-radius: 4px;
-    vertical-align: bottom !important;
-    position: relative;
-    border: transparent;
-    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
-    transition: .35s;
-    padding-top: 7px !important;
-    padding-bottom: 8px !important;
-    padding-left: 26px !important;
-    padding-right: 15px !important;
-    font-weight: 600 !important;
-    font-size: 13px !important;
-  }
+
   @media (max-width: 768px) {
     .login-wrapper .login-container {
       width: 100% !important;
