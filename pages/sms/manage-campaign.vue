@@ -1,0 +1,213 @@
+<template>
+  <div class="container-fluid body">
+    <div id="msb" class="col-md-2 ">
+      <Sidebar></Sidebar>
+    </div>
+    <div class="col-md-10">
+      <DashboardNavbar></DashboardNavbar>
+      <!--Page header-->
+      <div class="page-header">
+        <div class="page-header-content">
+        </div>
+      </div>
+      <!-- /page header -->
+      <!-- Page container -->
+      <div class="page-container">
+        <!-- Page content -->
+        <div class="page-content">
+          <!-- Main content -->
+          <div class="content-wrapper">
+            <!-- main inner content -->
+            <main id="wrapper" class="wrapper">
+              <section class="wrapper-bottom-sec">
+                <div class="jumbotron" data-pages="parallax">
+                  <div class="container-fluid container-fixed-lg">
+                    <div class="inner">
+                      <div class=" mt-50 ">
+                        <div class="row ">
+                          <div class="col-lg-6 col-md-5  col-middle ">
+                            <div class="panel-transparent">
+                              <p id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-flag"></i>Campaign - C5ec7059195955</p>
+                              <div class="insight">
+                                <p>Your Messaging Campaign   was triggered at  21st May 20 11:52 PM </p>
+                              </div>
+                            </div>
+                            <br>
+                            <div class="col-lg-6" style="padding-left: 0;">
+                              <form class=""  role="form" method="get" id="search-form">
+                                <div class="row">
+                                  <div class="form-group">
+                                    <input type="text" placeholder="Phone Number"   class="form-control" name="phone">
+                                  </div>
+                                </div>
+                                <button type="submit" class="btn btn-success wd-100 bx-line"><i class="fa fa-search"></i> Search</button>
+                              </form>
+                              <br />
+                              <form  method="POST">
+                                <button type="submit" class="btn btn-danger wd-100 bx-line" ><i class="fa fa-level-down"></i> Export</button>
+                              </form>
+                            </div>
+                          </div>
+                          <div class="col-lg-6 col-md-5 col-md-height col-middle hidden-xs">
+                            <!-- START PANEL -->
+                            <div class="full-height">
+                              <div class="panel-body text-center smschart">
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="p-15">
+                    <div class="row">
+                      <div class="col-lg-12 panel">
+                        <div role="tabpanel" class="mt-50" id="recipients">
+                          <table class="table  table-hover">
+                            <thead>
+                            <tr>
+                              <th style="width: 5%">Sent At</th>
+                              <th style="width: 5%">Number</th>
+                              <th style="width: 25%">Message</th>
+                              <th style="width: 5%">Amount</th>
+                              <th style="width: 5%">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="row in manage_campaign_list" :key="row.sent_at">
+                              <td style="width: 5%"></td>
+                              <td style="width: 5%">{{row.number}}</td>
+                              <td style="width: 25%">{{row.message}}</td>
+                              <td style="width: 5%">{{row.amount}}</td>
+                              <td style="width: 5%">{{row.status}}</td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </main>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+    import Sidebar from "../../components/general/Sidebar";
+    import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+    export default {
+        name: "manage-campaign",
+      components: {DashboardNavbar, Sidebar},
+      data() {
+          return{
+            manage_campaign_list:[
+              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
+              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
+              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
+              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
+              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
+              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
+              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
+              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
+              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
+              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
+              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
+              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
+            ]
+          }
+      }
+    }
+</script>
+
+<style scoped>
+
+  .p-15 {
+    padding: 15px!important;
+  }
+  .form-control {
+    display: block;
+    width: 100%;
+    height: 36px;
+    padding: 7px 12px;
+    /* font-size: 13px; */
+    line-height: 1.5384616;
+    color: #333333;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  }
+  .table {
+    margin-bottom: 0;
+  }.table > thead > tr > th {
+     border-bottom: dotted #ddd !important;
+     vertical-align: middle;
+     padding: 12px 20px;
+     line-height: 1.5384616;
+   }
+  .table-responsive {
+    overflow-x: auto;
+    min-height: 0.01%;
+  }
+  .table {
+    width: 100%;
+    max-width: 100%;
+    /* margin-bottom: 20px; */
+  }
+
+  .table > tbody > tr > td{
+    vertical-align: middle;
+    padding: 12px 20px;
+    line-height: 1.5384616;
+  }
+  th {
+    font-weight: 500;
+    text-align: left;
+  }
+  .table-hover > tbody > tr:hover {
+    background-color: #f8f8f8;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: transparent;
+  }
+  .jumbotron {
+    margin-bottom: 10px;
+    color: inherit;
+    background-color: #fff;
+  }
+  @media screen and (min-width: 769px){
+    .jumbotron {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+  }
+  @media screen and (min-width: 769px){
+    .container .jumbotron, .container-fluid .jumbotron {
+      padding-left: 60px;
+      padding-right: 60px;
+    }
+  }
+  .form-group {
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .form-control:focus {
+    border-color: #4DB6AC;
+    outline: 0;
+    box-shadow: none;
+  }
+</style>

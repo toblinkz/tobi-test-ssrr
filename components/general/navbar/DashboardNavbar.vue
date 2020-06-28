@@ -37,24 +37,24 @@
               </a>
             </template>
             <template v-slot:dropdown_menu>
-              <li><a href="http://sandbox.termii.com/billing/fund"><i class="entypo-credit-card"></i> Top Up</a></li>
+              <li><a href="/billing/fund"><i class="entypo-credit-card"></i> Top Up</a></li>
               <li>
-                <a href="/message/select-type">
+                <nuxt-link to="/message/select-type">
                   <i class="entypo-paper-plane"></i><span> Message</span>
-                </a>
+                </nuxt-link>
               </li>
 
               <li>
-                <a href="http://sandbox.termii.com/sms/history">
+                <nuxt-link to="/sms/history">
                   <i class="entypo-chart-line"></i><span> Reports</span>
-                </a>
+                </nuxt-link>
               </li>
 
               <li>
-                <a href="http://sandbox.termii.com/account/profile"><i class="entypo-vcard"></i> Account</a>
+                <nuxt-link to="/account/profile"><i class="entypo-vcard"></i> Account</nuxt-link>
               </li>
 
-              <li><a href="http://sandbox.termii.com/logout"><i class="icon-switch2"></i> logout</a></li>
+              <li><a href="#"><i class="icon-switch2"></i> logout</a></li>
             </template>
           </Dropdown>
         </ul>

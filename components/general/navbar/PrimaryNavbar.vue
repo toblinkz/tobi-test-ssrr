@@ -10,9 +10,9 @@
 
         <ul class="nav navbar-nav pull-right visible-xs-block">
           <li>
-            <a class="mobile-menu-button z-in" data-toggle="collapse" data-target="#navbar-mobile">
+            <nuxt-link to="/" class="mobile-menu-button z-in" data-toggle="collapse" data-target="#navbar-mobile">
               <i class="icon-menu7 blue-t"></i>
-            </a>
+            </nuxt-link>
           </li>
         </ul>
       </div>
@@ -25,13 +25,13 @@
             <div class="drops">
               <a class="men">Why Termii?</a>
               <div class="dropdown-content menu-t">
-                <nuxt-link to="/about" class="pad-width">
+                <nuxt-link  to="/about" class="pad-width">
                   About Us
                 </nuxt-link>
-                <a href="/usecases" class="pad-width">
+                <nuxt-link to="/usecases" class="pad-width">
                   Usecase
-                </a>
-                <nuxt-link to="/investors" class="up-top pad-width">
+                </nuxt-link>
+                <nuxt-link  to="/investors" class="up-top pad-width">
                   Milestones
                 </nuxt-link>
               </div>
@@ -52,7 +52,7 @@
 
           <ul class="nav navbar-nav">
             <div class="drops">
-              <nuxt-link class="men" to="/plans">
+              <nuxt-link  class="men" to="/plans">
                 Pricing
               </nuxt-link>
             </div>
@@ -65,11 +65,11 @@
           </li>
 
           <li>
-            <a class="btn btx-login " to="/login">Login
-            </a>
+            <nuxt-link   class="btn btx-login " to="/login">Login
+            </nuxt-link>
           </li>
           <li class="hidden-xs">
-            <a class="btn bt-login " to="/register"> Signup <i class="fa fa-angle-double-right ico-r"></i></a>
+            <nuxt-link  class="btn bt-login " to="/register"> Signup <i class="fa fa-angle-double-right ico-r"></i></nuxt-link>
           </li>
 
         </ul>
@@ -323,16 +323,6 @@
     padding: 12px 13px;
     text-decoration: none;
     display: block;
-  }
-  @media (max-width: 768px){
-    .navbar-nav:last-child {
-      border-bottom: 0;
-    }
-  }
-  @media (max-width: 768px){
-    .visible-xs-block {
-      display: block !important;
-    }
   }
 
 

@@ -1,6 +1,7 @@
 <template>
-  <a :href="url" title="Edit"
-     class="btn bg-blue mt-40"> {{label}}<i class="fa fa-angle-double-right padd-left"></i></a>
+  <nuxt-link no-prefetch :to="url" title="Edit"
+     class="btn bg-blue mt-40"> {{label}}
+    <i class="fa fa-angle-double-right padd-left"></i></nuxt-link>
 </template>
 
 <script>
@@ -8,7 +9,7 @@
         name: "TermiiButton",
       props: {
           label: String,
-          url: String,
+          url: String
       }
     }
 </script>

@@ -4,10 +4,10 @@
     <!-- BEGIN SIDEBAR MENU HEADER-->
     <div id="user-side-bar" class="sidebar-header">
       <center>
-        <a href="/dashboard">
+        <nuxt-link to="/dashboard">
           <img src="/images/logo.png" data-src-retina="http://sandbox.termii.com/assets/images/logo.png" width="120px"
                height="auto">
-        </a>
+        </nuxt-link>
       </center>
     </div>
     <!-- END SIDEBAR MENU HEADER-->
@@ -36,14 +36,14 @@
 									    <i class="caret"></i></span> <span class="badge badge-sm">New</span></a>
           </template>
           <template v-slot:dropdown_menu>
-            <li><a href="/billing/fund"><i class="entypo-credit-card"></i> Top Up</a></li>
-            <li><a href="/billing/transactions/history" ><i class="entypo-flow-tree"></i> History</a></li>
+            <li><nuxt-link to="/billing/fund"><i class="entypo-credit-card"></i> Top Up</nuxt-link></li>
+            <li><nuxt-link to="/billing/transactions/history" ><i class="entypo-flow-tree"></i> History</nuxt-link></li>
             <li>
-              <a href="http://sandbox.termii.com/invoices/all">
+              <nuxt-link to="/invoices/all">
                 <i class="entypo-basket"></i> Invoice
-              </a>
+              </nuxt-link>
             </li>
-            <li><a href="/set-unit-limit"><i class="entypo-key"></i> Alert <span class="badge badge-sm badge-sidebar">New</span></a></li>
+            <li><nuxt-link to="/set-unit-limit"><i class="entypo-key"></i> Alert <span class="badge badge-sm badge-sidebar">New</span></nuxt-link></li>
           </template>
         </Dropdown>
         <!-- BEGIN SIDEBAR MENU ITEMS-->
@@ -54,8 +54,8 @@
 									    <i class="caret"></i></span> </a>
           </template>
           <template v-slot:dropdown_menu>
-            <li><a href="/sms/sender-id-management" ><i class="entypo-list-add"></i> Sender ID</a></li>
-            <li><a href="/devices" ><i class="fa fa-barcode"></i> Device ID</a></li>
+            <li><nuxt-link to="/sms/sender-id-management" ><i class="entypo-list-add"></i> Sender ID</nuxt-link></li>
+            <li><nuxt-link to="/devices" ><i class="fa fa-barcode"></i> Device ID</nuxt-link></li>
           </template>
         </Dropdown>
         <Dropdown>
@@ -64,14 +64,14 @@
 									    <i class="caret"></i></span> <span class="badge badge-sm badge-sidebar">New</span></a>
           </template>
           <template v-slot:dropdown_menu>
-            <li><a href="/phone-book" ><i class="entypo-user-add"></i> Single contacts</a></li>
-            <li><a href="/sms/import-contacts"><i class="entypo-upload"></i> Bulk contacts</a></li>
+            <li><nuxt-link to="/phone-book" ><i class="entypo-user-add"></i> Single contacts</nuxt-link></li>
+            <li><nuxt-link to="/sms/import-contacts"><i class="entypo-upload"></i> Bulk contacts</nuxt-link></li>
           </template>
         </Dropdown>
         <li class="padd-x">
-          <a href="/message/select-type" class="color-a level-1">
+          <nuxt-link to="/message/select-type" class="color-a level-1">
             <span> <i class="entypo-paper-plane"></i> Compose message</span>
-          </a>
+          </nuxt-link>
         </li>
         <Dropdown>
           <template v-slot:dropdown_title>
@@ -79,8 +79,8 @@
 									    <i class="caret"></i></span> <span class="badge badge-sm badge-sidebar">New</span></a>
           </template>
           <template v-slot:dropdown_menu>
-            <li><a href="/sms/history" ><i class="entypo-chart-area"></i> Direct Insights</a></li>
-            <li><a href="/sms/campaign-reports"><i class="entypo-chart-pie"></i> Group Insights</a></li>
+            <li><nuxt-link to="/sms/history" ><i class="entypo-chart-area"></i> Direct Insights</nuxt-link></li>
+            <li><nuxt-link to="/sms/campaign-reports"><i class="entypo-chart-pie"></i> Group Insights</nuxt-link></li>
 
           </template>
         </Dropdown>
@@ -95,13 +95,13 @@
           </template>
           <template v-slot:dropdown_menu>
             <li><a href="http://developer.termii.com" ><i class="entypo-code"></i> API Guide</a></li>
-            <li><a href="/account/api"><i class="entypo-key"></i> Api console</a></li>
+            <li><nuxt-link to="/account/api"><i class="entypo-key"></i> Api console</nuxt-link></li>
           </template>
         </Dropdown>
         <li class="padd-x">
-          <a href="http://sandbox.termii.com/account/profile" class="color-a level-1">
+          <nuxt-link to="/account/profile" class="color-a level-1">
             <i class="entypo-cog"></i>
-            Settings</a>
+            Settings</nuxt-link>
         </li>
 
         <div class="clearfix"></div>

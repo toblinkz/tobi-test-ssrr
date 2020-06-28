@@ -14,7 +14,7 @@
         options:{
           type: Array
         },
-        label: String
+        label: String,
       },
       head(){
           return{

@@ -49,7 +49,7 @@
                   <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Verification for</span> <span class="blue-t"> Financial Services</span></h4>
                   <p class="testimonial-text">Voguepay uses Termii's <strong>Token tools</strong> to verify and authenticate merchants financial transactions across Africa
                   </p>
-                  <a href="/products/token" class="blue-p mb-20 font-case">Explore ⇢</a>
+                  <nuxt-link to="/products/token" class="blue-p mb-20 font-case">Explore ⇢</nuxt-link>
                   <!-- END PANEL -->
                 </div>
               </div>
@@ -63,7 +63,7 @@
                   <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Messaging for</span> <span class="blue-t"> Health Care</span></h4>
                   <p class="testimonial-text">Helium Health uses Termii's <strong>Messaging tools</strong> to help hospitals and clinics automate their processes as well as engage patients effectively
                   </p>
-                  <a href="/products/switch" class="blue-p mb-20 font-case">Explore ⇢</a>
+                  <nuxt-link to="/products/switch" class="blue-p mb-20 font-case">Explore ⇢</nuxt-link>
                   <!-- END PANEL -->
                 </div>
               </div>
@@ -76,7 +76,7 @@
 
                   <p class="testimonial-text">Ulesson uses Termii's <strong>Insight tools</strong> to provide intuitive mobile learning experiences to students across Africa
                   </p>
-                  <a href="products/insight" class="blue-p mb-20 font-case">Explore ⇢</a>
+                  <nuxt-link to="products/insight" class="blue-p mb-20 font-case">Explore ⇢</nuxt-link>
                   <!-- END PANEL -->
                 </div>
               </div>
@@ -120,7 +120,7 @@
                 We deliver messages across different networks in Africa, but have special arrangement for global network delivery!
               </p>
               <div>
-                <Button label=" Speak to an agent" class="mt-40" id="CHATID"></Button>
+                <a  class="btn bg-blue mt-40" id="CHATID">Speak to an agent<i class="fa fa-angle-double-right padd-left"></i></a>
               </div>
             </div>
           </div>

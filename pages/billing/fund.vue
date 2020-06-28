@@ -88,7 +88,7 @@
                                   <form class="form" role="form" method="post" action="http://sandbox.termii.com/billing/fund">
                                     <Dropdown2 v-bind:options="options" label="Select Top Up Option" @changeForm="changeForm"></Dropdown2>
                                     <!--regular-body!-->
-                                    <div id="regular-body" class="mt-20" v-show="isShow">
+                                    <div id="regular-body" class="mt-20" >
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
                                         <p id="exchange_approximate"></p>
@@ -114,7 +114,7 @@
                                       <input type="hidden" name="_token" value=""> <button type="submit" class="btn bx-line btn-success btn-sm pull-right purchase_button">Fund Account </button>
                                     </div>
                                     <!--bundled form body!-->
-                                    <div id="bundle-form-body">
+                                    <div id="bundle-form-body"  v-show="isShow">
                                       <div class="form-group"><input type="hidden" class="form-control" value="36660" name="amount" id="amount" placeholder="Amount"> </div>
                                       <div class="form-group">
                                         <label>Select Payment Method</label>
@@ -147,13 +147,10 @@
           <!-- /page content -->
         </div>
         <!-- /page container -->
-
       </div>
-      <ServicePriceModal v-if="showModal" @close="closeModal"></ServicePriceModal>
     </div>
   </div>
-
-
+    <ServicePriceModal v-if="showModal" @close="closeModal"></ServicePriceModal>
   </div>
 </template>
 

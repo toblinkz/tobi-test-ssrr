@@ -5,6 +5,7 @@
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
+      <!--Page header-->
       <div class="page-header">
         <div class="page-header-content">
         </div>
@@ -19,14 +20,13 @@
             <!-- main inner content -->
             <main id="wrapper" class="wrapper">
               <section class="wrapper-bottom-sec mt-50">
-
                 <div class="col-md-12">
                   <div class="jumbotron" data-pages="parallax">
                     <div class="container-fluid container-fixed-lg">
                       <div class="inner">
                         <!-- END BREADCRUMB -->
                         <div class="container-md-height m-t-20">
-                          <div class="row row-md-height">
+                          <div class="row ">
                             <center>
                               <!-- START PANEL -->
                               <div class="panel-transparent">
@@ -83,7 +83,7 @@
                                     <button id="get-qr-code-29" onclick="getQRCode('29')" style=" background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;"><i class="fa fa-barcode" style="color: #fff;"></i></button>
                                   </td>
                                   <td data-label="view subscriptions">
-                                    <a class="btn btn-primary" href="#">manage device</a>
+                                    <nuxt-link class="btn btn-primary" to="/device/subscriptions">manage device</nuxt-link>
                                   </td>
                                 </tr>
                                 <tr>
@@ -95,7 +95,7 @@
                                     <p><i class="entypo-lock" style="color: red;"></i></p>
                                   </td>
                                   <td data-label="view subscriptions">
-                                    <a class="btn btn-primary" href="#">manage device</a>
+                                    <nuxt-link class="btn btn-primary" to="/device/subscriptions">manage device</nuxt-link>
                                   </td>
                                 </tr>
                                 </tbody>
@@ -182,8 +182,7 @@
   }
 
   .jumbotron {
-    /* padding-top: 30px; */
-    /* padding-bottom: 10px; */
+
     margin-bottom: 10px;
     color: inherit;
     background-color: #fff;
@@ -253,7 +252,7 @@
     text-align: left;
   }
   .table-hover > tbody > tr:hover {
-    background-color: #f8f8f8;
+    background-color: #f8f8;
   }
 
   table {

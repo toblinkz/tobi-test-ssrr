@@ -3,7 +3,7 @@
     <div class="col-md-4">
       <div class="subscription-plans">
         <div class="panel panel-plan box-active">
-          <div class="panel-body  pad-0" v-bind:style="{...styles}">
+          <div class="panel-body pad-w pad-0" v-bind:style="{...styles}">
             <ul class="nav">
               <slot name="title"></slot>
               <slot name="text_body"></slot>
@@ -27,7 +27,9 @@
 
 <style scoped>
 
-
+  p {
+    font-size: 15px;
+  }
 
   .nav {
     margin-bottom: 0;

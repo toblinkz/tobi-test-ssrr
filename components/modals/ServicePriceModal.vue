@@ -1,5 +1,4 @@
 <template>
-  <!-- Start Modal 2-->
   <transition>
   <div id="serviceprice" class="modal in body" role="dialog">
     <div class="modal-dialog" style="margin: 30px auto; ">
@@ -157,7 +156,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    /*z-index: 1050;*/
+    z-index: 1050;
     -webkit-overflow-scrolling: touch;
     outline: 0;
     background-color: rgba(0, 0, 0, 0.5);
@@ -170,8 +169,6 @@
   }
   .modal-dialog {
     position: relative;
-    /* width: auto; */
-    /* margin: 10px; */
   }
   .modal-content {
     border: 0;

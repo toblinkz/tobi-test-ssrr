@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <SmsHistoryModal></SmsHistoryModal>
   </div>
 
 </template>
@@ -13,9 +13,14 @@
     import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
     import DeviceModal from "../components/modals/DeviceModal";
     import Paginator from "../components/general/Paginator";
+    import ApiNavbar from "../components/general/navbar/ApiNavbar";
+    import SmsHistoryModal from "../components/modals/SmsHistoryModal";
     export default {
         name: "test",
-      components: {Paginator, DeviceModal, DashboardNavbar, Dropdown2, ServicePriceModal, Sidebar, PerfectScrollbar},
+      components: {
+        SmsHistoryModal,
+        ApiNavbar,
+        Paginator, DeviceModal, DashboardNavbar, Dropdown2, ServicePriceModal, Sidebar, PerfectScrollbar},
       head(){
         return{
           script: [{src: '/js/customScrollbar.js'}],

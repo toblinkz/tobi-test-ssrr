@@ -37,25 +37,25 @@
                   <div class="col-md-10">
                     <ul class="modern-listing big-icon no-top-border-list mt-0">
                       <li>
-                        <a href="http://sandbox.termii.com/sms/quick-sms" class="btn btn-primary">Choose</a>
-                        <a href="http://sandbox.termii.com/sms/quick-sms">
+                        <nuxt-link to="/sms/quick-sms" class="btn btn-primary">Choose</nuxt-link>
+                        <nuxt-link to="/sms/quick-sms">
                         <span class="">
                             <i class="entypo-comment blue-i"></i>
                         </span>
-                        </a>
-                        <h4><a href="http://sandbox.termii.com/sms/quick-sms" class="blue-t">Direct sms</a></h4>
+                        </nuxt-link>
+                        <h4><nuxt-link to="/sms/quick-sms" class="blue-t">Direct sms</nuxt-link></h4>
                         <p>
                           Send direct sms to individual numbers across any mobile network
                         </p>
                       </li>
                       <li>
-                        <a href="http://sandbox.termii.com/sms/send-sms" class="btn btn-primary">Choose</a>
-                        <a href="http://sandbox.termii.com/sms/send-sms">
+                        <nuxt-link to="/sms/send-sms" class="btn btn-primary">Choose</nuxt-link>
+                        <nuxt-link to="/sms/send-sms">
                         <span class="">
                             <i class="entypo-users blue-i"></i>
                         </span>
-                        </a>
-                        <h4><a href="http://sandbox.termii.com/sms/send-sms" class="blue-t"><small>Group sms</small></a></h4>
+                        </nuxt-link>
+                        <h4><nuxt-link to="/sms/send-sms" class="blue-t"><small>Group sms</small></nuxt-link></h4>
                         <p>
                           Schedule and send personalised sms to mutliple customers across any network
                         </p>
@@ -100,7 +100,7 @@
     }
 </script>
 
-<style >
+<style scoped>
   .row {
     margin-left: 0px;
     margin-right: 0px;

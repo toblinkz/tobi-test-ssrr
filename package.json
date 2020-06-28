@@ -8,7 +8,12 @@
     "dev": "nuxt",
     "build": "nuxt build --spa",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "deploy": "NODE_ENV=production npm run build && node deploy dist",
+    "generate": "nuxt generate",
+    "preinstall": "npx npm-force-resolutions"
+  },
+  "resolutions": {
+    "graceful-fs": "4.2.3"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
@@ -21,5 +26,8 @@
     "vue-intercom": "^1.0.14",
     "vue2-perfect-scrollbar": "^1.5.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "s3": "^4.4.0",
+    "vuex": "^3.3.0"
+  }
 }
