@@ -1,0 +1,364 @@
+<template>
+  <div class="container-fluid body">
+    <div id="msb" class="col-md-2">
+      <Sidebar></Sidebar>
+    </div>
+    <div class="col-md-10">
+      <DashboardNavbar></DashboardNavbar>
+      <!-- Page header -->
+      <div class="page-header">
+        <div class="page-header-content">
+        </div>
+      </div>
+      <!-- /page header -->
+      <!-- Page container -->
+      <div class="page-container">
+        <!-- Page content -->
+        <div class="page-content">
+          <!-- Main content -->
+          <div class="content-wrapper">
+            <!-- main inner content -->
+            <main id="wrapper" class="wrapper">
+              <section class="wrapper-bottom-sec">
+                <div class="jumbotron" data-pages="parallax">
+                  <div class="container-fluid container-fixed-lg">
+                    <div class="inner">
+                      <div class="m-t-20">
+                        <div class="row">
+                          <center>
+                            <!-- START PANEL -->
+                            <div class="panel-transparent">
+                              <p id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-users"></i> Your Phone Book!</p>
+                              <p class="insight hidden-xs">Add new phone lists, edit, delete and manage all your <br>uploaded customer phone contacts
+                              </p>
+                              <div class="row hidden-xs">
+                                <br>
+                                <a href="/sms/import-contacts" class="btn btn-primary"><i class="fa fa-upload"></i> Import using excel</a>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="p-15">
+                    <div class="row">
+                      <div class="p-30">
+                        <h2></h2>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-2">
+                        </div>
+                        <div class="col-lg-8">
+                          <div class="panel">
+                            <div class="panel-body">
+                              <form class="" role="form" method="post" >
+                                <div class="col-lg-11">
+                                  <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Create new phone book list" name="list_name">
+                                  </div>
+                                </div>
+                                <div class="col-lg-1">
+                                  <button type="submit" class="btn btn-success btn-sm pull-right"><i class="fa fa-plus"></i> Add </button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row m-t-35">
+                        <div class="col-lg-12">
+                          <div class="panel">
+                            <div class="panel-body scrollme">
+                              <div class="row">
+                                <div class="col-sm-6">
+                                  <div class="dataTables_length" id="DataTables_Table_0_length">
+                                    <label>
+                                      Show
+                                      <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control2 input-sm">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                      </select>
+                                      entries
+                                    </label>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control2 input-sm" placeholder="" aria-controls="DataTables_Table_0"></label></div>
+                                </div>
+                              </div>
+                              <table class="table table-responsive data-table table-hover">
+                                <thead>
+                                <tr>
+                                  <th >SL</th>
+                                  <th>Phone Book</th>
+                                  <th >Total Contacts</th>
+                                  <th >Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="row in phone_book" :key="row.id">
+                                  <td>
+                                    <p>{{row.id}}</p>
+                                  </td>
+                                  <td>
+                                    <p>{{row.phone_book}}</p>
+                                  </td>
+                                  <td>
+                                    <p>{{row.total_contacts}}</p>
+                                  </td>
+                                  <td>
+                                    <nuxt-link to="/view-contact" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
+                                    <a class="btn btn-success btn-xs" href="#" data-toggle="modal" ><i class="fa fa-edit"></i> Edit</a>
+                                    <nuxt-link class="btn btn-success btn-xs" to="/add-contact">
+                                      <i class="fa fa-user-plus"></i> Add Contact</nuxt-link>
+                                    <a href="#" class="btn btn-danger btn-xs " id="36"><i class="fa fa-trash"></i></a>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </main>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+    import Sidebar from "../components/general/Sidebar";
+    import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
+    export default {
+        name: "phone-book",
+      components: {DashboardNavbar, Sidebar},
+      data(){
+          return{
+            phone_book:[
+              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
+              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
+              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
+              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
+              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
+              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
+              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
+              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
+              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
+              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
+              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
+              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
+              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
+              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
+
+
+            ]
+          }
+      }
+    }
+</script>
+
+<style scoped>
+  @media (min-width: 769px){
+    .content-wrapper {
+      display: table-cell;
+      vertical-align: top;
+    }
+  }
+  @media (min-width: 769px){
+    .page-content {
+      display: table-row;
+    }
+  }
+
+  .content-wrapper {
+    width: 100%;
+  }
+  @media screen and (min-width: 769px){
+    .container .jumbotron, .container-fluid .jumbotron {
+      padding-left: 60px;
+      padding-right: 60px;
+    }
+  }
+  @media (min-width: 769px){
+    .page-container {
+      width: 100%;
+      display: table;
+      table-layout: fixed;
+    }
+  }
+
+  @media screen and (min-width: 769px){
+    .jumbotron {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+  }
+  .page-header:not(.page-header-filled) + .page-container {
+    padding-top: 35px;
+  }
+  .page-container {
+    position: relative;
+    /* padding-bottom: 40px; */
+  }
+
+  .jumbotron {
+    /* padding-top: 30px; */
+    /* padding-bottom: 10px; */
+    margin-bottom: 10px;
+    color: inherit;
+    background-color: #fff;
+  }
+
+  .row {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  #welcome {
+    /* margin-bottom: 15px; */
+    font-weight: 300;
+    letter-spacing: normal;
+    font-size: 18px;
+    -webkit-font-smoothing: antialiased;
+    color: #2c2c2c;
+    display: block;
+    font-style: normal;
+    /* -webkit-margin-before: 1em; */
+  }
+  .insight {
+    font-size: 13.5px !important;
+    letter-spacing: normal !important;
+    font-weight: 400 !important;
+    line-height: 20px !important;
+    margin: 0px 0px 10px 0px;
+    font-style: normal;
+    white-space: normal;
+    color: #333333;
+    /* -webkit-margin-before: 1em; */
+    /* -webkit-margin-after: 1em; */
+    /* -webkit-margin-start: 0px; */
+    /* -webkit-margin-end: 0px; */
+    /* display: block; */
+  }
+  .p-15 {
+    padding: 15px!important;
+  }
+  .wide {
+    width: 200px !important;
+  }
+  .scrollme {
+    overflow-y: auto;
+  }
+  .table {
+    margin-bottom: 0;
+  }.table > thead > tr > th {
+     border-bottom: dotted #ddd !important;
+     vertical-align: middle;
+     padding: 12px 20px;
+     line-height: 1.5384616;
+   }
+  .table-responsive {
+    overflow-x: auto;
+    min-height: 0.01%;
+  }
+  .table {
+    width: 100%;
+    max-width: 100%;
+    /* margin-bottom: 20px; */
+  }
+
+  .table > tbody > tr > td{
+    vertical-align: middle;
+    padding: 12px 20px;
+    line-height: 1.5384616;
+  }
+  th {
+    font-weight: 500;
+    text-align: left;
+  }
+  .table-hover > tbody > tr:hover {
+    background-color: #f8f8f8;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: transparent;
+  }
+  .form-control {
+    display: block;
+    width: 100%;
+    height: 36px;
+    padding: 7px 12px;
+    font-size: 13px;
+    border-radius: 5px;
+    font-weight: 500;
+    box-shadow: none;
+    line-height: 1.5384616;
+    color: #333333;
+    background-color: #fff;
+    background-image: none;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  }
+  input[type="text"]{
+    border: 1px solid rgba(0, 0, 0, 0.07);
+  }
+  .form-control:focus {
+    border-color: #4DB6AC;
+    box-shadow: none;
+    outline: 0;
+  }
+  .btn-success {
+    color: #fff;
+    background: linear-gradient(-48deg, #70ddad -30%, #226a4a 60%) !important;
+    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+  }
+  .btn-danger {
+    color: #fff;
+    background-color: #F44336;
+    border-color: #F44336;
+  }
+  .dataTables_length {
+    float: right;
+    display: inline-block;
+    margin: 0 0 20px 20px;
+  }
+  .dataTables_length > label {
+    margin-bottom: 0;
+  }
+  select.input-sm {
+    height: 34px;
+    line-height: 34px;
+  }
+  .form-control2 {
+    font-size: 13px;
+    border-color: #bbb;
+    border-radius: 5px;
+    border: solid 1px rgba(204, 204, 204, 0.34);
+    font-weight: 500;
+    box-shadow: none;
+    height: 36px;
+    padding: 7px 12px;
+    line-height: 1.5384616;
+  }
+  .form-control2:focus {
+    border-color: #4DB6AC;
+    outline: 0;
+  }
+
+
+
+
+
+</style>

@@ -1,0 +1,346 @@
+#msb .page-sidebar .sidebar-header {
+  /* Side-bar header */
+  display: block;
+  height: 60px;
+  line-height: 60px;
+  background-color: #011b33;
+  border-bottom: 1px solid #011b33;
+  color: #ffffff;
+  width: 100%;
+  padding: 10px 24px;
+  padding-left: 30px;
+  clear: both;
+  z-index: 10;
+  position: relative;
+}
+* {
+  box-sizing: border-box;
+}
+@media (max-width: 1400px) {
+  body,
+  #msb p {
+    font-family: "Karla",sans-serif;
+    font-size: 15px;
+    line-height: 20px;
+  }
+  #msb h4 {
+    font-size: 22px;
+    line-height: 31.88px;
+    text-transform: lowercase !important;
+  }
+  #msb  h5 {
+    font-size: 16px;
+    line-height: 25.88px;
+  }
+
+  #msb  h3 {
+    font-size: 24px;
+    line-height: 35.88px;
+  }
+}
+
+body #msb {
+  color: #626262;
+  font-family: "Karla",sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-font-feature-settings: "kern" 1;
+  -moz-font-feature-settings: "kern" 1;
+}
+
+
+body #msb {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  direction: ltr;
+}
+
+::-webkit-scrollbar {
+  width: 9px !important;
+  height: 9px !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
+  outline: 1px solid #fafafa !important;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 5px !important;
+}
+
+html #msb {
+  font-size: 13px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+body #msb {
+  color: #fff;
+  font-family: "Karla",sans-serif;
+  font-size: 13.5px;
+  font-weight: normal;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-font-feature-settings: "kern" 1;
+  -moz-font-feature-settings: "kern" 1;
+}
+
+#msb .page-sidebar .sidebar-menu {
+  /* Side-bar Menu */
+  height: calc(100% - 50px);
+  position: relative;
+  width: 100%;
+}
+
+#msb .page-sidebar .sidebar-menu .menu-items {
+  /* Side-bar Menut Items */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  height: calc(100% - 10px);
+  width: 100%;
+}
+
+#msb .page-sidebar .sidebar-menu .menu-items > li {
+  display: block;
+  padding: 0;
+  clear: right;
+}
+
+#msb .scroll-wrapper > .scroll-element div {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  z-index: 10;
+}
+
+#msb .widget {
+  position: relative;
+}
+
+#msb .padd {
+  padding: 30px !important;
+}
+
+#msb ol > li {
+  padding-left: 3px;
+  line-height: 24px;
+}
+
+#msb .padd-x {
+  margin-left: 15px !important;
+}
+
+.circular {
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  margin-top: 10px;
+  width: 50px;
+}
+
+#msb .inline {
+  display: inline-block !important;
+}
+
+#msb ol > li {
+  padding-left: 3px;
+  line-height: 24px;
+}
+
+html #msb {
+  font-size: 13.5px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+#msb .page-sidebar .scroll-element {
+  visibility: hidden;
+}
+
+#msb .windows h5 {
+  font-weight: 300;
+  letter-spacing: normal;
+}
+
+#msb .windows h4 {
+  font-size: 23px;
+  line-height: 32px;
+}
+
+#msb h4 {
+  font-size: 18px;
+  line-height: 33.88px;
+  text-transform: lowercase !important;
+}
+
+#msb h6 {
+  margin: 10px 0;
+  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  font-weight: 300;
+  color: #2c2c2c;
+}
+
+#msb .windows p {
+  font-size: 13px;
+  letter-spacing: normal;
+}
+
+#msb p {
+  display: block;
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: 0.01em;
+  line-height: 22px;
+  margin: 0px 0px 10px 0px;
+  font-style: normal;
+  white-space: normal;
+}
+
+#msb .windows h5 {
+  font-size: 19px;
+  line-height: 28px;
+  font-weight: normal;
+}
+
+#msb h5 {
+  font-size: 15px;
+  line-height: 25.88px;
+  color: #62798f;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+#msb hr {
+  border-color: #1c3c5a80;
+}
+
+#msb .scroll-wrapper > .scroll-element.scroll-x {
+  bottom: 2px;
+  height: 7px;
+  left: 0;
+  min-width: 100%;
+  width: 100%;
+}
+
+#msb .scroll-wrapper > .scroll-element div {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  z-index: 10;
+}
+
+#msb .scroll-wrapper > .scroll-element.scroll-x .scroll-element_outer {
+  bottom: 0;
+  top: auto;
+  left: 2px;
+  -webkit-transition: height 0.2s;
+  transition: height 0.2s;
+}
+
+#msb .scroll-wrapper > .scroll-element .scroll-element_outer {
+  opacity: 0.3;
+}
+
+#msb .scroll-wrapper > .scroll-element div {
+  display: block;
+  height: 100%;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+#msb .scroll-wrapper > .scroll-element div {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  z-index: 10;
+}
+
+#msb .scroll-wrapper > .scroll-element.scroll-x .scroll-bar {
+  bottom: 0;
+  height: 4px;
+  min-width: 24px;
+  top: auto;
+}
+
+#msb .scroll-wrapper > .scroll-element .scroll-bar {
+  background-color: #697686;
+}
+
+#msb .scroll-wrapper > .scroll-element.scroll-y {
+  height: 100%;
+  min-height: 100%;
+  right: 2px;
+  top: 0;
+  width: 4px;
+}
+
+@media only screen and (min-width: 980px) {
+  body.menu-pin #msb .page-sidebar {
+    width: 0px;
+  }
+}
+
+@media only screen and (min-width: 980px) {
+  body.menu-pin #msb .page-sidebar {
+    transform: translate(210px, 0) !important;
+    -webkit-transform: translate(210px, 0) !important;
+    -ms-transform: translate(210px, 0) !important;
+  }
+}
+
+#msb .page-sidebar {
+  background-color: #011b33;
+  z-index: 1000;
+  position: fixed;
+  bottom: 0;
+  width: 225px;
+  top: 0;
+  right: auto;
+  left: 0px;
+  overflow: hidden;
+  -webkit-transition: -webkit-transform 400ms cubic-bezier(0.05, 0.74, 0.27, 0.99);
+  -moz-transition: -moz-transform 400ms cubic-bezier(0.05, 0.74, 0.27, 0.99);
+  -o-transition: -o-transform 400ms cubic-bezier(0.05, 0.74, 0.27, 0.99);
+  transition: transform 400ms cubic-bezier(0.05, 0.74, 0.27, 0.99);
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+}
+
+#client-name {
+  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+  font-size: 23px;
+  letter-spacing: normal;
+  font-weight:300;
+  margin-top: 155px;
+  width:160px;
+}
+
+.badge.badge-secondary.pull-right {
+  position: relative;
+  float: right;
+  font-size: 11px;
+  line-height: 1.3;
+  background-color: #ee4749;
+}

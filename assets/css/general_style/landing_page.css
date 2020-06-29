@@ -90,6 +90,11 @@
   -moz-animation: bounce 3s infinite ease-in-out;
   animation: bounce 3s infinite ease-in-out;
 }
+input,  select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
 /*line shadow*/
 .hrr-5 {
   border: 0;
@@ -99,6 +104,12 @@
   background: radial-gradient(ellipse at bottom, rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 70%);
   width: 50% !important;
   margin-top: -25px !important;
+}
+hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid rgba(221, 221, 221, 0.15);
 }
 a {
   cursor: pointer;
@@ -433,6 +444,16 @@ ol ol {
 .btn:hover, .btn:focus, .btn.focus {
   -webkit-box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.05) inset;
   box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.05) inset;
+}
+.btn-success {
+  color: #fff;
+  background: linear-gradient(-48deg, #70ddad -30%, #226a4a 60%) !important;
+  box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+}
+.btn-danger {
+  color: #fff;
+  background-color: #F44336;
+  border-color: #F44336;
 }
 .wd-o {
   width: 100% !important;
