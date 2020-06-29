@@ -1143,9 +1143,7 @@ ol ol {
   font-weight: 600 !important;
   font-size: 13px !important;
 }
-.page-height{
-  height: 100vh;
-}
+
 .btnl {
   cursor: pointer;
   transition: color 0.1s linear 0s, background-color 0.1s linear 0s, opacity 0.2s linear 0s !important;

@@ -1,5 +1,5 @@
 <template >
-  <div class="page-height">
+  <div class="login-page-height">
     <div class="login-wrapper">
       <!-- START Login Background Pic Wrapper-->
       <div class="bg-pic">
@@ -20,20 +20,23 @@
 
             <div class="auth-panel panel-body ">
               <p class="p-t-20">Welcome back! Sign into your account, we've been waiting for you!</p>
-              <div class="form-group has-feedback has-feedback-left m-t-35">
-                <input id="" style="width: 100%"  type="email" class="form-control round-form-input" :class="{'error ' : hasEmailError}"  v-model="email"  placeholder="Work email">
+              <div class="login-form-group has-feedback has-feedback-left m-t-35">
+                <input id="" style="width: 100%"  type="email" class="form-control " :class="{'error ' : hasEmailError}"  v-model="email"  placeholder="Work email">
                 <span class="input-field_helper">Email</span>
                 <span class=" input_field_message" v-if="error_message.email">{{error_message.email}}</span>
               </div>
 
 
-              <div class="form-group has-feedback has-feedback-left ">
-                <input id="password" style="width: 100%"  type="password" class="form-control round-form-input" :class="{'error ' : hasPasswordError}" v-model="password" placeholder="Password">
+              <div class="login-form-group has-feedback has-feedback-left ">
+                <input id="password" style="width: 100%"  :type="type" class="form-control " :class="{'error ' : hasPasswordError}" v-model="password" placeholder="Password">
                 <span class="input-field_helper">Password</span>
                 <span class=" input_field_message" v-if="error_message.password">{{error_message.password}}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" svg-inline="" role="presentation" focusable="false" tabindex="-1" @click="showPassword" class="password-visibility" :class="{'toggled': isToggled}">
+                  <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path>
+                </svg>
               </div>
 
-              <div class="form-group login-options" style="margin-left: -20px">
+              <div class="login-form-group login-options" style="margin-left: -20px">
                 <div class="row">
                   <div class="col-sm-6">
                     <label class="checkbox-inline">
@@ -75,6 +78,8 @@
         error_message:[],
         hasEmailError: false,
         hasPasswordError: false,
+        isToggled: false,
+        type: "password"
       }
     },
     computed: {
@@ -86,12 +91,10 @@
       email(value) {
             this.email = value;
             this.validateEmail(value);
-            console.log(this.error_message.email);
       },
       password(value) {
         this.password = value;
         this.validatePassword(value);
-        console.log(this.error_message);
       }
     },
     methods: {
@@ -113,6 +116,16 @@
           this.error_message['password'] = '';
           this.hasPasswordError = false;
         }
+      },
+      showPassword(){
+        if (this.type === "password") {
+          this.type = 'text';
+          this.isToggled = true;
+        }
+        else {
+          this.type = "password";
+          this.isToggled = false;
+        }
       }
 
     }
@@ -123,15 +136,13 @@
 
 <style>
   @import "../assets/css/general_style/authentication_pages.css";
-
-  .round-form-input{
-    border-radius: 5px;
+  .login-page-height{
+    height: 100vh;
   }
   .has-feedback-left .form-control {
     padding-right: 12px;
     padding-left: 36px;
   }
-
   .bg-blue {
     background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
     display: inline-block !important;
@@ -150,5 +161,9 @@
     font-size: 13px !important;
   }
 
+  .login-form-group {
+    margin-bottom: 20px;
+    position: relative;
+  }
 
 </style>

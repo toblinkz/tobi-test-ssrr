@@ -20,53 +20,45 @@
           <form class="" role="form" method="post" action="/register">
             <div class="mt-20">
               <div class="row ">
-                <div class="col-md-6">
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="first_name"   type="text" class="form-control round-form-input" v-model="first_name"   placeholder="First Name">
-                    <span class="input-field_helper">First Name</span>
-                    <span class=" input_field_message" v-if="error_message.first_name">{{error_message.first_name}}</span>
+
+                  <div class="register-form-group has-feedback has-feedback-left mt-20">
+                    <input id="first_name"   type="text" class="form-control" :class="{'error ' : hasNameError}" v-model="name"   :placeholder="placeholder">
+                    <span class="input-field_helper">Name</span>
+                    <span class=" input_field_message" v-if="error_message.name">{{error_message.name}}</span>
                   </div>
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="email"   type="email" class="form-control round-form-input"  v-model="email" placeholder="Email">
+                  <div class="register-form-group has-feedback has-feedback-left mt-20">
+                    <input id="email"   type="email" class="form-control round-form-input"  :class="{'error ' : hasEmailError}" v-model="email" placeholder="Email">
                     <span class="input-field_helper">Email</span>
                     <span class=" input_field_message" v-if="error_message.email">{{error_message.email}}</span>
                   </div>
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="password"   type="password" class="form-control round-form-input" v-model="password" placeholder="Password">
+                  <div class="register-form-group has-feedback has-feedback-left mt-20">
+                    <input id="password"   :type="type" class="form-control " :class="{'error ' : hasPasswordError}" v-model="password" placeholder="Password">
                     <span class="input-field_helper">Password</span>
                     <span class=" input_field_message" v-if="error_message.password">{{error_message.password}}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" svg-inline="" role="presentation" focusable="false" tabindex="-1" @click="showPassword" class="password-visibility" :class="{'toggled': isToggled}">
+                      <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path>
+                    </svg>
                   </div>
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                    <select v-model="selected_country" class="form-control round-form-input" name="country" id="country" required>
+                <div class="select-class">
+                  <div class="row-form has-feedback has-feedback-left ">
+                    <select v-model="selected_country" class="form-control " name="country" id="country">
                       <option value="">Select your country</option>
                       <option v-for="(country, countryIndex) in countries" :key="country.id" :value="country.id">{{country.name}}</option>
                     </select>
                   </div>
-                  <button type="submit" class="btnl bg-blue m-t-10" :disabled="isDisabled">Create My Account</button>
+                  <div class="row-form has-feedback has-feedback-left ">
+                    <select v-model="selected_sector" class="form-control " name="sector" id="sector" >
+                      <option value="" > your company's sector</option>
+                      <option v-for="sector in sectors" :key="sector.id" :value="sector.id">{{sector.name}}</option>
+                    </select>
+                  </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="last_name" type="text" class="form-control round-form-input" v-model="last_name"  name="last_name" placeholder="Last Name">
-                    <span class="input-field_helper">Last Name</span>
-                    <span class=" input_field_message" v-if="error_message.last_name">{{error_message.last_name}}</span>
-                  </div>
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                  <select v-model="selected_sector" class="form-control round-form-input" name="sector" id="sector" required>
-                    <option value="" > your company's sector</option>
-                    <option v-for="sector in sectors" :key="sector.id" :value="sector.id">{{sector.name}}</option>
-                  </select>
-                  </div>
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="password" type="password" class="form-control round-form-input" v-model="confirm_password" placeholder="Confirm Password">
-                    <span class="input-field_helper">Confirm Password</span>
-                    <span class=" input_field_message" v-if="error_message.confirm_password">{{error_message.confirm_password}}</span>
-                  </div>
-                    <div class="form-group has-feedback has-feedback-left mt-20">
-                      <input id="phone_number"  type="tel" class="form-control round-form-input" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
+                    <div class="register-form-group has-feedback has-feedback-left ">
+                      <input id="phone_number"  type="tel" class="form-control " :class="{'error ' : hasPhoneNumberError}" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
                       <span class="input-field_helper">Phone Number</span>
                       <span class=" input_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
                     </div>
-                </div>
+                <button type="submit" class="btnl bg-blue m-t-10" :disabled="isDisabled">Create My Account</button>
                 <nuxt-link  to="/login" class="pull-right mt-20 m-r-40" style="color: black">Got an account? <span class="text-info2 bold">Sign In</span></nuxt-link>
               </div>
             </div>
@@ -99,51 +91,41 @@
             sectors:[],
             email: "",
             password:"",
-            confirm_password: "",
-            first_name: "",
-            last_name: "",
+            name: "",
+            placeholder:"First Name                               Last Name",
             phone_number: "",
             error_message:[],
-            hasEmailError: false
+            hasEmailError: false,
+            hasPasswordError: false,
+            hasNameError: false,
+            hasPhoneNumberError: false,
+            isToggled: false,
+            type: "password"
           }
       },
       computed: {
         isDisabled: function () {
           return (this.email === '' || this.password === '' || this.error_message.email !=='' || this.error_message.password !==''
-                      || this.first_name === ''|| this.last_name === ''|| this.confirm_password === '' || this.selected_country === ''
-                      || this.selected_sector === '' || this.error_message.confirm_password !=='' || this.error_message.phone_number !=='');
+                      || this.name === '' || this.selected_country === '' || this.selected_sector === ''  || this.error_message.phone_number !=='');
         },
       },
       watch: {
         email(value) {
           this.email = value;
           this.validateEmail(value);
-          console.log(this.error_message)
         },
         password(value){
           this.password = value;
           this.validatePassword(value);
-          console.log(this.error_message)
         },
-        confirm_password(value){
-          this.confirm_password = value;
-          this.validateConfirmPassword(value);
-          console.log(this.error_message)
-        },
+
         phone_number(value){
           this.phone_number = value;
           this.validatePhoneNumber(value);
-          console.log(this.error_message)
         },
-        first_name(value) {
-          this.first_name = value;
-          this.validateFirstName(value);
-          console.log(this.error_message);
-        },
-        last_name(value){
-          this.last_name = value;
-          this.validateLastName(value);
-          console.log(this.error_message);
+        name(value) {
+          this.name = value;
+          this.validateName(value);
         }
       },
       methods: {
@@ -166,36 +148,36 @@
             this.hasPasswordError = false;
           }
         },
-        validateConfirmPassword(value){
-            if (value !== this.password){
-              this.error_message['confirm_password'] = 'Password confirmation does not match';
 
-            } else {
-
-              this.error_message['confirm_password'] = '';
-            }
-        },
         validatePhoneNumber(value){
             if ( isNaN(value) || value.length < 10 || value.length > 14) {
               this.error_message['phone_number'] = 'Phone number must be between 10 and 14 digits';
+              this.hasPhoneNumberError = true;
             }else {
               this.error_message['phone_number'] = '';
+              this.hasPhoneNumberError = false;
             }
         },
-        validateFirstName(value){
+        validateName(value){
           if ( value === ""){
-            this.error_message['first_name'] = 'The first name field is required';
+            this.error_message['name'] = 'The first name field is required';
+            this.hasNameError = true;
           }else {
-            this.error_message['first_name'] = '';
+            this.error_message['name'] = '';
+            this.hasNameError = false;
           }
         },
-        validateLastName(value){
-          if (value === ""){
-            this.error_message['last_name'] = 'The last name field is required';
-          } else {
-            this.error_message['last_name'] = '';
+        showPassword(){
+          if (this.type === "password") {
+            this.type = 'text';
+            this.isToggled = true;
+          }
+          else {
+            this.type = "password";
+            this.isToggled = false;
           }
         }
+
       },
       async fetch(){
           //fetch country data
@@ -215,16 +197,20 @@
 <style>
   @import "assets/css/general_style/authentication_pages.css";
 
-  .round-form-input{
-    border-radius: 5px;
+  .page-height{
+    height: 125vh;
   }
+
   @media (max-width: 1400px){
     body, p {
       font-size: 13px;
       line-height: 20px;
     }
   }
-  .select-css {
+  .select-class {
+    display: flex;
+    flex-direction: row;
+
     background: #FFFFFF ;
   }
   .bg-white {
@@ -236,9 +222,18 @@
     padding-right: 12px;
     padding-left: 36px;
   }
-  .form-group {
+  .register-form-group {
     margin-bottom: 20px;
     position: relative;
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+  .row-form{
+    margin-bottom: 20px;
+    position: relative;
+    padding: 0 1rem 0 0;
+    flex-basis: 50%;
+    max-width: 50%;
   }
   .form-control {
     display: block;

@@ -83,10 +83,6 @@
     margin-bottom: 20px;
     position: relative;
   }
-  .form-control {
-    height: 55px;
-  ;
-  }
 
   .form-control {
     display: block;
