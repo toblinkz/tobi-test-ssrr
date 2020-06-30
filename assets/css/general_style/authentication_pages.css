@@ -42,7 +42,7 @@
   transition: color .3s ease;
   left: 12px;
 }
-.input_field_message {
+.error_field_message {
   font-size: 1.2rem;
   color: red;
   display: block;
@@ -111,23 +111,7 @@ input[type=email]:focus, input[type=number]:focus, input[type=password]:focus, i
   .login-wrapper .bg-caption {
     width: 100%;
   }
-  .bg-blue {
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
-    display: inline-block !important;
-    color: #fff !important;
-    border-radius: 4px;
-    vertical-align: bottom !important;
-    position: relative;
-    border: transparent;
-    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
-    transition: .35s;
-    padding-top: 7px !important;
-    padding-bottom: 8px !important;
-    padding-left: 26px !important;
-    padding-right: 15px !important;
-    font-weight: 600 !important;
-    font-size: 13px !important;
-  }
+
   .register-container {
     width: 100%;
     margin: auto;
@@ -221,17 +205,16 @@ button[disabled] {
   opacity: .5;
   pointer-events: none;
 }
-.login-form-group svg.password-visibility, .register-form-group svg.password-visibility{
+.login-form-group i.password-visibility, .register-form-group i.password-visibility{
   height: 16px;
   cursor: pointer;
   fill: #0a2e65;
   top: 20px;
   width: 16px;
-  opacity: .3;
+  opacity: 1;
   position: absolute;
   right: 16px;
 }
-.login-form-group svg.password-visibility.toggled, .register-form-group svg.password-visibility.toggled{
-  opacity: 1;
-}
+
+
 

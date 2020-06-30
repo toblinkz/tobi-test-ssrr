@@ -20,24 +20,30 @@
           <form class="" role="form" method="post" action="/register">
             <div class="mt-20">
               <div class="row ">
+                <div class="select-class">
+                  <div class="row-form has-feedback has-feedback-left mt-20">
+                    <input id="first_name"   type="text" class="form-control" :class="{'error ' : hasFirstNameError}" v-model="first_name"   placeholder="First Name">
+                    <span class="input-field_helper">First Name</span>
+                    <span class="error_field_message" v-if="error_message.first_name">{{error_message.first_name}}</span>
+                  </div>
+                  <div class="row-form has-feedback has-feedback-left mt-20">
+                    <input id="last_name"   type="text" class="form-control" :class="{'error ' : hasLastNameError}" v-model="last_name"   placeholder="Last Name">
+                    <span class="input-field_helper">Last Name</span>
+                    <span class=" error_field_message" v-if="error_message.last_name">{{error_message.last_name}}</span>
+                  </div>
+                </div>
 
-                  <div class="register-form-group has-feedback has-feedback-left mt-20">
-                    <input id="first_name"   type="text" class="form-control" :class="{'error ' : hasNameError}" v-model="name"   :placeholder="placeholder">
-                    <span class="input-field_helper">Name</span>
-                    <span class=" input_field_message" v-if="error_message.name">{{error_message.name}}</span>
+                  <div class="register-form-group has-feedback has-feedback-left ">
+                    <input id="email"   type="email" class="form-control round-form-input"  :class="{'error ' : hasEmailError}" v-model="email" placeholder="Work Email">
+                    <span class="input-field_helper">Work Email</span>
+                    <span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
                   </div>
                   <div class="register-form-group has-feedback has-feedback-left mt-20">
-                    <input id="email"   type="email" class="form-control round-form-input"  :class="{'error ' : hasEmailError}" v-model="email" placeholder="Email">
-                    <span class="input-field_helper">Email</span>
-                    <span class=" input_field_message" v-if="error_message.email">{{error_message.email}}</span>
-                  </div>
-                  <div class="register-form-group has-feedback has-feedback-left mt-20">
-                    <input id="password"   :type="type" class="form-control " :class="{'error ' : hasPasswordError}" v-model="password" placeholder="Password">
+                    <input id="password"   :type="type" class="form-control " :class="{'error ' : hasPasswordError}" v-model="password" placeholder="Password" maxlength="24">
                     <span class="input-field_helper">Password</span>
-                    <span class=" input_field_message" v-if="error_message.password">{{error_message.password}}</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" svg-inline="" role="presentation" focusable="false" tabindex="-1" @click="showPassword" class="password-visibility" :class="{'toggled': isToggled}">
-                      <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path>
-                    </svg>
+                    <span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
+                    <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
+
                   </div>
                 <div class="select-class">
                   <div class="row-form has-feedback has-feedback-left ">
@@ -46,9 +52,9 @@
                       <option v-for="(country, countryIndex) in countries" :key="country.id" :value="country.id">{{country.name}}</option>
                     </select>
                   </div>
-                  <div class="row-form has-feedback has-feedback-left ">
+                  <div class="row-form has-feedback has-feedback-left" >
                     <select v-model="selected_sector" class="form-control " name="sector" id="sector" >
-                      <option value="" > your company's sector</option>
+                      <option value="" > Your company's sector</option>
                       <option v-for="sector in sectors" :key="sector.id" :value="sector.id">{{sector.name}}</option>
                     </select>
                   </div>
@@ -56,10 +62,10 @@
                     <div class="register-form-group has-feedback has-feedback-left ">
                       <input id="phone_number"  type="tel" class="form-control " :class="{'error ' : hasPhoneNumberError}" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
                       <span class="input-field_helper">Phone Number</span>
-                      <span class=" input_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
+                      <span class=" error_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
                     </div>
-                <button type="submit" class="btnl bg-blue m-t-10" :disabled="isDisabled">Create My Account</button>
-                <nuxt-link  to="/login" class="pull-right mt-20 m-r-40" style="color: black">Got an account? <span class="text-info2 bold">Sign In</span></nuxt-link>
+                <button type="submit" class="btnl btn-blue m-t-10" :disabled="isDisabled">Create My Account</button>
+                <nuxt-link  to="/login" class="pull-right mt-20 m-r-10" style="color: black">Got an account? <span class="text-info2 bold">Log In</span></nuxt-link>
               </div>
             </div>
           </form>
@@ -91,13 +97,14 @@
             sectors:[],
             email: "",
             password:"",
-            name: "",
-            placeholder:"First Name                               Last Name",
+            first_name: "",
+            last_name:"",
             phone_number: "",
             error_message:[],
             hasEmailError: false,
             hasPasswordError: false,
-            hasNameError: false,
+            hasFirstNameError: false,
+            hasLastNameError: false,
             hasPhoneNumberError: false,
             isToggled: false,
             type: "password"
@@ -105,8 +112,9 @@
       },
       computed: {
         isDisabled: function () {
-          return (this.email === '' || this.password === '' || this.error_message.email !=='' || this.error_message.password !==''
-                      || this.name === '' || this.selected_country === '' || this.selected_sector === ''  || this.error_message.phone_number !=='');
+          return (this.email === '' || this.password === '' || this.hasEmailError || this.hasPasswordError
+                      || this.first_name === '' || this.hasFirstNameError || this.selected_country === ''
+                    || this.selected_sector === ''  || this.hasPhoneNumberError || this.last_name === ''|| this.hasLastNameError);
         },
       },
       watch: {
@@ -123,9 +131,13 @@
           this.phone_number = value;
           this.validatePhoneNumber(value);
         },
-        name(value) {
-          this.name = value;
-          this.validateName(value);
+        first_name(value) {
+          this.first_name = value;
+          this.validateFirstName(value);
+        },
+        last_name(value) {
+          this.last_name = value;
+          this.validateLastName(value);
         }
       },
       methods: {
@@ -133,9 +145,11 @@
           if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)){
             this.error_message['email'] = '';
             this.hasEmailError = false;
+            return true;
           }else {
             this.error_message['email'] = 'The email field must be a valid email';
             this.hasEmailError = true;
+            return false;
           }
         }
         ,
@@ -158,13 +172,22 @@
               this.hasPhoneNumberError = false;
             }
         },
-        validateName(value){
+        validateFirstName(value){
           if ( value === ""){
-            this.error_message['name'] = 'The first name field is required';
-            this.hasNameError = true;
+            this.error_message['first_name'] = 'The first name field is required';
+            this.hasFirstNameError = true;
           }else {
-            this.error_message['name'] = '';
-            this.hasNameError = false;
+            this.error_message['first_name'] = '';
+            this.hasFirstNameError = false;
+          }
+        },
+        validateLastName(value){
+          if ( value === ""){
+            this.error_message['last_name'] = 'The Last name field is required';
+            this.hasLastNameError = true;
+          }else {
+            this.error_message['last_name'] = '';
+            this.hasLastNameError = false;
           }
         },
         showPassword(){
@@ -183,7 +206,6 @@
           //fetch country data
           let countries_data = await this.$axios.$get('http://sandbox.termii.com/v1/utility/countries');
             this.countries = countries_data.data;
-        console.log(this.countries)
         //fetch sector data
         let sector_data =await this.$axios.$get('http://sandbox.termii.com/v1/utility/sectors');
           this.sectors = sector_data.data;
@@ -226,7 +248,7 @@
     margin-bottom: 20px;
     position: relative;
     flex-basis: 100%;
-    max-width: 100%;
+    max-width: 98%;
   }
   .row-form{
     margin-bottom: 20px;
@@ -238,6 +260,20 @@
   .form-control {
     display: block;
     width: 100%;
+  }
+  .btn-blue {
+    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
+    display: inline-block !important;
+    color: #fff !important;
+    border-radius: 4px;
+    vertical-align: bottom !important;
+    position: relative;
+    border: transparent;
+    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+    transition: .35s;
+    padding: 7px 15px 8px 15px !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
   }
 
 

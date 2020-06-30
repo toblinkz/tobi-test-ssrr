@@ -6,7 +6,7 @@
         <!-- START Background Pic-->
 
         <div class="m-t-30 hidden-xs">
-          <img alt="Image" style="width: 45%;margin-top: -40px;margin-bottom: -85px;margin-left: 10px;" src="https://termii.com/assets/images/products/ds.svg">
+          <img alt="Image" style="width: 45%;margin-top: -40px;margin-bottom: -85px;margin-left: 10px;" src="/images/products/ds.svg">
         </div>
         <!-- END Background Pic-->
       </div>
@@ -22,18 +22,16 @@
               <p class="p-t-20">Welcome back! Sign into your account, we've been waiting for you!</p>
               <div class="login-form-group has-feedback has-feedback-left m-t-35">
                 <input id="" style="width: 100%"  type="email" class="form-control " :class="{'error ' : hasEmailError}"  v-model="email"  placeholder="Work email">
-                <span class="input-field_helper">Email</span>
-                <span class=" input_field_message" v-if="error_message.email">{{error_message.email}}</span>
+                <span class="input-field_helper">Work Email</span>
+                <span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
               </div>
 
 
               <div class="login-form-group has-feedback has-feedback-left ">
-                <input id="password" style="width: 100%"  :type="type" class="form-control " :class="{'error ' : hasPasswordError}" v-model="password" placeholder="Password">
+                <input id="password" style="width: 100%"  :type="type" class="form-control " :class="{'error ' : hasPasswordError}" v-model="password" placeholder="Password" maxlength="24">
                 <span class="input-field_helper">Password</span>
-                <span class=" input_field_message" v-if="error_message.password">{{error_message.password}}</span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" svg-inline="" role="presentation" focusable="false" tabindex="-1" @click="showPassword" class="password-visibility" :class="{'toggled': isToggled}">
-                  <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path>
-                </svg>
+                <span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
+                <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
               </div>
 
               <div class="login-form-group login-options" style="margin-left: -20px">
@@ -84,7 +82,7 @@
     },
     computed: {
       isDisabled: function () {
-            return (this.email === '' || this.password === '' || this.error_message.email !=='' || this.error_message.password !=='');
+            return (this.hasEmailError || this.hasPasswordError || this.email === '' || this.password === '');
       },
     },
     watch: {
@@ -153,10 +151,7 @@
     border: transparent;
     box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
     transition: .35s;
-    padding-top: 7px !important;
-    padding-bottom: 8px !important;
-    padding-left: 26px !important;
-    padding-right: 15px !important;
+    padding: 7px 15px 8px 15px !important;
     font-weight: 600 !important;
     font-size: 13px !important;
   }
