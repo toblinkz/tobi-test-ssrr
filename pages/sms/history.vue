@@ -48,7 +48,6 @@
                                     <button type="submit" class="btn btn-success wd-100 bx-line"><i class="fa fa-search"></i> Search</button>
                                   </center>
                                 </form>
-
                                 <form action="http://sandbox.termii.com/sms/history/export" method="POST" class="mt-20">
                                   <center> <button type="submit" class="btn btn-danger wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
 
@@ -59,6 +58,9 @@
 
                               </div>
                             </div>
+                          </div>
+                          <div class="col-lg-6 mb-20">
+                              <DashboardChart ></DashboardChart>
                           </div>
 
                         </div>
@@ -114,9 +116,10 @@
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import SmsHistoryModal from "../../components/modals/SmsHistoryModal";
+    import DashboardChart from "../../components/general/charts/SmsHistoryChart";
     export default {
         name: "history",
-      components: {SmsHistoryModal, DashboardNavbar, Sidebar},
+      components: {DashboardChart, SmsHistoryModal, DashboardNavbar, Sidebar},
       data(){
           return{
             isShow: false,
@@ -136,7 +139,8 @@
               {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
               {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
               {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-            ]
+            ],
+
 
           }
       },
@@ -314,6 +318,8 @@
   }
   .form-control:focus {
     border-color: #4DB6AC;
+    box-shadow: none;
+    outline: 0;
   }
   .form-control {
     display: block;
