@@ -41,7 +41,7 @@
                                     </div>
 
                                     <div class="col-md-5 mb-20" style="padding-right: 0px;">
-                                      <input type="text" class="form-control" id="datetimes" name="datetimes"  placeholder="Date Range" />
+                                      <input type="text" class="form-control" id="datetimerange" name="datetimerange"  placeholder="Date Range" />
                                     </div>
                                   </div>
                                   <center>
@@ -50,10 +50,6 @@
                                 </form>
                                 <form action="http://sandbox.termii.com/sms/history/export" method="POST" class="mt-20">
                                   <center> <button type="submit" class="btn btn-danger wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
-
-                                  <div class="col-md-6">
-                                    <input style="display: none" type="text" class="form-control" id="datetime" name="datetime"  value="" placeholder="Date Range"  />
-                                  </div>
                                 </form>
 
                               </div>
@@ -120,6 +116,18 @@
     export default {
         name: "history",
       components: {DashboardChart, SmsHistoryModal, DashboardNavbar, Sidebar},
+      head(){
+        return{
+          script: [
+            { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
+            { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
+            { src: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js'},
+          ],
+          link: [
+            { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css' }
+          ]
+        }
+      },
       data(){
           return{
             isShow: false,
@@ -140,9 +148,19 @@
               {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
               {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
             ],
-
-
           }
+      },
+      mounted() {
+        $(function() {
+          $('input[name="datetimerange"]').daterangepicker({
+            timePicker: true,
+            startDate: moment().startOf('hour'),
+            endDate: moment().startOf('hour').add(32, 'hour'),
+            locale: {
+              format: 'M/DD/YYYY h:mm:ss'
+            }
+          });
+        });
       },
       methods: {
         closeModal() {
