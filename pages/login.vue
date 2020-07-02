@@ -21,14 +21,14 @@
             <div class="auth-panel panel-body ">
               <p class="p-t-20">Welcome back! Sign into your account, we've been waiting for you!</p>
               <div class="login-form-group has-feedback has-feedback-left m-t-35">
-                <input id="" style="width: 100%"  type="email" class="form-control " :class="{'error ' : hasEmailError}"  v-model="email"  placeholder="Work email">
+                <input id="" style="width: 100%"  type="email" class="form-control " :class="{'error ' : hasEmailError, 'has-input' : hasEmailInput}"  v-model="email"  placeholder="Work email">
                 <span class="input-field_helper">Work Email</span>
                 <span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
               </div>
 
 
               <div class="login-form-group has-feedback has-feedback-left ">
-                <input id="password" style="width: 100%"  :type="type" class="form-control " :class="{'error ' : hasPasswordError}" v-model="password" placeholder="Password" maxlength="24">
+                <input id="password" style="width: 100%"  :type="type" class="form-control " :class="{'error ' : hasPasswordError, 'has-input' : hasPasswordInput}" v-model="password" placeholder="Password" maxlength="24">
                 <span class="input-field_helper">Password</span>
                 <span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
                 <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
@@ -76,6 +76,8 @@
         error_message:[],
         hasEmailError: false,
         hasPasswordError: false,
+        hasEmailInput: false,
+        hasPasswordInput: false,
         isToggled: false,
         type: "password"
       }
@@ -88,10 +90,12 @@
     watch: {
       email(value) {
             this.email = value;
+            this.hasEmailInput = true;
             this.validateEmail(value);
       },
       password(value) {
         this.password = value;
+        this.hasPasswordInput = true;
         this.validatePassword(value);
       }
     },

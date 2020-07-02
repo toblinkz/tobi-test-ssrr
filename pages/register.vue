@@ -22,24 +22,24 @@
               <div class="row ">
                 <div class="select-class">
                   <div class="row-form has-feedback has-feedback-left mt-20">
-                    <input id="first_name"   type="text" class="form-control" :class="{'error ' : hasFirstNameError}" v-model="first_name"   placeholder="First Name">
+                    <input id="first_name"   type="text" class="form-control" :class="{'error ' : hasFirstNameError,'has-input' : hasFirstNameInput}" v-model="first_name"   placeholder="First Name">
                     <span class="input-field_helper">First Name</span>
                     <span class="error_field_message" v-if="error_message.first_name">{{error_message.first_name}}</span>
                   </div>
                   <div class="row-form has-feedback has-feedback-left mt-20">
-                    <input id="last_name"   type="text" class="form-control" :class="{'error ' : hasLastNameError}" v-model="last_name"   placeholder="Last Name">
+                    <input id="last_name"   type="text" class="form-control" :class="{'error ' : hasLastNameError, 'has-input' : hasLastNameInput}" v-model="last_name"   placeholder="Last Name">
                     <span class="input-field_helper">Last Name</span>
                     <span class=" error_field_message" v-if="error_message.last_name">{{error_message.last_name}}</span>
                   </div>
                 </div>
 
                   <div class="register-form-group has-feedback has-feedback-left ">
-                    <input id="email"   type="email" class="form-control round-form-input"  :class="{'error ' : hasEmailError}" v-model="email" placeholder="Work Email">
+                    <input id="email"   type="email" class="form-control round-form-input"  :class="{'error ' : hasEmailError, 'has-input' : hasEmailInput}" v-model="email" placeholder="Work Email">
                     <span class="input-field_helper">Work Email</span>
                     <span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
                   </div>
                   <div class="register-form-group has-feedback has-feedback-left mt-20">
-                    <input id="password"   :type="type" class="form-control " :class="{'error ' : hasPasswordError}" v-model="password" placeholder="Password" maxlength="24">
+                    <input id="password"   :type="type" class="form-control " :class="{'error ' : hasPasswordError, 'has-input' : hasPasswordInput}" v-model="password" placeholder="Password" maxlength="24">
                     <span class="input-field_helper">Password</span>
                     <span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
                     <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
@@ -60,7 +60,7 @@
                   </div>
                 </div>
                     <div class="register-form-group has-feedback has-feedback-left ">
-                      <input id="phone_number"  type="tel" class="form-control " :class="{'error ' : hasPhoneNumberError}" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
+                      <input id="phone_number"  type="tel" class="form-control " :class="{'error ' : hasPhoneNumberError, 'has-input' : hasPhoneNumberInput}" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
                       <span class="input-field_helper">Phone Number</span>
                       <span class=" error_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
                     </div>
@@ -106,6 +106,11 @@
             hasFirstNameError: false,
             hasLastNameError: false,
             hasPhoneNumberError: false,
+            hasFirstNameInput: false,
+            hasLastNameInput: false,
+            hasEmailInput: false,
+            hasPasswordInput: false,
+            hasPhoneNumberInput:false,
             isToggled: false,
             type: "password"
           }
@@ -120,23 +125,28 @@
       watch: {
         email(value) {
           this.email = value;
+          this.hasEmailInput = true;
           this.validateEmail(value);
         },
         password(value){
           this.password = value;
+          this.hasPasswordInput = true;
           this.validatePassword(value);
         },
 
         phone_number(value){
           this.phone_number = value;
+          this.hasPhoneNumberInput = true;
           this.validatePhoneNumber(value);
         },
         first_name(value) {
           this.first_name = value;
+          this.hasFirstNameInput = true;
           this.validateFirstName(value);
         },
         last_name(value) {
           this.last_name = value;
+          this.hasLastNameInput = true;
           this.validateLastName(value);
         }
       },
@@ -204,13 +214,13 @@
       },
       async fetch(){
           //fetch country data
-          let countries_data = await this.$axios.$get('http://sandbox.termii.com/v1/utility/countries');
+          let countries_data = await this.$axios.$get('/utility/countries');
             this.countries = countries_data.data;
         //fetch sector data
-        let sector_data =await this.$axios.$get('http://sandbox.termii.com/v1/utility/sectors');
+        let sector_data =await this.$axios.$get('/utility/sectors');
           this.sectors = sector_data.data;
         //fetch no of registered business
-        let registered_business_data = await this.$axios.$get('http://sandbox.termii.com/v1/utility/total/registered-businesses',);
+        let registered_business_data = await this.$axios.$get('/utility/total/registered-businesses',);
         this.registered_business = registered_business_data.data
       }
     }

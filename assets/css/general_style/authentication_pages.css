@@ -61,6 +61,9 @@ input[type=email].error+.input-field_helper, input[type=number].error+.input-fie
 input:focus::placeholder{
   color: transparent;
 }
+input[type=email].has-input+.input-field_helper, input[type=number].has-input+.input-field_helper, input[type=password].has-input+.input-field_helper, input[type=tel].has-input+.input-field_helper, input[type=text].has-input+.input-field_helper {
+  opacity: 1;
+}
 
 .form-control {
   background-color: #ffffff;
