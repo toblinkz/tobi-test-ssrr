@@ -41,7 +41,7 @@
                                     </div>
 
                                     <div class="col-md-5 mb-20" style="padding-right: 0px;">
-                                      <input type="text" class="form-control" id="datetimerange" name="datetimerange"  placeholder="Date Range" />
+                                      <input type="text" class="form-control" name="history-date-range"  placeholder="Date Range" />
                                     </div>
                                   </div>
                                   <center>
@@ -152,7 +152,7 @@
       },
       mounted() {
         $(function() {
-          $('input[name="datetimerange"]').daterangepicker({
+          $('input[name="history-date-range"]').daterangepicker({
             timePicker: true,
             startDate: moment().startOf('hour'),
             endDate: moment().startOf('hour').add(32, 'hour'),

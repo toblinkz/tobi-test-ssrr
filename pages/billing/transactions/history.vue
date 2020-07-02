@@ -39,7 +39,7 @@
                                     <div class="row top-list-controls">
                                       <form action="http://sandbox.termii.com/billing/transactions/history" method="GET">
                                         <div class="col-md-6">
-                                          <input type="text" class="form-control" name="datetimes" value="01/01/2018 - 01/15/2018" />
+                                          <input type="text" class="form-control" name="datetimes" />
                                         </div>
 
                                         <div class="col-md-2">

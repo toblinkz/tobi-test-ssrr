@@ -36,7 +36,7 @@
                             <form class="" role="form" method="get" id="search-form">
                               <div class="row">
                                 <div class="form-group">
-                                  <input type="text" class="form-control" id="datetimes" name="datetimes"  placeholder="Date Range" />
+                                  <input type="text" class="form-control" id="datetimesreport" name="datetimes"  placeholder="Date Range" />
                                 </div>
                               </div>
 
