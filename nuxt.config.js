@@ -59,6 +59,7 @@ export default {
 
   axios: {
     // proxyHeaders: false
+    baseURL: 'http://sandbox.termii.com/v1'
   },
   /*
   ** Build configuration
