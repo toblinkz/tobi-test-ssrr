@@ -20,7 +20,7 @@
 
           <form>
             <div class=" ">
-              <div class="form-group has-feedback-left mt-30">
+              <div class="form-group has-feedback-left mt-50">
                 <input id="verification_code" style="width: 50%" type="text" class="form-control" maxlength="6" v-model="verification_code" :class="{'error ' : hasVerificationError, 'has-input' : hasVerificationInput}" placeholder="Enter 6-digit code">
                 <span class="input-field_helper">Verification Code</span>
                 <span class=" error_field_message" v-if="error_message.verification_code">{{error_message.verification_code}}</span>
