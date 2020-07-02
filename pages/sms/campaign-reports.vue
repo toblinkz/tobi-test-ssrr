@@ -36,7 +36,7 @@
                             <form class="" role="form" method="get" id="search-form">
                               <div class="row">
                                 <div class="form-group">
-                                  <input type="text" class="form-control" id="datetimesreport" name="datetimes"  placeholder="Date Range" />
+                                  <input type="text" class="form-control" id="datetimes" name="datetimes"  placeholder="Date Range" />
                                 </div>
                               </div>
 
@@ -101,11 +101,6 @@
       components: {DashboardNavbar, Sidebar},
       head(){
           return{
-            script: [
-              { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
-              { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
-              { src: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js'},
-            ],
             link: [
               { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css' }
             ]

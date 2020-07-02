@@ -15,7 +15,10 @@ export default {
       {src: '/js/intercom.js'},
       {src: '/js/feedback.js'},
       {src: '/js/customScrollbar.js'},
-    ],
+      { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
+      { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
+      { src: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js'},
+      ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
 

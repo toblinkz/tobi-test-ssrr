@@ -139,11 +139,6 @@
       components: {DashboardNavbar, Sidebar},
       head(){
         return{
-          script: [
-            { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
-            { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
-            { src: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js'},
-          ],
           link: [
             { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css' }
           ]
@@ -182,7 +177,7 @@
             }
           });
         });
-      }
+      },
 
     }
 </script>
