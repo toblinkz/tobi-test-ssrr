@@ -17,6 +17,9 @@
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
+.verification-page-height{
+  height: 100vh;
+}
 
 .auth-panel {
   -webkit-box-shadow: none;
@@ -29,7 +32,7 @@
   position: relative;
 }
 .input-field_helper {
-  font-size: .9rem;
+  font-size: 1rem;
   position: absolute;
   opacity: 0;
   background-color: #fff;

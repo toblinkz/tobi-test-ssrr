@@ -49,13 +49,17 @@
                   <div class="row-form has-feedback has-feedback-left ">
                     <select v-model="selected_country" class="form-control " name="country" id="country">
                       <option value="">Select your country</option>
-                      <option v-for="(country, countryIndex) in countries" :key="country.id" :value="country.id">{{country.name}}</option>
+                     <!-- <option v-for="(country, countryIndex) in countries" :key="country.id" :value="country.id">{{country.name}}</option>-->
+                      <option>Nigeria</option>
+                      <option>Ghana</option>
                     </select>
                   </div>
                   <div class="row-form has-feedback has-feedback-left" >
                     <select v-model="selected_sector" class="form-control " name="sector" id="sector" >
                       <option value="" > Your company's sector</option>
-                      <option v-for="sector in sectors" :key="sector.id" :value="sector.id">{{sector.name}}</option>
+                     <!-- <option v-for="sector in sectors" :key="sector.id" :value="sector.id">{{sector.name}}</option>-->
+                      <option>Health</option>
+                      <option>Education</option>
                     </select>
                   </div>
                 </div>
@@ -64,7 +68,7 @@
                       <span class="input-field_helper">Phone Number</span>
                       <span class=" error_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
                     </div>
-                <button type="submit" class="btnl btn-blue m-t-10" :disabled="isDisabled">Create My Account</button>
+                 <nuxt-link to="/verify"><button class="btnl btn-blue m-t-10" :disabled="isDisabled">Create My Account</button> </nuxt-link>
                 <nuxt-link  to="/login" class="pull-right mt-20 m-r-10" style="color: black">Got an account? <span class="text-info2 bold">Log In</span></nuxt-link>
               </div>
             </div>
@@ -119,7 +123,7 @@
         isDisabled: function () {
           return (this.email === '' || this.password === '' || this.hasEmailError || this.hasPasswordError
                       || this.first_name === '' || this.hasFirstNameError || this.selected_country === ''
-                    || this.selected_sector === ''  || this.hasPhoneNumberError || this.last_name === ''|| this.hasLastNameError);
+                    || this.selected_sector === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError);
         },
       },
       watch: {
