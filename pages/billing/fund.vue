@@ -86,9 +86,9 @@
                               <div class="panel">
                                 <div class="panel-body">
                                   <form class="form" role="form" method="post" action="http://sandbox.termii.com/billing/fund">
-                                    <Dropdown2 v-bind:options="options" label="Select Top Up Option" @changeForm="changeForm"></Dropdown2>
+                                    <CustomSelect :options="options" @onClick="onClick"></CustomSelect>
                                     <!--regular-body!-->
-                                    <div id="regular-body" class="mt-20" >
+                                    <div id="regular-body" class="mt-20" v-if="isRegularBody">
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
                                         <p id="exchange_approximate"></p>
@@ -98,11 +98,11 @@
                                       </div>
                                     </div>
                                     <!--regular form body!-->
-                                    <div id="regular-form-body" class="mt-20" v-show="isShow">
+                                    <div id="regular-form-body" class="mt-20" v-if="isRegularForm">
                                       <div class="form-group"><input type="text" class="form-control" value="" name="amount" id="amount" placeholder="Amount" onchange="getTransaction()"> </div>
                                       <div class="form-group">
                                         <label>Select Payment Method</label>
-                                        <Dropdown2 v-bind:options="payment_method" label="Paystack"></Dropdown2>
+                                        <CustomSelect :options="payment_method" ></CustomSelect>
                                       </div>
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
@@ -114,11 +114,10 @@
                                       <input type="hidden" name="_token" value=""> <button type="submit" class="btn bx-line btn-success btn-sm pull-right purchase_button">Fund Account </button>
                                     </div>
                                     <!--bundled form body!-->
-                                    <div id="bundle-form-body"  v-show="isShow">
-                                      <div class="form-group"><input type="hidden" class="form-control" value="36660" name="amount" id="amount" placeholder="Amount"> </div>
+                                    <div id="bundle-form-body" class="mt-20" v-if="isBundledForm">
                                       <div class="form-group">
                                         <label>Select Payment Method</label>
-                                        <Dropdown2 v-bind:options="payment_method" label="Paystack"></Dropdown2>
+                                        <CustomSelect :options="payment_method" ></CustomSelect>
                                       </div>
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
@@ -160,12 +159,15 @@
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import ServicePriceModal from "../../components/modals/ServicePriceModal";
     import Dropdown2 from "../../components/general/dropdown/Dropdown2";
+    import CustomSelect from "../../components/general/dropdown/CustomSelect";
     export default {
         name: "funding",
-      components: {Dropdown2, ServicePriceModal, DashboardNavbar, Sidebar},
+      components: {CustomSelect, Dropdown2, ServicePriceModal, DashboardNavbar, Sidebar},
       data() {
           return {
-            isShow: false,
+            isBundledForm: false,
+            isRegularBody: true,
+            isRegularForm: false,
             showModal:false,
             options: ['Select Top Up Option', 'Regular Top Up', 'Bundled Top Up'],
             payment_method:['Paystack','Monnify','Coin Payment']
@@ -176,9 +178,17 @@
           closeModal() {
             this.showModal = false;
           },
-        changeForm(event){
-            console.log("jhjh")
-            console.log(event.target.value)
+        onClick(value){
+            if (value === "Bundled Top Up"){
+              this.isBundledForm = true;
+              this.isRegularBody = false;
+              this.isRegularForm = false;
+            } else if (value === "Regular Top Up"){
+              this.isRegularForm = true;
+              this.isBundledForm = false;
+              this.isRegularBody = false;
+            }
+
         }
       }
     }
@@ -330,8 +340,6 @@
     background-image: none;
     border: 1px solid #ddd;
     border-radius: 3px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
@@ -368,6 +376,11 @@
   .btn:active, .btn.active {
     -webkit-box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.1) inset;
     box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.1) inset;
+  }
+  .form-control:focus {
+    border-color: #4DB6AC;
+    box-shadow: none;
+    outline: 0;
   }
 
 

@@ -84,20 +84,10 @@
                                   >
                                 </div>
                                 <label>Sector</label>
-                                <Dropdown2 :options="options" label="select sector"></Dropdown2>
-                                <label>Select Country</label>
-                                <div class="form-group control-select">
-                                  <select name="country_id" class="select select-search required   required" >
-                                    <option value="">Select country</option>
-                                    <option  value="Afghanistan">Afghanistan</option>
-                                    <option  value="Albania">Albania</option>
-                                    <option  value="Algeria">Algeria</option>
-                                    <option  value="American Samoa">American samoa</option>
-                                    <option  value="Andorra">Andorra</option>
-                                    <option  value="Angola">Angola</option>
-                                  </select>
-                                </div>
-                                <label>State</label>
+                                   <CustomSelect :options="options" ></CustomSelect>
+                                <label class="mt-10">Select Country</label>
+                                  <v-select  :options="countries"></v-select>
+                                <label class="mt-10">State</label>
                                 <div class="form-group control-text">
                                   <input
                                     id="state" placeholder=""
@@ -161,12 +151,18 @@
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import ApiNavbar from "../../components/general/navbar/ApiNavbar";
     import Dropdown2 from "../../components/general/dropdown/Dropdown2";
+    import CustomSelect from "../../components/general/dropdown/CustomSelect";
+    import vSelect from "vue-select";
+    import 'vue-select/dist/vue-select.css';
+
     export default {
         name: "profile",
-      components: {Dropdown2, ApiNavbar, DashboardNavbar, Sidebar},
+      components: {CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar, vSelect},
       data(){
           return{
-            options: ['Financial Services','Online Retail Services','Education Services', 'Advertising & Marketing Services', 'Logistics & Transportation Services', 'Others', 'Health Services', 'Agriculture Services']
+            options: ['Financial Services','Online Retail Services','Education Services', 'Advertising & Marketing Services', 'Logistics & Transportation Services', 'Others', 'Health Services', 'Agriculture Services'],
+            countries:['Nigeria', 'Ghana', 'Kenya', 'Uganda',],
+
           }
       }
     }

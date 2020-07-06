@@ -24,6 +24,7 @@
     "nuxt": "^2.0.0",
     "vue-custom-scrollbar": "^1.2.0",
     "vue-intercom": "^1.0.14",
+    "vue-select": "^3.10.5",
     "vue2-daterange-picker": "^0.5.1",
     "vue2-perfect-scrollbar": "^1.5.0"
   },
