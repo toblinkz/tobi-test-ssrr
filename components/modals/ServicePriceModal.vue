@@ -23,7 +23,7 @@
               <!-- START PANEL -->
               <div class="full-height">
                 <div class="text-center">
-                  <img src="http://sandbox.termii.com/assets/images/payment.gif" class="wide" style="padding: 0 0 0px 20px;">
+                  <img src="/images/payment.gif" class="wide" style="padding: 0 0 0px 20px;">
                 </div>
               </div>
               <!-- END PANEL -->

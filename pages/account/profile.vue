@@ -25,7 +25,7 @@
                           </p>
                         </div>
                         <div class="col-md-4 hidden-xs">
-                          <img src="http://sandbox.termii.com/assets/images/profile.gif" class="wide">
+                          <img src="/images/profile.gif" class="wide">
                         </div>
                       </div>
                       <center>

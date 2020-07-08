@@ -252,7 +252,7 @@
     text-align: left;
   }
   .table-hover > tbody > tr:hover {
-    background-color: #f8f8;
+    background-color: #f8f8f8;
   }
 
   table {

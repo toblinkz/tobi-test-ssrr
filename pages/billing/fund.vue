@@ -30,9 +30,7 @@
                           <div class="col-md-6">
                             <!-- START PANEL -->
                             <div class="panel-transparent">
-                        <span id="welcome"><i class="entypo-credit-card"></i>
-                                            Wallet Name - Termii Webtech
-                        </span>
+                        <span id="welcome"><i class="entypo-credit-card"></i>Wallet Name - Termii Webtech</span>
                               <p class="insight">Select your preferred payment gateway and top up your <br>account using card or bank transfer</p>
                             </div>
                             <!-- Trigger the modal with a button -->
@@ -94,7 +92,7 @@
                                         <p id="exchange_approximate"></p>
                                       </div>
                                       <div class="form-group">
-                                        <p id="exchange_approximate"><b>Notice:</b> <br>All payments would be remitted in Naira, but your balance would be displayed in your local currency. </p>
+                                        <p ><b>Notice:</b> <br>All payments would be remitted in Naira, but your balance would be displayed in your local currency. </p>
                                       </div>
                                     </div>
                                     <!--regular form body!-->
@@ -106,10 +104,9 @@
                                       </div>
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
-                                        <p id="exchange_approximate"></p>
                                       </div>
                                       <div class="form-group">
-                                        <p id="exchange_approximate"><b>Notice:</b> <br>Also all payments would be remitted in Naira, but your accounts would be credited in your local currency. </p>
+                                        <p ><b>Notice:</b> <br>Also all payments would be remitted in Naira, but your accounts would be credited in your local currency. </p>
                                       </div>
                                       <input type="hidden" name="_token" value=""> <button type="submit" class="btn bx-line btn-success btn-sm pull-right purchase_button">Fund Account </button>
                                     </div>
@@ -121,10 +118,10 @@
                                       </div>
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
-                                        <p id="exchange_approximate">₦36660</p>
+                                        <p id="">₦36660</p>
                                       </div>
                                       <div class="form-group">
-                                        <p id="exchange_approximate"><b>Notice:</b> <br>Also all payments would be remitted in Naira, but your accounts would be credited in your local currency. </p>
+                                        <p id=""><b>Notice:</b> <br>Also all payments would be remitted in Naira, but your accounts would be credited in your local currency. </p>
                                       </div>
                                       <input type="hidden" name="_token" value=""> <button type="submit" class="btn bx-line btn-success btn-sm pull-right purchase_button"> Fund Account </button>
                                     </div>

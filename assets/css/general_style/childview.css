@@ -189,6 +189,7 @@
 }
 #sb .btn:hover, #sb .btn:focus, #sb .btn:active, #sb .btn.active, #sb .btn.disabled, #sb .btn[disabled] {
   box-shadow: none;
+  outline: 0;
 }
 #sb .btn:hover {
   background-color: #fafafa;

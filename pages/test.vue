@@ -1,13 +1,15 @@
 <template>
-
+  <YourWalletModal></YourWalletModal>
 </template>
 
 <script>
   import DateRangePicker from 'vue2-daterange-picker'
   import CustomSelect from "../components/general/dropdown/CustomSelect";
+  import ActivateIdModal from "../components/modals/ActivateIdModal";
+  import YourWalletModal from "../components/modals/YourWalletModal";
     export default {
         name: "test",
-      components: {CustomSelect, DateRangePicker},
+      components: {YourWalletModal, ActivateIdModal, CustomSelect, DateRangePicker},
       data(){
           return{
             dateRange: {

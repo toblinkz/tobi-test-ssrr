@@ -29,7 +29,7 @@
                             <!-- START PANEL -->
                             <div class="full-height">
                               <div class="panel-body text-center">
-                                <img src="http://sandbox.termii.com/assets/images/details.gif" class="wide">
+                                <img src="/images/details.gif" class="wide">
                               </div>
                             </div>
                             <!-- END PANEL -->
