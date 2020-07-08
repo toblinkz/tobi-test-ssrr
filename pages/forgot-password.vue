@@ -20,9 +20,9 @@
           <form>
             <div class="form-panel panel-body ">
               <div class="form-group has-feedback-left mt-20">
-                <input id="email" style="width: 100%" type="text" class="form-control" v-model="email" :class="{'error ' : hasEmailError}" placeholder="Work email">
+                <input id="email" style="width: 100%" type="text" class="form-control" v-model="email" :class="{'error ' : hasEmailError, 'has-input' : hasEmailInput}" placeholder="Work email">
                 <span class="input-field_helper">Email</span>
-                <span class=" input_field_message" v-if="error_message.email">{{error_message.email}}</span>
+                <span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
               </div>
               <button type="submit" class="btnl bg-blue m-t-25" :disabled="isDisabled">Proceed</button>
             </div>
@@ -47,6 +47,7 @@
         email: "",
         error_message:[],
         hasEmailError: false,
+        hasEmailInput: false,
       }
     },
     computed: {
@@ -57,8 +58,8 @@
     watch: {
       email(value) {
         this.email = value;
+        this.hasEmailInput = true;
         this.validateEmail(value);
-        console.log(this.error_message.email);
       },
     },
     methods: {
@@ -82,10 +83,6 @@
   .form-group {
     margin-bottom: 20px;
     position: relative;
-  }
-  .form-control {
-    height: 55px;
-  ;
   }
 
   .form-control {

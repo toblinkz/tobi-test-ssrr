@@ -1,12 +1,12 @@
 <template >
-  <div class="page-height">
+  <div class="login-page-height">
     <div class="login-wrapper">
       <!-- START Login Background Pic Wrapper-->
       <div class="bg-pic">
         <!-- START Background Pic-->
 
         <div class="m-t-30 hidden-xs">
-          <img alt="Image" style="width: 45%;margin-top: -40px;margin-bottom: -85px;margin-left: 10px;" src="https://termii.com/assets/images/products/ds.svg">
+          <img alt="Image" style="width: 45%;margin-top: -40px;margin-bottom: -85px;margin-left: 10px;" src="/images/products/ds.svg">
         </div>
         <!-- END Background Pic-->
       </div>
@@ -20,20 +20,21 @@
 
             <div class="auth-panel panel-body ">
               <p class="p-t-20">Welcome back! Sign into your account, we've been waiting for you!</p>
-              <div class="form-group has-feedback has-feedback-left m-t-35">
-                <input id="" style="width: 100%"  type="email" class="form-control round-form-input" :class="{'error ' : hasEmailError}"  v-model="email"  placeholder="Work email">
-                <span class="input-field_helper">Email</span>
-                <span class=" input_field_message" v-if="error_message.email">{{error_message.email}}</span>
+              <div class="login-form-group has-feedback has-feedback-left m-t-35">
+                <input id="" style="width: 100%"  type="email" class="form-control " :class="{'error ' : hasEmailError, 'has-input' : hasEmailInput}"  v-model="email"  placeholder="Work email">
+                <span class="input-field_helper">Work Email</span>
+                <span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
               </div>
 
 
-              <div class="form-group has-feedback has-feedback-left ">
-                <input id="password" style="width: 100%"  type="password" class="form-control round-form-input" :class="{'error ' : hasPasswordError}" v-model="password" placeholder="Password">
+              <div class="login-form-group has-feedback has-feedback-left ">
+                <input id="password" style="width: 100%"  :type="type" class="form-control " :class="{'error ' : hasPasswordError, 'has-input' : hasPasswordInput}" v-model="password" placeholder="Password" maxlength="24">
                 <span class="input-field_helper">Password</span>
-                <span class=" input_field_message" v-if="error_message.password">{{error_message.password}}</span>
+                <span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
+                <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
               </div>
 
-              <div class="form-group login-options" style="margin-left: -20px">
+              <div class="login-form-group login-options" style="margin-left: -20px">
                 <div class="row">
                   <div class="col-sm-6">
                     <label class="checkbox-inline">
@@ -75,23 +76,27 @@
         error_message:[],
         hasEmailError: false,
         hasPasswordError: false,
+        hasEmailInput: false,
+        hasPasswordInput: false,
+        isToggled: false,
+        type: "password"
       }
     },
     computed: {
       isDisabled: function () {
-            return (this.email === '' || this.password === '' || this.error_message.email !=='' || this.error_message.password !=='');
+            return (this.hasEmailError || this.hasPasswordError || this.email === '' || this.password === '');
       },
     },
     watch: {
       email(value) {
             this.email = value;
+            this.hasEmailInput = true;
             this.validateEmail(value);
-            console.log(this.error_message.email);
       },
       password(value) {
         this.password = value;
+        this.hasPasswordInput = true;
         this.validatePassword(value);
-        console.log(this.error_message);
       }
     },
     methods: {
@@ -113,6 +118,16 @@
           this.error_message['password'] = '';
           this.hasPasswordError = false;
         }
+      },
+      showPassword(){
+        if (this.type === "password") {
+          this.type = 'text';
+          this.isToggled = true;
+        }
+        else {
+          this.type = "password";
+          this.isToggled = false;
+        }
       }
 
     }
@@ -123,15 +138,13 @@
 
 <style>
   @import "../assets/css/general_style/authentication_pages.css";
-
-  .round-form-input{
-    border-radius: 5px;
+  .login-page-height{
+    height: 100vh;
   }
   .has-feedback-left .form-control {
     padding-right: 12px;
     padding-left: 36px;
   }
-
   .bg-blue {
     background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
     display: inline-block !important;
@@ -142,13 +155,14 @@
     border: transparent;
     box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
     transition: .35s;
-    padding-top: 7px !important;
-    padding-bottom: 8px !important;
-    padding-left: 26px !important;
-    padding-right: 15px !important;
+    padding: 7px 15px 8px 15px !important;
     font-weight: 600 !important;
     font-size: 13px !important;
   }
 
+  .login-form-group {
+    margin-bottom: 20px;
+    position: relative;
+  }
 
 </style>

@@ -20,54 +20,56 @@
           <form class="" role="form" method="post" action="/register">
             <div class="mt-20">
               <div class="row ">
-                <div class="col-md-6">
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="first_name"   type="text" class="form-control round-form-input" v-model="first_name"   placeholder="First Name">
+                <div class="select-class">
+                  <div class="row-form has-feedback has-feedback-left mt-20">
+                    <input id="first_name"   type="text" class="form-control" :class="{'error ' : hasFirstNameError,'has-input' : hasFirstNameInput}" v-model="first_name"   placeholder="First Name">
                     <span class="input-field_helper">First Name</span>
-                    <span class=" input_field_message" v-if="error_message.first_name">{{error_message.first_name}}</span>
+                    <span class="error_field_message" v-if="error_message.first_name">{{error_message.first_name}}</span>
                   </div>
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="email"   type="email" class="form-control round-form-input"  v-model="email" placeholder="Email">
-                    <span class="input-field_helper">Email</span>
-                    <span class=" input_field_message" v-if="error_message.email">{{error_message.email}}</span>
+                  <div class="row-form has-feedback has-feedback-left mt-20">
+                    <input id="last_name"   type="text" class="form-control" :class="{'error ' : hasLastNameError, 'has-input' : hasLastNameInput}" v-model="last_name"   placeholder="Last Name">
+                    <span class="input-field_helper">Last Name</span>
+                    <span class=" error_field_message" v-if="error_message.last_name">{{error_message.last_name}}</span>
                   </div>
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="password"   type="password" class="form-control round-form-input" v-model="password" placeholder="Password">
+                </div>
+
+                  <div class="register-form-group has-feedback has-feedback-left ">
+                    <input id="email"   type="email" class="form-control round-form-input"  :class="{'error ' : hasEmailError, 'has-input' : hasEmailInput}" v-model="email" placeholder="Work Email">
+                    <span class="input-field_helper">Work Email</span>
+                    <span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
+                  </div>
+                  <div class="register-form-group has-feedback has-feedback-left mt-20">
+                    <input id="password"   :type="type" class="form-control " :class="{'error ' : hasPasswordError, 'has-input' : hasPasswordInput}" v-model="password" placeholder="Password" maxlength="24">
                     <span class="input-field_helper">Password</span>
-                    <span class=" input_field_message" v-if="error_message.password">{{error_message.password}}</span>
+                    <span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
+                    <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
+
                   </div>
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                    <select v-model="selected_country" class="form-control round-form-input" name="country" id="country" required>
+                <div class="select-class">
+                  <div class="row-form has-feedback has-feedback-left ">
+                    <select v-model="selected_country" class="form-control " name="country" id="country">
                       <option value="">Select your country</option>
-                      <option v-for="(country, countryIndex) in countries" :key="country.id" :value="country.id">{{country.name}}</option>
+                     <!-- <option v-for="(country, countryIndex) in countries" :key="country.id" :value="country.id">{{country.name}}</option>-->
+                      <option>Nigeria</option>
+                      <option>Ghana</option>
                     </select>
                   </div>
-                  <button type="submit" class="btnl bg-blue m-t-10" :disabled="isDisabled">Create My Account</button>
+                  <div class="row-form has-feedback has-feedback-left" >
+                    <select v-model="selected_sector" class="form-control " name="sector" id="sector" >
+                      <option value="" > Your company's sector</option>
+                     <!-- <option v-for="sector in sectors" :key="sector.id" :value="sector.id">{{sector.name}}</option>-->
+                      <option>Health</option>
+                      <option>Education</option>
+                    </select>
+                  </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="last_name" type="text" class="form-control round-form-input" v-model="last_name"  name="last_name" placeholder="Last Name">
-                    <span class="input-field_helper">Last Name</span>
-                    <span class=" input_field_message" v-if="error_message.last_name">{{error_message.last_name}}</span>
-                  </div>
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                  <select v-model="selected_sector" class="form-control round-form-input" name="sector" id="sector" required>
-                    <option value="" > your company's sector</option>
-                    <option v-for="sector in sectors" :key="sector.id" :value="sector.id">{{sector.name}}</option>
-                  </select>
-                  </div>
-                  <div class="form-group has-feedback has-feedback-left mt-20">
-                    <input id="password" type="password" class="form-control round-form-input" v-model="confirm_password" placeholder="Confirm Password">
-                    <span class="input-field_helper">Confirm Password</span>
-                    <span class=" input_field_message" v-if="error_message.confirm_password">{{error_message.confirm_password}}</span>
-                  </div>
-                    <div class="form-group has-feedback has-feedback-left mt-20">
-                      <input id="phone_number"  type="tel" class="form-control round-form-input" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
+                    <div class="register-form-group has-feedback has-feedback-left ">
+                      <input id="phone_number"  type="tel" class="form-control " :class="{'error ' : hasPhoneNumberError, 'has-input' : hasPhoneNumberInput}" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
                       <span class="input-field_helper">Phone Number</span>
-                      <span class=" input_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
+                      <span class=" error_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
                     </div>
-                </div>
-                <nuxt-link  to="/login" class="pull-right mt-20 m-r-40" style="color: black">Got an account? <span class="text-info2 bold">Sign In</span></nuxt-link>
+                 <nuxt-link to="/verify"><button class="btnl btn-blue m-t-10" :disabled="isDisabled">Create My Account</button> </nuxt-link>
+                <nuxt-link  to="/login" class="pull-right mt-20 m-r-10" style="color: black">Got an account? <span class="text-info2 bold">Log In</span></nuxt-link>
               </div>
             </div>
           </form>
@@ -99,51 +101,57 @@
             sectors:[],
             email: "",
             password:"",
-            confirm_password: "",
             first_name: "",
-            last_name: "",
+            last_name:"",
             phone_number: "",
             error_message:[],
-            hasEmailError: false
+            hasEmailError: false,
+            hasPasswordError: false,
+            hasFirstNameError: false,
+            hasLastNameError: false,
+            hasPhoneNumberError: false,
+            hasFirstNameInput: false,
+            hasLastNameInput: false,
+            hasEmailInput: false,
+            hasPasswordInput: false,
+            hasPhoneNumberInput:false,
+            isToggled: false,
+            type: "password"
           }
       },
       computed: {
         isDisabled: function () {
-          return (this.email === '' || this.password === '' || this.error_message.email !=='' || this.error_message.password !==''
-                      || this.first_name === ''|| this.last_name === ''|| this.confirm_password === '' || this.selected_country === ''
-                      || this.selected_sector === '' || this.error_message.confirm_password !=='' || this.error_message.phone_number !=='');
+          return (this.email === '' || this.password === '' || this.hasEmailError || this.hasPasswordError
+                      || this.first_name === '' || this.hasFirstNameError || this.selected_country === ''
+                    || this.selected_sector === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError);
         },
       },
       watch: {
         email(value) {
           this.email = value;
+          this.hasEmailInput = true;
           this.validateEmail(value);
-          console.log(this.error_message)
         },
         password(value){
           this.password = value;
+          this.hasPasswordInput = true;
           this.validatePassword(value);
-          console.log(this.error_message)
         },
-        confirm_password(value){
-          this.confirm_password = value;
-          this.validateConfirmPassword(value);
-          console.log(this.error_message)
-        },
+
         phone_number(value){
           this.phone_number = value;
+          this.hasPhoneNumberInput = true;
           this.validatePhoneNumber(value);
-          console.log(this.error_message)
         },
         first_name(value) {
           this.first_name = value;
+          this.hasFirstNameInput = true;
           this.validateFirstName(value);
-          console.log(this.error_message);
         },
-        last_name(value){
+        last_name(value) {
           this.last_name = value;
+          this.hasLastNameInput = true;
           this.validateLastName(value);
-          console.log(this.error_message);
         }
       },
       methods: {
@@ -151,9 +159,11 @@
           if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)){
             this.error_message['email'] = '';
             this.hasEmailError = false;
+            return true;
           }else {
             this.error_message['email'] = 'The email field must be a valid email';
             this.hasEmailError = true;
+            return false;
           }
         }
         ,
@@ -166,47 +176,55 @@
             this.hasPasswordError = false;
           }
         },
-        validateConfirmPassword(value){
-            if (value !== this.password){
-              this.error_message['confirm_password'] = 'Password confirmation does not match';
 
-            } else {
-
-              this.error_message['confirm_password'] = '';
-            }
-        },
         validatePhoneNumber(value){
             if ( isNaN(value) || value.length < 10 || value.length > 14) {
               this.error_message['phone_number'] = 'Phone number must be between 10 and 14 digits';
+              this.hasPhoneNumberError = true;
             }else {
               this.error_message['phone_number'] = '';
+              this.hasPhoneNumberError = false;
             }
         },
         validateFirstName(value){
           if ( value === ""){
             this.error_message['first_name'] = 'The first name field is required';
+            this.hasFirstNameError = true;
           }else {
             this.error_message['first_name'] = '';
+            this.hasFirstNameError = false;
           }
         },
         validateLastName(value){
-          if (value === ""){
-            this.error_message['last_name'] = 'The last name field is required';
-          } else {
+          if ( value === ""){
+            this.error_message['last_name'] = 'The Last name field is required';
+            this.hasLastNameError = true;
+          }else {
             this.error_message['last_name'] = '';
+            this.hasLastNameError = false;
+          }
+        },
+        showPassword(){
+          if (this.type === "password") {
+            this.type = 'text';
+            this.isToggled = true;
+          }
+          else {
+            this.type = "password";
+            this.isToggled = false;
           }
         }
+
       },
       async fetch(){
           //fetch country data
-          let countries_data = await this.$axios.$get('http://sandbox.termii.com/v1/utility/countries');
+          let countries_data = await this.$axios.$get('/utility/countries');
             this.countries = countries_data.data;
-        console.log(this.countries)
         //fetch sector data
-        let sector_data =await this.$axios.$get('http://sandbox.termii.com/v1/utility/sectors');
+        let sector_data =await this.$axios.$get('/utility/sectors');
           this.sectors = sector_data.data;
         //fetch no of registered business
-        let registered_business_data = await this.$axios.$get('http://sandbox.termii.com/v1/utility/total/registered-businesses',);
+        let registered_business_data = await this.$axios.$get('/utility/total/registered-businesses',);
         this.registered_business = registered_business_data.data
       }
     }
@@ -215,16 +233,20 @@
 <style>
   @import "assets/css/general_style/authentication_pages.css";
 
-  .round-form-input{
-    border-radius: 5px;
+  .page-height{
+    height: 125vh;
   }
+
   @media (max-width: 1400px){
     body, p {
       font-size: 13px;
       line-height: 20px;
     }
   }
-  .select-css {
+  .select-class {
+    display: flex;
+    flex-direction: row;
+
     background: #FFFFFF ;
   }
   .bg-white {
@@ -236,13 +258,36 @@
     padding-right: 12px;
     padding-left: 36px;
   }
-  .form-group {
+  .register-form-group {
     margin-bottom: 20px;
     position: relative;
+    flex-basis: 100%;
+    max-width: 98%;
+  }
+  .row-form{
+    margin-bottom: 20px;
+    position: relative;
+    padding: 0 1rem 0 0;
+    flex-basis: 50%;
+    max-width: 50%;
   }
   .form-control {
     display: block;
     width: 100%;
+  }
+  .btn-blue {
+    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
+    display: inline-block !important;
+    color: #fff !important;
+    border-radius: 4px;
+    vertical-align: bottom !important;
+    position: relative;
+    border: transparent;
+    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+    transition: .35s;
+    padding: 7px 15px 8px 15px !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
   }
 
 

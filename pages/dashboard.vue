@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid body">
+  <div class="container-fluid body" >
     <div class="row">
       <div id="msb" class="col-md-2 hidden-xs">
         <sidebar></sidebar>
@@ -191,6 +191,11 @@
   export default {
     name: "dashboard",
     components: {ActivateIdModal, YourWalletModal, SmsHistoryModal, BalanceHistory, DashboardNavbar, Sidebar},
+    head(){
+      return{
+        script: [{src:"/js/intro.js" }]
+      }
+    },
     data(){
       return{
         showActivateIdModal: false,
@@ -203,14 +208,41 @@
             },
           closeYourWalletModal(){
               this.showYourWalletModal = false;
-          }
-    },
-    mounted () {
-      this.$nextTick(() => {
-        this.$nuxt.$loading.start()
+          },
+      startIntro(){
+              let intro = introJs();
+        intro.setOptions({
+          steps: [
+            {
+              element: '#step1',
+              intro: "<center><span>Hi, <b>Welcome to Termii</b></span></center><br><br>Do you know that messaging platforms are unique and have features that make them different? <br><br>To navigate your account properly and use Termii's unique features effectively, please follow these few steps!"
+            },
+            {
+              element: document.querySelector('#step2'),
+              intro: "<span>1. Verify <b>Unique ID</b></span><br><br>Before sending any message on Termii, It is very important that you verify your Sender or Device ID. <br><br> <b>Sender ID</b>: This is your unique sms ID (Must be 9 characters and gets approved between 1-24 hours)<br><br> <b>Device ID</b>: This is your unique WhatsApp ID.<br><br><b>Domain DNS</b>: These codes allow email providers like gmail mark your email and messages as authentic.",
+              position: 'right'
+            },
+            {
+              element: document.querySelector('#step3'),
+              intro: "<span>2. <b>Subscribe</b></span><br><br>Once your sender, device or domain ID's are active, proceed to purchase units based on the volume of messages you would like to send to your customers!",
+              position: 'left'
+            },
+            {
+              element:document.querySelector('#step4'),
+              intro: "<span>4. Message <b>Guide</b></span><br><br>Now, click start to select the type of message you would like to send and personalize your content. <br><br> <b>Note</b>: Always ensure you read our text hints when sending messages, Don't ingnore them!",
+            },
+            {
+              element: document.querySelector('#step5'),
+              intro: 'Thats all from us for now. If you have further questions, please use the <b>support link</b> on the sidebar or click on our chat box to talk to a support agent.'
+            }
+          ]
+        });
+        intro.start();
+      }
 
-        setTimeout(() => this.$nuxt.$loading.finish(), 500)
-      })
+    },
+    mounted: function () {
+        this.startIntro();
     }
 
   }
@@ -219,8 +251,7 @@
 
 <style >
   @import "assets/css/general_style/childview.css";
-
-
+  @import "assets/css/general_style/introjs.css";
 
   .page-header {
     margin: 0;
