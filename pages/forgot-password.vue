@@ -100,5 +100,19 @@
     background-color: #fff;
     border: transparent;
   }
+  .bg-blue {
+    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
+    display: inline-block !important;
+    color: #fff !important;
+    border-radius: 4px;
+    vertical-align: bottom !important;
+    position: relative;
+    border: transparent;
+    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+    transition: .35s;
+    padding: 7px 15px 8px 15px !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+  }
 
 </style>
