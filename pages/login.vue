@@ -45,7 +45,7 @@
                 </div>
               </div>
               <div class="row" style="width: 100%">
-                <button type="submit" class="btnl bg-blue m-t-10" :disabled="isDisabled">Proceed</button>
+                <button onclick="changeLoginState" class="btnl bg-blue m-t-10" :disabled="isDisabled">Proceed</button>
                 <nuxt-link  to="/forgot-password" class="text-info2 pull-right mt-20">Forgot password</nuxt-link>
               </div>
               <div>
@@ -68,6 +68,7 @@
 <script>
   export default {
     name: "login",
+
     data(){
       return{
         email:"",
@@ -128,6 +129,9 @@
           this.type = "password";
           this.isToggled = false;
         }
+      },
+      changeLoginState(){
+        console.log(store.state.login)
       }
 
     }
