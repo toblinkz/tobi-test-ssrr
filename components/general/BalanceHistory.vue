@@ -4,6 +4,7 @@
     <div class=" action-log-box">
       <div id="mCSB_1" class="mCustomScrollBox" style="max-height: none;" tabindex="0">
         <vue-custom-scrollbar class="scroll-area" :settings="settings">
+          <div id="mCSB_1_container" class="mCSB_container" style="position: relative;" dir="ltr">
           <!-- Timeline -->
           <div class="timeline-left content-group">
             <div class="timeline-container">
@@ -64,6 +65,7 @@
               <!-- /sales stats -->
             </div>
           </div>
+          </div>
         </vue-custom-scrollbar>
 
         </div>
@@ -99,11 +101,15 @@
     position: relative;
     margin: auto;
     width: auto;
-    height: 400px;
+    height: 100%;
   }
-
-  .action-log-box {
+  .mCSB_container {
+    overflow: hidden;
+    width: auto;
     height: auto;
+  }
+  .action-log-box {
+    height: 315px;
     border: dashed 2px #ddd;
     padding: 12px 5px 15px 5px;
     background: #f5f5f5;
