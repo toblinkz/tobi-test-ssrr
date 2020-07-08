@@ -209,8 +209,19 @@
           closeYourWalletModal(){
               this.showYourWalletModal = false;
           },
-      startIntro(){
-              let intro = introJs();
+      startIntro() {
+
+        let intro = introJs();
+        // add a flag when we're done
+        intro.oncomplete(function() {
+          localStorage.setItem('doneWithTour', 'yeah');
+        });
+
+        // add a flag when we exit
+        intro.onexit(function() {
+          localStorage.setItem('doneWithTour', 'yeah');
+        });
+
         intro.setOptions({
           steps: [
             {
@@ -237,7 +248,13 @@
             }
           ]
         });
-        intro.start();
+
+        let doneWithTour = localStorage.getItem('doneWithTour') === 'yeah';
+        if (doneWithTour) {
+          return;
+        } else {
+          intro.start();
+        }
       }
 
     },
