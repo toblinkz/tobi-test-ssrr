@@ -45,7 +45,7 @@
                 </div>
               </div>
               <div class="row" style="width: 100%">
-                <button onclick="changeLoginState" class="btnl bg-blue m-t-10" :disabled="isDisabled">Proceed</button>
+                <button  class="btnl bg-blue m-t-10" :disabled="isDisabled">Proceed</button>
                 <nuxt-link  to="/forgot-password" class="text-info2 pull-right mt-20">Forgot password</nuxt-link>
               </div>
               <div>
@@ -130,10 +130,6 @@
           this.isToggled = false;
         }
       },
-      changeLoginState(){
-        console.log(store.state.login)
-      }
-
     }
 
 
