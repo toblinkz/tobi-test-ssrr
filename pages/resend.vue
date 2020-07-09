@@ -1,5 +1,5 @@
 <template>
-  <div class="page-height">
+  <div class="resend-page-height">
     <div class="login-wrapper ">
       <!-- START Login Background Pic Wrapper-->
       <div class="bg-pic">
@@ -21,6 +21,7 @@
 
           <div class="p-t-85 ">
             <nuxt-link class="bg-blue" to="#">Click here to resend the email</nuxt-link>
+
           </div>
 
 
@@ -35,22 +36,18 @@
 <script>
   export default {
     name: "resend",
-    mounted () {
-      this.$nextTick(() => {
-        this.$nuxt.$loading.start()
 
-        setTimeout(() => this.$nuxt.$loading.finish(), 500)
-      })
-    }
 
   }
 </script>
 
-<style>
+<style scoped>
   @import "../assets/css/general_style/authentication_pages.css";
 
 
-
+  .resend-page-height{
+    height: 100vh;
+  }
   @media (max-width: 1400px){
     body, p {
       font-size: 13px;

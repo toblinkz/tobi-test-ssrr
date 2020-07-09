@@ -19,15 +19,15 @@
           <p>We sent a verification code to your email. Enter the code from the email in the field below.</p>
 
           <form>
-            <div class=" ">
               <div class="form-group has-feedback-left mt-50">
                 <input id="verification_code" style="width: 50%" type="text" class="form-control" maxlength="6" v-model="verification_code" :class="{'error ' : hasVerificationError, 'has-input' : hasVerificationInput}" placeholder="Enter 6-digit code">
                 <span class="input-field_helper">Verification Code</span>
                 <span class=" error_field_message" v-if="error_message.verification_code">{{error_message.verification_code}}</span>
               </div>
+            <div class="row">
               <button type="submit" class="btnl bg-blue m-t-25" :disabled="isDisabled">Verify Code</button>
+              <nuxt-link  to="#" class="text-info2 pull-right mt-30">Resend verification code</nuxt-link>
             </div>
-
           </form>
 
         </div>
@@ -76,7 +76,7 @@
   }
 </script>
 
-<style >
+<style scoped>
   @import "../assets/css/general_style/authentication_pages.css";
 
   .form-group {
