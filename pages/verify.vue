@@ -16,12 +16,12 @@
         <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40 wd-k">
           <nuxt-link to="/"> <img src="/images/logo.png" alt="logo" data-src-retina="/" width="150px" height="auto"></nuxt-link>
           <p  class="p-t-50 text-bold">Verify it's you</p>
-          <p>We sent a verification code to your email. Enter the code from the email in the field below.</p>
+          <p>We sent a verification code to your email. Enter the code from the email, <br> in the field below.</p>
 
           <form>
             <div class=" ">
               <div class="form-group has-feedback-left mt-50">
-                <input id="verification_code" style="width: 50%" type="text" class="form-control" maxlength="6" v-model="verification_code" :class="{'error ' : hasVerificationError, 'has-input' : hasVerificationInput}" placeholder="Enter 6-digit code">
+                <input id="verification_code" style="width: 90%" type="text" class="form-control" maxlength="6" v-model="verification_code" :class="{'error ' : hasVerificationError, 'has-input' : hasVerificationInput}" placeholder="Enter 6-digit code">
                 <span class="input-field_helper">Verification Code</span>
                 <span class=" error_field_message" v-if="error_message.verification_code">{{error_message.verification_code}}</span>
               </div>
@@ -64,7 +64,7 @@
     methods: {
       validateVerificationCode(value){
         if (isNaN(value) || value.length < 6){
-          this.error_message['verification_code'] = 'Enter 6 digit verification code'
+          this.error_message['verification_code'] = 'Verification code must be 6 digit'
           this.hasVerificationError = true;
         } else {
           this.error_message['verification_code'] = ''
@@ -98,6 +98,20 @@
     /* box-shadow: 0 10px 45px 0 rgba(0,0,0,.1); */
     background-color: #fff;
     border: transparent;
+  }
+  .bg-blue {
+    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
+    display: inline-block !important;
+    color: #fff !important;
+    border-radius: 4px;
+    vertical-align: bottom !important;
+    position: relative;
+    border: transparent;
+    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+    transition: .35s;
+    padding: 7px 15px 8px 15px !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
   }
 
 </style>
