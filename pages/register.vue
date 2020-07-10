@@ -230,7 +230,7 @@
     }
 </script>
 
-<style scoped>
+<style >
   @import "assets/css/general_style/authentication_pages.css";
 
   .page-height{

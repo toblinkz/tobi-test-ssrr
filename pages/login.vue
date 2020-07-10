@@ -1,5 +1,5 @@
 <template >
-  <div class="login-page-height">
+  <div class="login-page-height ">
     <div class="login-wrapper">
       <!-- START Login Background Pic Wrapper-->
       <div class="bg-pic">
@@ -136,7 +136,7 @@
   }
 </script>
 
-<style scoped>
+<style >
   @import "../assets/css/general_style/authentication_pages.css";
   .login-page-height{
     height: 100vh;
