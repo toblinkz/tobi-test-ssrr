@@ -87,11 +87,7 @@
           }
         }
       },
-      head(){
-        return{
-         // link: [{href:"vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css"}]
-        }
-      },
+
 
     }
 </script>

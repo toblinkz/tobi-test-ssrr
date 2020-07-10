@@ -54,7 +54,7 @@
                 <nuxt-link to="/account/profile"><i class="entypo-vcard"></i> Account</nuxt-link>
               </li>
 
-              <li><a href="#"><i class="icon-switch2"></i> logout</a></li>
+              <li><a href="/login"><i class="icon-switch2"></i> logout</a></li>
             </template>
           </Dropdown>
         </ul>

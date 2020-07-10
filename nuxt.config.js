@@ -18,6 +18,7 @@ export default {
       { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
       { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
       { src: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js'},
+      {src:"/js/intro.js" },
       ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -63,6 +64,7 @@ export default {
 
   axios: {
     // proxyHeaders: false
+    baseURL: 'http://sandbox.termii.com/v1'
   },
   /*
   ** Build configuration

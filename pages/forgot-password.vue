@@ -20,9 +20,9 @@
           <form>
             <div class="form-panel panel-body ">
               <div class="form-group has-feedback-left mt-20">
-                <input id="email" style="width: 100%" type="text" class="form-control" v-model="email" :class="{'error ' : hasEmailError}" placeholder="Work email">
+                <input id="email" style="width: 100%" type="text" class="form-control" v-model="email" :class="{'error ' : hasEmailError, 'has-input' : hasEmailInput}" placeholder="Work email">
                 <span class="input-field_helper">Email</span>
-                <span class=" input_field_message" v-if="error_message.email">{{error_message.email}}</span>
+                <span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
               </div>
               <button type="submit" class="btnl bg-blue m-t-25" :disabled="isDisabled">Proceed</button>
             </div>
@@ -47,6 +47,7 @@
         email: "",
         error_message:[],
         hasEmailError: false,
+        hasEmailInput: false,
       }
     },
     computed: {
@@ -57,8 +58,8 @@
     watch: {
       email(value) {
         this.email = value;
+        this.hasEmailInput = true;
         this.validateEmail(value);
-        console.log(this.error_message.email);
       },
     },
     methods: {
@@ -83,10 +84,6 @@
     margin-bottom: 20px;
     position: relative;
   }
-  .form-control {
-    height: 55px;
-  ;
-  }
 
   .form-control {
     display: block;
@@ -102,6 +99,20 @@
     /* box-shadow: 0 10px 45px 0 rgba(0,0,0,.1); */
     background-color: #fff;
     border: transparent;
+  }
+  .bg-blue {
+    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
+    display: inline-block !important;
+    color: #fff !important;
+    border-radius: 4px;
+    vertical-align: bottom !important;
+    position: relative;
+    border: transparent;
+    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+    transition: .35s;
+    padding: 7px 15px 8px 15px !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
   }
 
 </style>
