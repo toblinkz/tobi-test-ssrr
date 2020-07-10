@@ -51,9 +51,7 @@
                           <div class="col-lg-6 col-md-5 col-md-height col-middle hidden-xs">
                             <!-- START PANEL -->
                             <div class="full-height">
-                              <div class="panel-body text-center smschart">
-
-                              </div>
+                              <ManageCampaignChart></ManageCampaignChart>
                             </div>
                           </div>
                         </div>
@@ -103,9 +101,10 @@
 <script>
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+    import ManageCampaignChart from "../../components/general/charts/ManageCampaignChart";
     export default {
         name: "manage-campaign",
-      components: {DashboardNavbar, Sidebar},
+      components: {ManageCampaignChart, DashboardNavbar, Sidebar},
       data() {
           return{
             manage_campaign_list:[
