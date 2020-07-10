@@ -39,7 +39,7 @@
                                     <div class="row top-list-controls">
                                       <form action="http://sandbox.termii.com/billing/transactions/history" method="GET">
                                         <div class="col-md-6">
-                                          <input type="text" class="form-control" name="datetimes" value="01/01/2018 - 01/15/2018" />
+                                          <input type="text" class="form-control" name="datetimes" />
                                         </div>
 
                                         <div class="col-md-2">
@@ -139,11 +139,6 @@
       components: {DashboardNavbar, Sidebar},
       head(){
         return{
-          script: [
-            { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
-            { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
-            { src: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js'},
-          ],
           link: [
             { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css' }
           ]
@@ -182,7 +177,7 @@
             }
           });
         });
-      }
+      },
 
     }
 </script>

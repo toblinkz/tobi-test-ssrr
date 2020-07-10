@@ -41,7 +41,7 @@
                                     </div>
 
                                     <div class="col-md-5 mb-20" style="padding-right: 0px;">
-                                      <input type="text" class="form-control" id="datetimerange" name="datetimerange"  placeholder="Date Range" />
+                                      <input type="text" class="form-control" name="datetimes"  placeholder="Date Range" />
                                     </div>
                                   </div>
                                   <center>
@@ -118,11 +118,6 @@
       components: {DashboardChart, SmsHistoryModal, DashboardNavbar, Sidebar},
       head(){
         return{
-          script: [
-            { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
-            { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
-            { src: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js'},
-          ],
           link: [
             { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css' }
           ]
@@ -152,7 +147,7 @@
       },
       mounted() {
         $(function() {
-          $('input[name="datetimerange"]').daterangepicker({
+          $('input[name="datetimes"]').daterangepicker({
             timePicker: true,
             startDate: moment().startOf('hour'),
             endDate: moment().startOf('hour').add(32, 'hour'),

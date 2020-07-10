@@ -1,18 +1,13 @@
 <template>
-  <div>
-    <date-range-picker
-      v-model="dateRange"
-      :date-format="dateFormat"
-    ></date-range-picker>
-  </div>
 
 </template>
 
 <script>
   import DateRangePicker from 'vue2-daterange-picker'
+  import CustomSelect from "../components/general/dropdown/CustomSelect";
     export default {
         name: "test",
-      components: { DateRangePicker},
+      components: {CustomSelect, DateRangePicker},
       data(){
           return{
             dateRange: {

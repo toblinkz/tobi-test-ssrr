@@ -58,18 +58,11 @@
                                 </div>
                                 <div class="form-group">
                                   <label>Recipients</label>
-                                  <select class="selectpicker form-control" name="country_code" data-live-search="true">
-                                    <option  value="" >Select country Code</option>
-                                    <option value="93"  >Afghanistan (93)</option>
-                                    <option value="355"  >Albania (355)</option>
-                                    <option value="213"  >Algeria (213)</option>
-                                    <option value="376"  >Andorra (376)</option>
-                                  </select>
+                                  <v-select placeholder="Select country Code" :options="['Afghanistan (93)', 'Albania (355)','Algeria (213)', 'Andorra (376)','Canada', 'United States',]"></v-select>
                                 </div>
                                 <div class="form-group">
                                   <textarea class="form-control" rows="5" name="recipients"  placeholder="Seperate the numbers using a comma eg. 081094472,08109447343" id="recipients"></textarea>
-                                  <span class="pull-right">Total Number Of Recipients
-                                        : <span class="number_of_recipients bold m-r-5">0</span></span>
+                                  <span class="pull-right">Total Number Of Recipients: <span class="number_of_recipients bold m-r-5">0</span></span>
                                 </div>
                                 <div class="form-group" style="display: none !important;">
                                   <label>Remove Duplicate</label>
@@ -122,8 +115,7 @@
               </div>
             </div>
           </div>
-
-              </div>
+        </div>
       </div>
 
     </div>
@@ -131,11 +123,13 @@
 </template>
 
 <script>
+    import vSelect from 'vue-select';
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+    import 'vue-select/dist/vue-select.css';
     export default {
         name: "quick-sms",
-      components: {DashboardNavbar, Sidebar}
+      components: {DashboardNavbar, Sidebar, vSelect}
     }
 </script>
 
@@ -308,4 +302,5 @@
     -webkit-box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.05) inset;
     box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.05) inset;
   }
+
 </style>

@@ -28,7 +28,7 @@
                           <center>
                             <!-- START PANEL -->
                             <div class="panel-transparent">
-                              <p id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="fa fa-upload"></i> Import Phone Contacts!</p>
+                              <p id="welcome" style="margin-top: 10px;"><i class="fa fa-upload"></i> Import Phone Contacts!</p>
                               <p class="insight">Upload your customer contacts by using our sample <br>csv file format or manually adding their contacts
                               </p>
                               <div class="row">
@@ -44,7 +44,6 @@
                 </div>
                 <div class="col-md-12">
                   <div class="p-t-none p-b-none">
-                    <row>
                       <div class="col-lg-3">
                       </div>
                       <div class="col-lg-6">
@@ -64,31 +63,13 @@
                                   </div>
                                   <div class="form-group">
                                     <label>Country Code</label>
-                                    <select class="selectpicker form-control" name="country_code" data-live-search="true">
-                                      <option value="93"  >Afghanistan (93)</option>
-                                      <option value="355"  >Albania (355)</option>
-                                      <option value="213"  >Algeria (213)</option>
-                                      <option value="376"  >Andorra (376)</option>
-                                      <option value="244"  >Angola (244)</option>
-                                    </select>
+                                    <CustomSelect :options="countries" ></CustomSelect>
+
                                   </div>
                                   <div class="form-group">
                                     <label>Phone Book</label>
                                     <small style="color: red !important;font-size: 13px;">Haven't created a phone book yet? <a href="http://sandbox.termii.com/phone-book" target="_target">Click here</a></small><br>
-                                    <select class="selectpicker form-control" data-live-search="true" name="group_name">
-                                      <option value="36">Termii - Enterprise Cutomers</option>
-                                      <option value="38">Termii - Directors</option>
-                                      <option value="82">Termii-2</option>
-                                      <option value="376">Termii (All customers)</option>
-                                      <option value="422">TestR</option>
-                                      <option value="423">test_list_2</option>
-                                      <option value="424">bulk_list_test</option>
-                                      <option value="425">Termii Testing</option>
-                                      <option value="426">Bayfuse net</option>
-                                      <option value="427">test_new_update</option>
-                                      <option value="428">Geo ExpansionLLL</option>
-                                      <option value="429">Geo Expansion</option>
-                                    </select>
+                                    <CustomSelect :options="phone_book"></CustomSelect>
                                   </div>
 
                                   <button type="submit" id="" class="btn btn-success btn-sm pull-right"><i class="fa fa-plus"></i> Add </button>
@@ -98,7 +79,6 @@
                           </div>
                         </div>
                       </div>
-                    </row>
                   </div>
                 </div>
               </section>
@@ -113,9 +93,16 @@
 <script>
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+    import CustomSelect from "../../components/general/dropdown/CustomSelect";
     export default {
         name: "import-contacts",
-      components: {DashboardNavbar, Sidebar}
+      components: {CustomSelect, DashboardNavbar, Sidebar},
+      data(){
+          return{
+            countries: ['Nigeria', 'Ghana', 'Kenya', 'Uganda'],
+            phone_book: ['Health', 'Termii', 'Termii1']
+          }
+      }
     }
 </script>
 
