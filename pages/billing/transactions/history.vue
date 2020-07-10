@@ -39,7 +39,7 @@
                                     <div class="row top-list-controls">
                                       <form action="http://sandbox.termii.com/billing/transactions/history" method="GET">
                                         <div class="col-md-6">
-                                          <input type="text" class="form-control" id="datetimes" name="datetimes"  placeholder="Date Range" />
+                                          <input type="text" class="form-control" name="datetimes" value="01/01/2018 - 01/15/2018" />
                                         </div>
 
                                         <div class="col-md-2">
@@ -48,14 +48,9 @@
 
                                       </form>
                                       <form action="http://sandbox.termii.com/billing/transactions/export" method="POST">
-                                        <input type="hidden" name="_token" value="DTPkUCHYfTRR9r4nMpdDrXUCVo3qGMfoOHr9u00f">                                                <div class="col-md-2">
-                                        <input  type="submit" value="Export"  class="btn btn-danger" />
-                                      </div>
-
-                                        <div class="col-md-6">
-                                          <input style="display: none" type="text" class="form-control" id="datetime" name="datetime"  value="" placeholder="Date Range"  />
-                                        </div>
-
+                                          <div class="col-md-2">
+                                            <input  type="submit" value="Export"  class="btn btn-danger" />
+                                          </div>
                                       </form>
 
                                     </div>
@@ -137,9 +132,23 @@
 <script>
     import Sidebar from "../../../components/general/Sidebar";
     import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
+
+
     export default {
         name: "history",
       components: {DashboardNavbar, Sidebar},
+      head(){
+        return{
+          script: [
+            { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
+            { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
+            { src: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js'},
+          ],
+          link: [
+            { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css' }
+          ]
+        }
+      },
       data(){
           return{
             transaction_history_row: [
@@ -159,11 +168,22 @@
               {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
               {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
 
-
-
-            ]
+            ],
           }
+      },
+      mounted() {
+        $(function() {
+          $('input[name="datetimes"]').daterangepicker({
+            timePicker: true,
+            startDate: moment().startOf('hour'),
+            endDate: moment().startOf('hour').add(32, 'hour'),
+            locale: {
+              format: 'M/DD/YYYY h:mm:ss'
+            }
+          });
+        });
       }
+
     }
 </script>
 
@@ -258,6 +278,11 @@
     background-image: none;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   }
+  .form-control:focus {
+    border-color: #4DB6AC;
+    box-shadow: none;
+    outline: 0;
+  }
   .btn-danger {
     color: #fff;
     background-color: #F44336;
@@ -317,11 +342,12 @@
   .table > tbody > tr > td{
     line-height: 1.5384616;
   }
-  .form-control:hover {
-    border-color: #aaa;
-  }
+
   .form-control:focus {
     border-color: #4DB6AC;
+    box-shadow: none;
+    outline: 0;
   }
+
 
 </style>

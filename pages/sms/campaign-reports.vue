@@ -39,7 +39,7 @@
                                   <input type="text" class="form-control" id="datetimes" name="datetimes"  placeholder="Date Range" />
                                 </div>
                               </div>
-                              <input type="hidden" name="_token" value="5RBfQs9fuyGp8cjh3YS6MmCrBfmH0JAYikYdEYAP">
+
                               <button type="submit" class="btn btn-success wd-100 bx-line"><i class="fa fa-search"></i> Search</button>
                             </form>
                           </div>
@@ -99,6 +99,18 @@
     export default {
         name: "campaign-reports",
       components: {DashboardNavbar, Sidebar},
+      head(){
+          return{
+            script: [
+              { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
+              { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
+              { src: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js'},
+            ],
+            link: [
+              { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css' }
+            ]
+          }
+      },
       data(){
           return{
             campaign_report:[
@@ -121,7 +133,20 @@
               {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
             ]
           }
+      },
+      mounted() {
+        $(function() {
+          $('input[name="datetimes"]').daterangepicker({
+            timePicker: true,
+            startDate: moment().startOf('hour'),
+            endDate: moment().startOf('hour').add(32, 'hour'),
+            locale: {
+              format: 'M/DD/YYYY h:mm:ss'
+            }
+          });
+        });
       }
+
     }
 </script>
 
@@ -305,5 +330,9 @@
      -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
      transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
    }
-
+  .form-control:focus {
+    border-color: #4DB6AC;
+    box-shadow: none;
+    outline: 0;
+  }
 </style>

@@ -1,38 +1,34 @@
 <template>
   <div>
-    <SmsHistoryModal></SmsHistoryModal>
+    <date-range-picker
+      v-model="dateRange"
+      :date-format="dateFormat"
+    ></date-range-picker>
   </div>
 
 </template>
 
 <script>
-    import {PerfectScrollbar} from 'vue2-perfect-scrollbar'
-    import Sidebar from "../components/general/Sidebar";
-    import ServicePriceModal from "../components/modals/ServicePriceModal";
-    import Dropdown2 from "../components/general/dropdown/Dropdown2";
-    import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
-    import DeviceModal from "../components/modals/DeviceModal";
-    import Paginator from "../components/general/Paginator";
-    import ApiNavbar from "../components/general/navbar/ApiNavbar";
-    import SmsHistoryModal from "../components/modals/SmsHistoryModal";
+  import DateRangePicker from 'vue2-daterange-picker'
     export default {
         name: "test",
-      components: {
-        SmsHistoryModal,
-        ApiNavbar,
-        Paginator, DeviceModal, DashboardNavbar, Dropdown2, ServicePriceModal, Sidebar, PerfectScrollbar},
-      head(){
-        return{
-          script: [{src: '/js/customScrollbar.js'}],
-          link: [{href:"vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css"}]
-        }
-      },
+      components: { DateRangePicker},
+      data(){
+          return{
+            dateRange: {
+              startDate: '2019-12-26',
+              endDate: '2019-12-28',
+            },
+          }
+      }
+
     }
 </script>
 
 <style >
   /*@import "assets/css/general_style/divpages.css";8*/
   /*@import "vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css";*/
+
   ::-webkit-scrollbar {
     width: 9px !important;
     height: 9px !important;
