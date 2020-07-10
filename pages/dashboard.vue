@@ -112,7 +112,7 @@
                                   <div class="panel panel-transparent">
                                     <div class="panel-body">
                                       <div class="row pad-100">
-                                        <div class="col-md-2 card" id="step2">
+                                        <div class="col-md-2 cards" id="step2">
                                           <!-- START PANEL -->
                                           <div class="panel panel-transparent">
                                             <div class="panel-body no-padding">
@@ -127,7 +127,7 @@
                                           </div>
                                           <!-- END PANEL -->
                                         </div>
-                                        <div class="col-md-2 card" id="step3">
+                                        <div class="col-md-2 cards" id="step3">
                                           <!-- START PANEL -->
                                           <div class="panel panel-transparent">
                                             <div class="panel-body no-padding">
@@ -142,7 +142,7 @@
                                           </div>
                                           <!-- END PANEL -->
                                         </div>
-                                        <div class="col-md-2 card" id="step4">
+                                        <div class="col-md-2 cards" id="step4">
                                           <!-- START PANEL -->
                                           <div class="panel panel-transparent">
                                             <div class="panel-body no-padding">
@@ -151,7 +151,7 @@
                                               <small class="blue-t">Step 3</small>
                                               <h5 class="mb-10"><strong>Message</strong></h5>
                                               <p class="insight mb-10">View guide on <br>sending messages</p>
-                                              <a href="/message/select-type" class="btn btn-blue btn-cons"><i class="fa fa-angle-double-right"></i> Start</a>
+                                              <nuxt-link to="/message/select-type" class="btn btn-blue btn-cons"><i class="fa fa-angle-double-right"></i> Start</nuxt-link>
                                             </div>
                                           </div>
                                           <!-- END PANEL -->
@@ -242,13 +242,6 @@
   .content-wrapper {
     width: 100%;
   }
-  #sb .jumbotron {
-    position: relative;
-    overflow: hidden;
-    display: block;
-    padding: 0;
-    background-color: #fff;
-  }
 
   #welcome {
     margin-bottom: 15px;
@@ -274,22 +267,6 @@
     /* -webkit-margin-start: 0px; */
     /* -webkit-margin-end: 0px; */
     display: block;
-  }
-  #sb .jumbotron p {
-    font-size: 14px;
-    font-weight: normal;
-    margin-bottom: inherit;
-  }
-  #sb .alert {
-    background-image: none;
-    box-shadow: none;
-    text-shadow: none;
-    padding: 9px 19px 9px 15px;
-    border-radius: 3px;
-    font-size: 13px;
-    border-width: 0;
-    -webkit-transition: all 0.2s linear 0s;
-    transition: all 0.2s linear 0s;
   }
   .toke {
     background-color: #f5f5f5;
@@ -355,23 +332,10 @@
     border-radius: 2px;
     word-wrap: break-word;
   }
-  .card {
-    background-color: white;
-    border-radius: 3px;
-    box-shadow: 0 3px 8px 1px rgba(80, 80, 80, 0.02);
-    margin: 10px;
-    margin-bottom: 30px;
-    border: 1px solid #efefef;
-    padding: 18px 9px 5px;
-    text-align: center;
-    width: 182px;
-  }
-  .row {
-    margin-left: 0px;
-    margin-right: 0px;
-  }
+
   .wd-50 {
     width: 50px !important;
   }
+
 
 </style>
