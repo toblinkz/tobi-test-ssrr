@@ -1,6 +1,6 @@
 <template>
   <transition>
-    <div class=" modal body" role="dialog">
+    <div class=" modal body" role="dialog" @click="close">
       <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">

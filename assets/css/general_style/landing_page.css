@@ -304,6 +304,20 @@ small, .small {
   font-size: 97%;
   color: #333 !important;
 }
+.btn:focus, .btn.focus {
+  box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.05) inset;
+  outline: 0;
+}
+.btn-success {
+  color: #fff;
+  background: linear-gradient(-48deg, #70ddad -30%, #226a4a 60%) !important;
+  box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+}
+.btn-danger {
+  color: #fff;
+  background-color: #F44336;
+  border-color: #F44336;
+}
 h2{
   margin-bottom: 10px;
   font-weight: 100;
