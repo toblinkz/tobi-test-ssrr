@@ -14,7 +14,7 @@
                     <table class="table table-ultra-responsive">
                       <tbody>
                       <tr>
-                        <td class="text-right">MessageId:</td>
+                        <td class="text-right"> MessageId: </td>
                         <td>                                                2830989168283342637
                         </td>
                       </tr>

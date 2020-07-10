@@ -122,7 +122,7 @@
                                               <h5 class="mb-10"><strong>Activate ID</strong></h5>
                                               <p class="insight mb-10">
                                                 Activate your <br>sender or device ID</p>
-                                              <button type="button" class="btn btn-blue btn-cons" data-toggle="modal" data-target="#audience" data-backdrop="true"><i class="fa fa-angle-double-right"></i> Start</button>
+                                              <button type="button" class="btn btn-blue btn-cons" @click="showActivateIdModal = true" ><i class="fa fa-angle-double-right"></i> Start</button>
                                             </div>
                                           </div>
                                           <!-- END PANEL -->
@@ -137,7 +137,7 @@
                                               <h5 class="mb-10"><strong>Wallet</strong></h5>
                                               <p class="insight mb-10">Top-up your account <br>with messaging credit</p>
                                               <!-- Trigger the modal with a button -->
-                                              <button type="button" class="btn btn-blue btn-cons" data-toggle="modal" data-target="#buyUnits" data-backdrop="true"><i class="fa fa-angle-double-right"></i> Start</button>
+                                              <button type="button" class="btn btn-blue btn-cons" @click="showYourWalletModal = true"><i class="fa fa-angle-double-right"></i> Start</button>
                                             </div>
                                           </div>
                                           <!-- END PANEL -->
@@ -176,6 +176,8 @@
         </div>
       </div>
     </div>
+    <ActivateIdModal v-if="showActivateIdModal" @close="closeActivateIdModal"></ActivateIdModal>
+    <YourWalletModal v-if="showYourWalletModal" @close="closeYourWalletModal"></YourWalletModal>
   </div>
 </template>
 
@@ -183,9 +185,26 @@
   import Sidebar from "../components/general/Sidebar";
   import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
   import BalanceHistory from "../components/general/BalanceHistory";
+  import SmsHistoryModal from "../components/modals/SmsHistoryModal";
+  import YourWalletModal from "../components/modals/YourWalletModal";
+  import ActivateIdModal from "../components/modals/ActivateIdModal";
   export default {
     name: "dashboard",
-    components: {BalanceHistory, DashboardNavbar, Sidebar},
+    components: {ActivateIdModal, YourWalletModal, SmsHistoryModal, BalanceHistory, DashboardNavbar, Sidebar},
+    data(){
+      return{
+        showActivateIdModal: false,
+        showYourWalletModal: false,
+      }
+    },
+    methods: {
+            closeActivateIdModal(){
+              this.showActivateIdModal = false;
+            },
+          closeYourWalletModal(){
+              this.showYourWalletModal = false;
+          }
+    },
     mounted () {
       this.$nextTick(() => {
         this.$nuxt.$loading.start()
