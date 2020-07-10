@@ -1,10 +1,10 @@
 <template>
   <transition>
-  <div id="serviceprice" class="modal in body" role="dialog">
-    <div class="modal-dialog" style="margin: 30px auto; ">
+  <div id="serviceprice" class="modal in body" role="dialog" @click="close">
+    <div class="modal-dialog" style="margin: 30px auto; " >
 
       <!-- Modal content-->
-      <div class="modal-content">
+      <div class="modal-content" >
         <div class="modal-header">
           <button type="button" class="close" @click="close">×</button>
         </div>

@@ -119,6 +119,15 @@
     outline: none;
     direction: ltr;
   }
+  .ps__thumb-x, .ps__thumb-y {
+    background-color: #00695C;
+    border-radius: 6px;
+    position: absolute;
+  }
+  .ps__rail-y.ps--clicking .ps__thumb-y, .ps__rail-y:focus>.ps__thumb-y, .ps__rail-y:hover>.ps__thumb-y {
+    background-color:#00695C;
+    width: 11px;
+  }
 
 
 </style>

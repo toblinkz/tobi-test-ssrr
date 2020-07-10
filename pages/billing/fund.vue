@@ -118,7 +118,7 @@
                                       </div>
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
-                                        <p id="">₦36660</p>
+                                        <p >₦36660</p>
                                       </div>
                                       <div class="form-group">
                                         <p id=""><b>Notice:</b> <br>Also all payments would be remitted in Naira, but your accounts would be credited in your local currency. </p>
@@ -146,7 +146,7 @@
       </div>
     </div>
   </div>
-    <ServicePriceModal v-if="showModal" @close="closeModal"></ServicePriceModal>
+    <ServicePriceModal v-if="showModal" @close="closeModal" ></ServicePriceModal>
   </div>
 </template>
 
@@ -373,6 +373,10 @@
   .btn:active, .btn.active {
     -webkit-box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.1) inset;
     box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.1) inset;
+  }
+  .btn:focus, .btn.focus {
+    box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.05) inset;
+    outline: 0;
   }
   .form-control:focus {
     border-color: #4DB6AC;

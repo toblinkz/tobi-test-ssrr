@@ -102,7 +102,7 @@
                                     <span class="label label-success">{{row.type}}</span>
                                   </td>
                                   <td>
-                                    <a href="http://sandbox.termii.com/invoices/view/26" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View</a>
+                                    <nuxt-link to="/invoices/view" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
                                   </td>
                                 </tr>
                                 </tbody>

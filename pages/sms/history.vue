@@ -34,7 +34,7 @@
                               </div>
 
                               <div class="row">
-                                <form class="" action="http://sandbox.termii.com/sms/history" role="form" method="get" id="search-form">
+                                <form class="" action="" role="form" method="get" id="search-form">
                                   <div class="row">
                                     <div class="col-md-7 mb-20" style="padding-left: 0px;padding-right: 0px;">
                                       <input type="text" placeholder="Phone Number"   class="form-control" name="phone">
@@ -48,7 +48,7 @@
                                     <button type="submit" class="btn btn-success wd-100 bx-line"><i class="fa fa-search"></i> Search</button>
                                   </center>
                                 </form>
-                                <form action="http://sandbox.termii.com/sms/history/export" method="POST" class="mt-20">
+                                <form action="#" method="POST" class="mt-20">
                                   <center> <button type="submit" class="btn btn-danger wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
                                 </form>
 

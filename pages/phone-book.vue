@@ -33,7 +33,7 @@
                               </p>
                               <div class="row hidden-xs">
                                 <br>
-                                <a href="/sms/import-contacts" class="btn btn-primary"><i class="fa fa-upload"></i> Import using excel</a>
+                                <nuxt-link to="/sms/import-contacts" class="btn btn-primary"><i class="fa fa-upload"></i> Import using excel</nuxt-link>
                               </div>
                             </div>
                           </center>

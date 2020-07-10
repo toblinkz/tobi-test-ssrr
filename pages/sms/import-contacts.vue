@@ -33,7 +33,7 @@
                               </p>
                               <div class="row">
                                 <br>
-                                <a href="http://sandbox.termii.com/sms/download-contact-sample-file" class="btn btn-primary"><i class="fa fa-download"></i> Please use this sample file</a>
+                                <a href="#" class="btn btn-primary"><i class="fa fa-download"></i> Please use this sample file</a>
                               </div>
                             </div>
                           </center>

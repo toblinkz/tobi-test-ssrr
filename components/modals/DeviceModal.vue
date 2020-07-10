@@ -1,14 +1,14 @@
 <template>
 <transition>
   <!-- Modal -->
-  <div class="modal body fade" id="request-new-device" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal body fade" id="request-new-device" tabindex="-1" role="dialog" @click="close">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header" >
           <button type="button" class="close" @click="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel">Request New ID</h4>
         </div>
-        <form class="form-some-up" role="form" method="post" action=http://sandbox.termii.com/device>
+        <form class="form-some-up" role="form" method="post" >
 
           <div class="modal-body">
             <div class="form-group">
