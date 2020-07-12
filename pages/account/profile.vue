@@ -45,19 +45,19 @@
                                 <div class="sub_section">
                                   <div class="media profile-image">
                                     <div class="media-left">
-                                      <a href="#" class="upload-media-container">
-                                        <img preview-for="image" empty-src="http://sandbox.termii.com/assets/images/placeholder.jpg" src="/images/team/10.png" class="img-circle" alt="">
-                                      </a>
+                                      <nuxt-link to="#" class="upload-media-container">
+                                        <img preview-for="image" empty-src="/images/placeholder.jpg" src="/images/team/10.png" class="img-circle" alt="">
+                                      </nuxt-link>
                                       <input type="file" name="image" class="file-styled previewable hide">
                                     </div>
                                     <div class="media-body text-center">
                                       <h5 class="media-heading text-semibold">Upload your photo…</h5>
                                       Photo should be at least 300px x 300px
                                       <br /><br />
-                                      <a href="#remove" class="btn btn-xs bg-grey-800 "><i class="icon-trash"></i> Remove</a>
+                                      <nuxt-link to="#remove" class="btn btn-xs bg-grey-800 "><i class="icon-trash"></i> Remove</nuxt-link>
                                       <br />
                                       <br />
-                                      <a href="#upload" class="btn btn-xs bg-teal mr-10"><i class="icon-upload4"></i> Upload</a>
+                                      <nuxt-link to="#upload" class="btn btn-xs bg-teal mr-10"><i class="icon-upload4"></i> Upload</nuxt-link>
                                     </div>
                                   </div>
                                 </div>

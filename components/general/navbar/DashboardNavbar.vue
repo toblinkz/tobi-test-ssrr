@@ -24,10 +24,10 @@
         <ul class="nav navbar-nav navbar-right">
 
           <li class="m-left hidden-xs">
-            <a href="/message/select-type" type="button" class="btn stretch-a" style="height: 30px !important;margin-top: 8px !important;padding-bottom: 26px;
+            <nuxt-link to="/message/select-type" type="button" class="btn stretch-a" style="height: 30px !important;margin-top: 8px !important;padding-bottom: 26px;
     color: #fff !important;padding-top: 7px !important;background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);font-weight: 100 !important;">
               <i class="entypo-paper-plane" style="font-size: 14px;"></i> Compose message
-            </a>
+            </nuxt-link>
           </li>
           <Dropdown>
             <template v-slot:dropdown_title>
@@ -37,7 +37,7 @@
               </a>
             </template>
             <template v-slot:dropdown_menu>
-              <li><a href="/billing/fund"><i class="entypo-credit-card"></i> Top Up</a></li>
+              <li><nuxt-link to="/billing/fund"><i class="entypo-credit-card"></i> Top Up</nuxt-link></li>
               <li>
                 <nuxt-link to="/message/select-type">
                   <i class="entypo-paper-plane"></i><span> Message</span>
@@ -54,7 +54,7 @@
                 <nuxt-link to="/account/profile"><i class="entypo-vcard"></i> Account</nuxt-link>
               </li>
 
-              <li><a href="/login"><i class="icon-switch2"></i> logout</a></li>
+              <li><nuxt-link to="/login"><i class="icon-switch2"></i> logout</nuxt-link></li>
             </template>
           </Dropdown>
         </ul>
