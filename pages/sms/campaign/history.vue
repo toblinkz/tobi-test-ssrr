@@ -68,6 +68,7 @@
                             <thead>
                             <tr>
                               <th style="width: 5%">Sent At</th>
+                              <th style="width: 5%">Message ID</th>
                               <th style="width: 5%">Number</th>
                               <th style="width: 25%">Message</th>
                               <th style="width: 5%">Amount</th>
@@ -76,6 +77,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="row in manage_campaign_list" :key="row.sent_at">
+                              <td style="width: 5%"></td>
                               <td style="width: 5%"></td>
                               <td style="width: 5%">{{row.number}}</td>
                               <td style="width: 25%">{{row.message}}</td>
