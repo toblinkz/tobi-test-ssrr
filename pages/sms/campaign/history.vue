@@ -99,9 +99,9 @@
 </template>
 
 <script>
-    import Sidebar from "../../components/general/Sidebar";
-    import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
-    import ManageCampaignChart from "../../components/general/charts/ManageCampaignChart";
+    import Sidebar from "../../../components/general/Sidebar";
+    import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
+    import ManageCampaignChart from "../../../components/general/charts/ManageCampaignChart";
     export default {
         name: "manage-campaign",
       components: {ManageCampaignChart, DashboardNavbar, Sidebar},
