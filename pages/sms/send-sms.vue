@@ -86,7 +86,7 @@
                                  </div>
                                  <div class="form-group" v-show="send_later">
                                    <label>Schedule Time</label>
-                                   <input type="text" class="form-control dateTimePicker" name="schedule_time" value="06/25/20 13:47 20">
+                                   <date-picker v-model="date_time" type="datetime"></date-picker>
                                  </div>
                                </form>
                              </div>
@@ -141,12 +141,15 @@
 <script>
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+    import DatePicker from "vue2-datepicker"
+    import 'vue2-datepicker/index.css';
     export default {
         name: "send-sms",
-      components: {DashboardNavbar, Sidebar},
+      components: {DashboardNavbar, Sidebar, DatePicker},
       data(){
           return{
-            send_later: false
+            send_later: false,
+            date_time:"null",
           }
       },
       methods: {
@@ -157,7 +160,9 @@
     }
 </script>
 
-<style scoped>
+<style >
+
+
   .page-header {
     margin: 0;
     padding: 0;
