@@ -1,10 +1,10 @@
 <template>
   <div class="custom-select" :tabindex="tabindex" @blur="open = false">
     <div class="selected" :class="{open: open}" @click="open = !open">{{ selected }} </div>
-    <div class="items" :class="{selectHide: !open}">
+    <div id="list" class="items " :class="{selectHide: !open}">
       <div
         :key="i"
-        @click="selected=option; open=false; $emit('onClick', option)"
+        @click="selected=option; open=false; $emit('onClick', option); "
         class="item"
         v-for="(option, i) of options"
       >{{ option }}</div>
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+
     export default {
         name: "CustomSelect",
       props: {
@@ -34,7 +35,25 @@
       },
       mounted() {
         this.$emit("onClick", this.selected);
-      }
+        $(".custom-select").click(function() {
+
+          let scrollTop = $(window).scrollTop();
+
+          let topOffset = $(".custom-select").offset().top;
+
+          let relativeOffset = topOffset - scrollTop;
+
+          let windowHeight = $(window).height();
+
+          if (relativeOffset > windowHeight / 2){
+            console.log("true")
+            $("#list").addClass("items-reverse");
+          } else {
+            console.log("false")
+            $("#list").removeClass("items-reverse");
+          }
+        });
+      },
     }
 </script>
 
@@ -73,10 +92,32 @@
     border-color: #000000 transparent transparent transparent;
   }
 
-  .items {
+  .reverse {
+    top:auto;
+    bottom:100%;
+  }
 
+  .items {
     position: absolute;
     top: 100%;
+    left: 0;
+    z-index: 1000;
+    float: left;
+    height:200px;
+    overflow:scroll;
+    width: 100%;
+    list-style: none;
+    background-color: #fff;
+    border: 1px solid #efefef;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+  }
+  .items-reverse{
+    position: absolute;
+    top: auto;
+    bottom: 100%;
     left: 0;
     z-index: 1000;
     float: left;
