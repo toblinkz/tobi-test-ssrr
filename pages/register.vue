@@ -47,12 +47,8 @@
                   </div>
                 <div class="select-class">
                   <div class="row-form has-feedback has-feedback-left ">
-                    <select v-model="selected_country" class="form-control " name="country" id="country">
-                      <option value="">Select your country</option>
-                     <!-- <option v-for="(country, countryIndex) in countries" :key="country.id" :value="country.id">{{country.name}}</option>-->
-                      <option>Nigeria</option>
-                      <option>Ghana</option>
-                    </select>
+                    <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground" :dropdown-style="dropdownHeight"></SearchDropdown>
+
                   </div>
                   <div class="row-form has-feedback has-feedback-left" >
                     <select v-model="selected_sector" class="form-control " name="sector" id="sector" >
@@ -90,14 +86,15 @@
 
 
 <script>
+    import SearchDropdown from "../components/general/dropdown/SearchDropdown";
     export default {
         name: "register",
+      components: {SearchDropdown},
       data(){
           return{
             registered_business:"",
             selected_country: '',
             selected_sector: '',
-            countries: [],
             sectors:[],
             email: "",
             password:"",
@@ -116,7 +113,24 @@
             hasPasswordInput: false,
             hasPhoneNumberInput:false,
             isToggled: false,
-            type: "password"
+            type: "password",
+            countries: ['Select your country','Aigeria', 'Ahana', 'ASA', 'AUK', 'AIndia','Bigeria', 'chana', 'DSA', 'EUK', 'FIndia'],
+            dropdownSelectedBackground:{
+              backgroundColor: '#ffffff',
+              backgroundImage: 'none',
+              border: '1px solid rgba(0, 0, 0, 0.07)',
+              color: '#2c2c2c',
+              height: '55px',
+              padding: '18px 36px',
+              fontWeight: 'normal',
+              minHeight: '35px',
+              marginTop: '0px',
+              borderRadius: '1px'
+            },
+            dropdownHeight:{
+              height: '55px',
+
+            }
           }
       },
       computed: {
