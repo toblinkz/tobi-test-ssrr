@@ -1,6 +1,6 @@
 <template>
 
-    <div id="SearchDropdown" class="dropdown" v-click-outside="hide">
+    <div id="SearchDropdown" class="dropdown" v-click-outside="hide" :style="{...dropdownStyle}">
       <div  @click="open  = !open" class="dropdown-selected" :style="{...dropdownSelectedStyle}">
         {{selectedItem}}
       </div>
@@ -40,6 +40,9 @@
             required: true
           },
         dropdownSelectedStyle: {
+            type: Object
+        },
+        dropdownStyle:{
             type: Object
         }
       },
@@ -148,7 +151,7 @@
     background-color: #ddd;
     line-height: 1.5em;
     outline: none;
-    border-radius: 8px;
+
   }
   .search-input{
     width: 100%;
@@ -177,7 +180,7 @@
   .dropdown-selected:after {
     position: absolute;
     content: "";
-    top: 16px;
+    top: 50%;
     right: 10px;
     width: 0;
     height: 0;
