@@ -162,7 +162,7 @@
       data(){
           return{
             options: ['Financial Services','Online Retail Services','Education Services', 'Advertising & Marketing Services', 'Logistics & Transportation Services', 'Others', 'Health Services', 'Agriculture Services'],
-            countries:['Nigeria', 'Ghana', 'Kenya', 'Uganda','Nigeria', 'Ghana', 'Kenya', 'Uganda',],
+            countries:['Nigeria', 'Ghana', 'Kenya', 'Uganda',],
 
           }
       }

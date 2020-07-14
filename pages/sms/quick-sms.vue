@@ -48,22 +48,15 @@
                                 <div class="form-group mt-50">
                                   <label>Select Channel </label>
                                   <small style="color: red !important;font-size: 11px;">(WhatsApp available only to premium users)</small>
-                                  <SearchDropdown :options="options" ></SearchDropdown>
+                                  <SearchDropdown :options="options" :dropdown-selected-style="dropdownSelectedBackground" ></SearchDropdown>
                                 </div>
                                 <div class="form-group">
                                   <label>Recipients</label>
-                                  <SearchDropdown :options="countries"></SearchDropdown>
+                                  <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
                                 </div>
                                 <div class="form-group">
                                   <textarea class="form-control" rows="5" name="recipients"  placeholder="Seperate the numbers using a comma eg. 081094472,08109447343" id="recipients"></textarea>
                                   <span class="pull-right">Total Number Of Recipients: <span class="number_of_recipients bold m-r-5">0</span></span>
-                                </div>
-                                <div class="form-group" style="display: none !important;">
-                                  <label>Remove Duplicate</label>
-                                  <select class="selectpicker form-control" name="remove_duplicate">
-                                    <option value="yes">Yes</option>
-                                    <option value="no">No</option>
-                                  </select>
                                 </div>
                               </form>
                             </div>
@@ -71,7 +64,7 @@
                               <div class="form-group mt-50">
                                 <label class="hidden-xs">Sender ID / Device ID</label>
                                 <small style="color: red !important;font-size: 11px;" class="hidden-xs">(Can't find your ID below, <a href="http://sandbox.termii.com/sms/sender-id-management">register yours here</a> - Process takes less than 24 hours)</small>
-                                <SearchDropdown :options="senderId"></SearchDropdown>
+                                <SearchDropdown :options="senderId" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
                               </div>
                               <div class="form-group">
                                 <label>Message</label>
@@ -119,6 +112,11 @@
             countries: ['select your country','Aigeria', 'Ahana', 'ASA', 'AUK', 'AIndia','Bigeria', 'chana', 'DSA', 'EUK', 'FIndia'],
             senderId: ['Termii', 'N-Alert', 'EGFM', 'NTA', 'COOL',],
             message: ['Plain', 'Voice', 'MMS', 'Unicode', 'Arabic',],
+            dropdownSelectedBackground:{
+              background: 'white',
+              border: '1px solid rgba(98, 98, 98, 0.27)',
+              fontWeight: '100',
+            }
 
           }
       }
@@ -126,6 +124,9 @@
 </script>
 
 <style scoped>
+  .bg{
+    background: red;
+  }
   .page-header {
     margin: 0;
     padding: 0;

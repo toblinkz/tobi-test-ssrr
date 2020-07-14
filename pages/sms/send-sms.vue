@@ -48,15 +48,15 @@
                                  <div class="form-group mt-30">
                                    <label>Select Channel </label>
                                    <small style="color: red !important;font-size: 11px;">(WhatsApp available only to premium users)</small>
-                                  <SearchDropdown :options="options"></SearchDropdown>
+                                  <SearchDropdown :options="options" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
                                  </div>
                                  <div class="form-group">
                                    <label>Recipients</label>
-                                   <SearchDropdown :options="countries"></SearchDropdown>
+                                   <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
                                  </div>
                                  <div class="form-group">
                                    <small style="color: red !important;font-size: 11px;">(Ensure you have added contacts to your phonebook)</small>
-                                   <SearchDropdown :options="message"></SearchDropdown>
+                                   <SearchDropdown :options="message" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
                                  </div>
                                  <div class="form-group">
                                    <div class="coder-checkbox">
@@ -75,7 +75,7 @@
                                <div class="form-group mt-30">
                                  <label class="hidden-xs">Sender ID / Device ID</label>
                                  <small style="color: red !important;font-size: 11px;" class="hidden-xs">(Can't find your ID below, <a href="http://sandbox.termii.com/sms/sender-id-management">register yours here</a> - Process takes less than 24 hours)</small>
-                                 <SearchDropdown :options="senderId"></SearchDropdown>
+                                 <SearchDropdown :options="senderId" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
                                </div>
                                <div class="form-group">
                                  <label>Message</label>
@@ -124,6 +124,11 @@
             countries: ['select your country','Aigeria', 'Ahana', 'ASA', 'AUK', 'AIndia','Bigeria', 'chana', 'DSA', 'EUK', 'FIndia'],
             senderId: ['Termii', 'N-Alert', 'EGFM', 'NTA', 'COOL',],
             message: ['Plain', 'Voice', 'MMS', 'Unicode', 'Arabic',],
+            dropdownSelectedBackground:{
+              background: 'white',
+              border: '1px solid rgba(98, 98, 98, 0.27)',
+              fontWeight: '100',
+            }
           }
       },
       methods: {
