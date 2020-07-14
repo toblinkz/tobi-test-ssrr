@@ -142,7 +142,7 @@
     position: relative;
     width: 100%;
     height: 40px;
-    max-width: 400px;
+    max-width: 100%;
     margin: 0 auto;
   }
   .dropdown-input, .dropdown-selected{
