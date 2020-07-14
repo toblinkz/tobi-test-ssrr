@@ -1,12 +1,12 @@
 <template>
 
-    <div class="dropdown" v-click-outside="hide">
+    <div id="SearchDropdown" class="dropdown" v-click-outside="hide">
       <div  @click="open  = !open" class="dropdown-selected">
         {{selectedItem}}
       </div>
-      <div id="list" v-show="open || inputValue" class="dropdown-select">
+      <div id="dropdownlist" v-show="open || inputValue" class="dropdown-select">
         <span class="dropdown-select-search">
-          <input class="search-field" type="search"  v-model.trim="inputValue" style=" z-index: 1000;">
+          <input class="search-field" type="search"  v-model.trim="inputValue" >
         </span>
         <div  class="search-results" >
           <div  v-for="item in options" :key="item" v-show="itemVisible(item)" class="dropdown-item " @click="selectItem(item); open = false">
@@ -48,9 +48,7 @@
       methods:{
           itemVisible(item){
                 let currentName = item.toLowerCase();
-                console.log(currentName)
                 let currentInput = this.inputValue.toLowerCase();
-                console.log(currentInput)
             return currentName.includes(currentInput);
           },
         selectItem(item){
@@ -63,21 +61,21 @@
         }
       },
       mounted() {
-          $(".dropdown").click(function () {
+          $("#SearchDropdown").click(function () {
             let scrollTop = $(window).scrollTop();
 
-            let topOffset = $(".dropdown").offset().top;
+            let topOffset = $("#SearchDropdown").offset().top;
 
             let relativeOffset = topOffset - scrollTop;
 
             let windowHeight = $(window).height();
 
             if (relativeOffset > windowHeight / 2){
-              //console.log("true")
-              $("#list").addClass("items-reverse");
+              console.log("true")
+              $("#dropdownlist").addClass("items-reverse");
             } else {
-              //console.log("false")
-              $("#list").removeClass("items-reverse");
+              console.log("false")
+              $("#dropdownlist").removeClass("items-reverse");
             }
           });
       },
@@ -87,7 +85,7 @@
     }
 </script>
 
-<style scoped>
+<style >
 
   .dropdown-select-search:after {
     content: '\e98e';
@@ -225,8 +223,7 @@
     left: 0;
     z-index: 1000;
     float: left;
-    height:200px;
-    overflow:scroll;
+    max-height:200px;
     width: 100%;
     list-style: none;
     background-color: #fff;
