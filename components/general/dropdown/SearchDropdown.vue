@@ -1,7 +1,7 @@
 <template>
 
     <div id="SearchDropdown" class="dropdown" v-click-outside="hide">
-      <div  @click="open  = !open" class="dropdown-selected">
+      <div  @click="open  = !open" class="dropdown-selected" :style="{...dropdownSelectedStyle}">
         {{selectedItem}}
       </div>
       <div id="dropdownlist" v-show="open || inputValue" class="dropdown-select">
@@ -39,10 +39,8 @@
             type: Array,
             required: true
           },
-        tabindex: {
-          type: Number,
-          required: false,
-          default: 0
+        dropdownSelectedStyle: {
+            type: Object
         }
       },
       methods:{
@@ -71,10 +69,10 @@
             let windowHeight = $(window).height();
 
             if (relativeOffset > windowHeight / 2){
-              console.log("true")
+
               $("#dropdownlist").addClass("items-reverse");
             } else {
-              console.log("false")
+
               $("#dropdownlist").removeClass("items-reverse");
             }
           });
@@ -85,7 +83,7 @@
     }
 </script>
 
-<style >
+<style scoped>
 
   .dropdown-select-search:after {
     content: '\e98e';
@@ -147,7 +145,7 @@
     width: 100%;
     padding: 10px 16px;
     border: 1px solid transparent;
-    background: #edf2f7;
+    background-color: #ddd;
     line-height: 1.5em;
     outline: none;
     border-radius: 8px;
@@ -186,18 +184,7 @@
     border: 4px solid transparent;
     border-color: #000000 transparent transparent transparent;
   }
-  .dropdown-list{
-    position: absolute;
-    width: 100%;
-    max-height: 200px;
-    margin-top: 4px;
-    z-index: 1000;
-    overflow:scroll;
-    background: #ffffff;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    border-radius: 3px;
-    background-clip: padding-box;
-  }
+
   .dropdown-item{
     display: flex;
     width: 100%;
@@ -205,7 +192,7 @@
     cursor: pointer;
   }
   .dropdown-item:hover{
-    background: #edf2f7;
+    background-color: #c8e9e6;
   }
   .dropdown-item:focus{
     background-color: #f5f5f5;
