@@ -79,7 +79,7 @@
                                </div>
                                <div class="form-group">
                                  <label>Message</label>
-                                 <CustomSelect :options="message"></CustomSelect>
+                                 <CustomSelect :options="message" :dropdown-style="dropdownStyle"></CustomSelect>
                                </div>
                                <div class="form-group">
                                  <textarea class="form-control" name="message" rows="5" id="message"></textarea>
@@ -128,6 +128,9 @@
               background: 'white',
               border: '1px solid rgba(98, 98, 98, 0.27)',
               fontWeight: '100',
+            },
+            dropdownStyle:{
+              borderRadius: '5px',
             }
           }
       },
