@@ -1,6 +1,6 @@
 <template>
-  <div class="custom-select" :tabindex="tabindex" @blur="open = false">
-    <div class="selected" :class="{open: open}" @click="open = !open">{{ selected }} </div>
+  <div class="custom-select" :style="{...dropdownStyle}" :tabindex="tabindex" @blur="open = false">
+    <div class="selected" :style="{...dropdownSelected}" :class="{open: open}" @click="open = !open">{{ selected }} </div>
     <div id="list" class="items " :class="{selectHide: !open}">
       <div
         :key="i"
@@ -25,6 +25,12 @@
           type: Number,
           required: false,
           default: 0
+        },
+        dropdownStyle:{
+          type: Object
+        },
+        dropdownSelected:{
+          type: Object
         }
       },
       data(){
@@ -65,6 +71,8 @@
     outline: none;
     height: 40px;
     line-height: 47px;
+    border: 1px solid transparent !important;
+    border-color: #ddd !important;
   }
 
   .selected {
@@ -84,7 +92,7 @@
   .selected:after {
     position: absolute;
     content: "";
-    top: 16px;
+    top: 50%;
     right: 10px;
     width: 0;
     height: 0;
@@ -104,7 +112,7 @@
     z-index: 1000;
     float: left;
     height:200px;
-    overflow:scroll;
+    overflow-y:auto;
     width: 100%;
     list-style: none;
     background-color: #fff;
@@ -119,18 +127,14 @@
     top: auto;
     bottom: 100%;
     left: 0;
-    z-index: 1000;
-    float: left;
-    height:200px;
-    overflow:scroll;
-    width: 100%;
-    list-style: none;
     background-color: #fff;
-    border: 1px solid #efefef;
+    color: #333333;
+    border: 1px solid #d0d0d0;
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,0.25);
     border-radius: 3px;
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-    background-clip: padding-box;
+    display: block;
+    width: 100%;
+    z-index: 9999;
   }
 
   .item {
