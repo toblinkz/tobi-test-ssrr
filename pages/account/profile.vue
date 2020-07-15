@@ -84,7 +84,7 @@
                                   >
                                 </div>
                                 <label>Sector</label>
-                                   <CustomSelect :options="options" class="tobi"></CustomSelect>
+                                   <CustomSelect :options="options" :dropdown-height="dropdownStyle"></CustomSelect>
                                 <label class="mt-10">Select Country</label>
                                 <SearchDropdown :options="countries"></SearchDropdown>
                                 <label class="mt-10">State</label>
@@ -150,19 +150,19 @@
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import ApiNavbar from "../../components/general/navbar/ApiNavbar";
-    import Dropdown2 from "../../components/general/dropdown/Dropdown2";
     import CustomSelect from "../../components/general/dropdown/CustomSelect";
-    import vSelect from "vue-select";
-    import 'vue-select/dist/vue-select.css';
     import SearchDropdown from "../../components/general/dropdown/SearchDropdown";
 
     export default {
         name: "profile",
-      components: {SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar, vSelect},
+      components: {SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
       data(){
           return{
             options: ['Financial Services','Online Retail Services','Education Services', 'Advertising & Marketing Services', 'Logistics & Transportation Services', 'Others', 'Health Services', 'Agriculture Services'],
             countries:['Nigeria', 'Ghana', 'Kenya', 'Uganda',],
+            dropdownStyle: {
+              borderRadius: '5px',
+            }
 
           }
       }
