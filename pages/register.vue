@@ -21,12 +21,12 @@
             <div class="mt-20">
               <div class="row ">
                 <div class="select-class">
-                  <div class="row-form has-feedback has-feedback-left mt-20">
+                  <div class="row-form has-feedback has-feedback-left ">
                     <input id="first_name"   type="text" class="form-control" :class="{'error ' : hasFirstNameError,'has-input' : hasFirstNameInput}" v-model="first_name"   placeholder="First Name">
                     <span class="input-field_helper">First Name</span>
                     <span class="error_field_message" v-if="error_message.first_name">{{error_message.first_name}}</span>
                   </div>
-                  <div class="row-form has-feedback has-feedback-left mt-20">
+                  <div class="row-form has-feedback has-feedback-left ">
                     <input id="last_name"   type="text" class="form-control" :class="{'error ' : hasLastNameError, 'has-input' : hasLastNameInput}" v-model="last_name"   placeholder="Last Name">
                     <span class="input-field_helper">Last Name</span>
                     <span class=" error_field_message" v-if="error_message.last_name">{{error_message.last_name}}</span>
@@ -34,12 +34,12 @@
                 </div>
 
                   <div class="register-form-group has-feedback has-feedback-left ">
-                    <input id="email"   type="email" class="form-control round-form-input"  :class="{'error ' : hasEmailError, 'has-input' : hasEmailInput}" v-model="email" placeholder="Work Email">
+                    <input id="email"  type="email" class="form-control round-form-input"  :class="{'error ' : hasEmailError, 'has-input' : hasEmailInput}" v-model="email" placeholder="Work Email">
                     <span class="input-field_helper">Work Email</span>
                     <span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
                   </div>
                   <div class="register-form-group has-feedback has-feedback-left mt-20">
-                    <input id="password"   :type="type" class="form-control " :class="{'error ' : hasPasswordError, 'has-input' : hasPasswordInput}" v-model="password" placeholder="Password" maxlength="24">
+                    <input id="password"  :type="type" class="form-control " :class="{'error ' : hasPasswordError, 'has-input' : hasPasswordInput}" v-model="password" placeholder="Password" maxlength="24">
                     <span class="input-field_helper">Password</span>
                     <span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
                     <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
@@ -47,7 +47,7 @@
                   </div>
                 <div class="select-class">
                   <div class="row-form has-feedback has-feedback-left ">
-                    <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground" :dropdown-style="dropdownHeight"></SearchDropdown>
+                    <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground" :dropdown-style="dropdownStyle"></SearchDropdown>
 
                   </div>
                   <div class="row-form has-feedback has-feedback-left" >
@@ -280,6 +280,7 @@
   }
   .row-form{
     margin-bottom: 20px;
+    margin-top: 20px;
     position: relative;
     padding: 0 1rem 0 0;
     flex-basis: 50%;
@@ -303,6 +304,18 @@
     font-weight: 600 !important;
     font-size: 13px !important;
   }
-
+@media (max-width: 768px) {
+  .row-form{
+    flex-basis: 100%;
+    max-width: 98%;
+    margin-top: 0;
+    padding: 0;
+  }
+  .select-class {
+    display: flex;
+    flex-direction: column;
+    background: #FFFFFF ;
+  }
+}
 
 </style>
