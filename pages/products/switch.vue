@@ -12,7 +12,7 @@
                       url="/images/products/ph.svg"
                       :styles="styles">
           <template>
-            <h1 class="mb-10 "><strong class="text-bold blue-t">Send
+            <h1 class="mb-10 mt-50"><strong class="text-bold blue-t">Send
               <span class="wrap"></span>
             </strong> messages effectively.
             </h1>

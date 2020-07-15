@@ -1,7 +1,7 @@
 <template>
   <div class="body navbar-top  container">
     <!--main nav-->
-    <TheNavbar></TheNavbar>
+    <PrimaryNavbar></PrimaryNavbar>
     <!--/main nav-->
     <!--page container-->
     <div class="login-container page-container">
@@ -12,7 +12,7 @@
                       url="/images/products/ms1.svg"
                       :styles="styles">
           <template>
-            <h1 class="mb-10 "><strong class="text-bold blue-t">Verify Customers
+            <h1 class="mb-10 mt-50"><strong class="text-bold blue-t">Verify Customers
               <span class="wrap"></span>
             </strong> transactions.
             </h1>
@@ -59,13 +59,13 @@
     import SingleProductFeatures from "../../components/general/product_features/SingleProductFeature";
     import TrustedBySection from "../../components/general/TrustedBySection";
     import TheFooter from "../../components/general/TheFooter";
-    import TheNavbar from "../../components/general/navbar/PrimaryNavbar";
     import SingleProductFeature from "../../components/general/product_features/SingleProductFeature";
+    import PrimaryNavbar from "../../components/general/navbar/PrimaryNavbar";
     export default {
         name: "token",
       components: {
+        PrimaryNavbar,
         SingleProductFeature,
-        TheNavbar,
         TheFooter,
         TrustedBySection,
         SingleProductFeatures, ProductFeatureHeader, ProductFeatures, ProductMainContent},

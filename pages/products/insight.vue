@@ -12,7 +12,7 @@
                       url="/images/products/ssl.svg"
                       :styles="styles">
           <template>
-            <h1 class="mb-10 "><strong class="text-bold blue-t">Retrieve
+            <h1 class="mb-10 mt-50"><strong class="text-bold blue-t">Retrieve
               <span class="wrap"></span>
             </strong> detailed analytics.
             </h1>

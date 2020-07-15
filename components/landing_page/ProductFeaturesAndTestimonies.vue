@@ -85,7 +85,7 @@
         </div>
       </section>
       <small>
-        <section class="testimonial-1 mb-100 mt-50 z-in">
+        <section class="testimonial-1 mb-100 mt-50 z-in hidden-xs">
           <div class="container">
             <div class="col-md-6 text-right">
               <small class="mt-50">BUILT FOR AFRICAN BUSINESSES</small>
@@ -106,7 +106,7 @@
             </div>
           </div>
         </section>
-        <div class="container mb-50">
+        <div class="container mb-50 hidden-xs">
           <div class="row z-in mb-50">
             <div class="col-md-6 mt-100" id="zio">
               <img src="/images/logo/round_t.png" class="wide-380">
