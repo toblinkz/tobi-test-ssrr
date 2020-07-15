@@ -8,16 +8,16 @@
           <img class="margin-lx z-in" src="/images/logo.png" alt="logo" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="155px" height="auto" >
         </nuxt-link>
 
-        <ul class="nav navbar-nav pull-right visible-xs-block">
+        <ul class="nav navbar-nav pull-right visible-xs-block" >
           <li>
-            <nuxt-link to="/" class="mobile-menu-button z-in" data-toggle="collapse" data-target="#navbar-mobile">
-              <i class="icon-menu7 blue-t"></i>
-            </nuxt-link>
+            <div class="mobile-menu-button z-in" data-toggle="collapse" data-target="#navbar-mobile" style="">
+              <i id="menu" class="icon-menu7 blue-t " @click="toggle"></i>
+            </div>
           </li>
         </ul>
       </div>
 
-      <div class="navbar-collapse collapse" id="navbar-mobile">
+      <div class="navbar-collapse hide-menu " id="navbar-mobile" >
 
         <ul class="nav navbar-nav navbar-right z-in">
 
@@ -31,7 +31,7 @@
                 <nuxt-link to="/usecases" class="pad-width">
                   Usecase
                 </nuxt-link>
-                <nuxt-link  to="/investors" class="up-top pad-width">
+                <nuxt-link  to="/investors" class="up-top pad-width hidden-xs">
                   Milestones
                 </nuxt-link>
               </div>
@@ -82,7 +82,21 @@
 
 <script>
     export default {
-        name: "PrimaryNavbar"
+        name: "PrimaryNavbar",
+      data(){
+          return{
+          open: false,
+          }
+      },
+      methods: {
+          toggle(){
+
+              $("#navbar-mobile").toggleClass("hide-menu");
+          }
+      },
+      mounted() {
+
+      }
     }
 </script>
 
@@ -98,6 +112,9 @@
     background: #fff !important;
     border-bottom: 1px solid #fff !important;
     padding: 20px 50px 20px 50px !important;
+  }
+  .hide-menu{
+    display: none;
   }
   .ico-r {
 
@@ -145,9 +162,7 @@
   .pull-right {
     float: right !important;
   }
-  .visible-xs-block{
-    display: none !important;
-  }
+
   .z-in {
     z-index: 2 !important;
     position: relative !important;
@@ -155,8 +170,11 @@
   .mobile-menu-button {
     padding: 15px 10px 9px 10px;
   }
-  .navbar-fixed-top .navbar-collapse {
+  /*.navbar-fixed-top .navbar-collapse {
     height: 390px;
+  }*/
+  .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+    max-height: 340px;
   }
   @media (min-width: 769px){
     .navbar-collapse.collapse {
