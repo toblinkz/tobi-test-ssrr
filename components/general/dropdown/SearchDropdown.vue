@@ -6,7 +6,7 @@
       </div>
       <div id="dropdownlist" v-show="open || inputValue" class="dropdown-select">
         <span class="dropdown-select-search">
-          <input class="search-field" type="search"  v-model.trim="inputValue" >
+          <input id="searchField" class="search-field" type="search"  v-model.trim="inputValue" >
         </span>
         <div  class="search-results" >
           <div  v-for="item in options" :key="item" v-show="itemVisible(item)" class="dropdown-item " @click="selectItem(item); open = false">
@@ -63,6 +63,9 @@
       },
       mounted() {
           $("#SearchDropdown").click(function () {
+
+            $("#searchField").focus();
+
             let scrollTop = $(window).scrollTop();
 
             let topOffset = $("#SearchDropdown").offset().top;
@@ -74,9 +77,11 @@
             if (relativeOffset > windowHeight / 2){
 
               $("#dropdownlist").addClass("items-reverse");
+
             } else {
 
               $("#dropdownlist").removeClass("items-reverse");
+
             }
           });
       },
@@ -133,9 +138,12 @@
     padding: 7px 12px;
     padding-left: 36px;
     border-radius: 3px;
-    border: solid 2px #bbb;
+    border: solid 1px #bbb;
     outline: 0;
     width: 100%;
+  }
+  .search-field:focus{
+    border-color: #4DB6AC;
   }
   .dropdown{
     position: relative;
