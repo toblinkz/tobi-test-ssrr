@@ -141,7 +141,7 @@
   }
   .nav > li {
     position: relative;
-    display: block;
+   /* display: block;*/
   }
   .nav > li > a {
     position: relative;
