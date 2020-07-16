@@ -38,5 +38,17 @@
 </script>
 
 <style scoped>
-
+  @media (max-width: 768px) {
+    .dropdown-menu, .navbar .input-group .dropdown-menu {
+      width: 100%;
+      border-width: 0 0 1px 0;
+      border-radius: 0;
+    }
+    
+    .nav > li > a:hover, .nav > li > a:focus {
+      text-decoration: none;
+      background-color: #f5f5f5;
+      color: #777 !important;
+    }
+  }
 </style>
