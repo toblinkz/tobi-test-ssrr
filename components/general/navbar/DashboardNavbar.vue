@@ -199,6 +199,7 @@
   @media (min-width: 768px){
     .navbar-nav>li {
       float: left;
+      margin-bottom: 10px;
     }
 
   }
