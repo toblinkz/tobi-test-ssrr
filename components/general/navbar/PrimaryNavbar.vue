@@ -17,7 +17,7 @@
         </ul>
       </div>
 
-      <div class="navbar-collapse hide-menu " id="navbar-mobile" >
+      <div class="navbar-collapse " id="navbar-mobile" >
 
         <ul class="nav navbar-nav navbar-right z-in">
 
