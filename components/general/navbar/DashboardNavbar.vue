@@ -1,6 +1,15 @@
 <template>
   <div class="body navbar-fixed-top navbar navbar-inverse" style="z-index: 800;background-color: #ffffff;">
-    <div class="navbar-header" style="margin-left: 250px; margin-top: 18px">
+    <div class="navbar-header">
+      <a class="navbar-brand visible-xs-block" href="/">
+        <img src="http://sandbox.termii.com/assets/images/logo.png" alt="">
+      </a>
+      <ul  class="nav navbar-nav pull-right visible-xs-block" >
+        <li>
+          <a class="mobile-menu-button" data-toggle="collapse" ><i  class="icon-menu7" style="color: #000;" @click="toggleMenu"></i></a></li>
+      </ul>
+    </div>
+    <div class="navbar-header hidden-xs" style="margin-left: 250px; margin-top: 18px">
       <div id="google_translate_element"></div>
       <script type="text/javascript">
         function googleTranslateElementInit() {
@@ -29,7 +38,7 @@
               <i class="entypo-paper-plane" style="font-size: 14px;"></i> Compose message
             </nuxt-link>
           </li>
-          <Dropdown>
+          <Dropdown id="mobile-menu" class="hide-menu">
             <template v-slot:dropdown_title>
               <a class="dropdown-toggle stretch-a" data-toggle="dropdown" style="color: #2c2c2c !important;">
                 <img preview-for="image"  src="/images/team/10.png" alt=""><span style="margin-left: 5px;"> Quick Menu</span>
@@ -75,6 +84,9 @@
     methods: {
       toggle: function () {
         this.isOpen = !this.isOpen
+      },
+      toggleMenu(){
+        $("#mobile-menu").toggleClass("hide-menu");
       }
     }
   }
@@ -92,6 +104,9 @@
     min-height: 50px;
     margin-bottom: 20px;
     border: 1px solid transparent;
+  }
+  .hide-menu{
+    display: none;
   }
   @media (min-width: 768px){
     .container>.navbar-header, .container>.navbar-collapse {
@@ -205,6 +220,7 @@
       border-radius: 0;
     }
   }
+
   .navbar-fixed-top, .navbar-fixed-bottom {
     position: fixed;
     right: 0;
@@ -220,5 +236,21 @@
     margin-top: -2px;
     margin-bottom: -2px;
   }
-
+  .navbar-brand > img {
+    margin: 0 auto;
+    max-height: 53px;
+    max-width: 140px;
+    vertical-align: middle;
+    display: inline-block;
+    margin-top: 6px;
+    margin-left: 70px;
+  }
+  .navbar-nav > li > a.mobile-menu-button i {
+    font-size: 24px;
+    color: #2395be;
+    margin-top: 10px;
+  }
+  .navbar-brand > img {
+    height: auto;
+  }
 </style>
