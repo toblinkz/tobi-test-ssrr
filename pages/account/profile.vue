@@ -84,7 +84,7 @@
                                   >
                                 </div>
                                 <label>Sector</label>
-                                   <CustomSelect :options="options" :dropdown-height="dropdownStyle"></CustomSelect>
+                                   <CustomSelect :options="options" :dropdown-style="dropdownStyle" ></CustomSelect>
                                 <label class="mt-10">Select Country</label>
                                 <SearchDropdown :options="countries"></SearchDropdown>
                                 <label class="mt-10">State</label>
