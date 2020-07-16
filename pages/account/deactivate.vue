@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2">
-      <Sidebar></Sidebar>
+      <Sidebar class="hidden-xs"></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -40,7 +40,7 @@
                         <main id="wrapper" class="wrapper">
                           <ApiNavbar></ApiNavbar>
 
-                          <form enctype="multipart/form-data" action="http://sandbox.termii.com/account/deactivate/post" method="POST" class="form-validate-jqueryz">
+                          <form enctype="multipart/form-data" method="POST" class="">
                             <div class="col-md-9">
                               <b class="mb-20 mt-10">*Help us understand why you want to leave. We will use your feedback to get better.</b>
                               <textarea rows="8" cols="100" name="feedback"></textarea>
