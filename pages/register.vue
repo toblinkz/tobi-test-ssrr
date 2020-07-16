@@ -280,7 +280,7 @@
   }
   .row-form{
     margin-bottom: 20px;
-    margin-top: 20px;
+
     position: relative;
     padding: 0 1rem 0 0;
     flex-basis: 50%;
