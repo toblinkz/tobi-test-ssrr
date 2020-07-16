@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2">
-      <Sidebar></Sidebar>
+      <Sidebar class="hidden-xs"></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -56,7 +56,7 @@
                             </div>
                           </div>
                           <div class="col-lg-6 mb-20">
-                              <DashboardChart ></DashboardChart>
+                              <DashboardChart class="hidden-xs"></DashboardChart>
                           </div>
 
                         </div>
