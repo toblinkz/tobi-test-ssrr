@@ -45,6 +45,11 @@
                     <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
 
                   </div>
+                <div class="register-form-group has-feedback has-feedback-left ">
+                  <input id="phone_number"  type="tel" class="form-control " :class="{'error ' : hasPhoneNumberError, 'has-input' : hasPhoneNumberInput}" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
+                  <span class="input-field_helper">Phone Number</span>
+                  <span class=" error_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
+                </div>
                 <div class="select-class">
                   <div class="row-form has-feedback has-feedback-left ">
                     <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground" :dropdown-style="dropdownStyle"></SearchDropdown>
@@ -54,11 +59,6 @@
                     <CustomSelect :options="sectors" :dropdown-style="dropdownStyle" :dropdown-selected="dropdownSelected"></CustomSelect>
                   </div>
                 </div>
-                    <div class="register-form-group has-feedback has-feedback-left ">
-                      <input id="phone_number"  type="tel" class="form-control " :class="{'error ' : hasPhoneNumberError, 'has-input' : hasPhoneNumberInput}" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
-                      <span class="input-field_helper">Phone Number</span>
-                      <span class=" error_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
-                    </div>
                  <nuxt-link to="/verify"><button class="btnl btn-blue m-t-10" :disabled="isDisabled">Create My Account</button> </nuxt-link>
                 <nuxt-link  to="/login" class="pull-right mt-20 m-r-10" style="color: black">Got an account? <span class="text-info2 bold">Log In</span></nuxt-link>
               </div>
