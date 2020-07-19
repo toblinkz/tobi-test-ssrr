@@ -2,7 +2,7 @@
   <div class="body navbar-fixed-top navbar navbar-inverse" style="z-index: 800;background-color: #ffffff;">
     <div class="navbar-header">
       <a class="navbar-brand visible-xs-block" href="/">
-        <img src="http://sandbox.termii.com/assets/images/logo.png" alt="">
+        <img src="/images/logo.png" alt="">
       </a>
       <ul  class="nav navbar-nav pull-right visible-xs-block" >
         <li>
