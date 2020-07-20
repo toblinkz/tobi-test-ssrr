@@ -70,7 +70,7 @@
                                     value="Termii"
                                     type="text"
                                     name="first_name"
-                                    class="form-control required  "
+                                    class="profile-form-control required  "
                                   >
                                 </div>
                                 <label>Phone Number</label>
@@ -80,7 +80,7 @@
                                     value="08109477743"
                                     type="text"
                                     name="phone_number"
-                                    class="form-control required numeric  "
+                                    class="profile-form-control required numeric  "
                                   >
                                 </div>
                                 <label>Sector</label>
@@ -96,7 +96,7 @@
                                     value="Webtech"
                                     type="text"
                                     name="last_name"
-                                    class="form-control required  "
+                                    class="profile-form-control required  "
                                   >
                                 </div>
                                 <label>Email Address</label>
@@ -106,12 +106,12 @@
                                     value="tech@termii.com"
                                     type="text"
                                     name="email"
-                                    class="form-control required email  "
+                                    class="profile-form-control required email  "
                                   >
                                 </div>
                                 <label>Password</label>
                                 <div class="form-group control-password">
-                                  <input :type="type" id="password" value=""  name="password" class="form-control nullable confirmed min:5">
+                                  <input :type="type" id="password" value=""  name="password" class="profile-form-control nullable confirmed min:5">
                                   <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
                                 </div>
                                 <label>State</label>
@@ -121,7 +121,7 @@
                                     value="Lagos"
                                     type="text"
                                     name="state"
-                                    class="form-control required  "
+                                    class="profile-form-control required  "
                                   >
                                 </div>
                                 <hr />
@@ -308,9 +308,7 @@
     border: 0;
     border-top: 1px solid rgba(221, 221, 221, 0.15);
   }
-  .tobi .custom-select{
-    background-color: #ddd
-  }
+
   h5 {
     font-size: 14px;
   }
@@ -347,11 +345,11 @@
     -webkit-appearance: none;
     border: 1px solid rgba(0, 0, 0, 0.07);
   }
-  .form-control {
+  .profile-form-control {
     display: block;
     width: 100%;
-    height: 36px;
-    padding: 7px 12px;
+    height: 40px;
+    padding: 10px 16px;
     font-size: 13px;
     border-radius: 5px;
     font-weight: 500;
