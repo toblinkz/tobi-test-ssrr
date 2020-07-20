@@ -51,7 +51,7 @@
                                   <button class="clipboard-style">
                                     <i class="fa icon-copy2 " aria-hidden="true" v-clipboard:copy="api_key"></i>
                                   </button>
-                                 <p class="insight">{{api_key}}</p> </div>
+                                 <p class="insight" style="color: #595959 !important;">{{api_key}}</p> </div>
                                 <!-- END PANEL -->
                               </div>
                               <div class="col-md-12">
@@ -196,7 +196,7 @@
   }
   .alert {
     position: relative;
-    padding: 15px;
+    padding: 20px 20px 5px 20px;
     /* margin-bottom: 20px; */
     border: 1px solid transparent;
   }
