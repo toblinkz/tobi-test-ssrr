@@ -47,8 +47,11 @@
                               <div class="col-md-6">
                                 <!-- START PANEL -->
                                 <p class="text-semibold"><i class="fa fa-certificate" style="color: #079805 !important;"></i> API Key</p>
-                                <p class="alert toke insight wd">
-                                  TLV78NkZP0zZEDfeyqkiNdi2VB5MJHZaCJNmpMwo6vomHZeeYjw3oCa17BRugn</p>
+                                <div class="alert toke  wd">
+                                  <button class="clipboard-style">
+                                    <i class="fa icon-copy2 " aria-hidden="true" v-clipboard:copy="api_key"></i>
+                                  </button>
+                                 <p class="insight">{{api_key}}</p> </div>
                                 <!-- END PANEL -->
                               </div>
                               <div class="col-md-12">
@@ -81,9 +84,20 @@
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import Main from "../../components/landing_page/MainContent";
     import ApiNavbar from "../../components/general/navbar/ApiNavbar";
+    import VueClipboard from "vue-clipboard2"
+
     export default {
         name: "api",
-      components: {ApiNavbar, Main, DashboardNavbar, Sidebar}
+      components: {ApiNavbar, Main, DashboardNavbar, Sidebar, VueClipboard },
+      data(){
+        return{
+          api_key:"TLV78NkZP0zZEDfeyqjjiNdi2VB5MJHZaCJNmpMwo6vomHZeeYjw3oCa17BRugnlock",
+        }
+      },
+      methods: {
+
+      },
+
     }
 </script>
 
@@ -98,6 +112,14 @@
     .page-content {
       display: table-row;
     }
+  }
+  .clipboard-style{
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background-color: transparent;
   }
   .page-header-content {
     position: relative;
@@ -179,7 +201,7 @@
     border: 1px solid transparent;
   }
   .wd {
-    border-radius: 2px;
+    border-radius: 5px;
     word-wrap: break-word;
   }
   #welcome {
