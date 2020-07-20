@@ -85,18 +85,8 @@
                                 </div>
                                 <label>Sector</label>
                                    <CustomSelect :options="options" :dropdown-style="dropdownStyle" ></CustomSelect>
-                                <label class="mt-10">Select Country</label>
+                                <label class="mt-20">Select Country</label>
                                 <SearchDropdown :options="countries"></SearchDropdown>
-                                <label class="mt-10">State</label>
-                                <div class="form-group control-text">
-                                  <input
-                                    id="state" placeholder=""
-                                    value="Lagos"
-                                    type="text"
-                                    name="state"
-                                    class="form-control required  "
-                                  >
-                                </div>
                               </div>
                               <div class="col-md-5">
                                 <label>Last Name</label>
@@ -121,11 +111,18 @@
                                 </div>
                                 <label>Password</label>
                                 <div class="form-group control-password">
-                                  <input type="password" id="password" value="" autocomplete="new-password"  name="password" class="form-control nullable confirmed min:5">
+                                  <input :type="type" id="password" value=""  name="password" class="form-control nullable confirmed min:5">
+                                  <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
                                 </div>
-                                <label>Confirm Password</label>
-                                <div class="form-group control-password">
-                                  <input type="password" id="password_confirmation" value="" autocomplete="new-password"  name="password_confirmation" class="form-control">
+                                <label>State</label>
+                                <div class="form-group ">
+                                  <input
+                                     placeholder=""
+                                    value="Lagos"
+                                    type="text"
+                                    name="state"
+                                    class="form-control required  "
+                                  >
                                 </div>
                                 <hr />
                                 <button class="btn bg-teal pull-right" type="submit"><i class="icon-check"></i> Save</button>
@@ -162,27 +159,29 @@
             countries:['Nigeria', 'Ghana', 'Kenya', 'Uganda',],
             dropdownStyle: {
               borderRadius: '5px',
-            }
+            },
+            isToggled: false,
+            type: "password"
 
           }
+      },
+      methods:{
+        showPassword(){
+          if (this.type === "password") {
+            this.type = 'text';
+            this.isToggled = true;
+          }
+          else {
+            this.type = "password";
+            this.isToggled = false;
+          }
+        },
       }
     }
 </script>
 
 <style >
-  .style-chooser .vs__search::placeholder,
-  .style-chooser .vs__dropdown-menu {
-    color: #000000;
-    padding: 3px 20px 20px 20px;
-    margin: 2px 0 0;
-    font-size: 13px;
-    text-align: left;
-    cursor: pointer;
-    user-select: none;
-  }
-  .style-chooser .vs__vs-dropdown-max-height{
 
-  }
   @media (min-width: 769px){
     .content-wrapper {
       display: table-cell;
@@ -368,6 +367,16 @@
     border-color: #4DB6AC;
     box-shadow: none;
     outline: 0;
+  }
+   .form-group i.password-visibility{
+    height: 16px;
+    cursor: pointer;
+    fill: #0a2e65;
+    top: 10px;
+    width: 16px;
+    opacity: 1;
+    position: absolute;
+    right: 16px;
   }
 
 </style>
