@@ -97,6 +97,7 @@
             first_name: "",
             last_name:"",
             phone_number: "",
+            access_token:"",
             error: null,
             error_message:[],
             hasEmailError: false,
@@ -256,15 +257,11 @@
               phone_number: this.phone_number,
               country: this.selected_country,
               sector: 1
-            })
-            await this.$auth.loginWith('local', {
-              data: {
-                email: this.email,
-                password: this.password
-              }
-            })
-            await this.$router.push('/verify');
+            }, )
+            console.log(response.data.access_token);
+            let access_token = response.data.access_token
 
+            await this.$router.push({ name: 'verify', params: { access_token: access_token , email: this.email, password: this.password} });
           } catch (e) {
             this.error = e
           }
