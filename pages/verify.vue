@@ -41,10 +41,12 @@
 <script>
   export default {
     name: "verify",
+    middleware: ['guest'],
     data(){
       return{
         verification_code: "",
         error_message:[],
+        access_token: "",
         hasVerificationError: false,
         hasVerificationInput: false,
       }
@@ -73,12 +75,20 @@
       },
       async verifyCode(){
         try{
+          this.access_token = this.$route.params.access_token
           await this.$axios.post('auth/account/verify',{
             verification_code: "890465"
-          })
+          }, {headers: {'Authorization': 'Bearer ' + this.access_token}})
 
-          let userdata = await this.$axios.get('user')
-          await this.$router.push('/dashboard');
+          let userdata = await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + this.access_token}})
+          console.log(userdata)
+          await this.$auth.loginWith('local', {
+            data: {
+              email: this.$route.params.email,
+              password: this.$route.params.password
+            }
+          })
+           this.$router.push('/dashboard');
           console.log(userdata)
         }catch (e) {
 
