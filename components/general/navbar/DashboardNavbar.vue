@@ -63,7 +63,7 @@
                 <nuxt-link to="/account/profile"><i class="entypo-vcard"></i> Account</nuxt-link>
               </li>
 
-              <li><nuxt-link to="/login"><i class="icon-switch2"></i> logout</nuxt-link></li>
+              <li><a @click="logout"><i class="icon-switch2" ></i> logout</a></li>
             </template>
           </Dropdown>
         </ul>
@@ -78,7 +78,8 @@
     components: {Dropdown},
     data(){
       return{
-        isOpen:'false'
+        isOpen:'false',
+        email:""
       }
     },
     methods: {
@@ -87,7 +88,13 @@
       },
       toggleMenu(){
         $("#mobile-menu").toggleClass("hide-menu");
+      },
+      async logout(){
+        await this.$auth.logout();
       }
+    },
+    mounted() {
+
     }
   }
 </script>
