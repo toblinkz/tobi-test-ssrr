@@ -21,7 +21,7 @@
             <div class="auth-panel panel-body ">
               <p class="p-t-20">Welcome back! Sign into your account, we've been waiting for you!</p>
               <div class="login-form-group has-feedback has-feedback-left m-t-35">
-                <input id="" style="width: 100%"  type="email" class="form-control " :class="{'error ' : hasEmailError, 'has-input' : hasEmailInput}"  v-model="email"  placeholder="Work email">
+                <input id="email" style="width: 100%"  type="email" class="form-control " :class="{'error ' : hasEmailError, 'has-input' : hasEmailInput}"  v-model="email"  placeholder="Work Email">
                 <span class="input-field_helper">Work Email</span>
                 <span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
               </div>
@@ -140,9 +140,7 @@
               password: this.password
             }
           })
-          await this.$axios.get('user')
           let errors = response.errors;
-
           await this.$router.push('/dashboard');
         } catch (e) {
           this.$axios.onError(error => {
