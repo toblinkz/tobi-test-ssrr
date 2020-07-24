@@ -80,8 +80,8 @@
             verification_code: "890465"
           }, {headers: {'Authorization': 'Bearer ' + this.access_token}})
 
-          let userdata = await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + this.access_token}})
-          console.log(userdata)
+          await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + this.access_token}}) // get user data
+
           await this.$auth.loginWith('local', {
             data: {
               email: this.$route.params.email,
@@ -89,7 +89,7 @@
             }
           })
            this.$router.push('/dashboard');
-          console.log(userdata)
+
         }catch (e) {
 
         }
