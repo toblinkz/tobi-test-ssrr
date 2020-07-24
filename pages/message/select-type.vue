@@ -105,6 +105,22 @@
     margin-left: 0px;
     margin-right: 0px;
   }
+  .nav {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+  }
+  @media (min-width: 769px){
+    .nav > li {
+      position: relative;
+      display: block;
+    }
+  }
+  .nav > li > a {
+    position: relative;
+    display: block;
+    padding: 7px 15px;
+  }
   .page-header {
     margin: 0;
     padding: 0;
@@ -226,9 +242,18 @@
   .campaign-steps a {
     font-size: 16px;
   }
-
-
-
-
-
+  .btn-primary {
+    color: #fff;
+    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
+    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+  }
+  .btn:hover, .btn:focus, .btn.focus {
+    -webkit-box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.05) inset;
+    box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.05) inset;
+  }
+  .btn-primary:hover {
+    color: #fff;
+    background-color: #0c7cd5;
+    border: 1px solid transparent !important;
+  }
 </style>
