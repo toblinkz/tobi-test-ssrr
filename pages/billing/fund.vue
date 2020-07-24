@@ -84,7 +84,7 @@
                               <div class="panel">
                                 <div class="panel-body">
                                   <form class="form" role="form" method="post" action="http://sandbox.termii.com/billing/fund">
-                                    <CustomSelect :options="options" @onClick="onClick" :dropdown-style="dropdownStyle"></CustomSelect>
+                                    <CustomSelect :options="options" @item-selected="itemSelected" :dropdown-style="dropdownStyle"></CustomSelect>
                                     <!--regular-body!-->
                                     <div id="regular-body" class="mt-20" v-if="isRegularBody">
                                       <div class="form-group alert toke">
@@ -177,7 +177,7 @@
           closeModal() {
             this.showModal = false;
           },
-        onClick(value){
+        itemSelected(value){
             if (value === "Bundled Top Up"){
               this.isBundledForm = true;
               this.isRegularBody = false;
