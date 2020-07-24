@@ -258,7 +258,6 @@
               country: this.selected_country,
               sector: 1
             }, )
-            console.log(response.data.access_token);
             let access_token = response.data.access_token
 
             await this.$router.push({ name: 'verify', params: { access_token: access_token , email: this.email, password: this.password} });
