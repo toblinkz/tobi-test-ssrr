@@ -99,8 +99,8 @@
   }
 </script>
 
-<style >
-  @import "assets/css/general_style/navbar.css";
+<style scoped>
+
 
   .navbar {
     background: #fff !important;
@@ -112,6 +112,11 @@
     margin-bottom: 20px;
     border: 1px solid transparent;
   }
+  .navbar-nav > .dropdown-user > a, .navbar-nav > .dropdown-user > a > span {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
   .hide-menu{
     display: none;
   }
@@ -260,5 +265,28 @@
   }
   .navbar-brand > img {
     height: auto;
+  }
+  @media (min-width: 769px){
+    .nav > li {
+      position: relative;
+      display: block;
+    }
+  }
+  .nav > li > a {
+    position: relative;
+    display: block;
+    padding: 7px 15px;
+  }
+  .navbar-nav > .dropdown-user > a > span {
+    display: inline-block;
+    padding-left: 7px;
+  }
+  .caret {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+  }
+  .navbar-nav > .dropdown-user img {
+    border-radius: 50%;
   }
 </style>
