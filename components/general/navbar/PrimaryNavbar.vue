@@ -63,14 +63,26 @@
               <i class="entypo-phone"></i> 234-9022557951
             </a>
           </li>
+          <template v-if="isAuthenticated">
+            <li>
+              <nuxt-link   class="li-a " to="/dashboard">Dashboard</nuxt-link>
+            </li>
+            <li class="hidden-xs">
+              <a class="li-a " @click="logout">
+                <span><i class="icon-switch2"></i>Logout </span>
+                </a>
+            </li>
+          </template>
+          <template v-else>
+            <li>
+              <nuxt-link   class="btn btx-login " to="/login">Login
+              </nuxt-link>
+            </li>
+            <li class="hidden-xs">
+              <nuxt-link  class="btn bt-login " to="/register"> Signup <i class="fa fa-angle-double-right ico-r"></i></nuxt-link>
+            </li>
+          </template>
 
-          <li>
-            <nuxt-link   class="btn btx-login " to="/login">Login
-            </nuxt-link>
-          </li>
-          <li class="hidden-xs">
-            <nuxt-link  class="btn bt-login " to="/register"> Signup <i class="fa fa-angle-double-right ico-r"></i></nuxt-link>
-          </li>
 
         </ul>
       </div>
@@ -81,6 +93,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex';
     export default {
         name: "PrimaryNavbar",
       data(){
@@ -88,15 +101,18 @@
           open: false,
           }
       },
+      computed:{
+        ...mapGetters(['isAuthenticated', 'loggedInUser'])
+      },
       methods: {
           toggle(){
 
               $("#navbar-mobile").toggleClass("hide-menu");
-          }
+          },
+        async logout(){
+          await this.$auth.logout();
+        }
       },
-      mounted() {
-
-      }
     }
 </script>
 
