@@ -239,5 +239,11 @@
     color: #999;
     font-size: 12px;
   }
+  hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid rgba(221, 221, 221, 0.15);
+  }
 
 </style>
