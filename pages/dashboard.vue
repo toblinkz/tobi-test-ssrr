@@ -33,7 +33,7 @@
                               <div class="">
                                 <div class="row mt-20">
                                                 <span id="welcome"><span
-                                                  class="text-bold">Hi, Termii</span> </span>
+                                                  class="text-bold">Hi, {{loggedInUser.email}}</span> </span>
                                   <span id="welcome-intro">Welcome back to your Dashboard. Check out resources and docs tailored to your account.</span>
                                   <div class="row mt-30">
                                     <div class="row">
@@ -188,13 +188,18 @@
   import SmsHistoryModal from "../components/modals/SmsHistoryModal";
   import YourWalletModal from "../components/modals/YourWalletModal";
   import ActivateIdModal from "../components/modals/ActivateIdModal";
+  import { mapGetters } from 'vuex'
   export default {
     name: "dashboard",
     components: {ActivateIdModal, YourWalletModal, SmsHistoryModal, BalanceHistory, DashboardNavbar, Sidebar},
+    middleware: 'auth',
     head(){
       return{
         script: [{src:"/js/intro.js" }]
       }
+    },
+    computed: {
+      ...mapGetters(['isAuthenticated', 'loggedInUser'])
     },
     data(){
       return{

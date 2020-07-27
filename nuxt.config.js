@@ -59,13 +59,36 @@ export default {
   */
   modules: [
     '@nuxtjs/axios',
+    '@nuxtjs/auth'
 
   ],
 
   axios: {
     // proxyHeaders: false
-    baseURL: 'http://sandbox.termii.com/v1'
+    baseURL: 'http://api.sandbox.termii.com/v1/',
+
   },
+
+  auth: {
+
+    redirect:{
+    login: '/login',
+      home: '/dashboard'
+
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {url: 'auth/login', method: 'post', propertyName: 'access_token'},
+          user: {url: '/user', method: 'get', propertyName: 'data'},
+          logout:{url:'/logout', method:'post'}
+
+        }
+      }
+    }
+  },
+
+
   /*
   ** Build configuration
   */

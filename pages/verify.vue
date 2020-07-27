@@ -18,7 +18,7 @@
           <p  class="p-t-50 text-bold">Verify it's you</p>
           <p>We sent a verification code to your email. Enter the code from the email, <br> in the field below.</p>
 
-          <form>
+          <form method="post" @submit.prevent="verifyCode">
               <div class="form-group has-feedback-left mt-50">
                 <input id="verification_code" style="width: 87%" type="text" class="form-control" maxlength="6" v-model="verification_code" :class="{'error ' : hasVerificationError, 'has-input' : hasVerificationInput}" placeholder="Enter 6-digit code">
                 <span class="input-field_helper">Verification Code</span>
@@ -70,8 +70,22 @@
           this.error_message['verification_code'] = ''
           this.hasVerificationError = false;
         }
+      },
+      async verifyCode(){
+        try{
+          await this.$axios.post('auth/account/verify',{
+            verification_code: "890465"
+          })
+
+          let userdata = await this.$axios.get('user')
+          await this.$router.push('/dashboard');
+          console.log(userdata)
+        }catch (e) {
+
+        }
       }
-    }
+    },
+
 
   }
 </script>

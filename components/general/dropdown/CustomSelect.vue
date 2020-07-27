@@ -4,7 +4,7 @@
     <div id="list" class="items " :class="{selectHide: !open}">
       <div
         :key="i"
-        @click="selected=option; open=false; $emit('onClick', option); "
+        @click="selected=option; open=false; $emit('item-selected', option); "
         class="item"
         v-for="(option, i) of options"
       >{{ option }}</div>
@@ -40,7 +40,7 @@
           }
       },
       mounted() {
-        this.$emit("onClick", this.selected);
+
         $(".custom-select").click(function() {
 
           let scrollTop = $(window).scrollTop();
@@ -82,6 +82,7 @@
     padding-left: 8px;
     cursor: pointer;
     user-select: none;
+
   }
 
   .selected.open {

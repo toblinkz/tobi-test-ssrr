@@ -17,7 +17,7 @@
           <nuxt-link to="/"> <img src="/images/logo.png" alt="logo" data-src-retina="/" width="150px" height="auto"></nuxt-link>
           <p class="p-t-35">Welcome to Termii! Join <strong class="text-bold   text-center">{{registered_business}}+</strong> businesses across Africa building awesome products with our communication APIs, create an account now!</p>
           <!-- register Form -->
-          <form class="" role="form" method="post" action="/register">
+          <form  method="post"  @submit.prevent="register">
             <div class="mt-20">
               <div class="row ">
                 <div class="select-class">
@@ -52,14 +52,14 @@
                 </div>
                 <div class="select-class">
                   <div class="row-form has-feedback has-feedback-left ">
-                    <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground" :dropdown-style="dropdownStyle"></SearchDropdown>
+                    <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground" :dropdown-style="dropdownStyle" @item-selected="selected_country = $event"></SearchDropdown>
 
                   </div>
                   <div class="row-form has-feedback has-feedback-left" >
-                    <CustomSelect :options="sectors" :dropdown-style="dropdownStyle" :dropdown-selected="dropdownSelected"></CustomSelect>
+                    <CustomSelect :options="sectors" :dropdown-style="dropdownStyle" :dropdown-selected="dropdownSelected" @item-selected="selected_sector = $event"></CustomSelect>
                   </div>
                 </div>
-                 <nuxt-link to="/verify"><button class="btnl btn-blue m-t-10" :disabled="isDisabled">Create My Account</button> </nuxt-link>
+                 <button type="submit" class="btnl btn-blue m-t-10" :disabled="isDisabled">Create My Account</button>
                 <nuxt-link  to="/login" class="pull-right mt-20 m-r-10" style="color: black">Got an account? <span class="text-info2 bold">Log In</span></nuxt-link>
               </div>
             </div>
@@ -86,6 +86,7 @@
     export default {
         name: "register",
       components: {CustomSelect, SearchDropdown},
+      middleware:'guest',
       data(){
           return{
             registered_business:"",
@@ -96,6 +97,7 @@
             first_name: "",
             last_name:"",
             phone_number: "",
+            error: null,
             error_message:[],
             hasEmailError: false,
             hasPasswordError: false,
@@ -108,6 +110,7 @@
             hasPasswordInput: false,
             hasPhoneNumberInput:false,
             isToggled: false,
+            dataItem: "",
             type: "password",
             countries: ['Select your country','Aigeria', 'Ahana', 'ASA', 'AUK', 'AIndia','Bigeria', 'chana', 'DSA', 'EUK', 'FIndia'],
             sectors: ['Your company sector','Financial Services','Online Retail Services','Education Services', 'Advertising & Marketing Services', 'Logistics & Transportation Services', 'Others', 'Health Services', 'Agriculture Services'],
@@ -227,20 +230,49 @@
             this.type = "password";
             this.isToggled = false;
           }
+        },
+        async fetch(){
+          /* fetch country data
+          let countries_data = await this.$axios.$get('/utility/countries');
+         // this.countries = countries_data.data;
+          console.log(countries_data)
+          //fetch sector data
+          let sector_data =await this.$axios.$get('/utility/sectors');
+          //this.sectors = sector_data.data;
+          //fetch no of registered business
+          let registered_business_data = await this.$axios.$get('/utility/total/registered-businesses',);
+          this.registered_business = registered_business_data.data */
+        },
+        //call registration endpoint
+        async register(){
+
+          try{
+
+          let response =  await this.$axios.post('auth/register', {
+              first_name: this.first_name,
+              last_name: this.last_name,
+              email: this.email,
+              password: this.password,
+              phone_number: this.phone_number,
+              country: this.selected_country,
+              sector: 1
+            })
+            await this.$auth.loginWith('local', {
+              data: {
+                email: this.email,
+                password: this.password
+              }
+            })
+            await this.$router.push('/verify');
+
+          } catch (e) {
+            this.error = e
+          }
         }
 
       },
-      async fetch(){
-          //fetch country data
-          let countries_data = await this.$axios.$get('/utility/countries');
-            this.countries = countries_data.data;
-        //fetch sector data
-        let sector_data =await this.$axios.$get('/utility/sectors');
-          this.sectors = sector_data.data;
-        //fetch no of registered business
-        let registered_business_data = await this.$axios.$get('/utility/total/registered-businesses',);
-        this.registered_business = registered_business_data.data
-      }
+
+
     }
 </script>
 

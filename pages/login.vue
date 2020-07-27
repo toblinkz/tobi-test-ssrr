@@ -16,7 +16,7 @@
         <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40 wd-k">
           <nuxt-link to="/"> <img src="/images/logo.png" alt="logo" data-src-retina="/" width="150px" height="auto"></nuxt-link>
           <!-- START Login Form -->
-          <form class="" role="form" method="post" action="/">
+          <form method="post" @submit.prevent="loginUser">
 
             <div class="auth-panel panel-body ">
               <p class="p-t-20">Welcome back! Sign into your account, we've been waiting for you!</p>
@@ -45,7 +45,7 @@
                 </div>
               </div>
               <div class="row" style="width: 100%">
-                <nuxt-link to="/dashboard"><button  class="btnl bg-blue m-t-10" :disabled="isDisabled">Proceed</button></nuxt-link>
+                <a><button  class="btnl bg-blue m-t-10" :disabled="isDisabled">Proceed</button></a>
                 <nuxt-link  to="/forgot-password" class="text-info2 pull-right mt-20">Forgot password</nuxt-link>
               </div>
               <div>
@@ -68,12 +68,13 @@
 <script>
   export default {
     name: "login",
-
+    middleware: "guest",
     data(){
       return{
         email:"",
         password:"",
         valid: false,
+        error: null,
         error_message:[],
         hasEmailError: false,
         hasPasswordError: false,
@@ -130,6 +131,32 @@
           this.isToggled = false;
         }
       },
+      async loginUser() {
+
+        try{
+        let response = await this.$auth.loginWith('local', {
+            data: {
+              email: this.email,
+              password: this.password
+            }
+          })
+          await this.$axios.get('user')
+          let errors = response.errors;
+
+          await this.$router.push('/dashboard');
+        } catch (e) {
+          this.$axios.onError(error => {
+
+            if (error.response.status === 422){
+              this.error_message['email'] = 'Invalid Login credentials';
+              this.hasEmailError = true;
+
+            }
+          })
+
+        }
+
+      }
     }
 
 
