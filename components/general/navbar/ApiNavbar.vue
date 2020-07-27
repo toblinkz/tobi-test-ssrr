@@ -92,6 +92,7 @@
       border-width: 0 0 4px 0;
       margin-bottom: -1px;
       cursor: pointer;
+      border-radius: 5px;
     }
   }
   .page-second-nav li a.level-1 {
@@ -115,7 +116,7 @@
   .position-left {
     margin-right: 7px;
   }
-  @media (min-width: 768px){
+  @media (min-width: 769px){
     .nav-tabs.nav-tabs-top > li > a:hover {
       border-bottom-color: #365899;
     }
