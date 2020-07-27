@@ -42,7 +42,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <br>
-                                    <a href="#" class="btn btn-success"><i class="entypo-paper-plane"></i> Create bulk sms</a>
+                                    <nuxt-link to="/sms/send-sms" class="btn btn-success"><i class="entypo-paper-plane"></i> Create bulk sms</nuxt-link>
                                   </div>
                                 </div>
                               </div>

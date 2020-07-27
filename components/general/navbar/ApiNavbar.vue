@@ -3,22 +3,22 @@
     <div class="col-md-12">
       <ul class="nav nav-tabs mt-5 nav-tabs-top page-second-nav">
         <li rel0="AccountController/profile">
-          <nuxt-link to="/account/profile" class="level-1">
+          <nuxt-link to="/account/profile" class="level-1  " >
             <i class="icon-user position-left"></i> My profile
           </nuxt-link>
         </li>
         <li rel0="AccountController/api">
-          <nuxt-link to="/account/api" class="level-1">
+          <nuxt-link to="/account/api" class="level-1  ">
             <i class="icon-key position-left"></i> API token
           </nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/account/webhook/config" class="level-1">
+          <nuxt-link to="/account/webhook/config" class="level-1  ">
             <i class="entypo-tools position-left"></i> Webhook Config
           </nuxt-link>
         </li>
         <li rel0="AccountController/api">
-          <nuxt-link to="/account/deactivate" class="level-1">
+          <nuxt-link to="/account/deactivate" class="level-1 " exact>
             <i class="entypo-logout position-left"></i> Deactivate Account
           </nuxt-link>
         </li>
@@ -29,11 +29,20 @@
 
 <script>
     export default {
-        name: "ApiNavbar"
+        name: "ApiNavbar",
+
     }
 </script>
 
 <style scoped>
+  .nuxt-link-exact-active{
+    color: #ffffff;
+    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
+  }
+  .nuxt-link-active{
+    color: #ffffff;
+    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
+  }
   .row {
     margin-left: 0px;
     margin-right: 0px;
@@ -75,7 +84,7 @@
   }
   @media (min-width: 769px){
     .nav-tabs.nav-tabs-top > li > a {
-      color: #777;
+      /**color: #777;**/
     }
   }
   @media (min-width: 769px){
@@ -96,6 +105,9 @@
     border: 1px solid transparent;
     padding: 7px 8px !important;
   }
+
+
+
   .nav > li > a {
     position: relative;
     display: block;
@@ -104,7 +116,7 @@
     margin-right: 7px;
   }
   @media (min-width: 768px){
-    .nav-tabs.nav-tabs-top > li.active > a, .nav-tabs.nav-tabs-top > li.active > a:hover, .nav-tabs.nav-tabs-top > li.active > a:focus, .nav-tabs.nav-tabs-top > li > a:hover {
+    .nav-tabs.nav-tabs-top > li > a:hover {
       border-bottom-color: #365899;
     }
   }
