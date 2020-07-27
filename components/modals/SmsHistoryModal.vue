@@ -11,12 +11,11 @@
               <div class="modal-body">
                 <div class="panel-body">
                   <div class="col-lg-6">
-                    <table class="table table-ultra-responsive">
+                    <table class="table">
                       <tbody>
                       <tr>
                         <td class="text-right"> MessageId: </td>
-                        <td>                                                2830989168283342637
-                        </td>
+                        <td>2830989168283342637</td>
                       </tr>
                       <tr>
                         <td class="text-right">Created At:</td>
@@ -34,11 +33,11 @@
                     </table>
                   </div>
                   <div class="col-lg-6">
-                    <table class="table table-ultra-responsive">
+                    <table class="table ">
                       <tbody>
                       <tr>
-                        <td class="text-right">Channel:</td>
-                        <td><p> DND</p></td>
+                        <td class="text-right"> Channel: </td>
+                        <td>Number API</td>
                       </tr>
                       <tr>
                         <td class="text-right">Segments:</td>
@@ -46,11 +45,11 @@
                       </tr>
                       <tr>
                         <td class="text-right">Status:</td>
-                        <td><span>DELIVERED | Message delivered to handset</span></td>
+                        <td>Message Sent</td>
                       </tr>
                       <tr>
                         <td class="text-right">message:</td>
-                        <td><span>Number One simulation created_at</span></td>
+                        <td>Welcome to Termii</td>
                       </tr>
                       </tbody>
                     </table>
@@ -95,8 +94,9 @@
   }
   @media (min-width: 769px){
     .modal-dialog {
-      width: 65%;
-      margin: 30px auto;
+      width: 75%;
+      margin-left: 20%;
+      margin-right: 5%;
     }
   }
   .modal-dialog {
