@@ -12,9 +12,6 @@
           <div  v-for="item in options" :key="item" v-show="itemVisible(item)" class="dropdown-item " @click="selectItem(item); open = false">
             {{item}}
           </div>
-          <div v-show="noResult">
-            <p>no result </p>
-          </div>
         </div>
       </div>
     </div>
@@ -141,6 +138,7 @@
     border: solid 1px #bbb;
     outline: 0;
     width: 100%;
+    overflow: hidden;
   }
   .search-field:focus{
     border-color: #4DB6AC;

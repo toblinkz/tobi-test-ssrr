@@ -84,7 +84,7 @@
                               <div class="panel">
                                 <div class="panel-body">
                                   <form class="form" role="form" method="post" action="http://sandbox.termii.com/billing/fund">
-                                    <CustomSelect :options="options" @onClick="onClick"></CustomSelect>
+                                    <CustomSelect :options="options" @onClick="onClick" :dropdown-style="dropdownStyle"></CustomSelect>
                                     <!--regular-body!-->
                                     <div id="regular-body" class="mt-20" v-if="isRegularBody">
                                       <div class="form-group alert toke">
@@ -100,7 +100,7 @@
                                       <div class="form-group"><input type="text" class="form-control" value="" name="amount" id="amount" placeholder="Amount" onchange="getTransaction()"> </div>
                                       <div class="form-group">
                                         <label>Select Payment Method</label>
-                                        <CustomSelect :options="payment_method" ></CustomSelect>
+                                        <CustomSelect :options="payment_method" :dropdown-style="dropdownStyle"></CustomSelect>
                                       </div>
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>

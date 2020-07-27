@@ -139,10 +139,7 @@
     padding-left: 0;
     list-style: none;
   }
-  .nav > li {
-    position: relative;
-    display: block;
-  }
+
   .nav > li > a {
     position: relative;
     display: block;

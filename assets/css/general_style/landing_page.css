@@ -476,6 +476,30 @@ ol ol {
     width: 1025px;
   }
 }
+@media (max-width: 768px) {
+  .hidden-xs {
+    display: none !important;
+  }
+}
+@media (max-width: 768px){
+  .visible-xs-block {
+    display: block !important;
+  }
+  .navbar-nav {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .navbar-fixed-top {
+
+  }
+}
+@media (min-width: 768px) {
+  .visible-xs-block {
+    display: none !important;
+  }
+}
+
+
+
 @media (min-width: 1200px) {
   .container {
     width: 1120px;
@@ -1344,11 +1368,9 @@ ol ol {
   display: none !important;
 }
 .affix {
-  position: fixed;
+  position: static;
 }
-@-ms-viewport {
-  width: device-width;
-}
+
 /*End of grid style*/
 /*card styling*/
 .card-u {

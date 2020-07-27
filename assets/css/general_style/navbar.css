@@ -9,6 +9,10 @@
     padding-left: 20px;
     padding-right: 20px;
   }
+  .nav > li {
+    position: relative;
+    display: block;
+  }
 }
 @media (min-width: 769px) {
   .layout-boxed .navbar:not(.navbar-component) {
