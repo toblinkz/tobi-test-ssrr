@@ -73,7 +73,7 @@
                                   <span class="label label-flat label-success">Delivered</span>
                                 </td>
                                 <td style="">
-                                  <nuxt-link class="btn btn-success btn-xs" to="/sms/manage-campaign" ><i class="entypo-popup"></i> Reports </nuxt-link>
+                                  <nuxt-link class="btn btn-success btn-xs" to="/sms/campaign/history" ><i class="entypo-popup"></i> Reports </nuxt-link>
                                 </td>
                               </tr>
                               </tbody>
