@@ -1,10 +1,10 @@
 <template>
-  <div class="custom-select" :tabindex="tabindex" @blur="open = false">
-    <div class="selected" :class="{open: open}" @click="open = !open">{{ selected }} </div>
-    <div class="items" :class="{selectHide: !open}">
+  <div class="custom-select" :style="{...dropdownStyle}" :tabindex="tabindex" @blur="open = false">
+    <div class="selected" :style="{...dropdownSelected}" :class="{open: open}" @click="open = !open">{{ selected }} </div>
+    <div id="list" class="items " :class="{selectHide: !open}">
       <div
         :key="i"
-        @click="selected=option; open=false; $emit('onClick', option)"
+        @click="selected=option; open=false; $emit('onClick', option); "
         class="item"
         v-for="(option, i) of options"
       >{{ option }}</div>
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+
     export default {
         name: "CustomSelect",
       props: {
@@ -24,6 +25,12 @@
           type: Number,
           required: false,
           default: 0
+        },
+        dropdownStyle:{
+          type: Object
+        },
+        dropdownSelected:{
+          type: Object
         }
       },
       data(){
@@ -34,7 +41,25 @@
       },
       mounted() {
         this.$emit("onClick", this.selected);
-      }
+        $(".custom-select").click(function() {
+
+          let scrollTop = $(window).scrollTop();
+
+          let topOffset = $(".custom-select").offset().top;
+
+          let relativeOffset = topOffset - scrollTop;
+
+          let windowHeight = $(window).height();
+
+          if (relativeOffset > windowHeight / 2){
+            console.log("true")
+            $("#list").addClass("items-reverse");
+          } else {
+            console.log("false")
+            $("#list").removeClass("items-reverse");
+          }
+        });
+      },
     }
 </script>
 
@@ -46,6 +71,8 @@
     outline: none;
     height: 40px;
     line-height: 47px;
+    border: 1px solid transparent !important;
+    border-color: #ddd !important;
   }
 
   .selected {
@@ -65,7 +92,7 @@
   .selected:after {
     position: absolute;
     content: "";
-    top: 16px;
+    top: 50%;
     right: 10px;
     width: 0;
     height: 0;
@@ -73,15 +100,19 @@
     border-color: #000000 transparent transparent transparent;
   }
 
-  .items {
+  .reverse {
+    top:auto;
+    bottom:100%;
+  }
 
+  .items {
     position: absolute;
     top: 100%;
     left: 0;
     z-index: 1000;
     float: left;
     height:200px;
-    overflow:scroll;
+    overflow-y:auto;
     width: 100%;
     list-style: none;
     background-color: #fff;
@@ -90,6 +121,20 @@
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     background-clip: padding-box;
+  }
+  .items-reverse{
+    position: absolute;
+    top: auto;
+    bottom: 100%;
+    left: 0;
+    background-color: #fff;
+    color: #333333;
+    border: 1px solid #d0d0d0;
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,0.25);
+    border-radius: 3px;
+    display: block;
+    width: 100%;
+    z-index: 9999;
   }
 
   .item {

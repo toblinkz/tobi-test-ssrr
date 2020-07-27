@@ -84,9 +84,9 @@
                                   >
                                 </div>
                                 <label>Sector</label>
-                                   <CustomSelect :options="options" ></CustomSelect>
+                                   <CustomSelect :options="options" :dropdown-height="dropdownStyle"></CustomSelect>
                                 <label class="mt-10">Select Country</label>
-                                  <v-select  :options="countries"></v-select>
+                                <SearchDropdown :options="countries"></SearchDropdown>
                                 <label class="mt-10">State</label>
                                 <div class="form-group control-text">
                                   <input
@@ -150,25 +150,39 @@
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import ApiNavbar from "../../components/general/navbar/ApiNavbar";
-    import Dropdown2 from "../../components/general/dropdown/Dropdown2";
     import CustomSelect from "../../components/general/dropdown/CustomSelect";
-    import vSelect from "vue-select";
-    import 'vue-select/dist/vue-select.css';
+    import SearchDropdown from "../../components/general/dropdown/SearchDropdown";
 
     export default {
         name: "profile",
-      components: {CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar, vSelect},
+      components: {SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
       data(){
           return{
             options: ['Financial Services','Online Retail Services','Education Services', 'Advertising & Marketing Services', 'Logistics & Transportation Services', 'Others', 'Health Services', 'Agriculture Services'],
             countries:['Nigeria', 'Ghana', 'Kenya', 'Uganda',],
+            dropdownStyle: {
+              borderRadius: '5px',
+            }
 
           }
       }
     }
 </script>
 
-<style scoped>
+<style >
+  .style-chooser .vs__search::placeholder,
+  .style-chooser .vs__dropdown-menu {
+    color: #000000;
+    padding: 3px 20px 20px 20px;
+    margin: 2px 0 0;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    user-select: none;
+  }
+  .style-chooser .vs__vs-dropdown-max-height{
+
+  }
   @media (min-width: 769px){
     .content-wrapper {
       display: table-cell;
@@ -294,6 +308,9 @@
     margin-bottom: 20px;
     border: 0;
     border-top: 1px solid rgba(221, 221, 221, 0.15);
+  }
+  .tobi .custom-select{
+    background-color: #ddd
   }
   h5 {
     font-size: 14px;

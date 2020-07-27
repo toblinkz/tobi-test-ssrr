@@ -48,34 +48,15 @@
                                  <div class="form-group mt-30">
                                    <label>Select Channel </label>
                                    <small style="color: red !important;font-size: 11px;">(WhatsApp available only to premium users)</small>
-
-                                   <select class="selectpicker form-control" name="sms_gateway" data-live-search="true">
-                                     <option value="16">Sms (Africa)</option>
-                                     <option value="117">SMS (Nigeria-DND)</option>
-                                     <option value="120">SMS (GHANA)</option>
-                                     <option value="121">SMS (General)</option>
-                                   </select>
+                                  <SearchDropdown :options="options" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
                                  </div>
                                  <div class="form-group">
                                    <label>Recipients</label>
-                                   <select class="selectpicker form-control" name="country_code" data-live-search="true">
-                                     <option  value="" >Exist on phone number</option>
-                                     <option value="93"  >Afghanistan (93)</option>
-                                     <option value="355"  >Albania (355)</option>
-                                     <option value="213"  >Algeria (213)</option>
-                                     <option value="376"  >Andorra (376)</option>
-                                   </select>
+                                   <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
                                  </div>
                                  <div class="form-group">
                                    <small style="color: red !important;font-size: 11px;">(Ensure you have added contacts to your phonebook)</small>
-                                   <select class="selectpicker form-control" name="country_code" data-live-search="true">
-                                     <option value="36">Phone Book</option>
-                                     <option value="38">Termii - Directors</option>
-                                     <option value="82">Termii-2</option>
-                                     <option value="376">Termii (All customers)</option>
-                                     <option value="422">TestR</option>
-                                     <option value="423">test_list_2</option>
-                                   </select>
+                                   <SearchDropdown :options="message" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
                                  </div>
                                  <div class="form-group">
                                    <div class="coder-checkbox">
@@ -86,7 +67,7 @@
                                  </div>
                                  <div class="form-group" v-show="send_later">
                                    <label>Schedule Time</label>
-                                   <date-picker v-model="date_time" type="datetime"></date-picker>
+                                   <date-picker v-model="date_time" type="datetime" style="width: 100%"></date-picker>
                                  </div>
                                </form>
                              </div>
@@ -94,24 +75,11 @@
                                <div class="form-group mt-30">
                                  <label class="hidden-xs">Sender ID / Device ID</label>
                                  <small style="color: red !important;font-size: 11px;" class="hidden-xs">(Can't find your ID below, <a href="http://sandbox.termii.com/sms/sender-id-management">register yours here</a> - Process takes less than 24 hours)</small>
-                                 <select class="selectpicker form-control sender_id" name="sender_id" data-live-search="true">
-                                   <option value="Termii">Termii</option>
-                                   <option value="Eestate">Eestate</option>
-                                   <option value="EGFM REG">EGFM REG</option>
-                                   <option value="OTPAlert">OTPAlert</option>
-                                   <option value="N-Alert">N-Alert</option>
-                                   <option value="talert">talert</option>
-                                 </select>
+                                 <SearchDropdown :options="senderId" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
                                </div>
                                <div class="form-group">
                                  <label>Message</label>
-                                 <select class="selectpicker form-control message_type" name="message_type">
-                                   <option value="plain">Plain</option>
-                                   <option value="unicode">Unicode</option>
-                                   <option value="arabic">Arabic</option>
-                                   <option value="voice">Voice</option>
-                                   <option value="mms">MMS</option>
-                                 </select>
+                                 <CustomSelect :options="message" :dropdown-style="dropdownStyle"></CustomSelect>
                                </div>
                                <div class="form-group">
                                  <textarea class="form-control" name="message" rows="5" id="message"></textarea>
@@ -143,13 +111,27 @@
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import DatePicker from "vue2-datepicker"
     import 'vue2-datepicker/index.css';
+    import SearchDropdown from "../../components/general/dropdown/SearchDropdown";
+    import CustomSelect from "../../components/general/dropdown/CustomSelect";
     export default {
         name: "send-sms",
-      components: {DashboardNavbar, Sidebar, DatePicker},
+      components: {CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, DatePicker},
       data(){
           return{
             send_later: false,
             date_time:"null",
+            options: ['Sms (Africa)', 'SMS (Nigeria-DND)', 'SMS (GHANA)', 'SMS (General)'],
+            countries: ['select your country','Aigeria', 'Ahana', 'ASA', 'AUK', 'AIndia','Bigeria', 'chana', 'DSA', 'EUK', 'FIndia'],
+            senderId: ['Termii', 'N-Alert', 'EGFM', 'NTA', 'COOL',],
+            message: ['Plain', 'Voice', 'MMS', 'Unicode', 'Arabic',],
+            dropdownSelectedBackground:{
+              background: 'white',
+              border: '1px solid rgba(98, 98, 98, 0.27)',
+              fontWeight: '100',
+            },
+            dropdownStyle:{
+              borderRadius: '5px',
+            }
           }
       },
       methods: {

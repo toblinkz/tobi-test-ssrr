@@ -47,20 +47,11 @@
                   </div>
                 <div class="select-class">
                   <div class="row-form has-feedback has-feedback-left ">
-                    <select v-model="selected_country" class="form-control " name="country" id="country">
-                      <option value="">Select your country</option>
-                     <!-- <option v-for="(country, countryIndex) in countries" :key="country.id" :value="country.id">{{country.name}}</option>-->
-                      <option>Nigeria</option>
-                      <option>Ghana</option>
-                    </select>
+                    <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground" :dropdown-style="dropdownHeight"></SearchDropdown>
+
                   </div>
                   <div class="row-form has-feedback has-feedback-left" >
-                    <select v-model="selected_sector" class="form-control " name="sector" id="sector" >
-                      <option value="" > Your company's sector</option>
-                     <!-- <option v-for="sector in sectors" :key="sector.id" :value="sector.id">{{sector.name}}</option>-->
-                      <option>Health</option>
-                      <option>Education</option>
-                    </select>
+                    <CustomSelect :options="sectors" :dropdown-style="dropdownStyle" :dropdown-selected="dropdownSelected"></CustomSelect>
                   </div>
                 </div>
                     <div class="register-form-group has-feedback has-feedback-left ">
@@ -90,15 +81,16 @@
 
 
 <script>
+    import SearchDropdown from "../components/general/dropdown/SearchDropdown";
+    import CustomSelect from "../components/general/dropdown/CustomSelect";
     export default {
         name: "register",
+      components: {CustomSelect, SearchDropdown},
       data(){
           return{
             registered_business:"",
             selected_country: '',
             selected_sector: '',
-            countries: [],
-            sectors:[],
             email: "",
             password:"",
             first_name: "",
@@ -116,7 +108,29 @@
             hasPasswordInput: false,
             hasPhoneNumberInput:false,
             isToggled: false,
-            type: "password"
+            type: "password",
+            countries: ['Select your country','Aigeria', 'Ahana', 'ASA', 'AUK', 'AIndia','Bigeria', 'chana', 'DSA', 'EUK', 'FIndia'],
+            sectors: ['Your company sector','Financial Services','Online Retail Services','Education Services', 'Advertising & Marketing Services', 'Logistics & Transportation Services', 'Others', 'Health Services', 'Agriculture Services'],
+            dropdownSelectedBackground:{
+              backgroundColor: '#ffffff',
+              backgroundImage: 'none',
+              border: '1px solid rgba(0, 0, 0, 0.07)',
+              color: '#2c2c2c',
+              height: '55px',
+              padding: '20px 36px',
+              display: 'flex',
+              alignItems:'center',
+              fontWeight: 'normal',
+              minHeight: '35px',
+              marginTop: '0px',
+              borderRadius: '1px'
+            },
+            dropdownStyle:{
+              height: '55px',
+            },
+            dropdownSelected: {
+              padding: '8px 36px',
+            }
           }
       },
       computed: {

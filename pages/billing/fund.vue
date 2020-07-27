@@ -114,7 +114,7 @@
                                     <div id="bundle-form-body" class="mt-20" v-if="isBundledForm">
                                       <div class="form-group">
                                         <label>Select Payment Method</label>
-                                        <CustomSelect :options="payment_method" ></CustomSelect>
+                                        <CustomSelect :options="payment_method" :dropdown-style="dropdownStyle"></CustomSelect>
                                       </div>
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
@@ -155,11 +155,10 @@
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import ServicePriceModal from "../../components/modals/ServicePriceModal";
-    import Dropdown2 from "../../components/general/dropdown/Dropdown2";
     import CustomSelect from "../../components/general/dropdown/CustomSelect";
     export default {
         name: "funding",
-      components: {CustomSelect, Dropdown2, ServicePriceModal, DashboardNavbar, Sidebar},
+      components: {CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar},
       data() {
           return {
             isBundledForm: false,
@@ -167,7 +166,10 @@
             isRegularForm: false,
             showModal:false,
             options: ['Select Top Up Option', 'Regular Top Up', 'Bundled Top Up'],
-            payment_method:['Paystack','Monnify','Coin Payment']
+            payment_method:['Paystack','Monnify','Coin Payment'],
+            dropdownStyle:{
+              borderRadius:'8px'
+            }
 
           }
       },
