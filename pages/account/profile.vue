@@ -70,7 +70,7 @@
                                     value="Termii"
                                     type="text"
                                     name="first_name"
-                                    class="form-control required  "
+                                    class="profile-form-control required  "
                                   >
                                 </div>
                                 <label>Phone Number</label>
@@ -80,23 +80,13 @@
                                     value="08109477743"
                                     type="text"
                                     name="phone_number"
-                                    class="form-control required numeric  "
+                                    class="profile-form-control required numeric  "
                                   >
                                 </div>
                                 <label>Sector</label>
                                    <CustomSelect :options="options" :dropdown-style="dropdownStyle" ></CustomSelect>
-                                <label class="mt-10">Select Country</label>
+                                <label class="mt-20">Select Country</label>
                                 <SearchDropdown :options="countries"></SearchDropdown>
-                                <label class="mt-10">State</label>
-                                <div class="form-group control-text">
-                                  <input
-                                    id="state" placeholder=""
-                                    value="Lagos"
-                                    type="text"
-                                    name="state"
-                                    class="form-control required  "
-                                  >
-                                </div>
                               </div>
                               <div class="col-md-5">
                                 <label>Last Name</label>
@@ -106,7 +96,7 @@
                                     value="Webtech"
                                     type="text"
                                     name="last_name"
-                                    class="form-control required  "
+                                    class="profile-form-control required  "
                                   >
                                 </div>
                                 <label>Email Address</label>
@@ -116,16 +106,23 @@
                                     value="tech@termii.com"
                                     type="text"
                                     name="email"
-                                    class="form-control required email  "
+                                    class="profile-form-control required email  "
                                   >
                                 </div>
                                 <label>Password</label>
                                 <div class="form-group control-password">
-                                  <input type="password" id="password" value="" autocomplete="new-password"  name="password" class="form-control nullable confirmed min:5">
+                                  <input :type="type" id="password" value=""  name="password" class="profile-form-control nullable confirmed min:5">
+                                  <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
                                 </div>
-                                <label>Confirm Password</label>
-                                <div class="form-group control-password">
-                                  <input type="password" id="password_confirmation" value="" autocomplete="new-password"  name="password_confirmation" class="form-control">
+                                <label>State</label>
+                                <div class="form-group ">
+                                  <input
+                                     placeholder=""
+                                    value="Lagos"
+                                    type="text"
+                                    name="state"
+                                    class="profile-form-control required  "
+                                  >
                                 </div>
                                 <hr />
                                 <button class="btn bg-teal pull-right" type="submit"><i class="icon-check"></i> Save</button>
@@ -162,27 +159,29 @@
             countries:['Nigeria', 'Ghana', 'Kenya', 'Uganda',],
             dropdownStyle: {
               borderRadius: '5px',
-            }
+            },
+            isToggled: false,
+            type: "password"
 
           }
+      },
+      methods:{
+        showPassword(){
+          if (this.type === "password") {
+            this.type = 'text';
+            this.isToggled = true;
+          }
+          else {
+            this.type = "password";
+            this.isToggled = false;
+          }
+        },
       }
     }
 </script>
 
 <style >
-  .style-chooser .vs__search::placeholder,
-  .style-chooser .vs__dropdown-menu {
-    color: #000000;
-    padding: 3px 20px 20px 20px;
-    margin: 2px 0 0;
-    font-size: 13px;
-    text-align: left;
-    cursor: pointer;
-    user-select: none;
-  }
-  .style-chooser .vs__vs-dropdown-max-height{
 
-  }
   @media (min-width: 769px){
     .content-wrapper {
       display: table-cell;
@@ -309,9 +308,7 @@
     border: 0;
     border-top: 1px solid rgba(221, 221, 221, 0.15);
   }
-  .tobi .custom-select{
-    background-color: #ddd
-  }
+
   h5 {
     font-size: 14px;
   }
@@ -348,11 +345,11 @@
     -webkit-appearance: none;
     border: 1px solid rgba(0, 0, 0, 0.07);
   }
-  .form-control {
+  .profile-form-control {
     display: block;
     width: 100%;
-    height: 36px;
-    padding: 7px 12px;
+    height: 40px;
+    padding: 10px 16px;
     font-size: 13px;
     border-radius: 5px;
     font-weight: 500;
@@ -368,6 +365,16 @@
     border-color: #4DB6AC;
     box-shadow: none;
     outline: 0;
+  }
+   .form-group i.password-visibility{
+    height: 16px;
+    cursor: pointer;
+    fill: #0a2e65;
+    top: 10px;
+    width: 16px;
+    opacity: 1;
+    position: absolute;
+    right: 16px;
   }
 
 </style>
