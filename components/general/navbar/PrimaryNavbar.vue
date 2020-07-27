@@ -168,7 +168,7 @@
     position: relative !important;
   }
   .mobile-menu-button {
-    padding: 15px 10px 9px 10px;
+    padding: 10px 10px 9px 10px;
   }
   /*.navbar-fixed-top .navbar-collapse {
     height: 390px;
@@ -343,6 +343,11 @@
     display: block;
   }
 
-
+@media (max-width: 769px) {
+  .nav > li > a[data-v-ab7ed956] {
+    position: relative;
+    display: inline;
+  }
+}
 
 </style>
