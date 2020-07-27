@@ -1,4 +1,3 @@
-
 export default {
   mode: 'spa',
   /*
@@ -47,7 +46,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/vue-intercom'
+    '~/plugins/vue-intercom',
+    '~/plugins/vue-clipboard'
   ],
   /*
   ** Nuxt.js dev-modules

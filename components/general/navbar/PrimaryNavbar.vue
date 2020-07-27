@@ -5,7 +5,7 @@
     <div class="navbar navbar-verse navbar-fixed-top">
       <div class="navbar-header" style="background: #fff !important;">
         <nuxt-link to="/">
-          <img class="margin-lx z-in" src="/images/logo.png" alt="logo" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="155px" height="auto" >
+          <img class="margin-lx z-in img-top" src="/images/logo.png" alt="logo" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="155px" height="auto" >
         </nuxt-link>
 
         <ul class="nav navbar-nav pull-right visible-xs-block" >
@@ -17,7 +17,7 @@
         </ul>
       </div>
 
-      <div class="navbar-collapse " id="navbar-mobile" >
+      <div class="navbar-collapse hide-menu" id="navbar-mobile" >
 
         <ul class="nav navbar-nav navbar-right z-in">
 
@@ -113,9 +113,7 @@
     border-bottom: 1px solid #fff !important;
     padding: 20px 50px 20px 50px !important;
   }
-  .hide-menu{
-    display: none;
-  }
+
   .ico-r {
 
     vertical-align: bottom;
@@ -348,6 +346,42 @@
     position: relative;
     display: inline;
   }
+  .navbar-verse[data-v-ab7ed956] {
+    color: #777 !important;
+    background: #fff !important;
+    border-bottom: 1px solid #fff !important;
+    padding: 0px !important;
+  }
+  .navbar-header {
+    box-shadow: 0 1px 10px rgba(0,0,0,0.1);
+    border-width: 0 0 1px;
+    margin-top: 0px;
+  }
+  .img-top{
+    margin-top: 10px;
+  }
+  .mobile-menu-button {
+    padding-top: 15px;
+
+  }
+  .navbar-nav > li > div.mobile-menu-button i {
+    font-size: 24px;
+    color: #2395be;
+  }
+  .navbar-right{
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+  }
+  .hide-menu{
+    display: none;
+  }
+  .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+    box-shadow: 0 0px 10px rgba(0,0,0,0.1);
+    border-width: 0 0 1px;
+    max-height: 340px;
+  }
 }
+
 
 </style>
