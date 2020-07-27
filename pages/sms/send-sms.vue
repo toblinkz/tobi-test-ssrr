@@ -45,7 +45,7 @@
                            <div class="mt-40">
                              <div class="col-md-6">
                                <form role="form" method="post">
-                                 <div class="form-group">
+                                 <div class="form-group mt-30">
                                    <label>Select Channel </label>
                                    <small style="color: red !important;font-size: 11px;">(WhatsApp available only to premium users)</small>
 
@@ -91,7 +91,7 @@
                                </form>
                              </div>
                              <div class="col-md-6">
-                               <div class="form-group">
+                               <div class="form-group mt-30">
                                  <label class="hidden-xs">Sender ID / Device ID</label>
                                  <small style="color: red !important;font-size: 11px;" class="hidden-xs">(Can't find your ID below, <a href="http://sandbox.termii.com/sms/sender-id-management">register yours here</a> - Process takes less than 24 hours)</small>
                                  <select class="selectpicker form-control sender_id" name="sender_id" data-live-search="true">
