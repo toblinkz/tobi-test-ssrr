@@ -194,7 +194,7 @@
   .nav>li>a {
     position: relative;
     display: block;
-    padding: 10px 15px;
+    /*padding: 10px 15px;*/
   }
   @media (min-width: 768px){
     .navbar-nav>li {

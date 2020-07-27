@@ -49,13 +49,13 @@
                         </p>
                       </li>
                       <li>
-                        <nuxt-link to="/sms/send-sms" class="btn btn-primary">Choose</nuxt-link>
-                        <nuxt-link to="/sms/send-sms">
+                        <nuxt-link to="/sms/group-sms" class="btn btn-primary">Choose</nuxt-link>
+                        <nuxt-link to="/sms/group-sms">
                         <span class="">
                             <i class="entypo-users blue-i"></i>
                         </span>
                         </nuxt-link>
-                        <h4><nuxt-link to="/sms/send-sms" class="blue-t"><small>Group sms</small></nuxt-link></h4>
+                        <h4><nuxt-link to="/sms/group-sms" class="blue-t"><small>Group sms</small></nuxt-link></h4>
                         <p>
                           Schedule and send personalised sms to mutliple customers across any network
                         </p>
