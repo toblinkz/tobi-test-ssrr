@@ -12,9 +12,9 @@
 
             <ul class="nav nav-pills campaign-steps mt-150" style="margin-bottom: -20px;">
               <li class="active">
-                <a href="/message/select-type">
+                <nuxt-link to="/message/select-type">
                   <i class="icon-users4"></i> Select type
-                </a>
+                </nuxt-link>
               </li>
             </ul>
 

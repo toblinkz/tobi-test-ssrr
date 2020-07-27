@@ -54,7 +54,7 @@
                               <div class="col-md-12">
                                 <div class="col-sm-4">
                                   <br>
-                                  <a class="btn btn-primary btn-cons" href="http://sandbox.termii.com/account/api/renew"><i class="fa fa-certificate"></i> Renew API key</a>
+                                  <nuxt-link class="btn btn-primary btn-cons" to="#"><i class="fa fa-certificate"></i> Renew API key</nuxt-link>
                                   <!-- END PANEL -->
                                 </div>
                               </div>
