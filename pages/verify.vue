@@ -25,7 +25,7 @@
                 <span class=" error_field_message" v-if="error_message.verification_code">{{error_message.verification_code}}</span>
               </div>
             <div style="width: 87%">
-              <button type="submit" class="btnl bg-blue m-t-25" :disabled="isDisabled">Verify Code</button>
+              <ButtonSpinner :is-disabled="isDisabled" :button_text="button_text" :is-loading="isLoading"></ButtonSpinner>
               <nuxt-link  to="#" class="text-info2 pull-right mt-30 ">Resend verification code</nuxt-link>
             </div>
           </form>
@@ -40,9 +40,11 @@
 
 <script>
   import {mapGetters} from "vuex";
+  import ButtonSpinner from "../components/general/ButtonSpinner";
 
   export default {
     name: "verify",
+    components: {ButtonSpinner},
     middleware:['verification_page', 'guest'],
     data(){
       return{
@@ -51,6 +53,8 @@
         access_token: "",
         hasVerificationError: false,
         hasVerificationInput: false,
+        button_text: "Verify Code",
+        isLoading: false
       }
     },
     computed: {
@@ -78,9 +82,11 @@
       },
       async verifyCode(){
         try{
+          this.isLoading = true;
+          this.button_text = "Verifying"
           this.access_token = this.$route.params.access_token
           await this.$axios.post('auth/account/verify',{
-            verification_code: "890465"
+            verification_code: "880465"
           }, {headers: {'Authorization': 'Bearer ' + this.access_token}})
 
           await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + this.access_token}}) // get user data
@@ -94,7 +100,14 @@
            this.$router.push('/dashboard');
 
         }catch (e) {
-
+          this.isLoading = false;
+          this.button_text = "Verify Code"
+          this.$axios.onError( error => {
+            if (error.response.status === 401){
+              this.error_message['verification_code'] = 'Invalid Token';
+              this.hasVerificationError = true;
+            }
+          })
         }
       }
     },
