@@ -43,7 +43,7 @@
 
   export default {
     name: "verify",
-    middleware:['verify', 'guest'],
+    middleware:['verification_page', 'guest'],
     data(){
       return{
         verification_code: "",
