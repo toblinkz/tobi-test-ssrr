@@ -83,10 +83,11 @@
 <script>
     import SearchDropdown from "../components/general/dropdown/SearchDropdown";
     import CustomSelect from "../components/general/dropdown/CustomSelect";
+    import {mapGetters} from "vuex";
     export default {
         name: "register",
       components: {CustomSelect, SearchDropdown},
-      middleware:'guest',
+      middleware:['guest'],
       data(){
           return{
             registered_business:"",
@@ -143,6 +144,7 @@
                       || this.first_name === '' || this.hasFirstNameError || this.selected_country === ''
                     || this.selected_sector === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError);
         },
+        ...mapGetters(['isRegistered'])
       },
       watch: {
         email(value) {
@@ -246,7 +248,7 @@
         },
         //call registration endpoint
         async register(){
-
+          let access_token;
           try{
 
           let response =  await this.$axios.post('auth/register', {
@@ -257,12 +259,14 @@
               phone_number: this.phone_number,
               country: this.selected_country,
               sector: 1
-            }, )
-            let access_token = response.data.access_token
+            }, );
+             access_token = response.data.access_token;
+            this.commit('changeRegisteredState');
+            await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + this.access_token}}); // get user data
 
-            await this.$router.push({ name: 'verify', params: { access_token: access_token , email: this.email, password: this.password} });
           } catch (e) {
-            this.error = e
+
+            await this.$router.replace({ name: 'verify', params: { access_token: access_token , email: this.email, password: this.password} });
           }
         }
 
@@ -345,5 +349,6 @@
     background: #FFFFFF ;
   }
 }
+
 
 </style>
