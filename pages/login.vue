@@ -45,7 +45,7 @@
                 </div>
               </div>
               <div class="row" style="width: 100%">
-                <a><button  class="btnl bg-blue m-t-10" :disabled="isDisabled">Proceed</button></a>
+               <ButtonSpinner :is-disabled="isDisabled"  :button_text="button_text" :is-loading="isLoading"></ButtonSpinner>
                 <nuxt-link  to="/forgot-password" class="text-info2 pull-right mt-20">Forgot password</nuxt-link>
               </div>
               <div>
@@ -66,8 +66,10 @@
 
 
 <script>
+  import ButtonSpinner from "../components/general/ButtonSpinner";
   export default {
     name: "login",
+    components: {ButtonSpinner},
     middleware: "guest",
     data(){
       return{
@@ -81,7 +83,9 @@
         hasEmailInput: false,
         hasPasswordInput: false,
         isToggled: false,
-        type: "password"
+        type: "password",
+        isLoading: false,
+        button_text:"Proceed"
       }
     },
     computed: {
@@ -134,18 +138,22 @@
       async loginUser() {
 
         try{
+        this.isLoading = true;
+        this.button_text = "Logging in"
         let response = await this.$auth.loginWith('local', {
             data: {
               email: this.email,
               password: this.password
             }
-          })
+          });
           let errors = response.errors;
           await this.$router.push('/dashboard');
         } catch (e) {
           this.$axios.onError(error => {
-
+            this.isLoading = false;
+            this.button_text = "Proceed"
             if (error.response.status === 422){
+
               this.error_message['email'] = 'Invalid Login credentials';
               this.hasEmailError = true;
 
