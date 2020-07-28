@@ -39,9 +39,11 @@
 
 
 <script>
+  import {mapGetters} from "vuex";
+
   export default {
     name: "verify",
-    middleware: ['guest'],
+    middleware:['verify', 'guest'],
     data(){
       return{
         verification_code: "",
@@ -54,7 +56,8 @@
     computed: {
       isDisabled: function () {
         return( this.verification_code === '' || this.error_message.verification_code !== '');
-      }
+      },
+      ...mapGetters(['isRegistered'])
     },
     watch: {
       verification_code(value) {
