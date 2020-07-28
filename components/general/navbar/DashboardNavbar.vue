@@ -93,11 +93,10 @@
         await this.$auth.logout();
       }
     },
-    mounted() {
 
-    }
   }
 </script>
+
 
 <style scoped src="~/assets/css/general_style/dashboardNavbar.css">
 
