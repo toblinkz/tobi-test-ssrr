@@ -59,7 +59,7 @@
                     <CustomSelect :options="sectors" :dropdown-style="dropdownStyle" :dropdown-selected="dropdownSelected" @item-selected="selected_sector = $event"></CustomSelect>
                   </div>
                 </div>
-                 <button type="submit" class="btnl btn-blue m-t-10" :disabled="isDisabled">Create My Account</button>
+                <ButtonSpinner :is-disabled="isDisabled"  :button_text="button_text" :is-loading="isLoading"></ButtonSpinner>
                 <nuxt-link  to="/login" class="pull-right mt-20 m-r-10" style="color: black">Got an account? <span class="text-info2 bold">Log In</span></nuxt-link>
               </div>
             </div>
@@ -84,9 +84,10 @@
     import SearchDropdown from "../components/general/dropdown/SearchDropdown";
     import CustomSelect from "../components/general/dropdown/CustomSelect";
     import {mapGetters} from "vuex";
+    import ButtonSpinner from "../components/general/ButtonSpinner";
     export default {
         name: "register",
-      components: {CustomSelect, SearchDropdown},
+      components: {ButtonSpinner, CustomSelect, SearchDropdown},
       middleware:['guest'],
       data(){
           return{
@@ -112,7 +113,8 @@
             hasPasswordInput: false,
             hasPhoneNumberInput:false,
             isToggled: false,
-            dataItem: "",
+            button_text: "Create My Account",
+            isLoading: false,
             type: "password",
             countries: ['Select your country','Aigeria', 'Ahana', 'ASA', 'AUK', 'AIndia','Bigeria', 'chana', 'DSA', 'EUK', 'FIndia'],
             sectors: ['Your company sector','Financial Services','Online Retail Services','Education Services', 'Advertising & Marketing Services', 'Logistics & Transportation Services', 'Others', 'Health Services', 'Agriculture Services'],
@@ -188,8 +190,8 @@
         }
         ,
         validatePassword(value) {
-          if (value.length < 6) {
-            this.error_message['password'] = 'Password field must be at least 5 characters';
+          if (value.length < 8) {
+            this.error_message['password'] = 'Password field must be at least 8 characters';
             this.hasPasswordError = true;
           }else {
             this.error_message['password'] = '';
@@ -249,6 +251,8 @@
         //call registration endpoint
         async register(){
           let access_token;
+          this.isLoading = true;
+          this.button_text = "Creating..."
           try{
 
           let response =  await this.$axios.post('auth/register', {
@@ -262,6 +266,7 @@
             }, );
              access_token = response.data.access_token;
             this.commit('changeRegisteredState');
+
             await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + this.access_token}}); // get user data
 
           } catch (e) {
