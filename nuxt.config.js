@@ -59,7 +59,8 @@ export default {
   */
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    '@nuxtjs/toast',
 
   ],
 
@@ -67,6 +68,10 @@ export default {
     // proxyHeaders: false
     baseURL: 'http://api.sandbox.termii.com/v1/',
 
+  },
+  toast: {
+    position: 'bottom-center',
+    duration: 3000
   },
 
   auth: {
