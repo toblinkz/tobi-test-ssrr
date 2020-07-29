@@ -14,7 +14,7 @@
         name: "ButtonSpinner",
       props: {
           isDisabled: {
-            type: Object,
+            type: Boolean,
             required: true
           },
         button_text: {
@@ -29,7 +29,7 @@
 </script>
 
 <style scoped>
-  @import "assets/css/general_style/spinner.css";
+
   .bg-blue {
     background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
     display: inline-block !important;
@@ -44,6 +44,7 @@
     font-weight: 600 !important;
     font-size: 13px !important;
   }
+
   button:focus, button:active{
     outline: none;
   }
@@ -51,6 +52,7 @@
     opacity: .5;
     pointer-events: none;
   }
+
   .btnl{
     text-align: center;
     vertical-align: middle;
