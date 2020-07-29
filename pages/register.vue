@@ -266,14 +266,13 @@
             }, );
 
              access_token = response.data.access_token;
-            this.commit('changeRegisteredState');
 
             await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + this.access_token}}); // get user data
 
           } catch (e) {
 
             if (navigator.onLine) {
-
+              this.$store.commit('changeRegisteredState');
               await this.$router.push({ name: 'verify', params: { access_token: access_token , email: this.email, password: this.password} });
 
             } else {
