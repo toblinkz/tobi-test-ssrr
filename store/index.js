@@ -12,11 +12,16 @@ export const getters = {
 }
 export const state = () => ({
 
-  user_registered: false
+  user_registered: null
 });
 
 export const mutations = {
   changeRegisteredState (state) {
-    state.user_registered = !state.user_registered;
+    if (state.user_registered === null){
+      state.user_registered = true;
+    } else {
+      state.user_registered = null;
+    }
+
   }
 }
