@@ -88,7 +88,7 @@
     export default {
         name: "register",
       components: {ButtonSpinner, CustomSelect, SearchDropdown},
-      middleware:['guest'],
+      middleware:['guest', 'verification_to_register'],
       data(){
           return{
             registered_business:"",
