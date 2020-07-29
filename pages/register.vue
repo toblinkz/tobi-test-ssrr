@@ -264,6 +264,7 @@
               country: this.selected_country,
               sector: 1
             }, );
+
              access_token = response.data.access_token;
             this.commit('changeRegisteredState');
 
@@ -271,7 +272,16 @@
 
           } catch (e) {
 
-            await this.$router.replace({ name: 'verify', params: { access_token: access_token , email: this.email, password: this.password} });
+            if (navigator.onLine) {
+
+              await this.$router.push({ name: 'verify', params: { access_token: access_token , email: this.email, password: this.password} });
+
+            } else {
+              this.isLoading = false;
+              this.button_text = "Create My Account"
+              this.$toast.show("No Internet connection")
+            }
+
           }
         }
 
