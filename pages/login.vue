@@ -149,17 +149,17 @@
           let errors = response.errors;
           await this.$router.push('/dashboard');
         } catch (e) {
-          this.$axios.onError(error => {
+          if (navigator.onLine) {
             this.isLoading = false;
-            this.button_text = "Proceed"
-            if (error.response.status === 422){
-
-              this.error_message['email'] = 'Invalid Login credentials';
-              this.hasEmailError = true;
-
-            }
-          })
-
+            this.button_text = "Proceed";
+            this.hasEmailError = true;
+            this.hasPasswordError= true;
+            this.error_message['email'] = 'Invalid Login credentials';
+          } else {
+            this.isLoading = false;
+            this.button_text = "Proceed";
+            this.$toast.show("No Internet connection");
+          }
         }
 
       }
