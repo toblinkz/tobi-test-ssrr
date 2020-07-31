@@ -143,19 +143,19 @@
             </main>
           </div>
         </div>
+        <SenderIdModal v-if="showModal" @close="closeModal"></SenderIdModal>
       </div>
     </div>
-    <DeviceModal v-if="showModal" @close="closeModal"></DeviceModal>
   </div>
 </template>
 
 <script>
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
-    import DeviceModal from "../../components/modals/DeviceModal";
+   import SenderIdModal from "../../components/modals/SenderIdModal";
     export default {
         name: "sender-id-management",
-      components: {DeviceModal, DashboardNavbar, Sidebar},
+      components: {SenderIdModal, DashboardNavbar, Sidebar},
       data(){
           return{
             showModal: false
