@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                       <br>
-                                      <button class="btn btn-primary" @click="showModal = true"><i class="fa fa-plus"></i> Make a new request</button>
+                                      <a class="btn btn-primary" @click="showModal = true"><i class="fa fa-plus"></i> Make a new request</a>
                                     </div>
                                     <div class="col-sm-4 hidden-xs">
                                     </div>
@@ -274,7 +274,11 @@
     max-width: 100%;
     /* margin-bottom: 20px; */
   }
-
+  .btn-primary {
+    color: #fff;
+    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
+    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+  }
   .table > tbody > tr > td{
     vertical-align: middle;
     padding: 12px 20px;
