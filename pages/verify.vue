@@ -99,7 +99,7 @@
               password: this.$route.params.password
             }
           });
-
+          this.$store.commit('setBearerToken', this.access_token);
           this.$toast.show("Successfully verified");
           this.$router.push('/dashboard');
 
