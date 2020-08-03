@@ -1,65 +1,104 @@
 <template>
-  <transition>
+
     <!-- Modal -->
-    <div class="modal body fade" id="request-new-device" tabindex="-1" role="dialog" >
-      <div class="modal-dialog" role="document" >
-        <div class="modal-content">
-          <div class="modal-header" >
-            <button type="button" class="close" @click="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Request New IjD</h4>
-          </div>
-          <form>
+    <modal name="sender-id-modal" height="auto">
+      <div  tabindex="-1" role="dialog" style="display: block;
+    padding-left: 9px;">
+        <div  role="document" >
+          <div>
+            <div class="modal-header" >
+              <button type="button" class="close" @click="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Request New ID</h4>
+            </div>
+            <form method="post" @submit.prevent="requestSenderId">
 
-            <div class="modal-body">
-              <div class="form-group">
-                <label>Sender ID For Sms</label>
-                <input type="text" class="form-control" required="" placeholder="eg. Termii (Ensure your ID is not more than 9 characters)" name="sender_id">
-                <br>
-                <label>Company</label>
-                <input type="text" class="form-control" required placeholder="eg. Termii" name="company">
-                <br>
-                <label>Use Case</label>
-                <textarea type="text" class="form-control" required="" placeholder="eg. Hello dear is a sample of the message you will be sending with Termii" name="usecase"></textarea>
-                <br><br>
-                <strong>NB:</strong> Sender ID registration are approved only on weekdays and takes 24 hours to activate across all telcos in your country. If you need to try out the sms feature during weekends without an approved ID, please <a class="blue-t text-bold" id="CHATID">click here to Contact Sales</a>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>Sender ID For Sms</label>
+                  <input type="text" class="form-control" required v-model="sender_id" placeholder="eg. Termii (Ensure your ID is not more than 9 characters)" name="sender_id" maxlength="11">
+                  <br>
+                  <label>Company</label>
+                  <input type="text" class="form-control" v-model="company" required placeholder="eg. Termii" name="company">
+                  <br>
+                  <label>Use Case</label>
+                  <textarea type="text" class="form-control" v-model="usecase" required="" placeholder="eg. Hello dear is a sample of the message you will be sending with Termii" name="usecase"></textarea>
+                  <br><br>
+                  <strong>NB:</strong> Sender ID registration are approved only on weekdays and takes 24 hours to activate across all telcos in your country. If you need to try out the sms feature during weekends without an approved ID, please <a class="blue-t text-bold" id="CHATID">click here to Contact Sales</a>
+                </div>
               </div>
-            </div>
-            <div class="modal-footer">
-              <a type="button" class="btn btn-danger" @click="close"> Close </a>
-              <button type="submit" class="btn btn-primary"> Save </button>
-            </div>
+              <div class="modal-footer">
+                <a type="button" class="btn btn-danger" @click="close"> Close </a>
+                <button type="submit" class="btn btn-primary" data-dismiss="modal"  :disabled="isDisabled"> Save </button>
+              </div>
 
-          </form>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  </transition>
+    </modal>
+
 </template>
 
 <script>
   import ButtonSpinner from "../general/ButtonSpinner";
+  import {mapGetters} from "vuex";
   export default {
     name: "SenderIdModal",
     components: {ButtonSpinner},
+    data(){
+      return{
+        sender_id:"",
+        company:"",
+        usecase:""
+      }
+    },
+    computed:{
+      isDisabled:function () {
+            return (this.sender_id === '' || this.company === '' || this.use_case === '');
+      },
+      ...mapGetters(['loggedInUser', 'getBearerToken'])
+    },
     methods: {
       close() {
-        this.$emit('close');
+        this.resetForm();
+        this.$modal.hide('sender-id-modal');
+        $("body").css("overflow", "auto");
       },
-      mounted () {
-        document.addEventListener('click', this.close)
+      async requestSenderId(){
+        try {
+          await this.$axios.post('sms/sender-id', {
+            sender_id: this.sender_id,
+            country: this.loggedInUser.country,
+            usecase: this.usecase,
+            company: this.company
+          }, {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
+          this.$emit('requested');
+          this.resetForm();
+          this.$modal.hide('sender-id-modal');
+        } catch (e) {
+
+        }
       },
-      beforeDestroy () {
-        document.removeEventListener('click',this.close)
+      resetForm(){
+        this.sender_id = "";
+        this.company = "";
+        this.usecase = "";
       }
-    }
+    },
   }
 </script>
 
 <style scoped>
-  .modal {
-    /* display: none; */
-    /* overflow: hidden; */
+
+
+  textarea.form-control {
+    height: auto;
+  }
+  .vm--container{
+    display: block;
+    overflow-y: auto;
     position: fixed;
+    top: 0;
     right: 0;
     bottom: 0;
     left: 0;
@@ -68,42 +107,7 @@
     outline: 0;
     background-color: rgba(0, 0, 0, 0.5);
   }
-  @media (min-width: 769px){
-    .modal-dialog {
-      width: 600px;
-      margin: 30px auto;
-    }
-  }
-  .modal-dialog {
-    position: relative;
-    /* width: auto; */
-    /* margin: 10px; */
-  }
-  .modal-content {
-    border: 0;
-    border-radius: 0;
-    margin-top: 100px;
-  }
-  .modal-content {
-    /* border-radius: 3px; */
-    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-  }
-  textarea.form-control {
-    height: auto;
-  }
-  .modal-content {
-    position: relative;
-    background-color: #fff;
-    border: 1px solid #999;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-    background-clip: padding-box;
-    outline: 0;
 
-  }
   .modal-header {
     padding: 20px;
     border-bottom: 1px solid transparent;
@@ -215,6 +219,10 @@
     text-align: right;
     border-top: 1px solid transparent;
   }
+  button[disabled] {
+    opacity: .5;
+    pointer-events: none;
+  }
   .btn-default {
     color: #333;
     background-color: #fcfcfc;
@@ -228,5 +236,8 @@
     color: #fff;
     /* background-color: #0c7cd5; */
     border: 1px solid transparent !important;
+  }
+  body{
+    overflow:hidden;
   }
 </style>
