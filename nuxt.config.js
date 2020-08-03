@@ -47,7 +47,8 @@ export default {
   */
   plugins: [
     '~/plugins/vue-intercom',
-    '~/plugins/vue-clipboard'
+    '~/plugins/vue-clipboard',
+    '~plugins/vue-js-modal.js'
   ],
   /*
   ** Nuxt.js dev-modules
