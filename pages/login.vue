@@ -85,7 +85,8 @@
         isToggled: false,
         type: "password",
         isLoading: false,
-        button_text:"Proceed"
+        button_text:"Proceed",
+        access_token: ""
       }
     },
     computed: {
@@ -136,7 +137,6 @@
         }
       },
       async loginUser() {
-
         try{
         this.isLoading = true;
         this.button_text = "Logging in"
@@ -146,7 +146,9 @@
               password: this.password
             }
           });
-          let errors = response.errors;
+
+          this.access_token = response.data.access_token;
+          this.$store.commit('setBearerToken', this.access_token);
           await this.$router.push('/dashboard');
         } catch (e) {
           if (navigator.onLine) {
