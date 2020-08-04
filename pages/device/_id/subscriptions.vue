@@ -20,7 +20,7 @@
             <main id="wrapper" class="wrapper">
               <section class="wrapper-bottom-sec">
                 <div class="padding-30">
-                  <h2 class="page-title"><b>Device - Drugstore</b></h2>
+                  <h2 class="page-title"><b>Device - {{name}}</b></h2>
                 </div>
                 <div class="p-30">
                   <div class="row">
@@ -43,12 +43,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                              <td data-label="SL">1</td>
-                              <td style="width: 20%;">Premium Generic WhatsApp (10,000 Units) ( NGN10,000 for 4,000 messages/day)</td>
-                              <td style="width: 20%;"><p>None</p></td>
-                              <td style="width: 20%;"><p>Mar 10, 2020</p></td>
-                              <td style="width: 10%;"><p>10,000</p></td>
+                            <tr v-for="row in response_data.data" :key="row.id">
+                              <td data-label="SL">{{row.plan_id}}</td>
+                              <td style="width: 20%;">{{row.plan_name}}</td>
+                              <td style="width: 20%;"><p>{{row.last_subscription}}</p></td>
+                              <td style="width: 20%;"><p>{{row.subscription_expiry}}</p></td>
+                              <td style="width: 10%;"><p>{{row.amount}}</p></td>
                               <td data-label="Status"> <form  method="POST">
                                 <button class="btn btn-success btn-sm" type="submit" ><i class="fa fa-plus"></i> Pay Now</button>
                               </form></td>
@@ -70,11 +70,32 @@
 </template>
 
 <script>
-    import Sidebar from "../../components/general/Sidebar";
-    import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+    import Sidebar from "../../../components/general/Sidebar";
+    import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
     export default {
         name: "subscriptions",
-      components: {DashboardNavbar, Sidebar}
+      middleware:'auth',
+      components: {DashboardNavbar, Sidebar},
+      data(){
+          return{
+            name: this.$route.params.name,
+            device_id: this.$route.params.id,
+            response_data:[],
+          }
+      },
+      methods: {
+          async getSubscriptions(){
+            try {
+             let data =  await this.$axios.$get('devices/'+ this.device_id +'/subscription');
+             this.response_data = data;
+            } catch (e) {
+
+            }
+          }
+      },
+      mounted() {
+          this.getSubscriptions();
+      }
     }
 </script>
 
