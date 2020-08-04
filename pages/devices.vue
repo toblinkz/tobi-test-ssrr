@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                       <br>
-                                      <a class="btn btn-primary" @click="showModal = true"><i class="fa fa-plus"></i> Make a new request</a>
+                                      <a class="btn btn-primary" @click="showModal"><i class="fa fa-plus"></i> Make a new request</a>
                                     </div>
                                     <div class="col-sm-4 hidden-xs">
                                     </div>
@@ -73,29 +73,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                  <td data-label="SL" class="hidden-xs">1</td>
-                                  <td data-label="Sender ID"><p>Drugstore</p></td>
-                                  <td data-label="Status"><p class="label label-success">Approved</p>
-                                  </td>
+                                <tr v-for="(row, index) in response_data.data" :key="row.id">
+                                  <td data-label="SL" class="hidden-xs">{{row.id}}</td>
+                                  <td data-label="Sender ID"><p>{{row.name}}</p></td>
+                                  <td data-label="Status"><p class="label"  :class="rowClassName(row,index)">{{row.device_status}}</p>
                                   <td data-label="Sender ID"><p>0</p></td>
                                   <td data-label="Status">
-                                    <button id="get-qr-code-29" onclick="getQRCode('29')" style=" background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;"><i class="fa fa-barcode" style="color: #fff;"></i></button>
+                                    <button id="get-qr-code-29"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" v-show="showBarcode(row)"><i class="fa fa-barcode" style="color: #fff;"></i></button>
+                                    <p v-show="lockBarcode(row)"><i class="entypo-lock" style="color: red;"></i></p>
                                   </td>
                                   <td data-label="view subscriptions">
-                                    <nuxt-link class="btn btn-primary" to="/device/subscriptions">manage device</nuxt-link>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td data-label="SL" class="hidden-xs">2</td>
-                                  <td data-label="Sender ID"><p>TermiiW</p></td>
-                                  <td data-label="Status"><p class="label label-warning">Pending Approval</p></td>
-                                  <td data-label="Sender ID"><p>0</p></td>
-                                  <td data-label="Status">
-                                    <p><i class="entypo-lock" style="color: red;"></i></p>
-                                  </td>
-                                  <td data-label="view subscriptions">
-                                    <nuxt-link class="btn btn-primary" to="/device/subscriptions">manage device</nuxt-link>
+                                    <nuxt-link class="btn btn-primary" :to="{path: 'device/'+ row.id + '/subscriptions', params:{ name: row.name}}">manage device</nuxt-link>
                                   </td>
                                 </tr>
                                 </tbody>
@@ -113,7 +101,7 @@
         </div>
       </div>
     </div>
-    <DeviceModal v-if="showModal" @close="closeModal"></DeviceModal>
+    <DeviceModal  @requested="requested"></DeviceModal>
   </div>
 </template>
 
@@ -121,18 +109,71 @@
     import Sidebar from "../components/general/Sidebar";
     import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
     import DeviceModal from "../components/modals/DeviceModal";
+    import {mapGetters} from "vuex";
     export default {
         name: "devices",
+      middleware:'auth',
       components: {DeviceModal, DashboardNavbar, Sidebar},
       data(){
           return{
-            showModal: false
+            response_data:[],
+            name:"",
+            messages_sent_today: [],
+            isActive: false,
+            active_status:"",
+            device_status:"",
           }
       },
+      computed:{
+
+        ...mapGetters(['getBearerToken'])
+    },
       methods: {
-        closeModal() {
-          this.showModal = false;
+
+        async loadDeviceIds(){
+          try {
+            let data = await this.$axios.$get('devices', {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
+            this.response_data = data;
+            //console.log(this.response_data.data)
+            await this.getTotalMessagesSent();
+          }catch (e) {
+
+          }
         },
+        async getTotalMessagesSent(){
+            try {
+                let messages_sent_data = await  this.$axios.$get('devices/2/total-number-of-messages-sent-today', {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
+                this.messages_sent_today = messages_sent_data;
+                console.log(this.messages_sent_today)
+            } catch (e) {
+
+            }
+        },
+        showModal(){
+          this.$modal.show('device-id-modal');
+        },
+        requested(){
+          this.loadDeviceIds();
+        },
+        rowClassName(row,index){
+          if (row.device_status === 'ACTIVE'){
+            this.isActive = true
+            return 'label-success'
+          } else if (row.device_status === 'PENDING'){
+            return 'label-warning'
+
+          }
+        },
+        showBarcode(row){
+          return (row.device_status === 'ACTIVE');
+        },
+        lockBarcode(row){
+          return (row.device_status === 'PENDING')
+        }
+      },
+      mounted() {
+          this.loadDeviceIds();
+
       }
     }
 </script>
