@@ -116,9 +116,13 @@
 
 <script>
     import Dropdown from "./dropdown/Dropdown";
+    import {mapGetters} from "vuex";
     export default {
         name: "sidebar",
       components: { Dropdown},
+      computed: {
+        ...mapGetters(['loggedInUser'])
+      }
 
 
     }
