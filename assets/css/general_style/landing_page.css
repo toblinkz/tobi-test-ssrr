@@ -18,7 +18,15 @@
   outline: 1px solid #fafafa !important;
 }
 
-
+.id-btn-primary {
+  color: #fff;
+  background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
+  box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+}
+button[disabled] {
+  opacity: .5;
+  pointer-events: none;
+}
 
 .goog-te-gadget-simple {
   border-radius: 15px !important;
