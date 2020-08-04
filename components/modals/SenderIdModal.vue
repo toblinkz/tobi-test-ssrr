@@ -28,7 +28,7 @@
               </div>
               <div class="modal-footer">
                 <a type="button" class="btn btn-danger" @click="close"> Close </a>
-                <button type="submit" class="btn btn-primary" data-dismiss="modal"  :disabled="isDisabled"> Save </button>
+                <button type="submit" class="btn id-btn-primary"   :disabled="isDisabled"> Save </button>
               </div>
 
             </form>
@@ -202,11 +202,7 @@
     background-color: #F44336;
     border-color: #F44336;
   }
-  .btn-primary {
-    color: #fff;
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
-    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
-  }
+
   input {
     font: inherit;
   }
@@ -219,10 +215,7 @@
     text-align: right;
     border-top: 1px solid transparent;
   }
-  button[disabled] {
-    opacity: .5;
-    pointer-events: none;
-  }
+
   .btn-default {
     color: #333;
     background-color: #fcfcfc;
@@ -237,7 +230,5 @@
     /* background-color: #0c7cd5; */
     border: 1px solid transparent !important;
   }
-  body{
-    overflow:hidden;
-  }
+
 </style>
