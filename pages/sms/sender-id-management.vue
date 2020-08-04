@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                       <br>
-                                      <a class="btn btn-primary" @click="show"><i class="fa fa-plus"></i> Make a new request</a>
+                                      <a class="btn btn-primary" @click="showModal"><i class="fa fa-plus"></i> Make a new request</a>
                                     </div>
                                     <div class="col-sm-4 hidden-xs">
                                     </div>
@@ -86,6 +86,13 @@
                                 </tbody>
                               </table>
                             </div>
+                            <paginate
+                              page-count="20"
+                              click-handler="functionName"
+                              prev-text="'Prev'"
+                              next-text="'Next'"
+                              container-class="'className'">
+                            </paginate>
                           </div>
                         </div>
                       </div>
@@ -98,7 +105,7 @@
         </div>
       </div>
     </div>
-    <SenderIdModal  @close="closeModal" @requested="requested"></SenderIdModal>
+    <SenderIdModal  @requested="requested"></SenderIdModal>
   </div>
 </template>
 
@@ -122,10 +129,8 @@
 
       },
       methods: {
-          closeModal(){
-            this.showModal = false;
-          },
-        async loadSenderId() {
+
+        async loadSenderIds() {
           try {
             let data = await this.$axios.$get('sms/sender-id', {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
             this.response_data = data;
@@ -133,17 +138,17 @@
 
           }
         },
-        show () {
+        showModal () {
           this.$modal.show('sender-id-modal');
           $("body").css("overflow", "hidden");
         },
         requested(){
-            this.loadSenderId();
+            this.loadSenderIds();
           $("body").css("overflow", "auto");
         }
       },
      mounted() {
-       this.loadSenderId();
+       this.loadSenderIds();
      }
     }
 </script>
