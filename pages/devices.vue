@@ -77,13 +77,13 @@
                                   <td data-label="SL" class="hidden-xs">{{row.id}}</td>
                                   <td data-label="Sender ID"><p>{{row.name}}</p></td>
                                   <td data-label="Status"><p class="label"  :class="rowClassName(row,index)">{{row.device_status}}</p>
-                                  <td data-label="Sender ID"><p>0</p></td>
+                                  <td data-label="Sender ID" :class="getTotalMessagesSent(row)"><p>{{number}}</p></td>
                                   <td data-label="Status">
-                                    <button id="get-qr-code-29"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" v-show="showBarcode(row)"><i class="fa fa-barcode" style="color: #fff;"></i></button>
+                                    <button id="qr-code" @click="getQRCode(row.id)"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" v-show="showBarcodeIcon(row)"><i class="fa fa-barcode" style="color: #fff;"></i></button>
                                     <p v-show="lockBarcode(row)"><i class="entypo-lock" style="color: red;"></i></p>
                                   </td>
                                   <td data-label="view subscriptions">
-                                    <nuxt-link class="btn btn-primary" :to="{path: 'device/'+ row.id + '/subscriptions', params:{ name: row.name}}">manage device</nuxt-link>
+                                    <nuxt-link class="btn btn-primary" :to="{path: 'device/'+ row.id + '/subscriptions', params:{name: row.name}}">manage device</nuxt-link>
                                   </td>
                                 </tr>
                                 </tbody>
@@ -109,19 +109,23 @@
     import Sidebar from "../components/general/Sidebar";
     import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
     import DeviceModal from "../components/modals/DeviceModal";
+    import Swal from "sweetalert2";
     import {mapGetters} from "vuex";
     export default {
         name: "devices",
       middleware:'auth',
-      components: {DeviceModal, DashboardNavbar, Sidebar},
+      components: {BarcodeModal, DeviceModal, DashboardNavbar, Sidebar},
       data(){
           return{
             response_data:[],
             name:"",
-            messages_sent_today: [],
+            messages_sent_today: {},
             isActive: false,
             active_status:"",
             device_status:"",
+            device_id:"",
+            number:""
+
           }
       },
       computed:{
@@ -140,14 +144,33 @@
 
           }
         },
-        async getTotalMessagesSent(){
+        async getTotalMessagesSent(row){
             try {
-                let messages_sent_data = await  this.$axios.$get('devices/2/total-number-of-messages-sent-today', {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
-                this.messages_sent_today = messages_sent_data;
-                console.log(this.messages_sent_today)
+                let messages_sent_data = await  this.$axios.$get('devices/'+ row.id +'/total-number-of-messages-sent-today', {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
+                let messages_sent = messages_sent_data.data.total_messages_sent_today
+                this.number = messages_sent
             } catch (e) {
 
             }
+        },
+        getQRCode(device_id){
+
+            $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
+          $('#qr-code').attr("disabled", true);
+          var device_id = device_id
+          let url = `http://api.sandbox.termii.com/v1/devices/:slug/barcode?token=${this.getBearerToken}`
+          url = url.replace(':slug', device_id);
+
+          $.get(url, function (data, status) {
+              Swal.fire({
+                title:"<h2>Scan QR Code</br><p>To use WhatsApp on your phone, tap settings icon and select WhatsApp Web</p></h2>",
+                html: `<img src="${url}" alt="Try again">`,
+                confirmButtonText: "Close",
+              });
+          }).done(function () {
+            $('#qr-code').html('<i class="fa fa-barcode" style="color: #fff;"></i>');
+            $('#qr-code').attr("disabled", false);
+          })
         },
         showModal(){
           this.$modal.show('device-id-modal');
@@ -164,16 +187,15 @@
 
           }
         },
-        showBarcode(row){
+        showBarcodeIcon(row){
           return (row.device_status === 'ACTIVE');
         },
         lockBarcode(row){
           return (row.device_status === 'PENDING')
-        }
+        },
       },
       mounted() {
           this.loadDeviceIds();
-
       }
     }
 </script>
