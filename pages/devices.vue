@@ -83,7 +83,7 @@
                                     <p v-show="lockBarcode(row)"><i class="entypo-lock" style="color: red;"></i></p>
                                   </td>
                                   <td data-label="view subscriptions">
-                                    <nuxt-link class="btn btn-primary" :to="{path: 'device/'+ row.id + '/subscriptions', params:{name: row.name}}">manage device</nuxt-link>
+                                    <nuxt-link class="btn btn-primary" :aria-disabled="isDisabled(row)" :to="{path: 'device/'+ row.id + '/subscriptions', params:{name: row.name}}">manage device</nuxt-link>
                                   </td>
                                 </tr>
                                 </tbody>
@@ -102,6 +102,7 @@
       </div>
     </div>
     <DeviceModal  @requested="requested"></DeviceModal>
+
   </div>
 </template>
 
@@ -114,7 +115,7 @@
     export default {
         name: "devices",
       middleware:'auth',
-      components: {BarcodeModal, DeviceModal, DashboardNavbar, Sidebar},
+      components: {DeviceModal, DashboardNavbar, Sidebar},
       data(){
           return{
             response_data:[],
@@ -193,6 +194,9 @@
         lockBarcode(row){
           return (row.device_status === 'PENDING')
         },
+        isDisabled(row){
+          return(row.device_status === 'PENDING')
+        }
       },
       mounted() {
           this.loadDeviceIds();
@@ -321,7 +325,10 @@
   .table-hover > tbody > tr:hover {
     background-color: #f8f8f8;
   }
-
+  a[aria-disabled] {
+    opacity: .5;
+    pointer-events: none;
+  }
   table {
     border-collapse: collapse;
     border-spacing: 0;

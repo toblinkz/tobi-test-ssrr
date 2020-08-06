@@ -15,7 +15,8 @@
               <div class="modal-body">
                 <div class="form-group">
                   <label>Sender ID For Sms</label>
-                  <input type="text" class="form-control" required v-model="sender_id" placeholder="eg. Termii (Ensure your ID is not more than 9 characters)" name="sender_id" maxlength="11">
+                  <input type="text" class="form-control" required v-model="sender_id" placeholder="eg. Termii (Ensure your ID is not more than 11 characters)" name="sender_id" maxlength="11" :class="{'error' : hasSenderIdError}">
+                  <span class=" error_field_message" v-if="error_message.sender_id">{{error_message.sender_id}}</span>
                   <br>
                   <label>Company</label>
                   <input type="text" class="form-control" v-model="company" required placeholder="eg. Termii" name="company">
@@ -49,14 +50,23 @@
       return{
         sender_id:"",
         company:"",
-        usecase:""
+        usecase:"",
+        error_message:[],
+        error: "",
+        hasSenderIdError: false
       }
     },
     computed:{
       isDisabled:function () {
-            return (this.sender_id === '' || this.company === '' || this.use_case === '');
+            return (this.hasSenderIdError || this.sender_id === '' || this.company === '' || this.use_case === '');
       },
       ...mapGetters(['loggedInUser', 'getBearerToken'])
+    },
+    watch: {
+      sender_id(value){
+        this.sender_id = value;
+        this.validateSenderId(value);
+      }
     },
     methods: {
       close() {
@@ -66,7 +76,7 @@
       },
       async requestSenderId(){
         try {
-          await this.$axios.post('sms/sender-id', {
+         await this.$axios.post('sms/sender-id', {
             sender_id: this.sender_id,
             country: this.loggedInUser.country,
             usecase: this.usecase,
@@ -75,14 +85,32 @@
           this.$emit('requested');
           this.resetForm();
           this.$modal.hide('sender-id-modal');
+          this.$toast.success("Request sent successfully");
         } catch (e) {
-
+              await this.$axios.onError(error => {
+                if (error.response.status === 422){
+                  let error_message = error.response.data.errors.name[0];
+                  this.error_message['sender_id'] = 'Sender Id already exists'
+                  this.hasSenderIdError = true;
+                }
+              });
         }
       },
       resetForm(){
         this.sender_id = "";
         this.company = "";
         this.usecase = "";
+        this.error_message['sender_id'] = '';
+        this.hasSenderIdError = false;
+      },
+      validateSenderId(value) {
+        if (value.length < 3 || value.length > 11){
+          this.error_message['sender_id'] = 'The sender id must be at least 3 characters.';
+          this.hasSenderIdError = true;
+        } else {
+          this.error_message['sender_id'] = '';
+          this.hasSenderIdError = false;
+        }
       }
     },
   }
@@ -137,6 +165,12 @@
   .modal-title {
     margin: 0;
     line-height: 1.5384616;
+  }
+  .error_field_message {
+    font-size: 1.2rem;
+    color: red;
+    display: block;
+    margin-top: 5px;
   }
   button.close {
     padding: 0;
@@ -196,13 +230,16 @@
   }
   .form-control:focus {
     border-color: #4DB6AC;
+    outline: none;
   }
   .btn-danger {
     color: #fff;
     background-color: #F44336;
     border-color: #F44336;
   }
-
+  input[type=text].error {
+    border-color: red!important;
+  }
   input {
     font: inherit;
   }
