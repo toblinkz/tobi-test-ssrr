@@ -116,8 +116,8 @@
             button_text: "Create My Account",
             isLoading: false,
             type: "password",
-            countries: ['Select your country','Aigeria', 'Ahana', 'ASA', 'AUK', 'AIndia','Bigeria', 'chana', 'DSA', 'EUK', 'FIndia'],
-            sectors: ['Your company sector','Financial Services','Online Retail Services','Education Services', 'Advertising & Marketing Services', 'Logistics & Transportation Services', 'Others', 'Health Services', 'Agriculture Services'],
+            countries: ['Select Country'],
+            sectors: ['Select Sectors'],
             dropdownSelectedBackground:{
               backgroundColor: '#ffffff',
               backgroundImage: 'none',
@@ -237,17 +237,43 @@
           }
         },
         async fetch(){
-          /* fetch country data
+          // fetch country data
           let countries_data = await this.$axios.$get('/utility/countries');
-         // this.countries = countries_data.data;
-          console.log(countries_data)
+          for (let i = 0; i < countries_data.data.length; i++){
+           this.countries.push(countries_data.data[i].name)
+          }
+
           //fetch sector data
           let sector_data =await this.$axios.$get('/utility/sectors');
-          //this.sectors = sector_data.data;
+          for (let i = 0; i < sector_data.data.length; i++){
+            this.sectors.push(sector_data.data[i].name)
+          }
+
           //fetch no of registered business
           let registered_business_data = await this.$axios.$get('/utility/total/registered-businesses',);
-          this.registered_business = registered_business_data.data */
+          this.registered_business = registered_business_data.data
+          console.log(this.registered_business)
         },
+        getSelectedSectorIndex(){
+          if (this.selected_sector === 'Financial Services'){
+            return 1;
+          }else if(this.selected_sector === 'Online Retail Services'){
+            return  2;
+          } else if(this.selected_sector === 'Education Services'){
+            return 3;
+          } else if (this.selected_sector === 'Advertising & Marketing Services'){
+            return 4;
+          } else if (this.selected_sector === 'Logistics & Transportation Services'){
+            return 5;
+          } else if (this.selected_sector === 'Others'){
+            return 6;
+          } else if (this.selected_sector === 'Health Services'){
+            return 7;
+          } else if (this.selected_sector === 'Agriculture Services'){
+            return 8
+          } else {return }
+        },
+
         //call registration endpoint
         async register(){
           let access_token;
@@ -262,7 +288,7 @@
               password: this.password,
               phone_number: this.phone_number,
               country: this.selected_country,
-              sector: 1
+              sector: this.getSelectedSectorIndex()
             }, );
 
              access_token = response.data.access_token;
@@ -285,6 +311,9 @@
         }
 
       },
+      mounted() {
+          this.fetch();
+      }
 
 
     }
