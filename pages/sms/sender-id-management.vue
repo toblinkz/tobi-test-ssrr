@@ -80,27 +80,27 @@
                                   </td>
                                   <td data-label="Type"><p>{{row.company}}</p></td>
                                   <td data-label="Type"><p>{{row.usecase}}</p></td>
-
                                 </tr>
-
                                 </tbody>
                               </table>
+
                             </div>
-                            <paginate
-                              page-count="20"
-                              click-handler="functionName"
-                              prev-text="'Prev'"
-                              next-text="'Next'"
-                              container-class="'className'">
-                            </paginate>
                           </div>
                         </div>
                       </div>
                     </div>
+                    <Pagination
+                      :page="page"
+                      :total_page="total_page"
+                      :on-page-change="onPageChange"
+                      v-show="showPagination === true"
+                    >
+                    </Pagination>
                   </div>
                 </div>
               </section>
             </main>
+
           </div>
         </div>
       </div>
@@ -114,14 +114,19 @@
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
    import SenderIdModal from "../../components/modals/SenderIdModal";
     import {mapGetters} from "vuex";
+    import Pagination from "../../components/general/Pagination";
     export default {
         name: "sender-id-management",
         middleware:'auth',
-      components: {SenderIdModal, DashboardNavbar, Sidebar},
+      components: {Pagination, SenderIdModal, DashboardNavbar, Sidebar},
       data(){
           return{
-
-            response_data: []
+            response_data: [],
+            page: 1,
+            total_page: '',
+            total: '',
+            per_page: '',
+            showPagination: false
           }
       },
       computed: {
@@ -132,11 +137,21 @@
 
         async loadSenderIds() {
           try {
-            let data = await this.$axios.$get('sms/sender-id', {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
+            let data = await this.$axios.$get('sms/sender-id', { params: {page: this.page},headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
             this.response_data = data;
+            if (data.data.length !== 0){this.showPagination = true}
+            this.page = this.response_data.meta.current_page;
+            this.total_page = this.response_data.meta.last_page;
+            this.total = this.response_data.meta.total;
+            this.per_page = this.response_data.meta.per_page;
           } catch (e) {
 
           }
+        },
+        onPageChange(page) {
+          console.log(page)
+          this.page = page;
+          this.loadSenderIds();
         },
         showModal () {
           this.$modal.show('sender-id-modal');
@@ -149,11 +164,15 @@
       },
      mounted() {
        this.loadSenderIds();
-     }
+     },
+      pageClass(){
+          return 'page-item'
+      }
     }
 </script>
 
-<style scoped>
+<style scoped >
+
   @media (min-width: 769px){
     .content-wrapper {
       display: table-cell;
@@ -307,6 +326,16 @@
     border-color: #4CAF50;
     color: #fff;
     background-color: #4CAF50;
+  }
+  .pagination {
+    display: flex;
+    list-style: none;
+    border-radius: .25rem;
+
+
+  }
+  .page-item {
+    color: black;
   }
 
 </style>
