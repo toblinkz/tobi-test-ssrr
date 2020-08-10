@@ -120,9 +120,10 @@
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import SmsHistoryModal from "../../components/modals/SmsHistoryModal";
     import DashboardChart from "../../components/general/charts/SmsHistoryChart";
+    import Pagination from "../../components/general/Pagination";
     export default {
         name: "history",
-      components: {DashboardChart, SmsHistoryModal, DashboardNavbar, Sidebar},
+      components: {Pagination,DashboardChart, SmsHistoryModal, DashboardNavbar, Sidebar},
       head(){
         return{
           link: [
