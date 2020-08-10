@@ -81,7 +81,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="row in messages_sent" :key="row.date">
+                            <tr v-for="row in messages_sent.data" :key="row.date">
                               <td style="width: 5%;">{{row.date}}</td>
                               <td style="width: 5%;">{{row.channel}}</td>
                               <td style="width: 5%;">{{row.from}}</td>
@@ -98,6 +98,13 @@
                     </div>
                   </div>
                 </div>
+                <Pagination
+                  :page="page"
+                  :total_page="total_page"
+                  :on-page-change="onPageChange"
+                  v-show="showPagination === true"
+                >
+                </Pagination>
               </section>
             </main>
           </div>
@@ -127,25 +134,13 @@
           return{
             isShow: false,
             showModal:false,
-            messages_sent: [
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-            ],
+            messages_sent: [],
+            page:'',
+            total_page:'',
           }
       },
       mounted() {
+          this.getSmsHistory();
         $(function() {
           $('input[name="datetimes"]').daterangepicker({
             timePicker: true,
@@ -160,7 +155,20 @@
       methods: {
         closeModal() {
           this.showModal = false;
-        }
+        },
+        async getSmsHistory(){
+          let data = await this.$axios.$get('sms/history');
+          this.messages_sent = data;
+          if (data.data.length !== 0){this.showPagination = true}
+          this.page = this.messages_sent.meta.current_page;
+          this.total_page = this.messages_sent.meta.total_page;
+          this.total = this.messages_sent.meta.total;
+        },
+        onPageChange(page) {
+          this.page = page;
+          this.getSmsHistory();
+        },
+
       }
     }
 </script>
