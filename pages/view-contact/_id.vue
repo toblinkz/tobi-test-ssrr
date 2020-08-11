@@ -123,10 +123,10 @@
 </template>
 
 <script>
-    import Sidebar from "../components/general/Sidebar";
-    import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
+    import Sidebar from "../../components/general/Sidebar";
+    import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     export default {
-        name: "view-contanct",
+        name: "_id",
       components: {DashboardNavbar, Sidebar}
     }
 </script>
