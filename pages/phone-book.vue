@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2">
-      <Sidebar></Sidebar>
+      <Sidebar class="hidden-xs"></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -54,14 +54,15 @@
                         <div class="col-lg-8">
                           <div class="panel">
                             <div class="panel-body">
-                              <form class="" role="form" method="post" >
+                              <form class="" role="form" method="post" @submit.prevent="addPhoneBook">
                                 <div class="col-lg-11">
                                   <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Create new phone book list" name="list_name">
+                                    <input type="text" class="form-control" :class="{'error': hasPhoneBookNameError}" placeholder="Create new phone book list" v-model="phonebook_name">
+                                    <span class=" error_field_message" v-if="error_message">{{error_message}}</span>
                                   </div>
                                 </div>
                                 <div class="col-lg-1">
-                                  <button type="submit" class="btn btn-success btn-sm pull-right"><i class="fa fa-plus"></i> Add </button>
+                                  <button type="submit" class="btn btn-success btn-sm pull-right" :disabled="isDisabled"><i class="fa fa-plus"></i> Add </button>
                                 </div>
                               </form>
                             </div>
@@ -101,18 +102,18 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="row in phone_book" :key="row.id">
+                                <tr v-for="row in phone_book.data" :key="row.id">
                                   <td>
-                                    <p>{{row.id}}</p>
+                                    <p>{{phone_book.data.indexOf(row ) + 1}}</p>
                                   </td>
                                   <td>
-                                    <p>{{row.phone_book}}</p>
+                                    <p>{{row.phonebook_name}}</p>
                                   </td>
                                   <td>
                                     <p>{{row.total_contacts}}</p>
                                   </td>
                                   <td>
-                                    <nuxt-link to="/view-contact" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
+                                    <nuxt-link :to="{path: 'view-contact/'+ row.id, params:{id: row.id} }" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
                                     <a class="btn btn-success btn-xs" href="#" data-toggle="modal" ><i class="fa fa-edit"></i> Edit</a>
                                     <nuxt-link class="btn btn-success btn-xs" to="/add-contact">
                                       <i class="fa fa-user-plus"></i> Add Contact</nuxt-link>
@@ -142,28 +143,53 @@
     import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
     export default {
         name: "phone-book",
-      components: {DashboardNavbar, Sidebar},
+      middleware: 'auth',
+       components: {DashboardNavbar, Sidebar},
       data(){
           return{
-            phone_book:[
-              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
-              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
-              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
-              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
-              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
-              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
-              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
-              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
-              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
-              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
-              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
-              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
-              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
-              {id:"1", phone_book: "Termii - Enterprise Cutomers ", total_contacts: "3"},
-
-
-            ]
+            phone_book:[],
+            phonebook_name: '',
+            error_message:'',
+            hasPhoneBookNameError: false,
           }
+      },
+      computed:{
+          isDisabled:function () {
+              return (this.phonebook_name === '')
+          }
+      },
+      watch:{
+        phonebook_name(value){
+
+          this.error_message = '';
+          this.hasPhoneBookNameError = false;
+        }
+      },
+      methods:{
+          async getPhoneBook() {
+            let response_data = await this.$axios.$get('sms/phone-book');
+            this.phone_book = response_data
+          },
+        async addPhoneBook(){
+            try{
+              await this.$axios.$post('sms/phone-book',
+                {
+                  phonebook_name: this.phonebook_name
+                });
+              await this.getPhoneBook();
+              this.$toast.success("Phone book added successfully");
+            } catch (e) {
+                await this.$axios.onError(error => {
+                  this.error_message = 'Phone-book name already exists';
+                  this.hasPhoneBookNameError = true;
+                })
+            }
+
+        }
+
+      },
+       mounted() {
+          this.getPhoneBook();
       }
     }
 </script>
@@ -183,6 +209,9 @@
 
   .content-wrapper {
     width: 100%;
+  }
+  .panel {
+    border-radius: 5px;
   }
   @media screen and (min-width: 769px){
     .container .jumbotron, .container-fluid .jumbotron {
@@ -297,7 +326,7 @@
   }
   .form-control {
     display: block;
-    width: 100%;
+    width: 97%;
     height: 36px;
     padding: 7px 12px;
     font-size: 13px;
@@ -340,6 +369,11 @@
   select.input-sm {
     height: 34px;
     line-height: 34px;
+  }
+  .btn-primary {
+    color: #fff;
+    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
+    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
   }
   .form-control2 {
     font-size: 13px;
