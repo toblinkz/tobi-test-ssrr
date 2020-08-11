@@ -27,7 +27,15 @@ button[disabled] {
   opacity: .5;
   pointer-events: none;
 }
-
+.error_field_message {
+  font-size: 1.2rem;
+  color: red;
+  display: block;
+  margin-top: 5px;
+}
+input[type=text].error {
+  border-color: red!important;
+}
 .goog-te-gadget-simple {
   border-radius: 15px !important;
   border: transparent !important;
