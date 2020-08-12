@@ -48,7 +48,7 @@
                                 <div class="form-group mt-50">
                                   <label>Select Channel </label>
                                   <small style="color: red !important;font-size: 11px;">(WhatsApp available only to premium users)</small>
-                                  <SearchDropdown :options="options" :dropdown-selected-style="dropdownSelectedBackground" ></SearchDropdown>
+                                  <SearchDropdown :options="sms_channels" :dropdown-selected-style="dropdownSelectedBackground" ></SearchDropdown>
                                 </div>
                                 <div class="form-group">
                                   <label>Recipients</label>
@@ -106,10 +106,11 @@
     export default {
         name: "quick-sms",
       components: {CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, vSelect},
+      middleware: 'auth',
       data(){
           return{
-            options: ['Sms (Africa)', 'SMS (Nigeria-DND)', 'SMS (GHANA)', 'SMS (General)'],
-            countries: ['select your country','Aigeria', 'Ahana', 'ASA', 'AUK', 'AIndia','Bigeria', 'chana', 'DSA', 'EUK', 'FIndia'],
+            sms_channels: ['Select Channel'],
+            countries: ['Select your country',],
             senderId: ['Termii', 'N-Alert', 'EGFM', 'NTA', 'COOL',],
             message: ['Plain', 'Voice', 'MMS', 'Unicode', 'Arabic',],
             dropdownSelectedBackground:{
@@ -121,6 +122,18 @@
              borderRadius: '5px',
             }
           }
+      },
+      methods: {
+          async getSmsChannel() {
+            let data = await this.$axios.$get('sms/channels');
+            for (let i = 0; i < data.data.length; i++){
+              this.sms_channels.push(data.data[i].name)
+            }
+            console.log(data.data.length);
+          }
+      },
+      mounted() {
+          this.getSmsChannel();
       }
     }
 </script>
