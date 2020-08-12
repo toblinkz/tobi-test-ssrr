@@ -73,8 +73,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="row in response_data.data" :key="row.id">
-                                  <td data-label="SL" class="hidden-xs">{{row.id}}</td>
+                                <tr v-for="(row, index) in response_data.data" :key="row.id">
+                                  <td data-label="SL" class="hidden-xs">{{index + 1}}</td>
                                   <td data-label="Sender ID"><p>{{row.sender_id}}</p></td>
                                   <td data-label="Status"><p class="label label-success">{{row.status}}</p>
                                   </td>

@@ -125,11 +125,15 @@
       },
       methods: {
           async getSmsChannel() {
-            let data = await this.$axios.$get('sms/channels');
-            for (let i = 0; i < data.data.length; i++){
-              this.sms_channels.push(data.data[i].name)
+            try {
+              let data = await this.$axios.$get('sms/channels');
+              for (let i = 0; i < data.data.length; i++){
+                this.sms_channels.push(data.data[i].name)
+              }
+            }catch (e) {
+
             }
-            console.log(data.data.length);
+
           }
       },
       mounted() {
