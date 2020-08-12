@@ -74,7 +74,7 @@
                                 </thead>
                                 <tbody>
                                 <tr v-for="(row, index) in response_data.data" :key="row.id">
-                                  <td data-label="SL" class="hidden-xs">{{row.id}}</td>
+                                  <td data-label="SL" class="hidden-xs">{{index + 1}}</td>
                                   <td data-label="Sender ID"><p>{{row.name}}</p></td>
                                   <td data-label="Status"><p class="label"  :class="rowClassName(row,index)">{{row.device_status}}</p>
                                   <td data-label="Sender ID" :class="getTotalMessagesSent(row)"><p>{{number}}</p></td>
