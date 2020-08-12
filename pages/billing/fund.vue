@@ -50,7 +50,7 @@
                                       <p class="text-semibold"><i class="entypo-credit-card" style="color: #bbb !important;"></i> Balance</p>
                                       <!-- START PANEL -->
                                       <p class="alert insight wd">
-                                        <span>₦258462.78</span>
+                                        <span>₦{{account_balance}}</span>
                                       </p>
                                       <!-- END PANEL -->
                                     </div>
@@ -58,7 +58,7 @@
                                       <p class="text-semibold"><i class="entypo-light-up" style="color: #bbb !important;"></i> Account</p>
                                       <!-- START PANEL -->
                                       <p class="alert insight wd">
-                                        <span>2000004394</span>
+                                        <span>{{account_number}}</span>
                                       </p>
                                       <!-- END PANEL -->
                                     </div>
@@ -66,7 +66,7 @@
                                       <p class="text-semibold"><i class="entypo-home" style="color: #bbb !important;"></i> Bank</p>
                                       <!-- START PANEL -->
                                       <p class="alert insight wd">
-                                        <span>Providus Bank</span>
+                                        <span>{{bank_name}}</span>
                                       </p>
                                       <!-- END PANEL -->
                                     </div>
@@ -166,6 +166,9 @@
             isRegularBody: true,
             isRegularForm: false,
             showModal:false,
+            account_number: '',
+            account_balance: '',
+            bank_name: '',
             options: ['Select Top Up Option', 'Regular Top Up', 'Bundled Top Up'],
             payment_method:['Paystack','Monnify','Coin Payment'],
             dropdownStyle:{
@@ -177,6 +180,12 @@
       methods: {
           closeModal() {
             this.showModal = false;
+          },
+          async getWalletBalance() {
+            let data = await this.$axios.$get('billing/wallet');
+            this.account_balance = data.data.balance;
+            this.bank_name  = data.data.bank_name;
+            this.account_number = data.data.account_number;
           },
         itemSelected(value){
             if (value === "Bundled Top Up"){
@@ -190,6 +199,9 @@
             }
 
         }
+      },
+      mounted() {
+          this.getWalletBalance();
       }
     }
 </script>
