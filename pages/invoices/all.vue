@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2 ">
-      <Sidebar></Sidebar>
+      <Sidebar class="hidden-xs"></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -90,16 +90,16 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="row in all_invoice" :key="row.index">
-                                  <td>{{row.index}}</td>
-                                  <td>{{row.amount}}</td>
-                                  <td>{{row.invoice_date}}</td>
-                                  <td>{{row.due_date}}</td>
+                                <tr v-for="(row, index) in all_invoice.data" :key="row.index">
+                                  <td>{{index + 1}}</td>
+                                  <td>{{row.total}}</td>
+                                  <td>{{row.datepaid}}</td>
+                                  <td>{{row.duedate}}</td>
                                   <td>
                                     <span class="label label-success">{{row.status}}</span>
                                   </td>
                                   <td>
-                                    <span class="label label-success">{{row.type}}</span>
+                                    <span class="label label-success">{{row.recurring}}</span>
                                   </td>
                                   <td>
                                     <nuxt-link to="/invoices/view" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
@@ -128,28 +128,20 @@
     export default {
         name: "all",
       components: {DashboardNavbar, Sidebar},
+      middleware: 'auth',
       data(){
           return{
-            all_invoice :[
-              {index: '1', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '2', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '3', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '4', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '5', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '6', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '7', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '8', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '9', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '10', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '11', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '12', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '13', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '14', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '15', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"}
-
-
-              ]
+            all_invoice :[]
           }
+      },
+      methods: {
+          async getAllBillingInvoices(){
+              let data =  await this.$axios.$get('billing/invoices');
+              this.all_invoice = data;
+          }
+      },
+      mounted() {
+          this.getAllBillingInvoices();
       }
     }
 </script>
