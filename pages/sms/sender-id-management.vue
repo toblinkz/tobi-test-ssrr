@@ -124,8 +124,6 @@
             response_data: [],
             page: 1,
             total_page: '',
-            total: '',
-            per_page: '',
             showPagination: false
           }
       },
@@ -142,8 +140,6 @@
             if (data.data.length !== 0){this.showPagination = true}
             this.page = this.response_data.meta.current_page;
             this.total_page = this.response_data.meta.last_page;
-            this.total = this.response_data.meta.total;
-            this.per_page = this.response_data.meta.per_page;
           } catch (e) {
 
           }
