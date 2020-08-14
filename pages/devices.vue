@@ -325,10 +325,7 @@
   .table-hover > tbody > tr:hover {
     background-color: #f8f8f8;
   }
-  a[aria-disabled] {
-    opacity: .5;
-    pointer-events: none;
-  }
+
   table {
     border-collapse: collapse;
     border-spacing: 0;
