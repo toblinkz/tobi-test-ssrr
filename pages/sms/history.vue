@@ -82,10 +82,10 @@
                             </thead>
                             <tbody>
                             <tr v-for="row in messages_sent.data" :key="row.date">
-                              <td style="width: 5%;">{{row.date}}</td>
+                              <td style="width: 5%;">{{row.create_at}}</td>
                               <td style="width: 5%;">{{row.channel}}</td>
-                              <td style="width: 5%;">{{row.from}}</td>
-                              <td style="width: 5%;">{{row.to}}</td>
+                              <td style="width: 5%;">{{row.sender}}</td>
+                              <td style="width: 5%;">{{row.receiver}}</td>
                               <td style="width: 10%;">{{row.status}}</td>
                               <td style="width: 10%;">
                                 <a class="btn btn-success btn-xs" @click="showModal = true" ><i class="entypo-popup"></i> View</a>
@@ -136,6 +136,7 @@
             isShow: false,
             showModal:false,
             messages_sent: [],
+            showPagination: false,
             page:'',
             total_page:'',
           }
@@ -158,12 +159,12 @@
           this.showModal = false;
         },
         async getSmsHistory(){
-          let data = await this.$axios.$get('sms/history');
+          let data = await this.$axios.$get('sms/history', {params:{page: this.page}});
           this.messages_sent = data;
           if (data.data.length !== 0){this.showPagination = true}
           this.page = this.messages_sent.meta.current_page;
-          this.total_page = this.messages_sent.meta.total_page;
-          this.total = this.messages_sent.meta.total;
+          this.total_page = this.messages_sent.meta.total;
+
         },
         onPageChange(page) {
           this.page = page;
