@@ -348,13 +348,20 @@ small, .small {
   background-color: #F44336;
   border-color: #F44336;
 }
+.bg-warning {
+  background-color: #FF5722;
+  border-color: #FF5722;
+  color: #fff;
+}
 h2{
   margin-bottom: 10px;
   font-weight: 100;
   font-size: 25px;
-
 }
-
+a[aria-disabled] {
+  opacity: .5;
+  pointer-events: none;
+}
 /* anchor styling*/
 a.label:hover,
 a.label:focus {
