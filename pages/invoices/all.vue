@@ -99,7 +99,8 @@
                                     <span class="label label-success">{{row.status}}</span>
                                   </td>
                                   <td>
-                                    <span class="label label-success">{{row.recurring}}</span>
+                                    <span class="label label-success" v-show="showRecurringLabel(row)" >Recurring</span>
+                                    <span class="label label-success" v-show="showOnetimeLabel(row)">Onetime</span>
                                   </td>
                                   <td>
                                     <nuxt-link to="/invoices/view" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
@@ -138,7 +139,13 @@
           async getAllBillingInvoices(){
               let data =  await this.$axios.$get('billing/invoices');
               this.all_invoice = data;
-          }
+          },
+        showRecurringLabel(row){
+            return (row.recurring === 0)
+        },
+        showOnetimeLabel(row){
+            return(row.recurring !== 0)
+        }
       },
       mounted() {
           this.getAllBillingInvoices();
