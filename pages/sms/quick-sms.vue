@@ -151,7 +151,6 @@
                 this.countries.push(response_data.data[i].name);
               }
             }catch (e) {
-
             }
         }
       },
@@ -228,6 +227,12 @@
       font-size: 0;
     }
   }
+  .nav {
+    margin-bottom: 0;
+    padding-left: 0;
+    /* list-style: none; */
+  }
+
   ul.campaign-steps {
     text-align: left;
     border-bottom: dashed 2px #aaa;

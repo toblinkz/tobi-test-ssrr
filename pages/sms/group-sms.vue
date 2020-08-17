@@ -260,6 +260,7 @@
     margin-top: 30px;
     width: 83%;
   }
+
   .campaign-steps > li {
     margin-right: 50px;
     font-weight: 600;
@@ -286,19 +287,16 @@
     display: block;
     padding: 7px 15px;
   }
+
+  .nav {
+    margin-bottom: 0;
+    padding-left: 0;
+    /* list-style: none; */
+  }
   .campaign-steps a {
     font-size: 16px;
   }
-  ul.campaign-steps li.active::after {
-    display: block;
-    content: "\ee31";
-    font-family: 'icomoon';
-    position: absolute;
-    top: 15px;
-    left: -35px;
-    font-size: 10px;
-    color: #333;
-  }
+
   ul.campaign-steps > li.active > a{
     border-bottom: solid 2px #365899;
     border-radius: 5px 5px 0 0;
