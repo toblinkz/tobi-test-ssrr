@@ -123,6 +123,7 @@
     import Pagination from "../../components/general/Pagination";
     export default {
         name: "history",
+      middleware:'auth',
       components: {Pagination,DashboardChart, SmsHistoryModal, DashboardNavbar, Sidebar},
       head(){
         return{
