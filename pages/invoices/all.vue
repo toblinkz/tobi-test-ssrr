@@ -176,6 +176,14 @@
     }
   }
   @media (min-width: 769px){
+    .form-inline .form-control {
+      display: inline-block;
+      width: auto;
+      vertical-align: middle;
+    }
+  }
+
+  @media (min-width: 769px){
     .page-container {
       width: 100%;
       display: table;
@@ -321,6 +329,9 @@
     margin-bottom: 0;
   }
   .form-control, .select2 {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
     font-size: 13px;
     border-color: #bbb;
     border-radius: 5px;
