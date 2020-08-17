@@ -113,11 +113,11 @@
                                     <p>{{row.total_contacts}}</p>
                                   </td>
                                   <td>
-                                    <nuxt-link :to="{path: 'view-contact/'+ row.id, params:{id: row.id} }" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
+                                    <nuxt-link :to="{path: 'view-contact/'+ row.id }" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
                                     <a class="btn btn-success btn-xs" href="#" data-toggle="modal" ><i class="fa fa-edit"></i> Edit</a>
-                                    <nuxt-link class="btn btn-success btn-xs" to="/add-contact">
+                                    <nuxt-link class="btn btn-success btn-xs" :to="{name: 'add-contact-id' , params:{id: row.id}}">
                                       <i class="fa fa-user-plus"></i> Add Contact</nuxt-link>
-                                    <a href="#" class="btn btn-danger btn-xs " id="36"><i class="fa fa-trash"></i></a>
+                                    <a href="#" class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i></a>
                                   </td>
                                 </tr>
                                 </tbody>
