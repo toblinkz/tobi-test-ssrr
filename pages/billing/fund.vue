@@ -50,7 +50,7 @@
                                       <p class="text-semibold"><i class="entypo-credit-card" style="color: #bbb !important;"></i> Balance</p>
                                       <!-- START PANEL -->
                                       <p class="alert insight wd">
-                                        <span>₦{{account_balance}}</span>
+                                        <span>{{account_balance}}</span>
                                       </p>
                                       <!-- END PANEL -->
                                     </div>
