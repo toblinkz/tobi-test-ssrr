@@ -16,7 +16,6 @@ export default {
       {src: '/js/customScrollbar.js'},
       { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
       { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
-      { src: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js'},
       {src:"/js/intro.js" },
       ],
     link: [
@@ -51,6 +50,7 @@ export default {
     { src: '~plugins/vue-js-modal.js'},
     { src: '~plugins/vue-paginate.js'},
     { src: '~plugins/vue-notification.js'},
+
   ],
   /*
   ** Nuxt.js dev-modules
