@@ -41,7 +41,7 @@
                                     </div>
 
                                     <div class="col-md-5 mb-20" style="padding-right: 0px;">
-                                      <input type="text" class="form-control" name="datetimes"  placeholder="Date Range" />
+                                      <date-picker v-model="date_time" value-type="DD-MM-YYYY" type="date" range style="width: 100%"  confirm></date-picker>
                                     </div>
                                   </div>
                                   <center>
@@ -121,20 +121,17 @@
     import SmsHistoryModal from "../../components/modals/SmsHistoryModal";
     import DashboardChart from "../../components/general/charts/SmsHistoryChart";
     import Pagination from "../../components/general/Pagination";
+    import DatePicker from "vue2-datepicker";
+    import 'vue2-datepicker/index.css';
     export default {
         name: "history",
       middleware:'auth',
-      components: {Pagination,DashboardChart, SmsHistoryModal, DashboardNavbar, Sidebar},
-      head(){
-        return{
-          link: [
-            { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css' }
-          ]
-        }
-      },
+      components: {Pagination,DashboardChart, SmsHistoryModal, DashboardNavbar, Sidebar, DatePicker},
+
       data(){
           return{
             isShow: false,
+            date_time:null,
             showModal:false,
             messages_sent: [],
             showPagination: false,

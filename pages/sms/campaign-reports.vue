@@ -36,7 +36,7 @@
                             <form class="" role="form" method="get" id="search-form">
                               <div class="row">
                                 <div class="form-group">
-                                  <input type="text" class="form-control" id="datetimes" name="datetimes"  placeholder="Date Range" />
+                                  <date-picker v-model="date_time" value-type="DD-MM-YYYY" type="date" range style="width: 100%"  confirm></date-picker>
                                 </div>
                               </div>
 
@@ -105,20 +105,16 @@
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import Pagination from "../../components/general/Pagination";
+    import DatePicker from "vue2-datepicker";
+    import 'vue2-datepicker/index.css';
     export default {
         name: "campaign-reports",
       middleware: 'auth',
-      components: {Pagination, DashboardNavbar, Sidebar},
-      head(){
-          return{
-            link: [
-              { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css' }
-            ]
-          }
-      },
+      components: {Pagination, DashboardNavbar, Sidebar, DatePicker},
       data(){
           return{
             campaign_report:[],
+            date_time: null,
             page: 1,
             total_page:'',
             showPagination: false
@@ -156,17 +152,7 @@
       },
       mounted() {
           this.getCampaignReport();
-         // console.log(moment('2020-05-21T22:51:36.000000Z').format("DD-MM-YYYY hh:mm:ss"));
-        $(function() {
-          $('input[name="datetimes"]').daterangepicker({
-            timePicker: true,
-            startDate: moment().startOf('hour'),
-            endDate: moment().startOf('hour').add(32, 'hour'),
-            locale: {
-              format: 'M/DD/YYYY h:mm:ss'
-            }
-          });
-        });
+
       }
 
     }
