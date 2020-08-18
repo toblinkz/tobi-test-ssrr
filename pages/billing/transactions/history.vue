@@ -36,9 +36,9 @@
                                   <div class="row">
                                     <div class="row top-list-controls">
 
-                                      <form @submit.prevent="getRange" method="GET">
+                                      <form @submit.prevent="getWalletTransactionByDate" method="GET">
                                         <div class="col-md-6">
-                                          <date-picker v-model="date_time" type="date" range style="width: 100%"></date-picker>
+                                          <date-picker v-model="date_time" value-type="DD-MM-YYYY" type="date" range style="width: 100%"  confirm></date-picker>
                                         </div>
                                         <div class="col-md-2">
                                           <input type="submit" value="Filter"  class="btn btn-primary" />
@@ -72,7 +72,7 @@
                                   <p><i class="entypo-light-up" style="color: #c10202 !important;"></i>Amount Spent </p>
                                   <!-- START PANEL -->
                                   <p class="alert toke insight wd" id="debit">
-                                    <span id="debit-body">₦-745912.97</span>
+                                    <span id="debit-body">₦-745912.97 {{date_time[0]}}</span>
                                   </p>
                                   <!-- END PANEL -->
                                 </div>
@@ -157,14 +157,14 @@
         async getWalletTransaction(){
          let response_data =  await this.$axios.$get('billing/wallet/transactions', {params: {page: this.page}});
          this.transaction_history = response_data.data;
-         if (response_data.data.length !== 0 ){this.showPagination = true}
+         if (response_data.data.length !== 0 && response_data.meta.last_page > 1){this.showPagination = true}
          this.page = response_data.meta.current_page;
          this.total_page = response_data.meta.last_page;
         },
         async getWalletTransactionByDate(){
-          let response_data = await this.$axios.$get('billing/wallet/transactions',{
-            data:{
-
+          await this.$axios.$get('billing/wallet/transactions',{
+            params:{
+              datetime: this.date_time[0] + "," + this.date_time[1]
             }
           })
         },
