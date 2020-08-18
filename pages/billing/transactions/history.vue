@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2 ">
-      <Sidebar></Sidebar>
+      <Sidebar class="hidden-xs"></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -33,21 +33,19 @@
                                   <p id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-basket"></i> Transaction History!</p>
                                   <p class="insight">View all transaction activity performed on the wallet.
                                   </p>
-
-
                                   <div class="row">
                                     <div class="row top-list-controls">
-                                      <form action="http://sandbox.termii.com/billing/transactions/history" method="GET">
-                                        <div class="col-md-6">
-                                          <input type="text" class="form-control" name="datetimes" />
-                                        </div>
 
+                                      <form @submit.prevent="getRange" method="GET">
+                                        <div class="col-md-6">
+                                          <date-picker v-model="date_time" type="date" range style="width: 100%"></date-picker>
+                                        </div>
                                         <div class="col-md-2">
                                           <input type="submit" value="Filter"  class="btn btn-primary" />
                                         </div>
-
                                       </form>
-                                      <form action="http://sandbox.termii.com/billing/transactions/export" method="POST">
+
+                                      <form @submit.prevent="" method="POST">
                                           <div class="col-md-2">
                                             <input  type="submit" value="Export"  class="btn btn-danger" />
                                           </div>
@@ -107,12 +105,12 @@
                               </tr>
                               </thead>
                               <tbody>
-                              <tr v-for="row in transaction_history_row" :key="row.date">
-                                <td>{{row.date}}</td>
-                                <td>{{row.balance_before}}</td>
-                                <td>{{row.amount}}</td>
-                                <td>{{row.balance_after}}</td>
-                                <td>{{row.type}}</td>
+                              <tr v-for="row in transaction_history" :key="row.date">
+                                <td>{{row.transaction_date}}</td>
+                                <td>{{row.balance_before_transaction}}</td>
+                                <td>{{row.transaction_amount}}</td>
+                                <td>{{row.balance_after_transaction}}</td>
+                                <td>{{row.transaction_type}}</td>
                               </tr>
                               </tbody>
                             </table>
@@ -120,6 +118,13 @@
                         </div>
                       </div>
                     </div>
+                    <pagination
+                      :page="page"
+                      :total_page="total_page"
+                      :on-page-change="onPageChange"
+                      v-show="showPagination === true">
+
+                    </pagination>
                   </section>
                 </main>
               </div>
@@ -132,51 +137,49 @@
 <script>
     import Sidebar from "../../../components/general/Sidebar";
     import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
-
-
+    import Pagination from "../../../components/general/Pagination";
+   import DatePicker from "vue2-datepicker";
+    import 'vue2-datepicker/index.css';
     export default {
         name: "history",
-      components: {DashboardNavbar, Sidebar},
-      head(){
-        return{
-          link: [
-            { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css' }
-          ]
-        }
-      },
+        middleware:'auth',
+       components: {Pagination, DashboardNavbar, Sidebar,DatePicker },
       data(){
           return{
-            transaction_history_row: [
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-              {date: "Wed, Jun 10, 2020 8:50 PM", balance_before: "₦258466.68", amount:"₦-3.9", balance_after: "₦258462.78", type:"SMSDebit"},
-
-            ],
+            transaction_history: [],
+            date_time:"null",
+            page: 1,
+            total_page:'',
+            showPagination: false
           }
       },
-      mounted() {
-        $(function() {
-          $('input[name="datetimes"]').daterangepicker({
-            timePicker: true,
-            startDate: moment().startOf('hour'),
-            endDate: moment().startOf('hour').add(32, 'hour'),
-            locale: {
-              format: 'M/DD/YYYY h:mm:ss'
+      methods:{
+        async getWalletTransaction(){
+         let response_data =  await this.$axios.$get('billing/wallet/transactions', {params: {page: this.page}});
+         this.transaction_history = response_data.data;
+         if (response_data.data.length !== 0 ){this.showPagination = true}
+         this.page = response_data.meta.current_page;
+         this.total_page = response_data.meta.last_page;
+        },
+        async getWalletTransactionByDate(){
+          let response_data = await this.$axios.$get('billing/wallet/transactions',{
+            data:{
+
             }
-          });
-        });
+          })
+        },
+        getRange(){
+          console.log(this.date_time + " ll")
+        },
+        onPageChange(page) {
+          this.page = page;
+          this.getWalletTransaction();
+
+        },
+
+      },
+      mounted() {
+        this.getWalletTransaction();
       },
 
     }
