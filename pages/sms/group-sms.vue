@@ -30,6 +30,8 @@
                </nuxt-link>
              </li>
            </ul>
+         </div>
+       </div>
            <!-- Page container -->
            <div class="page-container">
              <!-- Page content -->
@@ -45,7 +47,7 @@
                            <div class="mt-40">
                              <div class="col-md-6">
                                <form role="form" method="post">
-                                 <div class="form-group mt-30">
+                                 <div class="form-group ">
                                    <label>Select Channel </label>
                                    <small style="color: red !important;font-size: 11px;">(WhatsApp available only to premium users)</small>
                                   <SearchDropdown :options="sms_channels" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
@@ -72,7 +74,7 @@
                                </form>
                              </div>
                              <div class="col-md-6">
-                               <div class="form-group mt-30">
+                               <div class="form-group ">
                                  <label class="hidden-xs">Sender ID / Device ID</label>
                                  <small style="color: red !important;font-size: 11px;" class="hidden-xs">(Can't find your ID below, <a href="http://sandbox.termii.com/sms/sender-id-management">register yours here</a> - Process takes less than 24 hours)</small>
                                  <SearchDropdown :options="active_sender_id" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
@@ -100,8 +102,6 @@
                </div>
              </div>
            </div>
-         </div>
-       </div>
     </div>
   </div>
 </template>
@@ -274,10 +274,14 @@
   .nav-pills > li {
     float: none;
   }
+  .nav > li {
+    position: relative;
+  }
   .campaign-steps > li > a {
     padding-right: 0;
     padding-left: 0;
   }
+
   .nav-pills > li > a {
     color: #333333;
     border-radius: 3px;
@@ -285,7 +289,7 @@
   .nav > li > a {
     position: relative;
     display: block;
-    padding: 7px 15px;
+    /*padding: 7px 15px;*/
   }
 
   .nav {
