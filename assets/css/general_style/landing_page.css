@@ -1442,6 +1442,19 @@ ol ol {
   letter-spacing: normal !important;
 }
 
+ul.campaign-steps li:after {
+  display: block;
+  content: "\ee31";
+  font-family: 'icomoon';
+  position: absolute;
+  top: 15px;
+  left: -35px;
+  font-size: 10px;
+  color: #333;
+}
+ul.campaign-steps li:first-child:after {
+  display: none;
+}
 .u-small {
   letter-spacing: normal !important;
   text-align: left !important;
