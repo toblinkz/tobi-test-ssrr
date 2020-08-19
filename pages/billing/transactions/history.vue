@@ -38,7 +38,7 @@
 
                                       <form @submit.prevent="getWalletTransactionByDate" method="GET">
                                         <div class="col-md-6">
-                                          <date-picker v-model="date_time" value-type="DD-MM-YYYY" type="date" range style="width: 100%"  confirm></date-picker>
+                                          <date-picker v-model="date_time" value-type="DD-MM-YYYY HH-mm-ss" type="datetime" range style="width: 100%"  confirm></date-picker>
                                         </div>
                                         <div class="col-md-2">
                                           <input type="submit" value="Filter"  class="btn btn-primary" />
@@ -162,7 +162,7 @@
          this.total_page = response_data.meta.last_page;
         },
         async getWalletTransactionByDate(){
-          await this.$axios.$get('billing/wallet/transactions',{
+          await this.$axios.$get('8 m8',{
             params:{
               datetime: this.date_time[0] + "," + this.date_time[1]
             }
