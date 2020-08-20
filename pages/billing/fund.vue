@@ -100,7 +100,7 @@
                                       <div class="form-group"><input type="text" class="form-control" value="" name="amount" id="amount" placeholder="Amount" onchange="getTransaction()"> </div>
                                       <div class="form-group">
                                         <label>Select Payment Method</label>
-                                        <CustomSelect :options="payment_method" :dropdown-style="dropdownStyle"></CustomSelect>
+                                        <CustomSelect :options="payment_method" @item-selected="paymentMethod" :dropdown-style="dropdownStyle"></CustomSelect>
                                       </div>
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
@@ -114,7 +114,7 @@
                                     <div id="bundle-form-body" class="mt-20" v-if="isBundledForm">
                                       <div class="form-group">
                                         <label>Select Payment Method</label>
-                                        <CustomSelect :options="payment_method" :dropdown-style="dropdownStyle"></CustomSelect>
+                                        <CustomSelect :options="payment_method" @item-selected="paymentMethod" :dropdown-style="dropdownStyle"></CustomSelect>
                                       </div>
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
@@ -170,7 +170,8 @@
             account_balance: '',
             bank_name: '',
             options: ['Select Top Up Option', 'Regular Top Up', 'Bundled Top Up'],
-            payment_method:['Paystack','Monnify','Coin Payment'],
+            payment_method:[],
+            payment_gateway:'',
             dropdownStyle:{
               borderRadius:'8px'
             }
@@ -182,11 +183,39 @@
             this.showModal = false;
           },
           async getWalletBalance() {
-            let data = await this.$axios.$get('billing/wallet');
-            this.account_balance = data.data.balance;
-            this.bank_name  = data.data.bank_name;
-            this.account_number = data.data.account_number;
+            try{
+              let data = await this.$axios.$get('billing/wallet');
+              this.account_balance = data.data.balance;
+              this.bank_name  = data.data.bank_name;
+              this.account_number = data.data.account_number;
+            } catch(e){
+
+            }
+
           },
+        async getPaymentMethod(){
+            try {
+              let response_data = await this.$axios.$get('billing/payment-method');
+              console.log(response_data.data)
+              for(let i = 0; i < response_data.data.length; i++){
+                this.payment_method.push(response_data.data[i].name);
+              }
+              this.payment_gateway = response_data.data[0].settings;
+            }catch (e) {
+
+            }
+        },
+        paymentMethod(value){
+            if (value === 'Card'){
+              this.payment_gateway = "paystack";
+            } else if (value === 'Mobile Money'){
+              this.payment_gateway = 'spektra';
+            } else if (value === 'Monnify'){
+              this.payment_gateway = 'monnify';
+            }else if (value === 'Coin Payment'){
+              this.payment_gateway = 'coinpayments'
+            }
+        },
         itemSelected(value){
             if (value === "Bundled Top Up"){
               this.isBundledForm = true;
@@ -202,6 +231,7 @@
       },
       mounted() {
           this.getWalletBalance();
+          this.getPaymentMethod();
       }
     }
 </script>
