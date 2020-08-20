@@ -41,6 +41,7 @@
       },
       mounted() {
 
+
         $(".custom-select").click(function() {
 
           let scrollTop = $(window).scrollTop();
@@ -112,7 +113,7 @@
     left: 0;
     z-index: 1000;
     float: left;
-    height:200px;
+    max-height:200px;
     overflow-y:auto;
     width: 100%;
     list-style: none;
