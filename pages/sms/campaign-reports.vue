@@ -310,6 +310,7 @@
     border: 1px solid transparent;
     text-transform: uppercase;
     letter-spacing: 0.1px;
+    white-space: nowrap;
   }
   .bx-line {
     border: transparent !important;
