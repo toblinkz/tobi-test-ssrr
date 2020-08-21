@@ -34,14 +34,14 @@
                               </div>
 
                               <div class="row">
-                                <form class="" action="" role="form" method="get" id="search-form">
+                                <form @submit.prevent="getSmsHistory" role="form" method="get" >
                                   <div class="row">
                                     <div class="col-md-7 mb-20" style="padding-left: 0px;padding-right: 0px;">
-                                      <input type="text" placeholder="Phone Number"   class="form-control" name="phone">
+                                      <input type="text" placeholder="Phone Number"   class="form-control" v-model="phone_number">
                                     </div>
 
                                     <div class="col-md-5 mb-20" style="padding-right: 0px;">
-                                      <date-picker v-model="date_time" value-type="DD-MM-YYYY" type="date" range style="width: 100%"  confirm></date-picker>
+                                      <date-picker v-model="date_time" value-type="DD-MM-YYYY" type="datetime" range style="width: 100%"  confirm></date-picker>
                                     </div>
                                   </div>
                                   <center>
@@ -132,6 +132,7 @@
           return{
             isShow: false,
             date_time:null,
+            phone_number: '',
             showModal:false,
             messages_sent: [],
             showPagination: false,
@@ -141,23 +142,13 @@
       },
       mounted() {
           this.getSmsHistory();
-        $(function() {
-          $('input[name="datetimes"]').daterangepicker({
-            timePicker: true,
-            startDate: moment().startOf('hour'),
-            endDate: moment().startOf('hour').add(32, 'hour'),
-            locale: {
-              format: 'M/DD/YYYY h:mm:ss'
-            }
-          });
-        });
       },
       methods: {
         closeModal() {
           this.showModal = false;
         },
         async getSmsHistory(){
-          let data = await this.$axios.$get('sms/history', {params:{page: this.page}});
+          let data = await this.$axios.$get('sms/history', {params:{page: this.page, phone_number: this.phone_number}, datetimes: this.date_time});
           this.messages_sent = data;
           if (data.data.length !== 0){this.showPagination = true}
           this.page = this.messages_sent.meta.current_page;
