@@ -83,8 +83,9 @@
                             <div class="p-30 p-t-none p-b-none">
                               <div class="panel">
                                 <div class="panel-body">
-                                  <form class="form" role="form" method="post" action="http://sandbox.termii.com/billing/fund">
+                                  <form  role="form" method="post" @submit.prevent="regularTopUp">
                                     <CustomSelect :options="options" @item-selected="itemSelected" :dropdown-style="dropdownStyle"></CustomSelect>
+
                                     <!--regular-body!-->
                                     <div id="regular-body" class="mt-20" v-if="isRegularBody">
                                       <div class="form-group alert toke">
@@ -97,24 +98,39 @@
                                     </div>
                                     <!--regular form body!-->
                                     <div id="regular-form-body" class="mt-20" v-if="isRegularForm">
-                                      <div class="form-group"><input type="text" class="form-control" value="" name="amount" id="amount" placeholder="Amount" onchange="getTransaction()"> </div>
+                                      <div class="form-group"   :style="{marginBottom: '10px'}">
+                                        <input type="text" class="form-control" placeholder="Amount" v-model="amount" :class="{'error': hasError}"> </div>
+                                        <span class="error_field_message" v-if="error_message">{{error_message}}</span>
                                       <div class="form-group">
                                         <label>Select Payment Method</label>
-                                        <CustomSelect :options="payment_method" @item-selected="paymentMethod" :dropdown-style="dropdownStyle"></CustomSelect>
+                                        <select @change="onChange($event)" class="form-control">
+                                          <option v-for="item in payment_method.data" :value="item.settings">{{item.name}}</option>
+                                        </select>
                                       </div>
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
+                                        <p > <div > <b>NGN {{amount}}</b> </div></p>
                                       </div>
                                       <div class="form-group">
                                         <p ><b>Notice:</b> <br>Also all payments would be remitted in Naira, but your accounts would be credited in your local currency. </p>
                                       </div>
-                                      <input type="hidden" name="_token" value=""> <button type="submit" class="btn bx-line btn-success btn-sm pull-right purchase_button">Fund Account </button>
+                                      <button type="submit" class="btn bx-line btn-success btn-sm pull-right purchase_button" :disabled="isDisabled">
+                                        {{fund_button_text}}
+                                        <span v-show="isLoading">
+                                         <img src="/images/spinner.svg" height="20px" width="80px"/>
+                                      </span>
+                                      </button>
                                     </div>
+                                  </form>
                                     <!--bundled form body!-->
+                                  <form @submit.prevent="bundleTopUp">
                                     <div id="bundle-form-body" class="mt-20" v-if="isBundledForm">
                                       <div class="form-group">
                                         <label>Select Payment Method</label>
-                                        <CustomSelect :options="payment_method" @item-selected="paymentMethod" :dropdown-style="dropdownStyle"></CustomSelect>
+
+                                        <select @change="onChange($event)" class="form-control">
+                                          <option v-for="item in payment_method.data" :value="item.settings">{{item.name}}</option>
+                                        </select>
                                       </div>
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
@@ -123,7 +139,12 @@
                                       <div class="form-group">
                                         <p id=""><b>Notice:</b> <br>Also all payments would be remitted in Naira, but your accounts would be credited in your local currency. </p>
                                       </div>
-                                      <input type="hidden" name="_token" value=""> <button type="submit" class="btn bx-line btn-success btn-sm pull-right purchase_button"> Fund Account </button>
+                                     <button type="submit" class="btn bx-line btn-success btn-sm pull-right purchase_button">
+                                      {{fund_button_text}}
+                                       <span v-show="isLoading">
+                                         <img src="/images/spinner.svg" height="20px" width="80px"/>
+                                      </span>
+                                     </button>
                                     </div>
                                   </form>
                                 </div>
@@ -165,6 +186,10 @@
             isBundledForm: false,
             isRegularBody: true,
             isRegularForm: false,
+            isLoading: false,
+            fund_button_text:'Fund Account',
+            selected_payment_method:"",
+            amount:'',
             showModal:false,
             account_number: '',
             account_balance: '',
@@ -172,11 +197,25 @@
             options: ['Select Top Up Option', 'Regular Top Up', 'Bundled Top Up'],
             payment_method:[],
             payment_gateway:'',
+            hasError: false,
+            payment_url:'',
+            error_message:'',
             dropdownStyle:{
               borderRadius:'8px'
             }
 
           }
+      },
+      computed:{
+          isDisabled: function () {
+              return (this.amount === '' || this.hasError)
+          }
+      },
+      watch:{
+        amount(value){
+          this.amount = value;
+          this.validateAmount(value);
+        }
       },
       methods: {
           closeModal() {
@@ -196,25 +235,55 @@
         async getPaymentMethod(){
             try {
               let response_data = await this.$axios.$get('billing/payment-method');
-              console.log(response_data.data)
-              for(let i = 0; i < response_data.data.length; i++){
-                this.payment_method.push(response_data.data[i].name);
-              }
+             this.payment_method = response_data;
               this.payment_gateway = response_data.data[0].settings;
             }catch (e) {
 
             }
         },
-        paymentMethod(value){
-            if (value === 'Card'){
-              this.payment_gateway = "paystack";
-            } else if (value === 'Mobile Money'){
-              this.payment_gateway = 'spektra';
-            } else if (value === 'Monnify'){
-              this.payment_gateway = 'monnify';
-            }else if (value === 'Coin Payment'){
-              this.payment_gateway = 'coinpayments'
+        async regularTopUp(){
+            try {
+              this.isLoading = true;
+              this.fund_button_text = "";
+             let response_data =   await this.$axios.$post('billing/fund/wallet', {
+                  amount: this.amount,
+                  gateway: this.payment_gateway
+                });
+             this.payment_url = response_data.data.url;
+
+             window.location.href = this.payment_url;
+            }catch (e) {
+              this.isLoading = false;
             }
+        },
+        async bundleTopUp(){
+            try{
+              this.isLoading = true;
+              this.fund_button_text = "";
+              let response_data =   await this.$axios.$post('billing/fund/wallet', {
+                amount: 36660,
+                gateway: this.payment_gateway
+              });
+              this.payment_url = response_data.data.url;
+               window.location.href = this.payment_url;
+            }catch (e) {
+              this.isLoading = false;
+            }
+        },
+        validateAmount(value){
+            if (isNaN(value)){
+              this.error_message = 'Please enter a valid amount';
+              this.hasError = true;
+            }else if(value < 3000){
+              this.error_message = 'minimum amount to recharge is 3000'
+              this.hasError = true;
+            }else {
+              this.error_message = '';
+              this.hasError = false;
+            }
+        },
+        onChange(event){
+          this.payment_gateway = event.target.value;
         },
         itemSelected(value){
             if (value === "Bundled Top Up"){
@@ -232,6 +301,7 @@
       mounted() {
           this.getWalletBalance();
           this.getPaymentMethod();
+
       }
     }
 </script>
