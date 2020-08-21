@@ -162,14 +162,11 @@
          this.total_page = response_data.meta.last_page;
         },
         async getWalletTransactionByDate(){
-          await this.$axios.$get('8 m8',{
+          await this.$axios.$get('billing/wallet/transactions',{
             params:{
               datetime: this.date_time[0] + "," + this.date_time[1]
             }
           })
-        },
-        getRange(){
-          console.log(this.date_time + " ll")
         },
         onPageChange(page) {
           this.page = page;
