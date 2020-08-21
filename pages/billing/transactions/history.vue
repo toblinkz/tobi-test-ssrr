@@ -38,7 +38,7 @@
 
                                       <form @submit.prevent="getWalletTransactionByDate" method="GET">
                                         <div class="col-md-6">
-                                          <date-picker v-model="date_time" value-type="DD-MM-YYYY HH-mm-ss" type="datetime" range style="width: 100%"  confirm></date-picker>
+                                          <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%"  confirm></date-picker>
                                         </div>
                                         <div class="col-md-2">
                                           <input type="submit" value="Filter"  class="btn btn-primary" />
@@ -72,7 +72,7 @@
                                   <p><i class="entypo-light-up" style="color: #c10202 !important;"></i>Amount Spent </p>
                                   <!-- START PANEL -->
                                   <p class="alert toke insight wd" id="debit">
-                                    <span id="debit-body">₦-745912.97 {{date_time[0]}}</span>
+                                    <span id="debit-body">₦-745912.97</span>
                                   </p>
                                   <!-- END PANEL -->
                                 </div>
@@ -138,7 +138,7 @@
     import Sidebar from "../../../components/general/Sidebar";
     import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
     import Pagination from "../../../components/general/Pagination";
-   import DatePicker from "vue2-datepicker";
+    import DatePicker from "vue2-datepicker";
     import 'vue2-datepicker/index.css';
     export default {
         name: "history",
@@ -147,7 +147,7 @@
       data(){
           return{
             transaction_history: [],
-            date_time:"null",
+            date_time:[moment(new Date()).format('YYYY-MM-DD HH:mm:ss'), moment(new Date() + 1).format('YYYY-MM-DD HH:mm:ss')],
             page: 1,
             total_page:'',
             showPagination: false
