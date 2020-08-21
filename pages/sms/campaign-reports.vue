@@ -36,7 +36,7 @@
                             <form class="" role="form" method="get" id="search-form">
                               <div class="row">
                                 <div class="form-group">
-                                  <date-picker v-model="date_time" value-type="DD-MM-YYYY" type="date" range style="width: 100%"  confirm></date-picker>
+                                  <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%"  confirm></date-picker>
                                 </div>
                               </div>
 
@@ -114,7 +114,7 @@
       data(){
           return{
             campaign_report:[],
-            date_time: null,
+            date_time: [moment(new Date()).format('YYYY-MM-DD HH:mm:ss'), moment(new Date() + 1).format('YYYY-MM-DD HH:mm:ss')],
             page: 1,
             total_page:'',
             showPagination: false
