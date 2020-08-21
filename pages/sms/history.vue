@@ -34,14 +34,14 @@
                               </div>
 
                               <div class="row">
-                                <form @submit.prevent="getSmsHistory" role="form" method="get" >
+                                <form @submit.prevent="filterSmsHistory" role="form" method="get" >
                                   <div class="row">
                                     <div class="col-md-7 mb-20" style="padding-left: 0px;padding-right: 0px;">
                                       <input type="text" placeholder="Phone Number"   class="form-control" v-model="phone_number">
                                     </div>
 
                                     <div class="col-md-5 mb-20" style="padding-right: 0px;">
-                                      <date-picker v-model="date_time" value-type="DD-MM-YYYY" type="datetime" range style="width: 100%"  confirm></date-picker>
+                                      <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
                                     </div>
                                   </div>
                                   <center>
@@ -131,8 +131,8 @@
       data(){
           return{
             isShow: false,
-            date_time:null,
             phone_number: '',
+            date_time: [moment(new Date()).format('YYYY-MM-DD HH:mm:ss'), moment(new Date() + 1).format('YYYY-MM-DD HH:mm:ss')],
             showModal:false,
             messages_sent: [],
             showPagination: false,
@@ -148,12 +148,20 @@
           this.showModal = false;
         },
         async getSmsHistory(){
-          let data = await this.$axios.$get('sms/history', {params:{page: this.page, phone_number: this.phone_number}, datetimes: this.date_time});
+          let data = await this.$axios.$get('sms/history', {params:{page: this.page}});
           this.messages_sent = data;
-          if (data.data.length !== 0){this.showPagination = true}
+           // if (data.data.length !== '' && data.meta.last_page > 1){this.showPagination = true}
+          if (data.data.length !== 0 ){this.showPagination = true}
           this.page = this.messages_sent.meta.current_page;
-          this.total_page = this.messages_sent.meta.total;
-
+          this.total_page = this.messages_sent.meta.last_page;
+        },
+        async filterSmsHistory(){
+          let data = await this.$axios.$get('sms/history', {params:{page: this.page, phone_number: this.Phone_number, datetimes: this.date_time[0] + ',' + this.date_time[1]}});
+          this.messages_sent = data;
+           if (data.data.length !== 0 ){this.showPagination = true}
+           this.page = this.messages_sent.meta.current_page;
+          this.total_page = this.messages_sent.meta.last_page;
+          console.log(data.data.length)
         },
         onPageChange(page) {
           this.page = page;
