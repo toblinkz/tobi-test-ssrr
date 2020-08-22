@@ -194,8 +194,7 @@
             account_number: '',
             account_balance: '',
             bank_name: '',
-            options: ['Select Top Up Option', 'Regular Top Up', 'Bundled Top Up'],
-            payment_method:[],
+            options: ['Select Top Up Option',{id: '1', name: 'Regular Top Up'},{id: '2', name:'Bundled Top Up'},],
             payment_gateway:'',
             hasError: false,
             payment_url:'',
@@ -286,11 +285,11 @@
           this.payment_gateway = event.target.value;
         },
         itemSelected(value){
-            if (value === "Bundled Top Up"){
+            if (value === "2"){
               this.isBundledForm = true;
               this.isRegularBody = false;
               this.isRegularForm = false;
-            } else if (value === "Regular Top Up"){
+            } else if (value === "1"){
               this.isRegularForm = true;
               this.isBundledForm = false;
               this.isRegularBody = false;
