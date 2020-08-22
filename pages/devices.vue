@@ -158,8 +158,8 @@
 
             $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
           $('#qr-code').attr("disabled", true);
-          var device_id = device_id
-          let url = `http://api.sandbox.termii.com/v1/devices/:slug/barcode?token=${this.getBearerToken}`
+
+          let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${this.getBearerToken}`
           url = url.replace(':slug', device_id);
 
           $.get(url, function (data, status) {
@@ -185,7 +185,6 @@
             return 'label-success'
           } else if (row.device_status === 'PENDING'){
             return 'label-warning'
-
           }
         },
         showBarcodeIcon(row){
