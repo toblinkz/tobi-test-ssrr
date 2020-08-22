@@ -56,7 +56,7 @@
 
                   </div>
                   <div class="row-form has-feedback has-feedback-left" >
-                    <CustomSelect :options="sectors" :dropdown-style="dropdownStyle" :dropdown-selected="dropdownSelected" @item-selected="selected_sector = $event"></CustomSelect>
+                    <CustomSelect :options="sectors"  :dropdown-style="dropdownStyle" :dropdown-selected="dropdownSelected" @item-selected="setSectorId($event)"></CustomSelect>
                   </div>
                 </div>
                 <ButtonSpinner :is-disabled="isDisabled"  :button_text="button_text" :is-loading="isLoading"></ButtonSpinner>
@@ -118,6 +118,7 @@
             type: "password",
             countries: ['Select Country'],
             sectors: ['Select Sectors'],
+            sectors_id:'',
             dropdownSelectedBackground:{
               backgroundColor: '#ffffff',
               backgroundImage: 'none',
@@ -144,7 +145,7 @@
         isDisabled: function () {
           return (this.email === '' || this.password === '' || this.hasEmailError || this.hasPasswordError
                       || this.first_name === '' || this.hasFirstNameError || this.selected_country === ''
-                    || this.selected_sector === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError);
+                    || this.sectors_id === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError);
         },
         ...mapGetters(['isRegistered'])
       },
@@ -245,42 +246,24 @@
 
           //fetch sector data
           let sector_data =await this.$axios.$get('/utility/sectors');
-          for (let i = 0; i < sector_data.data.length; i++){
-            this.sectors.push(sector_data.data[i].name)
-          }
+            this.sectors = sector_data.data;
+
 
           //fetch no of registered business
           let registered_business_data = await this.$axios.$get('/utility/total/registered-businesses',);
           this.registered_business = registered_business_data.data
-          console.log(this.registered_business)
-        },
-        getSelectedSectorIndex(){
-          if (this.selected_sector === 'Financial Services'){
-            return 1;
-          }else if(this.selected_sector === 'Online Retail Services'){
-            return  2;
-          } else if(this.selected_sector === 'Education Services'){
-            return 3;
-          } else if (this.selected_sector === 'Advertising & Marketing Services'){
-            return 4;
-          } else if (this.selected_sector === 'Logistics & Transportation Services'){
-            return 5;
-          } else if (this.selected_sector === 'Others'){
-            return 6;
-          } else if (this.selected_sector === 'Health Services'){
-            return 7;
-          } else if (this.selected_sector === 'Agriculture Services'){
-            return 8
-          } else {return }
-        },
 
+        },
+        setSectorId(event){
+          this.sectors_id = event;
+        },
         //call registration endpoint
         async register(){
           let access_token;
           this.isLoading = true;
           this.button_text = "Creating..."
-          try{
 
+          try{
           let response =  await this.$axios.post('auth/register', {
               first_name: this.first_name,
               last_name: this.last_name,
@@ -288,10 +271,10 @@
               password: this.password,
               phone_number: this.phone_number,
               country: this.selected_country,
-              sector: this.getSelectedSectorIndex()
+              sector: this.sectors_id
             }, );
 
-             access_token = response.data.access_token;
+            access_token = response.data.access_token;
 
             await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + this.access_token}}); // get user data
 
