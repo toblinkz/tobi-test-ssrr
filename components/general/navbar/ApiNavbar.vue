@@ -40,7 +40,7 @@
     background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
   }
   .nuxt-link-active{
-    color: #ffffff;
+    color: #ffffff !important;
     background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
   }
   .row {
@@ -51,6 +51,7 @@
     border-bottom: 1px dashed #26A69A;
     /* margin-top: -55px; */
   }
+
   .page-second-nav {
     margin: 0 0 20px 0;
   }
@@ -93,7 +94,12 @@
       margin-bottom: -1px;
       cursor: pointer;
       border-radius: 5px;
+      color: #777;
     }
+  }
+  .nav-tabs > li > a {
+    color: #333;
+    padding: 7px 8px !important;
   }
   .page-second-nav li a.level-1 {
     font-weight: 600;
