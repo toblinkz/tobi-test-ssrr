@@ -155,7 +155,7 @@
       },
       mounted() {
           this.getCountries();
-          console.log(this.username);
+
       }
     }
 </script>
