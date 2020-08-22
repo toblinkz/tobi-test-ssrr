@@ -21,7 +21,7 @@
             <div class="auth-panel panel-body ">
               <p class="p-t-20">Welcome back! Sign into your account, we've been waiting for you!</p>
               <div class="login-form-group has-feedback has-feedback-left m-t-35">
-                <input id="" style="width: 100%"  type="email" class="form-control " :class="{'error ' : hasEmailError, 'has-input' : hasEmailInput}"  v-model="email"  placeholder="Work email">
+                <input id="email" style="width: 100%"  type="email" class="form-control " :class="{'error ' : hasEmailError, 'has-input' : hasEmailInput}"  v-model="email"  placeholder="Work Email">
                 <span class="input-field_helper">Work Email</span>
                 <span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
               </div>
@@ -45,7 +45,7 @@
                 </div>
               </div>
               <div class="row" style="width: 100%">
-                <a><button  class="btnl bg-blue m-t-10" :disabled="isDisabled">Proceed</button></a>
+               <ButtonSpinner :is-disabled="isDisabled"  :button_text="button_text" :is-loading="isLoading"></ButtonSpinner>
                 <nuxt-link  to="/forgot-password" class="text-info2 pull-right mt-20">Forgot password</nuxt-link>
               </div>
               <div>
@@ -66,8 +66,10 @@
 
 
 <script>
+  import ButtonSpinner from "../components/general/ButtonSpinner";
   export default {
     name: "login",
+    components: {ButtonSpinner},
     middleware: "guest",
     data(){
       return{
@@ -81,7 +83,9 @@
         hasEmailInput: false,
         hasPasswordInput: false,
         isToggled: false,
-        type: "password"
+        type: "password",
+        isLoading: false,
+        button_text:"Proceed"
       }
     },
     computed: {
@@ -134,26 +138,28 @@
       async loginUser() {
 
         try{
+        this.isLoading = true;
+        this.button_text = "Logging in"
         let response = await this.$auth.loginWith('local', {
             data: {
               email: this.email,
               password: this.password
             }
-          })
-          await this.$axios.get('user')
+          });
           let errors = response.errors;
-
           await this.$router.push('/dashboard');
         } catch (e) {
-          this.$axios.onError(error => {
-
-            if (error.response.status === 422){
-              this.error_message['email'] = 'Invalid Login credentials';
-              this.hasEmailError = true;
-
-            }
-          })
-
+          if (navigator.onLine) {
+            this.isLoading = false;
+            this.button_text = "Proceed";
+            this.hasEmailError = true;
+            this.hasPasswordError= true;
+            this.error_message['email'] = 'Invalid Login credentials';
+          } else {
+            this.isLoading = false;
+            this.button_text = "Proceed";
+            this.$toast.show("No Internet connection");
+          }
         }
 
       }

@@ -235,5 +235,7 @@ button[disabled] {
   font-weight: 600 !important;
   font-size: 13px !important;
 }
-
+button:focus, button:active{
+  outline: none;
+}
 

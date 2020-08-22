@@ -25,7 +25,7 @@
                 <span class=" error_field_message" v-if="error_message.verification_code">{{error_message.verification_code}}</span>
               </div>
             <div style="width: 87%">
-              <button type="submit" class="btnl bg-blue m-t-25" :disabled="isDisabled">Verify Code</button>
+              <ButtonSpinner :is-disabled="isDisabled" :button_text="button_text" :is-loading="isLoading"></ButtonSpinner>
               <nuxt-link  to="#" class="text-info2 pull-right mt-30 ">Resend verification code</nuxt-link>
             </div>
           </form>
@@ -39,20 +39,30 @@
 
 
 <script>
+
+  import ButtonSpinner from "../components/general/ButtonSpinner";
+
+
+
   export default {
     name: "verify",
+    components: {ButtonSpinner},
+    middleware:['verification_page', 'guest'],
     data(){
       return{
         verification_code: "",
         error_message:[],
+        access_token: "",
         hasVerificationError: false,
         hasVerificationInput: false,
+        button_text: "Verify Code",
+        isLoading: false
       }
     },
     computed: {
       isDisabled: function () {
         return( this.verification_code === '' || this.error_message.verification_code !== '');
-      }
+      },
     },
     watch: {
       verification_code(value) {
@@ -64,23 +74,48 @@
     methods: {
       validateVerificationCode(value){
         if (isNaN(value) || value.length < 6){
-          this.error_message['verification_code'] = 'Verification code must be 6 digit'
+          this.error_message['verification_code'] = 'Verification code must be 6 digit';
           this.hasVerificationError = true;
         } else {
-          this.error_message['verification_code'] = ''
+          this.error_message['verification_code'] = '';
           this.hasVerificationError = false;
         }
       },
       async verifyCode(){
         try{
+          this.isLoading = true;
+          this.button_text = "Verifying";
+          this.access_token = this.$route.params.access_token;
           await this.$axios.post('auth/account/verify',{
             verification_code: "890465"
-          })
+          }, {headers: {'Authorization': 'Bearer ' + this.access_token}});
 
-          let userdata = await this.$axios.get('user')
-          await this.$router.push('/dashboard');
-          console.log(userdata)
-        }catch (e) {
+          await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + this.access_token}});// get user data
+
+
+          await this.$auth.loginWith('local', {
+            data: {
+              email: this.$route.params.email,
+              password: this.$route.params.password
+            }
+          });
+
+          this.$toast.show("Successfully verified");
+          this.$router.push('/dashboard');
+
+        }catch (error) {
+
+          if (navigator.onLine) {
+            this.isLoading = false;
+            this.button_text = "Verify Code";
+            this.hasVerificationError = true;
+            this.error_message['verification_code'] = 'Invalid Token';
+          } else {
+            this.isLoading = false;
+            this.button_text = "Verify Code";
+            this.$toast.show("No Internet connection");
+          }
+
 
         }
       }

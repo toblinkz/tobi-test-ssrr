@@ -33,7 +33,7 @@
                               <div class="">
                                 <div class="row mt-20">
                                                 <span id="welcome"><span
-                                                  class="text-bold">Hi, {{loggedInUser.email}}</span> </span>
+                                                  class="text-bold">Hi, {{loggedInUser.username}}</span> </span>
                                   <span id="welcome-intro">Welcome back to your Dashboard. Check out resources and docs tailored to your account.</span>
                                   <div class="row mt-30">
                                     <div class="row">

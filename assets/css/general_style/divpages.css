@@ -328,19 +328,3 @@ html #msb {
   -webkit-perspective: 1000px;
 }
 
-#client-name {
-  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, Sans-Serif;
-  font-size: 23px;
-  letter-spacing: normal;
-  font-weight:300;
-  margin-top: 155px;
-  width:160px;
-}
-
-.badge.badge-secondary.pull-right {
-  position: relative;
-  float: right;
-  font-size: 11px;
-  line-height: 1.3;
-  background-color: #ee4749;
-}
