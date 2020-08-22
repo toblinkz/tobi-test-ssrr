@@ -47,7 +47,8 @@ export default {
   */
   plugins: [
     '~/plugins/vue-intercom',
-    '~/plugins/vue-clipboard'
+    '~/plugins/vue-clipboard',
+    '~plugins/vue-js-modal.js'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -71,7 +72,7 @@ export default {
   },
   toast: {
     position: 'bottom-center',
-    duration: 3000
+    duration: 1500
   },
 
   auth: {

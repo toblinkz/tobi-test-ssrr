@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid body">
+  <div class="container-fluid ">
     <div id="msb" class="col-md-2 hidden-xs">
       <Sidebar></Sidebar>
     </div>
@@ -31,7 +31,7 @@
                             <center>
                               <!-- START PANEL -->
                               <div class="panel-transparent">
-                                <p id="welcome" style="margin-top: 10px;margin-bottom: 15px"><i class="entypo-list-add"></i> Register your device ID!</p>
+                                <p id="welcome" style="margin-top: 10px;margin-bottom: 15px"><i class="entypo-list-add"></i> Register your sender ID!</p>
                                 <p class="insight hidden-xs">Approve your sender ID to send sms to push out messages to your customers.<br>Approved device ID's are required to send messages on Termii!</p>
 
                                 <div class="row">
@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                       <br>
-                                      <button class="btn btn-primary" @click="showModal = true"><i class="fa fa-plus"></i> Make a new request</button>
+                                      <a class="btn btn-primary" @click="show"><i class="fa fa-plus"></i> Make a new request</a>
                                     </div>
                                     <div class="col-sm-4 hidden-xs">
                                     </div>
@@ -73,63 +73,16 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                  <td data-label="SL" class="hidden-xs">1</td>
-                                  <td data-label="Sender ID"><p>Termii</p></td>
-                                  <td data-label="Status"><p class="label label-success">Approved</p>
+                                <tr v-for="row in response_data.data" :key="row.id">
+                                  <td data-label="SL" class="hidden-xs">{{row.id}}</td>
+                                  <td data-label="Sender ID"><p>{{row.sender_id}}</p></td>
+                                  <td data-label="Status"><p class="label label-success">{{row.status}}</p>
                                   </td>
-                                  <td data-label="Type"><p></p></td>
-                                  <td data-label="Type"><p></p></td>
+                                  <td data-label="Type"><p>{{row.company}}</p></td>
+                                  <td data-label="Type"><p>{{row.usecase}}</p></td>
 
                                 </tr>
-                                <tr>
-                                  <td data-label="SL" class="hidden-xs">2</td>
-                                  <td data-label="Sender ID"><p>TermiiW</p></td>
-                                  <td data-label="Status"><p class="label label-warning">Pending Approval</p></td>
 
-                                  <td data-label="Type"><p></p></td>
-                                  <td data-label="Type"><p></p></td>
-                                </tr>
-                                <tr>
-                                  <td data-label="SL" class="hidden-xs">2</td>
-                                  <td data-label="Sender ID"><p>TermiiW</p></td>
-                                  <td data-label="Status"><p class="label label-warning">Pending Approval</p></td>
-
-                                  <td data-label="Type"><p></p></td>
-                                  <td data-label="Type"><p></p></td>
-                                </tr>
-                                <tr>
-                                  <td data-label="SL" class="hidden-xs">2</td>
-                                  <td data-label="Sender ID"><p>TermiiW</p></td>
-                                  <td data-label="Status"><p class="label label-warning">Pending Approval</p></td>
-
-                                  <td data-label="Type"><p></p></td>
-                                  <td data-label="Type"><p></p></td>
-                                </tr>
-                                <tr>
-                                  <td data-label="SL" class="hidden-xs">2</td>
-                                  <td data-label="Sender ID"><p>TermiiW</p></td>
-                                  <td data-label="Status"><p class="label label-warning">Pending Approval</p></td>
-
-                                  <td data-label="Type"><p></p></td>
-                                  <td data-label="Type"><p></p></td>
-                                </tr>
-                                <tr>
-                                  <td data-label="SL" class="hidden-xs">2</td>
-                                  <td data-label="Sender ID"><p>TermiiW</p></td>
-                                  <td data-label="Status"><p class="label label-warning">Pending Approval</p></td>
-
-                                  <td data-label="Type"><p></p></td>
-                                  <td data-label="Type"><p></p></td>
-                                </tr>
-                                <tr>
-                                  <td data-label="SL" class="hidden-xs">2</td>
-                                  <td data-label="Sender ID"><p>TermiiW</p></td>
-                                  <td data-label="Status"><p class="label label-warning">Pending Approval</p></td>
-
-                                  <td data-label="Type"><p></p></td>
-                                  <td data-label="Type"><p></p></td>
-                                </tr>
                                 </tbody>
                               </table>
                             </div>
@@ -145,27 +98,53 @@
         </div>
       </div>
     </div>
-    <DeviceModal v-if="showModal" @close="closeModal"></DeviceModal>
+    <SenderIdModal  @close="closeModal" @requested="requested"></SenderIdModal>
   </div>
 </template>
 
 <script>
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
-    import DeviceModal from "../../components/modals/DeviceModal";
+   import SenderIdModal from "../../components/modals/SenderIdModal";
+    import {mapGetters} from "vuex";
     export default {
         name: "sender-id-management",
-      components: {DeviceModal, DashboardNavbar, Sidebar},
+        middleware:'auth',
+      components: {SenderIdModal, DashboardNavbar, Sidebar},
       data(){
           return{
-            showModal: false
+
+            response_data: []
           }
+      },
+      computed: {
+        ...mapGetters(['getBearerToken'])
+
       },
       methods: {
           closeModal(){
             this.showModal = false;
+          },
+        async loadSenderId() {
+          try {
+            let data = await this.$axios.$get('sms/sender-id', {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
+            this.response_data = data;
+          } catch (e) {
+
           }
-      }
+        },
+        show () {
+          this.$modal.show('sender-id-modal');
+          $("body").css("overflow", "hidden");
+        },
+        requested(){
+            this.loadSenderId();
+          $("body").css("overflow", "auto");
+        }
+      },
+     mounted() {
+       this.loadSenderId();
+     }
     }
 </script>
 
@@ -274,7 +253,11 @@
     max-width: 100%;
     /* margin-bottom: 20px; */
   }
-
+  .btn-primary {
+    color: #fff;
+    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
+    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+  }
   .table > tbody > tr > td{
     vertical-align: middle;
     padding: 12px 20px;

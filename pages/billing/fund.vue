@@ -158,6 +158,7 @@
     import CustomSelect from "../../components/general/dropdown/CustomSelect";
     export default {
         name: "funding",
+        middleware: 'auth',
       components: {CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar},
       data() {
           return {
