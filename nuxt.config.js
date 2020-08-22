@@ -46,14 +46,17 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/vue-intercom',
-    '~/plugins/vue-clipboard',
-    '~plugins/vue-js-modal.js'
+    { src: '~/plugins/vue-intercom' },
+    { src: '~/plugins/vue-clipboard' },
+    { src: '~plugins/vue-js-modal.js'},
+    { src: '~plugins/vue-paginate.js'},
+    { src: '~plugins/vue-notification.js'},
   ],
   /*
   ** Nuxt.js dev-modules
   */
   buildModules: [
+
   ],
   /*
   ** Nuxt.js modules
@@ -103,6 +106,7 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
-    }
+    },
+
   }
 }

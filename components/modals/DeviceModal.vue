@@ -13,7 +13,8 @@
           <div class="modal-body">
             <div class="form-group">
               <label>ID (For WhatsApp)</label>
-              <input type="text" class="form-control" v-model="device_id" placeholder="eg. Termii (Ensure your ID is not more than 9 characters)" name="name">
+              <input type="text" class="form-control" v-model="device_id" placeholder="eg. Termii (Ensure your ID is not more than 9 characters)"  :class="{'error' : hasDeviceIdError}">
+              <span class=" error_field_message" v-if="error_message.device_id">{{error_message.device_id}}</span>
               <br><br>
               <strong>NB:</strong> Only logistics, financial, health and agric technology companies are allowed to use these IDs. If you need to test the WhatsApp API without an approved ID, please make use of your test API keys and  our default ID - <strong>"TID"</strong>
             </div>
@@ -37,7 +38,9 @@
         name: "DeviceModal",
       data(){
           return{
-            device_id:""
+            device_id:"",
+            error_message:[],
+            hasDeviceIdError: false
           }
       },
       computed: {
@@ -45,6 +48,12 @@
           return (this.device_id === '');
         },
         ...mapGetters(['loggedInUser', 'getBearerToken'])
+      },
+      watch:{
+          device_id(value){
+            this.device_id = value;
+            this.validateDeviceId(value)
+          }
       },
       methods: {
         close() {
@@ -59,12 +68,30 @@
             this.$emit('requested');
             this.resetForm();
             this.$modal.hide('device-id-modal');
+            this.$toast.success("Request sent successfully");
           } catch (e) {
-
+            await this.$axios.onRequestError(error => {
+              if (error.response.status === 422){
+                this.error_message['device_id'] = 'Device already exists'
+                this.hasDeviceIdError = true;
+              }
+            });
           }
         },
         resetForm(){
           this.device_id = "";
+          this.error_message['device_id'] = '';
+          this.hasDeviceIdError = false;
+        },
+        validateDeviceId(value){
+          if (value.length < 3 || value.length > 9){
+            this.error_message['device_id'] = 'The sender id must be at least 3 characters.';
+            this.hasDeviceIdError = true;
+          } else {
+            this.error_message['device_id'] = '';
+            this.hasDeviceIdError = false;
+          }
+
         }
       }
     }
@@ -121,6 +148,19 @@
     background: transparent;
     border: 0;
     -webkit-appearance: none;
+  }
+  .error_field_message {
+    font-size: 1.2rem;
+    color: red;
+    display: block;
+    margin-top: 5px;
+  }
+  input[type=text].error {
+    border-color: red!important;
+  }
+  .form-control:focus {
+    border-color: #4DB6AC;
+    outline: none;
   }
   .close {
     font-size: 17px;
