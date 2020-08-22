@@ -150,7 +150,6 @@
         async getSmsHistory(){
           let data = await this.$axios.$get('sms/history', {params:{page: this.page}});
           this.messages_sent = data;
-           // if (data.data.length !== '' && data.meta.last_page > 1){this.showPagination = true}
           if (data.data.length !== 0 ){this.showPagination = true}
           this.page = this.messages_sent.meta.current_page;
           this.total_page = this.messages_sent.meta.last_page;
@@ -161,7 +160,7 @@
            if (data.data.length !== 0 ){this.showPagination = true}
            this.page = this.messages_sent.meta.current_page;
           this.total_page = this.messages_sent.meta.last_page;
-          console.log(data.data.length)
+          //console.log(data.data.length)
         },
         onPageChange(page) {
           this.page = page;
