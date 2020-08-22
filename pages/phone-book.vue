@@ -97,7 +97,7 @@
                                 <tr>
                                   <th >SL</th>
                                   <th>Phone Book</th>
-                                  <th >Total Contacts</th>
+                                  <th>Total Contacts</th>
                                   <th >Action</th>
                                 </tr>
                                 </thead>
@@ -114,7 +114,7 @@
                                   </td>
                                   <td>
                                     <nuxt-link :to="{path: 'view-contact/'+ row.id }" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
-                                    <a class="btn btn-success btn-xs" href="#" data-toggle="modal" ><i class="fa fa-edit"></i> Edit</a>
+                                    <a class="btn btn-success btn-xs" @click="showModal(row)" ><i class="fa fa-edit"></i> Edit</a>
                                     <nuxt-link class="btn btn-success btn-xs" :to="{name: 'add-contact-id' , params:{id: row.id}}">
                                       <i class="fa fa-user-plus"></i> Add Contact</nuxt-link>
                                     <a href="#" class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i></a>
@@ -133,6 +133,7 @@
             </main>
           </div>
         </div>
+        <EditPhoneBookModal @updated="getPhoneBook" :phone_book_name="phone_book_name" :phone_book_id="phone_book_id"></EditPhoneBookModal>
       </div>
     </div>
   </div>
@@ -141,16 +142,19 @@
 <script>
     import Sidebar from "../components/general/Sidebar";
     import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
+    import EditPhoneBookModal from "../components/modals/EditPhoneBookModal";
     export default {
         name: "phone-book",
       middleware: 'auth',
-       components: {DashboardNavbar, Sidebar},
+       components: {EditPhoneBookModal, DashboardNavbar, Sidebar},
       data(){
           return{
             phone_book:[],
             phonebook_name: '',
             error_message:'',
             hasPhoneBookNameError: false,
+            phone_book_name:'',
+            phone_book_id:''
           }
       },
       computed:{
@@ -184,7 +188,12 @@
                   this.hasPhoneBookNameError = true;
                 })
             }
+        },
 
+        showModal(row){
+            this.phone_book_id = row.id;
+            this.phone_book_name = row.phonebook_name;
+            this.$modal.show('edit-phonebook-modal')
         }
 
       },
