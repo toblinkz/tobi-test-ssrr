@@ -1,57 +1,80 @@
 <template>
 <transition>
   <!-- Modal -->
-  <div class="modal body fade" id="request-new-device" tabindex="-1" role="dialog" @click="close">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
+  <modal name="device-id-modal" height="auto" role="dialog" >
+    <div  role="document">
+      <div>
         <div class="modal-header" >
           <button type="button" class="close" @click="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel">Request New ID</h4>
         </div>
-        <form class="form-some-up" role="form" method="post" >
+        <form @submit.prevent="requestDeviceId" method="post" >
 
           <div class="modal-body">
             <div class="form-group">
               <label>ID (For WhatsApp)</label>
-              <input type="text" class="form-control" required="" placeholder="eg. Termii (Ensure your ID is not more than 9 characters)" name="name">
+              <input type="text" class="form-control" v-model="device_id" placeholder="eg. Termii (Ensure your ID is not more than 9 characters)" name="name">
               <br><br>
               <strong>NB:</strong> Only logistics, financial, health and agric technology companies are allowed to use these IDs. If you need to test the WhatsApp API without an approved ID, please make use of your test API keys and  our default ID - <strong>"TID"</strong>
             </div>
           </div>
           <div class="modal-footer">
-            <input type="hidden" name="_token" value="DTPkUCHYfTRR9r4nMpdDrXUCVo3qGMfoOHr9u00f">
-            <button type="button" class="btn btn-default" data-dismiss="modal"> Close </button>
-            <button type="submit" class="btn btn-primary"> Save </button>
+            <button type="button" class="btn btn-default" @click="close"> Close </button>
+            <button type="submit" class="btn id-btn-primary" :disabled="isDisabled"> Save </button>
           </div>
 
         </form>
       </div>
     </div>
-  </div>
+  </modal>
 </transition>
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
         name: "DeviceModal",
+      data(){
+          return{
+            device_id:""
+          }
+      },
+      computed: {
+        isDisabled: function (){
+          return (this.device_id === '');
+        },
+        ...mapGetters(['loggedInUser', 'getBearerToken'])
+      },
       methods: {
         close() {
-          this.$emit('close');
+          this.resetForm();
+          this.$modal.hide('device-id-modal');
         },
-        mounted () {
-          document.addEventListener('click', this.close)
+        async requestDeviceId(){
+          try {
+            await this.$axios.post('devices', {
+              name: this.device_id
+            }, {headers: {'Authorization': 'Bearer ' + this.getBearerToken}})
+            this.$emit('requested');
+            this.resetForm();
+            this.$modal.hide('device-id-modal');
+          } catch (e) {
+
+          }
         },
-        beforeDestroy () {
-          document.removeEventListener('click',this.close)
+        resetForm(){
+          this.device_id = "";
         }
       }
     }
 </script>
 
 <style scoped>
-  .modal {
-    /* display: none; */
-    /* overflow: hidden; */
+
+  .vm--container{
+    display: block;
+    overflow-y: auto;
     position: fixed;
     top: 0;
     right: 0;
@@ -61,39 +84,6 @@
     -webkit-overflow-scrolling: touch;
     outline: 0;
     background-color: rgba(0, 0, 0, 0.5);
-  }
-  @media (min-width: 769px){
-    .modal-dialog {
-      width: 600px;
-      margin: 30px auto;
-    }
-  }
-  .modal-dialog {
-    position: relative;
-    /* width: auto; */
-    /* margin: 10px; */
-  }
-  .modal-content {
-    border: 0;
-    border-radius: 0;
-    margin-top: 100px;
-  }
-  .modal-content {
-    /* border-radius: 3px; */
-    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-  }
-  .modal-content {
-    position: relative;
-    background-color: #fff;
-    border: 1px solid #999;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-    background-clip: padding-box;
-    outline: 0;
-
   }
   .modal-header {
     padding: 20px;

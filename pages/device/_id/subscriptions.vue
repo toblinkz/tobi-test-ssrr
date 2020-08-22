@@ -20,7 +20,7 @@
             <main id="wrapper" class="wrapper">
               <section class="wrapper-bottom-sec">
                 <div class="padding-30">
-                  <h2 class="page-title"><b>Device - Drugstore</b></h2>
+                  <h2 class="page-title"><b>Device - {{device_name}}</b></h2>
                 </div>
                 <div class="p-30">
                   <div class="row">
@@ -28,7 +28,7 @@
                       <div class="panel">
                         <div class="panel-body ">
                           <h3 class="panel-title">Subscriptions</h3>
-                          <button class="btn btn-primary btn-sm pull-right" type="submit"><i class="fa fa-plus"></i> New Subscription</button>
+                          <button class="btn btn-primary btn-sm pull-right" @click="newSubscription"  v-show="new_subscription === true"><i class="fa fa-plus"></i> New Subscription</button>
                           <table class="table data-table table-hover">
                             <thead>
                             <tr>
@@ -43,15 +43,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                              <td data-label="SL">1</td>
-                              <td style="width: 20%;">Premium Generic WhatsApp (10,000 Units) ( NGN10,000 for 4,000 messages/day)</td>
-                              <td style="width: 20%;"><p>None</p></td>
-                              <td style="width: 20%;"><p>Mar 10, 2020</p></td>
-                              <td style="width: 10%;"><p>10,000</p></td>
-                              <td data-label="Status"> <form  method="POST">
-                                <button class="btn btn-success btn-sm" type="submit" ><i class="fa fa-plus"></i> Pay Now</button>
-                              </form></td>
+                            <tr v-for="row in response_data.data" :key="row.id">
+                              <td data-label="SL" >{{row.id}}</td>
+                              <td style="width: 20%;">{{row.plan_name}}</td>
+                              <td style="width: 20%;"><p>{{row.last_subscription || 'None'}}</p></td>
+                              <td style="width: 20%;"><p>{{row.subscription_expiry}}</p></td>
+                              <td style="width: 10%;"><p>{{row.amount}}</p></td>
+                              <td data-label="Status">
+                                <form @submit.prevent="payNow(row.id)"  method="PATCH"><button class="btn btn-success btn-sm" type="submit"  v-show="showPayNowButton(row)"><i class="fa fa-plus"></i> Pay Now</button></form>
+                                <p class="label label-success" v-show="showPaidLabel(row)">Paid</p>
+                              </td>
                             </tr>
                             </tbody>
                           </table>
@@ -70,11 +71,63 @@
 </template>
 
 <script>
-    import Sidebar from "../../components/general/Sidebar";
-    import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+    import Sidebar from "../../../components/general/Sidebar";
+    import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
     export default {
         name: "subscriptions",
-      components: {DashboardNavbar, Sidebar}
+      middleware:'auth',
+      components: {DashboardNavbar, Sidebar},
+      data(){
+          return{
+            device_name: this.$route.params.name,
+            device_id: this.$route.params.id,
+            response_data:[],
+            new_subscription: false,
+            plan_id:"",
+            payment_url:""
+          }
+      },
+      methods: {
+          async getSubscriptions(){
+            try {
+             let data =  await this.$axios.$get('devices/'+ this.device_id +'/subscription');
+             this.response_data = data;
+             this.plan_id = this.response_data.data[0].plan_id;
+             if (data.data.length !== 0){this.new_subscription = true}
+            } catch (e) {
+
+            }
+          },
+        async newSubscription(){
+            try{
+              await this.$axios.$post('devices/'+ this.device_id + '/subscribe', {
+               plan_id: this.plan_id
+             });
+
+              await this.getSubscriptions();
+            } catch (e) {
+
+            }
+        },
+        showPayNowButton(row){
+            return (row.payment_status === 'PENDING')
+        },
+        showPaidLabel(row){
+            return(row.payment_status === 'PAID')
+        },
+        async payNow(subscription_id){
+            try{
+              let data = await this.$axios.$patch('devices/subscription/'+subscription_id +'/pay');
+              this.payment_url = data.url
+              window.location.href = this.payment_url;
+            } catch (e) {
+
+            }
+        }
+      },
+      mounted() {
+          this.getSubscriptions();
+      }
     }
 </script>
 
@@ -170,5 +223,33 @@
     -webkit-transition: opacity 0.3s ease;
     transition: opacity 0.3s ease;
   }
-
+  .label {
+    font-size: 11px;
+    padding: 2px 10px;
+    margin: 2px 0;
+    border-radius: 20px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    text-align: center;
+    display: inline-block;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    letter-spacing: 0.1px;
+  }
+  .label-success {
+    border-color: #4CAF50;
+    color: #fff;
+    background-color: #4CAF50;
+  }
+  .btn-primary {
+    color: #fff;
+    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
+    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+  }
+  .btn-primary:hover {
+    color: #fff;
+    background-color: #0c7cd5;
+    border: 1px solid transparent !important;
+  }
 </style>
