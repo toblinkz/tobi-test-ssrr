@@ -46,7 +46,7 @@
   export default {
     name: "verify",
     components: {ButtonSpinner},
-    middleware:['guest'],
+    middleware:['verify_page','guest'],
     data(){
       return{
         verification_code: "",
@@ -97,9 +97,9 @@
               password: this.getUserPassword
             }
           });
-
           this.$toast.show("Successfully verified");
           this.$router.push('/dashboard');
+          this.$store.commit('setViewVerificationPage')
 
         }catch (error) {
           if (navigator.onLine) {
