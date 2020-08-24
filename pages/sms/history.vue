@@ -160,7 +160,6 @@
            if (data.data.length !== 0 ){this.showPagination = true}
            this.page = this.messages_sent.meta.current_page;
           this.total_page = this.messages_sent.meta.last_page;
-          //console.log(data.data.length)
         },
         onPageChange(page) {
           this.page = page;
