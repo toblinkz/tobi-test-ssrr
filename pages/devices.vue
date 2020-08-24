@@ -139,7 +139,6 @@
           try {
             let data = await this.$axios.$get('devices', {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
             this.response_data = data;
-            //console.log(this.response_data.data)
             await this.getTotalMessagesSent();
           }catch (e) {
 
