@@ -137,27 +137,42 @@
         }
       },
       async loginUser() {
+        var token ;
         try{
         this.isLoading = true;
         this.button_text = "Logging in"
-        let response = await this.$auth.loginWith('local', {
+
+          let response = await this.$axios.post('auth/login', {
+            email: this.email,
+            password: this.password
+          }, );
+          token = response.data.access_token;
+         await this.$auth.loginWith('local', {
             data: {
               email: this.email,
               password: this.password
             }
           });
 
-          this.access_token = response.data.access_token;
-          this.$store.commit('setBearerToken', this.access_token);
           await this.$router.push('/dashboard');
         } catch (e) {
-          if (navigator.onLine) {
+          if (navigator.onLine && e.response.data.error === 'Account not verified.') {
+            this.$store.commit('setEmail', this.email);
+            this.$store.commit('setPassword', this.password);
+            this.$store.commit('setBearerToken', token);
+            await this.$router.push({ name: 'verify', });
+          }else if (navigator.onLine && e.response.data.error === 'Unauthorized'){
+            this.isLoading = false;
+            this.button_text = "Proceed";
+            this.hasPasswordError = true;
+            this.error_message['password'] = 'Invalid credentials';
+          }else if (navigator.onLine && e.response.data.errors.email[0] === 'The selected email is invalid.') {
             this.isLoading = false;
             this.button_text = "Proceed";
             this.hasEmailError = true;
-            this.hasPasswordError= true;
-            this.error_message['email'] = 'Invalid Login credentials';
-          } else {
+            this.error_message['email'] = 'The selected email is invalid.';
+          }
+          else{
             this.isLoading = false;
             this.button_text = "Proceed";
             this.$toast.show("No Internet connection");
