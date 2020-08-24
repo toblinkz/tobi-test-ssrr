@@ -50,6 +50,7 @@ export default {
     { src: '~plugins/vue-js-modal.js'},
     { src: '~plugins/vue-paginate.js'},
     { src: '~plugins/vue-notification.js'},
+    { src: '~plugins/local-storage.js', ssr: false},
 
   ],
   /*
