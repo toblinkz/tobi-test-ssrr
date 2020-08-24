@@ -88,7 +88,7 @@
     export default {
         name: "register",
       components: {ButtonSpinner, CustomSelect, SearchDropdown},
-      middleware:['guest', 'verification_to_register'],
+      middleware:['guest', ],
       data(){
           return{
             registered_business:"",
@@ -147,7 +147,7 @@
                       || this.first_name === '' || this.hasFirstNameError || this.selected_country === ''
                     || this.sectors_id === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError);
         },
-        ...mapGetters(['isRegistered'])
+
       },
       watch: {
         email(value) {
@@ -259,7 +259,7 @@
         },
         //call registration endpoint
         async register(){
-          let access_token;
+          var access_token;
           this.isLoading = true;
           this.button_text = "Creating..."
 
@@ -275,16 +275,20 @@
             }, );
 
             access_token = response.data.access_token;
-
-            await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + this.access_token}}); // get user data
+            await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + response.data.access_token}}); // get user data
 
           } catch (e) {
-
-            if (navigator.onLine) {
-              this.$store.commit('changeRegisteredState');
-              await this.$router.push({ name: 'verify', params: { access_token: access_token , email: this.email, password: this.password} });
-
-            } else {
+            if (navigator.onLine && e.response.data.error === 'Account not verified.') {
+              this.$store.commit('setEmail', this.email);
+              this.$store.commit('setPassword', this.password);
+              this.$store.commit('setBearerToken', access_token);
+              await this.$router.push({ name: 'verify', });
+            }else if(navigator.onLine && e.response.data.errors.email[0] === 'The email has already been taken.'){
+              this.error_message['email'] = 'The email has already been taken.';
+              this.hasEmailError = true;
+              this.isLoading = false;
+              this.button_text = "Create My Account"
+            }else {
               this.isLoading = false;
               this.button_text = "Create My Account"
               this.$toast.show("No Internet connection")
