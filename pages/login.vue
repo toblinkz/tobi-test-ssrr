@@ -161,6 +161,7 @@
             this.$store.commit('setPassword', this.password);
             this.$store.commit('setBearerToken', token);
             await this.$router.push({ name: 'verify', });
+            this.$store.commit('setViewVerificationPage');
           }else if (navigator.onLine && e.response.data.error === 'Unauthorized'){
             this.isLoading = false;
             this.button_text = "Proceed";

@@ -283,6 +283,7 @@
               this.$store.commit('setPassword', this.password);
               this.$store.commit('setBearerToken', access_token);
               await this.$router.push({ name: 'verify', });
+              this.$store.commit('setViewVerificationPage');
             }else if(navigator.onLine && e.response.data.errors.email[0] === 'The email has already been taken.'){
               this.error_message['email'] = 'The email has already been taken.';
               this.hasEmailError = true;
