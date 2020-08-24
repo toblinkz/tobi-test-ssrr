@@ -91,7 +91,7 @@
       },
       async logout(){
         await this.$auth.logout();
-        this.$store.commit('changeRegisteredState');
+
       }
     },
 
