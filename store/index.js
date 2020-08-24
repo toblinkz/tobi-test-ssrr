@@ -3,7 +3,6 @@ export const getters = {
     return state.auth.loggedIn;
   },
 
-
   loggedInUser(state) {
     return state.auth.user;
   },
@@ -25,7 +24,8 @@ export const getters = {
 export const state = () => ({
   bearer_token: '',
   email:'',
-  password:''
+  password:'',
+  view_verify_page: false
 });
 
 export const mutations = {
@@ -38,6 +38,13 @@ export const mutations = {
   },
   setBearerToken(state, bearer_token){
     state.bearer_token = bearer_token;
+  },
+  setViewVerificationPage(state){
+    if (state.view_verify_page === false){
+      state.view_verify_page = true;
+    } else {
+      state.view_verify_page = false
+    }
   }
 
 }
