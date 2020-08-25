@@ -137,7 +137,7 @@
 
         async loadDeviceIds(){
           try {
-            let data = await this.$axios.$get('devices', {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
+            let data = await this.$axios.$get('devices', );
             this.response_data = data;
             await this.getTotalMessagesSent();
           }catch (e) {
@@ -146,7 +146,7 @@
         },
         async getTotalMessagesSent(row){
             try {
-                let messages_sent_data = await  this.$axios.$get('devices/'+ row.id +'/total-number-of-messages-sent-today', {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
+                let messages_sent_data = await  this.$axios.$get('devices/'+ row.id +'/total-number-of-messages-sent-today');
                 let messages_sent = messages_sent_data.data.total_messages_sent_today
                 this.number = messages_sent
             } catch (e) {
