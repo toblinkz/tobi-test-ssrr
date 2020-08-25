@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2 ">
-      <Sidebar></Sidebar>
+      <Sidebar class="hidden-xs"></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -21,7 +21,7 @@
             <main id="wrapper" class="wrapper">
               <section class="wrapper-bottom-sec mt-40">
                 <div class="panel-body p-20">
-                  <div class="row ">
+                  <div class="row mt-50">
                     <div class="col-lg-12">
                       <div class="col-lg-6 col-md-3 col-sm-3 col-xs-12">
                         <div class=" mb-20">
@@ -43,6 +43,7 @@
                       </div>
                       <div class="col-lg-6 col-md-3 col-sm-3 col-xs-12">
                         <div class="btn-group pull-right">
+                          <a href="#" v-show="invoice_status === 'Unpaid'"  class="btn btn-success  btn-sm pay-invoice"><i class="fa fa-check"></i> Pay</a>
                           <nuxt-link to="#"  class="btn btn-primary  btn-sm"><i class="fa fa-print"></i> Print</nuxt-link>
                           <br>
                           <br>
@@ -50,23 +51,23 @@
                             <div class="bill-data">
                               <p class="m-b-5">
                                 <span class="bill-data-title">Invoice No:</span>
-                                <span class="bill-data-value">#26</span>
+                                <span class="bill-data-value">#{{invoice_no}}</span>
                               </p>
                               <p class="m-b-5">
                                 <span class="bill-data-title">Invoice Status:</span>
-                                <span class="bill-data-value"><span class="bill-data-status label-success">Paid</span></span>
+                                <span class="bill-data-value"><span class="bill-data-status" :class="{'label-success': invoice_status === 'Paid', 'label-warning': invoice_status === 'Unpaid'}">{{invoice_status}}</span></span>
                               </p>
                               <p class="m-b-5">
                                 <span class="bill-data-title">Invoice Date:</span>
-                                <span class="bill-data-value">May 13, 2020</span>
+                                <span class="bill-data-value">{{invoice_date}}</span>
                               </p>
                               <p class="m-b-5">
                                 <span class="bill-data-title">Due Date:</span>
-                                <span class="bill-data-value">May 13, 2020</span>
+                                <span class="bill-data-value">{{invoice_due_date}}</span>
                               </p>
-                              <p class="m-b-5">
+                              <p class="m-b-5" v-show="invoice_status === 'Paid'">
                                 <span class="bill-data-title">Paid Date:</span>
-                                <span class="bill-data-value">May 13, 2020</span>
+                                <span class="bill-data-value">{{invoice_paid_date}}</span>
                               </p>
                             </div>
                          </div>
@@ -87,7 +88,7 @@
                         <tbody>
                         <tr>
                           <td data-label="Item">1</td>
-                          <td data-label="Price">WalletCredit</td>
+                          <td data-label="Price">item</td>
                           <td data-label="Quantity">₦60000</td>
                           <td data-label="Total">1</td>
                           <td data-label="Subtotal">₦60000</td>
@@ -136,11 +137,67 @@
   </div>
 </template>
 <script>
-    import Sidebar from "../../components/general/Sidebar";
-    import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+    import Sidebar from "../../../components/general/Sidebar";
+    import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
     export default {
         name: "view",
-      components: {DashboardNavbar, Sidebar}
+      middleware:'auth',
+      components: {DashboardNavbar, Sidebar},
+      data(){
+          return{
+            id: this.$route.params.id,
+            invoice_status:'',
+            invoice_due_date:'',
+            invoice_paid_date:'',
+            invoice_no:'',
+            invoice_date:'',
+            item:'',
+            price:'',
+            quantity:'',
+            subtotal:'',
+            discount:'',
+            tax:'',
+            total:'',
+
+
+
+
+          }
+      },
+      methods:{
+          async getBillingInvoiceById(){
+             let response_data = await this.$axios.$get('/billing/invoices/' + this.id);
+            let data = response_data.data[0];
+            // let inv_item = response_data.inv-item[0];
+
+
+            this.invoice_no = data.id;
+            this.invoice_due_date = data.duedate;
+            this.invoice_paid_date = data.datepaid;
+            this.invoice_status = data.status;
+            this.invoice_date = data.created;
+            // this.item = inv_item.item;
+            // this.price = inv_item.price;
+            // this.quantity = inv_item.qty;
+            // this.tax = inv_item.tax;
+            // this.discount = inv_item.discount;
+            // this.total = inv_item.total;
+          },
+
+        statusClass(){
+            if (this.invoice_status === 'Paid'){
+              console.log("hhh")
+              return 'label-success'
+            }else {
+              return 'label-warning'
+            }
+        }
+
+
+      },
+      mounted() {
+          this.getBillingInvoiceById();
+      }
     }
 </script>
 
@@ -223,6 +280,13 @@
   .label-success {
     background-color: #4CAF50;
     border-color: #4CAF50;
+    padding: 5px;
+    color: #fff;
+    border-radius: 5px;
+  }
+  .label-warning {
+    background-color:  #FF5722;
+    border-color: #FF5722;
     padding: 5px;
     color: #fff;
     border-radius: 5px;
