@@ -90,7 +90,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(row, index) in all_invoice.data" :key="row.index">
+                                <tr v-for="(row, index) in all_invoice.data" :key="row.id">
                                   <td>{{index + 1}}</td>
                                   <td>{{row.total}}</td>
                                   <td>{{row.datepaid}}</td>
@@ -103,7 +103,7 @@
                                     <span class="label label-success" v-show="showOnetimeLabel(row)">Onetime</span>
                                   </td>
                                   <td>
-                                    <nuxt-link to="/invoices/view" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
+                                    <nuxt-link :to="{path: 'view/' + row.id, params:{id: row.id}}" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
                                   </td>
                                 </tr>
                                 </tbody>
@@ -124,9 +124,10 @@
 </template>
 
 <script>
-    import Sidebar from "../../components/general/Sidebar";
-    import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
-    export default {
+  import Sidebar from "../../components/general/Sidebar";
+  import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+
+  export default {
         name: "all",
       components: {DashboardNavbar, Sidebar},
       middleware: 'auth',
@@ -137,8 +138,7 @@
       },
       methods: {
           async getAllBillingInvoices(){
-              let data =  await this.$axios.$get('billing/invoices');
-              this.all_invoice = data;
+            this.all_invoice = await this.$axios.$get('billing/invoices');
           },
         showRecurringLabel(row){
             return (row.recurring === 0)
