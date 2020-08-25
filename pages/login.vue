@@ -147,6 +147,9 @@
             password: this.password
           }, );
           token = response.data.access_token;
+          this.$store.commit('setEmail', this.email);
+          this.$store.commit('setPassword', this.password);
+          this.$store.commit('setBearerToken', token);
          await this.$auth.loginWith('local', {
             data: {
               email: this.email,
