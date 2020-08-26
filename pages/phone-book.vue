@@ -117,7 +117,7 @@
                                     <a class="btn btn-success btn-xs" @click="showModal(row)" ><i class="fa fa-edit"></i> Edit</a>
                                     <nuxt-link class="btn btn-success btn-xs" :to="{name: 'add-contact-id' , params:{id: row.id}}">
                                       <i class="fa fa-user-plus"></i> Add Contact</nuxt-link>
-                                    <a href="#" class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i></a>
+                                    <a @click="deletePhoneBook(row)" class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i></a>
                                   </td>
                                 </tr>
                                 </tbody>
@@ -189,7 +189,16 @@
                 })
             }
         },
-
+        async deletePhoneBook(row_id){
+            let id = row_id.id
+          try{
+            await this.$axios.$delete('sms/phone-book/'+ id);
+            this.$toast.success("Phone book deleted successfully");
+            await this.getPhoneBook();
+          }catch (e) {
+              this.$toast.error("An Error Occured while trying to delete this phone book");
+          }
+        },
         showModal(row){
             this.phone_book_id = row.id;
             this.phone_book_name = row.phonebook_name;
