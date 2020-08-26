@@ -2,7 +2,7 @@
   <div class="container-fluid body" >
     <div class="row">
       <div id="msb" class="col-md-2 hidden-xs">
-        <sidebar></sidebar>
+        <sidebar class="hidden-xs"></sidebar>
       </div>
       <div class="col-md-10">
         <DashboardNavbar></DashboardNavbar>
