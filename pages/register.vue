@@ -191,12 +191,13 @@
         }
         ,
         validatePassword(value) {
-          if (value.length < 8) {
-            this.error_message['password'] = 'Password field must be at least 8 characters';
-            this.hasPasswordError = true;
-          }else {
-            this.error_message['password'] = '';
-            this.hasPasswordError = false;
+         if ( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(value)){
+           this.error_message['password'] = '';
+           this.hasPasswordError = false;
+          }
+          else {
+           this.error_message['password'] = 'Password is too weak';
+           this.hasPasswordError = true;
           }
         },
 
