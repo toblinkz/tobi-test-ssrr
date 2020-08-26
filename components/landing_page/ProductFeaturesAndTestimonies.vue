@@ -150,7 +150,7 @@
           }
       },
       async fetch() {
-          let registered_business_data = await this.$axios.$get('http://sandbox.termii.com/v1/utility/total/messages-processed',);
+          let registered_business_data = await this.$axios.$get('utility/total/messages-processed',);
         this.messages_processed = registered_business_data.data
       }
     }
