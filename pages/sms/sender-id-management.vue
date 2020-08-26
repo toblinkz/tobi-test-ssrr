@@ -76,7 +76,7 @@
                                 <tr v-for="(row, index) in response_data.data" :key="row.id">
                                   <td data-label="SL" class="hidden-xs">{{index + 1}}</td>
                                   <td data-label="Sender ID"><p>{{row.sender_id}}</p></td>
-                                  <td data-label="Status"><p class="label label-success">{{row.status}}</p>
+                                  <td data-label="Status"><p class="label" :class="rowStatusClass(row)">{{row.status}}</p>
                                   </td>
                                   <td data-label="Type"><p>{{row.company}}</p></td>
                                   <td data-label="Type"><p>{{row.usecase}}</p></td>
@@ -137,7 +137,7 @@
           try {
             let data = await this.$axios.$get('sms/sender-id', { params: {page: this.page},headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
             this.response_data = data;
-            if (data.data.length !== 0){this.showPagination = true}
+            if (data.data.length !== 0 && this.response_data.meta.last_page > 1){this.showPagination = true}
             this.page = this.response_data.meta.current_page;
             this.total_page = this.response_data.meta.last_page;
           } catch (e) {
@@ -155,6 +155,17 @@
         requested(){
             this.loadSenderIds();
           $("body").css("overflow", "auto");
+        },
+        rowStatusClass(row){
+           if (row.status === 'unblock'){
+            return 'label-success'
+          } else if (row.status === 'pending'){
+           return 'label-warning'
+           }
+           else if (row.status === 'block'){
+             return 'label-danger'
+           }
+
         }
       },
      mounted() {
@@ -316,12 +327,18 @@
   }
   .label-warning {
     background-color: #FF5722;
+    color: #fff;
   }
   .label-success {
     border-color: #4CAF50;
     color: #fff;
     background-color: #4CAF50;
   }
+  .label-danger{
+    background-color: red;
+    color: #fff;
+  }
+
   .pagination {
     display: flex;
     list-style: none;
