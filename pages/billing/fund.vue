@@ -187,6 +187,7 @@
             isRegularBody: true,
             isRegularForm: false,
             isLoading: false,
+            payment_method:'',
             fund_button_text:'Fund Account',
             selected_payment_method:"",
             amount:'',
@@ -229,7 +230,6 @@
             } catch(e){
 
             }
-
           },
         async getPaymentMethod(){
             try {
