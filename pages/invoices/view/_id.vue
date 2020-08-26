@@ -43,7 +43,7 @@
                       </div>
                       <div class="col-lg-6 col-md-3 col-sm-3 col-xs-12">
                         <div class="btn-group pull-right">
-                          <a href="#" v-show="invoice_status === 'Unpaid'"  class="btn btn-success  btn-sm pay-invoice"><i class="fa fa-check"></i> Pay</a>
+                          <a @click="showModal" v-show="invoice_status === 'Unpaid'"  class="btn btn-success  btn-sm pay-invoice"><i class="fa fa-check"></i> Pay</a>
                           <nuxt-link to="#"  class="btn btn-primary  btn-sm"><i class="fa fa-print"></i> Print</nuxt-link>
                           <br>
                           <br>
@@ -125,6 +125,7 @@
                           </div>
                         </div>
                       </div>
+                      <PayInvoiceComponent :invoice_id="invoice_no"></PayInvoiceComponent>
                     </div>
                   </div>
                 </div>
@@ -139,10 +140,11 @@
 <script>
     import Sidebar from "../../../components/general/Sidebar";
     import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
+    import PayInvoiceComponent from "../../../components/modals/PayInvoiceComponent";
     export default {
         name: "view",
       middleware:'auth',
-      components: {DashboardNavbar, Sidebar},
+      components: {PayInvoiceComponent, DashboardNavbar, Sidebar},
       data(){
           return{
             id: this.$route.params.id,
@@ -183,14 +185,8 @@
             // this.discount = inv_item.discount;
             // this.total = inv_item.total;
           },
-
-        statusClass(){
-            if (this.invoice_status === 'Paid'){
-              console.log("hhh")
-              return 'label-success'
-            }else {
-              return 'label-warning'
-            }
+        showModal(){
+            this.$modal.show('pay-invoice-modal')
         }
 
 
