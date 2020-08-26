@@ -17,14 +17,19 @@
           <nuxt-link to="/"> <img src="/images/logo.png" alt="logo" data-src-retina="/" width="150px" height="auto"></nuxt-link>
 
           <p class="p-t-35 m-l-20">Oops, you forgot your password. Fill in your email, below let's help you out!</p>
-          <form>
+          <form @submit.prevent="sendRequestPassword" method="post">
             <div class="form-panel panel-body ">
               <div class="form-group has-feedback-left mt-20">
                 <input id="email" style="width: 100%" type="text" class="form-control" v-model="email" :class="{'error ' : hasEmailError, 'has-input' : hasEmailInput}" placeholder="Work email">
                 <span class="input-field_helper">Email</span>
                 <span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
               </div>
-              <button type="submit" class="btnl bg-blue m-t-25" :disabled="isDisabled">Proceed</button>
+              <button type="submit" class="btnl bg-blue m-t-25" :disabled="isDisabled">
+               {{button_text}}
+                <span v-show="isLoading">
+                  <img src="/images/spinner.svg" height="20px" width="80px"/>
+                </span>
+              </button>
             </div>
             <div >
               <p class="m-l-20">Return back to <nuxt-link to="/login" class="text-info">login</nuxt-link></p>
@@ -48,11 +53,13 @@
         error_message:[],
         hasEmailError: false,
         hasEmailInput: false,
+        button_text: 'Proceed',
+        isLoading: false
       }
     },
     computed: {
       isDisabled: function () {
-          return( this.email === '' || this.error_message.email !== '');
+          return( this.email === '' || this.error_message.email !== '' || this.hasEmailError);
       }
     },
     watch: {
@@ -71,7 +78,35 @@
           this.error_message['email'] = 'The email field must be a valid email';
           this.hasEmailError = true;
         }
+      },
+      async sendRequestPassword(){
+        try {
+          this.isLoading = true;
+          this.button_text = ''
+          await this.$axios.$post('password-reset/request', {
+            email: this.email
+          });
+          this.isLoading = false;
+          this.button_text = 'Proceed'
+          this.$toast.success('Password reset was successful, check your email.')
+        }catch (e) {
+          if (e.response.data.errors.email[0] === 'Account is currently not active, contact account manager'){
+            console.log(e.response);
+            this.hasEmailError = true;
+            this.error_message['email'] = 'Account is currently not active, contact account manager';
+            this.isLoading = false;
+            this.button_text = "Proceed"
+          } else if (e.response.data.errors.email[0] === 'The selected email is invalid.'){
+            this.hasEmailError = true;
+            this.error_message['email'] = 'The selected email is invalid.';
+            this.isLoading = false;
+            this.button_text = "Proceed"
+          }
+
+        }
+
       }
+
     }
 
   }
