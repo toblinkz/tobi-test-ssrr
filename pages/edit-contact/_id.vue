@@ -54,7 +54,7 @@
                           </div>
                           <div class="panel">
                             <div class="panel-body">
-                              <form class="" role="form" method="post" >
+                              <form @submit.prevent="updateContact" role="form" method="post" >
 
                                   <div class="form-group">
                                     <span class="help" v-show="showInfo">(Remain country code at the beginning of the number)</span>
@@ -69,7 +69,13 @@
                                   <div class="form-group">
                                     <input type="text" class="form-control" placeholder="Message" v-model="message" >
                                   </div>
-                                  <button type="submit" class="btn btn-success btn-sm pull-right" :disabled="isDisabled"><i class="fa fa-save"></i> Update </button>
+                                  <button type="submit" class="btn btn-success btn-sm pull-right" :disabled="isDisabled"><i class="fa fa-save"></i>
+                                   {{button_text}}
+                                    <span v-show="isLoading">
+                                         <img src="/images/spinner.svg" height="20px" width="80px"/>
+                                      </span>
+                                  </button>
+
 
                               </form>
                             </div>
@@ -91,15 +97,20 @@
 <script>
   import Sidebar from "../../components/general/Sidebar";
   import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+  import {mapGetters} from "vuex";
+  import ButtonSpinner from "../../components/general/ButtonSpinner";
   export default {
     name: "_id",
     middleware: 'auth',
-    components: {DashboardNavbar, Sidebar},
+    components: {ButtonSpinner, DashboardNavbar, Sidebar},
     data(){
       return{
         phone_number: this.$route.params.phone_number,
-        first_name: '',
-        last_name: '',
+        phone_book_id: this.$route.params.phone_book_id,
+        first_name: this.$route.params.first_name,
+        last_name: this.$route.params.last_name,
+        isLoading: false,
+        button_text: 'Update',
         message:'',
         showInfo: false,
       }
@@ -107,15 +118,29 @@
     computed:{
       isDisabled: function () {
           return(this.phone_number === '')
-      }
+      },
+      ...mapGetters(['getPhoneBookId'])
     },
     methods: {
       async updateContact(){
-        await this.$axios.$patch('sms/phone-book/contact/' + this.$route.params.id, {
-          phone_number: this.phone_number,
-          first_name: this.first_name,
-          last_name: this.last_name,
-        });
+        try{
+          this.isLoading = true;
+          this.button_text = "Updating";
+          await this.$axios.$patch('sms/phone-book/contact/' + this.$route.params.id, {
+            id: this.$route.params.id,
+            pid: this.getPhoneBookId,
+            phone_number: this.phone_number,
+            first_name: this.first_name,
+            last_name: this.last_name,
+          });
+          this.isLoading = false;
+          this.button_text = "Update";
+          await this.$router.push({path: '/view-contact/'+ this.getPhoneBookId});
+          this.$toast.success('Contact updated successfully');
+        }catch (e) {
+
+        }
+
       },
       displayInfo(){
         this.showInfo = true
