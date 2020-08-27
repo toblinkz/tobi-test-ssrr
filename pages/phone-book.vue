@@ -140,10 +140,12 @@
 </template>
 
 <script>
-    import Sidebar from "../components/general/Sidebar";
-    import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
-    import EditPhoneBookModal from "../components/modals/EditPhoneBookModal";
-    export default {
+  import Sidebar from "../components/general/Sidebar";
+  import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
+  import EditPhoneBookModal from "../components/modals/EditPhoneBookModal";
+  import Swal from 'sweetalert2'
+
+  export default {
         name: "phone-book",
       middleware: 'auth',
        components: {EditPhoneBookModal, DashboardNavbar, Sidebar},
@@ -171,8 +173,7 @@
       },
       methods:{
           async getPhoneBook() {
-            let response_data = await this.$axios.$get('sms/phone-book');
-            this.phone_book = response_data
+            this.phone_book = await this.$axios.$get('sms/phone-book')
           },
         async addPhoneBook(){
             try{
@@ -191,13 +192,27 @@
         },
         async deletePhoneBook(row_id){
             let id = row_id.id
-          try{
-            await this.$axios.$delete('sms/phone-book/'+ id);
-            this.$toast.success("Phone book deleted successfully");
-            await this.getPhoneBook();
-          }catch (e) {
-              this.$toast.error("An Error Occured while trying to delete this phone book");
+         await Swal.fire({
+           title: 'Are you sure?',
+           text: "You won't be able to revert this!",
+           icon: 'warning',
+           showCancelButton: true,
+           confirmButtonColor: '#3085d6',
+           cancelButtonColor: '#d33',
+           confirmButtonText: 'Yes, delete it!'
+         }); async function f(result) {
+            if (result.value) {
+              try{
+                  await this.$axios.$delete('sms/phone-book/' + id)
+                 await this.getPhoneBookContact();
+                this.$toast.success("Phone book deleted successfully");
+
+              }catch (e) {
+                this.$toast.error("An Error Occured while trying to delete this phone book");
+              }
+            }
           }
+
         },
         showModal(row){
             this.phone_book_id = row.id;
