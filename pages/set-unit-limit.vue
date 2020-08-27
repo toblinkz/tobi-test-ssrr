@@ -121,7 +121,7 @@
               await Swal.fire({
                 icon: 'success',
                 text: 'Limit Updated Successfully',
-              })
+              });
             }catch (e) {
 
             }
@@ -133,6 +133,7 @@
 </script>
 
 <style scoped>
+
   @media (min-width: 769px){
     .content-wrapper {
       display: table-cell;
