@@ -81,8 +81,8 @@
                                 <td >{{row.user_name || '-'}}</td>
                                 <td>-</td>
                                 <td>{{row.phone_number}}</td>
-                                <td> <nuxt-link class="btn btn-success btn-xs" to="/edit-contact" ><i class="fa fa-edit"></i> Edit</nuxt-link>
-                                  <a href="#" class="btn btn-danger btn-xs cdelete" id="1"><i class="fa fa-trash"></i> Delete</a></td>
+                                <td> <nuxt-link class="btn btn-success btn-xs" :to="{name: 'edit-contact-id', params:{id: row.id,phone_number: row.phone_number}}" ><i class="fa fa-edit"></i> Edit</nuxt-link>
+                                  <a @click="showModal" class="btn btn-danger btn-xs cdelete" id="1"><i class="fa fa-trash"></i> Delete</a></td>
                               </tr>
                               </tbody>
                             </table>
@@ -116,8 +116,12 @@
       methods: {
           async getPhoneBookContact(){
             this.phone_book_contacts = await this.$axios.$get('sms/phone-book/' +this.$route.params.id);
-
-          }
+          },
+        async deletePhoneBookContact(){
+            await this.$axios.$delete('sms/phone-book/' + this.$route.params.id);
+            this.$toast.success('Phone Book Has been Deleted Successfully');
+            await this.getPhoneBookContact();
+        }
       },
       mounted() {
           this.getPhoneBookContact();
