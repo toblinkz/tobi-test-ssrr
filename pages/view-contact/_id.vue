@@ -77,33 +77,12 @@
                               </tr>
                               </thead>
                               <tbody>
-                              <tr>
-                                <td >Ayomide </td>
-                                <td >-</td>
-                                <td >2349085269802</td>
-                                <td > <nuxt-link class="btn btn-success btn-xs" to="/edit-contact" ><i class="fa fa-edit"></i> Edit</nuxt-link>
+                              <tr v-for="row in phone_book_contacts.data" :key="row.id">
+                                <td >{{row.user_name || '-'}}</td>
+                                <td>-</td>
+                                <td>{{row.phone_number}}</td>
+                                <td> <nuxt-link class="btn btn-success btn-xs" to="/edit-contact" ><i class="fa fa-edit"></i> Edit</nuxt-link>
                                   <a href="#" class="btn btn-danger btn-xs cdelete" id="1"><i class="fa fa-trash"></i> Delete</a></td>
-                              </tr>
-                              <tr>
-                                <td >Oluwatatyo </td>
-                                <td >-</td>
-                                <td >2347051577499</td>
-                                <td > <nuxt-link class="btn btn-success btn-xs" to="/edit-contact" ><i class="fa fa-edit"></i> Edit</nuxt-link>
-                                  <a href="#" class="btn btn-danger btn-xs cdelete" id="2"><i class="fa fa-trash"></i> Delete</a></td>
-                              </tr>
-                              <tr>
-                                <td >-  </td>
-                                <td >-</td>
-                                <td >2347089509657</td>
-                                <td > <nuxt-link class="btn btn-success btn-xs" to="/edit-contact" ><i class="fa fa-edit"></i> Edit</nuxt-link>
-                                  <a href="#" class="btn btn-danger btn-xs cdelete" id="101470"><i class="fa fa-trash"></i> Delete</a></td>
-                              </tr>
-                              <tr>
-                                <td >Risi </td>
-                                <td >reeseekat</td>
-                                <td >80234567890</td>
-                                <td > <nuxt-link class="btn btn-success btn-xs" to="/edit-contact" ><i class="fa fa-edit"></i> Edit</nuxt-link>
-                                  <a href="#" class="btn btn-danger btn-xs cdelete" id="101471"><i class="fa fa-trash"></i> Delete</a></td>
                               </tr>
                               </tbody>
                             </table>
@@ -127,7 +106,22 @@
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     export default {
         name: "_id",
-      components: {DashboardNavbar, Sidebar}
+      components: {DashboardNavbar, Sidebar},
+      middleware: 'auth',
+      data(){
+          return{
+              phone_book_contacts:[]
+          }
+      },
+      methods: {
+          async getPhoneBookContact(){
+            this.phone_book_contacts = await this.$axios.$get('sms/phone-book/' +this.$route.params.id);
+
+          }
+      },
+      mounted() {
+          this.getPhoneBookContact();
+      }
     }
 </script>
 
