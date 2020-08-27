@@ -143,6 +143,7 @@
     import Sidebar from "../components/general/Sidebar";
     import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
     import EditPhoneBookModal from "../components/modals/EditPhoneBookModal";
+    import Swal from 'sweetalert2';
     export default {
         name: "phone-book",
       middleware: 'auth',
@@ -183,26 +184,32 @@
               await this.getPhoneBook();
               this.$toast.success("Phone book added successfully");
             } catch (e) {
-                await this.$axios.onError(error => {
                   this.error_message = 'Phone-book name already exists';
                   this.hasPhoneBookNameError = true;
-                })
             }
         },
         async deletePhoneBook(row_id){
             let id = row_id.id
-          try{
-            await this.$axios.$delete('sms/phone-book/'+ id);
-            this.$toast.success("Phone book deleted successfully");
-            await this.getPhoneBook();
-          }catch (e) {
-              this.$toast.error("An Error Occured while trying to delete this phone book");
-          }
+          await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then(async (result) => {
+            if (result.value){
+              await this.$axios.$delete('sms/phone-book/'+ id).catch((e)=>{this.$toast.error("An Error Occured while trying to delete this phone book");});
+              this.$toast.success("Phone book deleted successfully");
+              await this.getPhoneBook();
+            }
+          });
         },
         showModal(row){
             this.phone_book_id = row.id;
             this.phone_book_name = row.phonebook_name;
-            this.$modal.show('edit-phonebook-modal')
+            this.$modal.show('edit-phonebook-modal');
         }
 
       },
