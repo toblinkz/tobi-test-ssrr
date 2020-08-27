@@ -6,9 +6,6 @@ export const getters = {
   loggedInUser(state) {
     return state.auth.user;
   },
-  isRegistered(state){
-    return state.user_registered;
-  },
 
   getBearerToken(state){
     return state.bearer_token;
@@ -18,6 +15,9 @@ export const getters = {
   },
   getUserPassword(state){
     return state.password;
+  },
+  getPhoneBookId(state){
+    return state.phone_book_id;
   }
 }
 
@@ -25,6 +25,7 @@ export const state = () => ({
   bearer_token: '',
   email:'',
   password:'',
+  phone_book_id:'',
   view_verify_page: false
 });
 
@@ -35,6 +36,9 @@ export const mutations = {
   },
   setPassword(state, password){
     state.password = password
+  },
+  setPhoneBookId(state, phonebook_id){
+    state.phone_book_id = phonebook_id
   },
   setBearerToken(state, bearer_token){
     state.bearer_token = bearer_token;
