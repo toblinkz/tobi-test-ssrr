@@ -51,13 +51,13 @@
                                   <button class="clipboard-style">
                                     <i class="fa icon-copy2 " aria-hidden="true" v-clipboard:copy="api_key"></i>
                                   </button>
-                                 <p class="insight" style="color: #595959 !important;">{{api_key}}</p> </div>
+                                 <p class="insight" style="color: #595959 !important;">{{loggedInUser.customer.live_api_key}}</p> </div>
                                 <!-- END PANEL -->
                               </div>
                               <div class="col-md-12">
                                 <div class="col-sm-4">
                                   <br>
-                                  <nuxt-link class="btn btn-primary btn-cons" to="#"><i class="fa fa-certificate"></i> Renew API key</nuxt-link>
+                                  <a class="btn btn-primary btn-cons" @click="renewApiToken"><i class="fa fa-certificate"></i> Renew API key</a>
                                   <!-- END PANEL -->
                                 </div>
                               </div>
@@ -84,17 +84,35 @@
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import Main from "../../components/landing_page/MainContent";
     import ApiNavbar from "../../components/general/navbar/ApiNavbar";
-    import VueClipboard from "vue-clipboard2"
+    import VueClipboard from "vue-clipboard2";
+    import Swal from 'sweetalert2';
+    import {mapGetters} from "vuex";
 
     export default {
         name: "api",
       components: {ApiNavbar, Main, DashboardNavbar, Sidebar, VueClipboard },
+      middleware: 'auth',
       data(){
         return{
-          api_key:"TLV78NkZP0zZEDfeyqjjiNdi2VB5MJHZaCJNmpMwo6vomHZeeYjw3oCa17BRugnlock",
+          api_key:"",
         }
       },
+      computed: {
+        ...mapGetters(['isAuthenticated', 'loggedInUser'])
+      },
       methods: {
+          async renewApiToken(){
+            try{
+              await this.$axios.$patch('user/renew/api-token');
+              Swal.fire({
+                icon: 'success',
+                text: 'Your API token was successfully renewed',
+              });
+            }catch (e) {
+
+            }
+
+          }
 
       },
 
@@ -142,6 +160,8 @@
       table-layout: fixed;
     }
   }
+
+
 
   @media screen and (min-width: 769px){
     .jumbotron {
