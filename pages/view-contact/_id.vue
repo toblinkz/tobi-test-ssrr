@@ -82,7 +82,7 @@
                                 <td>-</td>
                                 <td>{{row.phone_number}}</td>
                                 <td> <nuxt-link class="btn btn-success btn-xs" :to="{name: 'edit-contact-id', params:{id: row.id, phone_number: row.phone_number, first_name: row.first_name, last_name: row.last_name}}" :class="setPid(row)" ><i class="fa fa-edit"></i> Edit</nuxt-link>
-                                  <a href="#" class="btn btn-danger btn-xs cdelete" id="1"><i class="fa fa-trash"></i> Delete</a></td>
+                                  <a @click="deletePhoneBookContact(row)" class="btn btn-danger btn-xs cdelete" ><i class="fa fa-trash"></i> Delete</a></td>
                               </tr>
                               </tbody>
                             </table>
@@ -104,6 +104,7 @@
 <script>
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+    import Swal from 'sweetalert2';
     export default {
         name: "_id",
       components: {DashboardNavbar, Sidebar},
@@ -119,7 +120,25 @@
           },
           setPid(row){
             this.$store.commit('setPhoneBookId', row.pid);
-          }
+          },
+        async deletePhoneBookContact(row){
+          await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then(async (result) => {
+            if (result.value){
+              await this.$axios.$delete('sms/phone-book/contact/' + row.id).catch((e)=>{this.$toast.error("An Error Occured while trying to delete this contact");});
+              this.$toast.success("Phone book deleted successfully");
+              await this.getPhoneBookContact();
+            }
+          });
+
+        }
       },
       mounted() {
           this.getPhoneBookContact();
