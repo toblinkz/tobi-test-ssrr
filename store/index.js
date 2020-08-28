@@ -18,6 +18,9 @@ export const getters = {
   },
   getUserPassword(state){
     return state.password;
+  },
+  getCampaignCreatedDate(state){
+    return state.campaign_report_created;
   }
 }
 
@@ -25,6 +28,7 @@ export const state = () => ({
   bearer_token: '',
   email:'',
   password:'',
+  campaign_report_created: '',
   view_verify_page: false
 });
 
@@ -45,6 +49,9 @@ export const mutations = {
     } else {
       state.view_verify_page = false
     }
+  },
+  setCampaignCreatedDate(state, date){
+    state.campaign_report_created = date;
   }
 
 }
