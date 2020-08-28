@@ -105,10 +105,10 @@
     components: {ButtonSpinner, DashboardNavbar, Sidebar},
     data(){
       return{
-        phone_number: this.$route.params.phone_number,
-        phone_book_id: this.$route.params.phone_book_id,
-        first_name: this.$route.params.first_name,
-        last_name: this.$route.params.last_name,
+        phone_number: '',
+        phone_book_id: '',
+        first_name: '',
+        last_name: '',
         isLoading: false,
         button_text: 'Update',
         message:'',
@@ -122,6 +122,17 @@
       ...mapGetters(['getPhoneBookId'])
     },
     methods: {
+      async getContactDetails(){
+        try{
+          let response_data = await this.$axios.$get('sms/phone-book/contact/' + this.$route.params.id);
+          this.phone_number = response_data.data.phone_number;
+          this.phone_book_id = response_data.data.pid;
+          this.first_name = response_data.data.first_name;
+          this.last_name = response_data.data.last_name;
+        }catch (e) {
+
+        }
+      },
       async updateContact(){
         try{
           this.isLoading = true;
@@ -138,7 +149,8 @@
           await this.$router.push({path: '/view-contact/'+ this.getPhoneBookId});
           this.$toast.success('Contact updated successfully');
         }catch (e) {
-
+            this.isLoading = false;
+          this.button_text = "Update";
         }
 
       },
@@ -150,7 +162,7 @@
       }
     },
     mounted() {
-
+      this.getContactDetails();
     }
   }
 </script>
