@@ -77,7 +77,7 @@
                                       <div class="col-md-11 alert toke insight wd">
                                         <!-- START PANEL -->
                                         <p class="alert toke insight wd">
-                                          TLV78NkZP0zZEDfeyqkiNdi2VB5MJHZaCJNmpMwo6vomHZeeYjw3oCa17BRugn
+                                          {{loggedInUser.customer.live_api_key}}
                                         </p>
                                         <!-- END PANEL -->
                                       </div>
