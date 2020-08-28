@@ -239,7 +239,11 @@
           this.S3Client
             .uploadFile(file)
             .then(data => { this.image_url = data.location})
-            .catch(err => console.error(err))
+            .catch(err => {Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong! Please try again.',
+            })})
 
 
         }
