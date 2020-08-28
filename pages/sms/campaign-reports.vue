@@ -74,7 +74,7 @@
                                   <span class="label label-flat bg-warning" v-show="showInProgressLabel(row)">In Progress</span>
                                 </td>
                                 <td style="">
-                                  <nuxt-link class="btn btn-success btn-xs" :aria-disabled="isDisabled(row)" :to="{name:'sms-campaign-history', query:{campaign_id: row.campaign_id}}" ><i class="entypo-popup"></i> Reports </nuxt-link>
+                                  <nuxt-link class="btn btn-success btn-xs"  :aria-disabled="isDisabled(row)" :to="{name:'sms-campaign-history-id', params:{id: row.campaign_id, created_at: row.created_at}}" ><i class="entypo-popup"></i> Reports </nuxt-link>
                                 </td>
                               </tr>
                               </tbody>
@@ -147,7 +147,8 @@
           },
         showInProgressLabel(row){
             return(row.status !== 'Delivered');
-        }
+        },
+
 
       },
       mounted() {
