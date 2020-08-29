@@ -96,7 +96,7 @@
                                   <td>{{row.datepaid}}</td>
                                   <td>{{row.duedate}}</td>
                                   <td>
-                                    <span class="label label-success">{{row.status}}</span>
+                                    <span class="label" :class="statusClass(row)">{{row.status}}</span>
                                   </td>
                                   <td>
                                     <span class="label label-success" v-show="showRecurringLabel(row)" >Recurring</span>
@@ -108,6 +108,7 @@
                                 </tr>
                                 </tbody>
                               </table>
+
 
                             </div>
                           </div>
@@ -145,6 +146,13 @@
         },
         showOnetimeLabel(row){
             return(row.recurring !== 0)
+        },
+        statusClass(row){
+            if (row.status === 'Paid'){
+              return 'label-success'
+            } else if (row.status === 'Unpaid'){
+              return 'label-warning'
+            }
         }
       },
       mounted() {
@@ -309,6 +317,7 @@
   }
   .label-warning {
     background-color: #FF5722;
+    color: #fff;
   }
   .label-success {
     border-color: #4CAF50;
