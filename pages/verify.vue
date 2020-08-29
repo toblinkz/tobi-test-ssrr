@@ -46,7 +46,7 @@
   export default {
     name: "verify",
     components: {ButtonSpinner},
-    middleware:['verify_page','guest'],
+    middleware:['verify_page', 'guest'],
     data(){
       return{
         verification_code: "",
@@ -63,7 +63,7 @@
         return( this.verification_code === '' || this.error_message.verification_code !== '');
 
       },
-      ...mapGetters(['getBearerToken', 'getUserPassword', 'getUserEmail'])
+      ...mapGetters([ 'getUserPassword', 'getUserEmail'])
     },
     watch: {
       verification_code(value) {
@@ -88,10 +88,10 @@
           this.button_text = "Verifying";
           await this.$axios.post('auth/account/verify',{
             verification_code: "890465"
-          }, {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
+          }, {headers: {'Authorization':localStorage.getItem("auth._token.local")}});
 
-          await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + this.getBearerToken }});// get user data
-          await this.$auth.loginWith('local', {
+
+           await this.$auth.loginWith('local', {
             data: {
               email: this.getUserEmail,
               password: this.getUserPassword
@@ -117,6 +117,9 @@
         }
       }
     },
+    mounted() {
+
+    }
 
 
   }

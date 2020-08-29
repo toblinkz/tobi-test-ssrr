@@ -265,7 +265,7 @@
           this.button_text = "Creating..."
 
           try{
-          let response =  await this.$axios.post('auth/register', {
+           await this.$axios.post('auth/register', {
               first_name: this.first_name,
               last_name: this.last_name,
               email: this.email,
@@ -273,18 +273,21 @@
               phone_number: this.phone_number,
               country: this.selected_country,
               sector: this.sectors_id
-            }, );
+            },);
+            await this.$auth.loginWith('local', {
+              data: {
+                email: this.email,
+                password: this.password
+              }
+            });
 
-            access_token = response.data.access_token;
-            await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + response.data.access_token}}); // get user data
 
           } catch (e) {
             if (navigator.onLine && e.response.data.error === 'Account not verified.') {
               this.$store.commit('setEmail', this.email);
               this.$store.commit('setPassword', this.password);
-              this.$store.commit('setBearerToken', access_token);
-              await this.$router.push({ name: 'verify', });
               this.$store.commit('setViewVerificationPage');
+              await this.$router.push({ name: 'verify', });
             }else if(navigator.onLine && e.response.data.errors.email[0] === 'The email has already been taken.'){
               this.error_message['email'] = 'The email has already been taken.';
               this.hasEmailError = true;

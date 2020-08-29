@@ -137,32 +137,24 @@
         }
       },
       async loginUser() {
-        var token ;
         try{
-        this.isLoading = true;
-        this.button_text = "Logging in"
+              this.isLoading = true;
+              this.button_text = "Logging in"
 
-          let response = await this.$axios.post('auth/login', {
-            email: this.email,
-            password: this.password
-          }, );
-          token = response.data.access_token;
-          this.$store.commit('setEmail', this.email);
-          this.$store.commit('setPassword', this.password);
-          this.$store.commit('setBearerToken', token);
-         await this.$auth.loginWith('local', {
-            data: {
-              email: this.email,
-              password: this.password
-            }
-          });
+                await this.$auth.loginWith('local', {
+                  data: {
+                    email: this.email,
+                    password: this.password
+                  }
+                });
+
 
           await this.$router.push('/dashboard');
         } catch (e) {
           if (navigator.onLine && e.response.data.error === 'Account not verified.') {
             this.$store.commit('setEmail', this.email);
             this.$store.commit('setPassword', this.password);
-            this.$store.commit('setBearerToken', token);
+
             await this.$router.push({ name: 'verify', });
             this.$store.commit('setViewVerificationPage');
           }else if (navigator.onLine && e.response.data.error === 'Unauthorized'){
