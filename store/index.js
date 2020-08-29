@@ -16,6 +16,9 @@ export const getters = {
   getUserPassword(state){
     return state.password;
   },
+  getCampaignCreatedDate(state){
+    return state.campaign_report_created;
+  },
   getPhoneBookId(state){
     return state.phone_book_id;
   }
@@ -26,6 +29,7 @@ export const state = () => ({
   email:'',
   password:'',
   phone_book_id:'',
+  campaign_report_created: '',
   view_verify_page: false
 });
 
@@ -49,6 +53,9 @@ export const mutations = {
     } else {
       state.view_verify_page = false
     }
+  },
+  setCampaignCreatedDate(state, date){
+    state.campaign_report_created = date;
   }
 
 }

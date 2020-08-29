@@ -46,9 +46,9 @@
                                   <div class="media profile-image">
                                     <div class="media-left">
                                       <nuxt-link to="#" class="upload-media-container">
-                                        <img preview-for="image"  src="/images/team/10.png" class="img-circle" alt="">
+                                        <img preview-for="image"  :src="image_url" class="img-circle" alt="">
                                       </nuxt-link>
-                                      <input type="file" name="image" class="file-styled previewable hide">
+                                      <input type="file" name="image" class="file-styled previewable hide" @change="uploadPhoto(fieldName, $event.target.files)">
                                     </div>
                                     <div class="media-body text-center">
                                       <h5 class="media-heading text-semibold">Upload your photo…</h5>
@@ -57,7 +57,7 @@
                                       <nuxt-link to="#remove" class="btn btn-xs bg-grey-800 "><i class="icon-trash"></i> Remove</nuxt-link>
                                       <br />
                                       <br />
-                                      <a href="#upload" onclick="$('input[name=image]').trigger('click')"  class="btn btn-xs bg-teal mr-10"><i class="icon-upload4"></i> Upload</a>
+                                      <a  onclick="$('input[name=image]').trigger('click')"  class="btn btn-xs bg-teal mr-10"><i class="icon-upload4"></i> Upload</a>
                                     </div>
                                   </div>
                                 </div>
@@ -146,6 +146,7 @@
     import CustomSelect from "../../components/general/dropdown/CustomSelect";
     import SearchDropdown from "../../components/general/dropdown/SearchDropdown";
     import {mapGetters} from "vuex";
+    import S3 from 'aws-s3';
     import Swal from 'sweetalert2';
 
     export default {
@@ -163,7 +164,7 @@
             sectors:[this.$auth.user.company_sector.name],
             selected_country: this.$auth.user.country.toString(),
             selected_sector: this.$auth.user.company_sector.id.toString(),
-            image: '',
+            image_url: this.image_url,
             dropdownStyle: {
               borderRadius: '5px',
             },
@@ -173,6 +174,18 @@
           }
       },
       computed: {
+          config(){
+            return{
+              bucketName: 'termii',
+              dirName: 'upload/images',
+              region: 'us-west-1',
+              accessKeyId: 'AKIAIOJI3WN4QX7QPD7Q',
+              secretAccessKey: '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',
+            }
+          },
+        S3Client(){
+          return new S3(this.config);
+        },
         ...mapGetters(['isAuthenticated', 'loggedInUser'])
       },
       methods:{
@@ -208,16 +221,30 @@
               company_sector: this.selected_sector,
               country: this.selected_country,
               state: this.state,
-              image: this.image,
+                image: this.image,
               phone: this.phone_number
             });
-            Swal.fire({
+            await Swal.fire({
               icon: 'success',
               text: 'Profile Updated Successfully',
             })
           }catch (e) {
 
           }
+        },
+        uploadPhoto(fieldName, files){
+          let file = files[0];
+          var url;
+          console.log(files[0])
+          this.S3Client
+            .uploadFile(file)
+            .then(data => { this.image_url = data.location})
+            .catch(err => {Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong! Please try again.',
+            })})
+
 
         }
       },
