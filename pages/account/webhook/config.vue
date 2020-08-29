@@ -41,21 +41,21 @@
                         <main id="wrapper" class="wrapper">
                           <ApiNavbar></ApiNavbar>
 
-                          <form action="http://sandbox.termii.com/account/webhook/config/save" method="POST" >
-                            <input type="hidden" name="_token" value="VkAdJ5DdbJ5GMbuAta7GuUXcmALkl38TaC2mrBH9">
+                          <form @submit.prevent="updateWebhook" method="POST" >
                             <div class="row">
                               <div class="col-md-5">
                                 <label>Live Webhook URL</label>
                                 <div class="form-group control-text">
 
                                   <input
-
                                     id="live_webhook" placeholder="Live webhook URL"
-                                    value=""
+                                    v-model="live_webhook"
                                     type="text"
                                     name="live_webhook"
-                                    class="form-control  "
+                                    class="form-control "
+                                    :class="{'error': hasLiveWebhookError}"
                                   >
+                                  <span class=" error_field_message" v-if="error_message.live_webhook">{{error_message.live_webhook}}</span>
                                 </div>
 
                               </div>
@@ -64,14 +64,16 @@
                                 <div class="form-group control-text">
                                   <input
                                     id="test_webhook" placeholder="Test webhook URL"
-                                    value=""
+                                    v-model="test_webhook"
                                     type="text"
                                     name="test_webhook"
                                     class="form-control "
+                                    :class="{'error': hasTestWebhookError}"
                                   >
+                                  <span class="error_field_message" v-if="error_message.test_webhook">{{error_message.test_webhook}}</span>
                                 </div>
                                 <hr/>
-                                <button class="btn bg-teal pull-right" type="submit"><i class="icon-check"></i> Save</button>
+                                <button class="btn bg-teal pull-right" type="submit" :disabled="isDisabled"><i class="icon-check"></i> Save</button>
                               </div>
 
                             </div>
@@ -94,13 +96,57 @@
     import Sidebar from "../../../components/general/Sidebar";
     import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
     import ApiNavbar from "../../../components/general/navbar/ApiNavbar";
+    import Swal from "sweetalert2";
     export default {
         name: "config",
-      components: {ApiNavbar, DashboardNavbar, Sidebar}
+      components: {ApiNavbar, DashboardNavbar, Sidebar},
+      middleware: 'auth',
+      data(){
+          return{
+            live_webhook:'',
+            test_webhook: '',
+            error_message: [],
+            hasLiveWebhookError: false,
+            hasTestWebhookError: false
+          }
+      },
+      computed:{
+          isDisabled: function () {
+              return(this.live_webhook === '' || this.test_webhook === '' || this.hasLiveWebhookError
+                || this.hasTestWebhookError )
+          }
+      },
+      methods: {
+          async updateWebhook(){
+            try {
+              await this.$axios.$patch('user/webhook', {
+                live_webhook: this.live_webhook,
+                test_webhook: this.test_webhook
+              });
+              await Swal.fire({
+                icon: 'success',
+                text: 'Webhook Updated Successfully',
+
+              });
+            }catch (e) {
+              if (e.response.data.errors.live_webhook[0]){
+                this.hasLiveWebhookError = true;
+                this.error_message['live_webhook'] = 'The live webhook format is invalid.';
+              }
+              if (e.response.data.errors.test_webhook[0]){
+                this.hasTestWebhookError = true;
+                this.error_message['test_webhook'] = 'The test webhook format is invalid.'
+              }
+            }
+
+
+          }
+      }
     }
 </script>
 
 <style scoped>
+
   @media (min-width: 769px){
     .content-wrapper {
       display: table-cell;

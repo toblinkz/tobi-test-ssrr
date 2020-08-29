@@ -51,7 +51,7 @@
                                   <button class="clipboard-style">
                                     <i class="fa icon-copy2 " aria-hidden="true" v-clipboard:copy="api_key"></i>
                                   </button>
-                                 <p class="insight" style="color: #595959 !important;">{{loggedInUser.customer.live_api_key}}</p> </div>
+                                 <p class="insight" style="color: #595959 !important;">{{api_key}}</p> </div>
                                 <!-- END PANEL -->
                               </div>
                               <div class="col-md-12">
@@ -94,7 +94,7 @@
       middleware: 'auth',
       data(){
         return{
-          api_key:"",
+          api_key: this.$auth.user.customer.live_api_key,
         }
       },
       computed: {
@@ -103,11 +103,13 @@
       methods: {
           async renewApiToken(){
             try{
-              await this.$axios.$patch('user/renew/api-token');
-              Swal.fire({
+              await this.$axios.$get('user/keys/renew');
+              await Swal.fire({
                 icon: 'success',
                 text: 'Your API token was successfully renewed',
               });
+             let data = await this.$axios.get('user',);
+             this.api_key = data.data.data.customer.live_api_key;
             }catch (e) {
 
             }

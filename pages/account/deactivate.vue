@@ -40,18 +40,17 @@
                         <main id="wrapper" class="wrapper">
                           <ApiNavbar></ApiNavbar>
 
-                          <form enctype="multipart/form-data" method="POST" class="">
+                          <form  method="POST" @submit.prevent="deactivateUserAccount">
                             <div class="col-md-9">
                               <b class="mb-20 mt-10">*Help us understand why you want to leave. We will use your feedback to get better.</b>
-                              <textarea rows="8" cols="100" name="feedback"></textarea>
+                              <textarea rows="8" cols="100" v-model="user_feedback" name="feedback" ></textarea>
 
                               <label><b>Enter Your Password</b></label>
                               <div class="form-group control-password">
-
-                                <input type="password" id="password" value="" autocomplete="new-password"  name="password" class="form-control nullable confirmed min:5">
+                                <input type="password"  v-model="user_password"  name="password" class="form-control" :class="{'error': hasPasswordError}" maxlength="24">
+                                <span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
                               </div>
-
-                              <button type="submit" class="btn btn-primary">Deactivate Account</button>
+                              <button type="submit" class="btn btn-primary" :disabled="isDisabled">Deactivate Account</button>
                             </div>
                           </form>
                         </main>
@@ -72,9 +71,79 @@
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import ApiNavbar from "../../components/general/navbar/ApiNavbar";
+    import Swal from "sweetalert2";
     export default {
         name: "deactivate",
-      components: {ApiNavbar, DashboardNavbar, Sidebar}
+      components: {ApiNavbar, DashboardNavbar, Sidebar},
+      middleware: 'auth',
+      data(){
+          return{
+            user_feedback: '',
+            user_password: '',
+            hasPasswordError: false,
+            hasFeedbackError: false,
+            error_message:[],
+          }
+      },
+      computed:{
+        isDisabled: function () {
+          return(this.user_feedback === '' || this.user_password === '' || this.hasPasswordError || this.hasFeedbackError);
+        }
+      },
+      watch:{
+        user_password(value){
+          this.user_password = value;
+          this.validatePassword(value);
+        },
+        user_feedback(value){
+          this.user_feedback = value;
+          this.validateFeedback(value);
+        }
+      },
+      methods:{
+          async deactivateUserAccount(){
+            try{
+              await this.$axios.$post('user/deactivate/account', {
+                feedback: this.user_feedback,
+                password: this.user_password
+              });
+              await Swal.fire({
+                icon: 'info',
+                title: 'Oops...',
+                text: 'We are sorry to see you',
+              });
+              this.$auth.logout();
+
+            }catch (e) {
+              if (e.response.data.data === 'Incorrect Password Entered'){
+                this.error_message['password'] = 'Incorrect Password Entered';
+                this.hasPasswordError = true;
+              }
+
+            }
+          },
+        validatePassword(value){
+          if ( value === ""){
+            this.error_message['password'] = 'The password field is required';
+            this.hasPasswordError = true;
+          }else {
+            this.error_message['password'] = '';
+            this.hasPasswordError = false;
+          }
+        },
+        validateFeedback(value){
+          if ( value === ""){
+            this.error_message['feedback'] = 'The Feedback field is required';
+            this.hasPasswordError = true;
+          }else {
+            this.error_message['feedback'] = '';
+            this.hasFeedbackError = false;
+          }
+        }
+      },
+      mounted() {
+
+      }
     }
 </script>
 
@@ -225,5 +294,8 @@
   .btn-primary:hover {
     color: #fff;
     border: 1px solid transparent !important;
+  }
+   input[type=password].error, textarea.error {
+    border-color: red!important;
   }
 </style>
