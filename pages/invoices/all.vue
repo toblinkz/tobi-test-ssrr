@@ -117,6 +117,12 @@
                     </div>
                   </section>
                 </main>
+                <Pagination
+                  :page="page"
+                  :total_page="total_page"
+                  :on-page-change="onPageChange"
+                  v-show="showPagination === true"
+                ></Pagination>
               </div>
             </div>
           </div>
@@ -127,19 +133,28 @@
 <script>
   import Sidebar from "../../components/general/Sidebar";
   import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+  import Pagination from "../../components/general/Pagination";
 
   export default {
         name: "all",
-      components: {DashboardNavbar, Sidebar},
+      components: {Pagination, DashboardNavbar, Sidebar},
       middleware: 'auth',
       data(){
           return{
-            all_invoice :[]
+            all_invoice :[],
+            page: 1,
+            total_page: '',
+            showPagination: false
           }
       },
       methods: {
           async getAllBillingInvoices(){
-            this.all_invoice = await this.$axios.$get('billing/invoices');
+
+           let response_data = await this.$axios.$get('billing/invoices', {params:{page: this.page}});
+            if (response_data.data.length !== 0 && response_data.meta.last_page > 1){this.showPagination = true}
+            this.all_invoice = response_data;
+            this.page = response_data.meta.current_page;
+            this.total_page = response_data.meta.last_page;
           },
         showRecurringLabel(row){
             return (row.recurring === 0)
@@ -153,7 +168,12 @@
             } else if (row.status === 'Unpaid'){
               return 'label-warning'
             }
+        },
+        onPageChange(page) {
+          this.page = page;
+          this.getAllBillingInvoices();
         }
+
       },
       mounted() {
           this.getAllBillingInvoices();
