@@ -9,15 +9,15 @@
       <div class="page-header">
         <div class="page-header-content">
           <!-- Page container -->
-          <div class="page-container">
+          <div class="profile-page-container">
             <!-- Page content -->
-            <div class="page-content">
-              <div class="content-wrapper">
+            <div class="profile-page-content">
+              <div class="profile-content-wrapper">
                 <!-- START JUMBOTRON -->
                 <div class="jumbotron" data-pages="parallax">
                   <div class="container-fluid container-fixed-lg">
                     <div class="inner">
-                      <div class="row mt-70">
+                      <div class="profile-row mt-70">
                         <div class="col-md-8">
                           <h3 class="mb-10"> </h3>
                           <p><i class="icon-profile"></i> Your Account Profile</p>
@@ -33,14 +33,14 @@
                       </center>
                     </div>
                     <!-- Page container -->
-                    <div class="page-container">
+                    <div class="profile-page-container">
                       <!-- Page content -->
-                      <div class="page-content">
+                      <div class="profile-page-content">
                         <!-- main inner content -->
                         <main id="wrapper" class="wrapper">
                           <ApiNavbar></ApiNavbar>
                           <form @submit.prevent="updateProfile" method="POST" >
-                            <div class="row">
+                            <div class="profile-row">
                               <div class="col-md-2">
                                 <div class="sub_section">
                                   <div class="media profile-image">
@@ -230,18 +230,18 @@
 <style >
 
   @media (min-width: 769px){
-    .content-wrapper {
+    .profile-content-wrapper {
       display: table-cell;
       vertical-align: top;
     }
   }
   @media (min-width: 769px){
-    .page-content {
+    .profile-page-content {
       display: table-row;
     }
   }
 
-  .content-wrapper {
+  .profile-content-wrapper {
     width: 100%;
   }
   @media screen and (min-width: 769px){
@@ -251,7 +251,7 @@
     }
   }
   @media (min-width: 769px){
-    .page-container {
+    .profile-page-container {
       width: 100%;
       display: table;
       table-layout: fixed;
@@ -264,10 +264,10 @@
       padding-bottom: 48px;
     }
   }
-  .page-header:not(.page-header-filled) + .page-container {
+  .page-header:not(.page-header-filled) + .profile-page-container {
     padding-top: 35px;
   }
-  .page-container {
+  .profile-page-container {
     position: relative;
     /* padding-bottom: 40px; */
   }
@@ -280,7 +280,7 @@
     background-color: #fff;
   }
 
-  .row {
+  .profile-row {
     margin-left: 0px;
     margin-right: 0px;
   }

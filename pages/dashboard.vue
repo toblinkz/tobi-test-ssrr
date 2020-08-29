@@ -13,11 +13,11 @@
         </div>
         <!-- /page header -->
         <!-- Page container -->
-        <div class="page-container">
+        <div class="dashboard-page-container">
           <!-- Page content -->
-          <div class="page-content">
+          <div class="dashboard-page-content">
             <!-- Main content -->
-            <div class="content-wrapper">
+            <div class="dashboard-content-wrapper">
               <!-- main inner content -->
               <main id="wrapper" class="wrapper">
                 <div id="pages" class="fixed-header dashboard menu-pin">
@@ -299,38 +299,38 @@
     padding: 0;
     border-bottom-width: 0;
   }
-  .page-header:not(.page-header-filled) + .page-container {
+  .page-header:not(.page-header-filled) + .dashboard-page-container {
     padding-top: 35px;
   }
-  .page-container {
+  .dashboard-page-container {
     margin: auto;
   }
-  .page-container {
+  .dashboard-page-container {
     padding-bottom: 10px;
   }
   @media (min-width: 769px){
-    .page-container {
+    .dashboard-page-container {
       width: 100%;
       display: table;
       table-layout: fixed;
     }
   }
-  .page-container {
+  .dashboard-page-container {
     position: relative;
     /* padding-bottom: 40px; */
   }
   @media (min-width: 769px){
-    .page-content {
+    .dashboard-page-content {
       display: table-row;
     }
   }
   @media (min-width: 769px){
-    .content-wrapper {
+    .dashboard-content-wrapper {
       display: table-cell;
       vertical-align: top;
     }
   }
-  .content-wrapper {
+  .dashboard-content-wrapper {
     width: 100%;
   }
 

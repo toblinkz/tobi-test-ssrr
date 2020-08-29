@@ -1,7 +1,7 @@
 <template>
   <div>
   <div class="container-fluid body">
-    <div class="row">
+    <div class="fund-row">
       <div id="msb" class="col-md-2 hidden-xs">
         <Sidebar></Sidebar>
       </div>
@@ -14,11 +14,11 @@
         </div>
         <!-- /page header -->
         <!-- Page container -->
-        <div class="page-container">
+        <div class="fund-page-container">
           <!-- Page content -->
-          <div class="page-content">
+          <div class="fund-page-content">
             <!-- Main content -->
-            <div class="content-wrapper">
+            <div class="fund-content-wrapper">
               <!-- main inner content -->
               <main id="wrapper" class="wrapper">
                 <section class="wrapper-bottom-sec mt-50">
@@ -26,7 +26,7 @@
                     <div class="inner">
                       <!-- END BREADCRUMB -->
                       <div class="container-md-height">
-                        <div class="row">
+                        <div class="fund-row">
                           <div class="col-md-6">
                             <!-- START PANEL -->
                             <div class="panel-transparent">
@@ -37,14 +37,14 @@
                             <button type="button" @click="showModal = true" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
                           </div>
                         </div>
-                        <div class="row row-md-height">
+                        <div class="fund-row row-md-height">
                           <div class="col-lg-7 col-md-height col-md-7 col-top">
                             <!-- START PANEL -->
                             <div class="panel-transparent">
                               <div class="row">
                                 <!-- START PANEL -->
                                 <div class="panel-transparent">
-                                  <div class="row">
+                                  <div class="fund-row">
 
                                     <div class="col-md-4 alert toke">
                                       <p class="text-semibold"><i class="entypo-credit-card" style="color: #bbb !important;"></i> Balance</p>
@@ -305,8 +305,8 @@
     }
 </script>
 
-<style>
-  .row {
+<style >
+  .fund-row {
     margin-left: 0px;
     margin-right: 0px;
   }
@@ -324,32 +324,32 @@
     background-color: inherit;
     padding: 0 20px;
   }
-  .page-header:not(.page-header-filled) + .page-container {
+  .page-header:not(.page-header-filled) + .fund-page-container {
     padding-top: 35px;
   }
-  .page-container {
+  .fund-page-container {
     margin: auto;
     padding-bottom: 10px;
   }
   @media (min-width: 769px){
-    .page-container {
+    .fund-page-container {
       width: 100%;
       display: table;
       table-layout: fixed;
     }
   }
   @media (min-width: 769px){
-    .page-content {
+    .fund-page-content {
       display: table-row;
     }
   }
   @media (min-width: 769px){
-    .content-wrapper {
+    .fund-content-wrapper {
       display: table-cell;
       vertical-align: top;
     }
   }
-  .content-wrapper {
+  .fund-content-wrapper {
     width: 100%;
   }
   #welcome {
