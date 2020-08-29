@@ -13,7 +13,6 @@ export default {
     script: [
       {src: '/js/intercom.js'},
       {src: '/js/feedback.js'},
-      {src: '/js/customScrollbar.js'},
       { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
       { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
       {src:"/js/intro.js" },
