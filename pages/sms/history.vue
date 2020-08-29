@@ -88,7 +88,7 @@
                               <td style="width: 5%;">{{row.receiver}}</td>
                               <td style="width: 10%;">{{row.status}}</td>
                               <td style="width: 10%;">
-                                <a class="btn btn-success btn-xs" @click="showModal = true" ><i class="entypo-popup"></i> View</a>
+                                <a class="btn btn-success btn-xs" @click="showModal(row)" ><i class="entypo-popup"></i> View</a>
                               </td>
                             </tr>
                             </tbody>
@@ -111,7 +111,7 @@
         </div>
       </div>
     </div>
-    <SmsHistoryModal v-if="showModal" @close="closeModal"></SmsHistoryModal>
+    <SmsHistoryModal v-if="showSmsModal" @close="closeModal" :sms_id="sms_history_id"></SmsHistoryModal>
     </div>
 </template>
 
@@ -133,11 +133,12 @@
             isShow: false,
             phone_number: '',
             date_time: [moment(new Date()).format('YYYY-MM-DD HH:mm:ss'), moment(new Date() + 1).format('YYYY-MM-DD HH:mm:ss')],
-            showModal:false,
+            showSmsModal:false,
             messages_sent: [],
             showPagination: false,
             page:'',
             total_page:'',
+            sms_history_id:''
           }
       },
       mounted() {
@@ -145,7 +146,7 @@
       },
       methods: {
         closeModal() {
-          this.showModal = false;
+          this.showSmsModal = false;
         },
         async getSmsHistory(){
           let data = await this.$axios.$get('sms/history', {params:{page: this.page}});
@@ -165,7 +166,10 @@
           this.page = page;
           this.getSmsHistory();
         },
-
+        showModal(row){
+          this.sms_history_id = row.id;
+          this.showSmsModal = true;
+        }
       }
     }
 </script>
