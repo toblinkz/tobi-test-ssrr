@@ -67,6 +67,7 @@
 
 <script>
   import ButtonSpinner from "../components/general/ButtonSpinner";
+  import Swal from "sweetalert2";
   export default {
     name: "login",
     components: {ButtonSpinner},
@@ -162,7 +163,20 @@
             this.button_text = "Proceed";
             this.hasPasswordError = true;
             this.error_message['password'] = 'Invalid credentials';
-          }else if (navigator.onLine && e.response.data.errors.email[0] === 'The selected email is invalid.') {
+          } else if (navigator.onLine && e.response.data.error === 'Account has either been disabled temporarily or deleted Permanently.\n' +
+            '                Contact your Account Manager.') {
+            this.isLoading = false;
+            this.button_text = "Proceed";
+            this.hasPasswordError = true;
+            this.hasEmailError = true;
+            await Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Account has either been disabled temporarily or deleted Permanently.Contact your Account Manager',
+              footer: '<a id="CHATID">Contact Account Manager</a>'
+            });
+          }
+          else if (navigator.onLine && e.response.data.errors.email[0] === 'The selected email is invalid.') {
             this.isLoading = false;
             this.button_text = "Proceed";
             this.hasEmailError = true;
