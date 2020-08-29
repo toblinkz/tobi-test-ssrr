@@ -3,7 +3,7 @@
   <div class="container-fluid body">
     <div class="fund-row">
       <div id="msb" class="col-md-2 hidden-xs">
-        <Sidebar></Sidebar>
+        <Sidebar class="hidden-xs"></Sidebar>
       </div>
       <div class="col-md-10">
         <DashboardNavbar></DashboardNavbar>
