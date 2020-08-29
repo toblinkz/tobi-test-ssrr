@@ -164,7 +164,7 @@
         async getWalletTransactionByDate(){
           await this.$axios.$get('billing/wallet/transactions',{
             params:{
-              datetime: this.date_time[0] + "," + this.date_time[1]
+              wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1]
             }
           })
         },
