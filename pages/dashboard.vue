@@ -47,7 +47,7 @@
                                     <div class="col-md-6 alert toke">
                                       <!-- START PANEL -->
                                       <div class="col-md-11">
-                                        ₦258474.48
+                                        {{account_balance}}
                                       </div>
                                       <!-- END PANEL -->
                                     </div>
@@ -77,7 +77,7 @@
                                       <div class="col-md-11 alert toke insight wd">
                                         <!-- START PANEL -->
                                         <p class="alert toke insight wd">
-                                          TLV78NkZP0zZEDfeyqkiNdi2VB5MJHZaCJNmpMwo6vomHZeeYjw3oCa17BRugn
+                                          {{loggedInUser.customer.live_api_key}}
                                         </p>
                                         <!-- END PANEL -->
                                       </div>
@@ -205,6 +205,7 @@
       return{
         showActivateIdModal: false,
         showYourWalletModal: false,
+        account_balance: ''
       }
     },
     methods: {
@@ -214,6 +215,15 @@
           closeYourWalletModal(){
               this.showYourWalletModal = false;
           },
+      async getWalletBalance() {
+        try{
+          let data = await this.$axios.$get('billing/wallet');
+          this.account_balance = data.data.balance;
+
+        } catch(e){
+
+        }
+      },
       startIntro() {
 
         let intro = introJs();
@@ -265,6 +275,7 @@
     },
     mounted: function () {
         this.startIntro();
+        this.getWalletBalance();
     }
 
   }
