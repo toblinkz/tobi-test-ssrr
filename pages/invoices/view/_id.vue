@@ -88,10 +88,10 @@
                         <tbody>
                         <tr>
                           <td data-label="Item">1</td>
-                          <td data-label="Price">item</td>
-                          <td data-label="Quantity">₦60000</td>
-                          <td data-label="Total">1</td>
-                          <td data-label="Subtotal">₦60000</td>
+                          <td data-label="Price">{{item}}</td>
+                          <td data-label="Quantity">{{quantity}}</td>
+                          <td data-label="Total">{{total}}</td>
+                          <td data-label="Subtotal">{{subtotal}}</td>
                         </tr>
                         </tbody>
                       </table>
@@ -102,25 +102,25 @@
                           <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
                             <div class="inv-block">
                               <h3 class="count-title">Subtotal</h3>
-                              <p>₦60000</p>
+                              <p>{{subtotal}}</p>
                             </div>
                           </div>
                           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                             <div class="inv-block">
                               <h3 class="count-title">Tax</h3>
-                              <p>₦0</p>
+                              <p>{{tax}}</p>
                             </div>
                           </div>
                           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                             <div class="inv-block">
                               <h3 class="count-title">Discount</h3>
-                              <p>₦0</p>
+                              <p>{{discount}}</p>
                             </div>
                           </div>
                           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-lg-offset-2 col-md-offset-1 col-sm-offset-1 text-right">
                             <div class="bg-primary inv-block last">
                               <h3 class="count-title">Grand Total</h3>
-                              <p>₦60000</p>
+                              <p>{{total}}</p>
                             </div>
                           </div>
                         </div>
@@ -170,7 +170,7 @@
           async getBillingInvoiceById(){
              let response_data = await this.$axios.$get('/billing/invoices/' + this.id);
             let data = response_data.data[0];
-            // let inv_item = response_data.inv-item[0];
+             let inv_item = response_data.inv_item[0];
 
 
             this.invoice_no = data.id;
@@ -178,12 +178,12 @@
             this.invoice_paid_date = data.datepaid;
             this.invoice_status = data.status;
             this.invoice_date = data.created;
-            // this.item = inv_item.item;
-            // this.price = inv_item.price;
-            // this.quantity = inv_item.qty;
-            // this.tax = inv_item.tax;
-            // this.discount = inv_item.discount;
-            // this.total = inv_item.total;
+            this.item = inv_item.item;
+            this.price = inv_item.price;
+            this.quantity = inv_item.qty;
+            this.tax = inv_item.tax;
+            this.discount = inv_item.discount;
+            this.total = inv_item.total;
           },
         showModal(){
             this.$modal.show('pay-invoice-modal')
