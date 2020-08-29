@@ -62,7 +62,15 @@
                                 </div>
                               </div>
                               <!-- END PANEL -->
-                              <BalanceHistory></BalanceHistory>
+                              <div class="row">
+                                <div class="empty-list hidden-xs">
+                                  <i class="icon-history"></i>
+                                  <span class="line-1">
+                                    You haven&#039;t made major changes to your account
+                                </span>
+                                </div>
+                              </div>
+<!--                              <BalanceHistory></BalanceHistory>-->
                               <!-- END JUMBOTRON -->
                             </div>
                             <div class="col-md-8 m-t-40">
@@ -418,6 +426,31 @@
 
   .wd-50 {
     width: 50px !important;
+  }
+  .empty-list {
+    border-radius: 5px;
+  }
+  .empty-list {
+    width: 100%;
+    display: block;
+    border: solid 0px #ddd;
+    border-radius: 10px;
+    padding: 50px 20px;
+    margin: 19px 0;
+    background: #f5f5f5;
+    text-align: center;
+  }
+  .empty-list i {
+    font-size: 550%;
+    display: block;
+    color: #bbb;
+  }
+  .empty-list span.line-1 {
+    font-size: 15px;
+    display: block;
+    margin: 20px 0 0 0;
+    font-weight: 600;
+    color: #666;
   }
 
 
