@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
       <div id="msb" class="col-md-2 hidden-xs">
-        <Sidebar></Sidebar>
+        <Sidebar class="hidden-xs"></Sidebar>
       </div>
       <div class="col-md-10">
         <DashboardNavbar></DashboardNavbar>
@@ -44,18 +44,17 @@
                       <div class="row">
                         <div class="panel">
                           <div class="panel-body">
-                            <form class="" role="form" method="post"  action="http://sandbox.termii.com/set-unit-limit">
+                            <form role="form" method="post"  @submit.prevent="setSmsUnitLimit">
                               <div class="form-group">
                                 <div class="form-group">
                                   <label>You'll get a notification when you reach the limit you set below</label>
-                                  <input type="text" class="form-control" min=5 required placeholder="Set Limit Here" value="100" name="unit_limit">
+                                  <input type="text" class="form-control"  placeholder="Set Limit Here" v-model="limit" :class="{'error': hasLimitError}">
+                                  <span class=" error_field_message" v-if="error_message.limit">{{error_message.limit}}</span>
                                   <br>
                                 </div>
                               </div>
                               <div class="form-group">
-                                <input type="hidden" name="_token" value="EEnM6tXVCIlXKkjzPzQa7sFAzxp3KjYWy9ZA6ipy">
-                                <button type="button" class="btn btn-default" data-dismiss="modal"> Close </button>
-                                <button type="submit" class="btn btn-primary"> Send </button>
+                                <button type="submit" class="btn btn-primary" :disabled="isDisabled"> Send </button>
                               </div>
                             </form>
                           </div>
@@ -78,13 +77,63 @@
 <script>
     import Sidebar from "../components/general/Sidebar";
     import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
+    import Swal from 'sweetalert2';
     export default {
         name: "set-unit-limit",
-      components: {DashboardNavbar, Sidebar}
+      middleware: 'auth',
+      components: {DashboardNavbar, Sidebar},
+      data(){
+          return{
+            limit: '',
+            hasLimitError: false,
+            error_message:[],
+          }
+      },
+      watch:{
+        limit(value){
+          this.limit = value;
+          this.validateLimit(value)
+        }
+      },
+      computed:{
+          isDisabled: function () {
+            return(this.limit === '' || this.hasLimitError);
+          }
+      },
+      methods:{
+          validateLimit(value){
+            if (isNaN(value)){
+                this.error_message['limit'] = 'The unit limit must be a number.';
+                this.hasLimitError = true;
+            }else if(value < 0){
+              this.error_message['limit'] = 'The unit limit must be at least 0.';
+              this.hasLimitError = true;
+            } else {
+              this.error_message['limit'] = '';
+              this.hasLimitError = false;
+            }
+          },
+        async setSmsUnitLimit(){
+            try{
+              await this.$axios.$post('sms/set-unit-limit', {
+                unit_limit: this.limit
+              });
+              await Swal.fire({
+                icon: 'success',
+                text: 'Limit Updated Successfully',
+              });
+            }catch (e) {
+
+            }
+
+
+        }
+      }
     }
 </script>
 
 <style scoped>
+
   @media (min-width: 769px){
     .content-wrapper {
       display: table-cell;
