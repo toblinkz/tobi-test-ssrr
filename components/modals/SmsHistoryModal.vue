@@ -15,19 +15,19 @@
                       <tbody>
                       <tr>
                         <td class="text-right"> MessageId: </td>
-                        <td>2830989168283342637</td>
+                        <td>{{message_id}}</td>
                       </tr>
                       <tr>
                         <td class="text-right">Created At:</td>
-                        <td>2020-06-25 01:05:47</td>
+                        <td>{{created_at}}</td>
                       </tr>
                       <tr>
                         <td class="text-right">From:</td>
-                        <td>OTPAlert</td>
+                        <td>{{sender}}</td>
                       </tr>
                       <tr>
                         <td class="text-right">To:</td>
-                        <td>2347051577499</td>
+                        <td>{{receiver}}</td>
                       </tr>
                       </tbody>
                     </table>
@@ -37,19 +37,19 @@
                       <tbody>
                       <tr>
                         <td class="text-right"> Channel: </td>
-                        <td>Number API</td>
+                        <td>{{channel}}</td>
                       </tr>
                       <tr>
-                        <td class="text-right">Segments:</td>
-                        <td>1</td>
+                        <td class="text-right">Cost:</td>
+                        <td>{{cost}}</td>
                       </tr>
                       <tr>
                         <td class="text-right">Status:</td>
-                        <td>Message Sent</td>
+                        <td>{{status}}</td>
                       </tr>
                       <tr>
                         <td class="text-right">message:</td>
-                        <td>Welcome to Termii</td>
+                        <td>{{message}}</td>
                       </tr>
                       </tbody>
                     </table>
@@ -65,10 +65,42 @@
 <script>
     export default {
         name: "SmsHistoryModal",
+      props:{
+        sms_id:{
+          required: true
+        }
+      },
+      data(){
+          return{
+            message_id:'',
+            created_at: '',
+            sender:'',
+            receiver:'',
+            channel:'',
+            cost:'',
+            status:'',
+            message:'',
+          }
+      },
       methods: {
+
           close(){
             this.$emit('close');
-          }
+          },
+        async getMessageDetails(){
+           let response_data = await this.$axios.$get('sms/history/' + this.sms_id);
+              this.message_id = response_data.data.message_id;
+              this.created_at = response_data.data.create_at;
+              this.sender = response_data.data.sender;
+              this.receiver= response_data.data.receiver;
+              this.channel = response_data.data.channel;
+              this.cost = response_data.data.amount;
+              this.status = response_data.data.status;
+              this.message = response_data.data.message;
+        }
+      },
+      mounted() {
+          this.getMessageDetails();
       }
     }
 </script>

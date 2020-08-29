@@ -22,7 +22,7 @@
           }
       },
       async fetch() {
-          let registered_business_data = await this.$axios.$get('http://sandbox.termii.com/v1/utility/total/registered-businesses',);
+          let registered_business_data = await this.$axios.$get('utility/total/registered-businesses',);
           this.registered_business = registered_business_data.data
       }
     }

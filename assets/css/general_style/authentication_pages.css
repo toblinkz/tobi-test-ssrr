@@ -211,7 +211,7 @@ button[disabled] {
   opacity: .5;
   pointer-events: none;
 }
-.login-form-group i.password-visibility, .register-form-group i.password-visibility{
+.login-form-group i.password-visibility, .register-form-group i.password-visibility, .form-group i.password-visibility{
   height: 16px;
   cursor: pointer;
   fill: #0a2e65;

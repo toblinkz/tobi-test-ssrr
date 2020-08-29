@@ -4,10 +4,10 @@
     <div id="list" class="items " :class="{selectHide: !open}">
       <div
         :key="i"
-        @click="selected=option; open=false; $emit('item-selected', option); "
+        @click="selected=option.name; open=false; $emit('item-selected', option.id); "
         class="item"
         v-for="(option, i) of options"
-      >{{ option }}</div>
+      >{{ option.name }}</div>
     </div>
   </div>
 </template>
@@ -41,6 +41,7 @@
       },
       mounted() {
 
+
         $(".custom-select").click(function() {
 
           let scrollTop = $(window).scrollTop();
@@ -52,10 +53,10 @@
           let windowHeight = $(window).height();
 
           if (relativeOffset > windowHeight / 2){
-            console.log("true")
+
             $("#list").addClass("items-reverse");
           } else {
-            console.log("false")
+
             $("#list").removeClass("items-reverse");
           }
         });
@@ -112,7 +113,7 @@
     left: 0;
     z-index: 1000;
     float: left;
-    height:200px;
+    max-height:200px;
     overflow-y:auto;
     width: 100%;
     list-style: none;

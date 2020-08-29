@@ -23,11 +23,24 @@
   background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
   box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
 }
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
+  box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+}
 button[disabled] {
   opacity: .5;
   pointer-events: none;
 }
-
+.error_field_message {
+  font-size: 1.2rem;
+  color: red;
+  display: block;
+  margin-top: 5px;
+}
+input[type=text].error {
+  border-color: red!important;
+}
 .goog-te-gadget-simple {
   border-radius: 15px !important;
   border: transparent !important;
@@ -335,13 +348,20 @@ small, .small {
   background-color: #F44336;
   border-color: #F44336;
 }
+.bg-warning {
+  background-color: #FF5722;
+  border-color: #FF5722;
+  color: #fff;
+}
 h2{
   margin-bottom: 10px;
   font-weight: 100;
   font-size: 25px;
-
 }
-
+a[aria-disabled] {
+  opacity: .5;
+  pointer-events: none;
+}
 /* anchor styling*/
 a.label:hover,
 a.label:focus {
@@ -1422,6 +1442,19 @@ ol ol {
   letter-spacing: normal !important;
 }
 
+ul.campaign-steps li:after {
+  display: block;
+  content: "\ee31";
+  font-family: 'icomoon';
+  position: absolute;
+  top: 15px;
+  left: -35px;
+  font-size: 10px;
+  color: #333;
+}
+ul.campaign-steps li:first-child:after {
+  display: none;
+}
 .u-small {
   letter-spacing: normal !important;
   text-align: left !important;

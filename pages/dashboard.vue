@@ -2,7 +2,7 @@
   <div class="container-fluid body" >
     <div class="row">
       <div id="msb" class="col-md-2 hidden-xs">
-        <sidebar></sidebar>
+        <sidebar class="hidden-xs"></sidebar>
       </div>
       <div class="col-md-10">
         <DashboardNavbar></DashboardNavbar>
@@ -13,11 +13,11 @@
         </div>
         <!-- /page header -->
         <!-- Page container -->
-        <div class="page-container">
+        <div class="dashboard-page-container">
           <!-- Page content -->
-          <div class="page-content">
+          <div class="dashboard-page-content">
             <!-- Main content -->
-            <div class="content-wrapper">
+            <div class="dashboard-content-wrapper">
               <!-- main inner content -->
               <main id="wrapper" class="wrapper">
                 <div id="pages" class="fixed-header dashboard menu-pin">
@@ -47,7 +47,7 @@
                                     <div class="col-md-6 alert toke">
                                       <!-- START PANEL -->
                                       <div class="col-md-11">
-                                        ₦258474.48
+                                        {{account_balance}}
                                       </div>
                                       <!-- END PANEL -->
                                     </div>
@@ -62,7 +62,15 @@
                                 </div>
                               </div>
                               <!-- END PANEL -->
-                              <BalanceHistory></BalanceHistory>
+                              <div class="row">
+                                <div class="empty-list hidden-xs">
+                                  <i class="icon-history"></i>
+                                  <span class="line-1">
+                                    You haven&#039;t made major changes to your account
+                                </span>
+                                </div>
+                              </div>
+<!--                              <BalanceHistory></BalanceHistory>-->
                               <!-- END JUMBOTRON -->
                             </div>
                             <div class="col-md-8 m-t-40">
@@ -77,7 +85,7 @@
                                       <div class="col-md-11 alert toke insight wd">
                                         <!-- START PANEL -->
                                         <p class="alert toke insight wd">
-                                          TLV78NkZP0zZEDfeyqkiNdi2VB5MJHZaCJNmpMwo6vomHZeeYjw3oCa17BRugn
+                                          {{loggedInUser.customer.live_api_key}}
                                         </p>
                                         <!-- END PANEL -->
                                       </div>
@@ -205,6 +213,7 @@
       return{
         showActivateIdModal: false,
         showYourWalletModal: false,
+        account_balance: ''
       }
     },
     methods: {
@@ -214,6 +223,15 @@
           closeYourWalletModal(){
               this.showYourWalletModal = false;
           },
+      async getWalletBalance() {
+        try{
+          let data = await this.$axios.$get('billing/wallet');
+          this.account_balance = data.data.balance;
+
+        } catch(e){
+
+        }
+      },
       startIntro() {
 
         let intro = introJs();
@@ -265,6 +283,7 @@
     },
     mounted: function () {
         this.startIntro();
+        this.getWalletBalance();
     }
 
   }
@@ -280,38 +299,38 @@
     padding: 0;
     border-bottom-width: 0;
   }
-  .page-header:not(.page-header-filled) + .page-container {
+  .page-header:not(.page-header-filled) + .dashboard-page-container {
     padding-top: 35px;
   }
-  .page-container {
+  .dashboard-page-container {
     margin: auto;
   }
-  .page-container {
+  .dashboard-page-container {
     padding-bottom: 10px;
   }
   @media (min-width: 769px){
-    .page-container {
+    .dashboard-page-container {
       width: 100%;
       display: table;
       table-layout: fixed;
     }
   }
-  .page-container {
+  .dashboard-page-container {
     position: relative;
     /* padding-bottom: 40px; */
   }
   @media (min-width: 769px){
-    .page-content {
+    .dashboard-page-content {
       display: table-row;
     }
   }
   @media (min-width: 769px){
-    .content-wrapper {
+    .dashboard-content-wrapper {
       display: table-cell;
       vertical-align: top;
     }
   }
-  .content-wrapper {
+  .dashboard-content-wrapper {
     width: 100%;
   }
 
@@ -407,6 +426,31 @@
 
   .wd-50 {
     width: 50px !important;
+  }
+  .empty-list {
+    border-radius: 5px;
+  }
+  .empty-list {
+    width: 100%;
+    display: block;
+    border: solid 0px #ddd;
+    border-radius: 10px;
+    padding: 50px 20px;
+    margin: 19px 0;
+    background: #f5f5f5;
+    text-align: center;
+  }
+  .empty-list i {
+    font-size: 550%;
+    display: block;
+    color: #bbb;
+  }
+  .empty-list span.line-1 {
+    font-size: 15px;
+    display: block;
+    margin: 20px 0 0 0;
+    font-weight: 600;
+    color: #666;
   }
 
 

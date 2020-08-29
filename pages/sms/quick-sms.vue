@@ -30,6 +30,8 @@
               </nuxt-link>
             </li>
           </ul>
+        </div>
+      </div>
           <!-- Page container -->
           <div class="page-container">
             <!-- Page content -->
@@ -45,10 +47,10 @@
                           <div class="mt-20">
                             <div class="col-md-6">
                               <form role="form" method="post">
-                                <div class="form-group mt-50">
+                                <div class="form-group ">
                                   <label>Select Channel </label>
                                   <small style="color: red !important;font-size: 11px;">(WhatsApp available only to premium users)</small>
-                                  <SearchDropdown :options="options" :dropdown-selected-style="dropdownSelectedBackground" ></SearchDropdown>
+                                  <SearchDropdown :options="sms_channels" :dropdown-selected-style="dropdownSelectedBackground" ></SearchDropdown>
                                 </div>
                                 <div class="form-group">
                                   <label>Recipients</label>
@@ -61,10 +63,10 @@
                               </form>
                             </div>
                             <div class="col-md-6">
-                              <div class="form-group mt-50">
+                              <div class="form-group ">
                                 <label class="hidden-xs">Sender ID / Device ID</label>
-                                <small style="color: red !important;font-size: 11px;" class="hidden-xs">(Can't find your ID below, <a href="http://sandbox.termii.com/sms/sender-id-management">register yours here</a> - Process takes less than 24 hours)</small>
-                                <SearchDropdown :options="senderId" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
+                                <small style="color: red !important;font-size: 11px;" class="hidden-xs">(Can't find your ID below, <nuxt-link to="/sms/sender-id-management">register yours here</nuxt-link> - Process takes less than 24 hours)</small>
+                                <SearchDropdown :options="active_sender_id" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
                               </div>
                               <div class="form-group">
                                 <label>Message</label>
@@ -89,8 +91,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
     </div>
   </div>
@@ -106,11 +106,12 @@
     export default {
         name: "quick-sms",
       components: {CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, vSelect},
+      middleware: 'auth',
       data(){
           return{
-            options: ['Sms (Africa)', 'SMS (Nigeria-DND)', 'SMS (GHANA)', 'SMS (General)'],
-            countries: ['select your country','Aigeria', 'Ahana', 'ASA', 'AUK', 'AIndia','Bigeria', 'chana', 'DSA', 'EUK', 'FIndia'],
-            senderId: ['Termii', 'N-Alert', 'EGFM', 'NTA', 'COOL',],
+            sms_channels: ['Select Channel'],
+            countries: ['Select your country',],
+            active_sender_id: ['Select Sender ID'],
             message: ['Plain', 'Voice', 'MMS', 'Unicode', 'Arabic',],
             dropdownSelectedBackground:{
               background: 'white',
@@ -121,6 +122,42 @@
              borderRadius: '5px',
             }
           }
+      },
+      methods: {
+          async getSmsChannel() {
+            try {
+              let response_data = await this.$axios.$get('sms/channels');
+              for (let i = 0; i < response_data.data.length; i++){
+                this.sms_channels.push(response_data.data[i].name)
+              }
+            }catch (e) {
+
+            }
+          },
+        async getActiveSenderId(){
+            try {
+              let response_data = await this.$axios.$get('sms/sender-id?filter=active');
+              for (let i = 1; i < response_data.data.length; i++){
+                this.active_sender_id.push(response_data.data[i].sender_id);
+              }
+            }catch (e) {
+
+            }
+        },
+        async getCountries(){
+            try {
+              let response_data = await this.$axios.$get('utility/countries');
+              for (let i = 1; i < response_data.data.length; i++){
+                this.countries.push(response_data.data[i].name);
+              }
+            }catch (e) {
+            }
+        }
+      },
+      mounted() {
+          this.getSmsChannel();
+          this.getActiveSenderId();
+          this.getCountries();
       }
     }
 </script>
@@ -141,6 +178,7 @@
     background-color: inherit;
     padding: 0 20px;
   }
+
   .page-title {
     padding: 15px 0 0px 0;
     display: block;
@@ -155,6 +193,10 @@
   }
   .page-title .breadcrumb.position-right {
     margin-left: 0;
+  }
+  .nav > li {
+    position: relative;
+    display: block;
   }
   .page-title .breadcrumb:first-child {
     padding-top: 0;
@@ -190,6 +232,12 @@
       font-size: 0;
     }
   }
+  .nav {
+    margin-bottom: 0;
+    padding-left: 0;
+    /* list-style: none; */
+  }
+
   ul.campaign-steps {
     text-align: left;
     border-bottom: dashed 2px #aaa;
@@ -225,15 +273,9 @@
   .campaign-steps a {
     font-size: 16px;
   }
-  ul.campaign-steps li.active::after {
-    display: block;
-    content: "\ee31";
-    font-family: 'icomoon';
-    position: absolute;
-    top: 15px;
-    left: -35px;
-    font-size: 10px;
-    color: #333;
+  .campaign-steps > li > a {
+    padding-right: 0;
+    padding-left: 0;
   }
   ul.campaign-steps > li.active > a{
     border-bottom: solid 2px #365899;

@@ -41,13 +41,12 @@
 <script>
 
   import ButtonSpinner from "../components/general/ButtonSpinner";
-
-
+  import {mapGetters} from "vuex";
 
   export default {
     name: "verify",
     components: {ButtonSpinner},
-    middleware:['verification_page', 'guest'],
+    middleware:['verify_page', 'guest'],
     data(){
       return{
         verification_code: "",
@@ -62,7 +61,9 @@
     computed: {
       isDisabled: function () {
         return( this.verification_code === '' || this.error_message.verification_code !== '');
+
       },
+      ...mapGetters([ 'getUserPassword', 'getUserEmail'])
     },
     watch: {
       verification_code(value) {
@@ -85,31 +86,27 @@
         try{
           this.isLoading = true;
           this.button_text = "Verifying";
-          this.access_token = this.$route.params.access_token;
           await this.$axios.post('auth/account/verify',{
             verification_code: "890465"
-          }, {headers: {'Authorization': 'Bearer ' + this.access_token}});
-
-          await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + this.access_token}});// get user data
+          }, {headers: {'Authorization':localStorage.getItem("auth._token.local")}});
 
 
-          await this.$auth.loginWith('local', {
+           await this.$auth.loginWith('local', {
             data: {
-              email: this.$route.params.email,
-              password: this.$route.params.password
+              email: this.getUserEmail,
+              password: this.getUserPassword
             }
           });
-          this.$store.commit('setBearerToken', this.access_token);
           this.$toast.show("Successfully verified");
           this.$router.push('/dashboard');
+          this.$store.commit('setViewVerificationPage')
 
         }catch (error) {
-
           if (navigator.onLine) {
             this.isLoading = false;
             this.button_text = "Verify Code";
             this.hasVerificationError = true;
-            this.error_message['verification_code'] = 'Invalid Token';
+            this.error_message['verification_code'] = 'Invalid Code';
           } else {
             this.isLoading = false;
             this.button_text = "Verify Code";
@@ -120,6 +117,9 @@
         }
       }
     },
+    mounted() {
+
+    }
 
 
   }

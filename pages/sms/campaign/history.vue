@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2 ">
-      <Sidebar></Sidebar>
+      <Sidebar class="hidden-xs"></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -27,14 +27,14 @@
                         <div class="row ">
                           <div class="col-lg-6 col-md-5  col-middle ">
                             <div class="panel-transparent">
-                              <p id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-flag"></i>Campaign - C5ec7059195955</p>
+                              <p id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-flag"></i>Campaign - {{campaign_id}}</p>
                               <div class="insight">
                                 <p>Your Messaging Campaign   was triggered at  21st May 20 11:52 PM </p>
                               </div>
                             </div>
                             <br>
                             <div class="col-lg-6" style="padding-left: 0;">
-                              <form class=""  role="form" method="get" id="search-form">
+                              <form @submit.prevent="" role="form" method="get" id="search-form">
                                 <div class="row">
                                   <div class="form-group">
                                     <input type="text" placeholder="Phone Number"   class="form-control" name="phone">
@@ -43,7 +43,7 @@
                                 <button type="submit" class="btn btn-success wd-100 bx-line"><i class="fa fa-search"></i> Search</button>
                               </form>
                               <br />
-                              <form  method="POST">
+                              <form  @submit.prevent="" method="POST">
                                 <button type="submit" class="btn btn-danger wd-100 bx-line" ><i class="fa fa-level-down"></i> Export</button>
                               </form>
                             </div>
@@ -51,7 +51,12 @@
                           <div class="col-lg-6 col-md-5 col-md-height col-middle hidden-xs">
                             <!-- START PANEL -->
                             <div class="full-height">
-                              <ManageCampaignChart></ManageCampaignChart>
+                              <ManageCampaignChart
+                                :delivered_message_count="delivered_message_count"
+                                :message_sent_count="message_sent_count"
+                                :failed_message_count="failed_message_count"
+                                :dnd_active_count="dnd_active_count"
+                              ></ManageCampaignChart>
                             </div>
                           </div>
                         </div>
@@ -68,7 +73,6 @@
                             <thead>
                             <tr>
                               <th style="width: 5%">Sent At</th>
-                              <th style="width: 5%">Message ID</th>
                               <th style="width: 5%">Number</th>
                               <th style="width: 25%">Message</th>
                               <th style="width: 5%">Amount</th>
@@ -77,9 +81,8 @@
                             </thead>
                             <tbody>
                             <tr v-for="row in manage_campaign_list" :key="row.sent_at">
-                              <td style="width: 5%"></td>
-                              <td style="width: 5%"></td>
-                              <td style="width: 5%">{{row.number}}</td>
+                              <td style="width: 5%">{{row.create_at}}</td>
+                              <td style="width: 5%">{{row.receiver}}</td>
                               <td style="width: 25%">{{row.message}}</td>
                               <td style="width: 5%">{{row.amount}}</td>
                               <td style="width: 5%">{{row.status}}</td>
@@ -106,24 +109,38 @@
     import ManageCampaignChart from "../../../components/general/charts/ManageCampaignChart";
     export default {
         name: "manage-campaign",
+      middleware: 'auth',
       components: {ManageCampaignChart, DashboardNavbar, Sidebar},
       data() {
           return{
-            manage_campaign_list:[
-              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
-              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
-              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
-              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
-              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
-              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
-              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
-              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
-              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
-              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
-              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
-              {sent_at:"", number:"2348169186260", message:"hii", amount: "1", status:"message sent"},
-            ]
+            manage_campaign_list:[],
+            campaign_id: this.$route.query.campaign_id,
+            delivered_message_count: '',
+            message_sent_count: '',
+            dnd_active_count: '',
+            failed_message_count: '',
+
           }
+      },
+      methods:{
+          async getCampaignReport(){
+            let response_data = await this.$axios.$get('sms/campaign/' + this.campaign_id + '/report');
+            this.manage_campaign_list = response_data.data
+          },
+        async getCampaignAnalytics(){
+            let response_data = await  this.$axios.$get('sms/campaign/'+ this.campaign_id + '/analytics')
+          this.delivered_message_count = response_data.data.delivered_count;
+          this.message_sent_count = response_data.data.sent_count;
+          this.dnd_active_count = response_data.data.failed_count;
+          this.failed_message_count = response_data.data.dnd_count;
+
+        }
+      },
+      mounted() {
+
+          this.getCampaignReport();
+          this.getCampaignAnalytics();
+
       }
     }
 </script>

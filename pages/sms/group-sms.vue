@@ -30,6 +30,8 @@
                </nuxt-link>
              </li>
            </ul>
+         </div>
+       </div>
            <!-- Page container -->
            <div class="page-container">
              <!-- Page content -->
@@ -45,10 +47,10 @@
                            <div class="mt-40">
                              <div class="col-md-6">
                                <form role="form" method="post">
-                                 <div class="form-group mt-30">
+                                 <div class="form-group ">
                                    <label>Select Channel </label>
                                    <small style="color: red !important;font-size: 11px;">(WhatsApp available only to premium users)</small>
-                                  <SearchDropdown :options="options" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
+                                  <SearchDropdown :options="sms_channels" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
                                  </div>
                                  <div class="form-group">
                                    <label>Recipients</label>
@@ -56,7 +58,7 @@
                                  </div>
                                  <div class="form-group">
                                    <small style="color: red !important;font-size: 11px;">(Ensure you have added contacts to your phonebook)</small>
-                                   <SearchDropdown :options="message" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
+                                   <SearchDropdown :options="phone_books" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
                                  </div>
                                  <div class="form-group">
                                    <div class="coder-checkbox">
@@ -72,10 +74,10 @@
                                </form>
                              </div>
                              <div class="col-md-6">
-                               <div class="form-group mt-30">
+                               <div class="form-group ">
                                  <label class="hidden-xs">Sender ID / Device ID</label>
                                  <small style="color: red !important;font-size: 11px;" class="hidden-xs">(Can't find your ID below, <a href="http://sandbox.termii.com/sms/sender-id-management">register yours here</a> - Process takes less than 24 hours)</small>
-                                 <SearchDropdown :options="senderId" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
+                                 <SearchDropdown :options="active_sender_id" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
                                </div>
                                <div class="form-group">
                                  <label>Message</label>
@@ -100,8 +102,6 @@
                </div>
              </div>
            </div>
-         </div>
-       </div>
     </div>
   </div>
 </template>
@@ -115,15 +115,17 @@
     import CustomSelect from "../../components/general/dropdown/CustomSelect";
     export default {
         name: "send-sms",
+      middleware: 'auth',
       components: {CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, DatePicker},
       data(){
           return{
             send_later: false,
             date_time:"null",
-            options: ['Sms (Africa)', 'SMS (Nigeria-DND)', 'SMS (GHANA)', 'SMS (General)'],
-            countries: ['select your country','Aigeria', 'Ahana', 'ASA', 'AUK', 'AIndia','Bigeria', 'chana', 'DSA', 'EUK', 'FIndia'],
-            senderId: ['Termii', 'N-Alert', 'EGFM', 'NTA', 'COOL',],
+            sms_channels: ['Select Channel'],
+            countries: ['select your country'],
+            active_sender_id: ['Select Sender ID'],
             message: ['Plain', 'Voice', 'MMS', 'Unicode', 'Arabic',],
+            phone_books:['Select PhoneBook'],
             dropdownSelectedBackground:{
               background: 'white',
               border: '1px solid rgba(98, 98, 98, 0.27)',
@@ -135,9 +137,55 @@
           }
       },
       methods: {
+        async getSmsChannel() {
+          try {
+            let response_data = await this.$axios.$get('sms/channels');
+            for (let i = 0; i < response_data.data.length; i++){
+              this.sms_channels.push(response_data.data[i].name)
+            }
+          }catch (e) {
+
+          }
+        },
+        async getActiveSenderId(){
+          try {
+            let response_data = await this.$axios.$get('sms/sender-id?filter=active');
+            for (let i = 1; i < response_data.data.length; i++){
+              this.active_sender_id.push(response_data.data[i].sender_id);
+            }
+          }catch (e) {
+
+          }
+        },
+        async getCountries(){
+          try {
+            let response_data = await this.$axios.$get('utility/countries');
+            for (let i = 1; i < response_data.data.length; i++){
+              this.countries.push(response_data.data[i].name);
+            }
+          }catch (e) {
+          }
+        },
+        async getPhoneBook(){
+            try {
+              let response_data = await this.$axios.$get('sms/phone-book?filter=unpaginated');
+              for (let i = 1; i < response_data.data.length; i++){
+                this.phone_books.push(response_data.data[i].phonebook_name);
+              }
+
+            }catch (e) {
+
+            }
+        },
           toggleScheduleTime(){
             this.send_later = !this.send_later
           }
+      },
+      mounted() {
+        this.getSmsChannel();
+        this.getActiveSenderId();
+        this.getCountries();
+        this.getPhoneBook();
       }
     }
 </script>
@@ -212,6 +260,7 @@
     margin-top: 30px;
     width: 83%;
   }
+
   .campaign-steps > li {
     margin-right: 50px;
     font-weight: 600;
@@ -225,10 +274,14 @@
   .nav-pills > li {
     float: none;
   }
+  .nav > li {
+    position: relative;
+  }
   .campaign-steps > li > a {
     padding-right: 0;
     padding-left: 0;
   }
+
   .nav-pills > li > a {
     color: #333333;
     border-radius: 3px;
@@ -236,21 +289,18 @@
   .nav > li > a {
     position: relative;
     display: block;
-    padding: 7px 15px;
+    /*padding: 7px 15px;*/
+  }
+
+  .nav {
+    margin-bottom: 0;
+    padding-left: 0;
+    /* list-style: none; */
   }
   .campaign-steps a {
     font-size: 16px;
   }
-  ul.campaign-steps li.active::after {
-    display: block;
-    content: "\ee31";
-    font-family: 'icomoon';
-    position: absolute;
-    top: 15px;
-    left: -35px;
-    font-size: 10px;
-    color: #333;
-  }
+
   ul.campaign-steps > li.active > a{
     border-bottom: solid 2px #365899;
     border-radius: 5px 5px 0 0;

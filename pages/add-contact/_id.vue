@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2 ">
-      <Sidebar></Sidebar>
+      <Sidebar class="hidden-xs"></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -54,34 +54,28 @@
                             </div>
                             <div class="panel">
                               <div class="panel-body">
-                                <form class="" role="form" method="post" >
+                                <form @submit.prevent="addContact" method="post" >
                                   <div class="form-group">
                                     <label>Country Code</label>
-                                    <select class="selectpicker form-control" name="country_code" data-live-search="true">
-                                      <option  selected  >Exist on phone number</option>
-                                      <option value="93"  >Afghanistan (93)</option>
-                                      <option value="355"  >Albania (355)</option>
-                                      <option value="213"  >Algeria (213)</option>
-                                      <option value="376"  >Andorra (376)</option>
-                                    </select>
+                                    <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground" @item-selected="show($event)"></SearchDropdown>
                                   </div>
                                   <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Phone number" required name="number" value="">
+                                    <input type="text" class="form-control" placeholder="Phone number" required v-model="phone_number">
                                   </div>
                                   <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="First name" name="first_name" value="">
+                                    <input type="text" class="form-control" placeholder="First name" v-model="first_name">
                                   </div>
                                   <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Last name" name="last_name" value="">
+                                    <input type="text" class="form-control" placeholder="Last name" v-model="last_name">
                                   </div>
                                   <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Email address" name="email" value="">
+                                    <input type="email" class="form-control" placeholder="Email address" v-model="email_address">
                                   </div>
                                   <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Company" name="company" value="">
+                                    <input type="text" class="form-control" placeholder="Company" v-model="company">
                                   </div>
                                   <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Username" name="username" value="">
+                                    <input type="text" class="form-control" placeholder="Username" v-model="username">
                                   </div>
                                   <button type="submit" class="btn btn-success btn-sm pull-right"><i class="fa fa-plus"></i> Add </button>
                                 </form>
@@ -102,11 +96,67 @@
 </template>
 
 <script>
-    import Sidebar from "../components/general/Sidebar";
-    import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
+    import Sidebar from "../../components/general/Sidebar";
+    import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+    import SearchDropdown from "../../components/general/dropdown/SearchDropdown";
     export default {
         name: "add-contact",
-      components: {DashboardNavbar, Sidebar}
+       middleware:'auth',
+      components: {SearchDropdown, DashboardNavbar, Sidebar},
+      data(){
+          return{
+            selected_country_code:'',
+            phone_number:'',
+            first_name:"",
+            last_name:"",
+            email_address:'',
+            company:"",
+            username:"",
+            countries: ['Exist on phone number'],
+            dropdownSelectedBackground:{
+              background: 'white',
+              border: '1px solid rgba(98, 98, 98, 0.27)',
+              fontWeight: '100',
+            },
+          }
+      },
+      methods:{
+        async getCountries(){
+          try {
+            let response_data = await this.$axios.$get('utility/countries');
+            for (let i = 1; i < response_data.data.length; i++){
+              this.countries.push(response_data.data[i].name + ` (${response_data.data[i].d_code.slice(1)})`);
+            }
+          }catch (e) {
+          }
+        },
+        async addContact(){
+          try{
+            await this.$axios.$post('sms/phone-book/contact/add', {
+
+                phone_number: this.phone_number,
+                user_name: this.username,
+                company: this.company ,
+                first_name: this.first_name,
+                last_name: this.last_name,
+                email: this.email_address,
+                id: this.$route.params.id,
+                country_code: this.selected_country_code
+
+            });
+            this.$router.push({name: 'view-contact-id'})
+          }catch (e) {
+
+          }
+        },
+        show(country_code){
+          this.selected_country_code =  country_code.substring(country_code.indexOf('(') + 1, country_code.indexOf(')') );
+        }
+      },
+      mounted() {
+          this.getCountries();
+
+      }
     }
 </script>
 
@@ -138,6 +188,9 @@
   }
   .page-title .breadcrumb {
     margin-bottom: 10px;
+  }
+  .page-title .breadcrumb > li > a, .page-title .breadcrumb > li + li:before {
+    color: #333;
   }
   .page-title .breadcrumb.position-right {
     margin-left: 0;

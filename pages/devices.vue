@@ -74,7 +74,7 @@
                                 </thead>
                                 <tbody>
                                 <tr v-for="(row, index) in response_data.data" :key="row.id">
-                                  <td data-label="SL" class="hidden-xs">{{row.id}}</td>
+                                  <td data-label="SL" class="hidden-xs">{{index + 1}}</td>
                                   <td data-label="Sender ID"><p>{{row.name}}</p></td>
                                   <td data-label="Status"><p class="label"  :class="rowClassName(row,index)">{{row.device_status}}</p>
                                   <td data-label="Sender ID" :class="getTotalMessagesSent(row)"><p>{{number}}</p></td>
@@ -137,9 +137,8 @@
 
         async loadDeviceIds(){
           try {
-            let data = await this.$axios.$get('devices', {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
+            let data = await this.$axios.$get('devices', );
             this.response_data = data;
-            //console.log(this.response_data.data)
             await this.getTotalMessagesSent();
           }catch (e) {
 
@@ -147,7 +146,7 @@
         },
         async getTotalMessagesSent(row){
             try {
-                let messages_sent_data = await  this.$axios.$get('devices/'+ row.id +'/total-number-of-messages-sent-today', {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
+                let messages_sent_data = await  this.$axios.$get('devices/'+ row.id +'/total-number-of-messages-sent-today');
                 let messages_sent = messages_sent_data.data.total_messages_sent_today
                 this.number = messages_sent
             } catch (e) {
@@ -158,8 +157,8 @@
 
             $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
           $('#qr-code').attr("disabled", true);
-          var device_id = device_id
-          let url = `http://api.sandbox.termii.com/v1/devices/:slug/barcode?token=${this.getBearerToken}`
+
+          let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${this.getBearerToken}`
           url = url.replace(':slug', device_id);
 
           $.get(url, function (data, status) {
@@ -185,7 +184,6 @@
             return 'label-success'
           } else if (row.device_status === 'PENDING'){
             return 'label-warning'
-
           }
         },
         showBarcodeIcon(row){
@@ -325,10 +323,7 @@
   .table-hover > tbody > tr:hover {
     background-color: #f8f8f8;
   }
-  a[aria-disabled] {
-    opacity: .5;
-    pointer-events: none;
-  }
+
   table {
     border-collapse: collapse;
     border-spacing: 0;

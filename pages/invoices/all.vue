@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2 ">
-      <Sidebar></Sidebar>
+      <Sidebar class="hidden-xs"></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -90,23 +90,25 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="row in all_invoice" :key="row.index">
-                                  <td>{{row.index}}</td>
-                                  <td>{{row.amount}}</td>
-                                  <td>{{row.invoice_date}}</td>
-                                  <td>{{row.due_date}}</td>
+                                <tr v-for="(row, index) in all_invoice.data" :key="row.id">
+                                  <td>{{index + 1}}</td>
+                                  <td>{{row.total}}</td>
+                                  <td>{{row.datepaid}}</td>
+                                  <td>{{row.duedate}}</td>
                                   <td>
-                                    <span class="label label-success">{{row.status}}</span>
+                                    <span class="label" :class="statusClass(row)">{{row.status}}</span>
                                   </td>
                                   <td>
-                                    <span class="label label-success">{{row.type}}</span>
+                                    <span class="label label-success" v-show="showRecurringLabel(row)" >Recurring</span>
+                                    <span class="label label-success" v-show="showOnetimeLabel(row)">Onetime</span>
                                   </td>
                                   <td>
-                                    <nuxt-link to="/invoices/view" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
+                                    <nuxt-link :to="{path: 'view/' + row.id, params:{id: row.id}}" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
                                   </td>
                                 </tr>
                                 </tbody>
                               </table>
+
 
                             </div>
                           </div>
@@ -115,6 +117,12 @@
                     </div>
                   </section>
                 </main>
+                <Pagination
+                  :page="page"
+                  :total_page="total_page"
+                  :on-page-change="onPageChange"
+                  v-show="showPagination === true"
+                ></Pagination>
               </div>
             </div>
           </div>
@@ -123,33 +131,52 @@
 </template>
 
 <script>
-    import Sidebar from "../../components/general/Sidebar";
-    import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
-    export default {
+  import Sidebar from "../../components/general/Sidebar";
+  import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+  import Pagination from "../../components/general/Pagination";
+
+  export default {
         name: "all",
-      components: {DashboardNavbar, Sidebar},
+      components: {Pagination, DashboardNavbar, Sidebar},
+      middleware: 'auth',
       data(){
           return{
-            all_invoice :[
-              {index: '1', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '2', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '3', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '4', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '5', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '6', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '7', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '8', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '9', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '10', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '11', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '12', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '13', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '14', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"},
-              {index: '15', amount:'₦60000', invoice_date: "2020-05-13", due_date: "2020-05-13", status: "Paid", type:"Onetime"}
-
-
-              ]
+            all_invoice :[],
+            page: 1,
+            total_page: '',
+            showPagination: false
           }
+      },
+      methods: {
+          async getAllBillingInvoices(){
+
+           let response_data = await this.$axios.$get('billing/invoices', {params:{page: this.page}});
+            if (response_data.data.length !== 0 && response_data.meta.last_page > 1){this.showPagination = true}
+            this.all_invoice = response_data;
+            this.page = response_data.meta.current_page;
+            this.total_page = response_data.meta.last_page;
+          },
+        showRecurringLabel(row){
+            return (row.recurring === 0)
+        },
+        showOnetimeLabel(row){
+            return(row.recurring !== 0)
+        },
+        statusClass(row){
+            if (row.status === 'Paid'){
+              return 'label-success'
+            } else if (row.status === 'Unpaid'){
+              return 'label-warning'
+            }
+        },
+        onPageChange(page) {
+          this.page = page;
+          this.getAllBillingInvoices();
+        }
+
+      },
+      mounted() {
+          this.getAllBillingInvoices();
       }
     }
 </script>
@@ -176,6 +203,14 @@
       padding-right: 60px;
     }
   }
+  @media (min-width: 769px){
+    .form-inline .form-control {
+      display: inline-block;
+      width: auto;
+      vertical-align: middle;
+    }
+  }
+
   @media (min-width: 769px){
     .page-container {
       width: 100%;
@@ -302,6 +337,7 @@
   }
   .label-warning {
     background-color: #FF5722;
+    color: #fff;
   }
   .label-success {
     border-color: #4CAF50;
@@ -322,6 +358,9 @@
     margin-bottom: 0;
   }
   .form-control, .select2 {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
     font-size: 13px;
     border-color: #bbb;
     border-radius: 5px;

@@ -56,7 +56,7 @@
 
                   </div>
                   <div class="row-form has-feedback has-feedback-left" >
-                    <CustomSelect :options="sectors" :dropdown-style="dropdownStyle" :dropdown-selected="dropdownSelected" @item-selected="selected_sector = $event"></CustomSelect>
+                    <CustomSelect :options="sectors"  :dropdown-style="dropdownStyle" :dropdown-selected="dropdownSelected" @item-selected="setSectorId($event)"></CustomSelect>
                   </div>
                 </div>
                 <ButtonSpinner :is-disabled="isDisabled"  :button_text="button_text" :is-loading="isLoading"></ButtonSpinner>
@@ -88,7 +88,7 @@
     export default {
         name: "register",
       components: {ButtonSpinner, CustomSelect, SearchDropdown},
-      middleware:['guest', 'verification_to_register'],
+      middleware:['guest', ],
       data(){
           return{
             registered_business:"",
@@ -116,8 +116,9 @@
             button_text: "Create My Account",
             isLoading: false,
             type: "password",
-            countries: ['Select your country','Aigeria', 'Ahana', 'ASA', 'AUK', 'AIndia','Bigeria', 'chana', 'DSA', 'EUK', 'FIndia'],
-            sectors: ['Your company sector','Financial Services','Online Retail Services','Education Services', 'Advertising & Marketing Services', 'Logistics & Transportation Services', 'Others', 'Health Services', 'Agriculture Services'],
+            countries: ['Select Country'],
+            sectors: ['Select Sectors'],
+            sectors_id:'',
             dropdownSelectedBackground:{
               backgroundColor: '#ffffff',
               backgroundImage: 'none',
@@ -144,9 +145,9 @@
         isDisabled: function () {
           return (this.email === '' || this.password === '' || this.hasEmailError || this.hasPasswordError
                       || this.first_name === '' || this.hasFirstNameError || this.selected_country === ''
-                    || this.selected_sector === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError);
+                    || this.sectors_id === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError);
         },
-        ...mapGetters(['isRegistered'])
+
       },
       watch: {
         email(value) {
@@ -190,12 +191,13 @@
         }
         ,
         validatePassword(value) {
-          if (value.length < 8) {
-            this.error_message['password'] = 'Password field must be at least 8 characters';
-            this.hasPasswordError = true;
-          }else {
-            this.error_message['password'] = '';
-            this.hasPasswordError = false;
+         if ( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(value)){
+           this.error_message['password'] = '';
+           this.hasPasswordError = false;
+          }
+          else {
+           this.error_message['password'] = 'Password is too weak';
+           this.hasPasswordError = true;
           }
         },
 
@@ -237,45 +239,61 @@
           }
         },
         async fetch(){
-          /* fetch country data
+          // fetch country data
           let countries_data = await this.$axios.$get('/utility/countries');
-         // this.countries = countries_data.data;
-          console.log(countries_data)
+          for (let i = 0; i < countries_data.data.length; i++){
+           this.countries.push(countries_data.data[i].name)
+          }
+
           //fetch sector data
           let sector_data =await this.$axios.$get('/utility/sectors');
-          //this.sectors = sector_data.data;
+            this.sectors = sector_data.data;
+
+
           //fetch no of registered business
           let registered_business_data = await this.$axios.$get('/utility/total/registered-businesses',);
-          this.registered_business = registered_business_data.data */
+          this.registered_business = registered_business_data.data
+
+        },
+        setSectorId(event){
+          this.sectors_id = event;
         },
         //call registration endpoint
         async register(){
-          let access_token;
+          var access_token;
           this.isLoading = true;
           this.button_text = "Creating..."
-          try{
 
-          let response =  await this.$axios.post('auth/register', {
+          try{
+           await this.$axios.post('auth/register', {
               first_name: this.first_name,
               last_name: this.last_name,
               email: this.email,
               password: this.password,
               phone_number: this.phone_number,
               country: this.selected_country,
-              sector: 1
-            }, );
+              sector: this.sectors_id
+            },);
+            await this.$auth.loginWith('local', {
+              data: {
+                email: this.email,
+                password: this.password
+              }
+            });
 
-             access_token = response.data.access_token;
-
-            await this.$axios.get('user', {headers: {'Authorization': 'Bearer ' + this.access_token}}); // get user data
 
           } catch (e) {
-
-            if (navigator.onLine) {
-              this.$store.commit('changeRegisteredState');
-              await this.$router.push({ name: 'verify', params: { access_token: access_token , email: this.email, password: this.password} });
-
-            } else {
+            if (navigator.onLine && e.response.data.error === 'Account not verified.') {
+              this.$store.commit('setEmail', this.email);
+              this.$store.commit('setPassword', this.password);
+              this.$store.commit('setViewVerificationPage');
+              await this.$router.push({ name: 'verify', });
+            }else if(navigator.onLine && e.response.data.errors.email[0] === 'The email has already been taken.'){
+              this.error_message['email'] = 'The email has already been taken.';
+              this.hasEmailError = true;
+              this.isLoading = false;
+              this.button_text = "Create My Account"
+            }else {
               this.isLoading = false;
               this.button_text = "Create My Account"
               this.$toast.show("No Internet connection")
@@ -285,6 +303,9 @@
         }
 
       },
+      mounted() {
+          this.fetch();
+      }
 
 
     }

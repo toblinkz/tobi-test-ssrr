@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2">
-      <Sidebar></Sidebar>
+      <Sidebar class="hidden-xs"></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -36,7 +36,7 @@
                             <form class="" role="form" method="get" id="search-form">
                               <div class="row">
                                 <div class="form-group">
-                                  <input type="text" class="form-control" id="datetimes" name="datetimes"  placeholder="Date Range" />
+                                  <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%"  confirm></date-picker>
                                 </div>
                               </div>
 
@@ -64,16 +64,17 @@
                               </tr>
                               </thead>
                               <tbody>
-                              <tr v-for="row in campaign_report" :key="row.id">
-                                <td style="">{{row.id}}</td>
-                                <td style="">{{row.date}}</td>
-                                <td style="">{{row.from}}</td>
-                                <td style="">{{row.recipients}}</td>
+                              <tr v-for="row in campaign_report" :key="row.campaign_id">
+                                <td style="">{{row.campaign_id}}</td>
+                                <td style="" id="created-at">{{row.created_at}}</td>
+                                <td style="">{{row.sender}}</td>
+                                <td style="">{{row.total_recipients}}</td>
                                 <td style="">
-                                  <span class="label label-flat label-success">Delivered</span>
+                                  <span class="label label-flat label-success" v-show="showDeliveredLabel(row)">Delivered</span>
+                                  <span class="label label-flat bg-warning" v-show="showInProgressLabel(row)">In Progress</span>
                                 </td>
                                 <td style="">
-                                  <nuxt-link class="btn btn-success btn-xs" to="/sms/campaign/history" ><i class="entypo-popup"></i> Reports </nuxt-link>
+                                  <nuxt-link class="btn btn-success btn-xs" :aria-disabled="isDisabled(row)" :to="{name:'sms-campaign-history', query:{campaign_id: row.campaign_id}}" ><i class="entypo-popup"></i> Reports </nuxt-link>
                                 </td>
                               </tr>
                               </tbody>
@@ -82,6 +83,13 @@
                         </div>
                       </div>
                     </div>
+                    <Pagination
+                      :page="page"
+                      :total_page="total_page"
+                      :on-page-change="onPageChange"
+                      v-show="showPagination === true"
+                    >
+                    </Pagination>
                   </div>
                 </div>
               </section>
@@ -96,50 +104,55 @@
 <script>
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+    import Pagination from "../../components/general/Pagination";
+    import DatePicker from "vue2-datepicker";
+    import 'vue2-datepicker/index.css';
     export default {
         name: "campaign-reports",
-      components: {DashboardNavbar, Sidebar},
-      head(){
-          return{
-            link: [
-              { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css' }
-            ]
-          }
-      },
+      middleware: 'auth',
+      components: {Pagination, DashboardNavbar, Sidebar, DatePicker},
       data(){
           return{
-            campaign_report:[
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-              {id:"C5eecbd9ff29ed", date:"2020-06-19 14:29:03", from:"OTPAlert", recipients:"4"},
-            ]
+            campaign_report:[],
+            date_time: [moment(new Date()).format('YYYY-MM-DD HH:mm:ss'), moment(new Date() + 1).format('YYYY-MM-DD HH:mm:ss')],
+            page: 1,
+            total_page:'',
+            showPagination: false
           }
       },
-      mounted() {
-        $(function() {
-          $('input[name="datetimes"]').daterangepicker({
-            timePicker: true,
-            startDate: moment().startOf('hour'),
-            endDate: moment().startOf('hour').add(32, 'hour'),
-            locale: {
-              format: 'M/DD/YYYY h:mm:ss'
+      methods:{
+          async getCampaignReport(){
+            try {
+              let response_data = await this.$axios.$get('sms/campaign/reports', {params: {page: this.page}});
+              this.campaign_report = response_data.data;
+
+              if (this.campaign_report.length !== 0){this.showPagination = true;}
+              this.page = response_data.meta.current_page;
+              this.total_page = response_data.meta.last_page;
+
+            }catch (e) {
+
             }
-          });
-        });
+
+          },
+        isDisabled(row){
+          return(row.status !== 'Delivered');
+        },
+        onPageChange(page) {
+          this.page = page;
+          this.getCampaignReport();
+        },
+        showDeliveredLabel(row){
+            return(row.status === 'Delivered');
+          },
+        showInProgressLabel(row){
+            return(row.status !== 'Delivered');
+        }
+
+      },
+      mounted() {
+          this.getCampaignReport();
+
       }
 
     }
@@ -297,6 +310,7 @@
     border: 1px solid transparent;
     text-transform: uppercase;
     letter-spacing: 0.1px;
+    white-space: nowrap;
   }
   .bx-line {
     border: transparent !important;

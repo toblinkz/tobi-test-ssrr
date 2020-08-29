@@ -6,30 +6,49 @@ export const getters = {
   loggedInUser(state) {
     return state.auth.user;
   },
-  isRegistered(state){
-    return state.user_registered;
-  },
+
   getBearerToken(state){
     return state.bearer_token;
+  },
+  getUserEmail(state){
+    return state.email;
+  },
+  getUserPassword(state){
+    return state.password;
+  },
+  getPhoneBookId(state){
+    return state.phone_book_id;
   }
 }
+
 export const state = () => ({
-
-  user_registered: null,
-  bearer_token: localStorage.getItem('auth._token.local').slice(7) || ''
-
+  bearer_token: '',
+  email:'',
+  password:'',
+  phone_book_id:'',
+  view_verify_page: false
 });
 
 export const mutations = {
-  changeRegisteredState (state) {
-    if (state.user_registered === null){
-      state.user_registered = true;
-    } else if(state.user_registered === true){
-      state.user_registered = null;
-    }
+
+  setEmail(state, email){
+    state.email = email
+  },
+  setPassword(state, password){
+    state.password = password
+  },
+  setPhoneBookId(state, phonebook_id){
+    state.phone_book_id = phonebook_id
   },
   setBearerToken(state, bearer_token){
     state.bearer_token = bearer_token;
+  },
+  setViewVerificationPage(state){
+    if (state.view_verify_page === false){
+      state.view_verify_page = true;
+    } else {
+      state.view_verify_page = false
+    }
   }
 
 }

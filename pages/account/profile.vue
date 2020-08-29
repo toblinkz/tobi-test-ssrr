@@ -9,15 +9,15 @@
       <div class="page-header">
         <div class="page-header-content">
           <!-- Page container -->
-          <div class="page-container">
+          <div class="profile-page-container">
             <!-- Page content -->
-            <div class="page-content">
-              <div class="content-wrapper">
+            <div class="profile-page-content">
+              <div class="profile-content-wrapper">
                 <!-- START JUMBOTRON -->
                 <div class="jumbotron" data-pages="parallax">
                   <div class="container-fluid container-fixed-lg">
                     <div class="inner">
-                      <div class="row mt-70">
+                      <div class="profile-row mt-70">
                         <div class="col-md-8">
                           <h3 class="mb-10"> </h3>
                           <p><i class="icon-profile"></i> Your Account Profile</p>
@@ -33,20 +33,20 @@
                       </center>
                     </div>
                     <!-- Page container -->
-                    <div class="page-container">
+                    <div class="profile-page-container">
                       <!-- Page content -->
-                      <div class="page-content">
+                      <div class="profile-page-content">
                         <!-- main inner content -->
                         <main id="wrapper" class="wrapper">
                           <ApiNavbar></ApiNavbar>
-                          <form  method="POST" >
-                            <div class="row">
+                          <form @submit.prevent="updateProfile" method="POST" >
+                            <div class="profile-row">
                               <div class="col-md-2">
                                 <div class="sub_section">
                                   <div class="media profile-image">
                                     <div class="media-left">
                                       <nuxt-link to="#" class="upload-media-container">
-                                        <img preview-for="image" empty-src="/images/placeholder.jpg" src="/images/team/10.png" class="img-circle" alt="">
+                                        <img preview-for="image"  src="/images/team/10.png" class="img-circle" alt="">
                                       </nuxt-link>
                                       <input type="file" name="image" class="file-styled previewable hide">
                                     </div>
@@ -57,7 +57,7 @@
                                       <nuxt-link to="#remove" class="btn btn-xs bg-grey-800 "><i class="icon-trash"></i> Remove</nuxt-link>
                                       <br />
                                       <br />
-                                      <nuxt-link to="#upload" class="btn btn-xs bg-teal mr-10"><i class="icon-upload4"></i> Upload</nuxt-link>
+                                      <a href="#upload" onclick="$('input[name=image]').trigger('click')"  class="btn btn-xs bg-teal mr-10"><i class="icon-upload4"></i> Upload</a>
                                     </div>
                                   </div>
                                 </div>
@@ -66,8 +66,7 @@
                                 <label>First Name</label>
                                 <div class="form-group control-text">
                                   <input
-                                    id="first_name" placeholder=""
-                                    value="Termii"
+                                    v-model="first_name"
                                     type="text"
                                     name="first_name"
                                     class="profile-form-control required  "
@@ -76,24 +75,22 @@
                                 <label>Phone Number</label>
                                 <div class="form-group control-text">
                                   <input
-                                    id="phone_number" placeholder=""
-                                    value="08109477743"
+                                    v-model="phone_number"
                                     type="text"
                                     name="phone_number"
                                     class="profile-form-control required numeric  "
                                   >
                                 </div>
                                 <label>Sector</label>
-                                   <CustomSelect :options="options" :dropdown-style="dropdownStyle" ></CustomSelect>
+                                   <CustomSelect :options="sectors" :dropdown-style="dropdownStyle" @item-selected="setSectorId($event)"></CustomSelect>
                                 <label class="mt-20">Select Country</label>
-                                <SearchDropdown :options="countries"></SearchDropdown>
+                                <SearchDropdown :options="countries" @item-selected="selected_country = $event"></SearchDropdown>
                               </div>
                               <div class="col-md-5">
                                 <label>Last Name</label>
                                 <div class="form-group control-text">
                                   <input
-                                    id="last_name" placeholder=""
-                                    value="Webtech"
+                                    v-model="last_name"
                                     type="text"
                                     name="last_name"
                                     class="profile-form-control required  "
@@ -102,8 +99,7 @@
                                 <label>Email Address</label>
                                 <div class="form-group control-text">
                                   <input
-                                    id="email" placeholder=""
-                                    value="tech@termii.com"
+                                    v-model="email"
                                     type="text"
                                     name="email"
                                     class="profile-form-control required email  "
@@ -111,7 +107,7 @@
                                 </div>
                                 <label>Password</label>
                                 <div class="form-group control-password">
-                                  <input :type="type" id="password" value=""  name="password" class="profile-form-control nullable confirmed min:5">
+                                  <input :type="type" id="password"  name="password" class="form-control ">
                                   <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
                                 </div>
                                 <label>State</label>
@@ -149,14 +145,25 @@
     import ApiNavbar from "../../components/general/navbar/ApiNavbar";
     import CustomSelect from "../../components/general/dropdown/CustomSelect";
     import SearchDropdown from "../../components/general/dropdown/SearchDropdown";
+    import {mapGetters} from "vuex";
+    import Swal from 'sweetalert2';
 
     export default {
         name: "profile",
       components: {SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
+      middleware: 'auth',
       data(){
           return{
-            options: ['Financial Services','Online Retail Services','Education Services', 'Advertising & Marketing Services', 'Logistics & Transportation Services', 'Others', 'Health Services', 'Agriculture Services'],
-            countries:['Nigeria', 'Ghana', 'Kenya', 'Uganda',],
+            first_name: this.$auth.user.fname,
+            last_name:  this.$auth.user.lname,
+            email:  this.$auth.user.email,
+            phone_number:  this.$auth.user.phone,
+            state: this.$auth.user.state,
+            countries:[this.$auth.user.country,],
+            sectors:[this.$auth.user.company_sector.name],
+            selected_country: this.$auth.user.country.toString(),
+            selected_sector: this.$auth.user.company_sector.id.toString(),
+            image: '',
             dropdownStyle: {
               borderRadius: '5px',
             },
@@ -164,6 +171,9 @@
             type: "password"
 
           }
+      },
+      computed: {
+        ...mapGetters(['isAuthenticated', 'loggedInUser'])
       },
       methods:{
         showPassword(){
@@ -176,6 +186,43 @@
             this.isToggled = false;
           }
         },
+        async fetchUtilityData(){
+          let countries_data = await this.$axios.$get('/utility/countries');
+          for (let i = 0; i < countries_data.data.length; i++){
+            this.countries.push(countries_data.data[i].name)
+          }
+
+          //fetch sector data
+          let sector_data =await this.$axios.$get('/utility/sectors');
+          this.sectors = sector_data.data;
+        },
+        setSectorId(event){
+          this.sectors_id = event;
+        },
+        async updateProfile(){
+          try{
+            await this.$axios.$patch('user/profile',{
+              first_name: this.first_name,
+              last_name: this.last_name,
+              email: this.email,
+              company_sector: this.selected_sector,
+              country: this.selected_country,
+              state: this.state,
+              image: this.image,
+              phone: this.phone_number
+            });
+            Swal.fire({
+              icon: 'success',
+              text: 'Profile Updated Successfully',
+            })
+          }catch (e) {
+
+          }
+
+        }
+      },
+      mounted() {
+          this.fetchUtilityData();
       }
     }
 </script>
@@ -183,18 +230,18 @@
 <style >
 
   @media (min-width: 769px){
-    .content-wrapper {
+    .profile-content-wrapper {
       display: table-cell;
       vertical-align: top;
     }
   }
   @media (min-width: 769px){
-    .page-content {
+    .profile-page-content {
       display: table-row;
     }
   }
 
-  .content-wrapper {
+  .profile-content-wrapper {
     width: 100%;
   }
   @media screen and (min-width: 769px){
@@ -204,7 +251,7 @@
     }
   }
   @media (min-width: 769px){
-    .page-container {
+    .profile-page-container {
       width: 100%;
       display: table;
       table-layout: fixed;
@@ -217,10 +264,10 @@
       padding-bottom: 48px;
     }
   }
-  .page-header:not(.page-header-filled) + .page-container {
+  .page-header:not(.page-header-filled) + .profile-page-container {
     padding-top: 35px;
   }
-  .page-container {
+  .profile-page-container {
     position: relative;
     /* padding-bottom: 40px; */
   }
@@ -233,7 +280,7 @@
     background-color: #fff;
   }
 
-  .row {
+  .profile-row {
     margin-left: 0px;
     margin-right: 0px;
   }

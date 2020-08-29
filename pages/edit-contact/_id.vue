@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2 ">
-      <Sidebar></Sidebar>
+      <Sidebar class="hidden-xs"></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -29,7 +29,7 @@
                           <!-- START PANEL -->
                           <div class="full-height">
                             <div class="panel-body text-center">
-                              <img src="http://sandbox.termii.com/assets/images/details.gif" class="wide">
+                              <img src="/images/details.gif" class="wide">
                             </div>
                           </div>
                           <!-- END PANEL -->
@@ -54,21 +54,28 @@
                           </div>
                           <div class="panel">
                             <div class="panel-body">
-                              <form class="" role="form" method="post" >
-                                  <input type="hidden" name="_token" value="yg33fYKCmgExMusY2C4omtAgM0HQ3GN8cQzCQLT1">
+                              <form @submit.prevent="updateContact" role="form" method="post" >
+
                                   <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Phone Number" required="" name="number" >
+                                    <span class="help" v-show="showInfo">(Remain country code at the beginning of the number)</span>
+                                    <input type="text" class="form-control" v-model="phone_number" placeholder="Phone Number"  @focusin="displayInfo" @focusout="hideInfo" >
                                   </div>
                                   <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="First Name" name="first_name" >
+                                    <input type="text" class="form-control" placeholder="First Name" v-model="first_name" >
                                   </div>
                                   <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Last Name" name="last_name" >
+                                    <input type="text" class="form-control" placeholder="Last Name" v-model="last_name">
                                   </div>
                                   <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Message" name="message" >
+                                    <input type="text" class="form-control" placeholder="Message" v-model="message" >
                                   </div>
-                                  <button type="submit" class="btn btn-success btn-sm pull-right"><i class="fa fa-save"></i> Update </button>
+                                  <button type="submit" class="btn btn-success btn-sm pull-right" :disabled="isDisabled"><i class="fa fa-save"></i>
+                                   {{button_text}}
+                                    <span v-show="isLoading">
+                                         <img src="/images/spinner.svg" height="20px" width="80px"/>
+                                      </span>
+                                  </button>
+
 
                               </form>
                             </div>
@@ -88,11 +95,75 @@
 </template>
 
 <script>
-  import Sidebar from "../components/general/Sidebar";
-  import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
+  import Sidebar from "../../components/general/Sidebar";
+  import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+  import {mapGetters} from "vuex";
+  import ButtonSpinner from "../../components/general/ButtonSpinner";
   export default {
-    name: "edit-contact",
-    components: {DashboardNavbar, Sidebar}
+    name: "_id",
+    middleware: 'auth',
+    components: {ButtonSpinner, DashboardNavbar, Sidebar},
+    data(){
+      return{
+        phone_number: '',
+        phone_book_id: '',
+        first_name: '',
+        last_name: '',
+        isLoading: false,
+        button_text: 'Update',
+        message:'',
+        showInfo: false,
+      }
+    },
+    computed:{
+      isDisabled: function () {
+          return(this.phone_number === '')
+      },
+      ...mapGetters(['getPhoneBookId'])
+    },
+    methods: {
+      async getContactDetails(){
+        try{
+          let response_data = await this.$axios.$get('sms/phone-book/contact/' + this.$route.params.id);
+          this.phone_number = response_data.data.phone_number;
+          this.phone_book_id = response_data.data.pid;
+          this.first_name = response_data.data.first_name;
+          this.last_name = response_data.data.last_name;
+        }catch (e) {
+
+        }
+      },
+      async updateContact(){
+        try{
+          this.isLoading = true;
+          this.button_text = "Updating";
+          await this.$axios.$patch('sms/phone-book/contact/' + this.$route.params.id, {
+            id: this.$route.params.id,
+            pid: this.getPhoneBookId,
+            phone_number: this.phone_number,
+            first_name: this.first_name,
+            last_name: this.last_name,
+          });
+          this.isLoading = false;
+          this.button_text = "Update";
+          await this.$router.push({path: '/view-contact/'+ this.getPhoneBookId});
+          this.$toast.success('Contact updated successfully');
+        }catch (e) {
+            this.isLoading = false;
+          this.button_text = "Update";
+        }
+
+      },
+      displayInfo(){
+        this.showInfo = true
+      },
+      hideInfo(){
+        this.showInfo = false
+      }
+    },
+    mounted() {
+      this.getContactDetails();
+    }
   }
 </script>
 
@@ -127,6 +198,9 @@
   }
   .page-title .breadcrumb.position-right {
     margin-left: 0;
+  }
+  .page-title .breadcrumb > li > a, .page-title .breadcrumb > li + li:before {
+    color: #333;
   }
   .page-title {
     padding: 15px 0 0px 0;

@@ -73,34 +73,34 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="row in response_data.data" :key="row.id">
-                                  <td data-label="SL" class="hidden-xs">{{row.id}}</td>
+                                <tr v-for="(row, index) in response_data.data" :key="row.id">
+                                  <td data-label="SL" class="hidden-xs">{{index + 1}}</td>
                                   <td data-label="Sender ID"><p>{{row.sender_id}}</p></td>
-                                  <td data-label="Status"><p class="label label-success">{{row.status}}</p>
+                                  <td data-label="Status"><p class="label" :class="rowStatusClass(row)">{{row.status}}</p>
                                   </td>
                                   <td data-label="Type"><p>{{row.company}}</p></td>
                                   <td data-label="Type"><p>{{row.usecase}}</p></td>
-
                                 </tr>
-
                                 </tbody>
                               </table>
+
                             </div>
-                            <paginate
-                              page-count="20"
-                              click-handler="functionName"
-                              prev-text="'Prev'"
-                              next-text="'Next'"
-                              container-class="'className'">
-                            </paginate>
                           </div>
                         </div>
                       </div>
                     </div>
+                    <Pagination
+                      :page="page"
+                      :total_page="total_page"
+                      :on-page-change="onPageChange"
+                      v-show="showPagination === true"
+                    >
+                    </Pagination>
                   </div>
                 </div>
               </section>
             </main>
+
           </div>
         </div>
       </div>
@@ -114,14 +114,17 @@
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
    import SenderIdModal from "../../components/modals/SenderIdModal";
     import {mapGetters} from "vuex";
+    import Pagination from "../../components/general/Pagination";
     export default {
         name: "sender-id-management",
         middleware:'auth',
-      components: {SenderIdModal, DashboardNavbar, Sidebar},
+      components: {Pagination, SenderIdModal, DashboardNavbar, Sidebar},
       data(){
           return{
-
-            response_data: []
+            response_data: [],
+            page: 1,
+            total_page: '',
+            showPagination: false
           }
       },
       computed: {
@@ -132,11 +135,18 @@
 
         async loadSenderIds() {
           try {
-            let data = await this.$axios.$get('sms/sender-id', {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
+            let data = await this.$axios.$get('sms/sender-id', { params: {page: this.page},});
             this.response_data = data;
+            if (data.data.length !== 0 && this.response_data.meta.last_page > 1){this.showPagination = true}
+            this.page = this.response_data.meta.current_page;
+            this.total_page = this.response_data.meta.last_page;
           } catch (e) {
 
           }
+        },
+        onPageChange(page) {
+          this.page = page;
+          this.loadSenderIds();
         },
         showModal () {
           this.$modal.show('sender-id-modal');
@@ -145,15 +155,30 @@
         requested(){
             this.loadSenderIds();
           $("body").css("overflow", "auto");
+        },
+        rowStatusClass(row){
+           if (row.status === 'unblock'){
+            return 'label-success'
+          } else if (row.status === 'pending'){
+           return 'label-warning'
+           }
+           else if (row.status === 'block'){
+             return 'label-danger'
+           }
+
         }
       },
      mounted() {
        this.loadSenderIds();
-     }
+     },
+      pageClass(){
+          return 'page-item'
+      }
     }
 </script>
 
-<style scoped>
+<style scoped >
+
   @media (min-width: 769px){
     .content-wrapper {
       display: table-cell;
@@ -302,11 +327,27 @@
   }
   .label-warning {
     background-color: #FF5722;
+    color: #fff;
   }
   .label-success {
     border-color: #4CAF50;
     color: #fff;
     background-color: #4CAF50;
+  }
+  .label-danger{
+    background-color: red;
+    color: #fff;
+  }
+
+  .pagination {
+    display: flex;
+    list-style: none;
+    border-radius: .25rem;
+
+
+  }
+  .page-item {
+    color: black;
   }
 
 </style>

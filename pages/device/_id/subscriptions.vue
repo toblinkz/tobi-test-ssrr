@@ -108,7 +108,6 @@
             } catch (e) {
                 await this.$axios.onError(error => {
                   if (error.response.status === 422){
-                    console.log("uu")
                     this.$notify({  group: 'Error',
                       title: 'Error',
                       text: 'You have pending payment on this device, Contact Account Manager'})

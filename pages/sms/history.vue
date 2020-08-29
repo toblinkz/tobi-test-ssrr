@@ -34,14 +34,14 @@
                               </div>
 
                               <div class="row">
-                                <form class="" action="" role="form" method="get" id="search-form">
+                                <form @submit.prevent="filterSmsHistory" role="form" method="get" >
                                   <div class="row">
                                     <div class="col-md-7 mb-20" style="padding-left: 0px;padding-right: 0px;">
-                                      <input type="text" placeholder="Phone Number"   class="form-control" name="phone">
+                                      <input type="text" placeholder="Phone Number"   class="form-control" v-model="phone_number">
                                     </div>
 
                                     <div class="col-md-5 mb-20" style="padding-right: 0px;">
-                                      <input type="text" class="form-control" name="datetimes"  placeholder="Date Range" />
+                                      <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
                                     </div>
                                   </div>
                                   <center>
@@ -81,14 +81,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="row in messages_sent" :key="row.date">
-                              <td style="width: 5%;">{{row.date}}</td>
+                            <tr v-for="row in messages_sent.data" :key="row.date">
+                              <td style="width: 5%;">{{row.create_at}}</td>
                               <td style="width: 5%;">{{row.channel}}</td>
-                              <td style="width: 5%;">{{row.from}}</td>
-                              <td style="width: 5%;">{{row.to}}</td>
+                              <td style="width: 5%;">{{row.sender}}</td>
+                              <td style="width: 5%;">{{row.receiver}}</td>
                               <td style="width: 10%;">{{row.status}}</td>
                               <td style="width: 10%;">
-                                <a class="btn btn-success btn-xs" @click="showModal = true" ><i class="entypo-popup"></i> View</a>
+                                <a class="btn btn-success btn-xs" @click="showModal(row)" ><i class="entypo-popup"></i> View</a>
                               </td>
                             </tr>
                             </tbody>
@@ -98,13 +98,20 @@
                     </div>
                   </div>
                 </div>
+                <Pagination
+                  :page="page"
+                  :total_page="total_page"
+                  :on-page-change="onPageChange"
+                  v-show="showPagination === true"
+                >
+                </Pagination>
               </section>
             </main>
           </div>
         </div>
       </div>
     </div>
-    <SmsHistoryModal v-if="showModal" @close="closeModal"></SmsHistoryModal>
+    <SmsHistoryModal v-if="showSmsModal" @close="closeModal" :sms_id="sms_history_id"></SmsHistoryModal>
     </div>
 </template>
 
@@ -113,53 +120,55 @@
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import SmsHistoryModal from "../../components/modals/SmsHistoryModal";
     import DashboardChart from "../../components/general/charts/SmsHistoryChart";
+    import Pagination from "../../components/general/Pagination";
+    import DatePicker from "vue2-datepicker";
+    import 'vue2-datepicker/index.css';
     export default {
         name: "history",
-      components: {DashboardChart, SmsHistoryModal, DashboardNavbar, Sidebar},
-      head(){
-        return{
-          link: [
-            { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css' }
-          ]
-        }
-      },
+      middleware:'auth',
+      components: {Pagination,DashboardChart, SmsHistoryModal, DashboardNavbar, Sidebar, DatePicker},
+
       data(){
           return{
             isShow: false,
-            showModal:false,
-            messages_sent: [
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-              {date:"2020-06-19 14:41:07", channel:"DND", from:"OTPAlert", to: "2347089509657", status:"Message Sent"},
-            ],
+            phone_number: '',
+            date_time: [moment(new Date()).format('YYYY-MM-DD HH:mm:ss'), moment(new Date() + 1).format('YYYY-MM-DD HH:mm:ss')],
+            showSmsModal:false,
+            messages_sent: [],
+            showPagination: false,
+            page:'',
+            total_page:'',
+            sms_history_id:''
           }
       },
       mounted() {
-        $(function() {
-          $('input[name="datetimes"]').daterangepicker({
-            timePicker: true,
-            startDate: moment().startOf('hour'),
-            endDate: moment().startOf('hour').add(32, 'hour'),
-            locale: {
-              format: 'M/DD/YYYY h:mm:ss'
-            }
-          });
-        });
+          this.getSmsHistory();
       },
       methods: {
         closeModal() {
-          this.showModal = false;
+          this.showSmsModal = false;
+        },
+        async getSmsHistory(){
+          let data = await this.$axios.$get('sms/history', {params:{page: this.page}});
+          this.messages_sent = data;
+          if (data.data.length !== 0 ){this.showPagination = true}
+          this.page = this.messages_sent.meta.current_page;
+          this.total_page = this.messages_sent.meta.last_page;
+        },
+        async filterSmsHistory(){
+          let data = await this.$axios.$get('sms/history', {params:{page: this.page, phone_number: this.Phone_number,wallet_transaction_daterange: this.date_time[0] + ',' + this.date_time[1]}});
+          this.messages_sent = data;
+           if (data.data.length !== 0 ){this.showPagination = true}
+           this.page = this.messages_sent.meta.current_page;
+          this.total_page = this.messages_sent.meta.last_page;
+        },
+        onPageChange(page) {
+          this.page = page;
+          this.getSmsHistory();
+        },
+        showModal(row){
+          this.sms_history_id = row.id;
+          this.showSmsModal = true;
         }
       }
     }
