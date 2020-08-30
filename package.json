@@ -13,7 +13,7 @@
     "preinstall": "npx npm-force-resolutions"
   },
   "resolutions": {
-    "graceful-fs": "4.2.3"
+    "graceful-fs": "4.2.2"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
@@ -23,7 +23,9 @@
     "@nuxtjs/axios": "^5.10.3",
     "@nuxtjs/toast": "^3.3.1",
     "@popperjs/core": "^2.4.4",
+    "@stripe/stripe-js": "^1.9.0",
     "aws-s3": "^2.0.5",
+    "chart.js": "^2.9.3",
     "nuxt": "^2.0.0",
     "sweetalert2": "^9.17.1",
     "vue-click-outside": "^1.1.0",
