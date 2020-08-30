@@ -107,14 +107,14 @@
                                 </div>
                                 <label>Password</label>
                                 <div class="form-group control-password">
-                                  <input :type="type" id="password"  name="password" class="form-control ">
+                                  <input :type="type" id="password"  name="password" class="profile-form-control ">
                                   <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
                                 </div>
                                 <label>State</label>
                                 <div class="form-group ">
                                   <input
                                      placeholder=""
-                                    value="Lagos"
+                                    v-model="state"
                                     type="text"
                                     name="state"
                                     class="profile-form-control required  "
@@ -435,7 +435,7 @@
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   }
-  .form-control:focus {
+  .profile-form-control:focus {
     border-color: #4DB6AC;
     box-shadow: none;
     outline: 0;
