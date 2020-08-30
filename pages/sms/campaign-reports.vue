@@ -33,7 +33,7 @@
                             </div>
                           </div>
                           <div class="col-lg-4 mb-20">
-                            <form class="" role="form" method="get" id="search-form">
+                            <form @submit.prevent="filterCampaignReport" role="form" method="get" id="search-form">
                               <div class="row">
                                 <div class="form-group">
                                   <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%"  confirm></date-picker>
@@ -133,8 +133,20 @@
             }catch (e) {
 
             }
-
           },
+									async filterCampaignReport(){
+										try {
+											let response_data = await this.$axios.$get('sms/campaign/reports', {params: {page: this.page, campaign_date_range: this.date_time[0] + "," + this.date_time[1]}});
+											this.campaign_report = response_data.data;
+
+											if (this.campaign_report.length !== 0){this.showPagination = true;}
+											this.page = response_data.meta.current_page;
+											this.total_page = response_data.meta.last_page;
+
+										}catch (e) {
+
+										}
+									},
         isDisabled(row){
           return(row.status !== 'Delivered');
         },
