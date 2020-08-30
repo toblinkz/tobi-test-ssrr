@@ -123,7 +123,7 @@
              let data = await this.$axios.get('user',);
              this.api_key = data.data.data.customer.live_api_key;
             }catch (e) {
-													this.error_message['password'] = 'Invalid Credentials';
+													this.error_message['password'] = 'Password Incorrect';
 													this.hasPasswordError = true;
             }
 
@@ -277,6 +277,10 @@
 			opacity: 1;
 			position: absolute;
 			right: 16px;
+		}
+		.btn:hover {
+			background-color: #fafafa;
+			border: 1px solid rgba(98, 98, 98, 0.27);
 		}
   .insight {
     font-size: 13.5px !important;
