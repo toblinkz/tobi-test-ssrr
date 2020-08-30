@@ -15,8 +15,13 @@
                   <strong>NB:</strong> Transfer this <strong>exact amount</strong> into this account number via your <strong>internet/Mobile Banking platform</strong>
                 </div>
                 <div class="alert toke" style="width: 100%">
-                  <p class="text-semibold"><i class="entypo-light-up" style="color: #bbb !important;"></i> Account: {{account_number}}</p>
-                  <p class="text-semibold"><i class="entypo-home" style="color: #bbb !important;"></i> Bank: {{bank_name}}</p>
+                  <div style="float: right; cursor: pointer">
+                    <img src="/images/copy.svg" v-clipboard:copy="account_number">
+                  </div>
+                  <div>
+                    <p class="text-semibold"><i class="entypo-light-up" style="color: #bbb !important;"  ></i> Account: <strong>{{account_number}}</strong></p>
+                    <p class="text-semibold"><i class="entypo-home" style="color: #bbb !important;"></i> Bank: {{bank_name}}</p>
+                  </div>
                 </div>
               </div>
               <div class="modal-footer">
@@ -31,6 +36,7 @@
 </template>
 
 <script>
+  import VueClipboard from "vue-clipboard2";
     export default {
         name: "MonnifyModal",
       props:{
