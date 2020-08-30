@@ -137,7 +137,7 @@
           try {
             let data = await this.$axios.$get('sms/sender-id', { params: {page: this.page},});
             this.response_data = data;
-            if (data.data.length !== 0 && this.response_data.meta.last_page > 1){this.showPagination = true}
+            if (data.meta.last_page > 1){this.showPagination = true}
             this.page = this.response_data.meta.current_page;
             this.total_page = this.response_data.meta.last_page;
           } catch (e) {
