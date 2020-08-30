@@ -353,6 +353,9 @@ small, .small {
   border-color: #FF5722;
   color: #fff;
 }
+input[type=email].error, input[type=number].error, input[type=password].error, input[type=tel].error, input[type=text].error {
+	border-color: red!important;
+}
 h2{
   margin-bottom: 10px;
   font-weight: 100;
