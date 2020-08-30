@@ -63,7 +63,7 @@
                                   <p><i class="entypo-light-up" style="color: #c10202 !important;"></i> Amount Funded </p>
                                   <!-- START PANEL -->
                                   <p class="alert toke insight wd" id="credit">
-                                    <span id="credit-body">₦994383.55</span>
+                                    <span id="credit-body">{{amount_funded}}</span>
                                   </p>
                                   <!-- END PANEL -->
                                 </div>
@@ -72,7 +72,7 @@
                                   <p><i class="entypo-light-up" style="color: #c10202 !important;"></i>Amount Spent </p>
                                   <!-- START PANEL -->
                                   <p class="alert toke insight wd" id="debit">
-                                    <span id="debit-body">₦-745912.97</span>
+                                    <span id="debit-body">{{amount_spent}}</span>
                                   </p>
                                   <!-- END PANEL -->
                                 </div>
@@ -148,8 +148,10 @@
           return{
             transaction_history: [],
             date_time:[moment(new Date()).format('YYYY-MM-DD HH:mm:ss'), moment(new Date() + 1).format('YYYY-MM-DD HH:mm:ss')],
-            page: 1,
+            page: '',
             total_page:'',
+            amount_spent:'',
+            amount_funded:'',
             showPagination: false
           }
       },
@@ -157,16 +159,46 @@
         async getWalletTransaction(){
          let response_data =  await this.$axios.$get('billing/wallet/transactions', {params: {page: this.page}});
          this.transaction_history = response_data.data;
-         if (response_data.data.length !== 0 && response_data.meta.last_page > 1){this.showPagination = true}
+         if (response_data.meta.last_page > 1 ){
+           this.showPagination = true
+         }else {
+           this.showPagination = false
+         }
          this.page = response_data.meta.current_page;
          this.total_page = response_data.meta.last_page;
         },
         async getWalletTransactionByDate(){
-          await this.$axios.$get('billing/wallet/transactions',{
+         let response_data = await this.$axios.$get('billing/wallet/transactions',{
             params:{
-              wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1]
+              wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1],
+              page: this.page
             }
-          })
+          });
+          if (response_data.meta.last_page > 1 ){
+            this.showPagination = true
+          }else {
+            this.showPagination = false
+          }
+
+          this.transaction_history = response_data.data;
+          this.total_page = response_data.meta.last_page;
+         let sum_data = await this.$axios.$get('billing/wallet/transactions/sum', {
+            params:{
+              wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1],
+            }
+          });
+         this.amount_funded = sum_data.credit;
+         this.amount_spent = sum_data.debit;
+
+        },
+        async getWalletTransactionSum(){
+          let sum_data = await this.$axios.$get('billing/wallet/transactions/sum', {
+            params:{
+              wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1],
+            }
+          });
+          this.amount_funded = sum_data.credit;
+          this.amount_spent = sum_data.debit;
         },
         onPageChange(page) {
           this.page = page;
@@ -177,6 +209,7 @@
       },
       mounted() {
         this.getWalletTransaction();
+        this.getWalletTransactionSum();
       },
 
     }
