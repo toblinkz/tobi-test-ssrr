@@ -62,7 +62,7 @@
                                 </div>
                               </div>
                               <!-- END PANEL -->
-                              <div class="row">
+                              <div class="row" v-show="emptyActivityLog === false">
                                 <div class="empty-list hidden-xs">
                                   <i class="icon-history"></i>
                                   <span class="line-1">
@@ -70,7 +70,7 @@
                                 </span>
                                 </div>
                               </div>
-<!--                              <BalanceHistory></BalanceHistory>-->
+                              <ActivityLog @emptyActivityLog="emptyActivityLog = $event" v-show="emptyActivityLog === true"></ActivityLog>
                               <!-- END JUMBOTRON -->
                             </div>
                             <div class="col-md-8 m-t-40">
@@ -85,7 +85,7 @@
                                       <div class="col-md-11 alert toke insight wd">
                                         <!-- START PANEL -->
                                         <p class="alert toke insight wd">
-                                          {{loggedInUser.customer.live_api_key}}
+                                          {{live_api_key}}
                                         </p>
                                         <!-- END PANEL -->
                                       </div>
@@ -192,14 +192,16 @@
 <script>
   import Sidebar from "../components/general/Sidebar";
   import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
-  import BalanceHistory from "../components/general/BalanceHistory";
   import SmsHistoryModal from "../components/modals/SmsHistoryModal";
   import YourWalletModal from "../components/modals/YourWalletModal";
   import ActivateIdModal from "../components/modals/ActivateIdModal";
   import { mapGetters } from 'vuex'
+  import ActivityLog from "../components/general/ActivityLog";
   export default {
     name: "dashboard",
-    components: {ActivateIdModal, YourWalletModal, SmsHistoryModal, BalanceHistory, DashboardNavbar, Sidebar},
+    components: {
+      ActivityLog,
+      ActivateIdModal, YourWalletModal, SmsHistoryModal, DashboardNavbar, Sidebar},
     middleware: 'auth',
     head(){
       return{
@@ -213,7 +215,9 @@
       return{
         showActivateIdModal: false,
         showYourWalletModal: false,
-        account_balance: ''
+        account_balance: '',
+        emptyActivityLog:false,
+        live_api_key:''
       }
     },
     methods: {
@@ -231,6 +235,14 @@
         } catch(e){
 
         }
+      },
+      async getUserData(){
+             try {
+               let response_data = await this.$axios.$get('user');
+              this.live_api_key = response_data.data.customer.live_api_key;
+             } catch (e) {
+
+             }
       },
       startIntro() {
 
@@ -284,6 +296,7 @@
     mounted: function () {
         this.startIntro();
         this.getWalletBalance();
+        this.getUserData();
     }
 
   }
