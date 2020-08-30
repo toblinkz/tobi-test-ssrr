@@ -83,8 +83,6 @@
                                 </div>
                                 <label>Sector</label>
                                    <CustomSelect :options="sectors" :dropdown-style="dropdownStyle" @item-selected="setSectorId($event)"></CustomSelect>
-                                <label class="mt-20">Select Country</label>
-                                <SearchDropdown :options="countries" @item-selected="selected_country = $event"></SearchDropdown>
                               </div>
                               <div class="col-md-5">
                                 <label>Last Name</label>
@@ -107,19 +105,11 @@
                                 </div>
                                 <label>Password</label>
                                 <div class="form-group control-password">
-                                  <input :type="type" id="password"  name="password" class="profile-form-control ">
+                                  <input :type="type" v-model="password" name="password" class="profile-form-control " :class="{'error': hasPasswordError}">
+																																	<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
                                   <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
                                 </div>
-                                <label>State</label>
-                                <div class="form-group ">
-                                  <input
-                                     placeholder=""
-                                    v-model="state"
-                                    type="text"
-                                    name="state"
-                                    class="profile-form-control required  "
-                                  >
-                                </div>
+
                                 <hr />
                                 <button class="btn bg-teal pull-right" type="submit"><i class="icon-check"></i> Save</button>
                               </div>
@@ -159,8 +149,9 @@
             last_name:  this.$auth.user.lname,
             email:  this.$auth.user.email,
             phone_number:  this.$auth.user.phone,
-            state: this.$auth.user.state,
-            countries:[this.$auth.user.country,],
+											 hasPasswordError: false,
+												password: '',
+											 error_message:[],
             sectors:[this.$auth.user.company_sector.name],
             selected_country: this.$auth.user.country.toString(),
             selected_sector: this.$auth.user.company_sector.id.toString(),
@@ -200,10 +191,6 @@
           }
         },
         async fetchUtilityData(){
-          let countries_data = await this.$axios.$get('/utility/countries');
-          for (let i = 0; i < countries_data.data.length; i++){
-            this.countries.push(countries_data.data[i].name)
-          }
 
           //fetch sector data
           let sector_data =await this.$axios.$get('/utility/sectors');
@@ -218,10 +205,9 @@
               first_name: this.first_name,
               last_name: this.last_name,
               email: this.email,
+														password: this.password,
               company_sector: this.selected_sector,
-              country: this.selected_country,
-              state: this.state,
-                image: this.image,
+													 image: this.image_url,
               phone: this.phone_number
             });
             await Swal.fire({
@@ -229,13 +215,18 @@
               text: 'Profile Updated Successfully',
             })
           }catch (e) {
-
+											let errors = e.response.data.errors;
+											for(let key in errors){
+												errors[key].forEach(err => {
+													this.hasPasswordError = true
+													this.error_message['password'] = 'Password Incorrect';
+												});
+											}
           }
         },
         uploadPhoto(fieldName, files){
           let file = files[0];
           var url;
-          console.log(files[0])
           this.S3Client
             .uploadFile(file)
             .then(data => { this.image_url = data.location})
