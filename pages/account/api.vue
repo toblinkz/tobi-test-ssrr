@@ -47,19 +47,19 @@
                               <div class="col-md-6">
                                 <!-- START PANEL -->
                                 <p class="text-semibold"><i class="fa fa-certificate" style="color: #079805 !important;"></i> API Key</p>
-                                <div class="alert toke  wd">
-                                  <button class="clipboard-style">
-                                    <i class="fa icon-copy2 " aria-hidden="true" v-clipboard:copy="api_key"></i>
+                                <div class="alert toke wd">
+                                  <button class="clipboard-style"  v-clipboard:copy="api_key">
+																																			<img src="/images/copy.svg"/>
                                   </button>
                                  <p class="insight" style="color: #595959 !important;">{{api_key}}</p> </div>
+																															<div class="form-group">
+																																<input v-model="password" :type="type"  class="profile-form-control" :class="{'error': hasPasswordError}" placeholder="Enter Password">
+																																<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
+																																<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
+																															</div>
+																															<br>
+																															<button class="btn btn-primary btn-cons" @click="renewApiToken" :disabled="isDisabled"><i class="fa fa-certificate"></i> Renew API key</button>
                                 <!-- END PANEL -->
-                              </div>
-                              <div class="col-md-12">
-                                <div class="col-sm-4">
-                                  <br>
-                                  <a class="btn btn-primary btn-cons" @click="renewApiToken"><i class="fa fa-certificate"></i> Renew API key</a>
-                                  <!-- END PANEL -->
-                                </div>
                               </div>
                             </div>
 
@@ -94,16 +94,28 @@
       middleware: 'auth',
       data(){
         return{
+        	password:'',
           api_key: this.$auth.user.customer.live_api_key,
+									error_message:[],
+									hasPasswordError: false,
+									type: "password"
         }
       },
       computed: {
-        ...mapGetters(['isAuthenticated', 'loggedInUser'])
+        ...mapGetters(['isAuthenticated', 'loggedInUser']),
+							isDisabled: function () {
+								return (this.hasPasswordError || this.password === '');
+							},
       },
+					watch:{
+       password(value){
+       		this.validatePassword(value);
+							}
+					},
       methods: {
           async renewApiToken(){
             try{
-              await this.$axios.$get('user/keys/renew');
+              await this.$axios.$get('user/keys/renew', {params:{password: this.password} });
               await Swal.fire({
                 icon: 'success',
                 text: 'Your API token was successfully renewed',
@@ -111,11 +123,30 @@
              let data = await this.$axios.get('user',);
              this.api_key = data.data.data.customer.live_api_key;
             }catch (e) {
-
+													this.error_message['password'] = 'Invalid Credentials';
+													this.hasPasswordError = true;
             }
 
-          }
-
+          },
+							validatePassword(value){
+								if (value.length < 6) {
+									this.error_message['password'] = 'The password field must be at least 5 characters';
+									this.hasPasswordError = true;
+								}else {
+									this.error_message['password'] = '';
+									this.hasPasswordError = false;
+								}
+							},
+							showPassword(){
+								if (this.type === "password") {
+									this.type = 'text';
+									this.isToggled = true;
+								}
+								else {
+									this.type = "password";
+									this.isToggled = false;
+								}
+							},
       },
 
     }
@@ -237,6 +268,16 @@
     font-style: normal;
     /* -webkit-margin-before: 1em; */
   }
+		.form-group i.password-visibility{
+			height: 16px;
+			cursor: pointer;
+			fill: #0a2e65;
+			top: 15px;
+			width: 16px;
+			opacity: 1;
+			position: absolute;
+			right: 16px;
+		}
   .insight {
     font-size: 13.5px !important;
     letter-spacing: normal !important;
