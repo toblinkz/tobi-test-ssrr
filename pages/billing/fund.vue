@@ -83,25 +83,13 @@
                             <div class="p-30 p-t-none p-b-none">
                               <div class="panel">
                                 <div class="panel-body">
-                                  <form  role="form" method="post" @submit.prevent="regularTopUp">
+                                  <form  role="form" method="post" @submit.prevent="TopUp">
                                     <CustomSelect :options="options" @item-selected="itemSelected" :dropdown-style="dropdownStyle"></CustomSelect>
-
-                                    <!--regular-body!-->
-                                    <div id="regular-body" class="mt-20" v-if="isRegularBody">
-                                      <div class="form-group alert toke">
-                                        <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
-                                        <p id="exchange_approximate"></p>
-                                      </div>
-                                      <div class="form-group">
-                                        <p ><b>Notice:</b> <br>All payments would be remitted in Naira, but your balance would be displayed in your local currency. </p>
-                                      </div>
-                                    </div>
-                                    <!--regular form body!-->
-                                    <div id="regular-form-body" class="mt-20" v-if="isRegularForm">
-                                      <div class="form-group"   :style="{marginBottom: '10px'}">
+                                    <div id="regular-form-body" class="mt-20">
+                                      <div class="form-group"  :style="{marginBottom: '10px'}" v-if="input_amount">
                                         <input type="text" class="form-control" placeholder="Amount" v-model="amount" :class="{'error': hasError}"> </div>
                                         <span class="error_field_message" v-if="error_message">{{error_message}}</span>
-                                      <div class="form-group">
+                                      <div class="form-group" v-if="selectPayment">
                                         <label>Select Payment Method</label>
                                         <select @change="onChange($event)" class="form-control">
                                           <option v-for="item in payment_method.data" :value="item.settings">{{item.name}}</option>
@@ -122,31 +110,7 @@
                                       </button>
                                     </div>
                                   </form>
-                                    <!--bundled form body!-->
-                                  <form @submit.prevent="bundleTopUp">
-                                    <div id="bundle-form-body" class="mt-20" v-if="isBundledForm">
-                                      <div class="form-group">
-                                        <label>Select Payment Method</label>
 
-                                        <select @change="onChange($event)" class="form-control">
-                                          <option v-for="item in payment_method.data" :value="item.settings">{{item.name}}</option>
-                                        </select>
-                                      </div>
-                                      <div class="form-group alert toke">
-                                        <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
-                                        <p >₦36660</p>
-                                      </div>
-                                      <div class="form-group">
-                                        <p id=""><b>Notice:</b> <br>Also all payments would be remitted in Naira, but your accounts would be credited in your local currency. </p>
-                                      </div>
-                                     <button type="submit" class="btn bx-line btn-success btn-sm pull-right purchase_button">
-                                      {{fund_button_text}}
-                                       <span v-show="isLoading">
-                                         <img src="/images/spinner.svg" height="20px" width="80px"/>
-                                      </span>
-                                     </button>
-                                    </div>
-                                  </form>
                                 </div>
                               </div>
                             </div>
@@ -201,6 +165,8 @@
             payment_gateway:'',
             hasError: false,
             payment_url:'',
+            selectPayment: false,
+            input_amount:false,
             showMonnifyModal: false,
             error_message:'',
             dropdownStyle:{
@@ -243,7 +209,7 @@
 
             }
         },
-        async regularTopUp(){
+        async TopUp(){
             if (this.showMonnifyModal){
 
               this.$modal.show('monnify-modal')
@@ -265,21 +231,7 @@
             }
 
         },
-        async bundleTopUp(){
-            try{
-              this.isLoading = true;
-              this.fund_button_text = "";
-              let response_data =   await this.$axios.$post('billing/fund/wallet', {
-                amount: 36660,
-                gateway: this.payment_gateway
-              });
-              this.payment_url = response_data.data.url;
-               window.location.href = this.payment_url;
-            }catch (e) {
-              this.isLoading = false;
-              this.fund_button_text = "Fund Account";
-            }
-        },
+
         validateAmount(value){
             if (isNaN(value)){
               this.error_message = 'Please enter a valid amount';
@@ -300,13 +252,12 @@
         },
         itemSelected(value){
             if (value === "2"){
-              this.isBundledForm = true;
-              this.isRegularBody = false;
-              this.isRegularForm = false;
+              this.amount = 36600
+              this.selectPayment = true;
+              this.input_amount = false;
             } else if (value === "1"){
-              this.isRegularForm = true;
-              this.isBundledForm = false;
-              this.isRegularBody = false;
+              this.selectPayment = true;
+              this.input_amount = true;
             }
 
         }
