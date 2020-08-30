@@ -61,8 +61,8 @@
                                   <div class="dataTables_length" id="DataTables_Table_0_length">
                                     <label>
                                       Show
-                                      <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control input-sm">
-                                        <option value="10">10</option>
+                                      <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control input-sm" @change="filterByNumber($event)">
+                                        <option value="10" >10</option>
                                         <option value="25">25</option>
                                         <option value="50">50</option>
                                         <option value="100">100</option>
@@ -175,6 +175,21 @@
             this.page = response_data.meta.current_page;
             this.total_page = response_data.meta.last_page;
           },
+								async filterByNumber(event){
+									let response_data = await this.$axios.$get('billing/invoices', {params:{page: this.page}});
+									if (response_data.meta.last_page > 1 ){
+										this.showPagination = true
+									}else {
+										this.showPagination = false
+									}
+									if (event.target.value !== "10"){
+										this.all_invoice = response_data.data
+									}else {
+										this.all_invoice = response_data.data.slice(0, 10);
+									}
+
+
+								},
         showRecurringLabel(row){
             return (row.recurring === 0)
         },
