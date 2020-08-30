@@ -168,6 +168,7 @@
     </div>
   </div>
     <ServicePriceModal v-if="showModal" @close="closeModal" ></ServicePriceModal>
+    <MonnifyModal :account_number="account_number" :amount="amount" :bank_name="bank_name"></MonnifyModal>
   </div>
 </template>
 
@@ -177,10 +178,11 @@
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import ServicePriceModal from "../../components/modals/ServicePriceModal";
     import CustomSelect from "../../components/general/dropdown/CustomSelect";
+    import MonnifyModal from "../../components/modals/MonnifyModal";
     export default {
         name: "funding",
         middleware: 'auth',
-      components: {CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar},
+      components: {MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar},
       data() {
           return {
             isBundledForm: false,
@@ -199,6 +201,7 @@
             payment_gateway:'',
             hasError: false,
             payment_url:'',
+            showMonnifyModal: false,
             error_message:'',
             dropdownStyle:{
               borderRadius:'8px'
@@ -241,19 +244,26 @@
             }
         },
         async regularTopUp(){
-            try {
-              this.isLoading = true;
-              this.fund_button_text = "";
-             let response_data =   await this.$axios.$post('billing/fund/wallet', {
+            if (this.showMonnifyModal){
+
+              this.$modal.show('monnify-modal')
+            } else {
+              try {
+                this.isLoading = true;
+                this.fund_button_text = "";
+                let response_data =   await this.$axios.$post('billing/fund/wallet', {
                   amount: this.amount,
                   gateway: this.payment_gateway
                 });
-             this.payment_url = response_data.data.url;
+                this.payment_url = response_data.data.url;
 
-             window.location.href = this.payment_url;
-            }catch (e) {
-              this.isLoading = false;
+                window.location.href = this.payment_url;
+              }catch (e) {
+                this.isLoading = false;
+                this.fund_button_text = "Fund Account";
+              }
             }
+
         },
         async bundleTopUp(){
             try{
@@ -267,6 +277,7 @@
                window.location.href = this.payment_url;
             }catch (e) {
               this.isLoading = false;
+              this.fund_button_text = "Fund Account";
             }
         },
         validateAmount(value){
@@ -282,6 +293,9 @@
             }
         },
         onChange(event){
+            if (event.target.value === 'monnify'){
+              this.showMonnifyModal = true;
+            }
           this.payment_gateway = event.target.value;
         },
         itemSelected(value){
