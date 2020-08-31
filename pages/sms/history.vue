@@ -142,13 +142,14 @@
           }
       },
       mounted() {
-          this.getSmsHistory();
+          this.fetch();
       },
       methods: {
         closeModal() {
           this.showSmsModal = false;
         },
-        async getSmsHistory(){
+        async fetch(){
+        	//get sms history
           let data = await this.$axios.$get('sms/history', {params:{page: this.page}});
           this.messages_sent = data;
           if (data.meta.last_page > 1 ){
@@ -168,7 +169,7 @@
         },
         onPageChange(page) {
           this.page = page;
-          this.getSmsHistory();
+          this.fetch();
         },
         showModal(row){
           this.sms_history_id = row.id;

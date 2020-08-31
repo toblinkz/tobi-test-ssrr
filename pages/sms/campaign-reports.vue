@@ -121,7 +121,8 @@
           }
       },
       methods:{
-          async getCampaignReport(){
+          async fetch(){
+          	//get campaign report
             try {
               let response_data = await this.$axios.$get('sms/campaign/reports', {params: {page: this.page}});
               this.campaign_report = response_data.data;
@@ -152,7 +153,7 @@
         },
         onPageChange(page) {
           this.page = page;
-          this.getCampaignReport();
+          this.fetch();
         },
         showDeliveredLabel(row){
             return(row.status === 'Delivered');
@@ -164,7 +165,7 @@
 
       },
       mounted() {
-          this.getCampaignReport();
+          this.fetch();
 
       }
 

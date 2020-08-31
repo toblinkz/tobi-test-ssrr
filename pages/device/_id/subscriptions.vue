@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2">
-      <Sidebar></Sidebar>
+      <Sidebar class="hidden-xs"></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -89,8 +89,9 @@
           }
       },
       methods: {
-          async getSubscriptions(){
+          async fetch(){
             try {
+            	//get subscriptions
              let data =  await this.$axios.$get('devices/'+ this.device_id +'/subscription');
              this.response_data = data;
              this.plan_id = this.response_data.data[0].plan_id;
@@ -132,7 +133,7 @@
         }
       },
       mounted() {
-          this.getSubscriptions();
+          this.fetch();
       }
     }
 </script>

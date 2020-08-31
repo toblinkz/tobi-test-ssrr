@@ -163,18 +163,25 @@
 							}
 					},
       methods: {
-          async getAllBillingInvoices(){
 
-           let response_data = await this.$axios.$get('billing/invoices', {params:{page: this.page}});
-											if (response_data.meta.last_page > 1 ){
-												this.showPagination = true
-											}else {
-												this.showPagination = false
-											}
-            this.all_invoice = response_data.data;
-            this.page = response_data.meta.current_page;
-            this.total_page = response_data.meta.last_page;
-          },
+							async fetch(){
+
+								try {
+									//get all billing invoices
+									let response_data = await this.$axios.$get('billing/invoices', {params:{page: this.page}});
+									if (response_data.meta.last_page > 1 ){
+										this.showPagination = true
+									}else {
+										this.showPagination = false
+									}
+									this.all_invoice = response_data.data;
+									this.page = response_data.meta.current_page;
+									this.total_page = response_data.meta.last_page;
+								}catch (e) {
+
+								}
+							},
+
 								async filterByNumber(event){
 									let response_data = await this.$axios.$get('billing/invoices', {params:{page: this.page}});
 									if (response_data.meta.last_page > 1 ){
@@ -205,14 +212,15 @@
         },
         onPageChange(page) {
           this.page = page;
-          this.getAllBillingInvoices();
+          this.fetch();
         }
 
       },
-      mounted() {
-          this.getAllBillingInvoices();
-      }
-    }
+			mounted() {
+        	this.fetch();
+			}
+
+		}
 </script>
 
 <style scoped>

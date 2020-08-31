@@ -248,6 +248,23 @@
 											}
 										}
 									},
+							async getTopUp(){
+										try{
+											let response = await this.$axios.$get('billing/top-up/plans');
+										 this.amount = 	response.data.bundled_top_up.amount.substring(1);
+											this.total = response.data.bundled_top_up.amount;
+										}catch (e) {
+
+										}
+							},
+							async getTopDetails(){
+         try{
+										let response = await this.$axios.$get('billing/top-up/plans');
+										this.bundled_top_up =  response.data.bundled_top_up.amount;
+									}catch (e) {
+
+									}
+							},
 
 							validateAmount(value){
             if (isNaN(value)){

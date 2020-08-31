@@ -133,7 +133,8 @@
       },
       methods: {
 
-        async loadSenderIds() {
+        async fetch() {
+        	//load sender id's
           try {
             let data = await this.$axios.$get('sms/sender-id', { params: {page: this.page},});
             this.response_data = data;
@@ -146,14 +147,14 @@
         },
         onPageChange(page) {
           this.page = page;
-          this.loadSenderIds();
+          this.fetch();
         },
         showModal () {
           this.$modal.show('sender-id-modal');
           $("body").css("overflow", "hidden");
         },
         requested(){
-            this.loadSenderIds();
+            this.fetch();
           $("body").css("overflow", "auto");
         },
         rowStatusClass(row){
@@ -169,7 +170,7 @@
         }
       },
      mounted() {
-       this.loadSenderIds();
+       this.fetch();
      },
       pageClass(){
           return 'page-item'
