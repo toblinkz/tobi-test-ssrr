@@ -130,7 +130,7 @@
     </div>
   </div>
     <ServicePriceModal v-if="showModal" @close="closeModal" ></ServicePriceModal>
-    <MonnifyModal :account_number="account_number" :amount="amount" :bank_name="bank_name"></MonnifyModal>
+    <MonnifyModal :account_number="account_number" :amount="total" :bank_name="bank_name"></MonnifyModal>
   </div>
 </template>
 
