@@ -5,7 +5,7 @@
     <div id="user-side-bar" class="sidebar-header">
       <center>
         <nuxt-link to="/dashboard">
-          <img src="/images/logo.png" data-src-retina="http://sandbox.termii.com/assets/images/logo.png" width="120px"
+          <img src="/images/logo.png"  width="120px"
                height="auto">
         </nuxt-link>
       </center>
@@ -16,7 +16,7 @@
                         <span>
            <center>
 
-             <img preview-for="image"  src="/images/team/10.png" class="circular" alt="">
+             <img preview-for="image"  :src="loggedInUser.image" class="circular" alt="">
 
             </center>
 
@@ -119,6 +119,7 @@
     import {mapGetters} from "vuex";
     export default {
         name: "sidebar",
+					middleware:'auth',
       components: { Dropdown},
       computed: {
         ...mapGetters(['loggedInUser'])

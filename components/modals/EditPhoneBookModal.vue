@@ -30,6 +30,7 @@
 <script>
     export default {
         name: "EditPhoneBookModal",
+							middleware:'auth',
       props:{
         phone_book_name:{
           required: true

@@ -110,6 +110,14 @@
             hasTestWebhookError: false
           }
       },
+					watch:{
+       live_webhook(value){
+       	this.validateWebUrl(value);
+							},
+						test_webhook(value){
+       	this.	validateTestUrl(value);
+						}
+					},
       computed:{
           isDisabled: function () {
               return(this.live_webhook === '' || this.test_webhook === '' || this.hasLiveWebhookError
@@ -129,18 +137,27 @@
 
               });
             }catch (e) {
-              if (e.response.data.errors.live_webhook[0]){
-                this.hasLiveWebhookError = true;
-                this.error_message['live_webhook'] = 'The live webhook format is invalid.';
-              }
-              if (e.response.data.errors.test_webhook[0]){
-                this.hasTestWebhookError = true;
-                this.error_message['test_webhook'] = 'The test webhook format is invalid.'
-              }
+
             }
-
-
-          }
+          },
+							validateWebUrl(value){
+          	if (/^(ftp|http|https):\/\/[^ "]+$/.test(value)){
+												this.hasLiveWebhookError = false;
+												this.error_message['live_webhook'] = '';
+											}else {
+												this.hasLiveWebhookError = true;
+												this.error_message['live_webhook'] = 'The live webhook format is invalid.';
+											}
+							},
+							validateTestUrl(value){
+								if (/^(ftp|http|https):\/\/[^ "]+$/.test(value)){
+									this.hasTestWebhookError = false;
+									this.error_message['test_webhook'] = '';
+								}else {
+									this.hasTestWebhookError = true;
+									this.error_message['test_webhook'] = 'The test webhook format is invalid.';
+								}
+							}
       }
     }
 </script>

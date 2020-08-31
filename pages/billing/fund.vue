@@ -209,30 +209,46 @@
 
             }
         },
-        async TopUp(){
-            if (this.showMonnifyModal){
 
-              this.$modal.show('monnify-modal')
-            } else {
-              try {
-                this.isLoading = true;
-                this.fund_button_text = "";
-                let response_data =   await this.$axios.$post('billing/fund/wallet', {
-                  amount: this.amount,
-                  gateway: this.payment_gateway
-                });
-                this.payment_url = response_data.data.url;
+									async TopUp() {
+										if (this.showMonnifyModal) {
+											this.$modal.show('monnify-modal')
+										}	else {
+											try {
 
-                window.location.href = this.payment_url;
-              }catch (e) {
-                this.isLoading = false;
-                this.fund_button_text = "Fund Account";
-              }
-            }
+												this.isLoading = true;
+												this.fund_button_text = "";
+												let response_data = await this.$axios.$post('billing/fund/wallet', {
+													amount: this.amount,
+													gateway: this.payment_gateway
+												});
 
-        },
+												switch (this.payment_gateway) {
+													case('paystack'): {
+														window.location.href = response_data.data.url;
+														break;
+													}
+													case('stripe'): {
+														this.$stripe.import().redirectToCheckout({
+															sessionId: response_data.data
+														}).then(function (result) {
+															this.$toast.error(result.error.message)
+														});
+														break;
+													}
+													case('spektra'):{
+														window.location.href = response_data.data;
+													}
+												}
 
-        validateAmount(value){
+											} catch (e) {
+												this.isLoading = false;
+												this.fund_button_text = "Fund Account";
+											}
+										}
+									},
+
+							validateAmount(value){
             if (isNaN(value)){
               this.error_message = 'Please enter a valid amount';
               this.hasError = true;

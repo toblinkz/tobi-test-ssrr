@@ -49,6 +49,7 @@ export default {
     { src: '~plugins/vue-js-modal.js'},
     { src: '~plugins/vue-paginate.js'},
     { src: '~plugins/vue-notification.js'},
+			{ src: '~plugins/axios.js'},
     { src: '~plugins/local-storage.js', ssr: false},
 
   ],
@@ -65,7 +66,9 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth',
     '@nuxtjs/toast',
-
+			['nuxt-stripe-module', {
+				publishableKey: 'pk_test_nueC1m5g6hJZsKLIPjFIExWj00J4L2PZkP',
+			}],
   ],
 
   axios: {
@@ -74,8 +77,8 @@ export default {
 
   },
   toast: {
-    position: 'top-center',
-    duration: 1500
+    position: 'bottom-center',
+    duration: 2500
   },
 
   auth: {
@@ -94,9 +97,7 @@ export default {
 
         }
       }
-    },
-
-			autoLogout: true
+    }
   },
 
 
