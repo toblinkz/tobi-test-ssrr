@@ -224,7 +224,7 @@
 
                 window.location.href = this.payment_url;
               }catch (e) {
-              	console.log(e.response)
+
 															let errors = e.response.data.errors;
 															for(let key in errors){
 																errors[key].forEach(err => {
