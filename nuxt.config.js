@@ -66,7 +66,9 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth',
     '@nuxtjs/toast',
-
+			['nuxt-stripe-module', {
+				publishableKey: 'pk_test_nueC1m5g6hJZsKLIPjFIExWj00J4L2PZkP',
+			}],
   ],
 
   axios: {
@@ -95,9 +97,7 @@ export default {
 
         }
       }
-    },
-
-			autoLogout: true
+    }
   },
 
 
