@@ -87,7 +87,7 @@
                                     <CustomSelect :options="options" @item-selected="itemSelected" :dropdown-style="dropdownStyle"></CustomSelect>
                                     <div id="regular-form-body" class="mt-20">
                                       <div class="form-group"  :style="{marginBottom: '10px'}" v-if="input_amount">
-                                        <input type="text" class="form-control" placeholder="Amount" v-model="amount" :class="{'error': hasError}"> </div>
+                                        <input type="text" class="form-control" placeholder="Amount" v-model="amount" :class="{'error': hasError}" @focusout="getExchangeRate($event)"> </div>
                                         <span class="error_field_message" v-if="error_message">{{error_message}}</span>
                                       <div class="form-group" v-if="selectPayment">
                                         <label>Select Payment Method</label>
@@ -97,7 +97,7 @@
                                       </div>
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
-                                        <p > <div > <b>NGN {{amount}}</b> </div></p>
+                                        <p > <div > <b>{{total}}</b> </div></p>
                                       </div>
                                       <div class="form-group">
                                         <p ><b>Notice:</b> <br>Also all payments would be remitted in Naira, but your accounts would be credited in your local currency. </p>
@@ -110,7 +110,6 @@
                                       </button>
                                     </div>
                                   </form>
-
                                 </div>
                               </div>
                             </div>
@@ -120,7 +119,6 @@
                     </div>
                   </div>
                 </section>
-
               </main>
             </div>
             <!-- /main content -->
@@ -164,6 +162,7 @@
             options: ['Select Top Up Option',{id: '1', name: 'Regular Top Up'},{id: '2', name:'Bundled Top Up'},],
             payment_gateway:'',
             hasError: false,
+												total: '',
             payment_url:'',
             selectPayment: false,
             input_amount:false,
@@ -225,19 +224,31 @@
 
                 window.location.href = this.payment_url;
               }catch (e) {
+              	console.log(e.response)
+															let errors = e.response.data.errors;
+															for(let key in errors){
+																errors[key].forEach(err => {
+																	this.$toast.error(err)
+																});
+															}
                 this.isLoading = false;
                 this.fund_button_text = "Fund Account";
               }
             }
-
         },
+									async getExchangeRate(){
+										try{
+											let response_data = await this.$axios.$get('billing/exchange-rate', {params: {amount: this.amount}});
+											this.total = response_data.exchange_approximate;
+										}catch (e) {
+
+										}
+
+									},
 
         validateAmount(value){
             if (isNaN(value)){
               this.error_message = 'Please enter a valid amount';
-              this.hasError = true;
-            }else if(value < 3000){
-              this.error_message = 'minimum amount to recharge is 3000'
               this.hasError = true;
             }else {
               this.error_message = '';
