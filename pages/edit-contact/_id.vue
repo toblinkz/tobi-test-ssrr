@@ -122,7 +122,8 @@
       ...mapGetters(['getPhoneBookId'])
     },
     methods: {
-      async getContactDetails(){
+      async fetch(){
+      	//get contact details
         try{
           let response_data = await this.$axios.$get('sms/phone-book/contact/' + this.$route.params.id);
           this.phone_number = response_data.data.phone_number;
@@ -162,7 +163,7 @@
       }
     },
     mounted() {
-      this.getContactDetails();
+      this.fetch();
     }
   }
 </script>

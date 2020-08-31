@@ -167,24 +167,28 @@
           }
       },
       methods:{
-          async getBillingInvoiceById(){
-             let response_data = await this.$axios.$get('/billing/invoices/' + this.id);
-            let data = response_data.data[0];
-             let inv_item = response_data.inv_item[0];
+        	async fetch(){
+        		try {
+											let response_data = await this.$axios.$get('/billing/invoices/' + this.id);
+											let data = response_data.data[0];
+											let inv_item = response_data.inv_item[0];
 
+											this.invoice_no = data.id;
+											this.invoice_due_date = data.duedate;
+											this.invoice_paid_date = data.datepaid;
+											this.invoice_status = data.status;
+											this.invoice_date = data.created;
+											this.item = inv_item.item;
+											this.price = inv_item.price;
+											this.quantity = inv_item.qty;
+											this.tax = inv_item.tax;
+											this.discount = inv_item.discount;
+											this.total = inv_item.total;
+										}catch (e) {
 
-            this.invoice_no = data.id;
-            this.invoice_due_date = data.duedate;
-            this.invoice_paid_date = data.datepaid;
-            this.invoice_status = data.status;
-            this.invoice_date = data.created;
-            this.item = inv_item.item;
-            this.price = inv_item.price;
-            this.quantity = inv_item.qty;
-            this.tax = inv_item.tax;
-            this.discount = inv_item.discount;
-            this.total = inv_item.total;
-          },
+										}
+									},
+
         showModal(){
             this.$modal.show('pay-invoice-modal')
         }
@@ -192,7 +196,7 @@
 
       },
       mounted() {
-          this.getBillingInvoiceById();
+          this.fetch();
       }
     }
 </script>

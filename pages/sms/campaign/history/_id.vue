@@ -130,7 +130,8 @@
           }
       },
       methods:{
-          async getCampaignReport(){
+          async fetch(){
+          	// get campaign report
             let response_data = await this.$axios.$get('sms/campaign/' + this.campaign_id + '/report', {params:{
               phone_number: this.phone_number
               }});
@@ -143,22 +144,20 @@
               });
               this.$router.push({name: 'sms-campaign-reports'});
             }
+            //get campaign analytics
+											let data = await  this.$axios.$get('sms/campaign/'+ this.campaign_id + '/analytics')
+											this.delivered_message_count = data.data.delivered_count;
+											this.message_sent_count = data.data.sent_count;
+											this.dnd_active_count = data.data.failed_count;
+											this.failed_message_count = data.data.dnd_count;
           },
-        async getCampaignAnalytics(){
-            let response_data = await  this.$axios.$get('sms/campaign/'+ this.campaign_id + '/analytics')
-          this.delivered_message_count = response_data.data.delivered_count;
-          this.message_sent_count = response_data.data.sent_count;
-          this.dnd_active_count = response_data.data.failed_count;
-          this.failed_message_count = response_data.data.dnd_count;
 
-        },
       },
       mounted() {
-          this.getCampaignReport();
-          this.getCampaignAnalytics();
+          this.fetch();
           this.$store.commit('setCampaignCreatedDate', this.$route.params.created_at);
           this.triggered_date = moment(this.getCampaignCreatedDate).format('lll');
-          console.log(this.getCampaignCreatedDate)
+
 
       }
     }

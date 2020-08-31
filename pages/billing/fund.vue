@@ -191,25 +191,27 @@
           closeModal() {
             this.showModal = false;
           },
-          async getWalletBalance() {
+          async fetch() {
             try{
+            	//get bank details
               let data = await this.$axios.$get('billing/wallet');
               this.account_balance = data.data.balance;
               this.bank_name  = data.data.bank_name;
               this.account_number = data.data.account_number;
+
+              //get payment method
+													let response_data = await this.$axios.$get('billing/payment-method');
+													this.payment_method = response_data;
+													this.payment_gateway = response_data.data[0].settings;
+
+													//ge top up details
+													let response = await this.$axios.$get('billing/top-up/plans');
+													this.bundled_top_up =  response.data.bundled_top_up.amount;
             } catch(e){
 
             }
           },
-        async getPaymentMethod(){
-            try {
-              let response_data = await this.$axios.$get('billing/payment-method');
-             this.payment_method = response_data;
-              this.payment_gateway = response_data.data[0].settings;
-            }catch (e) {
 
-            }
-        },
         async TopUp(){
             if (this.showMonnifyModal){
 
@@ -256,14 +258,6 @@
 
 										}
 							},
-							async getTopDetails(){
-         try{
-										let response = await this.$axios.$get('billing/top-up/plans');
-										this.bundled_top_up =  response.data.bundled_top_up.amount;
-									}catch (e) {
-
-									}
-							},
 
         validateAmount(value){
             if (isNaN(value)){
@@ -294,9 +288,8 @@
         }
       },
       mounted() {
-          this.getWalletBalance();
-          this.getPaymentMethod();
-           this.getTopDetails();
+           this.fetch();
+
 
       }
     }

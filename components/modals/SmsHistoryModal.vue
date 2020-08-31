@@ -87,7 +87,8 @@
           close(){
             this.$emit('close');
           },
-        async getMessageDetails(){
+        async fetch(){
+          	//get message details
            let response_data = await this.$axios.$get('sms/history/' + this.sms_id);
               this.message_id = response_data.data.message_id;
               this.created_at = response_data.data.create_at;
@@ -100,7 +101,7 @@
         }
       },
       mounted() {
-          this.getMessageDetails();
+          this.fetch();
       }
     }
 </script>
