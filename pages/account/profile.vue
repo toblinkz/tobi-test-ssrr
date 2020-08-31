@@ -177,6 +177,9 @@
         S3Client(){
           return new S3(this.config);
         },
+							newFileName(){
+          	return `customer_dp_${this.loggedInUser.fname}_${this.loggedInUser.customer.uid}`
+							},
         ...mapGetters(['isAuthenticated', 'loggedInUser'])
       },
       methods:{
@@ -226,18 +229,17 @@
         },
         uploadPhoto(fieldName, files){
           let file = files[0];
-          var url;
+									console.log("file neam", this.newFileName)
           this.S3Client
-            .uploadFile(file)
+            .uploadFile(file, this.newFileName)
             .then(data => { this.image_url = data.location})
             .catch(err => {Swal.fire({
               icon: 'error',
               title: 'Oops...',
               text: 'Something went wrong! Please try again.',
-            })})
+            })});
+        },
 
-
-        }
       },
       mounted() {
           this.fetchUtilityData();
