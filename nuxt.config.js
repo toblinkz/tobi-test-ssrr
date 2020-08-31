@@ -74,7 +74,7 @@ export default {
 
   },
   toast: {
-    position: 'bottom-center',
+    position: 'top-center',
     duration: 1500
   },
 
@@ -94,7 +94,9 @@ export default {
 
         }
       }
-    }
+    },
+
+			autoLogout: true
   },
 
 
