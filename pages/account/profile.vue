@@ -46,7 +46,7 @@
                                   <div class="media profile-image">
                                     <div class="media-left">
                                       <nuxt-link to="#" class="upload-media-container">
-                                        <img preview-for="image"  :src="image_url" class="img-circle" alt="">
+                                        <img preview-for="image"  :src="loggedInUser.image || image_url" class="img-circle" alt="">
                                       </nuxt-link>
                                       <input type="file" name="image" class="file-styled previewable hide" @change="uploadPhoto(fieldName, $event.target.files)">
                                     </div>
@@ -219,25 +219,32 @@
             })
           }catch (e) {
 											let errors = e.response.data.errors;
-											for(let key in errors){
-												errors[key].forEach(err => {
-													this.hasPasswordError = true
-													this.error_message['password'] = 'Password Incorrect';
-												});
-											}
+											console.log(e.response)
           }
         },
+							validateImage(file){
+        	let y = file.type.split('/').pop().toLowerCase();
+        	if ( y === "jpeg" || y === "png"){
+        					return true
+									}
+        	return false;
+
+							},
         uploadPhoto(fieldName, files){
           let file = files[0];
-									console.log("file neam", this.newFileName)
-          this.S3Client
-            .uploadFile(file, this.newFileName)
-            .then(data => { this.image_url = data.location})
-            .catch(err => {Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong! Please try again.',
-            })});
+         if (this.validateImage(file)){
+										this.S3Client
+											.uploadFile(file, this.newFileName)
+											.then(data => { this.image_url = data.location, this.$toast.success('Uploaded successfully')})
+											.catch(err => {Swal.fire({
+												icon: 'error',
+												title: 'Oops...',
+												text: 'Something went wrong! Please try again.',
+											})});
+									}else {
+         	this.$toast.error("Please upload a valid image file(JPEG, PNG)")
+									}
+
         },
 
       },
