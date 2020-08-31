@@ -41,7 +41,7 @@
           <Dropdown id="mobile-menu" class="hide-menu">
             <template v-slot:dropdown_title>
               <a class="dropdown-toggle stretch-a" data-toggle="dropdown" style="color: #2c2c2c !important;">
-                <img preview-for="image"  src="/images/team/10.png" alt=""><span style="margin-left: 5px;"> Quick Menu</span>
+                <img preview-for="image"  :src="loggedInUser.image" alt=""><span style="margin-left: 5px;"> Quick Menu</span>
                 <i class="caret"></i>
               </a>
             </template>
@@ -73,6 +73,7 @@
 
 <script>
   import Dropdown from "../dropdown/Dropdown";
+		import {mapGetters} from "vuex";
   export default {
     name: "DashboardNavbar",
     components: {Dropdown},
@@ -82,6 +83,9 @@
         email:""
       }
     },
+			computed:{
+				...mapGetters(['loggedInUser'])
+			},
     methods: {
       toggle: function () {
         this.isOpen = !this.isOpen
