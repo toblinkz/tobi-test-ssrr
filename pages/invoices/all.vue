@@ -40,7 +40,7 @@
                               <div class="col-lg-6 col-md-5 col-md-height col-middle hidden-xs">
                                 <div class="full-height">
                                   <div class="panel-body text-center">
-                                    <img src="http://sandbox.termii.com/assets/images/payment.gif" class="wide">
+                                    <img src="/images/payment.gif" class="wide">
                                   </div>
                                 </div>
                               </div>
@@ -61,8 +61,8 @@
                                   <div class="dataTables_length" id="DataTables_Table_0_length">
                                     <label>
                                       Show
-                                      <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control input-sm">
-                                        <option value="10">10</option>
+                                      <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control input-sm" @change="filterByNumber($event)">
+                                        <option value="10" >10</option>
                                         <option value="25">25</option>
                                         <option value="50">50</option>
                                         <option value="100">100</option>
@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                   <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                    <label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                    <label>Search:<input type="search" class="form-control input-sm" v-model="searchQuery" aria-controls="DataTables_Table_0"></label>
                                   </div>
                                 </div>
                               </div>
@@ -90,7 +90,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(row, index) in all_invoice.data" :key="row.id">
+                                <tr v-for="(row, index) in filteredInvoices" :key="row.id">
                                   <td>{{index + 1}}</td>
                                   <td>{{row.total}}</td>
                                   <td>{{row.datepaid}}</td>
@@ -144,18 +144,52 @@
             all_invoice :[],
             page: 1,
             total_page: '',
-            showPagination: false
+            showPagination: false,
+												searchQuery: ''
           }
       },
+					computed:{
+       filteredInvoices(){
+       	if (this.searchQuery){
+       		return this.all_invoice.filter(item => {
+       				return item.status.startsWith(this.searchQuery) ||
+														item.total.toString().startsWith(this.searchQuery ) ||
+													item.duedate.toString().startsWith(this.searchQuery)
+												item.datepaid.toString().startsWith(this.searchQuery);
+									})
+								}else {
+       		return this.all_invoice
+								}
+							}
+					},
       methods: {
           async getAllBillingInvoices(){
 
            let response_data = await this.$axios.$get('billing/invoices', {params:{page: this.page}});
-            if (response_data.data.length !== 0 && response_data.meta.last_page > 1){this.showPagination = true}
-            this.all_invoice = response_data;
+											if (response_data.meta.last_page > 1 ){
+												this.showPagination = true
+											}else {
+												this.showPagination = false
+											}
+            this.all_invoice = response_data.data;
             this.page = response_data.meta.current_page;
             this.total_page = response_data.meta.last_page;
           },
+								async filterByNumber(event){
+									let response_data = await this.$axios.$get('billing/invoices', {params:{page: this.page}});
+									if (response_data.meta.last_page > 1 ){
+										this.showPagination = true
+									}else {
+										this.showPagination = false
+									}
+									if (event.target.value !== "10"){
+										this.all_invoice = response_data.data
+									}else {
+										this.all_invoice = response_data.data.slice(0, 10);
+									}
+
+
+								},
         showRecurringLabel(row){
             return (row.recurring === 0)
         },

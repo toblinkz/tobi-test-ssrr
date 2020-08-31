@@ -46,7 +46,7 @@
                                   <div class="media profile-image">
                                     <div class="media-left">
                                       <nuxt-link to="#" class="upload-media-container">
-                                        <img preview-for="image"  :src="image_url" class="img-circle" alt="">
+                                        <img preview-for="image"  :src="loggedInUser.image || image_url" class="img-circle" alt="">
                                       </nuxt-link>
                                       <input type="file" name="image" class="file-styled previewable hide" @change="uploadPhoto(fieldName, $event.target.files)">
                                     </div>
@@ -83,8 +83,6 @@
                                 </div>
                                 <label>Sector</label>
                                    <CustomSelect :options="sectors" :dropdown-style="dropdownStyle" @item-selected="setSectorId($event)"></CustomSelect>
-                                <label class="mt-20">Select Country</label>
-                                <SearchDropdown :options="countries" @item-selected="selected_country = $event"></SearchDropdown>
                               </div>
                               <div class="col-md-5">
                                 <label>Last Name</label>
@@ -107,19 +105,11 @@
                                 </div>
                                 <label>Password</label>
                                 <div class="form-group control-password">
-                                  <input :type="type" id="password"  name="password" class="form-control ">
+                                  <input :type="type" v-model="password" name="password" class="profile-form-control " :class="{'error': hasPasswordError}">
+																																	<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
                                   <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
                                 </div>
-                                <label>State</label>
-                                <div class="form-group ">
-                                  <input
-                                     placeholder=""
-                                    value="Lagos"
-                                    type="text"
-                                    name="state"
-                                    class="profile-form-control required  "
-                                  >
-                                </div>
+
                                 <hr />
                                 <button class="btn bg-teal pull-right" type="submit"><i class="icon-check"></i> Save</button>
                               </div>
@@ -159,8 +149,9 @@
             last_name:  this.$auth.user.lname,
             email:  this.$auth.user.email,
             phone_number:  this.$auth.user.phone,
-            state: this.$auth.user.state,
-            countries:[this.$auth.user.country,],
+											 hasPasswordError: false,
+												password: '',
+											 error_message:[],
             sectors:[this.$auth.user.company_sector.name],
             selected_country: this.$auth.user.country.toString(),
             selected_sector: this.$auth.user.company_sector.id.toString(),
@@ -186,6 +177,9 @@
         S3Client(){
           return new S3(this.config);
         },
+							newFileName(){
+          	return `customer_dp_${this.loggedInUser.fname}_${this.loggedInUser.customer.uid}`
+							},
         ...mapGetters(['isAuthenticated', 'loggedInUser'])
       },
       methods:{
@@ -200,10 +194,6 @@
           }
         },
         async fetchUtilityData(){
-          let countries_data = await this.$axios.$get('/utility/countries');
-          for (let i = 0; i < countries_data.data.length; i++){
-            this.countries.push(countries_data.data[i].name)
-          }
 
           //fetch sector data
           let sector_data =await this.$axios.$get('/utility/sectors');
@@ -218,10 +208,9 @@
               first_name: this.first_name,
               last_name: this.last_name,
               email: this.email,
+														password: this.password,
               company_sector: this.selected_sector,
-              country: this.selected_country,
-              state: this.state,
-                image: this.image,
+													 image: this.image_url,
               phone: this.phone_number
             });
             await Swal.fire({
@@ -229,24 +218,35 @@
               text: 'Profile Updated Successfully',
             })
           }catch (e) {
-
+											let errors = e.response.data.errors;
+											console.log(e.response)
           }
         },
+							validateImage(file){
+        	let y = file.type.split('/').pop().toLowerCase();
+        	if ( y === "jpeg" || y === "png"){
+        					return true
+									}
+        	return false;
+
+							},
         uploadPhoto(fieldName, files){
           let file = files[0];
-          var url;
-          console.log(files[0])
-          this.S3Client
-            .uploadFile(file)
-            .then(data => { this.image_url = data.location})
-            .catch(err => {Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong! Please try again.',
-            })})
+         if (this.validateImage(file)){
+										this.S3Client
+											.uploadFile(file, this.newFileName)
+											.then(data => { this.image_url = data.location, this.$toast.success('Uploaded successfully')})
+											.catch(err => {Swal.fire({
+												icon: 'error',
+												title: 'Oops...',
+												text: 'Something went wrong! Please try again.',
+											})});
+									}else {
+         	this.$toast.error("Please upload a valid image file(JPEG, PNG)")
+									}
 
+        },
 
-        }
       },
       mounted() {
           this.fetchUtilityData();
@@ -435,7 +435,7 @@
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   }
-  .form-control:focus {
+  .profile-form-control:focus {
     border-color: #4DB6AC;
     box-shadow: none;
     outline: 0;

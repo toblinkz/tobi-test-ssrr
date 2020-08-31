@@ -45,6 +45,7 @@
   import {mapGetters} from "vuex";
   export default {
     name: "SenderIdModal",
+			 middleware:'auth',
     components: {ButtonSpinner},
     data(){
       return{
@@ -81,19 +82,18 @@
             country: this.loggedInUser.country,
             usecase: this.usecase,
             company: this.company
-          }, {headers: {'Authorization': 'Bearer ' + this.getBearerToken}});
+          }, );
           this.$emit('requested');
           this.resetForm();
           this.$modal.hide('sender-id-modal');
           this.$toast.success("Request sent successfully");
         } catch (e) {
-              await this.$axios.onError(error => {
-                if (error.response.status === 422){
-                  let error_message = error.response.data.errors.name[0];
+
+                if (e.response.status === 422){
                   this.error_message['sender_id'] = 'Sender Id already exists'
                   this.hasSenderIdError = true;
                 }
-              });
+
         }
       },
       resetForm(){

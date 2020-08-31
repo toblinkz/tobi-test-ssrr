@@ -36,6 +36,7 @@
 
     export default {
         name: "DeviceModal",
+							middleware: 'auth',
       data(){
           return{
             device_id:"",
@@ -47,7 +48,7 @@
         isDisabled: function (){
           return (this.device_id === '');
         },
-        ...mapGetters(['loggedInUser', 'getBearerToken'])
+        ...mapGetters(['loggedInUser',])
       },
       watch:{
           device_id(value){
@@ -64,18 +65,17 @@
           try {
             await this.$axios.post('devices', {
               name: this.device_id
-            }, {headers: {'Authorization': 'Bearer ' + this.getBearerToken}})
+            }, )
             this.$emit('requested');
             this.resetForm();
             this.$modal.hide('device-id-modal');
             this.$toast.success("Request sent successfully");
           } catch (e) {
-            await this.$axios.onRequestError(error => {
-              if (error.response.status === 422){
+
+              if (e.response.status === 422){
                 this.error_message['device_id'] = 'Device already exists'
                 this.hasDeviceIdError = true;
               }
-            });
           }
         },
         resetForm(){
