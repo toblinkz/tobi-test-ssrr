@@ -72,7 +72,8 @@
                                     </div>
                                     <div class="col-md-12 alert toke hidden-xs">
                                       <p><i class="entypo-bookmark" style="color: #bbb !important;"></i> Plan Guide</p><br>
-                                      <p class="text-semibold"><strong>Regular Top up</strong>; Minimum amount to recharge is ₦3000<br><br> <strong>Bundled Top up</strong>; Get 5% off on all messages sent when you make a bundled topup of  ₦36660 (<strong>NB</strong>: Discounts expires when your units get exhausted but only renews on your next bunlded topup) </p>
+                                      <p class="text-semibold"><strong>Regular Top up</strong>; Minimum amount to recharge is ₦3000<br><br> <strong>Bundled Top up</strong>; Get 5% off on all messages sent when you make a bundled topup of
+																																							{{bundled_top_up}}(<strong>NB</strong>: Discounts expires when your units get exhausted but only renews on your next bunlded topup) </p>
                                     </div>
                                   </div>
                                 </div>
@@ -163,6 +164,7 @@
             payment_gateway:'',
             hasError: false,
 												total: '',
+										 	bundled_top_up:'',
             payment_url:'',
             selectPayment: false,
             input_amount:false,
@@ -238,13 +240,30 @@
         },
 									async getExchangeRate(){
 										try{
-											let response_data = await this.$axios.$get('billing/exchange-rate', {params: {amount: this.amount}});
-											this.total = response_data.exchange_approximate;
+											let response_data = await this.$axios.$get('billing/exchange-rate', {params: {amount: this.amount,}});
+											this.total = response_data.amount;
 										}catch (e) {
 
 										}
 
 									},
+							async getTopUp(){
+										try{
+											let response = await this.$axios.$get('billing/top-up/plans');
+										 this.amount = 	response.data.bundled_top_up.amount.substring(1);
+											this.total = response.data.bundled_top_up.amount;
+										}catch (e) {
+
+										}
+							},
+							async getTopDetails(){
+         try{
+										let response = await this.$axios.$get('billing/top-up/plans');
+										this.bundled_top_up =  response.data.bundled_top_up.amount;
+									}catch (e) {
+
+									}
+							},
 
         validateAmount(value){
             if (isNaN(value)){
@@ -263,9 +282,10 @@
         },
         itemSelected(value){
             if (value === "2"){
-              this.amount = 36600
               this.selectPayment = true;
               this.input_amount = false;
+              this.getTopUp();
+              this.getExchangeRate()
             } else if (value === "1"){
               this.selectPayment = true;
               this.input_amount = true;
@@ -276,6 +296,7 @@
       mounted() {
           this.getWalletBalance();
           this.getPaymentMethod();
+           this.getTopDetails();
 
       }
     }
