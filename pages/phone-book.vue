@@ -171,7 +171,8 @@
         }
       },
       methods:{
-          async getPhoneBook() {
+          async fetch() {
+          	//get phonebook
             let response_data = await this.$axios.$get('sms/phone-book');
             this.phone_book = response_data
           },
@@ -202,7 +203,7 @@
             if (result.value){
               await this.$axios.$delete('sms/phone-book/'+ id).catch((e)=>{this.$toast.error("An Error Occured while trying to delete this phone book");});
               this.$toast.success("Phone book deleted successfully");
-              await this.getPhoneBook();
+              await this.fetch();
             }
           });
         },
@@ -214,7 +215,7 @@
 
       },
        mounted() {
-          this.getPhoneBook();
+          this.fetch();
       }
     }
 </script>

@@ -115,7 +115,8 @@
           }
       },
       methods: {
-          async getPhoneBookContact(){
+          async fetch(){
+          	//get phonebook contact
             this.phone_book_contacts = await this.$axios.$get('sms/phone-book/' +this.$route.params.id);
           },
           setPid(row){
@@ -141,7 +142,7 @@
         }
       },
       mounted() {
-          this.getPhoneBookContact();
+          this.fetch();
       }
     }
 </script>

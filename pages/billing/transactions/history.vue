@@ -156,17 +156,35 @@
           }
       },
       methods:{
-        async getWalletTransaction(){
-         let response_data =  await this.$axios.$get('billing/wallet/transactions', {params: {page: this.page}});
-         this.transaction_history = response_data.data;
-         if (response_data.meta.last_page > 1 ){
-           this.showPagination = true
-         }else {
-           this.showPagination = false
-         }
-         this.page = response_data.meta.current_page;
-         this.total_page = response_data.meta.last_page;
-        },
+
+        	async fetch(){
+
+										try {
+											//get wallet transaction
+											let response_data =  await this.$axios.$get('billing/wallet/transactions', {params: {page: this.page}});
+											this.transaction_history = response_data.data;
+											if (response_data.meta.last_page > 1 ){
+												this.showPagination = true
+											}else {
+												this.showPagination = false
+											}
+											this.page = response_data.meta.current_page;
+											this.total_page = response_data.meta.last_page;
+
+											//get wallet transaction sum
+											let sum_data = await this.$axios.$get('billing/wallet/transactions/sum', {
+												params:{
+													wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1],
+												}
+											});
+											this.amount_funded = sum_data.credit;
+											this.amount_spent = sum_data.debit;
+										}catch (e) {
+
+										}
+
+									},
+
         async getWalletTransactionByDate(){
          let response_data = await this.$axios.$get('billing/wallet/transactions',{
             params:{
@@ -191,28 +209,20 @@
          this.amount_spent = sum_data.debit;
 
         },
-        async getWalletTransactionSum(){
-          let sum_data = await this.$axios.$get('billing/wallet/transactions/sum', {
-            params:{
-              wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1],
-            }
-          });
-          this.amount_funded = sum_data.credit;
-          this.amount_spent = sum_data.debit;
-        },
+
         onPageChange(page) {
           this.page = page;
-          this.getWalletTransaction();
+          this.fetch();
 
         },
 
       },
-      mounted() {
-        this.getWalletTransaction();
-        this.getWalletTransactionSum();
-      },
+					mounted() {
+        	this.fetch();
+					}
 
-    }
+
+				}
 </script>
 
 <style scoped>

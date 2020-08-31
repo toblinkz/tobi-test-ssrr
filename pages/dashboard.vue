@@ -227,22 +227,17 @@
           closeYourWalletModal(){
               this.showYourWalletModal = false;
           },
-      async getWalletBalance() {
+      async fetch() {
         try{
+        	// get account balance
           let data = await this.$axios.$get('billing/wallet');
           this.account_balance = data.data.balance;
-
+								//get user data
+									let response_data = await this.$axios.$get('user');
+									this.live_api_key = response_data.data.customer.live_api_key;
         } catch(e){
 
         }
-      },
-      async getUserData(){
-             try {
-               let response_data = await this.$axios.$get('user');
-              this.live_api_key = response_data.data.customer.live_api_key;
-             } catch (e) {
-
-             }
       },
       startIntro() {
 
@@ -295,8 +290,8 @@
     },
     mounted: function () {
         this.startIntro();
-        this.getWalletBalance();
-        this.getUserData();
+        this.fetch();
+
     }
 
   }
