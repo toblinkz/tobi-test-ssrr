@@ -353,6 +353,7 @@
     letter-spacing: 0.1px;
   }
   .label-warning {
+			color: #fff;
     background-color: #FF5722;
   }
   .label-success {
