@@ -248,6 +248,15 @@
 											}
 										}
 									},
+							async getExchangeRate(){
+								try{
+									let response_data = await this.$axios.$get('billing/exchange-rate', {params: {amount: this.amount,}});
+									this.total = response_data.amount;
+								}catch (e) {
+
+								}
+
+							},
 							async getTopUp(){
 										try{
 											let response = await this.$axios.$get('billing/top-up/plans');
