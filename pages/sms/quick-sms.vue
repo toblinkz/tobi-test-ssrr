@@ -50,15 +50,29 @@
                                 <div class="form-group ">
                                   <label>Select Channel </label>
                                   <small style="color: red !important;font-size: 11px;">(WhatsApp available only to premium users)</small>
-                                  <SearchDropdown :options="sms_channels" :dropdown-selected-style="dropdownSelectedBackground" ></SearchDropdown>
+                                  <v-select :options="sms_channels" placeholder="Select sms channel" label="name" v-model="selected_sms_channel">
+																																			<template #option="{ name }">
+																																				<p >{{ name }} </p>
+																																			</template>
+																																		</v-select>
                                 </div>
                                 <div class="form-group">
                                   <label>Recipients</label>
-                                  <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
+                                  <v-select :options="countries" :filter="fuseSearch" placeholder="Select country code" label="name" append-to-body :calculate-position="withPopper"  v-model="selected_country_code">
+																																			<template #option="{ name, d_code }">
+																																				<p >{{ name }} {{`(${d_code.substring(1)})`}}</p>
+																																			</template>
+																																			<template #selected-option="{ name, d_code }">
+																																				<div style="display: flex; align-items: baseline;">
+																																					{{name}} <strong>{{ `(${d_code.substring(1)})` }}</strong>
+
+																																				</div>
+																																			</template>
+																																		</v-select>
                                 </div>
                                 <div class="form-group">
-                                  <textarea class="form-control" rows="5" name="recipients"  placeholder="Seperate the numbers using a comma eg. 081094472,08109447343" id="recipients"></textarea>
-                                  <span class="pull-right">Total Number Of Recipients: <span class="number_of_recipients bold m-r-5">0</span></span>
+                                  <textarea class="form-control" rows="5" name="recipients" v-model="phone_numbers"  placeholder="Separate the numbers using a comma eg. 081094472,08109447343" id="recipients"></textarea>
+                                  <span class="pull-right">Total Number Of Recipients: <span class="number_of_recipients bold m-r-5">{{total_no_of_recipients}}</span></span>
                                 </div>
                               </form>
                             </div>
@@ -66,11 +80,19 @@
                               <div class="form-group ">
                                 <label class="hidden-xs">Sender ID / Device ID</label>
                                 <small style="color: red !important;font-size: 11px;" class="hidden-xs">(Can't find your ID below, <nuxt-link to="/sms/sender-id-management">register yours here</nuxt-link> - Process takes less than 24 hours)</small>
-                                <SearchDropdown :options="active_sender_id" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
+                                <v-select :options="active_sender_id" placeholder="Select sender ID" label="sender_id" append-to-body :calculate-position="withPopper" v-model="selected_sender_id">
+																																	<template #option="{ sender_id }">
+																																		<p >{{sender_id }} </p>
+																																	</template>
+																																</v-select>
                               </div>
                               <div class="form-group">
                                 <label>Message</label>
-                                <CustomSelect :options="message" :dropdown-style="dropdownStyle"></CustomSelect>
+                               <v-select :options="message_type" v-model="selected_message_type" label="name">
+																																<template #option="{ name }">
+																																	<p >{{ name }} </p>
+																																</template>
+																															</v-select>
                               </div>
                               <div class="form-group">
                                 <textarea class="form-control" name="message" rows="5" id="message"></textarea>
@@ -101,18 +123,27 @@
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import 'vue-select/dist/vue-select.css';
+				import { createPopper } from '@popperjs/core';
     import SearchDropdown from "../../components/general/dropdown/SearchDropdown";
     import CustomSelect from "../../components/general/dropdown/CustomSelect";
+				import Fuse from 'fuse.js';
     export default {
         name: "quick-sms",
       components: {CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, vSelect},
       middleware: 'auth',
       data(){
           return{
-            sms_channels: ['Select Channel'],
-            countries: ['Select your country',],
-            active_sender_id: ['Select Sender ID'],
-            message: ['Plain', 'Voice', 'MMS', 'Unicode', 'Arabic',],
+            sms_channels: [],
+            countries: [],
+												phone_numbers:'',
+            active_sender_id: [],
+            message_type: [{name: 'Plain'}, {name:'Voice'}, {name:'MMS'}, {name:'Unicode'}, {name:'Arabic'},],
+												selected_message_type:'Plain',
+												selected_country_code:'',
+												selected_sender_id:'',
+											placement: 'top',
+											total_no_of_recipients: 0,
+											selected_sms_channel:'',
             dropdownSelectedBackground:{
               background: 'white',
               border: '1px solid rgba(98, 98, 98, 0.27)',
@@ -123,46 +154,80 @@
             }
           }
       },
+					watch:{
+       phone_numbers(value){
+       		if (value === ','){
+       			this.total_no_of_recipients += 1;
+									}
+							}
+					},
       methods: {
-          async getSmsChannel() {
-            try {
+          async fetch() {
+            // get sms channels
               let response_data = await this.$axios.$get('sms/channels');
-              for (let i = 0; i < response_data.data.length; i++){
-                this.sms_channels.push(response_data.data[i].name)
-              }
-            }catch (e) {
+              this.sms_channels = response_data.data
 
-            }
+											//get active sender id
+											let data = await this.$axios.$get('sms/sender-id?filter=active');
+											this.active_sender_id = data.data;
+
+											//get countries
+											let response = await this.$axios.$get('utility/countries');
+														this.countries = response.data
           },
-        async getActiveSenderId(){
-            try {
-              let response_data = await this.$axios.$get('sms/sender-id?filter=active');
-              for (let i = 1; i < response_data.data.length; i++){
-                this.active_sender_id.push(response_data.data[i].sender_id);
-              }
-            }catch (e) {
+							withPopper (dropdownList, component, {width}) {
+								dropdownList.style.width = width;
+								const popper = createPopper(component.$refs.toggle, dropdownList, {
+									placement: this.placement,
+									modifiers: [
+										{
+											name: 'offset', options: {
+												offset: [0, -1]
+											}
+										},
+										{
+											name: 'toggleClass',
+											enabled: true,
+											phase: 'write',
+											fn ({state}) {
+												component.$el.classList.toggle('drop-up', state.placement === 'top')
+											},
+										}]
+								});
+								return () => popper.destroy();
 
-            }
-        },
-        async getCountries(){
-            try {
-              let response_data = await this.$axios.$get('utility/countries');
-              for (let i = 1; i < response_data.data.length; i++){
-                this.countries.push(response_data.data[i].name);
-              }
-            }catch (e) {
-            }
-        }
+							},
+							fuseSearch(options, search) {
+								const fuse = new Fuse(options, {
+									keys: ["name", "d_code", ],
+									shouldSort: true
+								});
+								return search.length
+									? fuse.search(search).map(({ item }) => item)
+									: fuse.list;
+							}
+
       },
       mounted() {
-          this.getSmsChannel();
-          this.getActiveSenderId();
-          this.getCountries();
+         this.fetch();
       }
     }
 </script>
 
-<style scoped>
+<style >
+	.v-select.drop-up.vs--open .vs__dropdown-toggle {
+		border-radius: 0 0 4px 4px;
+		border-top-color: transparent;
+		border-bottom-color: rgba(60, 60, 60, 0.26);
+	}
+
+	[data-popper-placement='top'] {
+		border-radius: 4px 4px 0 0;
+		border-top-style: solid;
+		border-bottom-style: solid;
+		border-bottom-color: rgba(60, 60, 60, 0.26);
+		box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.15)
+	}
   .bg{
     background: red;
   }

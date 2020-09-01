@@ -50,15 +50,33 @@
                                  <div class="form-group ">
                                    <label>Select Channel </label>
                                    <small style="color: red !important;font-size: 11px;">(WhatsApp available only to premium users)</small>
-                                  <SearchDropdown :options="sms_channels" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
+                                  <v-select :options="sms_channels" placeholder="Select sms channel" label="name">
+																																			<template #option="{ name }">
+																																				<p >{{ name }} </p>
+																																			</template>
+																																		</v-select>
                                  </div>
                                  <div class="form-group">
                                    <label>Recipients</label>
-                                   <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
+                                   <v-select :options="countries"  :filter="fuseSearch" append-to-body :calculate-position="withPopper" placeholder="Select country code" label="name">
+																																				<template #option="{ name, d_code }">
+																																					<p >{{ name }} {{`(${d_code.substring(1)})`}}</p>
+																																				</template>
+																																				<template #selected-option="{ name, d_code }">
+																																					<div style="display: flex; align-items: baseline;">
+																																						{{name}} <strong>{{ `(${d_code.substring(1)})` }}</strong>
+
+																																					</div>
+																																				</template>
+																																			</v-select>
                                  </div>
                                  <div class="form-group">
                                    <small style="color: red !important;font-size: 11px;">(Ensure you have added contacts to your phonebook)</small>
-                                   <SearchDropdown :options="phone_books" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
+                                   <v-select :options="phone_books" append-to-body :calculate-position="withPopper" taggable multiple label="phonebook_name" placeholder="Phone Book">
+																																				<template #option="{ phonebook_name }">
+																																					<p >{{ phonebook_name }} </p>
+																																				</template>
+																																			</v-select>
                                  </div>
                                  <div class="form-group">
                                    <div class="coder-checkbox">
@@ -76,12 +94,20 @@
                              <div class="col-md-6">
                                <div class="form-group ">
                                  <label class="hidden-xs">Sender ID / Device ID</label>
-                                 <small style="color: red !important;font-size: 11px;" class="hidden-xs">(Can't find your ID below, <a href="http://sandbox.termii.com/sms/sender-id-management">register yours here</a> - Process takes less than 24 hours)</small>
-                                 <SearchDropdown :options="active_sender_id" :dropdown-selected-style="dropdownSelectedBackground"></SearchDropdown>
+                                 <small style="color: red !important;font-size: 11px;" class="hidden-xs">(Can't find your ID below, <nuxt-link to="sms/sender-id-management">register yours here</nuxt-link> - Process takes less than 24 hours)</small>
+                                <v-select :options="active_sender_id" append-to-body :calculate-position="withPopper" placeholder="Select sender ID" label="sender_id">
+																																	<template #option="{ sender_id }">
+																																		<p >{{sender_id }} </p>
+																																	</template>
+																																</v-select>
                                </div>
                                <div class="form-group">
                                  <label>Message</label>
-                                 <CustomSelect :options="message" :dropdown-style="dropdownStyle"></CustomSelect>
+																																<v-select :options="message_type" v-model="selected_message_type" label="name">
+																																	<template #option="{ name }">
+																																		<p >{{ name }} </p>
+																																	</template>
+																																</v-select>
                                </div>
                                <div class="form-group">
                                  <textarea class="form-control" name="message" rows="5" id="message"></textarea>
@@ -109,23 +135,30 @@
 <script>
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
-    import DatePicker from "vue2-datepicker"
+    import DatePicker from "vue2-datepicker";
     import 'vue2-datepicker/index.css';
     import SearchDropdown from "../../components/general/dropdown/SearchDropdown";
     import CustomSelect from "../../components/general/dropdown/CustomSelect";
+				import vSelect from 'vue-select';
+				import 'vue-select/dist/vue-select.css';
+				import {createPopper} from "@popperjs/core";
+				import Fuse from "fuse.js";
+
     export default {
-        name: "send-sms",
+        name: "group-sms",
       middleware: 'auth',
-      components: {CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, DatePicker},
+      components: {CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, DatePicker, vSelect},
       data(){
           return{
             send_later: false,
             date_time:"null",
-            sms_channels: ['Select Channel'],
-            countries: ['select your country'],
-            active_sender_id: ['Select Sender ID'],
-            message: ['Plain', 'Voice', 'MMS', 'Unicode', 'Arabic',],
-            phone_books:['Select PhoneBook'],
+            sms_channels: [],
+            countries: [],
+											placement: 'top',
+            active_sender_id: [],
+											message_type: [{name: 'Plain'}, {name:'Voice'}, {name:'MMS'}, {name:'Unicode'}, {name:'Arabic'},],
+											selected_message_type:'Plain',
+            phone_books:[],
             dropdownSelectedBackground:{
               background: 'white',
               border: '1px solid rgba(98, 98, 98, 0.27)',
@@ -137,61 +170,88 @@
           }
       },
       methods: {
-        async getSmsChannel() {
+        async fetch() {
           try {
+          	//get sms channel
             let response_data = await this.$axios.$get('sms/channels');
-            for (let i = 0; i < response_data.data.length; i++){
-              this.sms_channels.push(response_data.data[i].name)
-            }
+            this.sms_channels = response_data.data;
+
+            //get active sender id
+											let response = await this.$axios.$get('sms/sender-id?filter=active');
+											this.active_sender_id = response.data;
+
+											//get phonebooks
+											let phonebook_data = await this.$axios.$get('sms/phone-book?filter=unpaginated');
+											this.phone_books = phonebook_data.data;
+
+											//get country code
+											let country_data = await this.$axios.$get('utility/countries');
+											this.countries = country_data.data;
+
           }catch (e) {
 
           }
-        },
-        async getActiveSenderId(){
-          try {
-            let response_data = await this.$axios.$get('sms/sender-id?filter=active');
-            for (let i = 1; i < response_data.data.length; i++){
-              this.active_sender_id.push(response_data.data[i].sender_id);
-            }
-          }catch (e) {
-
-          }
-        },
-        async getCountries(){
-          try {
-            let response_data = await this.$axios.$get('utility/countries');
-            for (let i = 1; i < response_data.data.length; i++){
-              this.countries.push(response_data.data[i].name);
-            }
-          }catch (e) {
-          }
-        },
-        async getPhoneBook(){
-            try {
-              let response_data = await this.$axios.$get('sms/phone-book?filter=unpaginated');
-              for (let i = 1; i < response_data.data.length; i++){
-                this.phone_books.push(response_data.data[i].phonebook_name);
-              }
-
-            }catch (e) {
-
-            }
         },
           toggleScheduleTime(){
             this.send_later = !this.send_later
-          }
-      },
+          },
+							withPopper (dropdownList, component, {width}) {
+								dropdownList.style.width = width;
+								const popper = createPopper(component.$refs.toggle, dropdownList, {
+									placement: this.placement,
+									modifiers: [
+										{
+											name: 'offset', options: {
+												offset: [0, -1]
+											}
+										},
+										{
+											name: 'toggleClass',
+											enabled: true,
+											phase: 'write',
+											fn ({state}) {
+												component.$el.classList.toggle('drop-up', state.placement === 'top')
+											},
+										}]
+								});
+								return () => popper.destroy();
+
+							},
+							fuseSearch(options, search) {
+								const fuse = new Fuse(options, {
+									keys: ["name", "d_code", ],
+									shouldSort: true
+								});
+								return search.length
+									? fuse.search(search).map(({ item }) => item)
+									: fuse.list;
+							}
+
+
+						},
       mounted() {
-        this.getSmsChannel();
-        this.getActiveSenderId();
-        this.getCountries();
-        this.getPhoneBook();
+
+        this.fetch();
+
+
       }
     }
 </script>
 
 <style scoped>
+	.v-select.drop-up.vs--open .vs__dropdown-toggle {
+		border-radius: 0 0 4px 4px;
+		border-top-color: transparent;
+		border-bottom-color: rgba(60, 60, 60, 0.26);
+	}
 
+	[data-popper-placement='top'] {
+		border-radius: 4px 4px 0 0;
+		border-top-style: solid;
+		border-bottom-style: solid;
+		border-bottom-color: rgba(60, 60, 60, 0.26);
+		box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.15)
+	}
 
   .page-header {
     margin: 0;
