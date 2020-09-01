@@ -162,7 +162,7 @@
             $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
           $('#qr-code').attr("disabled", true);
 
-          let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${this.getBearerToken}`
+          let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${localStorage.getItem('auth._token.local').substring(7)}`
           url = url.replace(':slug', device_id);
 
           $.get(url, function (data, status) {
