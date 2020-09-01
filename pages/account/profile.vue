@@ -45,16 +45,16 @@
                                 <div class="sub_section">
                                   <div class="media profile-image">
                                     <div class="media-left">
-                                      <nuxt-link to="#" class="upload-media-container">
-                                        <img preview-for="image"  :src="loggedInUser.image || image_url" class="img-circle" alt="">
-                                      </nuxt-link>
+                                      <a  class="upload-media-container">
+                                        <img preview-for="image" :src="loggedInUser.image"  class="img-circle" alt="" id="customer_dp">
+                                      </a>
                                       <input type="file" name="image" class="file-styled previewable hide" @change="uploadPhoto(fieldName, $event.target.files)">
                                     </div>
                                     <div class="media-body text-center">
                                       <h5 class="media-heading text-semibold">Upload your photo…</h5>
                                       Photo should be at least 300px x 300px
                                       <br /><br />
-                                      <nuxt-link to="#remove" class="btn btn-xs bg-grey-800 "><i class="icon-trash"></i> Remove</nuxt-link>
+                                      <a @click="removeImage" class="btn btn-xs bg-grey-800 "><i class="icon-trash"></i> Remove</a>
                                       <br />
                                       <br />
                                       <a  onclick="$('input[name=image]').trigger('click')"  class="btn btn-xs bg-teal mr-10"><i class="icon-upload4"></i> Upload</a>
@@ -164,6 +164,11 @@
 
           }
       },
+					watch:{
+       password(value){
+       	this.validatePassword(value)
+							}
+					},
       computed: {
           config(){
             return{
@@ -218,10 +223,29 @@
               text: 'Profile Updated Successfully',
             })
           }catch (e) {
-											let errors = e.response.data.errors;
-											console.log(e.response)
+												let errors = e.response.data.errors;
+												for(let key in errors){
+													errors[key].forEach(err => {
+														this.$toast.error(err);
+														this.hasPasswordError = true
+														this.error_message['password'] = err;
+													});
+												}
+
           }
         },
+							removeImage(){
+								$("#customer_dp").attr('src', '')
+							},
+							validatePassword(value){
+								if (value.length < 6) {
+									this.error_message['password'] = 'The password field must be at least 5 characters';
+									this.hasPasswordError = true;
+								}else {
+									this.error_message['password'] = '';
+									this.hasPasswordError = false;
+								}
+							},
 							validateImage(file){
         	let y = file.type.split('/').pop().toLowerCase();
         	if ( y === "jpeg" || y === "png"){
@@ -232,7 +256,13 @@
 							},
         uploadPhoto(fieldName, files){
           let file = files[0];
+
+
          if (this.validateImage(file)){
+										let src = URL.createObjectURL(file);
+										console.log(src)
+										let preview = document.getElementById('customer_dp');
+										preview.src = src
 										this.S3Client
 											.uploadFile(file, this.newFileName)
 											.then(data => { this.image_url = data.location, this.$toast.success('Uploaded successfully')})
