@@ -89,7 +89,7 @@
                                   </div>
                                 </div>
                                 <div class="col-sm-6">
-                                  <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control2 input-sm" placeholder="" aria-controls="DataTables_Table_0"></label></div>
+                                  <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control2 input-sm"  v-model="searchQuery"></label></div>
                                 </div>
                               </div>
                               <table class="table table-responsive data-table table-hover">
@@ -102,9 +102,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="row in phone_book.data" :key="row.id">
+                                <tr v-for="(row,index) in filteredPhonebook" :key="row.id" v-show="filteredPhonebook.length > 1">
                                   <td>
-                                    <p>{{phone_book.data.indexOf(row ) + 1}}</p>
+                                    <p>{{index + 1}}</p>
                                   </td>
                                   <td>
                                     <p>{{row.phonebook_name}}</p>
@@ -120,6 +120,9 @@
                                     <a @click="deletePhoneBook(row)" class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i></a>
                                   </td>
                                 </tr>
+																																<tr>
+																																	<td  colspan="7" style="text-align: center; cursor: pointer" v-show="filteredPhonebook.length < 1">No data available in table</td>
+																																</tr>
                                 </tbody>
                               </table>
                             </div>
@@ -133,7 +136,7 @@
             </main>
           </div>
         </div>
-        <EditPhoneBookModal @updated="getPhoneBook" :phone_book_name="phone_book_name" :phone_book_id="phone_book_id"></EditPhoneBookModal>
+        <EditPhoneBookModal @updated="fetch" :phone_book_name="phone_book_name" :phone_book_id="phone_book_id"></EditPhoneBookModal>
       </div>
     </div>
   </div>
@@ -155,13 +158,23 @@
             error_message:'',
             hasPhoneBookNameError: false,
             phone_book_name:'',
-            phone_book_id:''
+            phone_book_id:'',
+											searchQuery: ''
           }
       },
       computed:{
           isDisabled:function () {
               return (this.phonebook_name === '')
-          }
+          },
+							filteredPhonebook(){
+          	if (this.searchQuery){
+          			return this.phone_book.filter(item => {
+          				return item.phonebook_name.includes(this.searchQuery)
+													})
+											}else {
+          		return this.phone_book;
+											}
+							}
       },
       watch:{
         phonebook_name(value){
@@ -174,7 +187,7 @@
           async fetch() {
           	//get phonebook
             let response_data = await this.$axios.$get('sms/phone-book');
-            this.phone_book = response_data
+            this.phone_book = response_data.data
           },
         async addPhoneBook(){
             try{

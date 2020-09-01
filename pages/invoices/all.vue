@@ -90,7 +90,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(row, index) in filteredInvoices" :key="row.id">
+                                <tr v-for="(row, index) in filteredInvoices" :key="row.id" v-show="filteredInvoices.length > 1">
                                   <td>{{index + 1}}</td>
                                   <td>{{row.total}}</td>
                                   <td>{{row.datepaid}}</td>
@@ -105,7 +105,11 @@
                                   <td>
                                     <nuxt-link :to="{path: 'view/' + row.id, params:{id: row.id}}" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
                                   </td>
+
                                 </tr>
+																																<tr>
+																																	<td  colspan="7" style="text-align: center; cursor: pointer" v-show="filteredInvoices.length < 1">No data available in table</td>
+																																</tr>
                                 </tbody>
                               </table>
 
@@ -158,9 +162,10 @@
 												item.datepaid.toString().startsWith(this.searchQuery);
 									})
 								}else {
-       		return this.all_invoice
+       		return this.all_invoice;
 								}
 							}
+
 					},
       methods: {
 
