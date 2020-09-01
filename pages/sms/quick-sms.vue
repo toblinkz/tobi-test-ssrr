@@ -47,7 +47,7 @@
                           <div class="mt-20">
                             <div class="col-md-6">
                               <form role="form" method="post">
-                                <div class="form-group ">
+                                <div class="form-group mt-50">
                                   <label>Select Channel </label>
                                   <small style="color: red !important;font-size: 11px;">(WhatsApp available only to premium users)</small>
                                   <v-select :options="sms_channels" placeholder="Select sms channel" label="name" v-model="selected_sms_channel">
@@ -77,7 +77,7 @@
                               </form>
                             </div>
                             <div class="col-md-6">
-                              <div class="form-group ">
+                              <div class="form-group mt-50">
                                 <label class="hidden-xs">Sender ID / Device ID</label>
                                 <small style="color: red !important;font-size: 11px;" class="hidden-xs">(Can't find your ID below, <nuxt-link to="/sms/sender-id-management">register yours here</nuxt-link> - Process takes less than 24 hours)</small>
                                 <v-select :options="active_sender_id" placeholder="Select sender ID" label="sender_id" append-to-body :calculate-position="withPopper" v-model="selected_sender_id">
