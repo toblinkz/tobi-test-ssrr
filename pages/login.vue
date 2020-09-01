@@ -148,8 +148,8 @@
                     password: this.password
                   }
                 });
-
-
+											this.isLoading = false;
+											this.button_text = "Proceed";
           await this.$router.push('/dashboard');
         } catch (e) {
           if (navigator.onLine && e.response.data.error === 'Account not verified.') {

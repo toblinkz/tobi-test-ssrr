@@ -280,9 +280,13 @@
                 password: this.password
               }
             });
-
+											this.isLoading = false;
+											this.button_text = "Create My Account"
 
           } catch (e) {
+											this.isLoading = false;
+											this.button_text = "Create My Account"
+
             if (navigator.onLine && e.response.data.error === 'Account not verified.') {
               this.$store.commit('setEmail', this.email);
               this.$store.commit('setPassword', this.password);
