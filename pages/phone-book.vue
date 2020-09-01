@@ -195,7 +195,7 @@
                 {
                   phonebook_name: this.phonebook_name
                 });
-              await this.getPhoneBook();
+              await this.fetch();
               this.$toast.success("Phone book added successfully");
             } catch (e) {
                   this.error_message = 'Phone-book name already exists';

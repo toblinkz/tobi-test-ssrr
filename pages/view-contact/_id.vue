@@ -135,7 +135,7 @@
             if (result.value){
               await this.$axios.$delete('sms/phone-book/contact/' + row.id).catch((e)=>{this.$toast.error("An Error Occured while trying to delete this contact");});
               this.$toast.success("Phone book deleted successfully");
-              await this.getPhoneBookContact();
+              await this.fetch();
             }
           });
 
