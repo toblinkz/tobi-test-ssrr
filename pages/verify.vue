@@ -97,6 +97,8 @@
               password: this.getUserPassword
             }
           });
+									this.isLoading = false;
+									this.button_text = "Verify Code";
           this.$toast.show("Successfully verified");
           this.$router.push('/dashboard');
           this.$store.commit('setViewVerificationPage')
