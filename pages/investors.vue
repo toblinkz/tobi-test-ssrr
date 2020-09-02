@@ -157,21 +157,21 @@
               card_text="All the companies from Y Combinator’s W20 Demo Day, Part I: B2B Companies"
               explore_url="https://techcrunch.com/2020/03/17/all-the-companies-from-y-combinators-w20-demo-day-part-i-b2b-companies">
               <template>
-                <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Mentions by</span> <span class="blue-t"> Techcrunch</span></h4>
-              </template>
+															<a class="testimonial-head" href="https://techcrunch.com/2020/03/17/all-the-companies-from-y-combinators-w20-demo-day-part-i-b2b-companies/" target="_blank"><img alt="Image" class="test-m-9 mt-15" src="/images/logo/techcrunch.png"></a>
+														</template>
             </PressMentionCard>
             <PressMentionCard
               card_text="Microtraction invests in Nigerian online marketing platform Termii"
               explore_url="https://ventureburn.com/2019/11/microtraction-termii-investment-nigeria">
               <template>
-                <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Mentions by</span> <span class="blue-t"> Ventureburn</span></h4>
-              </template>
+															<a class="testimonial-head" href="https://ventureburn.com/2019/11/microtraction-termii-investment-nigeria/" target="_blank"><img alt="Image" class="test-m-10 mt-20" src="/images/logo/ventureburn.png"></a>
+														</template>
             </PressMentionCard>
             <PressMentionCard
               card_text="Termii, a Nigerian CaaS startup, secures $30,000 seed fund from Future Hub"
               explore_url="https://techpoint.africa/2019/11/20/termii-raises-seed-fund">
               <template>
-                <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Mentions by</span> <span class="blue-t"> Techpoint</span></h4>
+															<a class="testimonial-head" href="https://techpoint.africa/2019/11/20/termii-raises-seed-fund/" target="_blank"><img alt="Image" class="test-m-6 mt-10" src="/images/logo/techpoint.png"></a>
               </template>
             </PressMentionCard>
           </div>
