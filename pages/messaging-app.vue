@@ -54,17 +54,17 @@
 </template>
 
 <script>
-    import Navbar from "../../components/general/navbar/PrimaryNavbar";
-    import ProductMainContent from "../../components/general/ProductMainContent";
-    import ProductFeatures from "../../components/general/product_features/ProductFeatures";
-    import ProductFeatureHeader from "../../components/general/product_features/ProductFeatureHeader";
-    import SingleProductFeatures from "../../components/general/product_features/SingleProductFeature";
-    import GradSection from "../../components/general/TrustedBySection";
-    import Footer from "../../components/general/TheFooter";
-    import TrustedBySection from "../../components/general/TrustedBySection";
-    import TheFooter from "../../components/general/TheFooter";
-    import TheNavbar from "../../components/general/navbar/PrimaryNavbar";
-    import SingleProductFeature from "../../components/general/product_features/SingleProductFeature";
+    import Navbar from "../components/general/navbar/PrimaryNavbar";
+    import ProductMainContent from "../components/general/ProductMainContent";
+    import ProductFeatures from "../components/general/product_features/ProductFeatures";
+    import ProductFeatureHeader from "../components/general/product_features/ProductFeatureHeader";
+    import SingleProductFeatures from "../components/general/product_features/SingleProductFeature";
+    import GradSection from "../components/general/TrustedBySection";
+    import Footer from "../components/general/TheFooter";
+    import TrustedBySection from "../components/general/TrustedBySection";
+    import TheFooter from "../components/general/TheFooter";
+    import TheNavbar from "../components/general/navbar/PrimaryNavbar";
+    import SingleProductFeature from "../components/general/product_features/SingleProductFeature";
     export default {
         name: "switch_page",
       components: {
@@ -83,6 +83,19 @@
           }
         }
       },
+					head() {
+						return {
+							title: 'Termii - Switch',
+							meta: [
+								// hid is used as unique identifier. Do not use `vmid` for it as it will not work
+								{
+									hid: 'description',
+									name: 'description',
+									content: 'My custom description'
+								}
+							]
+						}
+					},
       mounted () {
         this.$nextTick(() => {
           this.$nuxt.$loading.start()

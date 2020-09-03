@@ -1,5 +1,5 @@
 <template>
-  <div class="home-y body">
+  <div class="home-t body">
     <div class="container background">
       <!--main nav-->
       <TheNavbar></TheNavbar>
@@ -21,7 +21,7 @@
               </template>
               <template v-slot:text_body>
                 <p class="text-semibold" style="text-align: center;">
-                  We are located across three offices Washington D.C - USA, Lagos - Nigeria, and Accra - Ghana
+																	We are located across three offices Washington D.C - USA, California - USA, and Lagos - Nigeria
                 </p>
               </template>
             </OurCard>
@@ -54,12 +54,25 @@
                   <div class="vtimeline-block">
                     <span class="vtimeline-date">2020</span>
                     <div class="vtimeline-content">
-                      <small>JANUARY</small>
-                      <h4><strong class="text-bold blue-t">Y Combinator</strong></h4>
-                      Termii the first Nigerian CPaaS startup to be accepted into Y Combinator, the tech startup accelerator where companies like Brex and Airbnb were incubated
+                      <small>MARCH</small>
+                      <h4><strong class="text-bold blue-t">Seed Investment</strong></h4>
+																					Termii raises $50,000 in seed investment from venture capital investment fund -- Kepple West Africa Ventures
                     </div>
                   </div>
                 </div>
+															<div class="vtimeline-point">
+																<div class="vtimeline-icon">
+																	<i class="entypo-rocket"></i>
+																</div>
+																<div class="vtimeline-block">
+																	<span class="vtimeline-date">2020</span>
+																	<div class="vtimeline-content">
+																		<small>JANUARY</small>
+																		<h4><strong class="text-bold blue-t">Y Combinator</strong></h4>
+																		Termii the first Nigerian CPaaS startup to be accepted into Y Combinator, the tech startup accelerator where companies like Brex and Airbnb were incubated
+																	</div>
+																</div>
+															</div>
 
                 <div class="vtimeline-point">
                   <div class="vtimeline-icon">
@@ -203,14 +216,32 @@
   export default {
     name: "investors",
     components: {TheFooter, TermiiButton, PressMentionCard, OurCard, TheNavbar},
-    mounted () {
-      this.$nextTick(() => {
-        this.$nuxt.$loading.start()
+			data(){
+    	return{
+    		title:"Termii Inc. | Investors"
+					}
+			},
 
-        setTimeout(() => this.$nuxt.$loading.finish(), 500)
-      })
-    }
+			head() {
+				return {
+					title: this.title,
+					meta: [
+						// hid is used as unique identifier. Do not use `vmid` for it as it will not work
+						{
+							hid: 'description',
+							name: 'description',
+							content: 'My custom description'
+						}
+					]
+				}
+			},
+			mounted () {
+				this.$nextTick(() => {
+					this.$nuxt.$loading.start()
 
+					setTimeout(() => this.$nuxt.$loading.finish(), 500)
+				})
+			},
   }
 </script>
 
@@ -283,14 +314,14 @@
     color: #fff;
     width: 20px;
     font-size: 8px;
-    padding: -30px 0px 0px 0px;
+			padding: 5px 0px 0px 0px;
     height: 20px;
     background: #365799;
     border-radius: 50%;
     float: left;
     text-align: center;
     line-height: 50px;
-    z-index: 99;
+    z-index: 50;
     margin-left: 295px;
   }
 
@@ -317,4 +348,8 @@
   .post-meta li:not(:last-child) {
     margin-right: 10px;
   }
+		.page-container {
+			position: relative;
+			padding-bottom: 40px;
+		}
 </style>
