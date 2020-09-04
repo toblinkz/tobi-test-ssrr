@@ -72,7 +72,7 @@
                                  </div>
                                  <div class="form-group">
                                    <small style="color: red !important;font-size: 11px;">(Ensure you have added contacts to your phonebook)</small>
-                                   <v-select :options="phone_books" append-to-body :calculate-position="withPopper" taggable multiple label="phonebook_name" placeholder="Phone Book">
+                                   <v-select :options="phone_books" append-to-body :calculate-position="withPopper" :reduce="phonebook => phonebook.id"  multiple label="phonebook_name" placeholder="Phone Book" v-model="selected_phone_book">
 																																				<template #option="{ phonebook_name }">
 																																					<p >{{ phonebook_name }} </p>
 																																				</template>
@@ -150,14 +150,16 @@
       components: {CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, DatePicker, vSelect},
       data(){
           return{
+           	selected: [],
+											selected_phone_book:[{id: 20, phonebook_name:'tobi'}],
             send_later: false,
             date_time:"null",
             sms_channels: [],
             countries: [],
-											placement: 'top',
+									 		placement: 'top',
             active_sender_id: [],
-											message_type: [{name: 'Plain'}, {name:'Voice'}, {name:'MMS'}, {name:'Unicode'}, {name:'Arabic'},],
-											selected_message_type:'Plain',
+										 	message_type: [{name: 'Plain'}, {name:'Voice'}, {name:'MMS'}, {name:'Unicode'}, {name:'Arabic'},],
+										 	selected_message_type:'Plain',
             phone_books:[],
             dropdownSelectedBackground:{
               background: 'white',
@@ -192,6 +194,11 @@
 
           }
         },
+							setSelected(value) {
+								//  trigger a mutation, or dispatch an action
+								this.selected.push(value.phonebook_name);
+								console.log(value.phonebook_name);
+							},
           toggleScheduleTime(){
             this.send_later = !this.send_later
           },
