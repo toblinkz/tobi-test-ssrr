@@ -143,16 +143,16 @@
             await this.getTotalMessagesSent();
 
             //get total no of messages sent
-											let messages_sent_data = await  this.$axios.$get('devices/'+ row.id +'/total-number-of-messages-sent-today');
-											let messages_sent = messages_sent_data.data.total_messages_sent_today
-											this.number = messages_sent
+
           }catch (e) {
 
           }
         },
         async getTotalMessagesSent(row){
             try {
-
+													let messages_sent_data = await  this.$axios.$get('devices/'+ row.id +'/total-number-of-messages-sent-today');
+													let messages_sent = messages_sent_data.data.total_messages_sent_today
+													this.number = messages_sent
             } catch (e) {
 
             }
