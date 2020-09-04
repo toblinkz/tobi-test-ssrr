@@ -78,7 +78,7 @@
                                   <div class="dataTables_length" id="DataTables_Table_0_length">
                                     <label>
                                       Show
-                                      <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control2 input-sm">
+                                      <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control2 input-sm" @change="filterByNumber($event)">
                                         <option value="10">10</option>
                                         <option value="25">25</option>
                                         <option value="50">50</option>
@@ -102,7 +102,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(row,index) in filteredPhonebook" :key="row.id" v-show="filteredPhonebook.length > 1">
+                                <tr v-for="(row,index) in filteredPhonebook" :key="row.id" v-show="filteredPhonebook.length > 0">
                                   <td>
                                     <p>{{index + 1}}</p>
                                   </td>
@@ -115,7 +115,7 @@
                                   <td>
                                     <nuxt-link :to="{path: 'view-contact/'+ row.id }" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
                                     <a class="btn btn-success btn-xs" @click="showModal(row)" ><i class="fa fa-edit"></i> Edit</a>
-                                    <nuxt-link class="btn btn-success btn-xs" :to="{name: 'add-contact-id' , params:{id: row.id}}">
+                                    <nuxt-link class="btn btn-success btn-xs" :to="{name: 'add-contact-id' , params:{id: row.id, phonebook_name: row.id}}">
                                       <i class="fa fa-user-plus"></i> Add Contact</nuxt-link>
                                     <a @click="deletePhoneBook(row)" class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i></a>
                                   </td>
@@ -130,6 +130,14 @@
                         </div>
                       </div>
                     </div>
+																			<Pagination
+																				:page="page"
+																				:total_page="total_page"
+																				:on-page-change="onPageChange"
+																				v-show="showPagination === true"
+																			>
+
+																			</Pagination>
                   </div>
                 </div>
               </section>
@@ -147,10 +155,11 @@
     import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
     import EditPhoneBookModal from "../components/modals/EditPhoneBookModal";
     import Swal from 'sweetalert2';
+				import Pagination from "../components/general/Pagination";
     export default {
         name: "phone-book",
       middleware: 'auth',
-       components: {EditPhoneBookModal, DashboardNavbar, Sidebar},
+       components: {Pagination, EditPhoneBookModal, DashboardNavbar, Sidebar},
       data(){
           return{
             phone_book:[],
@@ -159,7 +168,10 @@
             hasPhoneBookNameError: false,
             phone_book_name:'',
             phone_book_id:'',
-											searchQuery: ''
+											searchQuery: '',
+											page: 1,
+											total_page: '',
+											showPagination: false
           }
       },
       computed:{
@@ -186,9 +198,16 @@
       methods:{
           async fetch() {
           	//get phonebook
-            let response_data = await this.$axios.$get('sms/phone-book');
+            let response_data = await this.$axios.$get('sms/phone-book', {params:{page: this.page}});
             this.phone_book = response_data.data
+											if (response_data.meta.last_page > 1) {this.showPagination = true}
+											this.page = response_data.meta.current_page;
+            this.total_page = response_data.meta.last_page;
           },
+										onPageChange(page) {
+											this.page = page;
+											this.fetch();
+										},
         async addPhoneBook(){
             try{
               await this.$axios.$post('sms/phone-book',
@@ -220,6 +239,22 @@
             }
           });
         },
+							async filterByNumber(event){
+								let response_data = await this.$axios.$get('sms/phone-book', {params:{page: this.page}});
+								if (response_data.meta.last_page > 1 ){
+									this.showPagination = true
+								}else {
+									this.showPagination = false
+								}
+								if (event.target.value !== "10"){
+									this.phone_book = response_data.data
+								}else {
+									this.phone_book = response_data.data.slice(0, 10);
+								}
+
+
+							},
+
         showModal(row){
             this.phone_book_id = row.id;
             this.phone_book_name = row.phonebook_name;
