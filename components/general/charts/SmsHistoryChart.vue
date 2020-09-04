@@ -9,12 +9,12 @@
 <script>
   import Chart from 'chart.js';
     export default {
-        name: "DashboardChart",
+        name: "SmsHistoryChart",
 
       mounted() {
         const ctx = document.getElementById('smsHistoryChart');
           new Chart(ctx, {
-            type: 'pie',
+            type: 'line',
             data: {
               labels: ["Delivered","Message Sent","DND Active","Failed"],
               datasets: [{"backgroundColor":["#5BC0DE","#30DDBC","#f0ad4e","#D9534F"],"hoverBackgroundColor":["#5BC0DE","#30DDBC","#f0ad4e","#D9534F"],"data":[2009,408325,0,0]}]
