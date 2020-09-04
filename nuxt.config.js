@@ -51,8 +51,6 @@ export default {
     { src: '~plugins/vue-paginate.js'},
     { src: '~plugins/vue-notification.js'},
 			{ src: '~plugins/vue-select.js'},
-			{ src: '~plugins/v-tooltip.js'},
-			{ src: '~plugins/axios.js'},
     { src: '~plugins/local-storage.js', ssr: false},
 
   ],
@@ -102,7 +100,6 @@ export default {
 
       },
     },
-			plugins: [ { src: '~/plugins/axios.js', ssr: true }, '~/plugins/auth.js' ]
   },
 
 
