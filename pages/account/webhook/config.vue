@@ -103,7 +103,7 @@
       middleware: 'auth',
       data(){
           return{
-            live_webhook:'',
+            live_webhook:this.$auth.user.customer.live_webhook_url,
             test_webhook: '',
             error_message: [],
             hasLiveWebhookError: false,
