@@ -34,7 +34,7 @@
                             </div>
                             <br>
                             <div class="col-lg-6" style="padding-left: 0;">
-                              <form @submit.prevent="getCampaignReport" role="form" method="get" id="search-form">
+                              <form @submit.prevent="fetch" role="form" method="get" id="search-form">
                                 <div class="row">
                                   <div class="form-group">
                                     <input type="text" placeholder="Phone Number"   class="form-control" v-model="phone_number">
