@@ -42,7 +42,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <br>
-                                    <nuxt-link to="/sms/send-sms" class="btn btn-success"><i class="entypo-paper-plane"></i> Create bulk sms</nuxt-link>
+                                    <nuxt-link to="/sms/group-sms" class="btn btn-success"><i class="entypo-paper-plane"></i> Create bulk sms</nuxt-link>
                                   </div>
                                 </div>
                               </div>
@@ -78,7 +78,7 @@
                               </thead>
                               <tbody>
                               <tr v-for="row in phone_book_contacts.data" :key="row.id">
-                                <td >{{row.user_name || '-'}}</td>
+                                <td >{{row.first_name || '-'}}</td>
                                 <td>-</td>
                                 <td>{{row.phone_number}}</td>
                                 <td> <nuxt-link class="btn btn-success btn-xs" :to="{name: 'edit-contact-id', params:{id: row.id, phone_number: row.phone_number, first_name: row.first_name, last_name: row.last_name}}" :class="setPid(row)" ><i class="fa fa-edit"></i> Edit</nuxt-link>
@@ -119,6 +119,9 @@
           	//get phonebook contact
             this.phone_book_contacts = await this.$axios.$get('sms/phone-book/' +this.$route.params.id);
           },
+						async	getPhonbookContacts(){
+								this.phone_book_contacts = await this.$axios.$get('sms/phone-book/' +this.$route.params.id);
+							},
           setPid(row){
             this.$store.commit('setPhoneBookId', row.pid);
           },
@@ -142,7 +145,8 @@
         }
       },
       mounted() {
-          this.fetch();
+          //this.fetch();
+          this.getPhonbookContacts();
       }
     }
 </script>
