@@ -70,6 +70,17 @@ input[type=text].error {
   transform: skew(0,-10deg);
   width: 100%;
 }
+.home-t::before{
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 975px;
+	height: 600px;
+	background: #f6fafd;
+	transform: skew(0,-10deg);
+	width: 100%;
+}
 .home-x::before {
   content: '';
   position: absolute;
@@ -80,6 +91,72 @@ input[type=text].error {
   background: #f6fafd;
   transform: skew(0,-10deg);
   width: 100%;
+}
+/*headway*/
+#HW_badge.HW_softHidden {
+	background: #CD4B5B !important;
+}
+#HW_badge {
+	top: 20px!important;
+	left: 12px!important;
+}
+/*v-select styles*/
+.v-select.drop-up.vs--open .vs__dropdown-toggle  {
+	border-radius: 0 0 4px 4px;
+	border-top-color: red;
+	border-bottom: 1px solid #d0d0d0;
+}
+
+.v-select .vs__dropdown-menu {
+
+	background-color: #fff;
+	color: #394066;
+	border: 1px solid #d0d0d0;
+	box-shadow: 0 2px 3px 0 rgba(0,0,0,0.25);
+	border-radius: 3px;
+	display: block;
+	position: absolute;
+	width: 100%;
+}
+.v-select .vs__selected {
+
+}
+.v-select .vs__dropdown-menu {
+	border: none;
+	color: #394066;
+	text-transform: lowercase;
+	font-variant: small-caps;
+}
+.v-select.vs--searchable:focus{
+	border: 1px solid #efefef
+}
+.vs--searchable .vs__dropdown-toggle {
+	position: relative;
+	width: 100%;
+	height: 40px;
+	max-width: 100%;
+	margin: 0 auto;
+	cursor: text;
+	border-bottom: 1px solid #d0d0d0;
+
+}
+.vs--searching{
+	border-bottom: 1px solid #d0d0d0;
+	border-radius: 3px;
+
+}
+
+[data-popper-placement='top']  {
+	position: absolute;
+	max-height:350px;
+	width: 100%;
+	padding: 15px 20px;
+	list-style: none;
+	background-color: #fff;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	background-clip: padding-box;
 }
 
 
