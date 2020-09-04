@@ -4,7 +4,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: process.env.npm_package_name || '',
+    title:  'Termii - Send personalized messages' ||  process.env.npm_package_name,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -15,6 +15,7 @@ export default {
       {src: '/js/feedback.js'},
       { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
       { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
+
       {src:"/js/intro.js" },
       ],
     link: [
@@ -49,6 +50,8 @@ export default {
     { src: '~plugins/vue-js-modal.js'},
     { src: '~plugins/vue-paginate.js'},
     { src: '~plugins/vue-notification.js'},
+			{ src: '~plugins/vue-select.js'},
+			{ src: '~plugins/v-tooltip.js'},
 			{ src: '~plugins/axios.js'},
     { src: '~plugins/local-storage.js', ssr: false},
 
@@ -95,9 +98,11 @@ export default {
           user: {url: '/user', method: 'get', propertyName: 'data'},
           logout:{url:'/auth/logout', method:'get'}
 
-        }
-      }
-    }
+        },
+
+      },
+    },
+			plugins: [ { src: '~/plugins/axios.js', ssr: true }, '~/plugins/auth.js' ]
   },
 
 
