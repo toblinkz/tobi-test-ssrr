@@ -162,9 +162,23 @@
           styles: {
             paddingLeft: '50px !important',
             paddingRight: '50px !important'
-          }
+          },
+									title:'Termii | The team'
         }
       },
+					head() {
+						return {
+							title: this.title,
+							meta: [
+								// hid is used as unique identifier. Do not use `vmid` for it as it will not work
+								{
+									hid: 'description',
+									name: 'description',
+									content: 'My custom description'
+								}
+							]
+						}
+					},
       mounted () {
         this.$nextTick(() => {
           this.$nuxt.$loading.start()
@@ -212,7 +226,9 @@
       table-layout: fixed;
     }
   }
-
+		.about-container {
+			position: relative;
+		}
 
 
 </style>
