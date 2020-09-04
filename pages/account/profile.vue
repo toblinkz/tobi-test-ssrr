@@ -260,7 +260,6 @@
 
          if (this.validateImage(file)){
 										let src = URL.createObjectURL(file);
-										console.log(src)
 										let preview = document.getElementById('customer_dp');
 										preview.src = src
 										this.S3Client
