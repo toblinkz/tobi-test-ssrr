@@ -58,21 +58,15 @@
                                  </div>
                                  <div class="form-group">
                                    <label>Recipients</label>
-                                   <v-select :options="countries"  :filter="fuseSearch" append-to-body :calculate-position="withPopper" placeholder="Select country code" label="name">
+                                   <v-select :options="countries" :reduce="code => code.d_code" v-model="selected_country_code"  append-to-body :calculate-position="withPopper" placeholder="Select country code" label="name">
 																																				<template #option="{ name, d_code }">
-																																					<p >{{ name }} {{`(${d_code.substring(1)})`}}</p>
-																																				</template>
-																																				<template #selected-option="{ name, d_code }">
-																																					<div style="display: flex; align-items: baseline;">
-																																						{{name}} <strong>{{ `(${d_code.substring(1)})` }}</strong>
-
-																																					</div>
+																																					<p >{{ name }} {{`(${d_code})`}}</p>
 																																				</template>
 																																			</v-select>
                                  </div>
                                  <div class="form-group">
                                    <small style="color: red !important;font-size: 11px;">(Ensure you have added contacts to your phonebook)</small>
-                                   <v-select :options="phone_books" append-to-body :calculate-position="withPopper" :reduce="phonebook => phonebook.id"  multiple label="phonebook_name" placeholder="Phone Book" v-model="selected_phone_book">
+                                   <v-select class="multi" :options="phone_books" append-to-body :calculate-position="withPopper" :reduce="phonebook => phonebook.id"  multiple label="phonebook_name" placeholder="Phone Book" v-model="selected_phone_book">
 																																				<template #option="{ phonebook_name }">
 																																					<p >{{ phonebook_name }} </p>
 																																				</template>
@@ -87,7 +81,7 @@
                                  </div>
                                  <div class="form-group" v-show="send_later">
                                    <label>Schedule Time</label>
-                                   <date-picker v-model="date_time" type="datetime" style="width: 100%"></date-picker>
+                                   <date-picker v-model="date_time" type="datetime" confirm style="width: 100%" ></date-picker>
                                  </div>
                                </form>
                              </div>
@@ -110,13 +104,13 @@
 																																</v-select>
                                </div>
                                <div class="form-group">
-                                 <textarea class="form-control" name="message" rows="5" id="message"></textarea>
-                                 <span id="remaining">160 characters remaining</span> |
-                                 <span id="messages">1 message(s)</span>
+                                 <textarea class="form-control" name="message" rows="5" v-model="message"></textarea>
+                                 <span id="remaining">{{max_characters}} characters remaining</span> |
+                                 <span id="messages">{{no_of_messages}} message(s)</span>
                                </div>
                              </div>
                              <div class="col-md-12">
-                               <button type="submit" class="btn bx-line btn-success btn-sm"><i class="fa fa-send"></i> Send </button>
+                               <button type="submit" class="btn bx-line btn-success btn-sm"><i class="fa fa-send" disabled></i> Send </button>
                                <nuxt-link to="/sms/history" class="btn bx-line btn-primary"><i class="fa fa-angle-double-right"></i> Next - View report</nuxt-link>
                              </div>
                            </div>
@@ -143,6 +137,7 @@
 				import 'vue-select/dist/vue-select.css';
 				import {createPopper} from "@popperjs/core";
 				import Fuse from "fuse.js";
+				import {mapGetters} from "vuex";
 
     export default {
         name: "group-sms",
@@ -150,16 +145,21 @@
       components: {CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, DatePicker, vSelect},
       data(){
           return{
-           	selected: [],
-											selected_phone_book:[{id: 20, phonebook_name:'tobi'}],
+
+											selected_phone_book:[],
             send_later: false,
             date_time:"null",
             sms_channels: [],
             countries: [],
 									 		placement: 'top',
+											 message:'',
             active_sender_id: [],
 										 	message_type: [{name: 'Plain'}, {name:'Voice'}, {name:'MMS'}, {name:'Unicode'}, {name:'Arabic'},],
 										 	selected_message_type:'Plain',
+											selected_country_code:'',
+											selected_sender_id:'',
+											max_characters: 160,
+											no_of_messages: 1,
             phone_books:[],
             dropdownSelectedBackground:{
               background: 'white',
@@ -171,6 +171,25 @@
             }
           }
       },
+					watch:{
+						message(value){
+							let maxChar = 160;
+							let max = 156;
+							let totalChar = value.length;
+							if (totalChar <= maxChar){
+								this.max_characters = maxChar - totalChar;
+								this.no_of_messages = 1;
+							} else {
+								totalChar = totalChar - maxChar;
+								this.no_of_messages = Math.ceil(totalChar / max);
+								this.max_characters = this.no_of_messages * max - totalChar;
+								this.no_of_messages = this.no_of_messages + 1;
+							}
+						}
+					},
+					computed:{
+						...mapGetters(['getPhoneBookId'])
+					},
       methods: {
         async fetch() {
           try {
@@ -194,10 +213,9 @@
 
           }
         },
-							setSelected(value) {
-								//  trigger a mutation, or dispatch an action
-								this.selected.push(value.phonebook_name);
-								console.log(value.phonebook_name);
+							async getPhoneBook(){
+        	let data = await this.$axios.$get('sms/phone-book/detail/' + this.getPhoneBookId);
+									this.selected_phone_book.push(data.data)
 							},
           toggleScheduleTime(){
             this.send_later = !this.send_later
@@ -239,6 +257,7 @@
       mounted() {
 
         this.fetch();
+        this.getPhoneBook();
 
 
       }
