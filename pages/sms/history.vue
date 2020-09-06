@@ -25,9 +25,9 @@
                     <div class="inner">
                       <div class="mt-20 ">
                         <div class="row ">
-                          <div class="col-lg-6 mb-20">
+                          <div class="col-lg-4 mb-20">
                             <!-- START PANEL -->
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                               <div class="panel-transparent mt-30">
                                 <p id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-chart-pie"></i> Messaging Insight</p>
                                 <p class="insight">View all your messaging insights. <br>Insights captured here include all sent messages.</p>
@@ -55,8 +55,10 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-lg-6 mb-20">
-                              <SmsHistoryChart class="hidden-xs"></SmsHistoryChart>
+                          <div class="col-lg-8 mb-20">
+																											<div class="panel-body text-center">
+																												<SmsHistoryChart class="hidden-xs"></SmsHistoryChart>
+																											</div>
                           </div>
 
                         </div>
@@ -142,12 +144,24 @@
           }
       },
       mounted() {
-          this.fetch();
+							this.getSmsHistory();
+
+
       },
       methods: {
         closeModal() {
           this.showSmsModal = false;
         },
+							async getSmsHistory(){
+								//get sms history
+								let data = await this.$axios.$get('sms/history', {params:{page: this.page}});
+								this.messages_sent = data;
+								if (data.meta.last_page > 1 ){
+									this.showPagination = true
+								}else {this.showPagination = false}
+								this.page = this.messages_sent.meta.current_page;
+								this.total_page = this.messages_sent.meta.last_page;
+							},
         async fetch(){
         	//get sms history
           let data = await this.$axios.$get('sms/history', {params:{page: this.page}});
