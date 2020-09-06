@@ -50,7 +50,7 @@
                                 <div class="form-group mt-50">
                                   <label>Select Channel </label>
                                   <small style="color: red !important;font-size: 11px;">(WhatsApp available only to premium users)</small>
-                                  <v-select :options="sms_channels" placeholder="Select sms channel" :reduce="channel => channel.id"  label="name" v-model="selected_sms_channel">
+                                  <v-select :options="sms_channels" placeholder="Select sms channel"  append-to-body :calculate-position="withPopper" :reduce="channel => channel.id"  label="name" v-model="selected_sms_channel">
 																																			<template #option="{ name }">
 																																				<p >{{ name }} </p>
 																																			</template>
@@ -83,7 +83,7 @@
                               </div>
                               <div class="form-group">
                                 <label>Message</label>
-                               <v-select :options="message_type" :reduce="type => type.name" v-model="selected_message_type" label="name">
+                               <v-select :options="message_type" append-to-body :calculate-position="withPopper" :reduce="type => type.name" v-model="selected_message_type" label="name">
 																																<template #option="{ name }">
 																																	<p >{{ name }} </p>
 																																</template>

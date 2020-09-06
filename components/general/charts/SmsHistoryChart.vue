@@ -146,6 +146,7 @@
 					},
 					async mounted() {
 						await this.getGraphData();
+						this.drawChart();
 					}
 				}
 </script>
