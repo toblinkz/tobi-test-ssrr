@@ -25,10 +25,11 @@
 						}
 					},
 					methods: {
-						 renderGraph(duration) {
+						 async renderGraph(duration) {
 
 							if (duration) {
-								this.getGraphData(duration)
+								await this.getGraphData(duration);
+								this.drawChart();
 							} else {
 								this.lineChartData = {
 									labels: [0, 0, 0, 0],
@@ -71,7 +72,6 @@
 
 							try {
 							let	 data = await this.$axios.$get('sms/history/analytics', {params: {duration: duration}});
-								console.log(data.data.data.message_sent)
 								this.lineChartData = {
 									labels: data.data.time_range,
 									datasets: [
@@ -112,33 +112,40 @@
 							}
 
 						},
+						drawChart(){
+						 	try {
+									let ctx = document.getElementById('smsHistoryChart').getContext('2d');
+									window.myLine = Chart.Line(ctx, {
+										data: this.lineChartData,
+										options: {
+											responsive: true,
+											// hoverMode: 'index',
+											stacked: false,
+											title: {
+												display: true,
+												text: 'Performance of Messages'
+											},
+											scales: {
+												yAxes: [{
+													type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+													display: true,
+													position: 'left',
+													id: 'y-axis-1',
+													gridLines: {
+														drawOnChartArea: false, // only want the grid lines for one axis to show up
+													},
+												}],
+											}
+										}
+									});
+								}catch (e) {
+
+								}
+
+						}
 					},
 					async mounted() {
 						await this.getGraphData();
-						let ctx = document.getElementById('smsHistoryChart').getContext('2d');
-						window.myLine = Chart.Line(ctx, {
-							data: this.lineChartData,
-							options: {
-								responsive: true,
-								// hoverMode: 'index',
-								stacked: false,
-								title: {
-									display: true,
-									text: 'Performance of Messages'
-								},
-								scales: {
-									yAxes: [{
-										type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-										display: true,
-										position: 'left',
-										id: 'y-axis-1',
-										gridLines: {
-											drawOnChartArea: false, // only want the grid lines for one axis to show up
-										},
-									}],
-								}
-							}
-						});
 					}
 				}
 </script>
