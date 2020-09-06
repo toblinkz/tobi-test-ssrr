@@ -199,13 +199,16 @@
       },
       methods:{
           async fetch() {
-          	//get phonebook
-            let response_data = await this.$axios.$get('sms/phone-book', {params:{page: this.page}});
-            this.phone_book = response_data.data
-											if (response_data.meta.last_page > 1) {this.showPagination = true}
-											this.page = response_data.meta.current_page;
-            this.total_page = response_data.meta.last_page;
-
+          	try{
+												//get phonebook
+												let response_data = await this.$axios.$get('sms/phone-book', {params:{page: this.page}});
+												this.phone_book = response_data.data
+												if (response_data.meta.last_page > 1) {this.showPagination = true}
+												this.page = response_data.meta.current_page;
+												this.total_page = response_data.meta.last_page;
+											}catch (e) {
+												this.$toast.error("we cannot process the request at the moment. Try again!");
+											}
           },
 										onPageChange(page) {
 											this.page = page;

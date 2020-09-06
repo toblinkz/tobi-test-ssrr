@@ -170,26 +170,36 @@
 
 			},
 			validateFile(file){
-				let file_extension = file.name.split('.').pop().toLowerCase();
-				if ( file_extension === "csv" || file_extension === "xlsx"){
-					return true
+				try {
+					let file_extension = file.name.split('.').pop().toLowerCase();
+					if ( file_extension === "csv" || file_extension === "xlsx"){
+						return true
+					}
+					return false;
+				}catch (e) {
+
 				}
-				return false;
+
 			},
 			uploadFile(fieldName, files){
-				let file = files[0];
-				if (this.validateFile(file)){
-					this.S3Client
-						.uploadFile(file, this.newFileName)
-						.then(data => { this.contact_upload_url = data.location, this.$toast.success('Uploaded successfully') })
-						.catch(err => {Swal.fire({
-							icon: 'error',
-							title: 'Oops...',
-							text: 'Something went wrong! Please try again.',
-						})})
-				}else {
-					this.$toast.error("Please upload a valid file(CSV, XLSX)");
+				try{
+					let file = files[0];
+					if (this.validateFile(file)){
+						this.S3Client
+							.uploadFile(file, this.newFileName)
+							.then(data => { this.contact_upload_url = data.location, this.$toast.success('Uploaded successfully') })
+							.catch(err => {Swal.fire({
+								icon: 'error',
+								title: 'Oops...',
+								text: 'Something went wrong! Please try again.',
+							})})
+					}else {
+						this.$toast.error("Please upload a valid file(CSV, XLSX)");
+					}
+				}catch (e) {
+
 				}
+
 			},
 			async addContact(){
 				try {

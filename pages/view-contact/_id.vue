@@ -121,31 +121,46 @@
 					},
       methods: {
           async fetch(){
-          	//get phonebook contact
-            this.phone_book_contacts = await this.$axios.$get('sms/phone-book/' +this.$route.params.id);
+          	try {
+												//get phonebook contact
+												this.phone_book_contacts = await this.$axios.$get('sms/phone-book/' +this.$route.params.id);
+											}catch (e) {
+
+											}
+
           },
 						async	getPhonbookContacts(){
-								this.phone_book_contacts = await this.$axios.$get('sms/phone-book/' +this.$route.params.id);
+          	try {
+												this.phone_book_contacts = await this.$axios.$get('sms/phone-book/' +this.$route.params.id);
+											}catch (e) {
+
+											}
+
 							},
           setPid(row){
             this.$store.commit('setPhoneBookId', row.pid);
           },
         async deletePhoneBookContact(row){
-          await Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-          }).then(async (result) => {
-            if (result.value){
-              await this.$axios.$delete('sms/phone-book/contact/' + row.id).catch((e)=>{this.$toast.error("An Error Occured while trying to delete this contact");});
-              this.$toast.success("Phone book deleted successfully");
-              await this.fetch();
-            }
-          });
+          	try {
+												await Swal.fire({
+													title: 'Are you sure?',
+													text: "You won't be able to revert this!",
+													icon: 'warning',
+													showCancelButton: true,
+													confirmButtonColor: '#3085d6',
+													cancelButtonColor: '#d33',
+													confirmButtonText: 'Yes, delete it!'
+												}).then(async (result) => {
+													if (result.value){
+														await this.$axios.$delete('sms/phone-book/contact/' + row.id).catch((e)=>{this.$toast.error("An Error Occured while trying to delete this contact");});
+														this.$toast.success("Phone book deleted successfully");
+														await this.fetch();
+													}
+												});
+											}catch (e) {
+
+											}
+
 
         }
       },

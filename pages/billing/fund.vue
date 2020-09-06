@@ -247,6 +247,7 @@
 											} catch (e) {
 												this.isLoading = false;
 												this.fund_button_text = "Fund Account";
+												this.$toast('Something went wrong. Try again');
 											}
 										}
 									},
@@ -255,7 +256,7 @@
 									let response_data = await this.$axios.$get('billing/exchange-rate', {params: {amount: this.amount,}});
 									this.total = response_data.amount;
 								}catch (e) {
-
+									this.$toast('Something went wrong. Try again');
 								}
 
 							},
@@ -311,7 +312,6 @@
           this.getWalletBalance();
           this.getPaymentMethod();
            this.getTopDetails();
-           console.log(this.$auth)
 
       }
     }

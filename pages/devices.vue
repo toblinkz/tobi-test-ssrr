@@ -144,7 +144,7 @@
             await this.getTotalMessagesSent();
 
           }catch (e) {
-
+											this.$toast.error("We cannot process this request at the moment. Try again");
           }
         },
         async getTotalMessagesSent(row){
@@ -152,7 +152,7 @@
 													let messages_sent_data = await  this.$axios.$get('devices/'+ row.id +'/total-number-of-messages-sent-today');
 													this.number = messages_sent_data.data.total_messages_sent_today
             } catch (e) {
-
+													this.$toast.error("We cannot process this request at the moment. Try again");
             }
         },
         getQRCode(device_id){

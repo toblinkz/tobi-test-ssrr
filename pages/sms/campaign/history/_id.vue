@@ -124,19 +124,24 @@
       },
       methods:{
           async fetch(){
-          	// get campaign report
-            let response_data = await this.$axios.$get('sms/campaign/' + this.campaign_id + '/report', {params:{
-              phone_number: this.phone_number
-              }});
-            this.manage_campaign_list = response_data.data
-            if (response_data.data.length === 0){
-              await Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Phone number could not be found',
-              });
-              this.$router.push({name: 'sms-campaign-reports'});
-            }
+          	try{
+												// get campaign report
+												let response_data = await this.$axios.$get('sms/campaign/' + this.campaign_id + '/report', {params:{
+														phone_number: this.phone_number
+													}});
+												this.manage_campaign_list = response_data.data
+												if (response_data.data.length === 0){
+													await Swal.fire({
+														icon: 'error',
+														title: 'Oops...',
+														text: 'Phone number could not be found',
+													});
+													this.$router.push({name: 'sms-campaign-reports'});
+												}
+
+											}catch (e) {
+
+											}
 
           },
 
