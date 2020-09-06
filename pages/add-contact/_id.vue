@@ -77,7 +77,7 @@
                                   <div class="form-group">
                                     <input type="text" class="form-control" placeholder="Username" v-model="username">
                                   </div>
-                                  <button type="submit" class="btn btn-success btn-sm pull-right"><i class="fa fa-plus"></i> Add </button>
+                                  <button type="submit" class="btn btn-success btn-sm pull-right" :disabled="isDisabled"><i class="fa fa-plus"></i> Add </button>
                                 </form>
                               </div>
                             </div>
@@ -122,6 +122,9 @@
           }
       },
 					computed:{
+        	isDisabled:function () {
+												return(this.selected_country_code === '' || this.phone_number === '');
+									},
 						...mapGetters(['getPhoneBookId'])
 					},
       methods:{

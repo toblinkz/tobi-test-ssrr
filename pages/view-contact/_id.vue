@@ -42,7 +42,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <br>
-                                    <nuxt-link to="/sms/group-sms" class="btn btn-success"><i class="entypo-paper-plane"></i> Create bulk sms</nuxt-link>
+                                    <nuxt-link :to="{name: 'sms-group-sms', params:{id:this.$route.params.id}}"  class="btn btn-success" :aria-disabled="isDisabled"><i class="entypo-paper-plane"></i> Create bulk sms</nuxt-link>
                                   </div>
                                 </div>
                               </div>
@@ -114,6 +114,11 @@
               phone_book_contacts:[]
           }
       },
+					computed:{
+      	isDisabled:function () {
+										return (this.phone_book_contacts.data < 1)
+							}
+					},
       methods: {
           async fetch(){
           	//get phonebook contact
@@ -145,7 +150,7 @@
         }
       },
       mounted() {
-          //this.fetch();
+          this.fetch();
           this.getPhonbookContacts();
       }
     }
