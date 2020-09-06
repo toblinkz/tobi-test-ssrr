@@ -107,12 +107,13 @@
 </template>
 
 <script>
-    import Sidebar from "../components/general/Sidebar";
-    import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
-    import DeviceModal from "../components/modals/DeviceModal";
-    import Swal from "sweetalert2";
-    import {mapGetters} from "vuex";
-    export default {
+	import Sidebar from "../components/general/Sidebar";
+	import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
+	import DeviceModal from "../components/modals/DeviceModal";
+	import Swal from "sweetalert2";
+	import {mapGetters} from "vuex";
+
+	export default {
         name: "devices",
       middleware:'auth',
       components: {DeviceModal, DashboardNavbar, Sidebar},
@@ -131,7 +132,7 @@
       },
       computed:{
 
-        ...mapGetters(['getBearerToken'])
+
     },
       methods: {
 
@@ -142,8 +143,6 @@
             this.response_data = data;
             await this.getTotalMessagesSent();
 
-            //get total no of messages sent
-
           }catch (e) {
 
           }
@@ -151,8 +150,7 @@
         async getTotalMessagesSent(row){
             try {
 													let messages_sent_data = await  this.$axios.$get('devices/'+ row.id +'/total-number-of-messages-sent-today');
-													let messages_sent = messages_sent_data.data.total_messages_sent_today
-													this.number = messages_sent
+													this.number = messages_sent_data.data.total_messages_sent_today
             } catch (e) {
 
             }
@@ -189,6 +187,9 @@
           } else if (row.device_status === 'PENDING'){
             return 'label-warning'
           }
+          else {
+          	return 'label-danger'
+									}
         },
         showBarcodeIcon(row){
           return (row.device_status === 'ACTIVE');
@@ -197,7 +198,7 @@
           return (row.device_status === 'PENDING')
         },
         isDisabled(row){
-          return(row.device_status === 'PENDING')
+          return(row.device_status === 'PENDING' )
         }
       },
       mounted() {
@@ -356,6 +357,10 @@
 			color: #fff;
     background-color: #FF5722;
   }
+		.label-danger{
+			background-color: red;
+			color: #fff;
+		}
   .label-success {
     border-color: #4CAF50;
     color: #fff;
