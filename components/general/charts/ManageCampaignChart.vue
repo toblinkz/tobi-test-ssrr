@@ -11,27 +11,38 @@
 
     export default {
         name: "ManageCampaignChart",
+					data(){
+       return{
+								delivered_message_count: '',
+								message_sent_count: '',
+								dnd_active_count: '',
+								failed_message_count: '',
+							}
+					},
       props:{
-        delivered_message_count: {
-          type: Number,
+        campaign_id: {
           required: true
         } ,
-        message_sent_count:{
-          type: Number,
-          required: true
-        },
-        dnd_active_count:{
-          type:Number,
-          required: true
-        },
-        failed_message_count: {
-          type: Number,
-          required:true
-        }
 
       },
-      mounted() {
-        const ctx = document.getElementById('ManageCampaignChart');
+					methods:{
+
+						async fetch(){
+							try {
+								//get campaign analytics
+								let data = await  this.$axios.$get('sms/campaign/'+ this.campaign_id + '/analytics')
+								this.delivered_message_count = data.delivered;
+								this.message_sent_count = data.sent;
+								this.dnd_active_count = data.dnd;
+								this.failed_message_count = data.failed;
+							}catch (e) {
+
+							}
+						}
+					},
+      async mounted() {
+        	await this.fetch();
+         const ctx = document.getElementById('ManageCampaignChart');
         new Chart(ctx, {
           type: 'pie',
           data: {
@@ -40,6 +51,7 @@
           },
           options: {"legend":{"display":true}}
         });
+
       }
     }
 </script>

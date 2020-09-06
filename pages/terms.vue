@@ -142,6 +142,19 @@ These Terms of Service (which include and incorporate the Termii Privacy Policy)
     export default {
         name: "terms",
       components: {SecondaryNavbar},
+					head() {
+						return {
+							title: 'Terms | Termii',
+							meta: [
+								// hid is used as unique identifier. Do not use `vmid` for it as it will not work
+								{
+									hid: 'description',
+									name: 'description',
+									content: 'My custom description'
+								}
+							]
+						}
+					},
       mounted () {
         this.$nextTick(() => {
           this.$nuxt.$loading.start()

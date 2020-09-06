@@ -53,24 +53,38 @@
 
 <script>
 
-    import ProductMainContent from "../../components/general/ProductMainContent";
-    import ProductFeatures from "../../components/general/product_features/ProductFeatures";
-    import ProductFeatureHeader from "../../components/general/product_features/ProductFeatureHeader";
-    import SingleProductFeatures from "../../components/general/product_features/SingleProductFeature";
-    import TrustedBySection from "../../components/general/TrustedBySection";
-    import TheFooter from "../../components/general/TheFooter";
-    import SingleProductFeature from "../../components/general/product_features/SingleProductFeature";
-    import PrimaryNavbar from "../../components/general/navbar/PrimaryNavbar";
+    import ProductMainContent from "../components/general/ProductMainContent";
+    import ProductFeatures from "../components/general/product_features/ProductFeatures";
+    import ProductFeatureHeader from "../components/general/product_features/ProductFeatureHeader";
+    import SingleProductFeatures from "../components/general/product_features/SingleProductFeature";
+    import TrustedBySection from "../components/general/TrustedBySection";
+    import TheFooter from "../components/general/TheFooter";
+    import SingleProductFeature from "../components/general/product_features/SingleProductFeature";
+    import PrimaryNavbar from "../components/general/navbar/PrimaryNavbar";
     export default {
-        name: "token",
+        name: "verify-app",
       components: {
         PrimaryNavbar,
         SingleProductFeature,
         TheFooter,
         TrustedBySection,
         SingleProductFeatures, ProductFeatureHeader, ProductFeatures, ProductMainContent},
+					head() {
+						return {
+							title: this.title,
+							meta: [
+								// hid is used as unique identifier. Do not use `vmid` for it as it will not work
+								{
+									hid: 'description',
+									name: 'description',
+									content: 'My custom description'
+								}
+							]
+						}
+					},
       data() {
         return {
+        	title: "Termii - Tokens",
           styles: {
             marginTop: '-145px',
             width: '100%',
@@ -80,6 +94,7 @@
           }
         }
       },
+
       mounted () {
         this.$nextTick(() => {
           this.$nuxt.$loading.start()

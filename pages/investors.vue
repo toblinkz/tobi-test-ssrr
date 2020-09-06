@@ -1,5 +1,5 @@
 <template>
-  <div class="home-y body">
+  <div class="home-t body">
     <div class="container background">
       <!--main nav-->
       <TheNavbar></TheNavbar>
@@ -21,7 +21,7 @@
               </template>
               <template v-slot:text_body>
                 <p class="text-semibold" style="text-align: center;">
-                  We are located across three offices Washington D.C - USA, Lagos - Nigeria, and Accra - Ghana
+																	We are located across three offices Washington D.C - USA, California - USA, and Lagos - Nigeria
                 </p>
               </template>
             </OurCard>
@@ -54,12 +54,25 @@
                   <div class="vtimeline-block">
                     <span class="vtimeline-date">2020</span>
                     <div class="vtimeline-content">
-                      <small>JANUARY</small>
-                      <h4><strong class="text-bold blue-t">Y Combinator</strong></h4>
-                      Termii the first Nigerian CPaaS startup to be accepted into Y Combinator, the tech startup accelerator where companies like Brex and Airbnb were incubated
+                      <small>MARCH</small>
+                      <h4><strong class="text-bold blue-t">Seed Investment</strong></h4>
+																					Termii raises $50,000 in seed investment from venture capital investment fund -- Kepple West Africa Ventures
                     </div>
                   </div>
                 </div>
+															<div class="vtimeline-point">
+																<div class="vtimeline-icon">
+																	<i class="entypo-rocket"></i>
+																</div>
+																<div class="vtimeline-block">
+																	<span class="vtimeline-date">2020</span>
+																	<div class="vtimeline-content">
+																		<small>JANUARY</small>
+																		<h4><strong class="text-bold blue-t">Y Combinator</strong></h4>
+																		Termii the first Nigerian CPaaS startup to be accepted into Y Combinator, the tech startup accelerator where companies like Brex and Airbnb were incubated
+																	</div>
+																</div>
+															</div>
 
                 <div class="vtimeline-point">
                   <div class="vtimeline-icon">
@@ -157,21 +170,21 @@
               card_text="All the companies from Y Combinator’s W20 Demo Day, Part I: B2B Companies"
               explore_url="https://techcrunch.com/2020/03/17/all-the-companies-from-y-combinators-w20-demo-day-part-i-b2b-companies">
               <template>
-                <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Mentions by</span> <span class="blue-t"> Techcrunch</span></h4>
-              </template>
+															<a class="testimonial-head" href="https://techcrunch.com/2020/03/17/all-the-companies-from-y-combinators-w20-demo-day-part-i-b2b-companies/" target="_blank"><img alt="Image" class="test-m-9 mt-15" src="/images/logo/techcrunch.png"></a>
+														</template>
             </PressMentionCard>
             <PressMentionCard
               card_text="Microtraction invests in Nigerian online marketing platform Termii"
               explore_url="https://ventureburn.com/2019/11/microtraction-termii-investment-nigeria">
               <template>
-                <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Mentions by</span> <span class="blue-t"> Ventureburn</span></h4>
-              </template>
+															<a class="testimonial-head" href="https://ventureburn.com/2019/11/microtraction-termii-investment-nigeria/" target="_blank"><img alt="Image" class="test-m-10 mt-20" src="/images/logo/ventureburn.png"></a>
+														</template>
             </PressMentionCard>
             <PressMentionCard
               card_text="Termii, a Nigerian CaaS startup, secures $30,000 seed fund from Future Hub"
               explore_url="https://techpoint.africa/2019/11/20/termii-raises-seed-fund">
               <template>
-                <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Mentions by</span> <span class="blue-t"> Techpoint</span></h4>
+															<a class="testimonial-head" href="https://techpoint.africa/2019/11/20/termii-raises-seed-fund/" target="_blank"><img alt="Image" class="test-m-6 mt-10" src="/images/logo/techpoint.png"></a>
               </template>
             </PressMentionCard>
           </div>
@@ -203,14 +216,32 @@
   export default {
     name: "investors",
     components: {TheFooter, TermiiButton, PressMentionCard, OurCard, TheNavbar},
-    mounted () {
-      this.$nextTick(() => {
-        this.$nuxt.$loading.start()
+			data(){
+    	return{
+    		title:"Termii Inc. | Investors"
+					}
+			},
 
-        setTimeout(() => this.$nuxt.$loading.finish(), 500)
-      })
-    }
+			head() {
+				return {
+					title: this.title,
+					meta: [
+						// hid is used as unique identifier. Do not use `vmid` for it as it will not work
+						{
+							hid: 'description',
+							name: 'description',
+							content: 'My custom description'
+						}
+					]
+				}
+			},
+			mounted () {
+				this.$nextTick(() => {
+					this.$nuxt.$loading.start()
 
+					setTimeout(() => this.$nuxt.$loading.finish(), 500)
+				})
+			},
   }
 </script>
 
@@ -283,14 +314,14 @@
     color: #fff;
     width: 20px;
     font-size: 8px;
-    padding: -30px 0px 0px 0px;
+			padding: 5px 0px 0px 0px;
     height: 20px;
     background: #365799;
     border-radius: 50%;
     float: left;
     text-align: center;
     line-height: 50px;
-    z-index: 99;
+    z-index: 50;
     margin-left: 295px;
   }
 
@@ -317,4 +348,8 @@
   .post-meta li:not(:last-child) {
     margin-right: 10px;
   }
+		.page-container {
+			position: relative;
+			padding-bottom: 40px;
+		}
 </style>

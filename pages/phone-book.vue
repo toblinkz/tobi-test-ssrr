@@ -78,7 +78,7 @@
                                   <div class="dataTables_length" id="DataTables_Table_0_length">
                                     <label>
                                       Show
-                                      <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control2 input-sm">
+                                      <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control2 input-sm" @change="filterByNumber($event)">
                                         <option value="10">10</option>
                                         <option value="25">25</option>
                                         <option value="50">50</option>
@@ -89,7 +89,7 @@
                                   </div>
                                 </div>
                                 <div class="col-sm-6">
-                                  <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control2 input-sm" placeholder="" aria-controls="DataTables_Table_0"></label></div>
+                                  <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control2 input-sm"  v-model="searchQuery"></label></div>
                                 </div>
                               </div>
                               <table class="table table-responsive data-table table-hover">
@@ -102,24 +102,28 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="row in phone_book.data" :key="row.id">
+                                <tr v-for="(row,index) in filteredPhonebook" :key="row.id" v-show="filteredPhonebook.length > 0">
                                   <td>
-                                    <p>{{phone_book.data.indexOf(row ) + 1}}</p>
+                                    <p>{{index + 1}}</p>
                                   </td>
                                   <td>
                                     <p>{{row.phonebook_name}}</p>
                                   </td>
-                                  <td>
-                                    <p>{{row.total_contacts}}</p>
+                                  <td >
+                                    <p :class="getTotalContacts(row)"></p>
                                   </td>
+
                                   <td>
                                     <nuxt-link :to="{path: 'view-contact/'+ row.id }" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
                                     <a class="btn btn-success btn-xs" @click="showModal(row)" ><i class="fa fa-edit"></i> Edit</a>
-                                    <nuxt-link class="btn btn-success btn-xs" :to="{name: 'add-contact-id' , params:{id: row.id}}">
+                                    <nuxt-link class="btn btn-success btn-xs" :to="{name: 'add-contact-id' , params:{id: row.id, phonebook_name: row.id}}"  :class="setPid(row)">
                                       <i class="fa fa-user-plus"></i> Add Contact</nuxt-link>
                                     <a @click="deletePhoneBook(row)" class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i></a>
                                   </td>
                                 </tr>
+																																<tr>
+																																	<td  colspan="7" style="text-align: center; cursor: pointer" v-show="filteredPhonebook.length < 1">No data available in table</td>
+																																</tr>
                                 </tbody>
                               </table>
                             </div>
@@ -127,13 +131,20 @@
                         </div>
                       </div>
                     </div>
+																			<Pagination
+																				:page="page"
+																				:total_page="total_page"
+																				:on-page-change="onPageChange"
+																				v-show="showPagination === true"
+																			>
+																			</Pagination>
                   </div>
                 </div>
               </section>
             </main>
           </div>
         </div>
-        <EditPhoneBookModal @updated="getPhoneBook" :phone_book_name="phone_book_name" :phone_book_id="phone_book_id"></EditPhoneBookModal>
+        <EditPhoneBookModal @updated="fetch" :phone_book_name="phone_book_name" :phone_book_id="phone_book_id"></EditPhoneBookModal>
       </div>
     </div>
   </div>
@@ -144,10 +155,11 @@
     import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
     import EditPhoneBookModal from "../components/modals/EditPhoneBookModal";
     import Swal from 'sweetalert2';
+				import Pagination from "../components/general/Pagination";
     export default {
         name: "phone-book",
       middleware: 'auth',
-       components: {EditPhoneBookModal, DashboardNavbar, Sidebar},
+       components: {Pagination, EditPhoneBookModal, DashboardNavbar, Sidebar},
       data(){
           return{
             phone_book:[],
@@ -155,13 +167,28 @@
             error_message:'',
             hasPhoneBookNameError: false,
             phone_book_name:'',
-            phone_book_id:''
+            phone_book_id:'',
+											searchQuery: '',
+											contacts:'',
+											number:'',
+											page: 1,
+											total_page: '',
+											showPagination: false
           }
       },
       computed:{
           isDisabled:function () {
               return (this.phonebook_name === '')
-          }
+          },
+							filteredPhonebook(){
+          	if (this.searchQuery){
+          			return this.phone_book.filter(item => {
+          				return item.phonebook_name.includes(this.searchQuery)
+													})
+											}else {
+          		return this.phone_book;
+											}
+							}
       },
       watch:{
         phonebook_name(value){
@@ -172,23 +199,46 @@
       },
       methods:{
           async fetch() {
-          	//get phonebook
-            let response_data = await this.$axios.$get('sms/phone-book');
-            this.phone_book = response_data
+          	try{
+												//get phonebook
+												let response_data = await this.$axios.$get('sms/phone-book', {params:{page: this.page}});
+												this.phone_book = response_data.data
+												if (response_data.meta.last_page > 1) {this.showPagination = true}
+												this.page = response_data.meta.current_page;
+												this.total_page = response_data.meta.last_page;
+											}catch (e) {
+												this.$toast.error("we cannot process the request at the moment. Try again!");
+											}
           },
+										onPageChange(page) {
+											this.page = page;
+											this.fetch();
+										},
+							setPid(row){
+								this.$store.commit('setPhoneBookId', row.id);
+							},
         async addPhoneBook(){
             try{
               await this.$axios.$post('sms/phone-book',
                 {
                   phonebook_name: this.phonebook_name
                 });
-              await this.getPhoneBook();
+              await this.fetch();
               this.$toast.success("Phone book added successfully");
             } catch (e) {
                   this.error_message = 'Phone-book name already exists';
                   this.hasPhoneBookNameError = true;
             }
         },
+							async getTotalContacts(row){
+         try{
+         	 let total_contacts = await this.$axios.$get('sms/phone-book/count/'+ row.id);
+         	  this.contacts = total_contacts.data.data;
+
+									}catch (e) {
+
+									}
+							},
         async deletePhoneBook(row_id){
             let id = row_id.id
           await Swal.fire({
@@ -207,6 +257,22 @@
             }
           });
         },
+							async filterByNumber(event){
+								let response_data = await this.$axios.$get('sms/phone-book', {params:{page: this.page}});
+								if (response_data.meta.last_page > 1 ){
+									this.showPagination = true
+								}else {
+									this.showPagination = false
+								}
+								if (event.target.value !== "10"){
+									this.phone_book = response_data.data
+								}else {
+									this.phone_book = response_data.data.slice(0, 10);
+								}
+
+
+							},
+
         showModal(row){
             this.phone_book_id = row.id;
             this.phone_book_name = row.phonebook_name;

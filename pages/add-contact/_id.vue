@@ -77,7 +77,7 @@
                                   <div class="form-group">
                                     <input type="text" class="form-control" placeholder="Username" v-model="username">
                                   </div>
-                                  <button type="submit" class="btn btn-success btn-sm pull-right"><i class="fa fa-plus"></i> Add </button>
+                                  <button type="submit" class="btn btn-success btn-sm pull-right" :disabled="isDisabled"><i class="fa fa-plus"></i> Add </button>
                                 </form>
                               </div>
                             </div>
@@ -99,6 +99,7 @@
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import SearchDropdown from "../../components/general/dropdown/SearchDropdown";
+				import {mapGetters} from "vuex";
     export default {
         name: "add-contact",
        middleware:'auth',
@@ -120,6 +121,12 @@
             },
           }
       },
+					computed:{
+        	isDisabled:function () {
+												return(this.selected_country_code === '' || this.phone_number === '');
+									},
+						...mapGetters(['getPhoneBookId'])
+					},
       methods:{
         async getCountries(){
           try {
@@ -128,6 +135,7 @@
               this.countries.push(response_data.data[i].name + ` (${response_data.data[i].d_code.slice(1)})`);
             }
           }catch (e) {
+
           }
         },
         async addContact(){
@@ -144,9 +152,16 @@
                 country_code: this.selected_country_code
 
             });
-            this.$router.push({name: 'view-contact-id'})
+            await this.$router.push({path: '/view-contact/'+ this.getPhoneBookId});
+											this.$toast.success('Contact added successfully');
           }catch (e) {
-
+											let errors = e.response.data.errors;
+											for(let key in errors){
+												errors[key].forEach(err => {
+													this.$toast.error(err);
+												});
+											}
+											this.$toast.error(e.response.data.error);
           }
         },
         show(country_code){

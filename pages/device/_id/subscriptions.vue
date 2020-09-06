@@ -105,15 +105,10 @@
               await this.$axios.$post('devices/'+ this.device_id + '/subscribe', {
                plan_id: this.plan_id
              });
-              await this.getSubscriptions();
+              await this.fetch();
             } catch (e) {
-                await this.$axios.onError(error => {
-                  if (error.response.status === 422){
-                    this.$notify({  group: 'Error',
-                      title: 'Error',
-                      text: 'You have pending payment on this device, Contact Account Manager'})
-                  }
-                })
+													this.$toast.error("You have pending payment on this device, Contact Account Manager");
+
             }
         },
         showPayNowButton(row){
@@ -128,7 +123,7 @@
               this.payment_url = data.url
               window.location.href = this.payment_url;
             } catch (e) {
-
+														this.$toast.error("Something went wrong.Try again!");
             }
         }
       },

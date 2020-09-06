@@ -97,10 +97,12 @@
               password: this.getUserPassword
             }
           });
+									 this.isLoading = false;
+								 	this.button_text = "Verify Code";
           this.$toast.show("Successfully verified");
-          this.$router.push('/dashboard');
+          await this.$router.push('/dashboard');
           this.$store.commit('setViewVerificationPage')
-
+									localStorage.removeItem('vuex');
         }catch (error) {
           if (navigator.onLine) {
             this.isLoading = false;

@@ -98,7 +98,7 @@
         let verifyToken = await this.$axios.$get('password-reset/verify/token-link/'+ this.$route.params.id);
 
         if (verifyToken.data === false){
-          this.$router.push({name: 'error'});
+          this.$toast.error("Request for password reset again");
         }
       },
       async requestPasswordReset(){

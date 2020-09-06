@@ -42,7 +42,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <br>
-                                    <nuxt-link to="/sms/send-sms" class="btn btn-success"><i class="entypo-paper-plane"></i> Create bulk sms</nuxt-link>
+                                    <nuxt-link :to="{name: 'sms-group-sms', params:{id:this.$route.params.id}}"  class="btn btn-success" :aria-disabled="isDisabled"><i class="entypo-paper-plane"></i> Create bulk sms</nuxt-link>
                                   </div>
                                 </div>
                               </div>
@@ -78,7 +78,7 @@
                               </thead>
                               <tbody>
                               <tr v-for="row in phone_book_contacts.data" :key="row.id">
-                                <td >{{row.user_name || '-'}}</td>
+                                <td >{{row.first_name || '-'}}</td>
                                 <td>-</td>
                                 <td>{{row.phone_number}}</td>
                                 <td> <nuxt-link class="btn btn-success btn-xs" :to="{name: 'edit-contact-id', params:{id: row.id, phone_number: row.phone_number, first_name: row.first_name, last_name: row.last_name}}" :class="setPid(row)" ><i class="fa fa-edit"></i> Edit</nuxt-link>
@@ -114,35 +114,59 @@
               phone_book_contacts:[]
           }
       },
+					computed:{
+      	isDisabled:function () {
+										return (this.phone_book_contacts.data < 1)
+							}
+					},
       methods: {
           async fetch(){
-          	//get phonebook contact
-            this.phone_book_contacts = await this.$axios.$get('sms/phone-book/' +this.$route.params.id);
+          	try {
+												//get phonebook contact
+												this.phone_book_contacts = await this.$axios.$get('sms/phone-book/' +this.$route.params.id);
+											}catch (e) {
+
+											}
+
           },
+						async	getPhonbookContacts(){
+          	try {
+												this.phone_book_contacts = await this.$axios.$get('sms/phone-book/' +this.$route.params.id);
+											}catch (e) {
+
+											}
+
+							},
           setPid(row){
             this.$store.commit('setPhoneBookId', row.pid);
           },
         async deletePhoneBookContact(row){
-          await Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-          }).then(async (result) => {
-            if (result.value){
-              await this.$axios.$delete('sms/phone-book/contact/' + row.id).catch((e)=>{this.$toast.error("An Error Occured while trying to delete this contact");});
-              this.$toast.success("Phone book deleted successfully");
-              await this.getPhoneBookContact();
-            }
-          });
+          	try {
+												await Swal.fire({
+													title: 'Are you sure?',
+													text: "You won't be able to revert this!",
+													icon: 'warning',
+													showCancelButton: true,
+													confirmButtonColor: '#3085d6',
+													cancelButtonColor: '#d33',
+													confirmButtonText: 'Yes, delete it!'
+												}).then(async (result) => {
+													if (result.value){
+														await this.$axios.$delete('sms/phone-book/contact/' + row.id).catch((e)=>{this.$toast.error("An Error Occured while trying to delete this contact");});
+														this.$toast.success("Phone book deleted successfully");
+														await this.fetch();
+													}
+												});
+											}catch (e) {
+
+											}
+
 
         }
       },
       mounted() {
           this.fetch();
+          this.getPhonbookContacts();
       }
     }
 </script>

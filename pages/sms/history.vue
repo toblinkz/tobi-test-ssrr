@@ -25,9 +25,9 @@
                     <div class="inner">
                       <div class="mt-20 ">
                         <div class="row ">
-                          <div class="col-lg-6 mb-20">
+                          <div class="col-lg-4 mb-20">
                             <!-- START PANEL -->
-                            <div class="col-md-10">
+                            <div class="col-md-12">
                               <div class="panel-transparent mt-30">
                                 <p id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-chart-pie"></i> Messaging Insight</p>
                                 <p class="insight">View all your messaging insights. <br>Insights captured here include all sent messages.</p>
@@ -36,11 +36,11 @@
                               <div class="row">
                                 <form @submit.prevent="filterSmsHistory" role="form" method="get" >
                                   <div class="row">
-                                    <div class="col-md-7 mb-20" style="padding-left: 0px;padding-right: 0px;">
+                                    <div class="col-md-12 mb-20" style="padding-left: 0px;padding-right: 0px;">
                                       <input type="text" placeholder="Phone Number" class="form-control" v-model="phone_number">
-                                    </div>
+																																				</div>
 
-                                    <div class="col-md-5 mb-20" style="padding-right: 0px;">
+                                    <div class="col-md-12 mb-20" style="padding-left: 0px;padding-right: 0px;">
                                       <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
                                     </div>
                                   </div>
@@ -48,15 +48,17 @@
                                     <button type="submit" class="btn btn-success wd-100 bx-line"><i class="fa fa-search"></i> Search</button>
                                   </center>
                                 </form>
-                                <form action="#" method="POST" class="mt-20">
+                                <form @submit.prevent="" method="POST" class="mt-20">
                                   <center> <button type="submit" class="btn btn-danger wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
                                 </form>
 
                               </div>
                             </div>
                           </div>
-                          <div class="col-lg-6 mb-20">
-                              <DashboardChart class="hidden-xs"></DashboardChart>
+                          <div class="col-lg-8 mb-20">
+																											<div class="panel-body text-center">
+																												<SmsHistoryChart class="hidden-xs"></SmsHistoryChart>
+																											</div>
                           </div>
 
                         </div>
@@ -119,14 +121,14 @@
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import SmsHistoryModal from "../../components/modals/SmsHistoryModal";
-    import DashboardChart from "../../components/general/charts/SmsHistoryChart";
     import Pagination from "../../components/general/Pagination";
     import DatePicker from "vue2-datepicker";
     import 'vue2-datepicker/index.css';
+				import SmsHistoryChart from "../../components/general/charts/SmsHistoryChart";
     export default {
         name: "history",
       middleware:'auth',
-      components: {Pagination,DashboardChart, SmsHistoryModal, DashboardNavbar, Sidebar, DatePicker},
+      components: {Pagination, SmsHistoryModal, DashboardNavbar, Sidebar, DatePicker,  SmsHistoryChart},
 
       data(){
           return{
@@ -142,30 +144,57 @@
           }
       },
       mounted() {
-          this.fetch();
+							this.getSmsHistory();
+
+
       },
       methods: {
         closeModal() {
           this.showSmsModal = false;
         },
+							async getSmsHistory(){
+        	try {
+										//get sms history
+										let data = await this.$axios.$get('sms/history', {params:{page: this.page}});
+										this.messages_sent = data;
+										if (data.meta.last_page > 1 ){
+											this.showPagination = true
+										}else {this.showPagination = false}
+										this.page = this.messages_sent.meta.current_page;
+										this.total_page = this.messages_sent.meta.last_page;
+									}catch (e) {
+
+									}
+
+							},
         async fetch(){
-        	//get sms history
-          let data = await this.$axios.$get('sms/history', {params:{page: this.page}});
-          this.messages_sent = data;
-          if (data.meta.last_page > 1 ){
-          	this.showPagination = true
-          }else {this.showPagination = false}
-          this.page = this.messages_sent.meta.current_page;
-          this.total_page = this.messages_sent.meta.last_page;
+        	try {
+										//get sms history
+										let data = await this.$axios.$get('sms/history', {params:{page: this.page}});
+										this.messages_sent = data;
+										if (data.meta.last_page > 1 ){
+											this.showPagination = true
+										}else {this.showPagination = false}
+										this.page = this.messages_sent.meta.current_page;
+										this.total_page = this.messages_sent.meta.last_page;
+									}catch (e) {
+
+									}
+
         },
         async filterSmsHistory(){
-          let data = await this.$axios.$get('sms/history', {params:{page: this.page, phone_number: this.phone_number, sms_histories_daterange: this.date_time[0] + "," + this.date_time[1]}});
-          this.messages_sent = data;
-           if (data.meta.last_page > 1 ){
-												this.showPagination = true
-           }else {this.showPagination = false}
-           this.page = this.messages_sent.meta.current_page;
-           this.total_page = this.messages_sent.meta.last_page;
+        	try {
+										let data = await this.$axios.$get('sms/history', {params:{page: this.page, phone_number: this.phone_number, sms_histories_daterange: this.date_time[0] + "," + this.date_time[1]}});
+										this.messages_sent = data;
+										if (data.meta.last_page > 1 ){
+											this.showPagination = true
+										}else {this.showPagination = false}
+										this.page = this.messages_sent.meta.current_page;
+										this.total_page = this.messages_sent.meta.last_page;
+									}catch (e) {
+
+									}
+
         },
         onPageChange(page) {
           this.page = page;
@@ -174,7 +203,7 @@
         showModal(row){
           this.sms_history_id = row.id;
           this.showSmsModal = true;
-        }
+							}
       }
     }
 </script>
@@ -287,7 +316,10 @@
     max-width: 100%;
     /* margin-bottom: 20px; */
   }
-
+		.form-control::-webkit-input-placeholder {
+			color: #999;
+			font-size: 13px;
+		}
   .table > tbody > tr > td{
     vertical-align: middle;
     padding: 12px 20px;
