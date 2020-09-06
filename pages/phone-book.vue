@@ -109,13 +109,14 @@
                                   <td>
                                     <p>{{row.phonebook_name}}</p>
                                   </td>
-                                  <td>
-                                    <p>{{row.total_contacts}}</p>
+                                  <td >
+                                    <p :class="getTotalContacts(row)"></p>
                                   </td>
+
                                   <td>
                                     <nuxt-link :to="{path: 'view-contact/'+ row.id }" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
                                     <a class="btn btn-success btn-xs" @click="showModal(row)" ><i class="fa fa-edit"></i> Edit</a>
-                                    <nuxt-link class="btn btn-success btn-xs" :to="{name: 'add-contact-id' , params:{id: row.id, phonebook_name: row.id}}">
+                                    <nuxt-link class="btn btn-success btn-xs" :to="{name: 'add-contact-id' , params:{id: row.id, phonebook_name: row.id}}"  :class="setPid(row)">
                                       <i class="fa fa-user-plus"></i> Add Contact</nuxt-link>
                                     <a @click="deletePhoneBook(row)" class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i></a>
                                   </td>
@@ -136,7 +137,6 @@
 																				:on-page-change="onPageChange"
 																				v-show="showPagination === true"
 																			>
-
 																			</Pagination>
                   </div>
                 </div>
@@ -169,6 +169,8 @@
             phone_book_name:'',
             phone_book_id:'',
 											searchQuery: '',
+											contacts:'',
+											number:'',
 											page: 1,
 											total_page: '',
 											showPagination: false
@@ -203,11 +205,15 @@
 											if (response_data.meta.last_page > 1) {this.showPagination = true}
 											this.page = response_data.meta.current_page;
             this.total_page = response_data.meta.last_page;
+
           },
 										onPageChange(page) {
 											this.page = page;
 											this.fetch();
 										},
+							setPid(row){
+								this.$store.commit('setPhoneBookId', row.id);
+							},
         async addPhoneBook(){
             try{
               await this.$axios.$post('sms/phone-book',
@@ -221,6 +227,15 @@
                   this.hasPhoneBookNameError = true;
             }
         },
+							async getTotalContacts(row){
+         try{
+         	 let total_contacts = await this.$axios.$get('sms/phone-book/count/'+ row.id);
+         	  this.contacts = total_contacts.data.data;
+
+									}catch (e) {
+
+									}
+							},
         async deletePhoneBook(row_id){
             let id = row_id.id
           await Swal.fire({
