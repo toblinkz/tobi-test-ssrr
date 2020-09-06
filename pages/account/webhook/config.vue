@@ -137,7 +137,7 @@
 
               });
             }catch (e) {
-
+														this.$toast.error("Something went wrong. Try again!");
             }
           },
 							validateWebUrl(value){

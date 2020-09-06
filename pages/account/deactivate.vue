@@ -112,7 +112,7 @@
                 title: 'Oops...',
                 text: 'We are sorry to see you',
               });
-              this.$auth.logout();
+              await this.$auth.logout();
 
             }catch (e) {
               if (e.response.data.data === 'Incorrect Password Entered'){
