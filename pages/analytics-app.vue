@@ -53,16 +53,16 @@
 
 <script>
 
-    import ProductMainContent from "../../components/general/ProductMainContent";
-    import ProductFeatures from "../../components/general/product_features/ProductFeatures";
-    import ProductFeatureHeader from "../../components/general/product_features/ProductFeatureHeader";
-    import SingleProductFeatures from "../../components/general/product_features/SingleProductFeature";
-     import TheNavbar from "../../components/general/navbar/PrimaryNavbar";
-    import TheFooter from "../../components/general/TheFooter";
-    import TrustedBySection from "../../components/general/TrustedBySection";
-    import SingleProductFeature from "../../components/general/product_features/SingleProductFeature";
+    import ProductMainContent from "../components/general/ProductMainContent";
+    import ProductFeatures from "../components/general/product_features/ProductFeatures";
+    import ProductFeatureHeader from "../components/general/product_features/ProductFeatureHeader";
+    import SingleProductFeatures from "../components/general/product_features/SingleProductFeature";
+     import TheNavbar from "../components/general/navbar/PrimaryNavbar";
+    import TheFooter from "../components/general/TheFooter";
+    import TrustedBySection from "../components/general/TrustedBySection";
+    import SingleProductFeature from "../components/general/product_features/SingleProductFeature";
     export default {
-      name: "insight",
+      name: "analytics-app",
       components: {
         SingleProductFeature,
         TrustedBySection,
@@ -78,6 +78,19 @@
           }
         }
       },
+					head() {
+						return {
+							title: 'Termii - Insight',
+							meta: [
+								// hid is used as unique identifier. Do not use `vmid` for it as it will not work
+								{
+									hid: 'description',
+									name: 'description',
+									content: 'My custom description'
+								}
+							]
+						}
+					},
       mounted () {
         this.$nextTick(() => {
           this.$nuxt.$loading.start()

@@ -164,6 +164,19 @@ We use tools, such as cookies, to enable essential services and functionality on
     export default {
         name: "privacy",
       components: {SecondaryNavbar, GuidelineCard},
+					head() {
+						return {
+							title: 'Privacy | Termii',
+							meta: [
+								// hid is used as unique identifier. Do not use `vmid` for it as it will not work
+								{
+									hid: 'description',
+									name: 'description',
+									content: 'My custom description'
+								}
+							]
+						}
+					},
       mounted () {
         this.$nextTick(() => {
           this.$nuxt.$loading.start()

@@ -39,11 +39,20 @@
                     <span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
                   </div>
                   <div class="register-form-group has-feedback has-feedback-left mt-20">
-                    <input id="password"  :type="type" class="form-control " :class="{'error ' : hasPasswordError, 'has-input' : hasPasswordInput}" v-model="password" placeholder="Password" maxlength="24">
+                    <input id="password"
+																											:type="type" class="form-control " :class="{'error ' : hasPasswordError, 'has-input' : hasPasswordInput}" v-model="password" placeholder="Password" maxlength="24">
                     <span class="input-field_helper">Password</span>
                     <span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
                     <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
-
+																				<div v-show="hasPasswordError">
+																					<p>Password should contain at least:</p>
+																					<ul>
+																						<li>One lowercase letter</li>
+																						<li>One uppercase letter</li>
+																						<li>One special character except "@"</li>
+																						<li>8 minimum characters</li>
+																					</ul>
+																				</div>
                   </div>
                 <div class="register-form-group has-feedback has-feedback-left ">
                   <input id="phone_number"  type="tel" class="form-control " :class="{'error ' : hasPhoneNumberError, 'has-input' : hasPhoneNumberInput}" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
@@ -86,7 +95,7 @@
     import {mapGetters} from "vuex";
     import ButtonSpinner from "../components/general/ButtonSpinner";
     export default {
-        name: "register",
+					 name: "register",
       components: {ButtonSpinner, CustomSelect, SearchDropdown},
       middleware:['guest', ],
       data(){
@@ -191,7 +200,7 @@
         }
         ,
         validatePassword(value) {
-         if ( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(value)){
+         if ( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#$%^&*])(?=.{8,})/.test(value)){
            this.error_message['password'] = '';
            this.hasPasswordError = false;
           }
@@ -280,20 +289,30 @@
                 password: this.password
               }
             });
-
+            await this.$axios.$get('user');
+												this.isLoading = false;
+												this.button_text = "Create My Account";
 
           } catch (e) {
-            if (navigator.onLine && e.response.data.error === 'Account not verified.') {
-              this.$store.commit('setEmail', this.email);
-              this.$store.commit('setPassword', this.password);
-              this.$store.commit('setViewVerificationPage');
-              await this.$router.push({ name: 'verify', });
-            }else if(navigator.onLine && e.response.data.errors.email[0] === 'The email has already been taken.'){
-              this.error_message['email'] = 'The email has already been taken.';
-              this.hasEmailError = true;
-              this.isLoading = false;
-              this.button_text = "Create My Account"
-            }else {
+											this.isLoading = false;
+											this.button_text = "Create My Account"
+											if (navigator.onLine){
+												if (e.response.data.error === 'Account not verified.'){
+													this.$store.commit('setEmail', this.email);
+													this.$store.commit('setPassword', this.password);
+													this.$store.commit('setViewVerificationPage');
+													await this.$router.push({ name: 'verify', });
+												}else {
+													let errors = e.response.data.errors;
+													for(let key in errors){
+														errors[key].forEach(err => {
+															this.$toast.error(err);
+															this.hasEmailError = true
+															this.error_message['email'] = err;
+														});
+													}
+												}
+											} else {
               this.isLoading = false;
               this.button_text = "Create My Account"
               this.$toast.show("No Internet connection")

@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2 hidden-xs">
-      <Sidebar></Sidebar>
+      <Sidebar class="hidden-xs"></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -107,12 +107,13 @@
 </template>
 
 <script>
-    import Sidebar from "../components/general/Sidebar";
-    import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
-    import DeviceModal from "../components/modals/DeviceModal";
-    import Swal from "sweetalert2";
-    import {mapGetters} from "vuex";
-    export default {
+	import Sidebar from "../components/general/Sidebar";
+	import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
+	import DeviceModal from "../components/modals/DeviceModal";
+	import Swal from "sweetalert2";
+	import {mapGetters} from "vuex";
+
+	export default {
         name: "devices",
       middleware:'auth',
       components: {DeviceModal, DashboardNavbar, Sidebar},
@@ -131,7 +132,7 @@
       },
       computed:{
 
-        ...mapGetters(['getBearerToken'])
+
     },
       methods: {
 
@@ -142,19 +143,16 @@
             this.response_data = data;
             await this.getTotalMessagesSent();
 
-            //get total no of messages sent
-											let messages_sent_data = await  this.$axios.$get('devices/'+ row.id +'/total-number-of-messages-sent-today');
-											let messages_sent = messages_sent_data.data.total_messages_sent_today
-											this.number = messages_sent
           }catch (e) {
-
+											this.$toast.error("We cannot process this request at the moment. Try again");
           }
         },
         async getTotalMessagesSent(row){
             try {
-
+													let messages_sent_data = await  this.$axios.$get('devices/'+ row.id +'/total-number-of-messages-sent-today');
+													this.number = messages_sent_data.data.total_messages_sent_today
             } catch (e) {
-
+													this.$toast.error("We cannot process this request at the moment. Try again");
             }
         },
         getQRCode(device_id){
@@ -162,7 +160,7 @@
             $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
           $('#qr-code').attr("disabled", true);
 
-          let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${this.getBearerToken}`
+          let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${localStorage.getItem('auth._token.local').substring(7)}`
           url = url.replace(':slug', device_id);
 
           $.get(url, function (data, status) {
@@ -189,6 +187,9 @@
           } else if (row.device_status === 'PENDING'){
             return 'label-warning'
           }
+          else {
+          	return 'label-danger'
+									}
         },
         showBarcodeIcon(row){
           return (row.device_status === 'ACTIVE');
@@ -197,7 +198,7 @@
           return (row.device_status === 'PENDING')
         },
         isDisabled(row){
-          return(row.device_status === 'PENDING')
+          return(row.device_status === 'PENDING' )
         }
       },
       mounted() {
@@ -353,8 +354,13 @@
     letter-spacing: 0.1px;
   }
   .label-warning {
+			color: #fff;
     background-color: #FF5722;
   }
+		.label-danger{
+			background-color: red;
+			color: #fff;
+		}
   .label-success {
     border-color: #4CAF50;
     color: #fff;

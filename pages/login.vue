@@ -148,40 +148,44 @@
                     password: this.password
                   }
                 });
-
-
+											this.isLoading = false;
+											this.button_text = "Proceed";
           await this.$router.push('/dashboard');
         } catch (e) {
-          if (navigator.onLine && e.response.data.error === 'Account not verified.') {
-            this.$store.commit('setEmail', this.email);
-            this.$store.commit('setPassword', this.password);
+									this.isLoading = false;
+									this.button_text = "Proceed";
+        	if (navigator.onLine){
+        				if ( e.response.data.error === 'Account not verified.'){
+													this.$store.commit('setEmail', this.email);
+													this.$store.commit('setPassword', this.password);
 
-            await this.$router.push({ name: 'verify', });
-            this.$store.commit('setViewVerificationPage');
-          }else if (navigator.onLine && e.response.data.error === 'Unauthorized'){
-            this.isLoading = false;
-            this.button_text = "Proceed";
-            this.hasPasswordError = true;
-            this.error_message['password'] = 'Invalid credentials';
-          } else if (navigator.onLine && e.response.data.error === 'Account has either been disabled temporarily or deleted Permanently.\n' +
-            '                Contact your Account Manager.') {
-            this.isLoading = false;
-            this.button_text = "Proceed";
-            this.hasPasswordError = true;
-            this.hasEmailError = true;
-            await Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Account has either been disabled temporarily or deleted Permanently.Contact your Account Manager',
-              footer: '<a id="CHATID">Contact Account Manager</a>'
-            });
-          }
-          else if (navigator.onLine && e.response.data.errors.email[0] === 'The selected email is invalid.') {
-            this.isLoading = false;
-            this.button_text = "Proceed";
-            this.hasEmailError = true;
-            this.error_message['email'] = 'The selected email is invalid.';
-          }
+													await this.$router.push({ name: 'verify', });
+													this.$store.commit('setViewVerificationPage');
+												}else if (e.response.data.error === 'Unauthorized'){
+
+													this.hasPasswordError = true;
+													this.error_message['password'] = 'Invalid credentials';
+												} else if (e.response.data.error === 'Account has either been disabled temporarily or deleted Permanently.\n' +
+													'                Contact your Account Manager.'){
+													this.hasPasswordError = true;
+													this.hasEmailError = true;
+													await Swal.fire({
+														icon: 'error',
+														title: 'Oops...',
+														text: 'Account has either been disabled temporarily or deleted Permanently.Contact your Account Manager',
+														footer: '<a id="CHATID">Contact Account Manager</a>'
+													});
+												} else{
+													let errors = e.response.data.errors;
+													for(let key in errors){
+														errors[key].forEach(err => {
+															this.$toast.error(err);
+															this.hasEmailError = true;
+															this.error_message['email'] = err;
+														});
+													}
+												}
+									}
           else{
             this.isLoading = false;
             this.button_text = "Proceed";

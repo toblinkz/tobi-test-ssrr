@@ -290,7 +290,8 @@
     },
     mounted: function () {
         this.startIntro();
-        this.fetch();
+								this.fetch();
+
 
     }
 

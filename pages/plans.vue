@@ -176,6 +176,19 @@
     export default {
         name: "plans",
       components: {TheFooter, TheNavbar},
+					head() {
+						return {
+							title: 'Select a plan',
+							meta: [
+								// hid is used as unique identifier. Do not use `vmid` for it as it will not work
+								{
+									hid: 'description',
+									name: 'description',
+									content: 'My custom description'
+								}
+							]
+						}
+					},
       mounted () {
         this.$nextTick(() => {
           this.$nuxt.$loading.start()

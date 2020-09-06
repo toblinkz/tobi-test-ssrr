@@ -152,6 +152,7 @@
         }catch (e) {
             this.isLoading = false;
           this.button_text = "Update";
+          this.$toast.error("Something went wrong. Try again");
         }
 
       },

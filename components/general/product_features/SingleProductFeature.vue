@@ -5,7 +5,7 @@
           <img class="mt-50 wd-55" :src="image_url">
         </div>
         <div class="col-md-10">
-          <h4 class="mt-50 blue-p">{{head_title}}</h4>
+          <h4 class="mt-50 text-bold">{{head_title}}</h4>
           <p>{{text}}</p>
         </div>
     </div>

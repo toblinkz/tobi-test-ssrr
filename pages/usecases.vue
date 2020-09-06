@@ -184,7 +184,7 @@
                 <h2>Want to connect <strong class="text-bold blue-t">with your customers?</strong></h2>
                 <p>Create a free account to start verifying customer <br>transactions and sending product messages</p>
                 <TermiiButton label="Signup" url="/register" id="zio"></TermiiButton>
-                <a href="/plans" title="Edit" class="btn bg-green mt-40" id="zio"> Explore pricing<i class="fa fa-angle-double-right padd-left"></i></a>
+                <nuxt-link to="/plans" title="Edit" class="btn bg-green mt-40" id="zio"> Explore pricing<i class="fa fa-angle-double-right padd-left"></i></nuxt-link>
 
               </div>
             </div>
@@ -206,6 +206,24 @@
     export default {
         name: "usescases",
       components: {TheFooter, TermiiButton, UseCaseCard, TheNavbar},
+					data(){
+       return{
+       	title: 'Termii | Usecases'
+							}
+					},
+					head() {
+						return {
+							title: this.title,
+							meta: [
+								// hid is used as unique identifier. Do not use `vmid` for it as it will not work
+								{
+									hid: 'description',
+									name: 'description',
+									content: 'My custom description'
+								}
+							]
+						}
+					},
       mounted () {
         this.$nextTick(() => {
           this.$nuxt.$loading.start()

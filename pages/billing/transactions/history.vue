@@ -180,33 +180,38 @@
 											this.amount_funded = sum_data.credit;
 											this.amount_spent = sum_data.debit;
 										}catch (e) {
-
+													this.$toast.error("Something went wrong");
 										}
 
 									},
 
         async getWalletTransactionByDate(){
-         let response_data = await this.$axios.$get('billing/wallet/transactions',{
-            params:{
-              wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1],
-              page: this.page
-            }
-          });
-          if (response_data.meta.last_page > 1 ){
-            this.showPagination = true
-          }else {
-            this.showPagination = false
-          }
+        		try{
+											let response_data = await this.$axios.$get('billing/wallet/transactions',{
+												params:{
+													wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1],
+													page: this.page
+												}
+											});
+											if (response_data.meta.last_page > 1 ){
+												this.showPagination = true
+											}else {
+												this.showPagination = false
+											}
 
-          this.transaction_history = response_data.data;
-          this.total_page = response_data.meta.last_page;
-         let sum_data = await this.$axios.$get('billing/wallet/transactions/sum', {
-            params:{
-              wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1],
-            }
-          });
-         this.amount_funded = sum_data.credit;
-         this.amount_spent = sum_data.debit;
+											this.transaction_history = response_data.data;
+											this.total_page = response_data.meta.last_page;
+											let sum_data = await this.$axios.$get('billing/wallet/transactions/sum', {
+												params:{
+													wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1],
+												}
+											});
+											this.amount_funded = sum_data.credit;
+											this.amount_spent = sum_data.debit;
+
+										}catch (e) {
+											this.$toast.error("Something went wrong.")
+										}
 
         },
 

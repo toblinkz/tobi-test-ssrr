@@ -34,7 +34,7 @@
                             </div>
                             <br>
                             <div class="col-lg-6" style="padding-left: 0;">
-                              <form @submit.prevent="getCampaignReport" role="form" method="get" id="search-form">
+                              <form @submit.prevent="fetch" role="form" method="get" id="search-form">
                                 <div class="row">
                                   <div class="form-group">
                                     <input type="text" placeholder="Phone Number"   class="form-control" v-model="phone_number">
@@ -52,10 +52,7 @@
                             <!-- START PANEL -->
                             <div class="full-height">
                               <ManageCampaignChart
-                                :delivered_message_count="delivered_message_count"
-                                :message_sent_count="message_sent_count"
-                                :failed_message_count="failed_message_count"
-                                :dnd_active_count="dnd_active_count"
+                                :campaign_id="campaign_id"
                               ></ManageCampaignChart>
                             </div>
                           </div>
@@ -120,41 +117,40 @@
           return{
             manage_campaign_list:[],
             campaign_id: this.$route.params.id,
-            delivered_message_count: '',
-            message_sent_count: '',
-            dnd_active_count: '',
             phone_number:'',
-            failed_message_count: '',
             triggered_date: moment(this.getCampaignCreatedDate).format('lll')
 
           }
       },
       methods:{
           async fetch(){
-          	// get campaign report
-            let response_data = await this.$axios.$get('sms/campaign/' + this.campaign_id + '/report', {params:{
-              phone_number: this.phone_number
-              }});
-            this.manage_campaign_list = response_data.data
-            if (response_data.data.length === 0){
-              await Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Phone number could not be found',
-              });
-              this.$router.push({name: 'sms-campaign-reports'});
-            }
-            //get campaign analytics
-											let data = await  this.$axios.$get('sms/campaign/'+ this.campaign_id + '/analytics')
-											this.delivered_message_count = data.data.delivered_count;
-											this.message_sent_count = data.data.sent_count;
-											this.dnd_active_count = data.data.failed_count;
-											this.failed_message_count = data.data.dnd_count;
+          	try{
+												// get campaign report
+												let response_data = await this.$axios.$get('sms/campaign/' + this.campaign_id + '/report', {params:{
+														phone_number: this.phone_number
+													}});
+												this.manage_campaign_list = response_data.data
+												if (response_data.data.length === 0){
+													await Swal.fire({
+														icon: 'error',
+														title: 'Oops...',
+														text: 'Phone number could not be found',
+													});
+													this.$router.push({name: 'sms-campaign-reports'});
+												}
+
+											}catch (e) {
+
+											}
+
           },
+
+
 
       },
       mounted() {
           this.fetch();
+
           this.$store.commit('setCampaignCreatedDate', this.$route.params.created_at);
           this.triggered_date = moment(this.getCampaignCreatedDate).format('lll');
 

@@ -72,7 +72,8 @@
                                     </div>
                                     <div class="col-md-12 alert toke hidden-xs">
                                       <p><i class="entypo-bookmark" style="color: #bbb !important;"></i> Plan Guide</p><br>
-                                      <p class="text-semibold"><strong>Regular Top up</strong>; Minimum amount to recharge is ₦3000<br><br> <strong>Bundled Top up</strong>; Get 5% off on all messages sent when you make a bundled topup of
+                                      <p class="text-semibold"><strong>Regular Top up</strong>; Minimum amount to recharge is
+																																							{{minimum_top_up}}<br><br> <strong>Bundled Top up</strong>; Get 5% off on all messages sent when you make a bundled topup of
 																																							{{bundled_top_up}}(<strong>NB</strong>: Discounts expires when your units get exhausted but only renews on your next bunlded topup) </p>
                                     </div>
                                   </div>
@@ -153,6 +154,7 @@
             isRegularForm: false,
             isLoading: false,
             payment_method:'',
+											minimum_top_up:'',
             fund_button_text:'Fund Account',
             selected_payment_method:"",
             amount:'',
@@ -245,9 +247,19 @@
 											} catch (e) {
 												this.isLoading = false;
 												this.fund_button_text = "Fund Account";
+												this.$toast('Something went wrong. Try again');
 											}
 										}
 									},
+							async getExchangeRate(){
+								try{
+									let response_data = await this.$axios.$get('billing/exchange-rate', {params: {amount: this.amount,}});
+									this.total = response_data.amount;
+								}catch (e) {
+									this.$toast('Something went wrong. Try again');
+								}
+
+							},
 							async getTopUp(){
 										try{
 											let response = await this.$axios.$get('billing/top-up/plans');
@@ -261,6 +273,7 @@
          try{
 										let response = await this.$axios.$get('billing/top-up/plans');
 										this.bundled_top_up =  response.data.bundled_top_up.amount;
+										this.minimum_top_up = response.data.minimum_top_up.amount;
 									}catch (e) {
 
 									}
@@ -270,7 +283,8 @@
             if (isNaN(value)){
               this.error_message = 'Please enter a valid amount';
               this.hasError = true;
-            }else {
+            }
+            else {
               this.error_message = '';
               this.hasError = false;
             }
