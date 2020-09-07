@@ -57,7 +57,8 @@
                           </div>
                           <div class="col-lg-8 mb-20">
 																											<div class="panel-body text-center">
-																												<SmsHistoryChart class="hidden-xs"></SmsHistoryChart>
+																												<SmsHistoryChart class="hidden-xs"
+																												></SmsHistoryChart>
 																											</div>
                           </div>
 
@@ -66,7 +67,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-12">
+															<TableVuePlaceHolder v-if="!show_shimmer">
+
+															</TableVuePlaceHolder>
+                <div class="col-md-12" v-else>
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="panel">
@@ -125,10 +129,13 @@
     import DatePicker from "vue2-datepicker";
     import 'vue2-datepicker/index.css';
 				import SmsHistoryChart from "../../components/general/charts/SmsHistoryChart";
+				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
     export default {
         name: "history",
       middleware:'auth',
-      components: {Pagination, SmsHistoryModal, DashboardNavbar, Sidebar, DatePicker,  SmsHistoryChart},
+      components: {
+							TableVuePlaceHolder,
+							Pagination, SmsHistoryModal, DashboardNavbar, Sidebar, DatePicker,  SmsHistoryChart},
 
       data(){
           return{
@@ -140,7 +147,8 @@
             showPagination: false,
             page:'',
             total_page:'',
-            sms_history_id:''
+            sms_history_id:'',
+												show_shimmer: false
           }
       },
       mounted() {
@@ -162,6 +170,7 @@
 										}else {this.showPagination = false}
 										this.page = this.messages_sent.meta.current_page;
 										this.total_page = this.messages_sent.meta.last_page;
+										this.show_shimmer = true;
 									}catch (e) {
 
 									}
@@ -177,6 +186,7 @@
 										}else {this.showPagination = false}
 										this.page = this.messages_sent.meta.current_page;
 										this.total_page = this.messages_sent.meta.last_page;
+										this.show_shimmer = true;
 									}catch (e) {
 
 									}
@@ -191,6 +201,7 @@
 										}else {this.showPagination = false}
 										this.page = this.messages_sent.meta.current_page;
 										this.total_page = this.messages_sent.meta.last_page;
+										this.show_shimmer = true;
 									}catch (e) {
 
 									}
@@ -198,6 +209,7 @@
         },
         onPageChange(page) {
           this.page = page;
+          this.show_shimmer = false;
           this.fetch();
         },
         showModal(row){

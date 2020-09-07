@@ -62,7 +62,10 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-12 mt-100">
+																	<TableVuePlaceHolder v-if="!show_shimmer" v>
+
+																	</TableVuePlaceHolder>
+                  <div class="col-md-12 mt-100" v-else>
                     <div class="row">
                       <div class="col-lg-12">
                         <div class="panel">
@@ -90,6 +93,14 @@
                           </div>
                       </div>
                     </div>
+																			<Pagination
+																				:page="page"
+																				:total_page="total_page"
+																				:on-page-change="onPageChange"
+																				v-show="showPagination === true"
+																			>
+
+																			</Pagination>
                   </div>
                 </div>
               </section>
@@ -105,13 +116,19 @@
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import Swal from 'sweetalert2';
+				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
+				import Pagination from "../../components/general/Pagination";
     export default {
         name: "_id",
-      components: {DashboardNavbar, Sidebar},
+      components: {Pagination, TableVuePlaceHolder, DashboardNavbar, Sidebar},
       middleware: 'auth',
       data(){
           return{
-              phone_book_contacts:[]
+              phone_book_contacts:[],
+														page: 1,
+														total_page: '',
+														showPagination: false,
+														show_shimmer: false,
           }
       },
 					computed:{
@@ -123,7 +140,15 @@
           async fetch(){
           	try {
 												//get phonebook contact
-												this.phone_book_contacts = await this.$axios.$get('sms/phone-book/' +this.$route.params.id);
+											 let data = await this.$axios.$get('sms/phone-book/' +this.$route.params.id,{params:{
+													page: this.page
+													}});
+												this.phone_book_contacts = data;
+												if (data.meta.last_page > 1){this.showPagination = true}
+												this.page = data.meta.current_page;
+												this.total_page = data.meta.last_page;
+												this.show_shimmer = true;
+
 											}catch (e) {
 
 											}
@@ -140,6 +165,11 @@
           setPid(row){
             this.$store.commit('setPhoneBookId', row.pid);
           },
+							onPageChange(page) {
+								this.page = page;
+								this.show_shimmer = false;
+								this.fetch();
+							},
         async deletePhoneBookContact(row){
           	try {
 												await Swal.fire({

@@ -79,7 +79,7 @@ export default {
   },
   toast: {
     position: 'bottom-center',
-    duration: 2500
+    duration: 3000
   },
 
   auth: {

@@ -44,33 +44,57 @@
                               <div class="row">
                                 <!-- START PANEL -->
                                 <div class="panel-transparent">
-                                  <div class="fund-row">
 
-                                    <div class="col-md-4 alert toke">
-                                      <p class="text-semibold"><i class="entypo-credit-card" style="color: #bbb !important;"></i> Balance</p>
-                                      <!-- START PANEL -->
-                                      <p class="alert insight wd">
-                                        <span>{{account_balance}}</span>
-                                      </p>
-                                      <!-- END PANEL -->
-                                    </div>
-                                    <div class="col-md-4 alert toke">
-                                      <p class="text-semibold"><i class="entypo-light-up" style="color: #bbb !important;"></i> Account</p>
-                                      <!-- START PANEL -->
-                                      <p class="alert insight wd">
-                                        <span>{{account_number}}</span>
-                                      </p>
-                                      <!-- END PANEL -->
-                                    </div>
-                                    <div class="col-md-4 alert toke">
-                                      <p class="text-semibold"><i class="entypo-home" style="color: #bbb !important;"></i> Bank</p>
-                                      <!-- START PANEL -->
-                                      <p class="alert insight wd">
-                                        <span>{{bank_name}}</span>
-                                      </p>
-                                      <!-- END PANEL -->
-                                    </div>
-                                    <div class="col-md-12 alert toke hidden-xs">
+                                  <div class="fund-row" >
+																																			<ContentLoader v-if="!minimum_top_up"
+																																																		:speed="2"
+																																																		:animate="true"
+																																			>
+																																				<rect x="4" y="13" rx="2" ry="2" width="628" height="16" />
+																																				<rect x="4" y="36" rx="2" ry="4" width="628" height="16" />
+																																				<rect x="4" y="86" rx="2" ry="6" width="628" height="16" />
+																																				<rect x="4" y="61" rx="2" ry="8" width="628" height="16" />
+																																				<rect x="4" y="140" rx="2" ry="8" width="628" height="16" />
+
+																																			</ContentLoader>
+																																			<div v-else>
+																																				<div class="col-md-4 alert toke">
+																																					<p class="text-semibold"><i class="entypo-credit-card" style="color: #bbb !important;"></i> Balance</p>
+																																					<!-- START PANEL -->
+																																					<p class="alert insight wd">
+																																						<span>{{account_balance}}</span>
+																																					</p>
+																																					<!-- END PANEL -->
+																																				</div>
+																																				<div class="col-md-4 alert toke">
+																																					<p class="text-semibold"><i class="entypo-light-up" style="color: #bbb !important;"></i> Account</p>
+																																					<!-- START PANEL -->
+																																					<p class="alert insight wd">
+																																						<span>{{account_number}}</span>
+																																					</p>
+																																					<!-- END PANEL -->
+																																				</div>
+																																				<div class="col-md-4 alert toke">
+																																					<p class="text-semibold"><i class="entypo-home" style="color: #bbb !important;"></i> Bank</p>
+																																					<!-- START PANEL -->
+																																					<p class="alert insight wd">
+																																						<span>{{bank_name}}</span>
+																																					</p>
+																																					<!-- END PANEL -->
+																																				</div>
+																																			</div>
+																																			<ContentLoader v-if="!minimum_top_up"
+																																																		:speed="2"
+																																																		:animate="true"
+																																			>
+																																				<rect x="4" y="13" rx="2" ry="2" width="628" height="16" />
+																																				<rect x="4" y="36" rx="2" ry="4" width="628" height="16" />
+																																				<rect x="4" y="86" rx="2" ry="6" width="628" height="16" />
+																																				<rect x="4" y="61" rx="2" ry="8" width="628" height="16" />
+																																				<rect x="4" y="140" rx="2" ry="8" width="628" height="16" />
+
+																																			</ContentLoader>
+                                    <div class="col-md-12 alert toke hidden-xs" v-else>
                                       <p><i class="entypo-bookmark" style="color: #bbb !important;"></i> Plan Guide</p><br>
                                       <p class="text-semibold"><strong>Regular Top up</strong>; Minimum amount to recharge is
 																																							{{minimum_top_up}}<br><br> <strong>Bundled Top up</strong>; Get 5% off on all messages sent when you make a bundled topup of
@@ -143,10 +167,11 @@
     import ServicePriceModal from "../../components/modals/ServicePriceModal";
     import CustomSelect from "../../components/general/dropdown/CustomSelect";
     import MonnifyModal from "../../components/modals/MonnifyModal";
+				import {ContentLoader,} from 'vue-content-loader';
     export default {
         name: "funding",
         middleware: 'auth',
-      components: {MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar},
+      components: {MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
       data() {
           return {
             isBundledForm: false,

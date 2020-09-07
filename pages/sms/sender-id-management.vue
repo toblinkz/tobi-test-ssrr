@@ -55,8 +55,10 @@
                       </div>
                     </div>
                   </div>
+																	<TableVuePlaceHolder v-if="!showShimmer">
 
-                  <div class="col-md-12">
+																	</TableVuePlaceHolder>
+                  <div class="col-md-12" v-else>
                     <div class="p-15 ">
                       <div class="row">
                         <div class="col-lg-12">
@@ -72,7 +74,8 @@
                                   <th style="width: 20%;">Usecase</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody >
+
                                 <tr v-for="(row, index) in response_data.data" :key="row.id">
                                   <td data-label="SL" class="hidden-xs">{{index + 1}}</td>
                                   <td data-label="Sender ID"><p>{{row.sender_id}}</p></td>
@@ -115,20 +118,33 @@
    import SenderIdModal from "../../components/modals/SenderIdModal";
     import {mapGetters} from "vuex";
     import Pagination from "../../components/general/Pagination";
+				import {
+					ContentLoader,
+					FacebookLoader,
+					CodeLoader,
+					BulletListLoader,
+					InstagramLoader,
+					ListLoader
+				} from 'vue-content-loader'
+				import ButtonSpinner from "../../components/general/ButtonSpinner";
+				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
     export default {
         name: "sender-id-management",
         middleware:'auth',
-      components: {Pagination, SenderIdModal, DashboardNavbar, Sidebar},
+      components: {
+							TableVuePlaceHolder,
+							ButtonSpinner,
+							Pagination, SenderIdModal, DashboardNavbar, Sidebar, ListLoader, FacebookLoader, ContentLoader,BulletListLoader},
       data(){
           return{
             response_data: [],
             page: 1,
             total_page: '',
-            showPagination: false
+            showPagination: false,
+											showShimmer: false
           }
       },
       computed: {
-        ...mapGetters(['getBearerToken'])
 
       },
       methods: {
@@ -138,15 +154,18 @@
           try {
             let data = await this.$axios.$get('sms/sender-id', { params: {page: this.page},});
             this.response_data = data;
+
             if (data.meta.last_page > 1){this.showPagination = true}
             this.page = this.response_data.meta.current_page;
             this.total_page = this.response_data.meta.last_page;
+            this.showShimmer = true;
           } catch (e) {
 
           }
         },
         onPageChange(page) {
           this.page = page;
+          this.showShimmer  = false;
           this.fetch();
         },
         showModal () {

@@ -54,8 +54,10 @@
                       </div>
                     </div>
                   </div>
+																		<TableVuePlaceHolder v-if="!show_shimmer">
 
-                  <div class="col-md-12">
+																		</TableVuePlaceHolder>
+                  <div class="col-md-12" v-else>
                     <div class="p-15 ">
                       <div class="row">
                         <div class="col-lg-12">
@@ -112,11 +114,12 @@
 	import DeviceModal from "../components/modals/DeviceModal";
 	import Swal from "sweetalert2";
 	import {mapGetters} from "vuex";
+	import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
 
 	export default {
         name: "devices",
       middleware:'auth',
-      components: {DeviceModal, DashboardNavbar, Sidebar},
+      components: {TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
       data(){
           return{
             response_data:[],
@@ -126,7 +129,8 @@
             active_status:"",
             device_status:"",
             device_id:"",
-            number:""
+            number:"",
+											show_shimmer:false,
 
           }
       },
@@ -142,17 +146,18 @@
             let data = await this.$axios.$get('devices', );
             this.response_data = data;
             await this.getTotalMessagesSent();
-
+											this.show_shimmer = true;
           }catch (e) {
-											this.$toast.error("We cannot process this request at the moment. Try again");
+
           }
         },
         async getTotalMessagesSent(row){
             try {
 													let messages_sent_data = await  this.$axios.$get('devices/'+ row.id +'/total-number-of-messages-sent-today');
 													this.number = messages_sent_data.data.total_messages_sent_today
+
             } catch (e) {
-													this.$toast.error("We cannot process this request at the moment. Try again");
+
             }
         },
         getQRCode(device_id){

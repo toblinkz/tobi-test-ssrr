@@ -11,7 +11,16 @@
               <div class="modal-body">
                 <div class="panel-body">
                   <div class="col-lg-6">
-                    <table class="table">
+																			<ContentLoader v-if="!message_id "
+																																		:speed="2"
+																																		:animate="true"
+																			>
+																				<rect x="16" y="13" rx="2" ry="2" width="296" height="16" />
+																				<rect x="16" y="37" rx="2" ry="4" width="296" height="16" />
+																				<rect x="16" y="86" rx="2" ry="6" width="296" height="16" />
+																				<rect x="16" y="61" rx="2" ry="8" width="296" height="16" />
+																			</ContentLoader>
+                    <table class="table" v-else>
                       <tbody>
                       <tr>
                         <td class="text-right"> MessageId: </td>
@@ -33,7 +42,16 @@
                     </table>
                   </div>
                   <div class="col-lg-6">
-                    <table class="table ">
+																			<ContentLoader v-if="!message_id "
+																																		:speed="2"
+																																		:animate="true"
+																			>
+																				<rect x="16" y="13" rx="2" ry="2" width="296" height="16" />
+																				<rect x="16" y="37" rx="2" ry="4" width="296" height="16" />
+																				<rect x="16" y="86" rx="2" ry="6" width="296" height="16" />
+																				<rect x="16" y="61" rx="2" ry="8" width="296" height="16" />
+																			</ContentLoader>
+                    <table class="table " v-else>
                       <tbody>
                       <tr>
                         <td class="text-right"> Channel: </td>
@@ -63,8 +81,11 @@
 </template>
 
 <script>
+	import {ContentLoader,} from 'vue-content-loader';
+
     export default {
         name: "SmsHistoryModal",
+					components: { ContentLoader},
       props:{
         sms_id:{
           required: true

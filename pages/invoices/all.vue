@@ -54,7 +54,10 @@
                       <div class="p-15">
                         <div class="row">
                           <center><div class="hrr-5"></div></center>
-                          <div class="col-lg-12">
+																									<TableVuePlaceHolder v-if="!showShimmer" >
+
+																									</TableVuePlaceHolder>
+                          <div class="col-lg-12" v-else>
                             <div class="scrollme">
                               <div class="row">
                                 <div class="col-sm-6">
@@ -138,10 +141,11 @@
   import Sidebar from "../../components/general/Sidebar";
   import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
   import Pagination from "../../components/general/Pagination";
+		import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 
   export default {
         name: "all",
-      components: {Pagination, DashboardNavbar, Sidebar},
+      components: {TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar},
       middleware: 'auth',
       data(){
           return{
@@ -149,7 +153,8 @@
             page: 1,
             total_page: '',
             showPagination: false,
-												searchQuery: ''
+												searchQuery: '',
+											showShimmer:false,
           }
       },
 					computed:{
@@ -180,6 +185,7 @@
 										this.showPagination = false
 									}
 									this.all_invoice = response_data.data;
+									this.showShimmer = true;
 									this.page = response_data.meta.current_page;
 									this.total_page = response_data.meta.last_page;
 								}catch (e) {
@@ -217,6 +223,7 @@
         },
         onPageChange(page) {
           this.page = page;
+          this.showShimmer = false;
           this.fetch();
         }
 

@@ -1,5 +1,8 @@
 <template>
-    <div class="panel-body text-center">
+				<LineChartPlaceHolder v-if="!show_shimmer">
+
+				</LineChartPlaceHolder>
+    <div class="panel-body text-center" v-else>
 					<select id="date_range" @change="renderGraph($event.target.value)">
 						<option value="15 Minutes">Last 15 Minutes</option>
 						<option value="6 Hours">Last 6 Hours</option>
@@ -16,11 +19,14 @@
 
 <script>
   import Chart from 'chart.js';
+		import LineChartPlaceHolder from "../LineChartPlaceHolder";
     export default {
 					name: "SmsHistoryChart",
+					components: {LineChartPlaceHolder},
 					data() {
 						return {
 							lineChartData: {},
+							show_shimmer: false
 
 						}
 					},
@@ -106,7 +112,7 @@
 										}]
 
 								}
-
+							this.show_shimmer = true;
 							} catch (e) {
 
 							}
