@@ -48,7 +48,8 @@
                               </form>
                             </div>
                           </div>
-                          <div class="col-lg-6 col-md-5 col-md-height col-middle hidden-xs">
+
+                          <div class="col-lg-6 col-md-5 col-md-height col-middle hidden-xs" >
                             <!-- START PANEL -->
                             <div class="full-height">
                               <ManageCampaignChart
@@ -61,7 +62,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-12">
+															<TableVuePlaceHolder v-if="!show_shimmer">
+
+															</TableVuePlaceHolder>
+                <div class="col-md-12" v-else>
                   <div class="p-15">
                     <div class="row">
                       <div class="col-lg-12 panel">
@@ -89,6 +93,14 @@
                         </div>
                       </div>
                     </div>
+																			<Pagination
+																				:page="page"
+																				:total_page="total_page"
+																				:on-page-change="onPageChange"
+																				v-show="showPagination === true"
+																			>
+
+																			</Pagination>
                   </div>
                 </div>
               </section>
@@ -106,19 +118,26 @@
     import ManageCampaignChart from "../../../../components/general/charts/ManageCampaignChart";
     import {mapGetters} from "vuex";
     import Swal from 'sweetalert2';
+				import TableVuePlaceHolder from "../../../../components/general/TableVuePlaceHolder";
+				import PieChartPlaceHolder from "../../../../components/general/PieChartPlaceHolder";
+				import Pagination from "../../../../components/general/Pagination";
     export default {
         name: "manage-campaign",
-      middleware: 'auth',
-      components: {ManageCampaignChart, DashboardNavbar, Sidebar},
-      computed:{
-        ...mapGetters(['getCampaignCreatedDate'])
+								middleware: 'auth',
+								components: {Pagination, PieChartPlaceHolder, TableVuePlaceHolder, ManageCampaignChart, DashboardNavbar, Sidebar},
+								computed:{
+										...mapGetters(['getCampaignCreatedDate'])
       },
       data() {
           return{
             manage_campaign_list:[],
             campaign_id: this.$route.params.id,
             phone_number:'',
-            triggered_date: moment(this.getCampaignCreatedDate).format('lll')
+            triggered_date: moment(this.getCampaignCreatedDate).format('lll'),
+											 show_shimmer: false,
+													page: 1,
+													total_page:'',
+													showPagination: false,
 
           }
       },
@@ -127,9 +146,15 @@
           	try{
 												// get campaign report
 												let response_data = await this.$axios.$get('sms/campaign/' + this.campaign_id + '/report', {params:{
+													page: this.page,
 														phone_number: this.phone_number
 													}});
 												this.manage_campaign_list = response_data.data
+												if (this.manage_campaign_list.length !==0){this.showPagination = true;}
+												this.page = response_data.meta.current_page;
+												this.total_page = response_data.meta.last_page;
+												this.show_shimmer = true;
+
 												if (response_data.data.length === 0){
 													await Swal.fire({
 														icon: 'error',
@@ -144,15 +169,18 @@
 											}
 
           },
-
-
+							onPageChange(page) {
+								this.page = page;
+								this.show_shimmer = false;
+								this.fetch();
+							},
 
       },
       mounted() {
           this.fetch();
-
           this.$store.commit('setCampaignCreatedDate', this.$route.params.created_at);
           this.triggered_date = moment(this.getCampaignCreatedDate).format('lll');
+
 
 
       }

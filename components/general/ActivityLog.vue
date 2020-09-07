@@ -1,7 +1,15 @@
 <template>
   <div class="row">
-
-    <div class=" action-log-box">
+			<ContentLoader v-if="!activity_logs"
+																		:speed="2"
+																		:animate="true"
+			>
+				<rect x="7" y="87" rx="2" ry="2" width="400" height="33" />
+				<rect x="5" y="39" rx="2" ry="2" width="392" height="34" />
+				<rect x="7" y="175" rx="2" ry="2" width="415" height="32" />
+				<rect x="5" y="130" rx="2" ry="2" width="396" height="32" />
+			</ContentLoader>
+    <div class=" action-log-box"  v-else>
       <div id="mCSB_1" class="mCustomScrollBox" style="max-height: none;" tabindex="0">
         <vue-custom-scrollbar class="scroll-area" :settings="settings">
           <div id="mCSB_1_container" class="mCSB_container" style="position: relative;" dir="ltr">
@@ -31,11 +39,19 @@
 
 <script>
   import vueCustomScrollbar from 'vue-custom-scrollbar'
+		import {
+			ContentLoader,
+			FacebookLoader,
+			CodeLoader,
+			BulletListLoader,
+			InstagramLoader,
+			ListLoader
+		} from 'vue-content-loader'
     export default {
         name: "ActivityLog",
       middleware: 'auth',
       components: {
-        vueCustomScrollbar
+        vueCustomScrollbar, ContentLoader
       },
       data() {
         return {

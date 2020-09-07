@@ -44,33 +44,43 @@
                                         <p><i class="entypo-comment" style="color: #bbb !important;"></i> Whatsapp</p>
                                       </div>
                                     </div>
-                                    <div class="col-md-6 alert toke">
-                                      <!-- START PANEL -->
-                                      <div class="col-md-11">
-                                        {{account_balance}}
-                                      </div>
-                                      <!-- END PANEL -->
-                                    </div>
-                                    <div class="col-md-6 alert toke hidden-xs">
-                                      <!-- START PANEL -->
-                                      <div class="col-md-11">
-                                        Active
-                                      </div>
-                                      <!-- END PANEL -->
-                                    </div>
+																																			<ContentLoader v-if="!account_balance"
+																																																			:speed="5"
+																																																			:animate="true"
+																																			>
+																																				<rect x="33" y="11" rx="5" ry="5" width="313" height="14" />
+																																				<rect x="35" y="31" rx="0" ry="0" width="313" height="17" />
+																																			</ContentLoader>
+																																			<div v-else>
+																																				<div class="col-md-6 alert toke" >
+																																					<!-- START PANEL -->
+																																					<div class="col-md-11">
+																																						{{account_balance}}
+																																					</div>
+																																					<!-- END PANEL -->
+																																				</div>
+																																				<div class="col-md-6 alert toke hidden-xs">
+																																					<!-- START PANEL -->
+																																					<div class="col-md-11">
+																																						Active
+																																					</div>
+																																					<!-- END PANEL -->
+																																				</div>
+																																			</div>
                                   </div>
                                 </div>
                               </div>
                               <!-- END PANEL -->
-                              <div class="row" v-show="emptyActivityLog === false">
-                                <div class="empty-list hidden-xs">
-                                  <i class="icon-history"></i>
-                                  <span class="line-1">
-                                    You haven&#039;t made major changes to your account
-                                </span>
-                                </div>
-                              </div>
-                              <ActivityLog @emptyActivityLog="emptyActivityLog = $event" v-show="emptyActivityLog === true"></ActivityLog>
+<!--                              <div class="row" v-show="emptyActivityLog === false">-->
+<!--                                <div class="empty-list hidden-xs">-->
+<!--                                  <i class="icon-history"></i>-->
+<!--                                  <span class="line-1">-->
+<!--                                    You haven&#039;t made major changes to your account-->
+<!--                                </span>-->
+<!--                                </div>-->
+<!--                              </div>-->
+
+                              <ActivityLog @emptyActivityLog="emptyActivityLog = $event"></ActivityLog>
                               <!-- END JUMBOTRON -->
                             </div>
                             <div class="col-md-8 m-t-40">
@@ -82,7 +92,16 @@
                                       <div class="col-md-11">
                                         <p class="text-semibold"><i class="entypo-light-up" style="color: #079805 !important;"></i>API Key</p>
                                       </div>
-                                      <div class="col-md-11 alert toke insight wd">
+																																					<ContentLoader v-if="!live_api_key"
+																																						:speed="2"
+																																						:animate="true"
+																																					>
+																																						<rect x="16" y="13" rx="2" ry="2" width="296" height="16" />
+																																						<rect x="16" y="37" rx="2" ry="4" width="296" height="16" />
+																																						<rect x="16" y="86" rx="2" ry="6" width="296" height="16" />
+																																						<rect x="16" y="61" rx="2" ry="8" width="296" height="16" />
+																																					</ContentLoader>
+                                      <div class="col-md-11 alert toke insight wd" v-else>
                                         <!-- START PANEL -->
                                         <p class="alert toke insight wd">
                                           {{live_api_key}}
@@ -197,11 +216,19 @@
   import ActivateIdModal from "../components/modals/ActivateIdModal";
   import { mapGetters } from 'vuex'
   import ActivityLog from "../components/general/ActivityLog";
+		import {
+			ContentLoader,
+			FacebookLoader,
+			CodeLoader,
+			BulletListLoader,
+			InstagramLoader,
+			ListLoader
+		} from 'vue-content-loader'
   export default {
     name: "dashboard",
     components: {
       ActivityLog,
-      ActivateIdModal, YourWalletModal, SmsHistoryModal, DashboardNavbar, Sidebar},
+      ActivateIdModal, YourWalletModal, SmsHistoryModal, DashboardNavbar, Sidebar, ContentLoader, FacebookLoader, ListLoader, BulletListLoader},
     middleware: 'auth',
     head(){
       return{

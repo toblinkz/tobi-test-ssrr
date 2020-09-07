@@ -1,6 +1,9 @@
 <template>
   <div class="panel-body text-center">
-    <canvas id="ManageCampaignChart" width="400" height="200">
+			<PieChartPlaceHolder v-if="!show_shimmer">
+
+			</PieChartPlaceHolder>
+    <canvas id="ManageCampaignChart" width="400" height="200" v-else>
 
     </canvas>
   </div>
@@ -8,15 +11,18 @@
 
 <script>
     import Chart from "chart.js";
+				import PieChartPlaceHolder from "../PieChartPlaceHolder";
 
     export default {
         name: "ManageCampaignChart",
+					components: {PieChartPlaceHolder},
 					data(){
        return{
 								delivered_message_count: '',
 								message_sent_count: '',
 								dnd_active_count: '',
 								failed_message_count: '',
+								show_shimmer: false
 							}
 					},
       props:{
@@ -35,6 +41,7 @@
 								this.message_sent_count = data.sent;
 								this.dnd_active_count = data.dnd;
 								this.failed_message_count = data.failed;
+								this.show_shimmer = true;
 							}catch (e) {
 
 							}

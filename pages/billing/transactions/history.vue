@@ -55,25 +55,41 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="col-lg-6 col-md-5 col-md-height col-middle mt-20">
+
+                              <div class="col-lg-6 col-md-5 col-md-height col-middle mt-20" >
                                 <!-- START PANEL -->
+																															<ContentLoader v-if="!amount_funded"
+																																														:speed="2"
+																																														:animate="true"
+																															>
+																																<rect x="4" y="13" rx="2" ry="2" width="628" height="12" />
+																																<rect x="4" y="36" rx="2" ry="4" width="628" height="12" />
+																																<rect x="4" y="86" rx="2" ry="6" width="628" height="12" />
+																																<rect x="4" y="61" rx="2" ry="8" width="628" height="12" />
+																																<rect x="4" y="140" rx="2" ry="8" width="628" height="12" />
 
+																															</ContentLoader>
+																															<div v-else>
+																																<div class="col-md-6" >
+																																	<p><i class="entypo-light-up" style="color: #c10202 !important;"></i> Amount Funded </p>
+																																	<!-- START PANEL -->
+																																	<p class="alert toke insight wd" id="credit">
+																																		<span id="credit-body">{{amount_funded}}</span>
+																																	</p>
+																																	<!-- END PANEL -->
+																																</div>
+																																<div class="col-md-6" >
 
-                                <div class="col-md-6">
-                                  <p><i class="entypo-light-up" style="color: #c10202 !important;"></i> Amount Funded </p>
-                                  <!-- START PANEL -->
-                                  <p class="alert toke insight wd" id="credit">
-                                    <span id="credit-body">{{amount_funded}}</span>
-                                  </p>
-                                  <!-- END PANEL -->
-                                </div>
+																																	<div >
+																																		<p><i class="entypo-light-up" style="color: #c10202 !important;"></i>Amount Spent </p>
+																																		<!-- START PANEL -->
+																																		<p class="alert toke insight wd" id="debit">
+																																			<span id="debit-body">{{amount_spent}}</span>
+																																		</p>
+																																	</div>
 
-                                <div class="col-md-6">
-                                  <p><i class="entypo-light-up" style="color: #c10202 !important;"></i>Amount Spent </p>
-                                  <!-- START PANEL -->
-                                  <p class="alert toke insight wd" id="debit">
-                                    <span id="debit-body">{{amount_spent}}</span>
-                                  </p>
+																																</div>
+
                                   <!-- END PANEL -->
                                 </div>
 
@@ -88,12 +104,13 @@
 
 
                     <div class="col-md-12 panel mt-50">
-                      <div class="panel-body p-15 p-t-none p-b-none">
-                        <div class="row">
+																					<TableVuePlaceHolder v-if="!show_shimmer" >
 
+																					</TableVuePlaceHolder>
+                      <div class="panel-body p-15 p-t-none p-b-none" v-else>
+                        <div class="row" >
                           <div class="pml-table-container">
-                            <table class="table table-box pml-table"
-                                   >
+                            <table class="table table-box pml-table">
 
                               <thead>
                               <tr>
@@ -140,10 +157,12 @@
     import Pagination from "../../../components/general/Pagination";
     import DatePicker from "vue2-datepicker";
     import 'vue2-datepicker/index.css';
+				import TableVuePlaceHolder from "../../../components/general/TableVuePlaceHolder";
+				import {ContentLoader,} from 'vue-content-loader';
     export default {
         name: "history",
         middleware:'auth',
-       components: {Pagination, DashboardNavbar, Sidebar,DatePicker },
+       components: {TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar,DatePicker , ContentLoader},
       data(){
           return{
             transaction_history: [],
@@ -152,7 +171,8 @@
             total_page:'',
             amount_spent:'',
             amount_funded:'',
-            showPagination: false
+            showPagination: false,
+												show_shimmer: false
           }
       },
       methods:{
@@ -163,6 +183,7 @@
 											//get wallet transaction
 											let response_data =  await this.$axios.$get('billing/wallet/transactions', {params: {page: this.page}});
 											this.transaction_history = response_data.data;
+											this.show_shimmer = true;
 											if (response_data.meta.last_page > 1 ){
 												this.showPagination = true
 											}else {
@@ -217,6 +238,7 @@
 
         onPageChange(page) {
           this.page = page;
+          this.show_shimmer = false;
           this.fetch();
 
         },

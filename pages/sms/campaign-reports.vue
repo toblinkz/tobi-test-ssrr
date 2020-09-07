@@ -47,7 +47,10 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-12">
+																	<TableVuePlaceHolder v-if="!show_shimmer">
+
+																	</TableVuePlaceHolder>
+                  <div class="col-md-12" v-else>
                     <div class="row">
                       <div class="col-sm-12">
                         <div class="panel">
@@ -107,17 +110,19 @@
     import Pagination from "../../components/general/Pagination";
     import DatePicker from "vue2-datepicker";
     import 'vue2-datepicker/index.css';
+				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
     export default {
         name: "campaign-reports",
       middleware: 'auth',
-      components: {Pagination, DashboardNavbar, Sidebar, DatePicker},
+      components: {TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar, DatePicker},
       data(){
           return{
             campaign_report:[],
             date_time: [moment(new Date()).format('YYYY-MM-DD HH:mm:ss'), moment(new Date() + 1).format('YYYY-MM-DD HH:mm:ss')],
             page: 1,
             total_page:'',
-            showPagination: false
+            showPagination: false,
+										 	show_shimmer: false,
           }
       },
       methods:{
@@ -130,6 +135,7 @@
               if (this.campaign_report.length !== 0){this.showPagination = true;}
               this.page = response_data.meta.current_page;
               this.total_page = response_data.meta.last_page;
+              this.show_shimmer = true;
 
             }catch (e) {
 
@@ -143,7 +149,7 @@
 											if (this.campaign_report.length !== 0){this.showPagination = true;}
 											this.page = response_data.meta.current_page;
 											this.total_page = response_data.meta.last_page;
-
+											this.show_shimmer = true;
 										}catch (e) {
 
 										}
@@ -153,6 +159,7 @@
         },
         onPageChange(page) {
           this.page = page;
+          this.show_shimmer = false;
           this.fetch();
         },
         showDeliveredLabel(row){
