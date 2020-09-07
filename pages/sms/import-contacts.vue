@@ -149,7 +149,7 @@
 				return new S3(this.config);
 			},
 			newFileName(){
-				return `termii_list+${this.selected_phone_book}+${this.loggedInUser.customer.uid}}`
+				return `termii_list_${this.selected_phone_book}_${this.loggedInUser.customer.uid}`
 			},
 			...mapGetters(['isAuthenticated', 'loggedInUser'])
 		},
@@ -204,7 +204,7 @@
 			async addContact(){
 				try {
 					await this.$axios.$post('sms/phone-book/contact/add', {
-						contact_upload_url : this.contact_upload_url,
+						contact_upload_url : this.contact_upload_url.split('files').pop().substring(1),
 						id: this.selected_phone_book,
 						country_code: this.selected_country.substring(1)
 					});
