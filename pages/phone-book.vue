@@ -200,14 +200,19 @@
 		},
 		methods:{
 			async getPhoneBook() {
-				 let data = await this.$axios.$get('sms/phone-book', {params:{
-					page: this.page
-					}});
-				this.phone_book = data.data;
-				this.showPagination = data.meta.last_page > 1;
-				this.page = data.meta.current_page;
-				this.total_page = data.meta.last_page;
-				this.show_shimmer = true;
+				try {
+					let data = await this.$axios.$get('sms/phone-book', {params:{
+							page: this.page
+						}});
+					this.phone_book = data.data;
+					this.showPagination = data.meta.last_page > 1;
+					this.page = data.meta.current_page;
+					this.total_page = data.meta.last_page;
+					this.show_shimmer = true;
+				}catch (e) {
+
+				}
+
 			},
 			async addPhoneBook(){
 				try{

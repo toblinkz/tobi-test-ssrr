@@ -107,7 +107,7 @@
              });
               await this.fetch();
             } catch (e) {
-													this.$toast.error("You have pending payment on this device, Contact Account Manager");
+
 
             }
         },

@@ -203,25 +203,18 @@
 			},
 			async addContact(){
 				try {
-					await this.$axios.$post('sms/phone-book/contact/add', {
+					let data = await this.$axios.$post('sms/phone-book/contact/add', {
 						contact_upload_url : this.contact_upload_url.split('files').pop().substring(1),
 						id: this.selected_phone_book,
 						country_code: this.selected_country.substring(1)
 					});
+					this.$toast.success(data.data);
 				}catch (e) {
 							this.$toast.error("Something went wrong. Try again!");
 				}
 
 			},
-			// fuseSearch(options, search){
-			// 	const fuse = new Fuse(options, {
-			// 		keys:["name", "d_code"],
-			// 		shouldSort: true
-			// 	});
-			// 	return search.length
-			// 		? fuse.search(search).map(({item}) => item)
-			// 		: fuse.list;
-			// },
+
 
 			withPopper(dropdownList, component, {width}){
 				dropdownList.style.width = width;
