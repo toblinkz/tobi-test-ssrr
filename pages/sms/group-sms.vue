@@ -111,7 +111,7 @@
                              </div>
                              <div class="col-md-12">
                                <button type="submit" class="btn bx-line btn-success btn-sm" disabled><i class="fa fa-send" ></i> Send </button>
-                               <nuxt-link to="/sms/history" class="btn bx-line btn-primary"><i class="fa fa-angle-double-right"></i> Next - View report</nuxt-link>
+                               <nuxt-link to="/sms/campaign-reports" class="btn bx-line btn-primary"><i class="fa fa-angle-double-right"></i> Next - View report</nuxt-link>
                              </div>
                            </div>
                          </div>
