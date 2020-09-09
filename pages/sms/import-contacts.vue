@@ -12,9 +12,9 @@
 			</div>
 			<!-- /page header -->
 			<!-- Page container -->
-			<div class="page-container">
+			<div class="import-page-container">
 				<!-- Page content -->
-				<div class="page-content">
+				<div class="import-page-content">
 					<!-- Main content -->
 					<div class="content-wrapper">
 						<!-- main inner content -->
@@ -265,7 +265,7 @@
 		}
 	}
 	@media (min-width: 769px){
-		.page-content {
+		.import-page-content {
 			display: table-row;
 		}
 	}
@@ -280,7 +280,7 @@
 		}
 	}
 	@media (min-width: 769px){
-		.page-container {
+		.import-page-container {
 			width: 100%;
 			display: table;
 			table-layout: fixed;
@@ -293,10 +293,10 @@
 			padding-bottom: 48px;
 		}
 	}
-	.page-header:not(.page-header-filled) + .page-container {
+	.page-header:not(.page-header-filled) + .import-page-container {
 		padding-top: 35px;
 	}
-	.page-container {
+	.import-page-container {
 		position: relative;
 		/* padding-bottom: 40px; */
 	}
