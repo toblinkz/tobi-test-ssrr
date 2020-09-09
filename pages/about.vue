@@ -56,7 +56,7 @@
                 <div class="col-md-6">
                   <div class="panel-flat">
                     <img src="/images/team/termii-1.jpg" class="wd-o">
-                    <h2 class="mt-50" style="font-size: 20px !important;">So far we have supported <strong>2,075+</strong> businesses (across every sector) with messaging tools for communicating with their customers easily.</h2>
+                    <h2 class="mt-50" style="font-size: 20px !important;">So far we have supported <strong>2,075+</strong> businesses (across every sector) with messaging tools to verify and authenticate their customers easily.</h2>
 
                   </div>
                 </div>
@@ -97,7 +97,7 @@
                   <div class="row mt-50">
                     <TeamMembersCard url="/images/team/4.jpg"
                                      team_member_name="Ogunjubee Ifedolapo"
-                                     role="Business & Partnership"></TeamMembersCard>
+                                     role="Business (West-Africa)"></TeamMembersCard>
                     <TeamMembersCard url="/images/team/5.jpg"
                                      team_member_name="Abegunde Cecilia"
                                      role="Growth & Marketing"></TeamMembersCard>

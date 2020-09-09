@@ -10,7 +10,7 @@
                     <span class="wrap"></span>
                   </strong> for Businesses.
                   </h1>
-                  <h4>Termii helps businesses in Africa use messaging channels to verify and communicate with customers</h4>
+                  <h4>Termii helps businesses in Africa use messaging channels to verify and authenticate customers</h4>
                   <Button label="Get Started" url="/register" class="mt-40"></Button>
                   <p>Have a question? <a class="blue-t text-bold" id="CHATID">Contact Sales</a></p>
                 </div>

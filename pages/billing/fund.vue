@@ -299,6 +299,7 @@
 										let response = await this.$axios.$get('billing/top-up/plans');
 										this.bundled_top_up =  response.data.bundled_top_up.amount;
 										this.minimum_top_up = response.data.minimum_top_up.amount;
+
 									}catch (e) {
 
 									}
@@ -337,6 +338,7 @@
           this.getWalletBalance();
           this.getPaymentMethod();
            this.getTopDetails();
+
 
       }
     }

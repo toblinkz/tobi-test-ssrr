@@ -26,19 +26,19 @@
             <ProductFeatureHeader first_line="POWERFUL MESSAGING PLATFORM" second_line="Built For Customer Retention"></ProductFeatureHeader>
          </template>
           <template v-slot:left_product_features>
-            <SingleProductFeature head_title="SCHEDULE MESSAGES"
-                       image_url="https://termii.com/assets/images/products/calendar-2.png"
-                       text="Send timed SMS, email, voice and whatsapp messages to your customers"></SingleProductFeature>
+            <SingleProductFeature head_title="SCHEDULE NOTIFICATIONS"
+                       image_url="/images/products/calendar-2.png"
+                       text="Send timed SMS, email, voice and whatsapp notifications to your customers"></SingleProductFeature>
             <SingleProductFeature head_title="DELIVERY ROUTING"
-                       image_url="https://termii.com/assets/images/products/chat.png"
+                       image_url="/images/products/chat.png"
                        text="Automatically route failed messages to alternative channels with 99.9% delivery rate"></SingleProductFeature>
           </template>
           <template v-slot:right_product_features>
             <SingleProductFeature head_title="PERSONALIZE MESSAGES"
-                       image_url="https://termii.com/assets/images/products/mail-@.png"
+                       image_url="/images/products/mail-@.png"
                        text="Improve retention by personalizing contents of messages sent to customers"></SingleProductFeature>
             <SingleProductFeature head_title="API DELIVERY"
-                       image_url="https://termii.com/assets/images/products/app.png"
+                       image_url="/images/products/app.png"
                        text="Integrate Termii seamlessly to third-party CRM software, Website, or Mobile Apps"></SingleProductFeature>
           </template>
         </ProductFeatures>

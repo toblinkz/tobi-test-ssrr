@@ -10,7 +10,7 @@
           <div class="row mb-100 mt-150">
             <center>
               <h1 class="mb-40">Customer <strong class="text-bold blue-t">Usecase.</strong></h1>
-              <p>We are enabling teams across every industry, from Commerce to Services, with APIs to <br>engage their customers across sms, emails, voice, & instant messaging channels.</p>
+              <p>We are enabling teams across every industry, from Commerce to Services, with APIs to <br>verify their customers across sms, emails, voice, & instant messaging channels.</p>
             </center>
           </div>
           <div class="row mt-50">

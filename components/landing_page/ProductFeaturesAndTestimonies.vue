@@ -14,7 +14,7 @@
                                   text="Use sms, email, voice & IM channels to verify and communicate with customers"></SingleProductFeature>
                       <SingleProductFeature head_title="COST SAVING"
                                  image_url="/images/products/finance.png"
-                                 text="Save cost by detecting restricted contacts and network changes before sending messages"></SingleProductFeature>
+                                 text="Save cost by detecting restricted contacts and network changes before sending otp messages"></SingleProductFeature>
 
                     </div>
                     <div class="col-md-6">
@@ -46,7 +46,7 @@
                 <div class="col-md-12 card-u">
                   <!-- START PANEL -->
                   <img src="/images/logo/voguepay.png" class="wd-100">
-                  <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Verification for</span> <span class="blue-t"> Financial Services</span></h4>
+                  <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Token for</span> <span class="blue-t"> Financial Services</span></h4>
                   <p class="testimonial-text">Voguepay uses Termii's <strong>Token tools</strong> to verify and authenticate merchants financial transactions across Africa
                   </p>
                   <nuxt-link to="/products/token" class="blue-p mb-20 font-case">Explore ⇢</nuxt-link>
@@ -60,8 +60,8 @@
                 <div class="col-md-12 card-u">
                   <!-- START PANEL -->
                   <img src="/images/logo/helium.png" class="wd-100">
-                  <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Messaging for</span> <span class="blue-t"> Health Care</span></h4>
-                  <p class="testimonial-text">Helium Health uses Termii's <strong>Messaging tools</strong> to help hospitals and clinics automate their processes as well as engage patients effectively
+                  <h4 class="testimonial-head"><span style="font-weight: 400 !Important;">Switch for</span> <span class="blue-t"> Health Care</span></h4>
+                  <p class="testimonial-text">Helium Health uses Termii's <strong>Messaging tools</strong> to help hospitals and clinics engage patients effectively across multiple channels
                   </p>
                   <nuxt-link to="/products/switch" class="blue-p mb-20 font-case">Explore ⇢</nuxt-link>
                   <!-- END PANEL -->
@@ -92,7 +92,7 @@
               <h1>
                 <strong class="text-bold font-40 blue-t text-center">Over {{messages_processed}}+</strong>
               </h1>
-              <h2 class="margin-minus transformed">Messages processed so far...</h2>
+              <h2 class="margin-minus transformed">TRANSACTIONS PROCESSED SO FAR..</h2>
               <h4 class="margin-0">
                 We don’t believe in complex codes or long implementation
                 <br>

@@ -23,23 +23,23 @@
         </center>
         <ProductFeatures>
           <template v-slot:product_feature_header>
-            <ProductFeatureHeader first_line="POWERFUL TOKEN PLATFORM" second_line="Built For Security and Scale"></ProductFeatureHeader>
+            <ProductFeatureHeader first_line="POWERFUL ANALYTICS PLATFORM" second_line="Built For Improved User Experience"></ProductFeatureHeader>
           </template>
           <template v-slot:left_product_features>
-            <SingleProductFeature head_title="SMS TOKEN"
-                       image_url="/images/products/chat.png"
-                       text="Authenticate customer transaction on your Application by enabling one-time sms tokens"></SingleProductFeature>
-            <SingleProductFeature head_title="VOICE TOKEN"
-                       image_url="/images/products/call-center.png"
-                       text="Prevent bots and spammers from accessing your platform by enabling voice tokens"></SingleProductFeature>
+            <SingleProductFeature head_title="NETWORK INSIGHT"
+                       image_url="/images/products/server.png"
+                       text="Automatically detect your customer's accurate mobile network based on our unique search API "></SingleProductFeature>
+            <SingleProductFeature head_title=" ENGAGEMENT INSIGHTS"
+                       image_url="/images/products/networking.png"
+                       text="Retrieve insights about your customers and their interaction with your messages"></SingleProductFeature>
           </template>
           <template v-slot:right_product_features>
-            <SingleProductFeature head_title="EMAIL TOKEN"
-                       image_url="https://termii.com/assets/images/products/mail-@.png"
-                       text="Verify customer transactions across borders by sending verified email tokens"></SingleProductFeature>
-            <SingleProductFeature head_title="WHATSAPP TOKEN"
-                       image_url="https://termii.com/assets/images/products/speech.png"
-                       text="Generate tokens for every transaction across one of the world's most secure platform"></SingleProductFeature>
+											<SingleProductFeature head_title=" NUMBER INSIGHT"
+																																	image_url="/images/products/target.png"
+																																	text="Find out the status of your customers and know if they have activated the Do-Not-Disturb Service"></SingleProductFeature>
+            <SingleProductFeature head_title="EXPORT ENGAGEMENT INSIGHT"
+                       image_url="/images/products/download.png"
+                       text="Export customer's campaign engagement data to Excel or PDF based on key timelines"></SingleProductFeature>
           </template>
         </ProductFeatures>
       </div>

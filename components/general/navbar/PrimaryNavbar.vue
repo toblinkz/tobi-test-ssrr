@@ -43,7 +43,7 @@
               <a class="men">Products</a>
               <div class="dropdown-content menu-t">
                 <nuxt-link to="/verify-app" class="pad-width" style="width: 270px;"><small class="blue-t">TOKEN</small><br>OTP Verification</nuxt-link>
-                <nuxt-link to="/messaging-app" class="pad-width" style="width: 270px;"><small class="blue-t">SWITCH</small><br>Cross-channel Messaging</nuxt-link>
+                <nuxt-link to="/messaging-app" class="pad-width" style="width: 270px;"><small class="blue-t">SWITCH</small><br>Cross-channel Delivery</nuxt-link>
                 <nuxt-link to="/analytics-app" class="pad-width" style="width: 270px;"><small class="blue-t">INSIGHT</small><br>Customer Status Analytics</nuxt-link>
                 <nuxt-link to="/guideline" class="up-top pad-width" style="width: 270px;"><small class="blue-t">DEVELOPERS</small><br>Full API Documentation</nuxt-link>
               </div>
