@@ -11,10 +11,13 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     script: [
+					{src: 'https://www.googletagmanager.com/gtag/js?id=AW-989861671'},
+					{src: '/js/googleAds.js'},
       {src: '/js/intercom.js'},
       {src: '/js/feedback.js'},
       { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
       { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
+
 
       {src:"/js/intro.js" },
       ],
@@ -52,6 +55,7 @@ export default {
     { src: '~plugins/vue-notification.js'},
 			{ src: '~plugins/vue-select.js'},
     { src: '~plugins/local-storage.js', ssr: false},
+			{ src: '~plugins/ga.js', mode: 'client' },
 
   ],
   /*
@@ -111,8 +115,6 @@ export default {
           logout:{url:'/auth/logout', method:'get'}
 
         },
-							autoLogout: true
-
       },
     },
   },
