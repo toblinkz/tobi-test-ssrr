@@ -101,8 +101,10 @@
 								 	this.button_text = "Verify Code";
           this.$toast.show("Successfully verified");
           await this.$router.push('/dashboard');
-          this.$store.commit('setViewVerificationPage')
-									localStorage.removeItem('vuex');
+          this.$store.commit('setViewVerificationPage');
+          this.$store.commit('setEmail', '');
+          this.$store.commit('setPassword', '');
+
         }catch (error) {
           if (navigator.onLine) {
             this.isLoading = false;
