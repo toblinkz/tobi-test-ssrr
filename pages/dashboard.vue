@@ -62,7 +62,7 @@
 																																				<div class="col-md-6 alert toke hidden-xs">
 																																					<!-- START PANEL -->
 																																					<div class="col-md-11">
-																																						Active
+																																						{{whatsapp_device_status}}
 																																					</div>
 																																					<!-- END PANEL -->
 																																				</div>
@@ -244,7 +244,8 @@
         showYourWalletModal: false,
         account_balance: '',
         emptyActivityLog:false,
-        live_api_key:''
+        live_api_key:'',
+								whatsapp_device_status:''
       }
     },
     methods: {
@@ -262,6 +263,11 @@
 								//get user data
 									let response_data = await this.$axios.$get('user');
 									this.live_api_key = response_data.data.customer.live_api_key;
+
+									//get user device status
+									let device_status_data = await this.$axios.$get('user/device-status ');
+									this.whatsapp_device_status = device_status_data.data;
+
         } catch(e){
 
         }
