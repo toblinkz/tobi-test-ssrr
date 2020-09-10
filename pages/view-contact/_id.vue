@@ -42,7 +42,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <br>
-                                    <nuxt-link :to="{name: 'sms-group-sms', params:{id:this.$route.params.id}}"  class="btn btn-success" :aria-disabled="isDisabled"><i class="entypo-paper-plane"></i> Create bulk sms</nuxt-link>
+                                    <nuxt-link :to="{path: '/sms/group-sms', params:{id:this.$route.params.id}}"   class="btn btn-success" :aria-disabled="isDisabled"><i class="entypo-paper-plane"></i> Create bulk sms</nuxt-link>
                                   </div>
                                 </div>
                               </div>
@@ -164,6 +164,7 @@
 							},
           setPid(row){
             this.$store.commit('setPhoneBookId', row.pid);
+            this.$store.commit('setBulkSmsId', row.pid);
           },
 							onPageChange(page) {
 								this.page = page;
