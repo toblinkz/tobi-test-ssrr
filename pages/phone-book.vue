@@ -113,12 +113,12 @@
 																		<p>{{row.phonebook_name}}</p>
 																	</td>
 																	<td>
-																		<p>{{row.total_contacts}}</p>
+																		<p>{{row.total_contact}}</p>
 																	</td>
 																	<td>
-																		<nuxt-link :to="{path: 'view-contact/'+ row.id }" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
+																		<nuxt-link :to="{path: 'view-contact/'+ row.id }" class="btn btn-primary btn-xs" ><i class="fa fa-eye"></i> View</nuxt-link>
 																		<a class="btn btn-success btn-xs" @click="showModal(row)" ><i class="fa fa-edit"></i> Edit</a>
-																		<nuxt-link class="btn btn-success btn-xs" :to="{name: 'add-contact-id' , params:{id: row.id}}">
+																		<nuxt-link class="btn btn-success btn-xs"  :to="{path: 'add-contact/' + row.id ,}" >
 																			<i class="fa fa-user-plus"></i> Add Contact</nuxt-link>
 																		<a @click="deletePhoneBook(row)" class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i></a>
 																	</td>
