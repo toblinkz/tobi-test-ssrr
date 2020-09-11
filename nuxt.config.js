@@ -82,26 +82,24 @@ export default {
     duration: 3000
   },
 
-  auth: {
+	auth: {
 
-  	resetOnError: true,
-    redirect:{
-    login: '/login',
-      home: '/dashboard'
+		redirect:{
+			login: '/login',
+			home: '/dashboard'
 
-    },
-    strategies: {
-      local: {
-        endpoints: {
-          login: {url: 'auth/login', method: 'post',propertyName: 'access_token'},
-          user: {url: '/user', method: 'get', propertyName: 'data'},
-          logout:{url:'/auth/logout', method:'get'}
+		},
+		strategies: {
+			local: {
+				endpoints: {
+					login: {url: 'auth/login', method: 'post', propertyName: 'access_token'},
+					user: {url: '/user', method: 'get', propertyName: 'data'},
+					logout:{url:'/logout', method:'post'}
 
-        },
-
-      },
-    },
-  },
+				}
+			}
+		}
+	},
 
 
   /*
