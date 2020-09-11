@@ -281,7 +281,7 @@
 									let response_data = await this.$axios.$get('billing/exchange-rate', {params: {amount: this.amount,}});
 									this.total = response_data.amount;
 								}catch (e) {
-									this.$toast('Something went wrong. Try again');
+									this.$toast.error('Something went wrong. Try again');
 								}
 
 							},

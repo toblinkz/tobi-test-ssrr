@@ -158,7 +158,6 @@
         				if ( e.response.data.error === 'Account not verified.'){
 													this.$store.commit('setEmail', this.email);
 													this.$store.commit('setPassword', this.password);
-
 													await this.$router.push({ name: 'verify', });
 													this.$store.commit('setViewVerificationPage');
 												}else if (e.response.data.error === 'Unauthorized'){

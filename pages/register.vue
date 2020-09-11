@@ -289,10 +289,8 @@
                 password: this.password
               }
             });
-            await this.$axios.$get('user');
 												this.isLoading = false;
 												this.button_text = "Create My Account";
-
           } catch (e) {
 											this.isLoading = false;
 											this.button_text = "Create My Account"
