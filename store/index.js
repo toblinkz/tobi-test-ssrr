@@ -16,13 +16,17 @@ export const getters = {
   },
   getPhoneBookId(state){
     return state.phone_book_id;
-  }
+  },
+	getBulkSmsId(state){
+  	return state.bulk_sms_id;
+	}
 }
 
 export const state = () => ({
   email:'',
   password:'',
   phone_book_id:'',
+		bulk_sms_id:'',
   campaign_report_created: '',
   view_verify_page: false
 });
@@ -30,19 +34,22 @@ export const state = () => ({
 export const mutations = {
 
   setEmail(state, email){
-    state.email = email
+    state.email = email;
   },
   setPassword(state, password){
-    state.password = password
+    state.password = password;
   },
   setPhoneBookId(state, phonebook_id){
-    state.phone_book_id = phonebook_id
+    state.phone_book_id = phonebook_id;
   },
+	setBulkSmsId(state, bulk_sms_id){
+  	state.bulk_sms_id = bulk_sms_id;
+	},
   setViewVerificationPage(state){
     if (state.view_verify_page === false){
       state.view_verify_page = true;
     } else {
-      state.view_verify_page = false
+      state.view_verify_page = false;
     }
   },
   setCampaignCreatedDate(state, date){

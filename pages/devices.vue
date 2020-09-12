@@ -85,7 +85,7 @@
                                     <p v-show="lockBarcode(row)"><i class="entypo-lock" style="color: red;"></i></p>
                                   </td>
                                   <td data-label="view subscriptions">
-                                    <nuxt-link class="btn btn-primary" :aria-disabled="isDisabled(row)" :to="{path: 'device/'+ row.id + '/subscriptions', params:{name: row.name}}">manage device</nuxt-link>
+                                    <nuxt-link class="btn btn-primary" :aria-disabled="isDisabled(row)" :to="{name: 'device-id-subscriptions', params:{name: row.name, id: row.id}}">manage device</nuxt-link>
                                   </td>
                                 </tr>
                                 </tbody>

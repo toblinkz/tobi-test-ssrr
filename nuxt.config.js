@@ -65,7 +65,7 @@ export default {
   */
   modules: [
     '@nuxtjs/axios',
-		 	'@nuxtjs/auth-next',
+			'@nuxtjs/auth',
     '@nuxtjs/toast',
 			['nuxt-stripe-module', {
 				publishableKey: 'pk_test_nueC1m5g6hJZsKLIPjFIExWj00J4L2PZkP',
@@ -82,40 +82,24 @@ export default {
     duration: 3000
   },
 
-  auth: {
+	auth: {
 
-    redirect:{
-    login: '/login',
-      home: '/dashboard'
+		redirect:{
+			login: '/login',
+			home: '/dashboard'
 
-    },
-    strategies: {
-      local: {
-							scheme: 'refresh',
-							token: {
-								property: 'access_token',
-								// type: 'Bearer'
-							},
-      refreshToken: {
-      	property: 'access_token',
-							data: 'access_token',
-							maxAge: 60 * 60
-						},
-							user: {
-								property: 'data',
-							},
-        endpoints: {
-          login: {url: 'auth/login', method: 'post',},
-									 refresh:{url: 'auth/refresh/token', method:'get'},
-          user: {url: '/user', method: 'get', },
-          logout:{url:'/auth/logout', method:'get'}
+		},
+		strategies: {
+			local: {
+				endpoints: {
+					login: {url: 'auth/login', method: 'post', propertyName: 'access_token'},
+					user: {url: '/user', method: 'get', propertyName: 'data'},
+					logout:{url:'/logout', method:'post'}
 
-        },
-							autoLogout: true
-
-      },
-    },
-  },
+				}
+			}
+		}
+	},
 
 
   /*

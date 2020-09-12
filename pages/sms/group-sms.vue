@@ -14,7 +14,7 @@
                <li><nuxt-link to="/sms/send-sms">Group sms</nuxt-link></li>
              </ul>
              <h2>
-               <span class="text-semibold"><i class="entypo-paper-plane"></i> Group sms</span>
+               <span class="text-semibold"><i class="entypo-paper-plane"></i>Group sms</span>
              </h2>
            </div>
 
@@ -45,12 +45,12 @@
                        <div class="inner">
                          <div class="row mb-30">
                            <div class="mt-40">
+																												<form role="form" @submit.prevent="sendGroupSms" method="post">
                              <div class="col-md-6">
-                               <form role="form" method="post">
                                  <div class="form-group mt-30">
                                    <label>Select Channel </label>
                                    <small style="color: red !important;font-size: 11px;">(WhatsApp available only to premium users)</small>
-                                  <v-select :options="sms_channels"  append-to-body :calculate-position="withPopper" placeholder="Select sms channel" label="name">
+                                  <v-select :options="sms_channels"  append-to-body :calculate-position="withPopper" placeholder="Select sms channel" :reduce="channel => channel.id" label="name" v-model="selected_sms_channel">
 																																			<template #option="{ name }">
 																																				<p >{{ name }} </p>
 																																			</template>
@@ -66,7 +66,7 @@
                                  </div>
                                  <div class="form-group">
                                    <small style="color: red !important;font-size: 11px;">(Ensure you have added contacts to your phonebook)</small>
-                                   <v-select class="multi" :options="phone_books" append-to-body :calculate-position="withPopper" :reduce="phonebook => phonebook.id"  multiple label="phonebook_name" placeholder="Phone Book" v-model="selected_phone_book">
+                                   <v-select  :options="phone_books" append-to-body :calculate-position="withPopper" :reduce="phonebook => phonebook.id"   label="phonebook_name" placeholder="Phone Book" v-model="selected_phone_book">
 																																				<template #option="{ phonebook_name }">
 																																					<p >{{ phonebook_name }} </p>
 																																				</template>
@@ -81,23 +81,22 @@
                                  </div>
                                  <div class="form-group" v-show="send_later">
                                    <label>Schedule Time</label>
-                                   <date-picker v-model="date_time" type="datetime" confirm style="width: 100%" ></date-picker>
+                                   <date-picker v-model="date_time" value-type="DD/MM/YYYY HH:MM:SS" type="datetime" confirm style="width: 100%" ></date-picker>
                                  </div>
-                               </form>
                              </div>
                              <div class="col-md-6">
                                <div class="form-group mt-30">
                                  <label class="hidden-xs">Sender ID / Device ID</label>
                                  <small style="color: red !important;font-size: 11px;" class="hidden-xs">(Can't find your ID below, <nuxt-link to="sms/sender-id-management">register yours here</nuxt-link> - Process takes less than 24 hours)</small>
-                                <v-select :options="active_sender_id" append-to-body :calculate-position="withPopper" placeholder="Select sender ID" label="sender_id">
+                                <v-select :options="active_sender_id" append-to-body :calculate-position="withPopper" placeholder="Select sender ID" :reduce="sender => sender.sender_id" label="sender_id" v-model="selected_sender_id">
 																																	<template #option="{ sender_id }">
 																																		<p >{{sender_id }} </p>
 																																	</template>
 																																</v-select>
                                </div>
                                <div class="form-group">
-                                 <label>Message</label>
-																																<v-select :options="message_type"  append-to-body :calculate-position="withPopper" v-model="selected_message_type" label="name">
+                                 <label>Campaign Type</label>
+																																<v-select :options="campaign_type"  append-to-body :calculate-position="withPopper" v-model="selected_campaign_type" :reduce="type => type.id" label="name" placeholder="Select Campaign type">
 																																	<template #option="{ name }">
 																																		<p >{{ name }} </p>
 																																	</template>
@@ -110,9 +109,10 @@
                                </div>
                              </div>
                              <div class="col-md-12">
-                               <button type="submit" class="btn bx-line btn-success btn-sm" disabled><i class="fa fa-send" ></i> Send </button>
-                               <nuxt-link to="/sms/history" class="btn bx-line btn-primary"><i class="fa fa-angle-double-right"></i> Next - View report</nuxt-link>
+                               <button type="submit" class="btn bx-line btn-success btn-sm" :disabled="isDisabled"><i class="fa fa-send" ></i> Send </button>
+                               <nuxt-link to="/sms/campaign-reports" class="btn bx-line btn-primary"><i class="fa fa-angle-double-right"></i> Next - View report</nuxt-link>
                              </div>
+																												</form>
                            </div>
                          </div>
                        </div>
@@ -136,6 +136,7 @@
 				import vSelect from 'vue-select';
 				import 'vue-select/dist/vue-select.css';
 				import {createPopper} from "@popperjs/core";
+				import Swal from 'sweetalert2';
 				import Fuse from "fuse.js";
 				import {mapGetters} from "vuex";
 
@@ -146,18 +147,20 @@
       data(){
           return{
 
-											selected_phone_book:[],
+											selected_phone_book:'',
             send_later: false,
-            date_time:"null",
+            date_time: moment(new Date()).format('DD/MM/YYYY HH:MM:SS'),
             sms_channels: [],
             countries: [],
 									 		placement: 'top',
 											 message:'',
             active_sender_id: [],
-										 	message_type: [{name: 'Plain'}, {name:'Voice'}, {name:'MMS'}, {name:'Unicode'}, {name:'Arabic'},],
-										 	selected_message_type:'Plain',
+										 	campaign_type: [{id: 0, name: 'Regular'}, {id: 1, name:'Personalized'}],
+										 	selected_campaign_type: '',
 											selected_country_code:'',
 											selected_sender_id:'',
+											selected_sms_channel:'',
+											schedule_sms_status:"",
 											max_characters: 160,
 											no_of_messages: 1,
             phone_books:[],
@@ -188,7 +191,12 @@
 						}
 					},
 					computed:{
-						...mapGetters(['getPhoneBookId'])
+						...mapGetters(['getPhoneBookId', 'getBulkSmsId']),
+						isDisabled: function () {
+							return (this.selected_sms_channel === '' || this.selected_sender_id === ''  || this.selected_phone_book === '' ||
+														this.selected_country_code === '' || this.message === '' || this.selected_campaign_type === '')
+
+						}
 					},
       methods: {
         async fetch() {
@@ -214,12 +222,38 @@
           }
         },
 							async getPhoneBook(){
-        	let data = await this.$axios.$get('sms/phone-book/detail/' + this.getPhoneBookId);
-									this.selected_phone_book.push(data.data)
+        	let data = await this.$axios.$get('sms/phone-book/detail/' + this.getBulkSmsId);
+									this.phone_books.push(data.data);
+									this.selected_phone_book = data.data.id;
 							},
-          toggleScheduleTime(){
-            this.send_later = !this.send_later
-          },
+							toggleScheduleTime(){
+									this.send_later = !this.send_later
+									if (this.schedule_sms_status === ''){
+										this.schedule_sms_status = 'scheduled'
+									}else {this.schedule_sms_status = ''}
+							},
+							async sendGroupSms(){
+        	try {
+									let data =	await this.$axios.$post('sms/group/send', {
+											sender_id: this.selected_sender_id,
+											message: this.message,
+											channel: this.selected_sms_channel,
+											country_code: this.selected_country_code.substring(1),
+											contact_list_id: this.selected_phone_book,
+											campaign_type: this.selected_campaign_type,
+											schedule_time: this.date_time,
+											schedule_sms_status: this.schedule_sms_status,
+										});
+										await Swal.fire({
+											icon: 'success',
+											title: `${data.message}`,
+											showConfirmButton: true,
+										})
+									}catch (e) {
+												this.$toast.error("Something went wrong. Try again!");
+									}
+
+							},
 							withPopper (dropdownList, component, {width}) {
 								dropdownList.style.width = width;
 								const popper = createPopper(component.$refs.toggle, dropdownList, {

@@ -42,7 +42,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <br>
-                                    <nuxt-link :to="{name: 'sms-group-sms', params:{id:this.$route.params.id}}"  class="btn btn-success" :aria-disabled="isDisabled"><i class="entypo-paper-plane"></i> Create bulk sms</nuxt-link>
+                                    <nuxt-link :to="{path: '/sms/group-sms', params:{id:this.$route.params.id}}"   class="btn btn-success" :aria-disabled="isDisabled"><i class="entypo-paper-plane"></i> Create bulk sms</nuxt-link>
                                   </div>
                                 </div>
                               </div>
@@ -138,32 +138,29 @@
 					},
       methods: {
           async fetch(){
-          	try {
-												//get phonebook contact
-											 let data = await this.$axios.$get('sms/phone-book/' +this.$route.params.id,{params:{
-													page: this.page
-													}});
-												this.phone_book_contacts = data;
-												if (data.meta.last_page > 1){this.showPagination = true}
-												this.page = data.meta.current_page;
-												this.total_page = data.meta.last_page;
-												this.show_shimmer = true;
 
-											}catch (e) {
-
-											}
 
           },
-						async	getPhonbookContacts(){
-          	try {
-												this.phone_book_contacts = await this.$axios.$get('sms/phone-book/' +this.$route.params.id);
-											}catch (e) {
+						async	getPhonebookContacts(){
+							try {
+								//get phonebook contact
+								let data = await this.$axios.$get('sms/phone-book/' +this.$route.params.id,{params:{
+										page: this.page
+									}});
+								this.phone_book_contacts = data;
+								if (data.meta.last_page > 1){this.showPagination = true}
+								this.page = data.meta.current_page;
+								this.total_page = data.meta.last_page;
+								this.show_shimmer = true;
 
-											}
+							}catch (e) {
+
+							}
 
 							},
           setPid(row){
             this.$store.commit('setPhoneBookId', row.pid);
+            this.$store.commit('setBulkSmsId', row.pid);
           },
 							onPageChange(page) {
 								this.page = page;
@@ -184,7 +181,7 @@
 													if (result.value){
 														await this.$axios.$delete('sms/phone-book/contact/' + row.id).catch((e)=>{this.$toast.error("An Error Occured while trying to delete this contact");});
 														this.$toast.success("Phone book deleted successfully");
-														await this.fetch();
+														await this.getPhonebookContacts();
 													}
 												});
 											}catch (e) {
@@ -195,8 +192,8 @@
         }
       },
       mounted() {
-          this.fetch();
-          this.getPhonbookContacts();
+          //this.fetch();
+          this.getPhonebookContacts();
       }
     }
 </script>
