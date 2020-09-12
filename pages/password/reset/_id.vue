@@ -24,7 +24,15 @@
                 <span class="input-field_helper">Password</span>
                 <span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
                 <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
-
+															<div v-show="hasPasswordError">
+																<p>Password should contain at least:</p>
+																<ul>
+																	<li>One lowercase letter</li>
+																	<li>One uppercase letter</li>
+																	<li>One special character except "@"</li>
+																	<li>8 minimum characters</li>
+																</ul>
+															</div>
               </div>
               <button type="submit" class="btnl bg-blue m-t-25" :disabled="isDisabled">
                 {{button_text}}
@@ -75,7 +83,7 @@
     },
     methods: {
       validatePassword(value){
-        if ( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(value)){
+        if ( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#$%^&*])(?=.{8,})/.test(value)){
           this.error_message['password'] = '';
           this.hasPasswordError = false;
         }
