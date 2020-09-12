@@ -150,7 +150,7 @@
                 });
 											this.isLoading = false;
 											this.button_text = "Proceed";
-          await this.$router.push('/dashboard');
+          await this.$router.push('/');
         } catch (e) {
 									this.isLoading = false;
 									this.button_text = "Proceed";
