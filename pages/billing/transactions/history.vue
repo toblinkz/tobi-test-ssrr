@@ -38,7 +38,7 @@
 
                                       <form @submit.prevent="getWalletTransactionByDate" method="GET">
                                         <div class="col-md-6">
-                                          <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
+                                          <date-picker v-model="date_time" value-type="YYYY-MM-DD " type="date" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
                                         </div>
                                         <div class="col-md-2">
                                           <button type="submit"  :disabled="isDisabled"  class="btn btn-success">
@@ -165,7 +165,7 @@
     import 'vue2-datepicker/index.css';
 				import TableVuePlaceHolder from "../../../components/general/TableVuePlaceHolder";
 				import {ContentLoader,} from 'vue-content-loader';
-				import TransactionHistoryModal from "../../../components/modals/TransactionHistoryModal";
+				import TransactionHistoryModal from "../../../components/modals/TransactionHistoryExportModal";
     export default {
         name: "history",
         middleware:'auth',
@@ -210,9 +210,6 @@
 
 											//get wallet transaction sum
 											let sum_data = await this.$axios.$get('billing/wallet/transactions/sum', {
-												params:{
-													wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1],
-												}
 											});
 											this.amount_funded = sum_data.credit;
 											this.amount_spent = sum_data.debit;
@@ -229,7 +226,8 @@
         		try{
 											let response_data = await this.$axios.$get('billing/wallet/transactions',{
 												params:{
-													wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1],
+													date_from: this.date_time[0] ,
+													date_to:this.date_time[1],
 													page: this.page
 												}
 											});
@@ -246,13 +244,16 @@
 
 											let sum_data = await this.$axios.$get('billing/wallet/transactions/sum', {
 												params:{
-													wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1],
+													date_from: this.date_time[0],
+													date_to: this.date_time[1],
 												}
 											});
 											this.amount_funded = sum_data.credit;
 											this.amount_spent = sum_data.debit;
 
 										}catch (e) {
+											this.isLoading = false;
+											this.filterText = 'Filter';
 											this.$toast.error("Something went wrong.")
 										}
 

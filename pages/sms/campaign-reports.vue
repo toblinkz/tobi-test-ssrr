@@ -36,7 +36,7 @@
                             <form @submit.prevent="filterCampaignReport" role="form" method="get" id="search-form">
                               <div class="row">
                                 <div class="form-group">
-                                  <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
+                                  <date-picker v-model="date_time" value-type="YYYY-MM-DD " type="date" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
                                 </div>
                               </div>
 
@@ -161,7 +161,10 @@
 										this.searchText = '';
 										this.showIcon = false;
 										try {
-											let response_data = await this.$axios.$get('sms/campaign/reports', {params: {page: this.page, campaign_date_range: this.date_time[0] + "," + this.date_time[1]}});
+											let response_data = await this.$axios.$get('sms/campaign/reports', {params:
+													{page: this.page,
+														date_from: this.date_time[0],
+														date_to: this.date_time[1]}});
 											this.campaign_report = response_data.data;
 
 											if (this.campaign_report.length !== 0){this.showPagination = true;}
@@ -175,7 +178,10 @@
 
 											this.$toast.success('Search completed');
 										}catch (e) {
-
+											this.$toast.error('Something went wrong. Try again!');
+											this.isLoading = false;
+											this.searchText = 'Search';
+											this.showIcon = true;
 										}
 									},
         isDisabled(row){
