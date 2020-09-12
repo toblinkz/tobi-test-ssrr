@@ -127,7 +127,6 @@
       						verification_code: '000000'
 											}
 										});
-      				console.log(data);
 							}catch (e) {
 
 							}
