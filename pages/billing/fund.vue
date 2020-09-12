@@ -179,7 +179,8 @@
             isRegularForm: false,
             isLoading: false,
             payment_method:'',
-											minimum_top_up:'',
+												minimum_top_up:'',
+												minimum_top_up_value:'',
             fund_button_text:'Fund Account',
             selected_payment_method:"",
             amount:'',
@@ -281,7 +282,7 @@
 									let response_data = await this.$axios.$get('billing/exchange-rate', {params: {amount: this.amount,}});
 									this.total = response_data.amount;
 								}catch (e) {
-									this.$toast('Something went wrong. Try again');
+
 								}
 
 							},
@@ -290,6 +291,7 @@
 											let response = await this.$axios.$get('billing/top-up/plans');
 										 this.amount = 	response.data.bundled_top_up.amount.substring(1);
 											this.total = response.data.bundled_top_up.amount;
+
 										}catch (e) {
 
 										}
@@ -299,6 +301,7 @@
 										let response = await this.$axios.$get('billing/top-up/plans');
 										this.bundled_top_up =  response.data.bundled_top_up.amount;
 										this.minimum_top_up = response.data.minimum_top_up.amount;
+										this.minimum_top_up_value = response.data.minimum_top_up.amount_currency;
 									}catch (e) {
 
 									}
@@ -308,8 +311,10 @@
             if (isNaN(value)){
               this.error_message = 'Please enter a valid amount';
               this.hasError = true;
-            }
-            else {
+            } else if (value < this.minimum_top_up_value){
+													this.error_message = `minimum amount to recharge is ${this.minimum_top_up}`;
+													this.hasError = true;
+												} else {
               this.error_message = '';
               this.hasError = false;
             }

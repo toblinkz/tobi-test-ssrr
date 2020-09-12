@@ -36,11 +36,17 @@
                             <form @submit.prevent="filterCampaignReport" role="form" method="get" id="search-form">
                               <div class="row">
                                 <div class="form-group">
-                                  <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%"  confirm></date-picker>
+                                  <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
                                 </div>
                               </div>
 
-                              <button type="submit" class="btn btn-success wd-100 bx-line"><i class="fa fa-search"></i> Search</button>
+                              <button type="submit" class="btn btn-success wd-100 bx-line" :disabled="Disabled">
+																															<i class="fa fa-search" v-show="showIcon"></i>
+																															{{searchText}}
+																															<span v-show="isLoading">
+                                         <img src="/images/spinner.svg" height="20px" width="80px"/>
+                                      </span>
+																														</button>
                             </form>
                           </div>
                         </div>
@@ -117,14 +123,23 @@
       components: {TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar, DatePicker},
       data(){
           return{
+
+												isLoading: false,
+												showIcon: true,
+											 searchText: 'Search',
             campaign_report:[],
-            date_time: [moment(new Date()).format('YYYY-MM-DD HH:mm:ss'), moment(new Date() + 1).format('YYYY-MM-DD HH:mm:ss')],
+            date_time: null,
             page: 1,
             total_page:'',
             showPagination: false,
 										 	show_shimmer: false,
           }
       },
+					computed:{
+       Disabled: function () {
+										return (this.date_time === null);
+							}
+					},
       methods:{
           async fetch(){
           	//get campaign report
@@ -142,6 +157,9 @@
             }
           },
 									async filterCampaignReport(){
+										this.isLoading = true;
+										this.searchText = '';
+										this.showIcon = false;
 										try {
 											let response_data = await this.$axios.$get('sms/campaign/reports', {params: {page: this.page, campaign_date_range: this.date_time[0] + "," + this.date_time[1]}});
 											this.campaign_report = response_data.data;
@@ -150,6 +168,12 @@
 											this.page = response_data.meta.current_page;
 											this.total_page = response_data.meta.last_page;
 											this.show_shimmer = true;
+
+											this.isLoading = false;
+											this.searchText = 'Search';
+											this.showIcon = true;
+
+											this.$toast.success('Search completed');
 										}catch (e) {
 
 										}

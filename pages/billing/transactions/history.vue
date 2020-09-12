@@ -38,18 +38,23 @@
 
                                       <form @submit.prevent="getWalletTransactionByDate" method="GET">
                                         <div class="col-md-6">
-                                          <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%"  confirm></date-picker>
+                                          <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
                                         </div>
                                         <div class="col-md-2">
-                                          <input type="submit" value="Filter"  class="btn btn-primary" />
+                                          <button type="submit"  :disabled="isDisabled"  class="btn btn-success">
+																																												<span v-show="isLoading">
+                                         <img src="/images/spinner.svg" height="20px" width="30px"/>
+                                         </span>
+																																											{{filterText}}
+																																										</button>
                                         </div>
                                       </form>
 
-                                      <form @submit.prevent="" method="POST">
+                                      <div @click="showExportModal">
                                           <div class="col-md-2">
-                                            <input  type="submit" value="Export"  class="btn btn-danger" />
+                                            <input  type="submit" value="Export"  class="btn btn-primary" />
                                           </div>
-                                      </form>
+                                      </div>
 
                                     </div>
                                   </div>
@@ -58,7 +63,7 @@
 
                               <div class="col-lg-6 col-md-5 col-md-height col-middle mt-20" >
                                 <!-- START PANEL -->
-																															<ContentLoader v-if="!amount_funded"
+																															<ContentLoader v-if="!amount_spent"
 																																														:speed="2"
 																																														:animate="true"
 																															>
@@ -146,6 +151,7 @@
                 </main>
               </div>
             </div>
+											<TransactionHistoryModal></TransactionHistoryModal>
           </div>
     </div>
   </div>
@@ -159,14 +165,19 @@
     import 'vue2-datepicker/index.css';
 				import TableVuePlaceHolder from "../../../components/general/TableVuePlaceHolder";
 				import {ContentLoader,} from 'vue-content-loader';
+				import TransactionHistoryModal from "../../../components/modals/TransactionHistoryModal";
     export default {
         name: "history",
         middleware:'auth',
-       components: {TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar,DatePicker , ContentLoader},
+       components: {
+								TransactionHistoryModal,
+								TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar,DatePicker , ContentLoader},
       data(){
           return{
             transaction_history: [],
-            date_time:[moment(new Date()).format('YYYY-MM-DD HH:mm:ss'), moment(new Date() + 1).format('YYYY-MM-DD HH:mm:ss')],
+												isLoading: false,
+												filterText: 'Filter',
+            date_time: null,
             page: '',
             total_page:'',
             amount_spent:'',
@@ -175,6 +186,11 @@
 												show_shimmer: false
           }
       },
+					computed: {
+							isDisabled: function () {
+										return (this.date_time === null);
+							}
+					},
       methods:{
 
         	async fetch(){
@@ -207,6 +223,9 @@
 									},
 
         async getWalletTransactionByDate(){
+        		this.isLoading = true;
+        		this.filterText = '';
+
         		try{
 											let response_data = await this.$axios.$get('billing/wallet/transactions',{
 												params:{
@@ -219,9 +238,12 @@
 											}else {
 												this.showPagination = false
 											}
-
 											this.transaction_history = response_data.data;
 											this.total_page = response_data.meta.last_page;
+											this.isLoading = false;
+											this.filterText = 'Filter';
+											this.$toast.success('Done');
+
 											let sum_data = await this.$axios.$get('billing/wallet/transactions/sum', {
 												params:{
 													wallet_transaction_daterange: this.date_time[0] + "," + this.date_time[1],
@@ -242,6 +264,9 @@
           this.fetch();
 
         },
+							showExportModal(){
+        		this.$modal.show('transaction-history-modal');
+							}
 
       },
 					mounted() {

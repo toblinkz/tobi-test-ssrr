@@ -58,7 +58,13 @@
 																																<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
 																															</div>
 																															<br>
-																															<button class="btn btn-primary btn-cons" @click="renewApiToken" :disabled="isDisabled"><i class="fa fa-certificate"></i> Renew API key</button>
+																															<button class="btn btn-primary btn-cons" @click="renewApiToken" :disabled="isDisabled">
+																																<i class="fa fa-certificate" v-show="showIcon"></i>
+																																{{button_text}}
+																																<span v-show="isLoading">
+																																			<img src="/images/spinner.svg" height="20px" width="80px"/>
+																																		</span>
+																															</button>
                                 <!-- END PANEL -->
                               </div>
                             </div>
@@ -95,6 +101,9 @@
       data(){
         return{
         	password:'',
+									button_text:' Renew API key',
+									isLoading: false,
+									showIcon: true,
           api_key: this.$auth.user.customer.live_api_key,
 									error_message:[],
 									hasPasswordError: false,
@@ -114,12 +123,19 @@
 					},
       methods: {
           async renewApiToken(){
+          	this.isLoading = true;
+          	this.button_text = '';
+          	this.showIcon = false;
             try{
               await this.$axios.$get('user/keys/renew', {params:{password: this.password} });
+													this.isLoading = false;
+													this.button_text = 'Renew API key';
+													this.showIcon = true;
               await Swal.fire({
                 icon: 'success',
                 text: 'Your API token was successfully renewed',
               });
+
              let data = await this.$axios.get('user',);
              this.api_key = data.data.data.customer.live_api_key;
             }catch (e) {

@@ -26,7 +26,7 @@
               </div>
             <div style="width: 87%">
               <ButtonSpinner :is-disabled="isDisabled" :button_text="button_text" :is-loading="isLoading"></ButtonSpinner>
-              <nuxt-link  to="#" class="text-info2 pull-right mt-30 ">Resend verification code</nuxt-link>
+              <a @click="resendVerificationCode"   class="text-info2 pull-right mt-30 ">Resend verification code</a>
             </div>
           </form>
 
@@ -86,8 +86,8 @@
         try{
           this.isLoading = true;
           this.button_text = "Verifying";
-          await this.$axios.post('auth/account/verify',{
-            verification_code: "890465"
+          await this.$axios.$post('auth/account/verify',{
+            verification_code: this.verification_code
           }, {headers: {'Authorization':localStorage.getItem("auth._token.local")}});
 
 
@@ -117,7 +117,19 @@
 
 
         }
-      }
+      },
+					async resendVerificationCode(){
+      	try{
+      				let data = await this.$axios.$get('auth/account/token/resend', {
+      					params:{
+      						verification_code: '000000'
+											}
+										});
+      				console.log(data);
+							}catch (e) {
+
+							}
+					}
     },
     mounted() {
 

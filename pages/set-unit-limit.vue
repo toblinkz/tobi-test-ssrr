@@ -54,7 +54,12 @@
                                 </div>
                               </div>
                               <div class="form-group">
-                                <button type="submit" class="btn btn-primary" :disabled="isDisabled"> Send </button>
+                                <button type="submit" class="btn btn-primary" :disabled="isDisabled">
+																																		<span v-show="isLoading">
+																																			<img src="/images/spinner.svg" height="20px" width="30px"/>
+																																		</span>
+																																	{{button_text}}
+																																</button>
                               </div>
                             </form>
                           </div>
@@ -85,6 +90,8 @@
       data(){
           return{
             limit: '',
+												isLoading: false,
+												button_text:'Send',
             hasLimitError: false,
             error_message:[],
           }
@@ -114,10 +121,14 @@
             }
           },
         async setSmsUnitLimit(){
+          	this.isLoading = true;
+          	this.button_text = '';
             try{
               await this.$axios.$post('sms/set-unit-limit', {
                 unit_limit: this.limit
               });
+              this.isLoading = false;
+              this.button_text =  "Send";
               await Swal.fire({
                 icon: 'success',
                 text: 'Limit Updated Successfully',

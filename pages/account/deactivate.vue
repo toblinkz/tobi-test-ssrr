@@ -110,7 +110,7 @@
               await Swal.fire({
                 icon: 'info',
                 title: 'Oops...',
-                text: 'We are sorry to see you',
+                text: 'We are sorry to see you leave.',
               });
               await this.$auth.logout();
 
