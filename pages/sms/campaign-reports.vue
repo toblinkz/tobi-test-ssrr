@@ -40,7 +40,7 @@
                                 </div>
                               </div>
 
-                              <button type="submit" class="btn btn-success wd-100 bx-line" :disabled="isDisabled">
+                              <button type="submit" class="btn btn-success wd-100 bx-line" :disabled="Disabled">
 																															<i class="fa fa-search" v-show="showIcon"></i>
 																															{{searchText}}
 																															<span v-show="isLoading">
@@ -126,7 +126,7 @@
 
 												isLoading: false,
 												showIcon: true,
-											searchText: 'Search',
+											 searchText: 'Search',
             campaign_report:[],
             date_time: null,
             page: 1,
@@ -136,7 +136,7 @@
           }
       },
 					computed:{
-       isDisabled: function () {
+       Disabled: function () {
 										return (this.date_time === null);
 							}
 					},
