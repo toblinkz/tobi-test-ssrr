@@ -103,6 +103,8 @@
       },
       async logout(){
         await this.$auth.logout();
+        this.$router.push({name: 'login'});
+							localStorage.setItem('doneWithTour', '');
 
       }
     },
