@@ -52,7 +52,7 @@
 																																			<img src="/images/copy.svg"/>
                                   </button>
                                  <p class="insight" style="color: #595959 !important;">{{api_key}}</p> </div>
-																															<div class="form-group">
+																															<div class="form-group mt-20">
 																																<input v-model="password" :type="type"  class="profile-form-control" :class="{'error': hasPasswordError}" placeholder="Enter Password">
 																																<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
 																																<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>

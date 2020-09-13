@@ -105,7 +105,7 @@
 																</tr>
 																</thead>
 																<tbody>
-																<tr v-for="(row, index) in filteredPhonebook" :key="row.id">
+																<tr v-for="(row, index) in filteredPhonebook" :key="row.id" v-show="filteredPhonebook.length > 1">
 																	<td>
 																		<p>{{index + 1}}</p>
 																	</td>
@@ -122,6 +122,9 @@
 																			<i class="fa fa-user-plus"></i> Add Contact</nuxt-link>
 																		<a @click="deletePhoneBook(row)" class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i></a>
 																	</td>
+																</tr>
+																<tr>
+																	<td  colspan="7" style="text-align: center; cursor: pointer" v-show="filteredPhonebook.length < 1">No data available in table</td>
 																</tr>
 																</tbody>
 															</table>

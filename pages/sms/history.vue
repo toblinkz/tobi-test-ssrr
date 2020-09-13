@@ -93,7 +93,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="row in messages_sent.data" :key="row.date">
-                              <td style="width: 5%;">{{row.create_at}}</td>
+                              <td style="width: 5%;">{{row.created_at}}</td>
                               <td style="width: 5%;">{{row.channel}}</td>
                               <td style="width: 5%;">{{row.sender}}</td>
                               <td style="width: 5%;">{{row.receiver}}</td>
