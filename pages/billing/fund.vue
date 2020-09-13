@@ -112,10 +112,11 @@
                                   <form  role="form" method="post" @submit.prevent="TopUp">
                                     <CustomSelect :options="options" @item-selected="itemSelected" :dropdown-style="dropdownStyle"></CustomSelect>
                                     <div id="regular-form-body" class="mt-20">
-                                      <div class="form-group"  :style="{marginBottom: '10px'}" v-if="input_amount">
-                                        <input type="text" class="form-control" placeholder="Amount" v-model="amount" :class="{'error': hasError}" @focusout="getExchangeRate($event)"> </div>
+                                      <div class="form-group"  :style="{marginBottom: '10px'}" v-show="input_amount">
+                                        <input type="text" class="form-control" placeholder="Amount" v-model="amount" :class="{'error': hasError}" @focusout="getExchangeRate($event)">
                                         <span class="error_field_message" v-if="error_message">{{error_message}}</span>
-                                      <div class="form-group" v-if="selectPayment">
+																																						</div>
+                                      <div class="form-group" v-show="selectPayment">
                                         <label>Select Payment Method</label>
                                         <select @change="onChange($event)" class="form-control">
                                           <option v-for="item in payment_method.data" :value="item.settings">{{item.name}}</option>
@@ -288,8 +289,9 @@
 							},
 							async getTopUp(){
 										try{
+
 											let response = await this.$axios.$get('billing/top-up/plans');
-										 this.amount = 	response.data.bundled_top_up.amount.substring(1);
+										 this.amount = 	response.data.bundled_top_up.amount_currency;
 											this.total = response.data.bundled_top_up.amount;
 
 										}catch (e) {
@@ -325,12 +327,12 @@
             }
           this.payment_gateway = event.target.value;
         },
-        itemSelected(value){
+        async itemSelected(value){
             if (value === "2"){
               this.selectPayment = true;
               this.input_amount = false;
-              this.getTopUp();
-              this.getExchangeRate()
+              await this.getTopUp();
+              await this.getExchangeRate()
             } else if (value === "1"){
               this.selectPayment = true;
               this.input_amount = true;

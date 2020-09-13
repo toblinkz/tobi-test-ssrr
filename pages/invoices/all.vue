@@ -161,10 +161,10 @@
        filteredInvoices(){
        	if (this.searchQuery){
        		return this.all_invoice.filter(item => {
-       				return item.status.startsWith(this.searchQuery) ||
-														item.total.toString().startsWith(this.searchQuery ) ||
-													item.duedate.toString().startsWith(this.searchQuery)
-												item.datepaid.toString().startsWith(this.searchQuery);
+       				return item.status.includes(this.searchQuery) ||
+														item.total.toString().includes(this.searchQuery ) ||
+													item.duedate.toString().includes(this.searchQuery)
+												item.datepaid.toString().includes(this.searchQuery);
 									})
 								}else {
        		return this.all_invoice;

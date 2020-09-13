@@ -81,7 +81,7 @@
                                  </div>
                                  <div class="form-group" v-show="send_later">
                                    <label>Schedule Time</label>
-                                   <date-picker v-model="date_time" value-type="DD/MM/YYYY HH:MM:SS" type="datetime" confirm style="width: 100%" ></date-picker>
+                                   <date-picker v-model="date_time" value-type="YYYY/MM/DD HH:MM:SS" type="datetime" confirm style="width: 100%" placeholder="Select date"></date-picker>
                                  </div>
                              </div>
                              <div class="col-md-6">
@@ -149,7 +149,7 @@
 
 											selected_phone_book:'',
             send_later: false,
-            date_time: moment(new Date()).format('DD/MM/YYYY HH:MM:SS'),
+            date_time: null,
             sms_channels: [],
             countries: [],
 									 		placement: 'top',
@@ -160,7 +160,7 @@
 											selected_country_code:'',
 											selected_sender_id:'',
 											selected_sms_channel:'',
-											schedule_sms_status:"",
+											schedule_sms_status:"regular",
 											max_characters: 160,
 											no_of_messages: 1,
             phone_books:[],
@@ -228,11 +228,11 @@
 							},
 							toggleScheduleTime(){
 									this.send_later = !this.send_later
-									if (this.schedule_sms_status === ''){
+									if (this.schedule_sms_status === 'regular'){
 										this.schedule_sms_status = 'scheduled'
-									}else {this.schedule_sms_status = ''}
+									}else {this.schedule_sms_status = 'regular'}
 							},
-							async sendGroupSms(){
+							async sendGroupSms() {
         	try {
 									let data =	await this.$axios.$post('sms/group/send', {
 											sender_id: this.selected_sender_id,

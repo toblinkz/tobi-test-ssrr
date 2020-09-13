@@ -74,6 +74,7 @@
 <script>
     import Sidebar from "../../../components/general/Sidebar";
     import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
+				import Swal from "sweetalert2";
     export default {
         name: "subscriptions",
       middleware:'auth',
@@ -107,7 +108,11 @@
              });
               await this.fetch();
             } catch (e) {
-
+													await Swal.fire({
+														icon: 'error',
+														title: 'Oops...',
+														text: 'You have pending payment on this device, Contact Account Manager',
+													});
 
             }
         },
