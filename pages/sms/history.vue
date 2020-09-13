@@ -41,7 +41,7 @@
 																																				</div>
 
                                     <div class="col-md-12 mb-20" style="padding-left: 0px;padding-right: 0px;">
-                                      <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
+                                      <date-picker v-model="date_time" value-type="YYYY-MM-DD " type="date" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
                                     </div>
                                   </div>
                                   <center>
@@ -206,6 +206,11 @@
 										this.page = this.messages_sent.meta.current_page;
 										this.total_page = this.messages_sent.meta.last_page;
 										this.show_shimmer = true;
+
+										this.isLoading = false;
+										this.searchText = 'Search';
+										this.showIcon = true;
+										this.$toast.success('Search completed');
 									}catch (e) {
 
 									}
@@ -216,7 +221,15 @@
         	this.searchText = '';
         	this.showIcon = false;
         	try {
-										let data = await this.$axios.$get('sms/history', {params:{page: this.page, phone_number: this.phone_number, sms_histories_daterange: this.date_time[0] + "," + this.date_time[1]}});
+										let data = await this.$axios.$get('sms/history', {params:
+												{
+											page: this.page,
+												phone_number: this.phone_number,
+												date_from: this.date_time[0],
+												date_to: this.date_time[1]
+												}
+										});
+
 										this.messages_sent = data;
 										if (data.meta.last_page > 1 ){
 											this.showPagination = true

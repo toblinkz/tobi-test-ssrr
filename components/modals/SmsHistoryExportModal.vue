@@ -8,7 +8,7 @@
 							<div class="modal-body">
 								<div class="col-md-6">
 									<div class="form-group ">
-										<label>Select method</label>
+										<label>Select type</label>
 										<select  class="form-control" @change="onChange($event)">
 											<option >All</option>
 											<option >To</option>
@@ -16,18 +16,19 @@
 										</select>
 										<div v-show="showPhoneNumber">
 											<label> Phone number</label>
-											<input type="tel" class="form-control" >
+											<input type="tel" class="form-control" v-model="phone_number">
 										</div>
 										<div v-show="showSenderId">
 											<label>Sender ID</label>
-											<input type="text" class="form-control" >
+											<input type="text" class="form-control" v-model="sender_id">
 										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<label>Number of request</label>
-										<input type="text" class="form-control"   >
+										<label>Number of records</label>
+										<input type="text" class="form-control"  v-model="no_of_records" :class="{'error' : hasRecordsError}">
+										<span class=" error_field_message" v-if="error_message.records">{{error_message.records}}</span>
 										<label>Date Range</label>
 										<date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
 									</div>
@@ -35,8 +36,8 @@
 								</div>
 						</form>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default" @click="close">Close</button>
-								<button type="submit" class="btn btn-primary">Export</button>
+									<button type="button" class="btn btn-default" @click="close">Close</button>
+									<a :href="exportUrl" target="_blank" @click="show" :aria-disabled="isDisabled"  class="btn btn-primary">Export</a>
 							</div>
 				</modal>
 </template>
@@ -51,8 +52,25 @@
 										date_time: null,
 										showPhoneNumber: false,
 										showSenderId: false,
+										type:'All',
+										exportUrl:'',
+										phone_number:'',
+										sender_id:'',
+										no_of_records: '',
+										hasRecordsError: false,
+										error_message: []
 									}
 								},
+					watch:{
+						no_of_records(value){
+							this.validateRecordInput(value);
+						}
+					},
+					computed:{
+						isDisabled:function () {
+							return(this.no_of_records === '' || this.date_time == null || this.hasRecordsError)
+						}
+					},
 					methods: {
         	close(){
         		this.$modal.hide('export-modal');
@@ -63,21 +81,38 @@
         			case('All'):{
 												this.showPhoneNumber = false;
 												this.showSenderId = false;
+												this.type = 'All';
 												break;
 											}
 									 case('To'): {
 												this.showPhoneNumber = true;
 												this.showSenderId = false;
+												this.type = 'To';
 												break;
 									}
 									case('From'):{
 										this.showPhoneNumber = false;
 										this.showSenderId = true;
+										this.type = 'From';
 										break;
 									}
 							}
 
-						}
+						},
+						validateRecordInput(value){
+							if (value > 5000){
+								this.hasRecordsError = true;
+								this.error_message['records'] = 'You can only download a maximum of 5,000 records per selection';
+							}else {
+								this.hasRecordsError = false;
+								this.error_message['records'] = ''
+							}
+						},
+						show(){
+							this.exportUrl = `${this.$axios.defaults.baseURL}sms/history/export?token=${localStorage.getItem('auth._token.local').substring(7)}
+								&type=${this.type}&date_from=${this.date_time[0]}&date_to=${ this.date_time[1]}&number_of_records=${this.no_of_records}&phone_number=${this.phone_number}&sender_id=${this.sender_id}`
+						},
+
 					}
     }
 </script>

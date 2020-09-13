@@ -18,8 +18,9 @@
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>Number of request</label>
-						<input type="text" class="form-control"   >
+						<label>Number of records</label>
+						<input type="text" class="form-control"  v-model="no_of_records" :class="{'error' : hasRecordsError}">
+						<span class=" error_field_message" v-if="error_message.records">{{error_message.records}}</span>
 						<label>Date Range</label>
 						<date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
 					</div>
@@ -28,7 +29,7 @@
 		</form>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" @click="close">Close</button>
-			<button type="submit" class="btn btn-primary">Export</button>
+			<a :href="exportUrl" target="_blank"  @click="show" :aria-disabled="isDisabled" class="btn btn-primary">Export</a>
 		</div>
 	</modal>
 </template>
@@ -40,18 +41,60 @@
 									components:{DatePicker},
 								data(){
         	return{
-										date_time: null
+										date_time: null,
+										no_of_records: '',
+										transaction_type:'All',
+										exportUrl: '',
+										hasRecordsError: false,
+										error_message: []
 									}
 								},
+					watch:{
+       no_of_records(value){
+								this.validateRecordInput(value);
+							}
+					},
+					computed:{
+       isDisabled:function () {
+											return(this.no_of_records === '' || this.date_time == null || this.hasRecordsError)
+							}
+					},
 					methods:{
 						close(){
 							this.$modal.hide('transaction-history-modal');
 						},
+						validateRecordInput(value){
+							if (value > 5000){
+									this.hasRecordsError = true;
+									this.error_message['records'] = 'You can only download a maximum of 5,000 records per selection';
+							}else {
+								this.hasRecordsError = false;
+								this.error_message['records'] = ''
+							}
+						},
 						onChange(event){
+							switch (event.target.value) {
+										case('All'):{
+											this.transaction_type = 'All';
+											break;
+										}
+										case('Debit'):{
+											this.transaction_type = 'Debit';
+											break;
+										}
+										case('Credit'):{
+											this.transaction_type = 'Credit';
+											break;
+										}
+							}
+							},
+						show(){
+								this.exportUrl = `${this.$axios.defaults.baseURL}billing/wallet/transactions/export?token=${localStorage.getItem('auth._token.local').substring(7)}
+								&type=${this.transaction_type}&date_from=${this.date_time[0]}&date_to=${ this.date_time[1]}&number_of_records=${this.no_of_records}`
+						},
+					},
 
-						}
-					}
-    }
+				}
 </script>
 
 <style scoped>
