@@ -67,7 +67,10 @@
 							if (value > 5000){
 									this.hasRecordsError = true;
 									this.error_message['records'] = 'You can only download a maximum of 5,000 records per selection';
-							}else {
+							}else if(isNaN(value)){
+								this.hasRecordsError = true;
+								this.error_message['records'] = 'Value must be a digit';
+							} else{
 								this.hasRecordsError = false;
 								this.error_message['records'] = ''
 							}

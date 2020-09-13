@@ -131,7 +131,7 @@
     padding: 12px;
   }
   .search-field {
-    height: 36px;
+    /*height: 36px;*/
     padding: 7px 12px;
     padding-left: 36px;
     border-radius: 3px;
