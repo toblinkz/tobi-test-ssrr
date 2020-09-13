@@ -223,7 +223,7 @@
           async getWalletBalance() {
             try{
               let data = await this.$axios.$get('billing/wallet');
-              this.account_balance = data.data.balance;
+              this.account_balance = data.data.converted_balance;
               this.bank_name  = data.data.bank_name;
               this.account_number = data.data.account_number;
             } catch(e){
