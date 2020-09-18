@@ -100,10 +100,10 @@
     export default {
         name: "config",
       components: {ApiNavbar, DashboardNavbar, Sidebar},
-      middleware: 'auth',
+					 middleware: 'auth',
       data(){
-          return{
-            live_webhook:this.$auth.user.customer.live_webhook_url,
+          return {
+            live_webhook:this.$store.state.auth.user.customer.live_webhook_url,
             test_webhook: '',
             error_message: [],
             hasLiveWebhookError: false,
@@ -158,8 +158,11 @@
 									this.error_message['test_webhook'] = 'The test webhook format is invalid.';
 								}
 							}
-      }
-    }
+      },
+					mounted() {
+        	console.log(this.$store.state.auth.user.customer.live_webhook_url)
+					}
+				}
 </script>
 
 <style scoped>
