@@ -265,6 +265,15 @@
 
 				}
 			},
+			async getBalance(){
+				try{
+					// get account balance
+					let data = await this.$axios.$get('billing/wallet');
+					this.account_balance = data.data.converted_balance;
+				}catch (e) {
+
+				}
+			},
 			startIntro() {
 
 				let intro = introJs();
@@ -317,6 +326,7 @@
 		mounted: function () {
 			this.startIntro();
 			this.fetch();
+			setInterval(this.getBalance, 60000);
 
 
 		}
