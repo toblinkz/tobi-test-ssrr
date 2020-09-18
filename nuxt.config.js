@@ -23,6 +23,9 @@ export default {
 
     ]
   },
+		publicRuntimeConfig: {
+			baseURL: 'https://sandbox.termii.com' || 'https://termii.com'
+		},
   /*
   ** Customize the progress-bar color
   */
