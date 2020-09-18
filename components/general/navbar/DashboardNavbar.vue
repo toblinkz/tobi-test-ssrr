@@ -1,16 +1,16 @@
 <template>
   <div class="body navbar-fixed-top navbar navbar-inverse" style="z-index: 800;background-color: #ffffff;">
     <div class="navbar-header">
-      <a class="navbar-brand visible-xs-block" href="/">
+      <nuxt-link class="navbar-brand visible-xs-block" to="/">
         <img src="/images/logo.png" alt="">
-      </a>
+      </nuxt-link>
       <ul  class="nav navbar-nav pull-right visible-xs-block" >
         <li>
           <a class="mobile-menu-button" data-toggle="collapse" ><i  class="icon-menu7" style="color: #000;" @click="toggleMenu"></i></a></li>
       </ul>
     </div>
     <div class="navbar-header hidden-xs" style="margin-left: 250px; margin-top: 18px">
-      <div id="google_translate_element"></div>
+      <div id="google_translate_element" style="margin-left: 20px "></div>
       <script type="text/javascript">
         function googleTranslateElementInit() {
           new google.translate.TranslateElement({
@@ -46,10 +46,10 @@
               <i class="entypo-paper-plane " style="font-size: 14px;"></i> Compose message
             </nuxt-link>
           </li>
-          <Dropdown id="mobile-menu" class="hide-menu">
+          <Dropdown id="mobile-menu" class="hide-menu" style="margin-right: 20px;">
             <template v-slot:dropdown_title>
               <a class="dropdown-toggle stretch-a" data-toggle="dropdown" style="color: #2c2c2c !important;">
-                <img preview-for="image"  :src="loggedInUser.image" alt=""><span style="margin-left: 5px;"> Quick Menu</span>
+                <img preview-for="image"  :src="imageUrl" alt=""><span style="margin-left: 5px;"> Quick Menu</span>
                 <i class="caret"></i>
               </a>
             </template>
@@ -84,11 +84,13 @@
 		import {mapGetters} from "vuex";
   export default {
     name: "DashboardNavbar",
+		 	middleware: 'auth',
     components: {Dropdown},
     data(){
       return{
         isOpen:'false',
-        email:""
+        email:"",
+							 imageUrl:this.$store.state.auth.user.image
       }
     },
 			computed:{
@@ -102,9 +104,14 @@
         $("#mobile-menu").toggleClass("hide-menu");
       },
       async logout(){
-        await this.$auth.logout();
-        this.$router.push({name: 'login'});
-							localStorage.setItem('doneWithTour', '');
+      	try {
+								await this.$auth.logout();
+								this.$router.push({name: 'login'});
+								localStorage.clear();
+							} catch (e) {
+
+							}
+
 
       }
     },
