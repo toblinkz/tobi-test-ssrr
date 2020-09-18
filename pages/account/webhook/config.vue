@@ -159,9 +159,6 @@
 								}
 							}
       },
-					mounted() {
-        	console.log(this.$store.state.auth.user.customer.live_webhook_url)
-					}
 				}
 </script>
 
