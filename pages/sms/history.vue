@@ -139,7 +139,7 @@
 				import ExportModal from "../../components/modals/SmsHistoryExportModal";
     export default {
         name: "history",
-      middleware:'auth',
+					 middleware: 'auth',
       components: {
 							ExportModal,
 							TableVuePlaceHolder,
@@ -210,7 +210,6 @@
 										this.isLoading = false;
 										this.searchText = 'Search';
 										this.showIcon = true;
-										this.$toast.success('Search completed');
 									}catch (e) {
 
 									}
