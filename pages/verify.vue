@@ -88,7 +88,7 @@
           this.button_text = "Verifying";
           await this.$axios.$post('auth/account/verify',{
             verification_code: this.verification_code
-          }, {headers: {'Authorization':localStorage.getItem("auth._token.local")}});
+          }, {headers: {'Authorization': this.$auth.getToken('local')}});
 
 
            await this.$auth.loginWith('local', {

@@ -97,17 +97,18 @@
     export default {
         name: "api",
       components: {ApiNavbar, Main, DashboardNavbar, Sidebar, VueClipboard },
-      middleware: 'auth',
+					 middleware: 'auth',
       data(){
         return{
         	password:'',
 									button_text:' Renew API key',
 									isLoading: false,
 									showIcon: true,
-          api_key: this.$auth.user.customer.live_api_key,
+          api_key: this.$store.state.auth.user.customer.live_api_key,
 									error_message:[],
 									hasPasswordError: false,
-									type: "password"
+									type: "password",
+									isToggled: false,
         }
       },
       computed: {

@@ -28,6 +28,7 @@ export const state = () => ({
   phone_book_id:'',
 		bulk_sms_id:'',
   campaign_report_created: '',
+
   view_verify_page: false
 });
 

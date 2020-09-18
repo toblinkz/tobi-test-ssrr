@@ -117,8 +117,8 @@
 	import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
 
 	export default {
-        name: "devices",
-      middleware:'auth',
+		     name: "devices",
+		     middleware: 'auth',
       components: {TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
       data(){
           return{
@@ -165,7 +165,7 @@
             $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
           $('#qr-code').attr("disabled", true);
 
-          let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${localStorage.getItem('auth._token.local').substring(7)}`
+          let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${this.$auth.getToken('local').substring(7)}`
           url = url.replace(':slug', device_id);
 
           $.get(url, function (data, status) {

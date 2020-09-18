@@ -228,8 +228,8 @@
 		components: {
 			ActivityLog,
 			ActivateIdModal, YourWalletModal, SmsHistoryModal, DashboardNavbar, Sidebar, ContentLoader, FacebookLoader, ListLoader, BulletListLoader},
-		middleware: 'auth',
-		head(){
+		 middleware: 'auth',
+		 head(){
 			return{
 				script: [{src:"/js/intro.js" }]
 			}
@@ -257,7 +257,7 @@
 				try{
 					// get account balance
 					let data = await this.$axios.$get('billing/wallet');
-					this.account_balance = data.data.balance;
+					this.account_balance = data.data.converted_balance;
 					//get user data
 					let response_data = await this.$axios.$get('user');
 					this.live_api_key = response_data.data.customer.live_api_key;

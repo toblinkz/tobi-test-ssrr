@@ -92,7 +92,7 @@
 							}
 							},
 						show(){
-								this.exportUrl = `${this.$axios.defaults.baseURL}billing/wallet/transactions/export?token=${localStorage.getItem('auth._token.local').substring(7)}
+								this.exportUrl = `${this.$axios.defaults.baseURL}billing/wallet/transactions/export?token=${this.$auth.getToken('local').substring(7)}
 								&type=${this.transaction_type}&date_from=${this.date_time[0]}&date_to=${ this.date_time[1]}&number_of_records=${this.no_of_records}`
 						},
 					},

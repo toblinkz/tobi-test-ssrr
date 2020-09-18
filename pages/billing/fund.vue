@@ -171,9 +171,9 @@
 				import {ContentLoader,} from 'vue-content-loader';
     export default {
         name: "funding",
-        middleware: 'auth',
-      components: {MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
-      data() {
+					   middleware: 'auth',
+        components: {MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
+       data() {
           return {
             isBundledForm: false,
             isRegularBody: true,
@@ -223,7 +223,7 @@
           async getWalletBalance() {
             try{
               let data = await this.$axios.$get('billing/wallet');
-              this.account_balance = data.data.balance;
+              this.account_balance = data.data.converted_balance;
               this.bank_name  = data.data.bank_name;
               this.account_number = data.data.account_number;
             } catch(e){
@@ -341,9 +341,12 @@
         }
       },
       mounted() {
-          this.getWalletBalance();
-          this.getPaymentMethod();
+
+
+           this.getWalletBalance();
+           this.getPaymentMethod();
            this.getTopDetails();
+
 
       }
     }

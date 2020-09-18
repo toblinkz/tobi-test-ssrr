@@ -65,7 +65,7 @@
           </li>
           <template v-if="isAuthenticated">
             <li>
-              <nuxt-link   class="li-a " to="/dashboard">Dashboard</nuxt-link>
+              <nuxt-link   class="li-a " to="/">Dashboard</nuxt-link>
             </li>
             <li class="hidden-xs">
               <a class="li-a " @click="logout">

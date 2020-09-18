@@ -121,7 +121,7 @@
     export default {
         name: "_id",
       components: {Pagination, TableVuePlaceHolder, DashboardNavbar, Sidebar},
-      middleware: 'auth',
+					middleware: 'auth',
       data(){
           return{
               phone_book_contacts:[],

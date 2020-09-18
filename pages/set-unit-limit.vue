@@ -85,7 +85,7 @@
     import Swal from 'sweetalert2';
     export default {
         name: "set-unit-limit",
-      middleware: 'auth',
+					middleware: 'auth',
       components: {DashboardNavbar, Sidebar},
       data(){
           return{
