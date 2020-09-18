@@ -32,12 +32,7 @@
     </div>
       <div class="navbar-collapse collapse " id="navbar-mobile">
 
-        <ul class=" nav navbar-nav navbar-right mt-5">
-          <li class="headway hidden-xs" style="color: #fff !important;" id="headway">
-            <div title="Change log" style="float: left;top: -2px;font-size: 20px;border-width: 0 1px;position: relative;height: 40px;line-height: 42px;cursor: pointer;color: #2c2c2c !important;">
-              <i class="entypo-bell"></i></div>
-          </li>
-        </ul>
+
         <ul class="nav navbar-nav navbar-right">
 
           <li class="m-left hidden-xs">
@@ -46,7 +41,7 @@
               <i class="entypo-paper-plane " style="font-size: 14px;"></i> Compose message
             </nuxt-link>
           </li>
-          <Dropdown id="mobile-menu" class="hide-menu" style="margin-right: 20px;">
+          <Dropdown id="mobile-menu" class="hide-menu" style="margin-right: 10px;">
             <template v-slot:dropdown_title>
               <a class="dropdown-toggle stretch-a" data-toggle="dropdown" style="color: #2c2c2c !important;">
                 <img preview-for="image"  :src="imageUrl" alt=""><span style="margin-left: 5px;"> Quick Menu</span>
@@ -74,6 +69,12 @@
               <li><a @click="logout"><i class="icon-switch2" ></i> logout</a></li>
             </template>
           </Dropdown>
+
+										<li class="headway hidden-xs" style="color: #fff !important; margin-right: 65px;" id="headway">
+											<div title="Change log" style="float: left;top: -2px;font-size: 20px;border-width: 0 1px;position: relative;height: 40px;line-height: 42px;cursor: pointer;color: #2c2c2c !important;">
+												<i class="entypo-bell"></i></div>
+										</li>
+
         </ul>
       </div>
     </div>
