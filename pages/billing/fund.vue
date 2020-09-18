@@ -171,9 +171,9 @@
 				import {ContentLoader,} from 'vue-content-loader';
     export default {
         name: "funding",
-        middleware: 'auth',
-      components: {MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
-      data() {
+					   middleware: 'auth',
+        components: {MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
+       data() {
           return {
             isBundledForm: false,
             isRegularBody: true,
@@ -341,9 +341,12 @@
         }
       },
       mounted() {
-          this.getWalletBalance();
-          this.getPaymentMethod();
+
+
+           this.getWalletBalance();
+           this.getPaymentMethod();
            this.getTopDetails();
+
 
       }
     }

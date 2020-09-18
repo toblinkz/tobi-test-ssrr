@@ -228,8 +228,8 @@
 		components: {
 			ActivityLog,
 			ActivateIdModal, YourWalletModal, SmsHistoryModal, DashboardNavbar, Sidebar, ContentLoader, FacebookLoader, ListLoader, BulletListLoader},
-		middleware: 'auth',
-		head(){
+		 middleware: 'auth',
+		 head(){
 			return{
 				script: [{src:"/js/intro.js" }]
 			}

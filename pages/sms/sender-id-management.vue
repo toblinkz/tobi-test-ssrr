@@ -130,7 +130,7 @@
 				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
     export default {
         name: "sender-id-management",
-        middleware:'auth',
+					   middleware: 'auth',
       components: {
 							TableVuePlaceHolder,
 							ButtonSpinner,

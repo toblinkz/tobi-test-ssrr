@@ -76,10 +76,10 @@
     import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
 				import Swal from "sweetalert2";
     export default {
-        name: "subscriptions",
-      middleware:'auth',
-      components: {DashboardNavbar, Sidebar},
-      data(){
+					  name: "subscriptions",
+					  middleware: 'auth',
+       components: {DashboardNavbar, Sidebar},
+       data(){
           return{
             device_name: this.$route.params.name,
             device_id: this.$route.params.id,

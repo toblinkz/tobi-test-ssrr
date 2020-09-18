@@ -75,7 +75,7 @@
     export default {
         name: "deactivate",
       components: {ApiNavbar, DashboardNavbar, Sidebar},
-      middleware: 'auth',
+					middleware: 'auth',
       data(){
           return{
             user_feedback: '',

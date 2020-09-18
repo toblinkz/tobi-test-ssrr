@@ -119,8 +119,8 @@
 				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
     export default {
         name: "campaign-reports",
-      middleware: 'auth',
-      components: {TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar, DatePicker},
+				   	middleware: 'auth',
+        components: {TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar, DatePicker},
       data(){
           return{
 
