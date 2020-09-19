@@ -73,7 +73,9 @@
         }
       },
       mounted() {
-          this.getActivityLog();
+        	this.getActivityLog();
+        	setInterval(this.getActivityLog, 60000 );
+
       }
     }
 </script>
