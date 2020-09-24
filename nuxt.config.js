@@ -77,7 +77,7 @@ export default {
 
   axios: {
     // proxyHeaders: false
-    baseURL: 'https://api.termii.com/v1/',
+    baseURL: process.env.API_BASE_URL,
 
   },
 
