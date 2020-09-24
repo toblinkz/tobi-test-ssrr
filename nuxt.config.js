@@ -24,7 +24,7 @@ export default {
     ]
   },
 		publicRuntimeConfig: {
-			baseURL: 'https://sandbox.termii.com' || 'https://termii.com'
+			baseURL: 'https://termii.com'
 		},
   /*
   ** Customize the progress-bar color
@@ -77,7 +77,7 @@ export default {
 
   axios: {
     // proxyHeaders: false
-    baseURL: 'https://api.sandbox.termii.com/v1/',
+    baseURL: 'https://api.termii.com/v1/',
 
   },
 
