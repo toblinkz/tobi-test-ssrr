@@ -185,6 +185,7 @@
             fund_button_text:'Fund Account',
             selected_payment_method:"",
             amount:'',
+												page_url: '',
             showModal:false,
             account_number: '',
             account_balance: '',
@@ -244,8 +245,9 @@
 										if (this.showMonnifyModal) {
 											this.$modal.show('monnify-modal')
 										}	else {
-											try {
 
+											try {
+												this.$store.commit('setSuccessfulPaymentUrl', this.page_url);
 												this.isLoading = true;
 												this.fund_button_text = "";
 												let response_data = await this.$axios.$post('billing/fund/wallet', {
@@ -351,8 +353,7 @@
         }
       },
       mounted() {
-
-
+											this.page_url = window.location.href;
            this.getWalletBalance();
            this.getPaymentMethod();
            this.getTopDetails();

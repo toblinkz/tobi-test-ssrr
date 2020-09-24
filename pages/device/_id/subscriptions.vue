@@ -86,6 +86,7 @@
             response_data:[],
             new_subscription: false,
             plan_id:"",
+											 page_url: '',
             payment_url:""
           }
       },
@@ -123,6 +124,7 @@
             return(row.payment_status === 'PAID')
         },
         async payNow(subscription_id){
+									this.$store.commit('setSuccessfulPaymentUrl', this.page_url);
             try{
               let data = await this.$axios.$patch('devices/subscription/'+subscription_id +'/pay');
               this.payment_url = data.url
@@ -133,6 +135,7 @@
         }
       },
       mounted() {
+										this.page_url = window.location.href
           this.fetch();
       }
     }

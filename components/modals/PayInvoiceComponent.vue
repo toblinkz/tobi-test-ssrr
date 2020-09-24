@@ -35,7 +35,10 @@
       props:{
         invoice_id:{
           required: true
-        }
+        },
+							page_url:{
+        	required: true
+							}
       },
       data(){
           return{
@@ -50,6 +53,7 @@
             this.payment_gateway = response_data.data[0].settings;
           },
         async pay(){
+          	this.$store.commit('setSuccessfulPaymentUrl', this.page_url);
             try {
               let response_data = await  this.$axios.$post('billing/invoices/'+ this.invoice_id + '/pay', {
                 gateway: this.payment_gateway,
