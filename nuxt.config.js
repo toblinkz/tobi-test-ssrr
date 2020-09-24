@@ -68,12 +68,19 @@ export default {
   */
   modules: [
     '@nuxtjs/axios',
-			'@nuxtjs/auth',
+			 '@nuxtjs/auth',
     '@nuxtjs/toast',
+			'@nuxtjs/recaptcha',
 			['nuxt-stripe-module', {
 				publishableKey: 'pk_test_nueC1m5g6hJZsKLIPjFIExWj00J4L2PZkP',
 			}],
   ],
+		recaptcha: {
+			hideBadge: false, // Hide badge element (v3 & v2 via size=invisible)
+			siteKey: '6LeyfRcUAAAAAPNLcb-cIRIrH0soc_4UzlUmlV7I', // Site key for requests
+			version: 2, // Version
+			size: 'normal' // Size: 'compact', 'normal', 'invisible' (v2)
+		},
 
   axios: {
     // proxyHeaders: false
