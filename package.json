@@ -6,17 +6,16 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "start": "laravel-nuxt dev",
-    "build": "laravel-nuxt build",
+    "build": "nuxt build --spa",
+    "start": "nuxt start",
     "deploy": "NODE_ENV=production npm run build && node deploy dist",
     "generate": "nuxt generate",
     "preinstall": "npx npm-force-resolutions"
   },
   "resolutions": {
-    "graceful-fs": "4.2.2"
+    "graceful-fs": "4.2.3"
   },
   "dependencies": {
-    "laravel-nuxt": "^1.0.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/vue-fontawesome": "^0.1.9",
