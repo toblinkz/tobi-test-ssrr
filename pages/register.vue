@@ -64,7 +64,7 @@
                     <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground" :dropdown-style="dropdownStyle" @item-selected="selected_country = $event"></SearchDropdown>
 																			<div class="recaptcha-box mt-30">
 																				<script src='https://www.google.com/recaptcha/api.js'></script>
-																				<div class="g-recaptcha" data-sitekey="6LeyfRcUAAAAAPNLcb-cIRIrH0soc_4UzlUmlV7I"  :data-callback="recaptchaCallback"></div>
+																				<div class="g-recaptcha" data-sitekey="6LeyfRcUAAAAAMmAwfD1lOaPhLXyzH_QNClcwZ1n"  :data-callback="recaptchaCallback"></div>
 																			</div>
                   </div>
                   <div class="row-form has-feedback has-feedback-left" >

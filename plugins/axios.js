@@ -1,3 +1,3 @@
 export default ({  $axios }) => {
-	$axios.defaults.baseURL = 'https://api.sandbox.termii.com/v1/'
+	$axios.defaults.baseURL = process.env.API_BASE_URL
 }
