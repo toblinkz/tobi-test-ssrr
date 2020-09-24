@@ -109,7 +109,7 @@ export default {
 				}
 			}
 			},
-		plugins: [{src:'~/plugins/axios.js'}, { src: '~/plugins/auth.js', mode: 'client' }]
+		plugins: [{ src: '~/plugins/auth.js', mode: 'client' }]
 	},
 
 
