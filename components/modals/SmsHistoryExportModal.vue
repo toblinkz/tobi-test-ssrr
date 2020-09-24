@@ -103,6 +103,9 @@
 							if (value > 5000){
 								this.hasRecordsError = true;
 								this.error_message['records'] = 'You can only download a maximum of 5,000 records per selection';
+							}else if (value < 100) {
+								this.hasRecordsError = true;
+								this.error_message['records'] = 'The number of records must be at least 100.';
 							}else if (isNaN(value)){
 								this.hasRecordsError = true;
 								this.error_message['records'] = 'Value must be a digit';
@@ -112,9 +115,14 @@
 							}
 						},
 						show(){
-							this.exportUrl = `${this.$axios.defaults.baseURL}sms/history/export?token=${this.$auth.getToken('local').substring(7)}
-								&type=${this.type}&date_from=${this.date_time[0]}&date_to=${ this.date_time[1]}&number_of_records=${this.no_of_records}&phone_number=${this.phone_number}&sender_id=${this.sender_id}`
-						},
+        		try {
+											this.exportUrl = `${this.$axios.defaults.baseURL}sms/history/export?token=${this.$auth.getToken('local').substring(7)}
+							    	&type=${this.type}&date_from=${this.date_time[0]}&date_to=${ this.date_time[1]}&number_of_records=${this.no_of_records}&phone_number=${this.phone_number}&sender_id=${this.sender_id}`
+
+										}catch (e){
+
+										}
+									},
 
 					}
     }
