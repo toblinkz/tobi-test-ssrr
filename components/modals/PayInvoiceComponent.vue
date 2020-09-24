@@ -20,7 +20,12 @@
           <div class="text-right">
             <input type="hidden" value="35" name="cmd">
             <button type="button" @click="close" class="btn btn-warning btn-sm" >Close</button>
-            <button type="submit" class="btn btn-success btn-sm">Pay</button>
+            <button type="submit" class="btn btn-success btn-sm">
+													{{ button_text }}
+													<span v-show="isLoading">
+															<img src="/images/spinner.svg" height="20px" width="30px"/>
+													</span>
+												</button>
           </div>
         </form>
 
@@ -30,17 +35,23 @@
 </template>
 
 <script>
-    export default {
-        name: "PayInvoiceComponent",
+export default {
+	     name: "PayInvoiceComponent",
+
       props:{
         invoice_id:{
           required: true
-        }
+        },
+							page_url:{
+        	required: true
+							}
       },
       data(){
           return{
             payment_method:'',
-            payment_gateway:''
+            payment_gateway:'',
+											 button_text: 'Pay',
+											 isLoading: false,
           }
       },
       methods:{
@@ -50,14 +61,20 @@
             this.payment_gateway = response_data.data[0].settings;
           },
         async pay(){
+          	this.$store.commit('setSuccessfulPaymentUrl', this.page_url);
+          	this.button_text = '';
+          	this.isLoading = true
             try {
               let response_data = await  this.$axios.$post('billing/invoices/'+ this.invoice_id + '/pay', {
                 gateway: this.payment_gateway,
                 invoice_id: this.invoice_id,
               });
+														this.button_text = 'Pay';
+														this.isLoading = false;
               window.location.href = response_data.data.url;
             }catch (e) {
-
+													this.button_text = 'Pay';
+													this.isLoading = false;
             }
 
         },

@@ -50,7 +50,14 @@
                               <td style="width: 20%;"><p>{{row.subscription_expiry}}</p></td>
                               <td style="width: 10%;"><p>{{row.amount}}</p></td>
                               <td data-label="Status">
-                                <form @submit.prevent="payNow(row.id)"  method="PATCH"><button class="btn btn-success btn-sm" type="submit"  v-show="showPayNowButton(row)"><i class="fa fa-plus"></i> Pay Now</button></form>
+                                <form @submit.prevent="payNow(row.id)"  method="PATCH">
+																																	<button class="btn btn-success btn-sm" type="submit"  v-show="showPayNowButton(row)"><i class="fa fa-plus" v-show="showIcon"></i>
+																																		{{ button_text }}
+																																		<span v-show="isLoading">
+																																				<img src="/images/spinner.svg" height="20px" width="30px"/>
+																																		</span>
+																																	</button>
+																																</form>
                                 <p class="label label-success" v-show="showPaidLabel(row)">Paid</p>
                               </td>
                             </tr>
@@ -86,7 +93,11 @@
             response_data:[],
             new_subscription: false,
             plan_id:"",
-            payment_url:""
+											 page_url: '',
+            payment_url:"",
+												button_text: 'Pay Now',
+											 showIcon: true,
+												isLoading: false,
           }
       },
       methods: {
@@ -123,16 +134,27 @@
             return(row.payment_status === 'PAID')
         },
         async payNow(subscription_id){
+									this.$store.commit('setSuccessfulPaymentUrl', this.page_url);
+									this.button_text = '';
+									this.isLoading = true;
+									this.showIcon = false;
             try{
               let data = await this.$axios.$patch('devices/subscription/'+subscription_id +'/pay');
               this.payment_url = data.url
+														this.button_text = 'Pay Now';
+														this.isLoading = false;
+													 this.showIcon = false;
               window.location.href = this.payment_url;
             } catch (e) {
 														this.$toast.error("Something went wrong.Try again!");
+													this.button_text = 'Pay Now';
+													this.isLoading = false;
+													this.showIcon = false;
             }
         }
       },
       mounted() {
+										this.page_url = window.location.href
           this.fetch();
       }
     }

@@ -1,25 +1,28 @@
 export const getters = {
-  isAuthenticated(state) {
-    return state.auth.loggedIn;
-  },
-  loggedInUser(state) {
-    return state.auth.user;
-  },
-  getUserEmail(state){
-    return state.email;
-  },
-  getUserPassword(state){
-    return state.password;
-  },
-  getCampaignCreatedDate(state){
-    return state.campaign_report_created;
-  },
-  getPhoneBookId(state){
-    return state.phone_book_id;
-  },
-	getBulkSmsId(state){
-  	return state.bulk_sms_id;
-	}
+			isAuthenticated(state) {
+						return state.auth.loggedIn;
+				},
+				loggedInUser(state) {
+						return state.auth.user;
+				},
+				getUserEmail(state){
+						return state.email;
+				},
+				getUserPassword(state){
+						return state.password;
+				},
+				getCampaignCreatedDate(state){
+						return state.campaign_report_created;
+				},
+				getPhoneBookId(state){
+						return state.phone_book_id;
+				},
+			getBulkSmsId(state){
+					return state.bulk_sms_id;
+			},
+			getSuccessfulPaymentUrl(state){
+					return state.successful_payment_url;
+			}
 }
 
 export const state = () => ({
@@ -28,7 +31,7 @@ export const state = () => ({
   phone_book_id:'',
 		bulk_sms_id:'',
   campaign_report_created: '',
-
+	 successful_payment_url: '',
   view_verify_page: false
 });
 
@@ -55,6 +58,9 @@ export const mutations = {
   },
   setCampaignCreatedDate(state, date){
     state.campaign_report_created = date;
-  }
+  },
+	setSuccessfulPaymentUrl(state, url){
+  	state.successful_payment_url = url;
+	}
 
 }
