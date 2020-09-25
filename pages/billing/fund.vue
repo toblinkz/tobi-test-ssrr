@@ -112,10 +112,11 @@
                                   <form  role="form" method="post" @submit.prevent="TopUp">
                                     <CustomSelect :options="options" @item-selected="itemSelected" :dropdown-style="dropdownStyle"></CustomSelect>
                                     <div id="regular-form-body" class="mt-20">
-                                      <div class="form-group"  :style="{marginBottom: '10px'}" v-if="input_amount">
-                                        <input type="text" class="form-control" placeholder="Amount" v-model="amount" :class="{'error': hasError}" @focusout="getExchangeRate($event)"> </div>
+                                      <div class="form-group"  :style="{marginBottom: '10px'}" v-show="input_amount">
+                                        <input type="text" class="form-control" placeholder="Amount" v-model="amount" :class="{'error': hasError}" @focusout="getExchangeRate($event)">
                                         <span class="error_field_message" v-if="error_message">{{error_message}}</span>
-                                      <div class="form-group" v-if="selectPayment">
+																																						</div>
+                                      <div class="form-group" v-show="selectPayment">
                                         <label>Select Payment Method</label>
                                         <select @change="onChange($event)" class="form-control">
                                           <option v-for="item in payment_method.data" :value="item.settings">{{item.name}}</option>
@@ -170,19 +171,21 @@
 				import {ContentLoader,} from 'vue-content-loader';
     export default {
         name: "funding",
-        middleware: 'auth',
-      components: {MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
-      data() {
+					   middleware: 'auth',
+        components: {MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
+       data() {
           return {
             isBundledForm: false,
             isRegularBody: true,
             isRegularForm: false,
             isLoading: false,
             payment_method:'',
-											minimum_top_up:'',
+												minimum_top_up:'',
+												minimum_top_up_value:'',
             fund_button_text:'Fund Account',
             selected_payment_method:"",
             amount:'',
+												page_url: '',
             showModal:false,
             account_number: '',
             account_balance: '',
@@ -221,7 +224,7 @@
           async getWalletBalance() {
             try{
               let data = await this.$axios.$get('billing/wallet');
-              this.account_balance = data.data.balance;
+              this.account_balance = data.data.converted_balance;
               this.bank_name  = data.data.bank_name;
               this.account_number = data.data.account_number;
             } catch(e){
@@ -242,8 +245,9 @@
 										if (this.showMonnifyModal) {
 											this.$modal.show('monnify-modal')
 										}	else {
-											try {
 
+											try {
+												this.$store.commit('setSuccessfulPaymentUrl', this.page_url);
 												this.isLoading = true;
 												this.fund_button_text = "";
 												let response_data = await this.$axios.$post('billing/fund/wallet', {
@@ -272,7 +276,12 @@
 											} catch (e) {
 												this.isLoading = false;
 												this.fund_button_text = "Fund Account";
-												this.$toast('Something went wrong. Try again');
+												let errors = e.response.data.errors;
+												for(let key in errors){
+													errors[key].forEach(err => {
+														this.$toast.error(err);
+													});
+												}
 											}
 										}
 									},
@@ -281,15 +290,22 @@
 									let response_data = await this.$axios.$get('billing/exchange-rate', {params: {amount: this.amount,}});
 									this.total = response_data.amount;
 								}catch (e) {
-									this.$toast('Something went wrong. Try again');
+									let errors = e.response.data.errors;
+									for(let key in errors){
+										errors[key].forEach(err => {
+											this.$toast.error(err);
+										});
+									}
 								}
 
 							},
 							async getTopUp(){
 										try{
+
 											let response = await this.$axios.$get('billing/top-up/plans');
-										 this.amount = 	response.data.bundled_top_up.amount.substring(1);
+										 this.amount = 	response.data.bundled_top_up.amount_currency;
 											this.total = response.data.bundled_top_up.amount;
+
 										}catch (e) {
 
 										}
@@ -299,7 +315,7 @@
 										let response = await this.$axios.$get('billing/top-up/plans');
 										this.bundled_top_up =  response.data.bundled_top_up.amount;
 										this.minimum_top_up = response.data.minimum_top_up.amount;
-
+										this.minimum_top_up_value = response.data.minimum_top_up.amount_currency;
 									}catch (e) {
 
 									}
@@ -309,8 +325,10 @@
             if (isNaN(value)){
               this.error_message = 'Please enter a valid amount';
               this.hasError = true;
-            }
-            else {
+            } else if (value < this.minimum_top_up_value){
+													this.error_message = `minimum amount to recharge is ${this.minimum_top_up}`;
+													this.hasError = true;
+												} else {
               this.error_message = '';
               this.hasError = false;
             }
@@ -321,12 +339,12 @@
             }
           this.payment_gateway = event.target.value;
         },
-        itemSelected(value){
+        async itemSelected(value){
             if (value === "2"){
               this.selectPayment = true;
               this.input_amount = false;
-              this.getTopUp();
-              this.getExchangeRate()
+              await this.getTopUp();
+              await this.getExchangeRate()
             } else if (value === "1"){
               this.selectPayment = true;
               this.input_amount = true;
@@ -335,8 +353,9 @@
         }
       },
       mounted() {
-          this.getWalletBalance();
-          this.getPaymentMethod();
+											this.page_url = window.location.href;
+           this.getWalletBalance();
+           this.getPaymentMethod();
            this.getTopDetails();
 
 

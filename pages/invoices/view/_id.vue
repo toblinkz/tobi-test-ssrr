@@ -125,7 +125,7 @@
                           </div>
                         </div>
                       </div>
-                      <PayInvoiceComponent :invoice_id="invoice_no"></PayInvoiceComponent>
+                      <PayInvoiceComponent :invoice_id="invoice_no" :page_url="page_url"></PayInvoiceComponent>
                     </div>
                   </div>
                 </div>
@@ -143,7 +143,7 @@
     import PayInvoiceComponent from "../../../components/modals/PayInvoiceComponent";
     export default {
         name: "view",
-      middleware:'auth',
+					  middleware: 'auth',
       components: {PayInvoiceComponent, DashboardNavbar, Sidebar},
       data(){
           return{
@@ -153,6 +153,7 @@
             invoice_paid_date:'',
             invoice_no:'',
             invoice_date:'',
+											 page_url: '',
             item:'',
             price:'',
             quantity:'',
@@ -194,6 +195,7 @@
 
       },
       mounted() {
+							   this.page_url = window.location.href;
           this.fetch();
       }
     }

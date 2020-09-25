@@ -25,15 +25,15 @@
             <div class="drops">
               <a class="men">Why Termii?</a>
               <div class="dropdown-content menu-t">
-                <nuxt-link  to="/about" class="pad-width">
+                <a  :href="`${baseUrl}/about`" class="pad-width">
                   About Us
-                </nuxt-link>
-                <nuxt-link to="/usecases" class="pad-width">
+                </a>
+                <a :href="`${baseUrl}/usecases`" class="pad-width">
                   Usecase
-                </nuxt-link>
-                <nuxt-link  to="/investors" class="up-top pad-width hidden-xs">
+                </a>
+                <a  :href="`${baseUrl}/investors`" class="up-top pad-width hidden-xs">
                   Milestones
-                </nuxt-link>
+                </a>
               </div>
             </div>
           </ul>
@@ -42,19 +42,19 @@
             <div class="drops">
               <a class="men">Products</a>
               <div class="dropdown-content menu-t">
-                <nuxt-link to="/verify-app" class="pad-width" style="width: 270px;"><small class="blue-t">TOKEN</small><br>OTP Verification</nuxt-link>
-                <nuxt-link to="/messaging-app" class="pad-width" style="width: 270px;"><small class="blue-t">SWITCH</small><br>Cross-channel Delivery</nuxt-link>
-                <nuxt-link to="/analytics-app" class="pad-width" style="width: 270px;"><small class="blue-t">INSIGHT</small><br>Customer Status Analytics</nuxt-link>
-                <nuxt-link to="/guideline" class="up-top pad-width" style="width: 270px;"><small class="blue-t">DEVELOPERS</small><br>Full API Documentation</nuxt-link>
+                <a :href="`${baseUrl}/verify-app`"  class="pad-width" style="width: 270px;"><small class="blue-t">TOKEN</small><br>OTP Verification</a>
+                <a :href="`${baseUrl}/messaging-app`" class="pad-width" style="width: 270px;"><small class="blue-t">SWITCH</small><br>Cross-channel Delivery</a>
+                <a :href="`${baseUrl}/analytics-app`" class="pad-width" style="width: 270px;"><small class="blue-t">INSIGHT</small><br>Customer Status Analytics</a>
+                <a :href="`${baseUrl}/guidsline`" class="up-top pad-width" style="width: 270px;"><small class="blue-t">DEVELOPERS</small><br>Full API Documentation</a>
               </div>
             </div>
           </ul>
 
           <ul class="nav navbar-nav">
             <div class="drops">
-              <nuxt-link  class="men" to="/plans">
+              <a  class="men" :href="`${baseUrl}/plans`">
                 Pricing
-              </nuxt-link>
+              </a>
             </div>
           </ul>
 
@@ -65,7 +65,7 @@
           </li>
           <template v-if="isAuthenticated">
             <li>
-              <nuxt-link   class="li-a " to="/dashboard">Dashboard</nuxt-link>
+              <nuxt-link   class="li-a " to="/">Dashboard</nuxt-link>
             </li>
             <li class="hidden-xs">
               <a class="li-a " @click="logout">
@@ -99,6 +99,7 @@
       data(){
           return{
           open: false,
+											baseUrl: this.$config.baseURL
           }
       },
       computed:{

@@ -208,7 +208,11 @@
 						id: this.selected_phone_book,
 						country_code: this.selected_country.substring(1)
 					});
-					this.$toast.success(data.data);
+					await Swal.fire({
+						icon: 'success',
+						title: `${data.data}`,
+						showConfirmButton: true,
+					})
 				}catch (e) {
 							this.$toast.error("Something went wrong. Try again!");
 				}

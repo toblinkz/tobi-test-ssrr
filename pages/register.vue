@@ -62,7 +62,10 @@
                 <div class="select-class">
                   <div class="row-form has-feedback has-feedback-left ">
                     <SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground" :dropdown-style="dropdownStyle" @item-selected="selected_country = $event"></SearchDropdown>
-
+																			<div class="recaptcha-box mt-30">
+																				<script src='https://www.google.com/recaptcha/api.js'></script>
+																				<div class="g-recaptcha" data-sitekey="6LeyfRcUAAAAAMmAwfD1lOaPhLXyzH_QNClcwZ1n"  :data-callback="recaptchaCallback"></div>
+																			</div>
                   </div>
                   <div class="row-form has-feedback has-feedback-left" >
                     <CustomSelect :options="sectors"  :dropdown-style="dropdownStyle" :dropdown-selected="dropdownSelected" @item-selected="setSectorId($event)"></CustomSelect>
@@ -127,6 +130,7 @@
             type: "password",
             countries: ['Select Country'],
             sectors: ['Select Sectors'],
+												selected_captcha: false,
             sectors_id:'',
             dropdownSelectedBackground:{
               backgroundColor: '#ffffff',
@@ -154,7 +158,7 @@
         isDisabled: function () {
           return (this.email === '' || this.password === '' || this.hasEmailError || this.hasPasswordError
                       || this.first_name === '' || this.hasFirstNameError || this.selected_country === ''
-                    || this.sectors_id === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError);
+                    || this.sectors_id === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError || !this.selected_captcha);
         },
 
       },
@@ -237,6 +241,9 @@
             this.hasLastNameError = false;
           }
         },
+							recaptchaCallback(){
+										this.selected_captcha = true;
+							},
         showPassword(){
           if (this.type === "password") {
             this.type = 'text';
@@ -289,10 +296,8 @@
                 password: this.password
               }
             });
-            await this.$axios.$get('user');
 												this.isLoading = false;
 												this.button_text = "Create My Account";
-
           } catch (e) {
 											this.isLoading = false;
 											this.button_text = "Create My Account"

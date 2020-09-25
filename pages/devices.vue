@@ -85,7 +85,7 @@
                                     <p v-show="lockBarcode(row)"><i class="entypo-lock" style="color: red;"></i></p>
                                   </td>
                                   <td data-label="view subscriptions">
-                                    <nuxt-link class="btn btn-primary" :aria-disabled="isDisabled(row)" :to="{path: 'device/'+ row.id + '/subscriptions', params:{name: row.name}}">manage device</nuxt-link>
+                                    <nuxt-link class="btn btn-primary" :aria-disabled="isDisabled(row)" :to="{name: 'device-id-subscriptions', params:{name: row.name, id: row.id}}">manage device</nuxt-link>
                                   </td>
                                 </tr>
                                 </tbody>
@@ -117,8 +117,8 @@
 	import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
 
 	export default {
-        name: "devices",
-      middleware:'auth',
+		     name: "devices",
+		     middleware: 'auth',
       components: {TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
       data(){
           return{
@@ -165,7 +165,7 @@
             $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
           $('#qr-code').attr("disabled", true);
 
-          let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${localStorage.getItem('auth._token.local').substring(7)}`
+          let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${this.$auth.getToken('local').substring(7)}`
           url = url.replace(':slug', device_id);
 
           $.get(url, function (data, status) {

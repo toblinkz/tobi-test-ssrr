@@ -1,16 +1,16 @@
 <template>
   <div class="body navbar-fixed-top navbar navbar-inverse" style="z-index: 800;background-color: #ffffff;">
     <div class="navbar-header">
-      <a class="navbar-brand visible-xs-block" href="/">
+      <nuxt-link class="navbar-brand visible-xs-block" to="/">
         <img src="/images/logo.png" alt="">
-      </a>
+      </nuxt-link>
       <ul  class="nav navbar-nav pull-right visible-xs-block" >
         <li>
           <a class="mobile-menu-button" data-toggle="collapse" ><i  class="icon-menu7" style="color: #000;" @click="toggleMenu"></i></a></li>
       </ul>
     </div>
     <div class="navbar-header hidden-xs" style="margin-left: 250px; margin-top: 18px">
-      <div id="google_translate_element"></div>
+      <div id="google_translate_element" style="margin-left: 20px "></div>
       <script type="text/javascript">
         function googleTranslateElementInit() {
           new google.translate.TranslateElement({
@@ -32,12 +32,7 @@
     </div>
       <div class="navbar-collapse collapse " id="navbar-mobile">
 
-        <ul class=" nav navbar-nav navbar-right mt-5">
-          <li class="headway hidden-xs" style="color: #fff !important;" id="headway">
-            <div title="Change log" style="float: left;top: -2px;font-size: 20px;border-width: 0 1px;position: relative;height: 40px;line-height: 42px;cursor: pointer;color: #2c2c2c !important;">
-              <i class="entypo-bell"></i></div>
-          </li>
-        </ul>
+
         <ul class="nav navbar-nav navbar-right">
 
           <li class="m-left hidden-xs">
@@ -46,10 +41,10 @@
               <i class="entypo-paper-plane " style="font-size: 14px;"></i> Compose message
             </nuxt-link>
           </li>
-          <Dropdown id="mobile-menu" class="hide-menu">
+          <Dropdown id="mobile-menu" class="hide-menu" style="margin-right: 10px;">
             <template v-slot:dropdown_title>
               <a class="dropdown-toggle stretch-a" data-toggle="dropdown" style="color: #2c2c2c !important;">
-                <img preview-for="image"  :src="loggedInUser.image" alt=""><span style="margin-left: 5px;"> Quick Menu</span>
+                <img preview-for="image"  :src="imageUrl" alt=""><span style="margin-left: 5px;"> Quick Menu</span>
                 <i class="caret"></i>
               </a>
             </template>
@@ -74,6 +69,12 @@
               <li><a @click="logout"><i class="icon-switch2" ></i> logout</a></li>
             </template>
           </Dropdown>
+
+										<li class="headway hidden-xs" style="color: #fff !important; margin-right: 65px;" id="headway">
+											<div title="Change log" style="float: left;top: -2px;font-size: 20px;border-width: 0 1px;position: relative;height: 40px;line-height: 42px;cursor: pointer;color: #2c2c2c !important;">
+												<i class="entypo-bell"></i></div>
+										</li>
+
         </ul>
       </div>
     </div>
@@ -84,11 +85,13 @@
 		import {mapGetters} from "vuex";
   export default {
     name: "DashboardNavbar",
+		 	middleware: 'auth',
     components: {Dropdown},
     data(){
       return{
         isOpen:'false',
-        email:""
+        email:"",
+							 imageUrl:this.$store.state.auth.user.image
       }
     },
 			computed:{
@@ -102,7 +105,14 @@
         $("#mobile-menu").toggleClass("hide-menu");
       },
       async logout(){
-        await this.$auth.logout();
+      	try {
+								await this.$auth.logout();
+								this.$router.push({name: 'login'});
+								localStorage.clear();
+							} catch (e) {
+
+							}
+
 
       }
     },

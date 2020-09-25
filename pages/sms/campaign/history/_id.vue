@@ -82,7 +82,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="row in manage_campaign_list" :key="row.sent_at">
-                              <td style="width: 5%">{{row.create_at}}</td>
+                              <td style="width: 5%">{{row.created_at}}</td>
                               <td style="width: 5%">{{row.receiver}}</td>
                               <td style="width: 25%">{{row.message}}</td>
                               <td style="width: 5%">{{row.amount}}</td>
@@ -123,7 +123,7 @@
 				import Pagination from "../../../../components/general/Pagination";
     export default {
         name: "manage-campaign",
-								middleware: 'auth',
+					   middleware: 'auth',
 								components: {Pagination, PieChartPlaceHolder, TableVuePlaceHolder, ManageCampaignChart, DashboardNavbar, Sidebar},
 								computed:{
 										...mapGetters(['getCampaignCreatedDate'])

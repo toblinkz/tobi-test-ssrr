@@ -69,7 +69,8 @@
                                   <div class="form-group">
                                     <input type="text" class="form-control" placeholder="Message" v-model="message" >
                                   </div>
-                                  <button type="submit" class="btn btn-success btn-sm pull-right" :disabled="isDisabled"><i class="fa fa-save"></i>
+                                  <button type="submit" class="btn btn-success btn-sm pull-right" :disabled="isDisabled">
+																																			<i class="fa fa-save" v-show="showIcon"></i>
                                    {{button_text}}
                                     <span v-show="isLoading">
                                          <img src="/images/spinner.svg" height="20px" width="80px"/>
@@ -101,13 +102,14 @@
   import ButtonSpinner from "../../components/general/ButtonSpinner";
   export default {
     name: "_id",
-    middleware: 'auth',
+			 middleware: 'auth',
     components: {ButtonSpinner, DashboardNavbar, Sidebar},
     data(){
       return{
         phone_number: '',
         phone_book_id: '',
         first_name: '',
+								showIcon: true,
         last_name: '',
         isLoading: false,
         button_text: 'Update',
@@ -137,7 +139,8 @@
       async updateContact(){
         try{
           this.isLoading = true;
-          this.button_text = "Updating";
+          this.button_text = "";
+          this.showIcon = false;
           await this.$axios.$patch('sms/phone-book/contact/' + this.$route.params.id, {
             id: this.$route.params.id,
             pid: this.getPhoneBookId,
@@ -147,6 +150,7 @@
           });
           this.isLoading = false;
           this.button_text = "Update";
+								 	this.showIcon = true;
           await this.$router.push({path: '/view-contact/'+ this.getPhoneBookId});
           this.$toast.success('Contact updated successfully');
         }catch (e) {

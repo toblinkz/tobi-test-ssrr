@@ -11,13 +11,10 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     script: [
-					{src: 'https://www.googletagmanager.com/gtag/js?id=AW-989861671'},
-					{src: '/js/googleAds.js'},
       {src: '/js/intercom.js'},
       {src: '/js/feedback.js'},
       { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
       { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
-
 
       {src:"/js/intro.js" },
       ],
@@ -26,6 +23,9 @@ export default {
 
     ]
   },
+		publicRuntimeConfig: {
+			baseURL: 'https://termii.com'
+		},
   /*
   ** Customize the progress-bar color
   */
@@ -55,7 +55,6 @@ export default {
     { src: '~plugins/vue-notification.js'},
 			{ src: '~plugins/vue-select.js'},
     { src: '~plugins/local-storage.js', ssr: false},
-			{ src: '~plugins/ga.js', mode: 'client' },
 
   ],
   /*
@@ -69,7 +68,7 @@ export default {
   */
   modules: [
     '@nuxtjs/axios',
-		 	'@nuxtjs/auth-next',
+			'@nuxtjs/auth',
     '@nuxtjs/toast',
 			['nuxt-stripe-module', {
 				publishableKey: 'pk_test_nueC1m5g6hJZsKLIPjFIExWj00J4L2PZkP',
@@ -78,46 +77,40 @@ export default {
 
   axios: {
     // proxyHeaders: false
-    baseURL: 'http://api.sandbox.termii.com/v1/',
+    baseURL: process.env.API_BASE_URL,
 
   },
+
   toast: {
     position: 'bottom-center',
     duration: 3000
   },
 
-  auth: {
+	auth: {
+		localStorage: false,
+		cookie: {
+			prefix: 'auth.',
+			options: {
+				maxAge: 600
+			}
+		},
+		redirect:{
+			login: '/login',
+			home: '/'
 
-    redirect:{
-    login: '/login',
-      home: '/dashboard'
+		},
+		strategies: {
+			local: {
+				endpoints: {
+					login: {url: 'auth/login', method: 'post', propertyName: 'access_token'},
+					user: {url: '/user', method: 'get', propertyName: 'data'},
+					logout:{url:'auth/logout', method:'get'}
 
-    },
-    strategies: {
-      local: {
-							scheme: 'refresh',
-							token: {
-								property: 'access_token',
-								// type: 'Bearer'
-							},
-      refreshToken: {
-      	property: 'access_token',
-							data: 'access_token',
-							maxAge: 60 * 60
-						},
-							user: {
-								property: 'data',
-							},
-        endpoints: {
-          login: {url: 'auth/login', method: 'post',},
-									 refresh:{url: 'auth/refresh/token', method:'get'},
-          user: {url: '/user', method: 'get', },
-          logout:{url:'/auth/logout', method:'get'}
-
-        },
-      },
-    },
-  },
+				}
+			}
+			},
+		plugins: [{ src: '~/plugins/auth.js', mode: 'client' }]
+	},
 
 
   /*

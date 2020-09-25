@@ -112,7 +112,7 @@
           	//get message details
            let response_data = await this.$axios.$get('sms/history/' + this.sms_id);
               this.message_id = response_data.data.message_id;
-              this.created_at = response_data.data.create_at;
+              this.created_at = response_data.data.created_at;
               this.sender = response_data.data.sender;
               this.receiver= response_data.data.receiver;
               this.channel = response_data.data.channel;

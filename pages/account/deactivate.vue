@@ -75,7 +75,7 @@
     export default {
         name: "deactivate",
       components: {ApiNavbar, DashboardNavbar, Sidebar},
-      middleware: 'auth',
+					middleware: 'auth',
       data(){
           return{
             user_feedback: '',
@@ -110,7 +110,7 @@
               await Swal.fire({
                 icon: 'info',
                 title: 'Oops...',
-                text: 'We are sorry to see you',
+                text: 'We are sorry to see you leave.',
               });
               await this.$auth.logout();
 

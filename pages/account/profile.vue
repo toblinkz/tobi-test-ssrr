@@ -46,7 +46,7 @@
                                   <div class="media profile-image">
                                     <div class="media-left">
                                       <a  class="upload-media-container">
-                                        <img preview-for="image" :src="loggedInUser.image"  class="img-circle" alt="" id="customer_dp">
+                                        <img preview-for="image" :src="user_image"  class="img-circle" alt="" id="customer_dp">
                                       </a>
                                       <input type="file" name="image" class="file-styled previewable hide" @change="uploadPhoto(fieldName, $event.target.files)">
                                     </div>
@@ -141,20 +141,22 @@
 
     export default {
         name: "profile",
-      components: {SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
-      middleware: 'auth',
-      data(){
+					middleware: 'auth',
+        components: {SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
+
+        data(){
           return{
-            first_name: this.$auth.user.fname,
-            last_name:  this.$auth.user.lname,
-            email:  this.$auth.user.email,
-            phone_number:  this.$auth.user.phone,
+            first_name: this.$store.state.auth.user.fname,
+            last_name:  this.$store.state.auth.user.lname,
+            email:  this.$store.state.auth.user.email,
+            phone_number:  this.$store.state.auth.user.phone,
 											 hasPasswordError: false,
 												password: '',
 											 error_message:[],
-            sectors:[this.$auth.user.company_sector.name],
-            selected_country: this.$auth.user.country.toString(),
-            selected_sector: this.$auth.user.company_sector.id.toString(),
+            sectors:[this.$store.state.auth.user.company_sector.name],
+            selected_country: this.$store.state.auth.user.country.toString(),
+            selected_sector: this.$store.state.auth.user.company_sector.id.toString(),
+												user_image: this.$store.state.auth.user.image,
             image_url: this.image_url,
             dropdownStyle: {
               borderRadius: '5px',
@@ -279,6 +281,7 @@
       },
       mounted() {
           this.fetchUtilityData();
+          console.log(this.$store.state.auth.user.fname)
       }
     }
 </script>

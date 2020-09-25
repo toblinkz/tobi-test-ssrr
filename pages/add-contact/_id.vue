@@ -102,7 +102,7 @@
 				import {mapGetters} from "vuex";
     export default {
         name: "add-contact",
-       middleware:'auth',
+					   middleware: 'auth',
       components: {SearchDropdown, DashboardNavbar, Sidebar},
       data(){
           return{
@@ -125,7 +125,7 @@
         	isDisabled:function () {
 												return(this.selected_country_code === '' || this.phone_number === '');
 									},
-						...mapGetters(['getPhoneBookId'])
+						...mapGetters(['getBulkSmsId'])
 					},
       methods:{
         async getCountries(){
@@ -152,7 +152,7 @@
                 country_code: this.selected_country_code
 
             });
-            await this.$router.push({path: '/view-contact/'+ this.getPhoneBookId});
+            await this.$router.push({path: '/view-contact/'+ this.getBulkSmsId});
 											this.$toast.success('Contact added successfully');
           }catch (e) {
 											let errors = e.response.data.errors;
@@ -170,6 +170,7 @@
       },
       mounted() {
           this.getCountries();
+							   this.$store.commit('setBulkSmsId', this.$route.params.id);
 
       }
     }

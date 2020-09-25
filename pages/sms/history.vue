@@ -41,16 +41,21 @@
 																																				</div>
 
                                     <div class="col-md-12 mb-20" style="padding-left: 0px;padding-right: 0px;">
-                                      <date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
+                                      <date-picker v-model="date_time" value-type="YYYY-MM-DD " type="date" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
                                     </div>
                                   </div>
                                   <center>
-                                    <button type="submit" class="btn btn-success wd-100 bx-line"><i class="fa fa-search"></i> Search</button>
+                                    <button type="submit" class="btn btn-success wd-100 bx-line" :disabled="isDisabled"
+																																				><i class="fa fa-search" v-show="showIcon"></i> {{searchText}}
+																																					<span v-show="isLoading">
+                                         <img src="/images/spinner.svg" height="20px" width="80px"/>
+                                      </span>
+																																				</button>
                                   </center>
                                 </form>
-                                <form @submit.prevent="" method="POST" class="mt-20">
-                                  <center> <button type="submit" class="btn btn-danger wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
-                                </form>
+                                <div class="mt-20">
+                                  <center> <button @click="showExportModal" class="btn btn-primary wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
+                                </div>
 
                               </div>
                             </div>
@@ -88,7 +93,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="row in messages_sent.data" :key="row.date">
-                              <td style="width: 5%;">{{row.create_at}}</td>
+                              <td style="width: 5%;">{{row.created_at}}</td>
                               <td style="width: 5%;">{{row.channel}}</td>
                               <td style="width: 5%;">{{row.sender}}</td>
                               <td style="width: 5%;">{{row.receiver}}</td>
@@ -117,6 +122,7 @@
         </div>
       </div>
     </div>
+			<ExportModal></ExportModal>
     <SmsHistoryModal v-if="showSmsModal" @close="closeModal" :sms_id="sms_history_id"></SmsHistoryModal>
     </div>
 </template>
@@ -130,17 +136,22 @@
     import 'vue2-datepicker/index.css';
 				import SmsHistoryChart from "../../components/general/charts/SmsHistoryChart";
 				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
+				import ExportModal from "../../components/modals/SmsHistoryExportModal";
     export default {
         name: "history",
-      middleware:'auth',
+					 middleware: 'auth',
       components: {
+							ExportModal,
 							TableVuePlaceHolder,
 							Pagination, SmsHistoryModal, DashboardNavbar, Sidebar, DatePicker,  SmsHistoryChart},
 
       data(){
           return{
             isShow: false,
-            date_time: [moment(new Date()).format('YYYY-MM-DD HH:mm:ss'), moment(new Date() + 1).format('YYYY-MM-DD HH:mm:ss')],
+												showIcon: true,
+											 isLoading: false,
+											 searchText: 'Search',
+            date_time: null,
             showSmsModal:false,
             messages_sent: [],
 										 	phone_number:'',
@@ -156,6 +167,11 @@
 
 
       },
+					computed:{
+       isDisabled: function () {
+											return(this.Phone_number === '' ||  this.date_time === null)
+							}
+					},
       methods: {
         closeModal() {
           this.showSmsModal = false;
@@ -176,6 +192,9 @@
 									}
 
 							},
+							showExportModal(){
+        	this.$modal.show('export-modal');
+							},
         async fetch(){
         	try {
 										//get sms history
@@ -187,14 +206,29 @@
 										this.page = this.messages_sent.meta.current_page;
 										this.total_page = this.messages_sent.meta.last_page;
 										this.show_shimmer = true;
+
+										this.isLoading = false;
+										this.searchText = 'Search';
+										this.showIcon = true;
 									}catch (e) {
 
 									}
 
         },
         async filterSmsHistory(){
+        	this.isLoading = true;
+        	this.searchText = '';
+        	this.showIcon = false;
         	try {
-										let data = await this.$axios.$get('sms/history', {params:{page: this.page, phone_number: this.phone_number, sms_histories_daterange: this.date_time[0] + "," + this.date_time[1]}});
+										let data = await this.$axios.$get('sms/history', {params:
+												{
+											page: this.page,
+												phone_number: this.phone_number,
+												date_from: this.date_time[0],
+												date_to: this.date_time[1]
+												}
+										});
+
 										this.messages_sent = data;
 										if (data.meta.last_page > 1 ){
 											this.showPagination = true
@@ -202,6 +236,11 @@
 										this.page = this.messages_sent.meta.current_page;
 										this.total_page = this.messages_sent.meta.last_page;
 										this.show_shimmer = true;
+
+										this.isLoading = false;
+										this.searchText = 'Search';
+										this.showIcon = true;
+										this.$toast.success('Search completed');
 									}catch (e) {
 
 									}

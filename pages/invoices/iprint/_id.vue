@@ -99,7 +99,7 @@
 <script>
     export default {
         name: "_id",
-      middleware: 'auth',
+					middleware: 'auth',
       data(){
           return{
             id: this.$route.params.id,

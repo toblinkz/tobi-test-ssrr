@@ -52,13 +52,19 @@
 																																			<img src="/images/copy.svg"/>
                                   </button>
                                  <p class="insight" style="color: #595959 !important;">{{api_key}}</p> </div>
-																															<div class="form-group">
+																															<div class="form-group mt-20">
 																																<input v-model="password" :type="type"  class="profile-form-control" :class="{'error': hasPasswordError}" placeholder="Enter Password">
 																																<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
 																																<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
 																															</div>
 																															<br>
-																															<button class="btn btn-primary btn-cons" @click="renewApiToken" :disabled="isDisabled"><i class="fa fa-certificate"></i> Renew API key</button>
+																															<button class="btn btn-primary btn-cons" @click="renewApiToken" :disabled="isDisabled">
+																																<i class="fa fa-certificate" v-show="showIcon"></i>
+																																{{button_text}}
+																																<span v-show="isLoading">
+																																			<img src="/images/spinner.svg" height="20px" width="80px"/>
+																																		</span>
+																															</button>
                                 <!-- END PANEL -->
                               </div>
                             </div>
@@ -91,14 +97,18 @@
     export default {
         name: "api",
       components: {ApiNavbar, Main, DashboardNavbar, Sidebar, VueClipboard },
-      middleware: 'auth',
+					 middleware: 'auth',
       data(){
         return{
         	password:'',
-          api_key: this.$auth.user.customer.live_api_key,
+									button_text:' Renew API key',
+									isLoading: false,
+									showIcon: true,
+          api_key: this.$store.state.auth.user.customer.live_api_key,
 									error_message:[],
 									hasPasswordError: false,
-									type: "password"
+									type: "password",
+									isToggled: false,
         }
       },
       computed: {
@@ -114,12 +124,19 @@
 					},
       methods: {
           async renewApiToken(){
+          	this.isLoading = true;
+          	this.button_text = '';
+          	this.showIcon = false;
             try{
               await this.$axios.$get('user/keys/renew', {params:{password: this.password} });
+													this.isLoading = false;
+													this.button_text = 'Renew API key';
+													this.showIcon = true;
               await Swal.fire({
                 icon: 'success',
                 text: 'Your API token was successfully renewed',
               });
+
              let data = await this.$axios.get('user',);
              this.api_key = data.data.data.customer.live_api_key;
             }catch (e) {
