@@ -62,9 +62,6 @@
 								<div class="select-class">
 									<div class="row-form has-feedback has-feedback-left ">
 										<SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground" :dropdown-style="dropdownStyle" @item-selected="selected_country = $event"></SearchDropdown>
-										<div class="mt-10">
-											<recaptcha  @success="recaptchaCallback"  />
-										</div>
 									</div>
 									<div class="row-form has-feedback has-feedback-left" >
 										<CustomSelect :options="sectors"  :dropdown-style="dropdownStyle" :dropdown-selected="dropdownSelected" @item-selected="setSectorId($event)"></CustomSelect>
@@ -157,7 +154,7 @@ export default {
 		isDisabled: function () {
 			return (this.email === '' || this.password === '' || this.hasEmailError || this.hasPasswordError
 				|| this.first_name === '' || this.hasFirstNameError || this.selected_country === ''
-				|| this.sectors_id === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError || !this.selected_captcha);
+				|| this.sectors_id === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError);
 		},
 
 	},
@@ -239,9 +236,6 @@ export default {
 				this.error_message['last_name'] = '';
 				this.hasLastNameError = false;
 			}
-		},
-		recaptchaCallback(){
-			this.selected_captcha = true;
 		},
 		showPassword(){
 			if (this.type === "password") {
