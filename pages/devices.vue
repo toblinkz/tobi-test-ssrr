@@ -79,7 +79,7 @@
                                   <td data-label="SL" class="hidden-xs">{{index + 1}}</td>
                                   <td data-label="Sender ID"><p>{{row.name}}</p></td>
                                   <td data-label="Status"><p class="label"  :class="rowClassName(row,index)">{{row.device_status}}</p>
-                                  <td data-label="Sender ID" :class="getTotalMessagesSent(row)"><p>{{number}}</p></td>
+                                  <td data-label="Sender ID" ><p></p></td>
                                   <td data-label="Status">
                                     <button id="qr-code" @click="getQRCode(row.id)"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" v-show="showBarcodeIcon(row)"><i class="fa fa-barcode" style="color: #fff;"></i></button>
                                     <p v-show="lockBarcode(row)"><i class="entypo-lock" style="color: red;"></i></p>
@@ -129,7 +129,6 @@
             active_status:"",
             device_status:"",
             device_id:"",
-            number:"",
 											show_shimmer:false,
 
           }
@@ -145,21 +144,12 @@
           	// get device ids
             let data = await this.$axios.$get('devices', );
             this.response_data = data;
-            await this.getTotalMessagesSent();
 											this.show_shimmer = true;
           }catch (e) {
 
           }
         },
-        async getTotalMessagesSent(row){
-            try {
-													let messages_sent_data = await  this.$axios.$get('devices/'+ row.id +'/total-number-of-messages-sent-today');
-													this.number = messages_sent_data.data.total_messages_sent_today
 
-            } catch (e) {
-
-            }
-        },
         getQRCode(device_id){
 
             $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
