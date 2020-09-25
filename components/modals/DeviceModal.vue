@@ -71,11 +71,15 @@
             this.$modal.hide('device-id-modal');
             this.$toast.success("Request sent successfully");
           } catch (e) {
+											let errors = e.response.data.errors;
+											for (let key in errors) {
+												errors[key].forEach(err => {
+													this.error_message['device_id'] = err;
+													this.hasDeviceIdError = true;
+												});
 
-              if (e.response.status === 422){
-                this.error_message['device_id'] = 'Device already exists'
-                this.hasDeviceIdError = true;
-              }
+											}
+
           }
         },
         resetForm(){

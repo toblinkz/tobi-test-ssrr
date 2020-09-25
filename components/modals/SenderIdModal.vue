@@ -88,13 +88,15 @@
           this.$modal.hide('sender-id-modal');
           this.$toast.success("Request sent successfully");
         } catch (e) {
+									let errors = e.response.data.errors;
+									for (let key in errors) {
+										errors[key].forEach(err => {
+											this.error_message['sender_id'] = err;
+											this.hasSenderIdError = true;
+										});
 
-                if (e.response.status === 422){
-                  this.error_message['sender_id'] = 'Sender Id already exists'
-                  this.hasSenderIdError = true;
-                }
-
-        }
+									}
+								}
       },
       resetForm(){
         this.sender_id = "";
