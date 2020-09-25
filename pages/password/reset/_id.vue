@@ -29,7 +29,7 @@
 																<ul>
 																	<li>One lowercase letter</li>
 																	<li>One uppercase letter</li>
-																	<li>One special character except "@"</li>
+																	<li>One special character </li>
 																	<li>8 minimum characters</li>
 																</ul>
 															</div>
@@ -83,7 +83,7 @@
     },
     methods: {
       validatePassword(value){
-        if ( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#$%^&*])(?=.{8,})/.test(value)){
+        if ( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#@$%^&*])(?=.{8,})/.test(value)){
           this.error_message['password'] = '';
           this.hasPasswordError = false;
         }
