@@ -168,8 +168,12 @@
       }
     },
     mounted() {
+					window.addEventListener("beforeunload", function(event) { event.preventDefault(); });
       this.fetch();
-    }
+    },
+			beforeDestroy() {
+				window.removeEventListener("beforeunload", function(event) { event.preventDefault(); });
+			}
   }
 </script>
 

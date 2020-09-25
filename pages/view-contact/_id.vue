@@ -192,9 +192,12 @@
         }
       },
       mounted() {
-          //this.fetch();
+							   window.addEventListener("beforeunload", function(event) { event.preventDefault(); });
           this.getPhonebookContacts();
-      }
+      },
+					beforeDestroy() {
+						window.removeEventListener("beforeunload", function(event) { event.preventDefault(); });
+					}
     }
 </script>
 

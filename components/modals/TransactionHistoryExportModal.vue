@@ -67,10 +67,13 @@
 							if (value > 5000){
 									this.hasRecordsError = true;
 									this.error_message['records'] = 'You can only download a maximum of 5,000 records per selection';
+							}else if (value < 100) {
+								this.hasRecordsError = true;
+								this.error_message['records'] = 'The number of records must be at least 100.';
 							}else if(isNaN(value)){
 								this.hasRecordsError = true;
 								this.error_message['records'] = 'Value must be a digit';
-							} else{
+							}else{
 								this.hasRecordsError = false;
 								this.error_message['records'] = ''
 							}
@@ -92,9 +95,13 @@
 							}
 							},
 						show(){
+							try{
 								this.exportUrl = `${this.$axios.defaults.baseURL}billing/wallet/transactions/export?token=${this.$auth.getToken('local').substring(7)}
 								&type=${this.transaction_type}&date_from=${this.date_time[0]}&date_to=${ this.date_time[1]}&number_of_records=${this.no_of_records}`
-						},
+							}catch (e){
+								console.log(e)
+							}
+									},
 					},
 
 				}
