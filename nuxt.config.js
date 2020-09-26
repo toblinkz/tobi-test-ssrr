@@ -74,7 +74,6 @@ export default {
 				publishableKey: 'pk_test_nueC1m5g6hJZsKLIPjFIExWj00J4L2PZkP',
 			}],
   ],
-
 		target: 'static',
 		generate: {
 			fallback: true, // if you want to use '404.html' instead of the default '200.html'

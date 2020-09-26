@@ -63,12 +63,22 @@
 									<div class="row-form has-feedback has-feedback-left ">
 										<SearchDropdown :options="countries" :dropdown-selected-style="dropdownSelectedBackground" :dropdown-style="dropdownStyle" @item-selected="selected_country = $event"></SearchDropdown>
 									</div>
+
 									<div class="row-form has-feedback has-feedback-left" >
 										<CustomSelect :options="sectors"  :dropdown-style="dropdownStyle" :dropdown-selected="dropdownSelected" @item-selected="setSectorId($event)"></CustomSelect>
 									</div>
 								</div>
+								<div class="mb-10">
+									<label class="checkbox-inline">
+										<input type="checkbox"  v-model="notification_opt_in">
+										Would you like to receive notifications and newsletters from us ?
+									</label>
+								</div>
+							<div>
 								<ButtonSpinner :is-disabled="isDisabled"  :button_text="button_text" :is-loading="isLoading"></ButtonSpinner>
 								<nuxt-link  to="/login" class="pull-right mt-20 m-r-10" style="color: black">Got an account? <span class="text-info2 bold">Log In</span></nuxt-link>
+							</div>
+
 							</div>
 						</div>
 					</form>
@@ -111,6 +121,7 @@ export default {
 			error: null,
 			error_message:[],
 			hasEmailError: false,
+			notification_opt_in: true,
 			hasPasswordError: false,
 			hasFirstNameError: false,
 			hasLastNameError: false,
@@ -281,7 +292,8 @@ export default {
 					password: this.password,
 					phone_number: this.phone_number,
 					country: this.selected_country,
-					sector: this.sectors_id
+					sector: this.sectors_id,
+					notification_opt_in: this.notification_opt_in
 				},);
 				await this.$auth.loginWith('local', {
 					data: {
@@ -317,6 +329,9 @@ export default {
 				}
 
 			}
+		},
+		check(event){
+			console.log(event.target)
 		}
 
 	},
