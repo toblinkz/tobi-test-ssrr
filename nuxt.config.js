@@ -74,7 +74,7 @@ export default {
 			 '@nuxtjs/auth',
     '@nuxtjs/toast',
 			['nuxt-stripe-module', {
-				publishableKey: 'pk_live_l1EX8qa9sccwALnRSUZCWRwl00m0ygmM5m',
+				publishableKey: process.env.STRIPE_PK,
 			}],
   ],
 
