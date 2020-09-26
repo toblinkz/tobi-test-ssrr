@@ -138,12 +138,9 @@
         },
       },
       mounted() {
-										window.addEventListener("beforeunload", function(event) { event.preventDefault(); });
           this.getBillingInvoiceById();
       },
-					beforeDestroy() {
-						window.removeEventListener("beforeunload", function(event) { event.preventDefault(); });
-					}
+
 
     }
 </script>
