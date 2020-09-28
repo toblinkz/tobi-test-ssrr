@@ -169,13 +169,9 @@
         }
       },
       mounted() {
-						   	window.addEventListener("beforeunload", function(event) { event.preventDefault(); });
-          this.getCountries();
+						   	this.getCountries();
 							   this.$store.commit('setBulkSmsId', this.$route.params.id);
       },
-					beforeDestroy() {
-						window.removeEventListener("beforeunload", function(event) { event.preventDefault(); });
-					}
     }
 </script>
 

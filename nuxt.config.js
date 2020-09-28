@@ -1,14 +1,17 @@
 export default {
   mode: 'spa',
+	router: {
+		mode: 'hash'
+	},
   /*
   ** Headers of the page
   */
   head: {
-    title:  'Termii - Send personalized messages' ||  process.env.npm_package_name,
+    title:  'Termii - Send personalized messages' ,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      { hid: 'description', name: 'description', content:  'Termii helps teams drive repeat interaction with customers through personalized email, voice, text, and instant messages.' }
     ],
     script: [
       {src: '/js/intercom.js'},
@@ -70,18 +73,11 @@ export default {
     '@nuxtjs/axios',
 			 '@nuxtjs/auth',
     '@nuxtjs/toast',
-			'@nuxtjs/recaptcha',
 			['nuxt-stripe-module', {
 				publishableKey: 'pk_test_nueC1m5g6hJZsKLIPjFIExWj00J4L2PZkP',
 			}],
   ],
-		recaptcha: {
-			hideBadge: false, // Hide badge element (v3 & v2 via size=invisible)
-			siteKey: '6LeyfRcUAAAAAPNLcb-cIRIrH0soc_4UzlUmlV7I', // Site key for requests
-			version: 2, // Version
-			size: 'normal' // Size: 'compact', 'normal', 'invisible' (v2)
-		},
-		target: 'static',
+
 		generate: {
 			fallback: true, // if you want to use '404.html' instead of the default '200.html'
 		},

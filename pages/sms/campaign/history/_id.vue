@@ -177,14 +177,12 @@
 
       },
       mounted() {
-						   	window.addEventListener("beforeunload", function(event) { event.preventDefault(); });
+
           this.fetch();
           this.$store.commit('setCampaignCreatedDate', this.$route.params.created_at);
           this.triggered_date = moment(this.getCampaignCreatedDate).format('lll');
       },
-					beforeDestroy() {
-						window.removeEventListener("beforeunload", function(event) { event.preventDefault(); });
-					}
+
     }
 </script>
 

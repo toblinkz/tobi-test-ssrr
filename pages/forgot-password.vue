@@ -71,7 +71,7 @@
     },
     methods: {
       validateEmail(value){
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)){
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$/.test(value)){
           this.error_message['email'] = '';
           this.hasEmailError = false;
         }else {
