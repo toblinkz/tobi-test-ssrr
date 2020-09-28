@@ -155,19 +155,16 @@
             $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
           $('#qr-code').attr("disabled", true);
 
-          let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${this.$auth.getToken('local').substring(7)}`
-          url = url.replace(':slug', device_id);
+           let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${this.$auth.getToken('local').substring(7)}`
+          	 url = url.replace(':slug', device_id);
 
-          $.get(url, function (data, status) {
+          // $.get(url, function (data, status) {
               Swal.fire({
                 title:"<h2>Scan QR Code</br><p>To use WhatsApp on your phone, tap settings icon and select WhatsApp Web</p></h2>",
                 html: `<img src="${url}" alt="Try again">`,
                 confirmButtonText: "Close",
               });
-          }).done(function () {
-            $('#qr-code').html('<i class="fa fa-barcode" style="color: #fff;"></i>');
-            $('#qr-code').attr("disabled", false);
-          })
+
         },
         showModal(){
           this.$modal.show('device-id-modal');
