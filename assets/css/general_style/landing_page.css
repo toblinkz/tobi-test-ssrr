@@ -140,6 +140,28 @@ input[type=text].error {
 	border-bottom: 1px solid #d0d0d0;
 }
 
+.vue-switcher-theme--default.vue-switcher-color--blue div {
+	background-color: white!important;
+}
+.vue-switcher--bold div {
+	top: -4px !important;
+	height: 26px;
+	width: 51px;
+}
+.vue-switcher-theme--default.vue-switcher-color--blue.vue-switcher--unchecked div:after {
+	background-color:  #ddd!important;
+}
+
+.vue-switcher-theme--default.vue-switcher-color--blue div:after {
+	background-color:  #365899!important;
+}
+.vue-switcher--bold div {
+	border: 1px solid #365899!important;
+}
+.vue-switcher--unchecked.vue-switcher--bold div{
+	border: 1px solid #ddd!important;
+}
+
 
 
 .multi .vs--searchable .vs__dropdown-toggle {
