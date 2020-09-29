@@ -57,7 +57,7 @@
 																<div class="form-group input-group input-group-file" style="margin-top: 20px !important;">
                                         <span class="input-group-btn">
                                             <span class="btn btn-primary btn-file">
-                                                Browse <input type="file" class="form-control" @change="uploadFile(fieldName, $event.target.files)" >
+                                                {{ upload_button}}<input type="file" class="form-control" @change="uploadFile(fieldName, $event.target.files)" >
                                             </span>
                                         </span>
 																</div>
@@ -125,6 +125,7 @@
 			return{
 				placement: 'top',
 				countries: [],
+				upload_button: 'Browse',
 				phone_books: [],
 				selected_country: '',
 				selected_phone_book:'',
@@ -182,18 +183,24 @@
 
 			},
 			uploadFile(fieldName, files){
+				this.upload_button = 'uploading...'
 				try{
 					let file = files[0];
 					if (this.validateFile(file)){
 						this.S3Client
 							.uploadFile(file, this.newFileName)
-							.then(data => { this.contact_upload_url = data.location,this.$toast.success('Uploaded successfully') })
+							.then(data => {
+								this.contact_upload_url = data.location,
+								this.$toast.success('Uploaded successfully'),
+								this.upload_button = 'Browse'
+									})
 							.catch(err => {Swal.fire({
 								icon: 'error',
 								title: 'Oops...',
 								text: 'Something went wrong! Please try again.',
-							})})
+							}),this.upload_button = 'Browse'})
 					}else {
+						this.upload_button = 'Browse'
 						this.$toast.error("Please upload a valid file(CSV, XLSX)");
 					}
 				}catch (e) {
