@@ -57,7 +57,8 @@
                                       <a @click="removeImage" class="btn btn-xs bg-grey-800 "><i class="icon-trash"></i> Remove</a>
                                       <br />
                                       <br />
-                                      <a  onclick="$('input[name=image]').trigger('click')"  class="btn btn-xs bg-teal mr-10"><i class="icon-upload4"></i> Upload</a>
+                                      <a  onclick="$('input[name=image]').trigger('click')"  class="btn btn-xs bg-teal mr-10"><i class="icon-upload4"></i>
+																																							{{ upload_button_text }}</a>
                                     </div>
                                   </div>
                                 </div>
@@ -152,6 +153,7 @@
             phone_number:  this.$store.state.auth.user.phone,
 											 hasPasswordError: false,
 												password: '',
+											 upload_button_text:'Upload',
 											 error_message:[],
             sectors:[this.$store.state.auth.user.company_sector.name],
             selected_country: this.$store.state.auth.user.country.toString(),
@@ -257,23 +259,28 @@
 
 							},
         uploadPhoto(fieldName, files){
-          let file = files[0];
+									this.upload_button_text = 'Uploading...'
+									try {
+										let file = files[0];
+										if (this.validateImage(file)){
+											let src = URL.createObjectURL(file);
+											let preview = document.getElementById('customer_dp');
+											preview.src = src
+											this.S3Client
+												.uploadFile(file, this.newFileName)
+												.then(data => { this.image_url = data.location, this.$toast.success('Uploaded successfully'), this.upload_button_text = 'Upload'})
+												.catch(err => {Swal.fire({
+													icon: 'error',
+													title: 'Oops...',
+													text: 'Something went wrong! Please try again.',
+												}), this.upload_button_text = 'Upload'});
+										}else {
+											this.upload_button_text = 'Upload';
+											this.$toast.error("Please upload a valid image file(JPEG, PNG)");
+										}
 
+									}catch (e){
 
-         if (this.validateImage(file)){
-										let src = URL.createObjectURL(file);
-										let preview = document.getElementById('customer_dp');
-										preview.src = src
-										this.S3Client
-											.uploadFile(file, this.newFileName)
-											.then(data => { this.image_url = data.location, this.$toast.success('Uploaded successfully')})
-											.catch(err => {Swal.fire({
-												icon: 'error',
-												title: 'Oops...',
-												text: 'Something went wrong! Please try again.',
-											})});
-									}else {
-         	this.$toast.error("Please upload a valid image file(JPEG, PNG)")
 									}
 
         },
