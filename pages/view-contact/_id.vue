@@ -31,7 +31,7 @@
                               <!-- START PANEL -->
                               <div class="panel-transparent">
                                 <h3 class="text-bold">
-                                  Hi,Termii Webtech
+                                  Hi,{{ first_name }} {{last_name}}
                                 </h3>
                                 <p id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-flag"></i> View Contacts!</p>
                                 <p class="insight">View, edit, delete and manage your customers phone contacts added manually or uploaded from your excel file sheet
@@ -126,6 +126,8 @@
           return{
               phone_book_contacts:[],
 														page: 1,
+														first_name: this.$store.state.auth.user.fname,
+														last_name: this.$store.state.auth.user.lname,
 														total_page: '',
 														showPagination: false,
 														show_shimmer: false,
