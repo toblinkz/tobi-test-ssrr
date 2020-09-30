@@ -1,6 +1,6 @@
 <template>
-  <div id="page-wrap">
 
+  <div id="page-wrap"  >
     <table width="100%">
       <tr>
         <td style="border: 0;  text-align: left" width="62%">
@@ -8,7 +8,7 @@
         </td>
         <td style="border: 0;  text-align: right" width="62%">
           <div id="logo">
-            <img src="http://sandbox.termii.com/assets/images/logo.png" data-src-retina="http://sandbox.termii.com/assets/images/logo.png" width="120px"
+            <img src="/images/logo.png" width="120px"
                  height="auto"><br>
             150, Ikorodu Road, <br>Adebowale House, Onipanu.<br>Lagos, Nigeria
           </div>
@@ -27,7 +27,7 @@
             <br>
             Lagos, Nigeria
             <br>
-            tech@termii.com
+											{{ email }}
           </td>
           <td class="meta-head">Invoice #</td>
           <td>{{invoice_no}}</td>
@@ -52,7 +52,7 @@
 
           <td class="meta-head">Amount Due</td>
           <td>
-            <div class="due">₦10000</div>
+            <div class="due">{{ total }}</div>
           </td>
         </tr>
 
@@ -72,10 +72,10 @@
 
 
       <tr class="item-row">
-        <td class="description">Premium Email (125,000 Units)</td>
-        <td align="right">₦10000</td>
-        <td align="right">1</td>
-        <td align="right">₦10000</td>
+        <td class="description">{{ item }}</td>
+        <td align="right">{{price}}</td>
+        <td align="right">{{quantity}}</td>
+        <td align="right">{{total}}</td>
       </tr>
 
 
@@ -84,7 +84,7 @@
         <td class="blank"></td>
         <td colspan="2" class="total-line balance">Grand Total</td>
         <td class="total-value balance">
-          <div class="due">₦10000</div>
+          <div class="due">{{total}}</div>
         </td>
       </tr>
 
@@ -97,15 +97,18 @@
 </template>
 
 <script>
+
     export default {
         name: "_id",
-					middleware: 'auth',
+					   middleware: 'auth',
+
       data(){
           return{
             id: this.$route.params.id,
             invoice_status:'',
             invoice_due_date:'',
             invoice_paid_date:'',
+												email:  this.$store.state.auth.user.email,
             invoice_no:'',
             invoice_date:'',
             item:'',
@@ -121,20 +124,19 @@
         async getBillingInvoiceById(){
           let response_data = await this.$axios.$get('/billing/invoices/' + this.id);
           let data = response_data.data[0];
-          // let inv_item = response_data.inv-item[0];
-
+          let inv_item = response_data.inv_item[0];
 
           this.invoice_no = data.id;
           this.invoice_due_date = data.duedate;
           this.invoice_paid_date = data.datepaid;
           this.invoice_status = data.status;
           this.invoice_date = data.created;
-          // this.item = inv_item.item;
-          // this.price = inv_item.price;
-          // this.quantity = inv_item.qty;
-          // this.tax = inv_item.tax;
-          // this.discount = inv_item.discount;
-          // this.total = inv_item.total;
+           this.item = inv_item.item;
+           this.price = inv_item.price;
+           this.quantity = inv_item.qty;
+           this.tax = inv_item.tax;
+           this.discount = inv_item.discount;
+           this.total = inv_item.total;
         },
       },
       mounted() {
