@@ -36,7 +36,7 @@
 								</div>
 							<div class="modal-footer">
 
-								<button type="submit" class="btn btn-primary">
+								<button type="submit" class="btn btn-primary" :disabled="isDisabled">
 									Go
 									<span v-show="isLoading">
 										<img src="/images/spinner.svg" height="20px" width="80px"/>
@@ -44,6 +44,7 @@
 								</button>
 								<button type="button" class="btn btn-default" @click="close">Close</button>
 								<a  v-show="exportUrlReady" :href="exportUrl" target="_blank"  class="btn btn-primary" download>Download</a>
+
 							</div>
 
 						</form>
@@ -79,7 +80,7 @@
 					},
 					computed:{
 						isDisabled:function () {
-							return(this.no_of_records === '' || this.date_time == null || this.hasRecordsError || this.exportUrl === '')
+							return(this.no_of_records === '' || this.date_time == null || this.hasRecordsError);
 						}
 
 					},
