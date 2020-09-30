@@ -127,6 +127,7 @@
       						verification_code: '000000'
 											}
 										});
+      				this.$toast.success("Verification code has been resent")
 							}catch (e) {
 
 							}
