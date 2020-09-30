@@ -33,7 +33,7 @@
 															</p>
 															<div class="row">
 																<br>
-																<a href="#" class="btn btn-primary"><i class="fa fa-download"></i> Please use this sample file</a>
+																<a href="https://termii.s3-us-west-1.amazonaws.com/upload/files/termii_list_534_5e3b074ab63fa.csv" class="btn btn-primary"><i class="fa fa-download"></i> Please use this sample file</a>
 															</div>
 														</div>
 													</center>
@@ -53,7 +53,7 @@
 														<form @submit.prevent="addContact" role="form" method="post">
 															<div class="form-group">
 																<label>Import Numbers</label>
-																<small style="color: red !important;font-size: 13px;">Download Our <a href="http://sandbox.termii.com/sms/download-contact-sample-file">Sample File</a> Before uploading your contacts and please do not remove the first row</small><br>
+																<small style="color: red !important;font-size: 13px;">Download Our <a href="https://termii.s3-us-west-1.amazonaws.com/upload/files/termii_list_534_5e3b074ab63fa.csv">Sample File</a> Before uploading your contacts and please do not remove the first row</small><br>
 																<div class="form-group input-group input-group-file" style="margin-top: 20px !important;">
                                         <span class="input-group-btn">
                                             <span class="btn btn-primary btn-file">
