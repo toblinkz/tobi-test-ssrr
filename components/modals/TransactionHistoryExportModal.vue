@@ -4,7 +4,7 @@
 			<button type="button" class="close" data-dismiss="modal" @click="close"><span aria-hidden="true">&times;</span></button>
 			<h4 class="modal-title" id="myModalLabel">Export</h4>
 		</div>
-		<form class="form-some-up form-block" role="form" method="post">
+		<form class="form-some-up form-block"  @submit.prevent="getExportUrl" role="form" method="post">
 			<div class="modal-body">
 				<div class="col-md-6">
 					<div class="form-group ">
@@ -26,11 +26,17 @@
 					</div>
 				</div>
 			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-primary" :disabled="isDisabled">
+					Go
+					<span v-show="isLoading">
+										<img src="/images/spinner.svg" height="20px" width="80px"/>
+									</span>
+				</button>
+				<button type="button" class="btn btn-default" @click="close">Close</button>
+				<a  v-show="exportUrlReady" :href="exportUrl" target="_blank"  class="btn btn-primary" download>Download</a>
+			</div>
 		</form>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-default" @click="close">Close</button>
-			<a :href="exportUrl" target="_blank"  @click="show" :aria-disabled="isDisabled" class="btn btn-primary">Export</a>
-		</div>
 	</modal>
 </template>
 
@@ -43,9 +49,11 @@
         	return{
 										date_time: null,
 										no_of_records: '',
+										isLoading: false,
 										transaction_type:'All',
 										exportUrl: '',
 										hasRecordsError: false,
+										exportUrlReady: false,
 										error_message: []
 									}
 								},
@@ -62,6 +70,9 @@
 					methods:{
 						close(){
 							this.$modal.hide('transaction-history-modal');
+							this.no_of_records = '';
+							this.date_time = null;
+							this.exportUrlReady = false;
 						},
 						validateRecordInput(value){
 							if (value > 5000){
@@ -94,14 +105,29 @@
 										}
 							}
 							},
-						show(){
+						async getExportUrl(){
 							try{
-								this.exportUrl = `${this.$axios.defaults.baseURL}billing/wallet/transactions/export?token=${this.$auth.getToken('local').substring(7)}
-								&type=${this.transaction_type}&date_from=${this.date_time[0]}&date_to=${ this.date_time[1]}&number_of_records=${this.no_of_records}`
+								 this.exportUrlReady = false;
+								 this.isLoading = true;
+
+								 let data = await this.$axios.$post('billing/wallet/transactions/export', {
+								 	type: this.transaction_type,
+										date_from: this.date_time[0],
+										date_to: this.date_time[1],
+										number_of_records: this.no_of_records,
+										});
+
+								 this.isLoading = false;
+
+								 this.exportUrlReady = true;
+
+								 this.exportUrl = encodeURI(data.data.file_url);
+
+
 							}catch (e){
-								console.log(e)
+								this.isLoading = false;
 							}
-									},
+						}
 					},
 
 				}
