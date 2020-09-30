@@ -4,7 +4,7 @@
 							<button type="button" class="close" data-dismiss="modal" @click="close"><span aria-hidden="true">&times;</span></button>
 							<h4 class="modal-title" id="myModalLabel">Export</h4>
 						</div>
-						<form class="form-some-up form-block" role="form" method="post">
+						<form  @submit.prevent="getExportUrl" class="form-some-up form-block" role="form" method="post">
 							<div class="modal-body">
 								<div class="col-md-6">
 									<div class="form-group ">
@@ -34,11 +34,20 @@
 									</div>
 								</div>
 								</div>
-						</form>
 							<div class="modal-footer">
-									<button type="button" class="btn btn-default" @click="close">Close</button>
-									<a :href="exportUrl" target="_blank" @click="show" :aria-disabled="isDisabled"  class="btn btn-primary">Export</a>
+
+								<button type="submit" class="btn btn-primary">
+									Go
+									<span v-show="isLoading">
+										<img src="/images/spinner.svg" height="20px" width="80px"/>
+									</span>
+								</button>
+								<button type="button" class="btn btn-default" @click="close">Close</button>
+								<a  v-show="exportUrlReady" :href="exportUrl" target="_blank"  class="btn btn-primary">Download</a>
 							</div>
+
+						</form>
+
 				</modal>
 </template>
 
@@ -51,6 +60,7 @@
         	return{
 										date_time: null,
 										showPhoneNumber: false,
+										isLoading: false,
 										showSenderId: false,
 										type:'All',
 										exportUrl:'',
@@ -58,6 +68,7 @@
 										sender_id:'',
 										no_of_records: '',
 										hasRecordsError: false,
+										exportUrlReady: false,
 										error_message: []
 									}
 								},
@@ -68,12 +79,16 @@
 					},
 					computed:{
 						isDisabled:function () {
-							return(this.no_of_records === '' || this.date_time == null || this.hasRecordsError)
+							return(this.no_of_records === '' || this.date_time == null || this.hasRecordsError || this.exportUrl === '')
 						}
+
 					},
 					methods: {
         	close(){
         		this.$modal.hide('export-modal');
+										this.no_of_records = '';
+										this.date_time = null;
+										this.exportUrlReady = false;
 									},
 						onChange(event){
 
@@ -114,16 +129,31 @@
 								this.error_message['records'] = ''
 							}
 						},
-						show(){
-        		try {
-											this.exportUrl = `${this.$axios.defaults.baseURL}sms/history/export?token=${this.$auth.getToken('local').substring(7)}
-							    	&type=${this.type}&date_from=${this.date_time[0]}&date_to=${ this.date_time[1]}&number_of_records=${this.no_of_records}&phone_number=${this.phone_number}&sender_id=${this.sender_id}`
+						async getExportUrl(){
+							try {
+								this.exportUrlReady = false;
 
-										}catch (e){
+								this.isLoading = true;
 
-										}
-									},
+								let data = await this.$axios.$post('sms/export', {
+									type : this.type,
+									date_from: this.date_time[0],
+									date_to: this.date_time[1],
+									number_of_records: this.no_of_records,
+									sender_id: this.sender_id,
+									phone_number: this.phone_number
+								});
 
+								this.isLoading = false;
+
+								this.exportUrlReady = true;
+
+								this.exportUrl = encodeURI(data.data.file_url);
+							}
+								catch (e){
+									this.isLoading = false;
+								}
+						},
 					}
     }
 </script>
