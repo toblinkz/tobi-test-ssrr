@@ -43,7 +43,7 @@
 									</span>
 								</button>
 								<button type="button" class="btn btn-default" @click="close">Close</button>
-								<a  v-show="exportUrlReady" :href="exportUrl" target="_blank"  class="btn btn-primary">Download</a>
+								<a  v-show="exportUrlReady" :href="exportUrl" target="_blank"  class="btn btn-primary" download>Download</a>
 							</div>
 
 						</form>
