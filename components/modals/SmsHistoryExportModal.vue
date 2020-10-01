@@ -67,7 +67,7 @@
 										exportUrl:'',
 										phone_number:'',
 										sender_id:'',
-										no_of_records: '',
+										no_of_records: 100,
 										hasRecordsError: false,
 										exportUrlReady: false,
 										error_message: []
