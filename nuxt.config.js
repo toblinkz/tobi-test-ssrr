@@ -115,10 +115,7 @@ export default {
 				}
 			}
 			},
-		plugins: ['~/plugins/axios.js',{ src: '~/plugins/auth.js', mode: 'client' }]
-	},
-	env: {
-		apiBaseUrl: process.env.API_BASE_URL
+		plugins: [{ src: '~/plugins/auth.js', mode: 'client' }]
 	},
 
   /*

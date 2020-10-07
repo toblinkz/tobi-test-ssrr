@@ -274,14 +274,11 @@
 												}
 
 											} catch (e) {
+												console.log(e)
 												this.isLoading = false;
 												this.fund_button_text = "Fund Account";
-												let errors = e.response.data.errors;
-												for(let key in errors){
-													errors[key].forEach(err => {
-														this.$toast.error(err);
-													});
-												}
+												let errors = e.response;
+
 											}
 										}
 									},

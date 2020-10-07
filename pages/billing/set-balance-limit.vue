@@ -45,12 +45,12 @@
 										<div class="row">
 											<div class="panel">
 												<div class="panel-body">
-													<form role="form" method="post"  @submit.prevent="">
+													<form role="form" method="post"  @submit.prevent="process">
 														<div class="form-group">
 															<div class="form-group">
 																<label>When balance goes below</label>
-																<input type="text" class="form-control"  placeholder="Amount" v-model="limit" :class="{'error': hasLimitError}">
-																<span class=" error_field_message" v-if="error_message.limit">{{error_message.limit}}</span>
+																<input type="text" class="form-control"  placeholder="Amount" v-model="balance_limit" :class="{'error': hasLimitError}">
+																<span class=" error_field_message" v-if="error_message.balance_limit">{{error_message.balance_limit}}</span>
 																<br>
 																<div class="mt-10 select-class" style=" display: flex">
 																	<Switches v-model="enabled_email_notification"    type-bold="true" color="blue" ></Switches>
@@ -67,38 +67,13 @@
 																			{{ maximum_recharge }}</p>
 																		<input type="text" class="form-control"  placeholder="Amount" v-model="auto_recharge_amount">
 																	</div>
-																	<div class="mt-20">
-																		<p class="insight">NAME ON CARD</p>
-																		<input type="text" class="form-control"  v-model="card_name">
-																	</div>
-																	<div  class="mt-10 select-class ">
-																		<div class="row-form">
-																			<p class="insight">CARD NUMBER</p>
-																			<input type="text" class="form-control"  v-model="card_number">
-																		</div>
-																		<div class="row-form2">
-																			<p class="insight">EXPIRES</p>
-																			<input type="text" class="form-control" placeholder="MM" maxlength="2" v-model="month_of_expiration">
-																		</div>
-																		<div class="mt-40 row-form3">
-																			<span style="text-align: center; ">  /  </span>
-																		</div>
-																		<div class="mt-30 row-form2">
-																			<input type="text" class="form-control"  placeholder="YY" maxlength="2" v-model="year_of_expiration">
-																		</div>
-																	</div>
-																	<div>
-																		<p class="insight">CVV</p>
-																		<input type="text" class="form-control" style="width: 30%;" maxlength="3" v-model="card_cvv" >
-																	</div>
-
 																</div>
 															</div>
 														</div>
 														<div class="form-group">
 															<button type="submit" class="btn btn-primary" :disabled="isDisabled">
 																																		<span v-show="isLoading">
-																																			<img src="/images/spinner.svg" height="20px" width="30px"/>
+																																			<img src="/static/images/spinner.svg" height="20px" width="30px"/>
 																																		</span>
 																{{button_text}}
 															</button>
@@ -121,10 +96,13 @@
 	</div>
 </template>
 
+<script src="https://js.stripe.com/v3/"></script>
 <script>
-import Sidebar from "../components/general/Sidebar";
-import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
+import Sidebar from "../../components/general/Sidebar";
+import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
 import Swal from 'sweetalert2';
+import CryptoJs from 'crypto-js';
+
 import Switches from 'vue-switches';
 export default {
 	name: "set-unit-limit",
@@ -132,7 +110,7 @@ export default {
 	components: {DashboardNavbar, Sidebar, Switches},
 	data(){
 		return{
-			limit: '',
+			balance_limit: '',
 			isLoading: false,
 			button_text:'Save',
 			hasLimitError: false,
@@ -158,19 +136,18 @@ export default {
 					this.enabled_email_notification = true;
 			}
 		},
-		limit(value){
-			this.limit = value;
+		balance_limit(value){
+			this.balance_limit = value;
 			this.validateLimit(value)
 		}
 	},
 	computed:{
 		isDisabled:function (){
-				if ((this.limit && this.enabled_email_notification) && !this.enabled_auto_recharge && !this.hasLimitError
+				if ((this.balance_limit && this.enabled_email_notification) && !this.enabled_auto_recharge && !this.hasLimitError
 				){
 					return false
 				}else if ((!this.enabled_auto_recharge && !this.enabled_email_notification)
-					|| !this.limit || !this.card_name || !this.card_number || !this.card_cvv ||
-					!this.month_of_expiration || !this.year_of_expiration || !this.auto_recharge_amount){
+					|| !this.balance_limit || !this.auto_recharge_amount){
 					return true
 				}
 		}
@@ -198,6 +175,35 @@ export default {
 				this.hasLimitError = false;
 			}
 		},
+		async process(){
+			try {
+				let response_data = await this.$axios.$post('/billing/set-balance-limit', {
+					unit_limit: this.balance_limit,
+					auto_recharge: true,
+					recharge_amount:this.auto_recharge_amount
+				});
+
+				console.log(response_data.data);
+
+				switch (response_data.data.payment_type) {
+					case('paystack'): {
+						window.location.href = response_data.data.url;
+						break;
+					}
+					case('stripe'): {
+						 this.$stripe.import().redirectToCheckout({
+							sessionId: response_data.data.id
+						}).then(function (result) {
+							this.$toast.error(result.error.message)
+						});
+						break;
+					}
+				}
+			}
+			catch (e) {
+
+			}
+		}
 
 	},
 	mounted() {
