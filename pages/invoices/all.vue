@@ -93,7 +93,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(row, index) in filteredInvoices" :key="row.id" v-show="filteredInvoices.length > 1">
+                                <tr v-for="(row, index) in filteredInvoices" :key="row.id" v-show="filteredInvoices.length > 0">
                                   <td>{{index + 1}}</td>
                                   <td>{{row.total}}</td>
                                   <td>{{row.datepaid}}</td>
