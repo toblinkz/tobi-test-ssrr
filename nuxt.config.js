@@ -97,7 +97,7 @@ export default {
 		cookie: {
 			prefix: 'auth.',
 			options: {
-				maxAge: 600
+				maxAge: 3600
 			}
 		},
 		redirect:{
@@ -115,7 +115,10 @@ export default {
 				}
 			}
 			},
-		plugins: [{ src: '~/plugins/auth.js', mode: 'client' }]
+		plugins: ['~/plugins/axios.js', { src: '~/plugins/auth.js', mode: 'client' }]
+	},
+	env: {
+			apiBaseUrl: process.env.API_BASE_URL
 	},
 
 
