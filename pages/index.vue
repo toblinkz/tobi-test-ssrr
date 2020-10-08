@@ -33,8 +33,15 @@
 																<div class="">
 																	<div class="row mt-20">
                                                 <span id="welcome"><span
-																																																	class="text-bold">Hi, {{loggedInUser.username}}</span> </span>
-																		<span id="welcome-intro">Welcome back to your Dashboard. Check out resources and docs tailored to your account.</span>
+																																																	class="text-bold">Hi,{{first_name}}</span> </span>
+																		<ContentLoader v-if="!account_balance"
+																																	:speed="5"
+																																	:animate="true"
+																		>
+																			<rect x="33" y="11" rx="5" ry="5" width="313" height="14" />
+																			<rect x="35" y="31" rx="0" ry="0" width="313" height="17" />
+																		</ContentLoader>
+																		<span id="welcome-intro" v-else>Welcome back to your Dashboard. Check out resources and docs tailored to your account.</span>
 																		<div class="row mt-30">
 																			<div class="row">
 																				<div class="col-md-6 mb-5">
@@ -205,6 +212,7 @@
 		</div>
 		<ActivateIdModal v-if="showActivateIdModal" @close="closeActivateIdModal"></ActivateIdModal>
 		<YourWalletModal v-if="showYourWalletModal" @close="closeYourWalletModal"></YourWalletModal>
+		<VerificationModal></VerificationModal>
 	</div>
 </template>
 
@@ -224,18 +232,20 @@
 		InstagramLoader,
 		ListLoader
 	} from 'vue-content-loader'
+	import VerificationModal from "~/components/modals/VerificationModal";
 	export default {
 		components: {
+			VerificationModal,
 			ActivityLog,
 			ActivateIdModal, YourWalletModal, SmsHistoryModal, DashboardNavbar, Sidebar, ContentLoader, FacebookLoader, ListLoader, BulletListLoader},
-		 middleware: 'auth',
+
 		 head(){
 			return{
 				script: [{src:"/js/intro.js" }]
 			}
 		},
 		computed: {
-			...mapGetters(['isAuthenticated', 'loggedInUser'])
+			...mapGetters(['isAuthenticated', 'loggedInUser', 'getViewVerifyPage', 'getFirstName'])
 		},
 		data(){
 			return{
@@ -243,7 +253,8 @@
 				showYourWalletModal: false,
 				account_balance: '',
 				emptyActivityLog:false,
-				live_api_key:''
+				live_api_key:'',
+				first_name: ''
 			}
 		},
 		methods: {
@@ -324,9 +335,19 @@
 
 		},
 		mounted: function () {
-			this.startIntro();
-			this.fetch();
-			setInterval(this.getBalance, 60000);
+
+			if(this.$store.state.view_verify_page === 'true'){
+				this.first_name = this.getFirstName;
+				this.$modal.show('verification-id-modal');
+			} else {
+				this.fetch();
+				this.startIntro();
+				this.first_name = this.$store.state.auth.user.fname;
+				console.log(this.$store.state.auth.user.fname)
+				setInterval(this.getBalance, 60000);
+			}
+
+
 
 
 		}

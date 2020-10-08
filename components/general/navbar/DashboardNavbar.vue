@@ -44,7 +44,7 @@
           <Dropdown id="mobile-menu" class="hide-menu" style="margin-right: 10px;">
             <template v-slot:dropdown_title>
               <a class="dropdown-toggle stretch-a" data-toggle="dropdown" style="color: #2c2c2c !important;">
-                <img preview-for="image"  :src="imageUrl" alt=""><span style="margin-left: 5px;"> Quick Menu</span>
+                <img preview-for="image" :src="imageUrl"  alt=""><span style="margin-left: 5px;"> Quick Menu</span>
                 <i class="caret"></i>
               </a>
             </template>
@@ -91,7 +91,7 @@
       return{
         isOpen:'false',
         email:"",
-							 imageUrl:this.$store.state.auth.user.image
+							 imageUrl: 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg'
       }
     },
 			computed:{
@@ -107,15 +107,21 @@
       async logout(){
       	try {
 								await this.$auth.logout();
-								this.$router.push({name: 'login'});
+								await this.$router.push({name: 'login'});
 								localStorage.clear();
 							} catch (e) {
 
 							}
-
-
       }
     },
+			mounted() {
+				if(this.$store.state.view_verify_page === 'true'){
+					console.log('love')
+						this.imageUrl = 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg';
+				}else{
+						  this.imageUrl = this.$store.state.auth.user.image
+				}
+			}
 
 
 		}

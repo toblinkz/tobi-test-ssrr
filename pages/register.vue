@@ -308,10 +308,11 @@ export default {
 				this.button_text = "Create My Account"
 				if (navigator.onLine){
 					if (e.response.data.error === 'Account not verified.'){
+						this.$store.commit('setFirstName', e.response.data.data);
 						this.$store.commit('setEmail', this.email);
 						this.$store.commit('setPassword', this.password);
-						this.$store.commit('setViewVerificationPage');
-						await this.$router.push({ name: 'verify', });
+						this.$store.commit('setViewVerificationPage', 'true');
+						await this.$router.push({ name: 'index', });
 					}else {
 						let errors = e.response.data.errors;
 						for(let key in errors){
