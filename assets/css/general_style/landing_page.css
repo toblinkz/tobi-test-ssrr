@@ -169,7 +169,14 @@ input[type=text].error {
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 	background-clip: padding-box;
 }
-
+.vm--modal{
+	position: relative;
+	overflow: hidden;
+	box-sizing: border-box;
+	background-color: white;
+	border-radius: 15px !important;
+	box-shadow: 0 20px 60px -2px rgba(27, 33, 58, 0.4);
+}
 
 /*animations*/
 @keyframes bounce {
