@@ -73,8 +73,11 @@
         }
       },
       mounted() {
-        	this.getActivityLog();
-        	setInterval(this.getActivityLog, 60000 );
+        	if (this.$store.state.view_verify_page === 'false'){
+										this.getActivityLog();
+										setInterval(this.getActivityLog, 60000 );
+									}
+
 
       }
     }
