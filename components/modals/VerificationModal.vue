@@ -1,23 +1,23 @@
 <template>
 	<transition>
+		<modal name="verification-id-modal" class="" :clickToClose="false" height="auto">
+			<div class="flex-container">
+				<div class="flex-item-left hidden-xs" style="background: url(/images/verification_banner.svg)" >
 
 
-		<modal name="verification-id-modal" :clickToClose="false" >
-			<div >
-				<div class="col-md-3" style="height: 50vh; background-color: darkblue">
-					<p>ff</p>
 				</div>
-				<div class="col-md-9 modal-body">
+				<div class="flex-item-right modal-body">
 					<div class="p-x-y">
 						<p  class="m-t-80 text-bold">Verify it's you</p>
 						<p>Welcome to your Dashboard. We sent a verification code to your email address. Please enter the code into the text field below</p>
 						<form  method="post" >
-
 							<div class="mt-20">
 								<div class="form-group">
-									<input type="text" class="form-control" placeholder="Enter 6-digit code" >
-											<div class="mt-20">
-												<ButtonSpinner :button_text="button_text" ></ButtonSpinner>
+									<input type="text" class="form-control" maxlength="6" placeholder="Enter 6-digit code" v-model="verification_code" :class="{'error ' : hasVerificationError, 'has-input' : hasVerificationInput}" >
+									<span class="input-field_helper">Verification Code</span>
+									<span class=" error_field_message" v-if="error_message.verification_code">{{error_message.verification_code}}</span>
+									<div class="mt-20">
+												<ButtonSpinner :is-disabled="isDisabled"  :button_text="button_text" ></ButtonSpinner>
 											</div>
 									<a  class="text-info2 mt-50 ">Resend verification code</a>
 									<p class="mt-20">verify later instead? <a class="text-info2">Log Out</a></p>
@@ -38,16 +38,46 @@ name: "VerificationModal",
  	components: {ButtonSpinner},
 	 data(){
 				return{
-					button_text: 'Verify'
+					verification_code: "",
+					error_message:[],
+					access_token: "",
+					hasVerificationError: false,
+					hasVerificationInput: false,
+					button_text: "Verify Code",
+					isLoading: false
+
 				}
+		},
+	 	computed: {
+					isDisabled: function (){
+						return( this.verification_code === '' || this.error_message.verification_code !== '');
+
+					}
+			},
+		watch: {
+			verification_code(value) {
+				this.verification_code = value;
+				this.hasVerificationInput = true;
+				this.validateVerificationCode(value);
+			},
+		},
+		methods: {
+			validateVerificationCode(value){
+				if (isNaN(value) || value.length < 6){
+					this.error_message['verification_code'] = 'Verification code must be 6 digit';
+					this.hasVerificationError = true;
+				} else {
+					this.error_message['verification_code'] = '';
+					this.hasVerificationError = false;
+				}
+			},
 		}
 }
 </script>
 
 <style scoped>
-.vm--modal {
-	border-radius: 8px !important;
-}
+@import "../../assets/css/general_style/authentication_pages.css";
+
 .vm--container{
 	display: block;
 	overflow-y: auto;
@@ -152,7 +182,7 @@ label {
 	box-shadow: none;
 	display: block;
 	width: 90%;
-	height: 36px;
+	height: 40px;
 	padding: 7px 12px;
 	line-height: 1.5384616;
 	color: #333333;
@@ -195,5 +225,16 @@ strong {
 .p-x-y{
 	 padding-left: 30px;
 	 padding-right: 30px;
+}
+.flex-container {
+	display: flex;
+	flex-wrap: wrap;
+}
+.flex-item-left {
+	flex: 20%;
+}
+
+.flex-item-right {
+	flex: 80%;
 }
 </style>
