@@ -117,6 +117,7 @@ export default {
 			},
 		plugins: ['~/plugins/axios.js', { src: '~/plugins/auth.js', mode: 'client' }]
 	},
+	//added env object in other to access API_BASE_URL variable in .env file
 	env: {
 			apiBaseUrl: process.env.API_BASE_URL
 	},
