@@ -10,17 +10,17 @@
 					<div class="p-x-y">
 						<p  class="m-t-80 text-bold">Verify it's you</p>
 						<p>Welcome to your Dashboard. We sent a verification code to your email address. Please enter the code into the text field below</p>
-						<form  method="post" >
+						<form  method="post"  @submit.prevent="verifyCode" >
 							<div class="mt-20">
 								<div class="form-group">
 									<input type="text" class="form-control" maxlength="6" placeholder="Enter 6-digit code" v-model="verification_code" :class="{'error ' : hasVerificationError, 'has-input' : hasVerificationInput}" >
 									<span class="input-field_helper">Verification Code</span>
 									<span class=" error_field_message" v-if="error_message.verification_code">{{error_message.verification_code}}</span>
 									<div class="mt-20">
-												<ButtonSpinner :is-disabled="isDisabled"  :button_text="button_text" ></ButtonSpinner>
+												<ButtonSpinner :is-disabled="isDisabled" :is-loading="isLoading" :button_text="button_text" ></ButtonSpinner>
 											</div>
-									<a  class="text-info2 mt-50 ">Resend verification code</a>
-									<p class="mt-20">verify later instead? <a class="text-info2">Log Out</a></p>
+									<a  @click="resendVerificationCode" class="text-info2 mt-50 ">Resend verification code</a>
+									<p class="mt-20">verify later instead? <a @click="logOut" class="text-info2">Log Out</a></p>
 								</div>
 							</div>
 						</form>
@@ -33,6 +33,7 @@
 
 <script>
 import ButtonSpinner from "~/components/general/ButtonSpinner";
+import {mapGetters} from "vuex";
 export default {
 name: "VerificationModal",
  	components: {ButtonSpinner},
@@ -51,8 +52,8 @@ name: "VerificationModal",
 	 	computed: {
 					isDisabled: function (){
 						return( this.verification_code === '' || this.error_message.verification_code !== '');
-
-					}
+					},
+				...mapGetters([ 'getUserPassword', 'getUserEmail'])
 			},
 		watch: {
 			verification_code(value) {
@@ -71,7 +72,60 @@ name: "VerificationModal",
 					this.hasVerificationError = false;
 				}
 			},
-		}
+			async verifyCode(){
+				try{
+					this.isLoading = true;
+					this.button_text = "Verifying";
+					await this.$axios.$post('auth/account/verify',{
+						verification_code: this.verification_code
+					}, {headers: {'Authorization': this.$auth.getToken('local')}});
+
+
+					await this.$auth.loginWith('local', {
+						data: {
+							email: this.getUserEmail,
+							password: this.getUserPassword
+						}
+					});
+					this.isLoading = false;
+					this.button_text = "Verify Code";
+					this.$toast.show("Successfully verified");
+					this.$store.commit('setViewVerificationPage', 'false');
+					this.$store.commit('setEmail', '');
+					this.$store.commit('setPassword', '');
+					location.reload();
+					localStorage.removeItem('vuex');
+				}catch (error) {
+					if (navigator.onLine) {
+						this.isLoading = false;
+						this.button_text = "Verify Code";
+						this.hasVerificationError = true;
+						this.error_message['verification_code'] = 'Invalid Code';
+					} else {
+						this.isLoading = false;
+						this.button_text = "Verify Code";
+						this.$toast.show("No Internet connection");
+					}
+
+				}
+		},
+			async resendVerificationCode(){
+				try{
+					let data = await this.$axios.$get('auth/account/token/resend', {
+						params:{
+							verification_code: '000000'
+						}
+					});
+					this.$toast.success("Verification code has been resent")
+				}catch (e) {
+
+				}
+			},
+			async logOut(){
+				await this.$auth.logout();
+				await this.$router.push({name: 'login',});
+			}
+	}
 }
 </script>
 
