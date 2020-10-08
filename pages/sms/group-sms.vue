@@ -248,7 +248,8 @@
 											icon: 'success',
 											title: `${data.message}`,
 											showConfirmButton: true,
-										})
+										});
+										this.message = '';
 									}catch (e) {
 												this.$toast.error("Something went wrong. Try again!");
 									}
