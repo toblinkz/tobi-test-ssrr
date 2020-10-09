@@ -30,7 +30,7 @@
 														<!-- START PANEL -->
 														<div class="panel-transparent">
 															<p id="welcome" style="margin-top: 10px;margin-bottom: 15px"><i class="entypo-list-add"></i> Set Notification Limits Here</p>
-															<p class="insight hidden-xs" style="margin-bottom: 0px !important;">Receive Notifications when you hit your limit on SMS, WhatsApp and OTP Channels!</p>
+															<p class="insight hidden-xs" style="margin-bottom: 0px !important;">Receive Notifications when you hit your wallet limit!</p>
 															<p class="insight hidden-xs">Also set your account to auto-recharge so you don't miss a thing<br></p>
 														</div>
 													</center>
@@ -111,6 +111,7 @@ export default {
 	data(){
 		return{
 			balance_limit: '',
+			balance_limit_data: '',
 			isLoading: false,
 			button_text:'Save',
 			hasLimitError: false,
@@ -152,22 +153,35 @@ export default {
 				}
 		}
 	},
-	methods:{
+	methods: {
+		async fetch(){
+			try {
+				let response_data = await this.$axios.$get('billing/balance-limit');
+				this.balance_limit_data = response_data.data;
+				this.balance_limit = this.balance_limit_data.balance_limit;
+				this.enabled_email_notification = this.balance_limit_data.notify_by_email;
+				this.enabled_auto_recharge = (this.balance_limit_data.payment_intent.recharge_amount)??false;
+				this.auto_recharge_amount = this.balance_limit_data.payment_intent.recharge_amount;
 
-		async getTopDetails(){
-			try{
+			} catch (e) {
+
+			}
+	},
+
+		async getTopDetails() {
+			try {
 				let response = await this.$axios.$get('billing/top-up/plans');
 				this.minimum_recharge = response.data.minimum_top_up.amount;
 
-			}catch (e) {
+			} catch (e) {
 
 			}
 		},
-		validateLimit(value){
-			if (isNaN(value)){
+		validateLimit(value) {
+			if (isNaN(value)) {
 				this.error_message['limit'] = 'The unit limit must be a number.';
 				this.hasLimitError = true;
-			}else if(value < 0){
+			} else if (value < 0) {
 				this.error_message['limit'] = 'The unit limit must be at least 0.';
 				this.hasLimitError = true;
 			} else {
@@ -175,23 +189,34 @@ export default {
 				this.hasLimitError = false;
 			}
 		},
-		async process(){
+		async process() {
 			try {
-				let response_data = await this.$axios.$post('/billing/set-balance-limit', {
+				let response_data = await this.$axios.$post('/billing/balance-limit', {
 					unit_limit: this.balance_limit,
 					auto_recharge: true,
-					recharge_amount:this.auto_recharge_amount
+					recharge_amount: this.auto_recharge_amount
 				});
-
-				console.log(response_data.data);
 
 				switch (response_data.data.payment_type) {
 					case('paystack'): {
-						window.location.href = response_data.data.url;
+
+						await Swal.fire({
+							title: 'You are about to add your card!',
+							text: "Please note that we would need to attempt to debit your card, but the amount would be added to your wallet.",
+							icon: 'warning',
+							showCancelButton: true,
+							confirmButtonColor: '#3085d6',
+							cancelButtonColor: '#d33',
+							confirmButtonText: 'Proceed'
+						}).then(async (result) => {
+							if (result.value) {
+								window.location.href = response_data.data.url;
+							}
+						});
 						break;
 					}
 					case('stripe'): {
-						 this.$stripe.import().redirectToCheckout({
+						this.$stripe.import().redirectToCheckout({
 							sessionId: response_data.data.id
 						}).then(function (result) {
 							this.$toast.error(result.error.message)
@@ -199,15 +224,20 @@ export default {
 						break;
 					}
 				}
+			} catch (e) {
+				let errors = e.response.data.errors;
+				for (let key in errors) {
+					errors[key].forEach(err => {
+						this.$toast.error(err);
+					});
+				}
 			}
-			catch (e) {
+		},
 
-			}
-		}
-
-	},
+},
 	mounted() {
 		this.getTopDetails();
+		this.fetch();
 	}
 }
 </script>

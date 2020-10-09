@@ -43,7 +43,7 @@
                 <i class="entypo-basket"></i> Invoice
               </nuxt-link>
             </li>
-            <li><nuxt-link to="/billing/set-balance-limit"><i class="entypo-key"></i> Alert <span class="badge badge-sm badge-sidebar">New</span></nuxt-link></li>
+            <li><nuxt-link to="/billing/balance-limit"><i class="entypo-key"></i> Alert <span class="badge badge-sm badge-sidebar">New</span></nuxt-link></li>
           </template>
         </Dropdown>
         <!-- BEGIN SIDEBAR MENU ITEMS-->
