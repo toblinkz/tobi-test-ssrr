@@ -31,16 +31,16 @@ export const getters = {
 	}
 }
 
-export const state = () => ({
-  email:'',
-  password:'',
-  phone_book_id:'',
-		bulk_sms_id:'',
-  campaign_report_created: '',
-	 successful_payment_url: '',
-  view_verify_page: 'false',
-		first_name: ''
-});
+	export const state = () => ({
+			email:'',
+			password:'',
+			phone_book_id:'',
+			bulk_sms_id:'',
+			campaign_report_created: '',
+			successful_payment_url: '',
+			view_verify_page: 'false',
+			first_name: ''
+	});
 
 export const mutations = {
 
