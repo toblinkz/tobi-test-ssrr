@@ -105,7 +105,7 @@ import CryptoJs from 'crypto-js';
 
 import Switches from 'vue-switches';
 export default {
-	name: "set-unit-limit",
+	name: "balance-limit",
 	middleware: 'auth',
 	components: {DashboardNavbar, Sidebar, Switches},
 	data(){
@@ -192,7 +192,7 @@ export default {
 		async process() {
 			try {
 				let response_data = await this.$axios.$post('/billing/balance-limit', {
-					unit_limit: this.balance_limit,
+					balance_limit: this.balance_limit,
 					auto_recharge: true,
 					recharge_amount: this.auto_recharge_amount
 				});
