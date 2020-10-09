@@ -157,7 +157,7 @@
 												password: '',
 											 upload_button_text:'Upload',
 											 error_message:[],
-            sectors:[],
+											 sectors : [],
             selected_country: '',
             selected_sector: '',
 												user_image: '',
@@ -288,7 +288,7 @@
         },
 
       },
-      mounted() {
+      beforeMount() {
 							if(this.$store.state.view_verify_page === 'true'){
 								this.$modal.show('verification-id-modal');
 							}else{
