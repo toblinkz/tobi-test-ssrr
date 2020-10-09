@@ -312,6 +312,7 @@ export default {
 						this.$store.commit('setEmail', this.email);
 						this.$store.commit('setPassword', this.password);
 						this.$store.commit('setViewVerificationPage', 'true');
+						this.$store.state.auth.loggedIn = true;
 						await this.$router.push({ name: 'index', });
 					}else {
 						let errors = e.response.data.errors;
