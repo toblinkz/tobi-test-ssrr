@@ -104,7 +104,7 @@
       </div>
     </div>
     <DeviceModal  @requested="requested"></DeviceModal>
-
+				<VerificationModal></VerificationModal>
   </div>
 </template>
 
@@ -115,11 +115,12 @@
 	import Swal from "sweetalert2";
 	import {mapGetters} from "vuex";
 	import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
+	import VerificationModal from "~/components/modals/VerificationModal";
 
 	export default {
 		     name: "devices",
 		     middleware: 'auth',
-      components: {TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
+      components: {VerificationModal, TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
       data(){
           return{
             response_data:[],
@@ -194,7 +195,12 @@
         }
       },
       mounted() {
-          this.fetch();
+							if(this.$store.state.view_verify_page === 'true'){
+								this.$modal.show('verification-id-modal');
+							}else {
+								this.fetch();
+							}
+
       }
     }
 </script>

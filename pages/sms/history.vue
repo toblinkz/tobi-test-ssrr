@@ -124,6 +124,7 @@
     </div>
 			<ExportModal></ExportModal>
     <SmsHistoryModal v-if="showSmsModal" @close="closeModal" :sms_id="sms_history_id"></SmsHistoryModal>
+			<VerificationModal></VerificationModal>
     </div>
 </template>
 
@@ -137,10 +138,12 @@
 				import SmsHistoryChart from "../../components/general/charts/SmsHistoryChart";
 				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 				import ExportModal from "../../components/modals/SmsHistoryExportModal";
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "history",
 					 middleware: 'auth',
       components: {
+							VerificationModal,
 							ExportModal,
 							TableVuePlaceHolder,
 							Pagination, SmsHistoryModal, DashboardNavbar, Sidebar, DatePicker,  SmsHistoryChart},
@@ -163,8 +166,11 @@
           }
       },
       mounted() {
-							this.getSmsHistory();
-
+							if(this.$store.state.view_verify_page === 'true'){
+								this.$modal.show('verification-id-modal');
+							}else {
+								this.getSmsHistory();
+							}
 
       },
 					computed:{
@@ -255,7 +261,8 @@
           this.sms_history_id = row.id;
           this.showSmsModal = true;
 							}
-      }
+      },
+
     }
 </script>
 

@@ -106,6 +106,7 @@
 						</main>
 					</div>
 				</div>
+				<VerificationModal></VerificationModal>
 			</div>
 		</div>
 	</div>
@@ -122,11 +123,12 @@ import Swal from "sweetalert2";
 import {mapGetters} from "vuex";
 import Fuse from 'fuse.js'
 import { createPopper } from '@popperjs/core';
+import VerificationModal from "~/components/modals/VerificationModal";
 
 export default {
 	name: "import-contacts",
 	middleware: 'auth',
-	components: {CustomSelect, DashboardNavbar, Sidebar, vSelect},
+	components: {VerificationModal, CustomSelect, DashboardNavbar, Sidebar, vSelect},
 	data(){
 		return{
 			placement: 'top',
@@ -265,9 +267,14 @@ export default {
 
 
 	},
-	mounted() {
-		this.fetch();
-	}
+		mounted() {
+			if(this.$store.state.view_verify_page === 'true'){
+				this.$modal.show('verification-id-modal');
+			}else {
+				this.fetch();
+			}
+
+		}
 }
 </script>
 

@@ -87,6 +87,7 @@
         </div>
         <!-- /page container -->
       </div>
+					<VerificationModal></VerificationModal>
     </div>
   </div>
 </template>
@@ -94,10 +95,16 @@
 <script>
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "select-type",
-      components: {DashboardNavbar, Sidebar}
-    }
+      components: {VerificationModal, DashboardNavbar, Sidebar},
+					mounted() {
+						if(this.$store.state.view_verify_page === 'true'){
+							this.$modal.show('verification-id-modal');
+						}
+					}
+				}
 </script>
 
 <style scoped>

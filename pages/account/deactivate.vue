@@ -61,6 +61,7 @@
             </div>
           </div>
         </div>
+									<VerificationModal></VerificationModal>
       </div>
     </div>
   </div>
@@ -72,9 +73,10 @@
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import ApiNavbar from "../../components/general/navbar/ApiNavbar";
     import Swal from "sweetalert2";
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "deactivate",
-      components: {ApiNavbar, DashboardNavbar, Sidebar},
+      components: {VerificationModal, ApiNavbar, DashboardNavbar, Sidebar},
 					middleware: 'auth',
       data(){
           return{
@@ -142,7 +144,9 @@
         }
       },
       mounted() {
-
+							if(this.$store.state.view_verify_page === 'true'){
+								this.$modal.show('verification-id-modal');
+							}
       }
     }
 </script>

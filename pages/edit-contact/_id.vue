@@ -91,6 +91,7 @@
           </div>
         </div>
       </div>
+					<VerificationModal></VerificationModal>
     </div>
   </div>
 </template>
@@ -100,10 +101,11 @@
   import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
   import {mapGetters} from "vuex";
   import ButtonSpinner from "../../components/general/ButtonSpinner";
+		import VerificationModal from "~/components/modals/VerificationModal";
   export default {
     name: "_id",
 			 middleware: 'auth',
-    components: {ButtonSpinner, DashboardNavbar, Sidebar},
+    components: {VerificationModal, ButtonSpinner, DashboardNavbar, Sidebar},
     data(){
       return{
         phone_number: '',
@@ -168,7 +170,12 @@
       }
     },
     mounted() {
-			  this.fetch();
+					if(this.$store.state.view_verify_page === 'true') {
+						this.$modal.show('verification-id-modal');
+					}else {
+						this.fetch();
+					}
+
     },
 
   }

@@ -87,20 +87,18 @@
           <div class="due">{{total}}</div>
         </td>
       </tr>
-
     </table>
-
-
-
   </div>
 
 </template>
 
 <script>
 
-    export default {
+    import VerificationModal from "~/components/modals/VerificationModal";
+				export default {
         name: "_id",
-					   middleware: 'auth',
+					components: {VerificationModal},
+					middleware: 'auth',
 
       data(){
           return{
@@ -140,7 +138,12 @@
         },
       },
       mounted() {
-          this.getBillingInvoiceById();
+							if(this.$store.state.view_verify_page === 'true') {
+								this.$modal.show('verification-id-modal');
+							}else {
+								this.getBillingInvoiceById();
+							}
+
       },
 
 

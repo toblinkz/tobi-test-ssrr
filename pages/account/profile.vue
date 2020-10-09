@@ -126,6 +126,7 @@
           </div>
         </div>
       </div>
+					<VerificationModal></VerificationModal>
     </div>
   </div>
 </template>
@@ -139,26 +140,27 @@
     import {mapGetters} from "vuex";
     import S3 from 'aws-s3';
     import Swal from 'sweetalert2';
+				import VerificationModal from "~/components/modals/VerificationModal";
 
     export default {
         name: "profile",
 					middleware: 'auth',
-        components: {SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
+        components: {VerificationModal, SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
 
         data(){
           return{
-            first_name: this.$store.state.auth.user.fname,
-            last_name:  this.$store.state.auth.user.lname,
-            email:  this.$store.state.auth.user.email,
-            phone_number:  this.$store.state.auth.user.phone,
+            first_name:'',
+            last_name:  '',
+            email:  '',
+            phone_number:  '',
 											 hasPasswordError: false,
 												password: '',
 											 upload_button_text:'Upload',
 											 error_message:[],
-            sectors:[this.$store.state.auth.user.company_sector.name],
-            selected_country: this.$store.state.auth.user.country.toString(),
-            selected_sector: this.$store.state.auth.user.company_sector.id.toString(),
-												user_image: this.$store.state.auth.user.image,
+            sectors:[],
+            selected_country: '',
+            selected_sector: '',
+												user_image: '',
             image_url: this.image_url,
             dropdownStyle: {
               borderRadius: '5px',
@@ -287,8 +289,20 @@
 
       },
       mounted() {
-          this.fetchUtilityData();
-          console.log(this.$store.state.auth.user.fname)
+							if(this.$store.state.view_verify_page === 'true'){
+								this.$modal.show('verification-id-modal');
+							}else{
+								 this.first_name = this.$store.state.auth.user.fname;
+									this.last_name = this.$store.state.auth.user.lname;
+									this.email = this.$store.state.auth.user.email;
+							  this.selected_country = this.$store.state.auth.user.country.toString();
+									this.selected_sector = this.$store.state.auth.user.company_sector.id.toString();
+									this.user_image = this.$store.state.auth.user.image;
+									this.phone_number =  this.$store.state.auth.user.phone;
+								 this.sectors = [this.$store.state.auth.user.company_sector.name];
+								this.fetchUtilityData();
+							}
+
       }
     }
 </script>

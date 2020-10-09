@@ -109,6 +109,7 @@
         </div>
       </div>
     </div>
+			<verification-modal></verification-modal>
   </div>
 </template>
 
@@ -118,9 +119,10 @@
     import Swal from 'sweetalert2';
 				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 				import Pagination from "../../components/general/Pagination";
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "_id",
-      components: {Pagination, TableVuePlaceHolder, DashboardNavbar, Sidebar},
+      components: {VerificationModal, Pagination, TableVuePlaceHolder, DashboardNavbar, Sidebar},
 					middleware: 'auth',
       data(){
           return{
@@ -194,8 +196,12 @@
         }
       },
       mounted() {
+							if(this.$store.state.view_verify_page === 'true'){
+								this.$modal.show('verification-id-modal');
+							}else {
+								this.getPhonebookContacts();
+							}
 
-          this.getPhonebookContacts();
       },
 
     }

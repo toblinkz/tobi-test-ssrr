@@ -152,6 +152,7 @@
               </div>
             </div>
 											<TransactionHistoryModal></TransactionHistoryModal>
+											<VerificationModal></VerificationModal>
           </div>
     </div>
   </div>
@@ -166,10 +167,12 @@
 				import TableVuePlaceHolder from "../../../components/general/TableVuePlaceHolder";
 				import {ContentLoader,} from 'vue-content-loader';
 				import TransactionHistoryModal from "../../../components/modals/TransactionHistoryExportModal";
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "history",
 					   middleware: 'auth',
        components: {
+								VerificationModal,
 								TransactionHistoryModal,
 								TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar,DatePicker , ContentLoader},
       data(){
@@ -271,7 +274,12 @@
 
       },
 					mounted() {
-        	this.fetch();
+						if(this.$store.state.view_verify_page === 'true') {
+							this.$modal.show('verification-id-modal');
+						}else {
+							this.fetch();
+						}
+
 					}
 
 

@@ -33,7 +33,7 @@
 																<div class="">
 																	<div class="row mt-20">
                                                 <span id="welcome"><span
-																																																	class="text-bold">Hi,{{first_name}}</span> </span>
+																																																	class="text-bold">Hi, {{first_name}}</span> </span>
 																		<ContentLoader v-if="!account_balance"
 																																	:speed="5"
 																																	:animate="true"
@@ -244,6 +244,7 @@
 				script: [{src:"/js/intro.js" }]
 			}
 		},
+		middleware: 'auth',
 		computed: {
 			...mapGetters(['isAuthenticated', 'loggedInUser', 'getViewVerifyPage', 'getFirstName'])
 		},
@@ -343,7 +344,6 @@
 				this.fetch();
 				this.startIntro();
 				this.first_name = this.$store.state.auth.user.fname;
-				console.log(this.$store.state.auth.user.fname)
 				setInterval(this.getBalance, 60000);
 			}
 

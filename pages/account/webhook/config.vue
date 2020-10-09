@@ -88,6 +88,7 @@
           </div>
         </div>
       </div>
+					<VerificationModal></VerificationModal>
     </div>
   </div>
 </template>
@@ -97,13 +98,14 @@
     import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
     import ApiNavbar from "../../../components/general/navbar/ApiNavbar";
     import Swal from "sweetalert2";
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "config",
-      components: {ApiNavbar, DashboardNavbar, Sidebar},
+      components: {VerificationModal, ApiNavbar, DashboardNavbar, Sidebar},
 					 middleware: 'auth',
       data(){
           return {
-            live_webhook:this.$store.state.auth.user.customer.live_webhook_url,
+            live_webhook: '',
             test_webhook: '',
             error_message: [],
             hasLiveWebhookError: false,
@@ -159,6 +161,13 @@
 								}
 							}
       },
+					mounted() {
+						if(this.$store.state.view_verify_page === 'true'){
+							this.$modal.show('verification-id-modal');
+						}else {
+							this.live_webhook = this.$store.state.auth.user.customer.live_webhook_url;
+						}
+					}
 				}
 </script>
 

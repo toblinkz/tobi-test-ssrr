@@ -109,6 +109,7 @@
       </div>
     </div>
     <SenderIdModal  @requested="requested"></SenderIdModal>
+				<VerificationModal></VerificationModal>
   </div>
 </template>
 
@@ -128,10 +129,12 @@
 				} from 'vue-content-loader'
 				import ButtonSpinner from "../../components/general/ButtonSpinner";
 				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "sender-id-management",
 					   middleware: 'auth',
       components: {
+							VerificationModal,
 							TableVuePlaceHolder,
 							ButtonSpinner,
 							Pagination, SenderIdModal, DashboardNavbar, Sidebar, ListLoader, FacebookLoader, ContentLoader,BulletListLoader},
@@ -189,7 +192,12 @@
         }
       },
      mounted() {
-       this.fetch();
+						if(this.$store.state.view_verify_page === 'true'){
+							this.$modal.show('verification-id-modal');
+						}else {
+							this.fetch();
+						}
+
      },
       pageClass(){
           return 'page-item'

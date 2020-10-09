@@ -51,6 +51,7 @@
 					</div>
 				</div>
 			</div>
+			<verification-modal></verification-modal>
 		</div>
 	</div>
 </template>
@@ -59,11 +60,12 @@
 import Sidebar from "../components/general/Sidebar";
 import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
 import {mapGetters} from "vuex";
+import VerificationModal from "~/components/modals/VerificationModal";
 
 export default {
 	name: "successful-payment",
 	middleware: 'auth',
-	components: { DashboardNavbar, Sidebar},
+	components: {VerificationModal, DashboardNavbar, Sidebar},
 	data(){
 		return{
 			name:"successful-payment",
@@ -79,10 +81,12 @@ export default {
 				window.location.href = this.getSuccessfulPaymentUrl;
 		}
 
-
 	},
-	mounted() {
-	}
+		mounted() {
+			if(this.$store.state.view_verify_page === 'true'){
+				this.$modal.show('verification-id-modal');
+			}
+		}
 }
 </script>
 

@@ -72,6 +72,7 @@
             </main>
           </div>
           <notifications group="error" ignoreDuplicates="true" position="top center"/>
+									<VerificationModal></VerificationModal>
         </div>
       </div>
     </div>
@@ -82,10 +83,11 @@
     import Sidebar from "../../../components/general/Sidebar";
     import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
 				import Swal from "sweetalert2";
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
 					  name: "subscriptions",
 					  middleware: 'auth',
-       components: {DashboardNavbar, Sidebar},
+       components: {VerificationModal, DashboardNavbar, Sidebar},
        data(){
           return{
             device_name: this.$route.params.name,
@@ -154,8 +156,13 @@
         }
       },
       mounted() {
-							this.page_url = window.location.href
-							this.fetch();
+							if(this.$store.state.view_verify_page === 'true') {
+								this.$modal.show('verification-id-modal');
+							}else {
+								this.page_url = window.location.href
+								this.fetch();
+							}
+
       },
 
     }
