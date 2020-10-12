@@ -136,9 +136,6 @@
 					beforeMount() {
         	if (this.$store.state.auth.user.active_status_id.id ===  6){
 														this.show_drop_down = false;
-														console.log(this.show_drop_down)
-									}else {
-        		console.log(this.$store.state.auth.user.active_status_id.id)
 									}
 
 					}
