@@ -104,7 +104,7 @@
       </div>
     </div>
     <DeviceModal  @requested="requested"></DeviceModal>
-
+			<InActiveSenderIdModal></InActiveSenderIdModal>
   </div>
 </template>
 
@@ -115,11 +115,12 @@
 	import Swal from "sweetalert2";
 	import {mapGetters} from "vuex";
 	import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
+	import InActiveSenderIdModal from "~/components/modals/InActiveSenderIdModal";
 
 	export default {
 		     name: "devices",
-		     middleware: 'auth',
-      components: {TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
+		     middleware: ['auth',],
+      components: {InActiveSenderIdModal, TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
       data(){
           return{
             response_data:[],
@@ -167,7 +168,12 @@
 
         },
         showModal(){
-          this.$modal.show('device-id-modal');
+        	if (this.$store.state.auth.user.active_status_id.id ===  6){
+										this.$modal.show('in-active-user-modal');
+									}else {
+										this.$modal.show('device-id-modal');
+									}
+
         },
         requested(){
           this.fetch();

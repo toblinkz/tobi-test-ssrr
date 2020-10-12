@@ -142,7 +142,7 @@
 
     export default {
         name: "group-sms",
-					middleware: 'auth',
+					middleware: ['auth', 'inactive_user'],
       components: {CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, DatePicker, vSelect},
       data(){
           return{

@@ -146,7 +146,7 @@
   export default {
         name: "all",
       components: {TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar},
-			   middleware: 'auth',
+			   middleware: ['auth', 'inactive_user'],
       data(){
           return{
             all_invoice :[],

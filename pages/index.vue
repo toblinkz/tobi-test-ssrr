@@ -324,6 +324,7 @@
 
 		},
 		mounted: function () {
+
 			this.startIntro();
 			this.fetch();
 			setInterval(this.getBalance, 60000);

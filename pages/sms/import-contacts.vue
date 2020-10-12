@@ -125,7 +125,7 @@ import { createPopper } from '@popperjs/core';
 
 export default {
 	name: "import-contacts",
-	middleware: 'auth',
+	middleware: ['auth', 'inactive_user'],
 	components: {CustomSelect, DashboardNavbar, Sidebar, vSelect},
 	data(){
 		return{

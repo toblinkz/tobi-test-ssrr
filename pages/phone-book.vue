@@ -163,7 +163,7 @@
 
 	export default {
 		name: "phone-book",
-		middleware: 'auth',
+		middleware: ['auth', 'inactive_user'],
 		components: {TableVuePlaceHolder, Pagination, EditPhoneBookModal, DashboardNavbar, Sidebar},
 		data(){
 			return{

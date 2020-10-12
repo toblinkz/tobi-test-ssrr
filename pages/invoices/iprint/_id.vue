@@ -100,7 +100,7 @@
 
     export default {
         name: "_id",
-					   middleware: 'auth',
+					   middleware: ['auth', 'inactive_user'],
 
       data(){
           return{

@@ -119,9 +119,9 @@
 				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 				import Pagination from "../../components/general/Pagination";
     export default {
-        name: "_id",
+					 name: "_id",
       components: {Pagination, TableVuePlaceHolder, DashboardNavbar, Sidebar},
-					middleware: 'auth',
+					 middleware: ['auth', 'inactive_user'],
       data(){
           return{
               phone_book_contacts:[],

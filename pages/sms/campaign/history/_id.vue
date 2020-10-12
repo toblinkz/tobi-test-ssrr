@@ -126,7 +126,7 @@
 				import Pagination from "../../../../components/general/Pagination";
     export default {
         name: "manage-campaign",
-					   middleware: 'auth',
+					   middleware: ['auth', 'inactive_user'],
 								components: {Pagination, PieChartPlaceHolder, TableVuePlaceHolder, ManageCampaignChart, DashboardNavbar, Sidebar},
 								computed:{
 										...mapGetters(['getCampaignCreatedDate'])

@@ -100,7 +100,7 @@
     export default {
         name: "config",
       components: {ApiNavbar, DashboardNavbar, Sidebar},
-					 middleware: 'auth',
+					 middleware: ['auth', 'inactive_user'],
       data(){
           return {
             live_webhook:this.$store.state.auth.user.customer.live_webhook_url,
