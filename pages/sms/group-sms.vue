@@ -142,7 +142,7 @@
 
     export default {
         name: "group-sms",
-					middleware: 'auth',
+					middleware: ['auth', 'inactive_user'],
       components: {CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, DatePicker, vSelect},
       data(){
           return{
@@ -248,7 +248,8 @@
 											icon: 'success',
 											title: `${data.message}`,
 											showConfirmButton: true,
-										})
+										});
+										this.message = '';
 									}catch (e) {
 												this.$toast.error("Something went wrong. Try again!");
 									}

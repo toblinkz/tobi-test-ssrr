@@ -119,7 +119,7 @@
 				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
     export default {
         name: "campaign-reports",
-				   	middleware: 'auth',
+				   	middleware: ['auth', 'inactive_user'],
         components: {TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar, DatePicker},
       data(){
           return{

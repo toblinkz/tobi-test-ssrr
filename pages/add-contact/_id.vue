@@ -102,7 +102,7 @@
 				import {mapGetters} from "vuex";
     export default {
         name: "add-contact",
-					   middleware: 'auth',
+					   middleware: ['auth', 'inactive_user'],
       components: {SearchDropdown, DashboardNavbar, Sidebar},
       data(){
           return{

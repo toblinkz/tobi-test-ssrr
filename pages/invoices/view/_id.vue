@@ -33,12 +33,12 @@
                         <div class="m-t-20">
                           <h3 class="panel-title">Invoice To: </h3>
                           <br>
-                          <h3 class="invoice-to-client-name">Termii Webtech</h3>
+                          <h3 class="invoice-to-client-name">{{ first_name }} {{ last_name }}</h3>
                         </div>
                         <address>
-                          Phone: 08109477743
+                          Phone: {{ phone_number }}
                           <br>
-                          Email: tech@termii.com
+                          Email: {{ email }}
                         </address>
                       </div>
                       <div class="col-lg-6 col-md-3 col-sm-3 col-xs-12">
@@ -88,10 +88,10 @@
                         <tbody>
                         <tr>
                           <td data-label="Item">1</td>
-                          <td data-label="Price">{{item}}</td>
-                          <td data-label="Quantity">{{quantity}}</td>
-                          <td data-label="Total">{{total}}</td>
-                          <td data-label="Subtotal">{{subtotal}}</td>
+                          <td >{{item}}</td>
+                          <td >{{total}}</td>
+                          <td >{{quantity}}</td>
+                          <td >{{total}}</td>
                         </tr>
                         </tbody>
                       </table>
@@ -143,7 +143,7 @@
     import PayInvoiceComponent from "../../../components/modals/PayInvoiceComponent";
     export default {
         name: "view",
-					  middleware: 'auth',
+					  middleware: ['auth', 'inactive_user'],
       components: {PayInvoiceComponent, DashboardNavbar, Sidebar},
       data(){
           return{
@@ -155,6 +155,10 @@
             invoice_date:'',
 											 page_url: '',
             item:'',
+											first_name: this.$store.state.auth.user.fname,
+											last_name:  this.$store.state.auth.user.lname,
+											email:  this.$store.state.auth.user.email,
+											phone_number:  this.$store.state.auth.user.phone,
             price:'',
             quantity:'',
             subtotal:'',
@@ -173,6 +177,7 @@
 											this.invoice_no = data.id;
 											this.invoice_due_date = data.duedate;
 											this.invoice_paid_date = data.datepaid;
+											this.subtotal = data.subtotal;
 											this.invoice_status = data.status;
 											this.invoice_date = data.created;
 											this.item = inv_item.item;

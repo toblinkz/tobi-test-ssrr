@@ -102,7 +102,7 @@
   import ButtonSpinner from "../../components/general/ButtonSpinner";
   export default {
     name: "_id",
-			 middleware: 'auth',
+			 middleware: ['auth', 'inactive_user'],
     components: {ButtonSpinner, DashboardNavbar, Sidebar},
     data(){
       return{

@@ -171,7 +171,7 @@
 				import {ContentLoader,} from 'vue-content-loader';
     export default {
         name: "funding",
-					   middleware: 'auth',
+					   middleware: ['auth','inactive_user'],
         components: {MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
        data() {
           return {

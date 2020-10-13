@@ -126,7 +126,7 @@
     export default {
         name: "quick-sms",
       components: {CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, vSelect},
-					middleware: 'auth',
+					middleware: ['auth', 'inactive_user'],
       data(){
           return{
             sms_channels: [],
@@ -159,7 +159,7 @@
        	if (value.length < 1){
        			this.total_no_of_recipients = 0;
 									}else{
-									this.total_no_of_recipients = this.splitMultipleValues(value, [',','\n',';','|',' ']).length
+									this.total_no_of_recipients = this.splitMultipleValues(value, [',','\n',';','|']).length
 								}
 
        	},
@@ -207,11 +207,11 @@
 													channel: this.selected_sms_channel,
 													message_type: this.selected_message_type.toLowerCase(),
 													country_code : this.selected_country_code.substring(1),
-													recipients: this.splitMultipleValues(this.phone_numbers, [',','\n',';','|',' '])
+													recipients: this.splitMultipleValues(this.phone_numbers, [',','\n',';','|'])
 												});
 												this.$toast.success("Message successfully sent");
+												this.clearFields();
 											}catch (e) {
-
 												let errors = e.response.data.errors;
 												for(let key in errors){
 													errors[key].forEach(err => {
@@ -220,6 +220,10 @@
 												}
 											}
 
+							},
+							clearFields(){
+          	this.message = '';
+								   this.phone_numbers = [];
 							},
 							splitMultipleValues(str, tokens){
           	var tempChar = tokens[0];

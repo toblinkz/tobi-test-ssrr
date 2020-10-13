@@ -32,10 +32,10 @@
         </li>
         <Dropdown>
           <template v-slot:dropdown_title>
-            <a  class="dropdown-toggle color-a btn-primary btn-cons bord"><span class="menu-text"><i class="entypo-cc"></i> Wallet
+            <a  class="dropdown-toggle color-a btn-primary btn-cons bord" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-cc"></i> Wallet
 									    <i class="caret"></i></span> <span class="badge badge-sm">New</span></a>
           </template>
-          <template v-slot:dropdown_menu>
+          <template v-slot:dropdown_menu v-if="show_drop_down">
             <li><nuxt-link to="/billing/fund"><i class="entypo-credit-card"></i> Top Up</nuxt-link></li>
             <li><nuxt-link to="/billing/transactions/history" ><i class="entypo-flow-tree"></i> History</nuxt-link></li>
             <li>
@@ -60,25 +60,25 @@
         </Dropdown>
         <Dropdown>
           <template v-slot:dropdown_title>
-            <a data-toggle="dropdown" class="dropdown-toggle color-a"><span class="menu-text"><i class="entypo-users"></i> Add Contacts
+            <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-users"></i> Add Contacts
 									    <i class="caret"></i></span> <span class="badge badge-sm badge-sidebar">New</span></a>
           </template>
-          <template v-slot:dropdown_menu>
+          <template v-slot:dropdown_menu v-if="show_drop_down">
             <li><nuxt-link to="/phone-book" ><i class="entypo-user-add"></i> Single contacts</nuxt-link></li>
             <li><nuxt-link to="/sms/import-contacts"><i class="entypo-upload"></i> Bulk contacts</nuxt-link></li>
           </template>
         </Dropdown>
-        <li class="padd-x">
+        <li class="padd-x" v-if="show_drop_down">
           <nuxt-link to="/message/select-type" class="color-a level-1">
             <span> <i class="entypo-paper-plane"></i> Compose message</span>
           </nuxt-link>
         </li>
         <Dropdown>
           <template v-slot:dropdown_title>
-            <a data-toggle="dropdown" class="dropdown-toggle color-a"><span class="menu-text"><i class="entypo-chart-line"></i> Delivery Report
+            <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-chart-line"></i> Delivery Report
 									    <i class="caret"></i></span> <span class="badge badge-sm badge-sidebar">New</span></a>
           </template>
-          <template v-slot:dropdown_menu>
+          <template v-slot:dropdown_menu v-if="show_drop_down">
             <li><nuxt-link to="/sms/history" ><i class="entypo-chart-area"></i> Direct Insights</nuxt-link></li>
             <li><nuxt-link to="/sms/campaign-reports"><i class="entypo-chart-pie"></i> Group Insights</nuxt-link></li>
 
@@ -90,10 +90,10 @@
         </div>
         <Dropdown>
           <template v-slot:dropdown_title>
-            <a data-toggle="dropdown" class="dropdown-toggle color-a"><span class="menu-text"><i class="entypo-code"></i> Developers
+            <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-code"></i> Developers
 									    <i class="caret"></i></span></a>
           </template>
-          <template v-slot:dropdown_menu>
+          <template v-slot:dropdown_menu v-if="show_drop_down">
             <li><a href="http://developer.termii.com" ><i class="entypo-code"></i> API Guide</a></li>
             <li><nuxt-link to="/account/api"><i class="entypo-key"></i> Api console</nuxt-link></li>
           </template>
@@ -121,15 +121,24 @@
         name: "sidebar",
 					   middleware: 'auth',
         components: { Dropdown},
-					data(){
+				  	data(){
         	return{
-													imageUrl: this.$store.state.auth.user.image
+													imageUrl: this.$store.state.auth.user.image,
+													show_drop_down: true
 									}
 					},
       computed: {
-        ...mapGetters(['loggedInUser'])
+        ...mapGetters(['loggedInUser']),
+							isDisabled: function (){
+        	return(!this.show_drop_down)
+							}
       },
+					beforeMount() {
+        	if (this.$store.state.auth.user.active_status_id.id ===  6){
+														this.show_drop_down = false;
+									}
 
+					}
 
 
 				}
@@ -162,6 +171,7 @@
     border-radius: 5px 0px 0px 5px !important;
     border: none !important;
   }
+
   .caret {
     font-style: normal;
     font-weight: normal;
