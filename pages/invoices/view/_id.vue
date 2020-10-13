@@ -91,7 +91,7 @@
                           <td >{{item}}</td>
                           <td >{{total}}</td>
                           <td >{{quantity}}</td>
-                          <td >{{subtotal}}</td>
+                          <td >{{total}}</td>
                         </tr>
                         </tbody>
                       </table>
@@ -143,7 +143,7 @@
     import PayInvoiceComponent from "../../../components/modals/PayInvoiceComponent";
     export default {
         name: "view",
-					  middleware: 'auth',
+					  middleware: ['auth', 'inactive_user'],
       components: {PayInvoiceComponent, DashboardNavbar, Sidebar},
       data(){
           return{
@@ -177,6 +177,7 @@
 											this.invoice_no = data.id;
 											this.invoice_due_date = data.duedate;
 											this.invoice_paid_date = data.datepaid;
+											this.subtotal = data.subtotal;
 											this.invoice_status = data.status;
 											this.invoice_date = data.created;
 											this.item = inv_item.item;

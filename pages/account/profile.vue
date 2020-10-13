@@ -142,7 +142,7 @@
 
     export default {
         name: "profile",
-					middleware: 'auth',
+					middleware: ['auth', 'inactive_user'],
         components: {SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
 
         data(){
@@ -288,7 +288,7 @@
       },
       mounted() {
           this.fetchUtilityData();
-          console.log(this.$store.state.auth.user.fname)
+
       }
     }
 </script>

@@ -48,7 +48,7 @@
 								data(){
         	return{
 										date_time: null,
-										no_of_records: '',
+										no_of_records: 100,
 										isLoading: false,
 										transaction_type:'All',
 										exportUrl: '',

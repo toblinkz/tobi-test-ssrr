@@ -15,7 +15,7 @@ export default async function ({ app }) {
 
 		if (idle_time > 59) {
 			 await $auth.logout();
-		 	$nuxt.$router.push({name: 'login'});
+		 	await $nuxt.$router.push({name: 'login'});
 			 clearInterval(idleInterval);
 		}
 		if (used_time > 58 && idle_time === 1){
@@ -26,6 +26,7 @@ export default async function ({ app }) {
 			 $auth.setRefreshToken(strategy, refreshToken); // set refresh token
 			 location.reload();
 			 clearInterval(idleInterval);
+			 clearInterval(used_time);
 		}
 
 	}, 60000); // 1 minute

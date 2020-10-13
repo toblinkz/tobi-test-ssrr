@@ -97,7 +97,7 @@
     export default {
         name: "api",
       components: {ApiNavbar, Main, DashboardNavbar, Sidebar, VueClipboard },
-					 middleware: 'auth',
+					 middleware: ['auth', 'inactive_user'],
       data(){
         return{
         	password:'',
