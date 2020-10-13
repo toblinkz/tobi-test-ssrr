@@ -168,7 +168,7 @@
 				import TransactionHistoryModal from "../../../components/modals/TransactionHistoryExportModal";
     export default {
         name: "history",
-					   middleware: 'auth',
+					   middleware: ['auth', 'inactive_user'],
        components: {
 								TransactionHistoryModal,
 								TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar,DatePicker , ContentLoader},

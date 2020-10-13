@@ -104,7 +104,7 @@
       </div>
     </div>
     <DeviceModal  @requested="requested"></DeviceModal>
-
+			<InActiveSenderIdModal></InActiveSenderIdModal>
   </div>
 </template>
 
@@ -115,11 +115,12 @@
 	import Swal from "sweetalert2";
 	import {mapGetters} from "vuex";
 	import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
+	import InActiveSenderIdModal from "~/components/modals/InActiveSenderIdModal";
 
 	export default {
 		     name: "devices",
-		     middleware: 'auth',
-      components: {TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
+		     middleware: ['auth',],
+      components: {InActiveSenderIdModal, TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
       data(){
           return{
             response_data:[],
@@ -155,22 +156,24 @@
             $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
           $('#qr-code').attr("disabled", true);
 
-          let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${this.$auth.getToken('local').substring(7)}`
-          url = url.replace(':slug', device_id);
+           let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${this.$auth.getToken('local').substring(7)}`
+          	 url = url.replace(':slug', device_id);
 
-          $.get(url, function (data, status) {
+          // $.get(url, function (data, status) {
               Swal.fire({
                 title:"<h2>Scan QR Code</br><p>To use WhatsApp on your phone, tap settings icon and select WhatsApp Web</p></h2>",
                 html: `<img src="${url}" alt="Try again">`,
                 confirmButtonText: "Close",
               });
-          }).done(function () {
-            $('#qr-code').html('<i class="fa fa-barcode" style="color: #fff;"></i>');
-            $('#qr-code').attr("disabled", false);
-          })
+
         },
         showModal(){
-          this.$modal.show('device-id-modal');
+        	if (this.$store.state.auth.user.active_status_id.id ===  6){
+										this.$modal.show('in-active-user-modal');
+									}else {
+										this.$modal.show('device-id-modal');
+									}
+
         },
         requested(){
           this.fetch();

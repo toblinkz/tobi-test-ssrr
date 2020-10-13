@@ -74,7 +74,7 @@ export default {
 			 '@nuxtjs/auth',
     '@nuxtjs/toast',
 			['nuxt-stripe-module', {
-				publishableKey: 'pk_test_nueC1m5g6hJZsKLIPjFIExWj00J4L2PZkP',
+				publishableKey: process.env.STRIPE_PK,
 			}],
   ],
 
@@ -97,7 +97,7 @@ export default {
 		cookie: {
 			prefix: 'auth.',
 			options: {
-				maxAge: 600
+				maxAge: 3600
 			}
 		},
 		redirect:{
@@ -115,7 +115,11 @@ export default {
 				}
 			}
 			},
-		plugins: [{ src: '~/plugins/auth.js', mode: 'client' }]
+		plugins: ['~/plugins/axios.js', { src: '~/plugins/auth.js', mode: 'client' }]
+	},
+	//added env object in other to access API_BASE_URL variable in .env file
+	env: {
+			apiBaseUrl: process.env.API_BASE_URL
 	},
 
 

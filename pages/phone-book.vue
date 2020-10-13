@@ -105,7 +105,7 @@
 																</tr>
 																</thead>
 																<tbody>
-																<tr v-for="(row, index) in filteredPhonebook" :key="row.id" v-show="filteredPhonebook.length > 1">
+																<tr v-for="(row, index) in filteredPhonebook" :key="row.id" v-show="filteredPhonebook.length > 0">
 																	<td>
 																		<p>{{index + 1}}</p>
 																	</td>
@@ -163,7 +163,7 @@
 
 	export default {
 		name: "phone-book",
-		middleware: 'auth',
+		middleware: ['auth', 'inactive_user'],
 		components: {TableVuePlaceHolder, Pagination, EditPhoneBookModal, DashboardNavbar, Sidebar},
 		data(){
 			return{
@@ -225,6 +225,7 @@
 						});
 					await this.getPhoneBook();
 					this.$toast.success("Phone book added successfully");
+					await this.getPhoneBook();
 				} catch (e) {
 					this.error_message = 'Phone-book name already exists';
 					this.hasPhoneBookNameError = true;

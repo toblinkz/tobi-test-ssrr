@@ -96,6 +96,7 @@
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     export default {
         name: "select-type",
+								middleware: ['inactive_user'],
       components: {DashboardNavbar, Sidebar}
     }
 </script>

@@ -139,7 +139,7 @@
 				import ExportModal from "../../components/modals/SmsHistoryExportModal";
     export default {
         name: "history",
-					 middleware: 'auth',
+					 middleware: ['auth', 'inactive_user'],
       components: {
 							ExportModal,
 							TableVuePlaceHolder,

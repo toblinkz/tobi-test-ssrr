@@ -84,7 +84,7 @@
 				import Swal from "sweetalert2";
     export default {
 					  name: "subscriptions",
-					  middleware: 'auth',
+					  middleware: ['auth', 'inactive_user'],
        components: {DashboardNavbar, Sidebar},
        data(){
           return{
