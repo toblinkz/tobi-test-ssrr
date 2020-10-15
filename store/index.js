@@ -67,6 +67,9 @@ export const mutations = {
 	},
 	setFirstName(state, first_name){
   	state.first_name = first_name;
+	},
+	setLoggedInState(state, loggedInState){
+		state.auth.loggedIn = loggedInState
 	}
 
 }
