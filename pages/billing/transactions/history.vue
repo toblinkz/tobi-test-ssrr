@@ -170,7 +170,7 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "history",
-					   middleware: 'auth',
+					   middleware: ['auth', 'inactive_user'],
        components: {
 								VerificationModal,
 								TransactionHistoryModal,

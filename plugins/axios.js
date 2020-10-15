@@ -1,3 +1,4 @@
 export default ({  $axios }) => {
-	$axios.defaults.baseURL = process.env.API_BASE_URL
+			// passed apiBaseUrl from env object in nuxt config to axios default base url
+	$axios.defaults.baseURL = process.env.apiBaseUrl;
 }

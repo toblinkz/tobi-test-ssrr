@@ -43,9 +43,12 @@
                                 <button type="submit" class="btn btn-success wd-100 bx-line"><i class="fa fa-search"></i> Search</button>
                               </form>
                               <br />
-                              <form  @submit.prevent="" method="POST">
-                                <button type="submit" class="btn btn-danger wd-100 bx-line" ><i class="fa fa-level-down"></i> Export</button>
-                              </form>
+                              <form  @submit.prevent="getReportDownloadUrl" method="get" role="form">
+                                <button type="submit" class="btn btn-primary wd-100 bx-line" :disabled="isDisabled"><i class="fa fa-level-down" v-show="!isLoading"></i> 	<span v-show="isLoading">
+																																	<img src="/images/spinner.svg" height="20px" width="20px"/>
+																															</span> {{download_report_button_text}}</button>
+																														</form>
+
                             </div>
                           </div>
 
@@ -126,17 +129,19 @@
     export default {
         name: "manage-campaign",
 					   middleware: 'auth',
-								components: {
-									VerificationModal,
-									Pagination, PieChartPlaceHolder, TableVuePlaceHolder, ManageCampaignChart, DashboardNavbar, Sidebar},
+								components: {VerificationModal, Pagination, PieChartPlaceHolder, TableVuePlaceHolder, ManageCampaignChart, DashboardNavbar, Sidebar},
 								computed:{
 										...mapGetters(['getCampaignCreatedDate'])
       },
       data() {
           return{
             manage_campaign_list:[],
+												download_report_button_text: 'Download Campaign Report',
             campaign_id: this.$route.params.id,
+												exportUrlReady: false,
             phone_number:'',
+											isLoading:false,
+											isDisabled:false,
             triggered_date: moment(this.getCampaignCreatedDate).format('lll'),
 											 show_shimmer: false,
 													page: 1,
@@ -173,11 +178,48 @@
 											}
 
           },
+
 							onPageChange(page) {
 								this.page = page;
 								this.show_shimmer = false;
 								this.fetch();
 							},
+
+							async getReportDownloadUrl(){
+
+							try {
+								this.isLoading = true;
+
+								this.isDisabled = true;
+
+								this.download_report_button_text = 'Preparing report for download';
+
+								let data = await this.$axios.$get('sms/export/campaign/'+ this.campaign_id);
+
+								this.isLoading = false;
+
+								this.isDisabled = false;
+
+								this.download_report_button_text = 'Download Campaign Report';
+
+								await Swal.fire({
+									title: 'Your report is ready',
+									icon: 'success',
+									showCancelButton: true,
+									confirmButtonColor: '#3085d6',
+									cancelButtonColor: '#d33',
+									confirmButtonText: 'Download'
+								}).then(async (result) => {
+									if (result.value){
+
+										window.open(encodeURI(data.data.file_url), '_blank')
+									}
+								});
+
+							}catch (e){
+
+							}
+							}
 
       },
       mounted() {

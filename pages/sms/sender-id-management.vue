@@ -110,6 +110,7 @@
     </div>
     <SenderIdModal  @requested="requested"></SenderIdModal>
 				<VerificationModal></VerificationModal>
+			<InActiveSenderIdModal></InActiveSenderIdModal>
   </div>
 </template>
 
@@ -129,12 +130,14 @@
 				} from 'vue-content-loader'
 				import ButtonSpinner from "../../components/general/ButtonSpinner";
 				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
+				import InActiveSenderIdModal from "~/components/modals/InActiveSenderIdModal";
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "sender-id-management",
-					   middleware: 'auth',
+					   middleware: ['auth',],
       components: {
 							VerificationModal,
+							InActiveSenderIdModal,
 							TableVuePlaceHolder,
 							ButtonSpinner,
 							Pagination, SenderIdModal, DashboardNavbar, Sidebar, ListLoader, FacebookLoader, ContentLoader,BulletListLoader},
@@ -172,8 +175,13 @@
           this.fetch();
         },
         showModal () {
-          this.$modal.show('sender-id-modal');
-          $("body").css("overflow", "hidden");
+        	if (this.$store.state.auth.user.active_status_id.id ===  6){
+										this.$modal.show('in-active-user-modal');
+									}else {
+										this.$modal.show('sender-id-modal');
+										$("body").css("overflow", "hidden");
+									}
+
         },
         requested(){
             this.fetch();

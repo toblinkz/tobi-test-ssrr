@@ -98,6 +98,7 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "select-type",
+					middleware: ['inactive_user'],
       components: {VerificationModal, DashboardNavbar, Sidebar},
 					mounted() {
 						if(this.$store.state.view_verify_page === 'true'){

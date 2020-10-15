@@ -99,7 +99,7 @@
     export default {
         name: "api",
       components: {VerificationModal, ApiNavbar, Main, DashboardNavbar, Sidebar, VueClipboard },
-					 middleware: 'auth',
+					 middleware: ['auth', 'inactive_user'],
       data(){
         return{
         	password:'',

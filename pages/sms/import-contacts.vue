@@ -127,7 +127,7 @@ import VerificationModal from "~/components/modals/VerificationModal";
 
 export default {
 	name: "import-contacts",
-	middleware: 'auth',
+	middleware: ['auth', 'inactive_user'],
 	components: {VerificationModal, CustomSelect, DashboardNavbar, Sidebar, vSelect},
 	data(){
 		return{
@@ -172,7 +172,7 @@ export default {
 				this.countries = countries_data.data;
 
 				//get phonebook list
-				let phone_book_list = await this.$axios.$get('sms/phone-book');
+				let phone_book_list = await this.$axios.$get('sms/phone-book?filter=unpaginated',);
 				this.phone_books = phone_book_list.data
 
 			}catch (e) {

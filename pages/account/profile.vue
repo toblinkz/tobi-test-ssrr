@@ -144,7 +144,7 @@
 
     export default {
         name: "profile",
-					middleware: 'auth',
+					middleware: ['auth', 'inactive_user'],
         components: {VerificationModal, SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
 
         data(){

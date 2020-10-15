@@ -121,7 +121,7 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "campaign-reports",
-				   	middleware: 'auth',
+				   	middleware: ['auth', 'inactive_user'],
         components: {VerificationModal, TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar, DatePicker},
       data(){
           return{

@@ -121,9 +121,9 @@
 				import Pagination from "../../components/general/Pagination";
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
-        name: "_id",
-      components: {VerificationModal, Pagination, TableVuePlaceHolder, DashboardNavbar, Sidebar},
-					middleware: 'auth',
+					 name: "_id",
+      components: {VerificationModal,Pagination, TableVuePlaceHolder, DashboardNavbar, Sidebar},
+					 middleware: ['auth', 'inactive_user'],
       data(){
           return{
               phone_book_contacts:[],

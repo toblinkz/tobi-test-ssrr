@@ -165,7 +165,8 @@ export default {
 		isDisabled: function () {
 			return (this.email === '' || this.password === '' || this.hasEmailError || this.hasPasswordError
 				|| this.first_name === '' || this.hasFirstNameError || this.selected_country === ''
-				|| this.sectors_id === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError);
+				|| this.sectors_id === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError
+			 || this.selected_country === 'Select Country');
 		},
 
 	},

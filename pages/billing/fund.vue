@@ -173,10 +173,8 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "funding",
-					   middleware: 'auth',
-        components: {
-									VerificationModal,
-									MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
+					   middleware: ['auth','inactive_user'],
+        components: {VerificationModal, MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
        data() {
           return {
             isBundledForm: false,

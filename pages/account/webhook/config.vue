@@ -102,7 +102,7 @@
     export default {
         name: "config",
       components: {VerificationModal, ApiNavbar, DashboardNavbar, Sidebar},
-					 middleware: 'auth',
+					 middleware: ['auth', 'inactive_user'],
       data(){
           return {
             live_webhook: '',

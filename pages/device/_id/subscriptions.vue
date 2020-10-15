@@ -86,8 +86,8 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
 					  name: "subscriptions",
-					  middleware: 'auth',
-       components: {VerificationModal, DashboardNavbar, Sidebar},
+					  middleware: ['auth', 'inactive_user'],
+       components: {VerificationModal,DashboardNavbar, Sidebar},
        data(){
           return{
             device_name: this.$route.params.name,

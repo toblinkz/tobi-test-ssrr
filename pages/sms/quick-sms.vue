@@ -127,7 +127,7 @@
     export default {
         name: "quick-sms",
       components: {VerificationModal, CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, vSelect},
-					middleware: 'auth',
+					middleware: ['auth', 'inactive_user'],
       data(){
           return{
             sms_channels: [],
@@ -211,6 +211,7 @@
 													recipients: this.splitMultipleValues(this.phone_numbers, [',','\n',';','|'])
 												});
 												this.$toast.success("Message successfully sent");
+												this.clearFields();
 											}catch (e) {
 												let errors = e.response.data.errors;
 												for(let key in errors){
@@ -220,6 +221,10 @@
 												}
 											}
 
+							},
+							clearFields(){
+          	this.message = '';
+								   this.phone_numbers = [];
 							},
 							splitMultipleValues(str, tokens){
           	var tempChar = tokens[0];
