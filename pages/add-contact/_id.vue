@@ -92,6 +92,7 @@
         </div>
       </div>
     </div>
+			<VerificationModal></VerificationModal>
   </div>
 </template>
 
@@ -100,10 +101,11 @@
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
     import SearchDropdown from "../../components/general/dropdown/SearchDropdown";
 				import {mapGetters} from "vuex";
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "add-contact",
-					   middleware: ['auth', 'inactive_user'],
-      components: {SearchDropdown, DashboardNavbar, Sidebar},
+					 middleware: ['auth', 'inactive_user'],
+      components: {VerificationModal, SearchDropdown, DashboardNavbar, Sidebar},
       data(){
           return{
             selected_country_code:'',
@@ -169,8 +171,13 @@
         }
       },
       mounted() {
-						   	this.getCountries();
-							   this.$store.commit('setBulkSmsId', this.$route.params.id);
+							if(this.$store.state.view_verify_page === 'true') {
+								this.$modal.show('verification-id-modal');
+							}else {
+								this.getCountries();
+								this.$store.commit('setBulkSmsId', this.$route.params.id);
+							}
+
       },
     }
 </script>

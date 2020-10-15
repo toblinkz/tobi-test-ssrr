@@ -148,6 +148,7 @@
 					</div>
 				</div>
 				<EditPhoneBookModal @updated="getPhoneBook" :phone_book_name="phone_book_name" :phone_book_id="phone_book_id"></EditPhoneBookModal>
+				<VerificationModal></VerificationModal>
 			</div>
 		</div>
 	</div>
@@ -160,11 +161,12 @@
 	import Swal from 'sweetalert2'
 	import Pagination from "../components/general/Pagination";
 	import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
+	import VerificationModal from "~/components/modals/VerificationModal";
 
 	export default {
 		name: "phone-book",
-		middleware: ['auth', 'inactive_user'],
-		components: {TableVuePlaceHolder, Pagination, EditPhoneBookModal, DashboardNavbar, Sidebar},
+		middleware:  ['auth', 'inactive_user'],
+		components: {VerificationModal, TableVuePlaceHolder, Pagination, EditPhoneBookModal, DashboardNavbar, Sidebar},
 		data(){
 			return{
 				phone_book:[],
@@ -263,7 +265,12 @@
 
 
 		mounted() {
-			this.getPhoneBook();
+			if(this.$store.state.view_verify_page === 'true'){
+				this.$modal.show('verification-id-modal');
+			}else {
+				this.getPhoneBook();
+			}
+
 		}
 	}
 </script>

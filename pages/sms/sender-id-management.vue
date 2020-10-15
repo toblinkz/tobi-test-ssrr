@@ -109,6 +109,7 @@
       </div>
     </div>
     <SenderIdModal  @requested="requested"></SenderIdModal>
+				<VerificationModal></VerificationModal>
 			<InActiveSenderIdModal></InActiveSenderIdModal>
   </div>
 </template>
@@ -130,10 +131,12 @@
 				import ButtonSpinner from "../../components/general/ButtonSpinner";
 				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 				import InActiveSenderIdModal from "~/components/modals/InActiveSenderIdModal";
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "sender-id-management",
 					   middleware: ['auth',],
       components: {
+							VerificationModal,
 							InActiveSenderIdModal,
 							TableVuePlaceHolder,
 							ButtonSpinner,
@@ -197,7 +200,12 @@
         }
       },
      mounted() {
-       this.fetch();
+						if(this.$store.state.view_verify_page === 'true'){
+							this.$modal.show('verification-id-modal');
+						}else {
+							this.fetch();
+						}
+
      },
       pageClass(){
           return 'page-item'

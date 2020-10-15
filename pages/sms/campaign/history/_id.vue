@@ -112,6 +112,7 @@
         </div>
       </div>
     </div>
+			<VerificationModal></VerificationModal>
   </div>
 </template>
 
@@ -124,10 +125,11 @@
 				import TableVuePlaceHolder from "../../../../components/general/TableVuePlaceHolder";
 				import PieChartPlaceHolder from "../../../../components/general/PieChartPlaceHolder";
 				import Pagination from "../../../../components/general/Pagination";
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "manage-campaign",
-					   middleware: ['auth', 'inactive_user'],
-								components: {Pagination, PieChartPlaceHolder, TableVuePlaceHolder, ManageCampaignChart, DashboardNavbar, Sidebar},
+					   middleware: 'auth',
+								components: {VerificationModal, Pagination, PieChartPlaceHolder, TableVuePlaceHolder, ManageCampaignChart, DashboardNavbar, Sidebar},
 								computed:{
 										...mapGetters(['getCampaignCreatedDate'])
       },
@@ -221,10 +223,14 @@
 
       },
       mounted() {
+							if(this.$store.state.view_verify_page === 'true'){
+								this.$modal.show('verification-id-modal');
+							}else {
+								this.fetch();
+								this.$store.commit('setCampaignCreatedDate', this.$route.params.created_at);
+								this.triggered_date = moment(this.getCampaignCreatedDate).format('lll');
+							}
 
-          this.fetch();
-          this.$store.commit('setCampaignCreatedDate', this.$route.params.created_at);
-          this.triggered_date = moment(this.getCampaignCreatedDate).format('lll');
       },
 
     }

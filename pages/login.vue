@@ -150,16 +150,19 @@
                 });
 											this.isLoading = false;
 											this.button_text = "Proceed";
-          await this.$router.push('/');
+           await this.$router.push('/');
+									this.$store.commit('setViewVerificationPage', 'false');
         } catch (e) {
 									this.isLoading = false;
 									this.button_text = "Proceed";
         	if (navigator.onLine){
         				if ( e.response.data.error === 'Account not verified.'){
+													this.$store.commit('setFirstName', e.response.data.data);
 													this.$store.commit('setEmail', this.email);
 													this.$store.commit('setPassword', this.password);
-													await this.$router.push({ name: 'verify', });
-													this.$store.commit('setViewVerificationPage');
+													this.$store.commit('setViewVerificationPage', 'true');
+													this.$store.state.auth.loggedIn = true;
+													await this.$router.push({ name: 'index', });
 												}else if (e.response.data.error === 'Unauthorized'){
 
 													this.hasPasswordError = true;

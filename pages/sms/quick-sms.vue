@@ -109,7 +109,7 @@
               </div>
             </div>
           </div>
-
+							<VerificationModal></VerificationModal>
     </div>
   </div>
 </template>
@@ -123,9 +123,10 @@
     import SearchDropdown from "../../components/general/dropdown/SearchDropdown";
     import CustomSelect from "../../components/general/dropdown/CustomSelect";
 				import Fuse from 'fuse.js';
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "quick-sms",
-      components: {CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, vSelect},
+      components: {VerificationModal, CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, vSelect},
 					middleware: ['auth', 'inactive_user'],
       data(){
           return{
@@ -267,7 +268,12 @@
 
       },
       mounted() {
-         this.fetch();
+							if(this.$store.state.view_verify_page === 'true'){
+								this.$modal.show('verification-id-modal');
+							}else {
+								this.fetch();
+							}
+
       }
     }
 </script>

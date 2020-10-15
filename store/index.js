@@ -22,18 +22,25 @@ export const getters = {
 			},
 			getSuccessfulPaymentUrl(state){
 					return state.successful_payment_url;
-			}
+			},
+		getViewVerifyPage(state){
+				return state.view_verify_page;
+		},
+	getFirstName(state){
+				return state.first_name;
+	}
 }
 
-export const state = () => ({
-  email:'',
-  password:'',
-  phone_book_id:'',
-		bulk_sms_id:'',
-  campaign_report_created: '',
-	 successful_payment_url: '',
-  view_verify_page: false
-});
+	export const state = () => ({
+			email:'',
+			password:'',
+			phone_book_id:'',
+			bulk_sms_id:'',
+			campaign_report_created: '',
+			successful_payment_url: '',
+			view_verify_page: 'false',
+			first_name: ''
+	});
 
 export const mutations = {
 
@@ -49,18 +56,17 @@ export const mutations = {
 	setBulkSmsId(state, bulk_sms_id){
   	state.bulk_sms_id = bulk_sms_id;
 	},
-  setViewVerificationPage(state){
-    if (state.view_verify_page === false){
-      state.view_verify_page = true;
-    } else {
-      state.view_verify_page = false;
-    }
+  setViewVerificationPage(state, verify_state){
+      state.view_verify_page = verify_state;
   },
   setCampaignCreatedDate(state, date){
     state.campaign_report_created = date;
   },
 	setSuccessfulPaymentUrl(state, url){
   	state.successful_payment_url = url;
+	},
+	setFirstName(state, first_name){
+  	state.first_name = first_name;
 	}
 
 }

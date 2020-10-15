@@ -122,6 +122,7 @@
                </div>
              </div>
            </div>
+					<VerificationModal></VerificationModal>
     </div>
   </div>
 </template>
@@ -139,11 +140,12 @@
 				import Swal from 'sweetalert2';
 				import Fuse from "fuse.js";
 				import {mapGetters} from "vuex";
+				import VerificationModal from "~/components/modals/VerificationModal";
 
     export default {
         name: "group-sms",
 					middleware: ['auth', 'inactive_user'],
-      components: {CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, DatePicker, vSelect},
+      components: {VerificationModal, CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, DatePicker, vSelect},
       data(){
           return{
 
@@ -290,9 +292,13 @@
 
 						},
       mounted() {
+							if(this.$store.state.view_verify_page === 'true'){
+								this.$modal.show('verification-id-modal');
+							}else {
+								this.fetch();
+								this.getPhoneBook();
+							}
 
-        this.fetch();
-        this.getPhoneBook();
 
 
       }

@@ -104,6 +104,7 @@
       </div>
     </div>
     <DeviceModal  @requested="requested"></DeviceModal>
+				<VerificationModal></VerificationModal>
 			<InActiveSenderIdModal></InActiveSenderIdModal>
   </div>
 </template>
@@ -115,12 +116,14 @@
 	import Swal from "sweetalert2";
 	import {mapGetters} from "vuex";
 	import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
+	import VerificationModal from "~/components/modals/VerificationModal";
 	import InActiveSenderIdModal from "~/components/modals/InActiveSenderIdModal";
+	import inactive_user from "@/middleware/inactive_user";
 
 	export default {
 		     name: "devices",
-		     middleware: ['auth',],
-      components: {InActiveSenderIdModal, TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
+		     middleware: ['auth'],
+      components: {VerificationModal, InActiveSenderIdModal, TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
       data(){
           return{
             response_data:[],
@@ -200,7 +203,12 @@
         }
       },
       mounted() {
-          this.fetch();
+							if(this.$store.state.view_verify_page === 'true'){
+								this.$modal.show('verification-id-modal');
+							}else {
+								this.fetch();
+							}
+
       }
     }
 </script>

@@ -158,6 +158,7 @@
   </div>
     <ServicePriceModal v-if="showModal" @close="closeModal" ></ServicePriceModal>
     <MonnifyModal :account_number="account_number" :amount="total" :bank_name="bank_name"></MonnifyModal>
+			<VerificationModal></VerificationModal>
   </div>
 </template>
 
@@ -169,10 +170,11 @@
     import CustomSelect from "../../components/general/dropdown/CustomSelect";
     import MonnifyModal from "../../components/modals/MonnifyModal";
 				import {ContentLoader,} from 'vue-content-loader';
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "funding",
 					   middleware: ['auth','inactive_user'],
-        components: {MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
+        components: {VerificationModal, MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
        data() {
           return {
             isBundledForm: false,
@@ -353,10 +355,16 @@
         }
       },
       mounted() {
-											this.page_url = window.location.href;
-           this.getWalletBalance();
-           this.getPaymentMethod();
-           this.getTopDetails();
+							if(this.$store.state.view_verify_page === 'true'){
+								this.$modal.show('verification-id-modal');
+							}else {
+								this.page_url = window.location.href;
+								this.getWalletBalance();
+								this.getPaymentMethod();
+								this.getTopDetails();
+							}
+
+
 
 
       }

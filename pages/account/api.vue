@@ -79,6 +79,7 @@
             </div>
           </div>
         </div>
+							<VerificationModal></VerificationModal>
       </div>
       <!-- /page header -->
     </div>
@@ -93,10 +94,11 @@
     import VueClipboard from "vue-clipboard2";
     import Swal from 'sweetalert2';
     import {mapGetters} from "vuex";
+				import VerificationModal from "~/components/modals/VerificationModal";
 
     export default {
         name: "api",
-      components: {ApiNavbar, Main, DashboardNavbar, Sidebar, VueClipboard },
+      components: {VerificationModal, ApiNavbar, Main, DashboardNavbar, Sidebar, VueClipboard },
 					 middleware: ['auth', 'inactive_user'],
       data(){
         return{
@@ -104,7 +106,7 @@
 									button_text:' Renew API key',
 									isLoading: false,
 									showIcon: true,
-          api_key: this.$store.state.auth.user.customer.live_api_key,
+          api_key: '',
 									error_message:[],
 									hasPasswordError: false,
 									type: "password",
@@ -165,6 +167,13 @@
 								}
 							},
       },
+					mounted() {
+						if(this.$store.state.view_verify_page === 'true'){
+							this.$modal.show('verification-id-modal');
+						}else {
+							this.api_key = this.$store.state.auth.user.customer.live_api_key
+						}
+					}
 
     }
 </script>

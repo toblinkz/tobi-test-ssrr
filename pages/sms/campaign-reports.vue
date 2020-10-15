@@ -104,6 +104,7 @@
               </section>
             </main>
           </div>
+									<VerificationModal></VerificationModal>
         </div>
         </div>
       </div>
@@ -117,10 +118,11 @@
     import DatePicker from "vue2-datepicker";
     import 'vue2-datepicker/index.css';
 				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "campaign-reports",
 				   	middleware: ['auth', 'inactive_user'],
-        components: {TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar, DatePicker},
+        components: {VerificationModal, TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar, DatePicker},
       data(){
           return{
 
@@ -202,7 +204,12 @@
 
       },
       mounted() {
-          this.fetch();
+							if(this.$store.state.view_verify_page === 'true'){
+								this.$modal.show('verification-id-modal');
+							}else {
+								this.fetch();
+							}
+
 
       }
 

@@ -73,7 +73,7 @@
             </div>
           </div>
         </div>
-
+							<verification-modal></verification-modal>
       </div>
 
   </div>
@@ -83,10 +83,11 @@
     import Sidebar from "../components/general/Sidebar";
     import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
     import Swal from 'sweetalert2';
+				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "set-unit-limit",
 					middleware: 'auth',
-      components: {DashboardNavbar, Sidebar},
+      components: {VerificationModal, DashboardNavbar, Sidebar},
       data(){
           return{
             limit: '',
@@ -136,11 +137,14 @@
             }catch (e) {
 
             }
-
-
         }
-      }
-    }
+      },
+					mounted() {
+						if(this.$store.state.view_verify_page === 'true'){
+							this.$modal.show('verification-id-modal');
+						}
+					}
+				}
 </script>
 
 <style scoped>

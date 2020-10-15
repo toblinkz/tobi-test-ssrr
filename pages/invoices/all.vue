@@ -132,6 +132,7 @@
                 ></Pagination>
               </div>
             </div>
+											<VerificationModal></VerificationModal>
           </div>
         </div>
       </div>
@@ -142,11 +143,12 @@
   import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
   import Pagination from "../../components/general/Pagination";
 		import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
+		import VerificationModal from "~/components/modals/VerificationModal";
 
   export default {
         name: "all",
-      components: {TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar},
-			   middleware: ['auth', 'inactive_user'],
+      components: {VerificationModal, TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar},
+			   middleware: ['auth','inactive_user'],
       data(){
           return{
             all_invoice :[],
@@ -229,7 +231,12 @@
 
       },
 			mounted() {
-        	this.fetch();
+				if(this.$store.state.view_verify_page === 'true'){
+					this.$modal.show('verification-id-modal');
+				}else {
+					this.fetch();
+				}
+
 			}
 
 		}
