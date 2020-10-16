@@ -141,10 +141,7 @@
 							}
 					},
       methods: {
-          async fetch(){
 
-
-          },
 						async	getPhonebookContacts(){
 							try {
 								//get phonebook contact
@@ -169,7 +166,7 @@
 							onPageChange(page) {
 								this.page = page;
 								this.show_shimmer = false;
-								this.fetch();
+								this.getPhonebookContacts();
 							},
         async deletePhoneBookContact(row){
           	try {
