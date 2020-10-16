@@ -161,7 +161,7 @@
 													this.$store.commit('setEmail', this.email);
 													this.$store.commit('setPassword', this.password);
 													this.$store.commit('setViewVerificationPage', 'true');
-													this.$store.state.auth.loggedIn = true;
+													this.$store.commit('setLoggedInState', 'true');
 													await this.$router.push({ name: 'index', });
 												}else if (e.response.data.error === 'Unauthorized'){
 

@@ -12,7 +12,7 @@
               <nuxt-link no-prefetch to="/">
                 <img src="/images/logo.png" alt="logo" data-src="/images/logo.png" data-src-retina="/images/logo.png" width="155px" height="auto">
               </nuxt-link>
-              <p class="mt-20 mb-20">Termii helps African businesses use messaging channels to verify and communicate with customers</p>
+              <p class="mt-20 mb-20">Termii helps African businesses use messaging channels to verify and authenticate customers</p>
               <div id="google_translate_element"></div>
               <script type="text/javascript">
                 function googleTranslateElementInit() {
