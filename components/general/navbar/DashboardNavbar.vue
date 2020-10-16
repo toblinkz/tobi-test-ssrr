@@ -108,7 +108,12 @@
       	try {
 								await this.$auth.logout();
 								await this.$router.push({name: 'login'});
+								this.$store.commit('setEmail', '');
+								this.$store.commit('setPassword', '');
+								this.$store.commit('setFirstName', '');
 								localStorage.clear();
+								this.$store.commit('setViewVerificationPage', 'false');
+								location.reload();
 							} catch (e) {
 
 							}
