@@ -98,6 +98,10 @@
             <li><nuxt-link to="/account/api"><i class="entypo-key"></i> Api console</nuxt-link></li>
           </template>
         </Dropdown>
+							<li class="padd-x">
+								<a target="_blank" class="color-a level-1"  href="https://join.slack.com/t/termii-loop/shared_invite/zt-imbqlf68-w4lsPkOzibBXSQohu8_8dQ">
+									<i class="entypo-users"></i>Join Community</a>
+							</li>
         <li class="padd-x">
           <nuxt-link to="/account/profile" class="color-a level-1">
             <i class="entypo-cog"></i>
