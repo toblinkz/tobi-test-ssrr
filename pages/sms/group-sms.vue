@@ -10,7 +10,7 @@
          <div class="page-header-content">
            <div class="page-title mt-100">
              <ul class="breadcrumb breadcrumb-caret position-right">
-               <li><nuxt-link to="/dashboard">Home</nuxt-link></li>
+               <li><nuxt-link to="/">Home</nuxt-link></li>
                <li><nuxt-link to="/sms/send-sms">Group sms</nuxt-link></li>
              </ul>
              <h2>

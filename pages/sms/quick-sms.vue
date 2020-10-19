@@ -10,7 +10,7 @@
         <div class="page-header-content">
           <div class="page-title mt-100">
             <ul class="breadcrumb breadcrumb-caret position-right">
-              <li><nuxt-link to="/dashboard">Home</nuxt-link></li>
+              <li><nuxt-link to="/">Home</nuxt-link></li>
               <li><nuxt-link to="/sms/quick-sms">Direct sms</nuxt-link></li>
             </ul>
             <h2>
@@ -127,7 +127,7 @@
     export default {
         name: "quick-sms",
       components: {VerificationModal, CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, vSelect},
-					middleware: ['auth', 'inactive_user'],
+				 	middleware: ['auth', 'inactive_user'],
       data(){
           return{
             sms_channels: [],
