@@ -111,6 +111,8 @@
 								this.$store.commit('setEmail', '');
 								this.$store.commit('setPassword', '');
 								this.$store.commit('setFirstName', '');
+								this.$store.commit('setLoggedInState', '');
+								this.$store.commit('setPhoneBookId', '');
 								localStorage.clear();
 								this.$store.commit('setViewVerificationPage', 'false');
 								location.reload();
@@ -121,7 +123,6 @@
     },
 			mounted() {
 				if(this.$store.state.view_verify_page === 'true'){
-					console.log('love')
 						this.imageUrl = 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg';
 				}else{
 						  this.imageUrl = this.$store.state.auth.user.image
