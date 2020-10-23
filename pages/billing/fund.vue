@@ -364,6 +364,7 @@
 								this.getWalletBalance();
 								this.getPaymentMethod();
 								this.getTopDetails();
+								this.$modal.show('service-pricing-modal');
 							}
 
 
