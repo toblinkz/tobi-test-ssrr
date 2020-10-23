@@ -34,7 +34,7 @@
                               <p class="insight">Select your preferred payment gateway and top up your <br>account using card or bank transfer</p>
                             </div>
                             <!-- Trigger the modal with a button -->
-                            <button type="button" @click="showModal = true" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
+                            <button type="button" @click="showModal" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
                           </div>
                         </div>
                         <div class="fund-row row-md-height">
@@ -188,7 +188,6 @@
             selected_payment_method:"",
             amount:'',
 												page_url: '',
-            showModal:false,
             account_number: '',
             account_balance: '',
             bank_name: '',
@@ -223,6 +222,9 @@
           closeModal() {
             this.showModal = false;
           },
+									showModal(){
+          	this.$modal.show('service-pricing-modal');
+									},
           async getWalletBalance() {
             try{
               let data = await this.$axios.$get('billing/wallet');
