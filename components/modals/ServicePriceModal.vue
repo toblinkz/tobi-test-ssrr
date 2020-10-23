@@ -28,7 +28,8 @@
 											<div style="display:flex; justify-content: center">
 												<PricingDropdown @item-selected="setCountry($event)" @set-dollar-rate="setDollarRate( $event)" @set-nigeria-rate="setNigeriaRate($event)" @set-ghana-rate=" setGhanaRate($event)" @set-kenya-rate="setKenyaRate($event)"></PricingDropdown>
 											</div>
-            <div style="display:flex; justify-content: center">
+
+											<div style="display:flex; justify-content: center">
               <div class="panel-body p-none">
                 <table class="table table-hover toke">
                   <tbody>
@@ -47,7 +48,9 @@
                 </table>
               </div>
             </div>
-
+												<div class="m-t-15" style="display:flex; justify-content: center">
+													<a class="bg-blue" @click="close">Continue to TopUp</a>
+												</div>
             </div>
 
           </div>
