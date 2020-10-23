@@ -50,13 +50,11 @@
 
             </div>
 
-            <!-- End Ghana -->
           </div>
         </div>
       </div>
   </modal>
   </transition>
-  <!-- End Modal 2-->
 </template>
 
 <script>
