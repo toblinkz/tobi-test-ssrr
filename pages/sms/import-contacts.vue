@@ -12,9 +12,9 @@
 			</div>
 			<!-- /page header -->
 			<!-- Page container -->
-			<div class="page-container">
+			<div class="import-page-container">
 				<!-- Page content -->
-				<div class="page-content">
+				<div class="import-page-content">
 					<!-- Main content -->
 					<div class="content-wrapper">
 						<!-- main inner content -->
@@ -297,10 +297,26 @@ export default {
 	}
 }
 @media (min-width: 769px){
-	.page-content {
+	.import-page-content {
 		display: table-row;
 	}
 }
+	[data-popper-placement='top'] {
+		border-radius: 4px 4px 0 0;
+		border-top-style: solid;
+		box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.15)
+	}
+	@media (min-width: 769px){
+		.content-wrapper {
+			display: table-cell;
+			vertical-align: top;
+		}
+	}
+	@media (min-width: 769px){
+		.import-page-content {
+			display: table-row;
+		}
+	}
 
 .content-wrapper {
 	width: 100%;
@@ -312,12 +328,28 @@ export default {
 	}
 }
 @media (min-width: 769px){
-	.page-container {
+	.import-page-container {
 		width: 100%;
 		display: table;
 		table-layout: fixed;
 	}
 }
+	.content-wrapper {
+		width: 100%;
+	}
+	@media screen and (min-width: 769px){
+		.container .jumbotron, .container-fluid .jumbotron {
+			padding-left: 60px;
+			padding-right: 60px;
+		}
+	}
+	@media (min-width: 769px){
+		.import-page-container {
+			width: 100%;
+			display: table;
+			table-layout: fixed;
+		}
+	}
 
 @media screen and (min-width: 769px){
 	.jumbotron {
@@ -328,10 +360,23 @@ export default {
 .page-header:not(.page-header-filled) + .page-container {
 	padding-top: 35px;
 }
-.page-container {
+.import-page-container {
 	position: relative;
 	/* padding-bottom: 40px; */
 }
+	@media screen and (min-width: 769px){
+		.jumbotron {
+			padding-top: 48px;
+			padding-bottom: 48px;
+		}
+	}
+	.page-header:not(.page-header-filled) + .import-page-container {
+		padding-top: 35px;
+	}
+	.import-page-container {
+		position: relative;
+		/* padding-bottom: 40px; */
+	}
 
 .jumbotron {
 	/* padding-top: 30px; */
