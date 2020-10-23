@@ -218,7 +218,7 @@ export default {
 	position: absolute;
 	max-width: 250px;
 	min-width: 250px;
-	top: 38%;
+	top: 32%;
 	z-index: 3;
 	/*padding: 4px;*/
 	border: 1px solid #365899;
