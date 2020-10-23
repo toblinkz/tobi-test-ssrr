@@ -87,7 +87,6 @@ export default {
 	async	getCountries(){
 		 let response =  await this.$axios.$get('/utility/countries');
 			this.countries = response.data;
-			console.log(response.data);
 		},
 		selectedItem(row){
 			this.inputValue = '';
@@ -97,7 +96,7 @@ export default {
 			this.country_code = row.code;
 		},
 		setDollarRate(){
-			this.$emit('set-dollar-rate', '$');
+			this.$emit('set-exchange-currency', 'USD');
 			this.currency_code = 'USD';
 			this.ngn_btn_active = false;
 			this.usd_btn_active = true;
@@ -105,7 +104,7 @@ export default {
 			this.kes_btn_active = false;
 		},
 		setNigeriaRate(){
-			this.$emit('set-nigeria-rate', '₦');
+			this.$emit('set-exchange-currency', 'NGN');
 			this.currency_code = 'NGN';
 			this.ngn_btn_active = true;
 			this.usd_btn_active = false;
@@ -113,7 +112,7 @@ export default {
 			this.kes_btn_active = false;
 		},
 		setGhanaRate(){
-			this.$emit('set-ghana-rate', 'GH₵');
+			this.$emit('set-exchange-currency', 'GHC');
 			this.currency_code = 'GHC';
 			this.ngn_btn_active = false;
 			this.usd_btn_active = false;
@@ -121,7 +120,7 @@ export default {
 			this.kes_btn_active = false;
 		},
 		setKenyaRate(){
-			this.$emit('set-kenya-rate', ' Ksh');
+			this.$emit('set-exchange-currency', 'KSH');
 			this.currency_code = 'KSH';
 			this.ngn_btn_active = false;
 			this.usd_btn_active = false;
