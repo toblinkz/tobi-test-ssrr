@@ -111,6 +111,8 @@
 								this.$store.commit('setEmail', '');
 								this.$store.commit('setPassword', '');
 								this.$store.commit('setFirstName', '');
+								this.$store.commit('setLoggedInState', '');
+								this.$store.commit('setPhoneBookId', '');
 								localStorage.clear();
 								this.$store.commit('setViewVerificationPage', 'false');
 								location.reload();

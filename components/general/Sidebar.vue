@@ -137,14 +137,15 @@
         	return(!this.show_drop_down)
 							}
       },
+
 				mounted() {
 					if(this.$store.state.view_verify_page === 'true'){
 						this.imageUrl = 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg';
 					}else{
-						  this.imageUrl = this.$store.state.auth.user.image;
 						if (this.$store.state.auth.user.active_status_id.id ===  6){
 							this.show_drop_down = false;
 						}
+						  this.imageUrl = this.$store.state.auth.user.image
 					}
 				}
 

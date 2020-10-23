@@ -1,145 +1,115 @@
 <template>
   <transition>
-  <div id="serviceprice" class="modal in body" role="dialog" @click="close">
-    <div class="modal-dialog" style="margin: 30px auto; " >
+  <modal name="service-pricing-modal"  role="dialog" height="auto">
+    <div>
 
       <!-- Modal content-->
-      <div class="modal-content" >
+      <div>
         <div class="modal-header">
           <button type="button" class="close" @click="close">×</button>
         </div>
         <div class="modal-body">
 
           <div class="row">
-            <div class="col-md-7">
+											<div  style="display:flex; justify-content: center">
+												<p id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-basket"></i> Our Service Prices!</p>
+											</div>
+            <div style="display:flex; justify-content: center">
               <!-- START PANEL -->
               <div class="panel-transparent">
-                <p id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-basket"></i> Our Service Prices!</p>
-                <p class="insight">View our full list of service prices in countries across Africa and internationally
+                <p class="insight">View our full list of service prices in countries<br> <span style="display:flex; justify-content: center">across Africa and internationally</span>
                 </p>
               </div>
             </div>
-            <div class="col-md-5">
-              <!-- START PANEL -->
-              <div class="full-height">
-                <div class="text-center">
-                  <img src="/images/payment.gif" class="wide" style="padding: 0 0 0px 20px;">
-                </div>
-              </div>
-              <!-- END PANEL -->
-            </div>
+
           </div>
 
           <div class="row">
-            <!-- Ghana -->
-            <div class="col-md-6">
+											<div style="display:flex; justify-content: center">
+												<PricingDropdown @item-selected="setCountry($event)" @set-dollar-rate="setDollarRate( $event)" @set-nigeria-rate="setNigeriaRate($event)" @set-ghana-rate=" setGhanaRate($event)" @set-kenya-rate="setKenyaRate($event)"></PricingDropdown>
+											</div>
+
+											<div style="display:flex; justify-content: center">
               <div class="panel-body p-none">
                 <table class="table table-hover toke">
                   <tbody>
                   <tr>
-                    <td><p><strong>NIGERIA</strong></p></td>
-                    <td><p>SMS</p></td>
-                    <td><p>₦1.95</p></td>
+																			<td><p><strong>Services</strong></p></td>
+																			<td><p><strong>Pricing</strong></p></td>
+
                   </tr>
                   </tbody>
                   <tbody>
-                  <tr>
-                    <td><p><strong>GHANA</strong></p></td>
-                    <td><p>SMS</p></td>
-                    <td><p>GH¢0.04</p></td>
-                  </tr>
-                  </tbody>
-                  <tbody>
-                  <tr>
-                    <td><p><strong>KENYA</strong></p></td>
-                    <td><p>SMS</p></td>
-                    <td><p>2.78 Kes</p></td>
-                  </tr>
-                  </tbody>
-                  <tbody>
-                  <tr>
-                    <td><p><strong>ZAMBIA</strong></p></td>
-                    <td><p>SMS</p></td>
-                    <td><p>0.37 ZK</p></td>
-                  </tr>
-                  </tbody>
-                  <tbody>
-                  <tr>
-                    <td><p><strong>GLOBAL</strong></p></td>
-                    <td><p>SMS</p></td>
-                    <td><p>$0.03</p></td>
+                  <tr v-for="row in services" :key="row.id">
+                    <td><p>{{ row.service }}</p></td>
+                    <td><p>starting @ {{ currency }}{{ (row.pricing / exchange_rate).toFixed(4)}}</p></td>
                   </tr>
                   </tbody>
                 </table>
               </div>
             </div>
-
-            <div class="col-md-4">
-              <div class="panel-body p-none">
-                <table class="table table-hover toke">
-                  <tbody>
-                  <tr>
-                    <td><p>Token</p></td>
-                    <td><p>₦0.5</p></td>
-                  </tr>
-                  </tbody>
-                  <tbody>
-                  <tr>
-                    <td><p>Token</p></td>
-                    <td><p>GH¢0.00734</p></td>
-                  </tr>
-                  </tbody>
-                  <tbody>
-                  <tr>
-                    <td><p>Token</p></td>
-                    <td><p>0.1366 Kes</p></td>
-                  </tr>
-                  </tbody>
-                  <tbody>
-                  <tr>
-                    <td><p>Token</p></td>
-                    <td><p>0.023 ZK</p></td>
-                  </tr>
-                  </tbody>
-                  <tbody>
-                  <tr>
-                    <td><p>Token</p></td>
-                    <td><p>$0.0013</p></td>
-                  </tr>
-                  </tbody>
-                </table>
-
-              </div>
-
+												<div class="m-t-15" style="display:flex; justify-content: center">
+													<a class="bg-blue" @click="close">Continue to TopUp</a>
+												</div>
             </div>
 
-            <!-- End Ghana -->
           </div>
-          <p class="panel-body"><b>NB</b>: All messages sent to DND numbers in Nigeria and our Number API <br/> are charged at ₦3.9 per message. Also, Priority promotional routes are charge at ₦2.92 in Nigeria</p>
         </div>
       </div>
-
-    </div>
-  </div>
+  </modal>
   </transition>
-  <!-- End Modal 2-->
 </template>
 
 <script>
-    export default {
+    import PricingDropdown from "@/components/general/dropdown/PricingDropdown";
+				export default {
         name: "ServicePriceModal",
-      methods: {
+				  	components: {PricingDropdown},
+							data(){
+        	return{
+        		currency: "$",
+										pricing:"",
+										services:[],
+										exchange_rate: 365,
+										exchange_rates:[]
+									}
+							},
+				  	methods: {
           close() {
-            this.$emit('close');
+											this.$modal.hide('service-pricing-modal');
           },
-        mounted () {
-          document.addEventListener('click', this.close)
-        },
-        beforeDestroy () {
-          document.removeEventListener('click',this.close)
-        }
-      }
-    }
+							async	setCountry(country){
+          	let response =await this.$axios.$get('/utility/pricing?country=' + country.name);
+          	this.services = response.data;
+								},
+								async getExchange(){
+         let response = 	await this.$axios.$get('/utility/exchange/rate');
+									this.exchange_rates = response.data;
+								},
+								async setGhanaRate(currency){
+									this.exchange_rate = this.exchange_rates[0].naira_exchange_rate;
+									this.currency = currency;
+								},
+								async setKenyaRate(currency){
+									this.exchange_rate = this.exchange_rates[1].naira_exchange_rate;
+									this.currency = currency;
+								},
+								async setDollarRate(currency){
+									this.exchange_rate = this.exchange_rates[2].naira_exchange_rate;
+									this.currency = currency;
+								},
+								async setNigeriaRate(currency){
+									this.exchange_rate = this.exchange_rates[3].naira_exchange_rate;
+									this.currency = currency;
+								},
+
+      },
+					async mounted() {
+						let response = await this.$axios.$get('/utility/pricing?country=Nigeria');
+						this.services = response.data;
+						await this.getExchange();
+					}
+				}
 </script>
 
 <style scoped>
@@ -147,20 +117,19 @@
     overflow-x: hidden;
     overflow-y: auto;
   }
-  .modal {
-    /* display: none; */
-    /* overflow: hidden; */
-    overflow-y: auto;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1050;
-    -webkit-overflow-scrolling: touch;
-    outline: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
+		.vm--container{
+			display: block;
+			overflow-y: auto;
+			position: fixed;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			z-index: 1050;
+			-webkit-overflow-scrolling: touch;
+			outline: 0;
+			background-color: rgba(0, 0, 0, 0.5);
+		}
   @media (min-width: 769px){
     .modal-dialog {
       width: 600px;
@@ -286,7 +255,7 @@
   }
   .table > tbody > tr > td, .table > tfoot > tr > td {
     vertical-align: middle;
-    padding: 12px 20px;
+    padding: 12px 50px;
     line-height: 1.5384616;
     border-top: 2px solid #ddd;
   }
