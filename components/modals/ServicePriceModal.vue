@@ -26,7 +26,7 @@
 
           <div class="row">
 											<div style="display:flex; justify-content: center">
-												<PricingDropdown @item-selected="setCountry($event)" @set-dollar-rate="setDollarRate( $event)" @set-nigeria-rate="setNigeriaRate($event)" @set-ghana-rate=" setGhanaRate($event)" @set-kenya-rate="setKenyaRate($event)"></PricingDropdown>
+												<PricingDropdown @item-selected="setCountry($event)"  @set-exchange-currency="setExchangeRateConversion($event)"></PricingDropdown>
 											</div>
 
 											<div style="display:flex; justify-content: center">
@@ -70,6 +70,14 @@
         		currency: "$",
 										pricing:"",
 										services:[],
+										usd_exchange_rate: '',
+										usd_currency: '',
+										ghc_exchange_rate:'',
+										ghc_currency:'',
+										kes_exchange_rate:'',
+										kes_currency:'',
+										ngn_exchange_rate:'',
+										ngn_currency:'',
 										exchange_rate: 365,
 										exchange_rates:[]
 									}
@@ -85,25 +93,74 @@
 								async getExchange(){
          let response = 	await this.$axios.$get('/utility/exchange/rate');
 									this.exchange_rates = response.data;
+									this.setExchangeRate();
 								},
-								async setGhanaRate(currency){
-									this.exchange_rate = this.exchange_rates[0].naira_exchange_rate;
-									this.currency = currency;
-								},
-								async setKenyaRate(currency){
-									this.exchange_rate = this.exchange_rates[1].naira_exchange_rate;
-									this.currency = currency;
-								},
-								async setDollarRate(currency){
-									this.exchange_rate = this.exchange_rates[2].naira_exchange_rate;
-									this.currency = currency;
-								},
-								async setNigeriaRate(currency){
-									this.exchange_rate = this.exchange_rates[3].naira_exchange_rate;
-									this.currency = currency;
-								},
+								setExchangeRate() {
+									this.exchange_rates.forEach((exchange_rate)=>{
+										switch (exchange_rate.country_id) {
+											case (147):{
+												this.ngn_exchange_rate =  exchange_rate.naira_exchange_rate;
+												this.ngn_currency = exchange_rate.currency;
+												break;
+											}
+											case (76):{
+												this.ghc_exchange_rate =  exchange_rate.naira_exchange_rate;
+												this.ghc_currency = exchange_rate.currency;
+												break;
+											}
+											case (103):{
+												this.kes_exchange_rate =  exchange_rate.naira_exchange_rate;
+												this.kes_currency = exchange_rate.currency;
+												break;
+											}
+											case (221):{
+												this.usd_exchange_rate =  exchange_rate.naira_exchange_rate;
+												this.usd_currency = exchange_rate.currency;
+												break;
+											}
+										}
+									});
+							},
 
-      },
+								setExchangeRateConversion(currency){
+									switch (currency) {
+										case ('NGN'):{
+											this.setNigeriaRate();
+											break;
+										}
+										case ('GHC'):{
+											this.setGhanaRate();
+											break;
+										}
+										case ('KSH'):{
+											this.setKenyaRate();
+											break;
+										}
+										case ('USD'):{
+											this.setDollarRate();
+											break;
+										}
+									}
+								},
+								setKenyaRate(){
+									this.exchange_rate = this.kes_exchange_rate;
+									this.currency = this.kes_currency;
+
+								},
+								setGhanaRate(){
+									this.exchange_rate = this.ghc_exchange_rate;
+									this.currency = this.ghc_currency;
+								},
+								setDollarRate(){
+									this.exchange_rate = this.usd_exchange_rate;
+									this.currency = this.usd_currency;
+								},
+								setNigeriaRate(){
+									this.exchange_rate = this.ngn_exchange_rate;
+									this.currency = this.ngn_currency;
+								},
+			},
+
 					async mounted() {
 						let response = await this.$axios.$get('/utility/pricing?country=Nigeria');
 						this.services = response.data;
