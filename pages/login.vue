@@ -194,7 +194,6 @@
             this.$toast.show("No Internet connection");
           }
         }
-
       }
     },
 			mounted() {
