@@ -188,7 +188,7 @@
 													}
 												}
 									}
-          else{
+          else {
             this.isLoading = false;
             this.button_text = "Proceed";
             this.$toast.show("No Internet connection");
@@ -196,10 +196,14 @@
         }
 
       }
-    }
+    },
+			mounted() {
 
+    	console.log(localStorage.setItem('love', 'joy'))
 
-  }
+			}
+
+		}
 </script>
 
 <style scoped>
