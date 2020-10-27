@@ -56,6 +56,7 @@
 																	<Switches v-model="enabled_email_notification"    type-bold="true" color="blue" ></Switches>
 																	<p  class="m-l-10" :class="{'color': enabled_email_notification}">Get Email Notification</p>
 																</div>
+
 																<div class="mt-20" style=" display: flex">
 																	<Switches v-model="enabled_auto_recharge"  type-bold="true"  color="blue"></Switches>
 																	<p class="m-l-10" :class="{'color': enabled_auto_recharge}">Auto-recharge</p>
@@ -67,6 +68,7 @@
 																			{{ maximum_recharge }}</p>
 																		<input type="text" class="form-control"  placeholder="Amount" v-model="auto_recharge_amount">
 																	</div>
+
 																</div>
 															</div>
 														</div>
@@ -216,11 +218,22 @@ export default {
 						break;
 					}
 					case('stripe'): {
-						this.$stripe.import().redirectToCheckout({
-							sessionId: response_data.data.id
-						}).then(function (result) {
-							this.$toast.error(result.error.message)
-						});
+						if(response_data.data.id) {
+							this.$stripe.import().redirectToCheckout({
+								sessionId: response_data.data.id
+							}).then(function (result) {
+								this.$toast.error(result.error.message)
+							});
+						}else{
+							await Swal.fire({
+								title: 'Success!',
+								text: "Auto recharge details updated",
+								icon: 'success',
+								showCancelButton: false,
+								confirmButtonColor: '#3085d6',
+								confirmButtonText: 'Ok'
+							})
+						}
 						break;
 					}
 				}
