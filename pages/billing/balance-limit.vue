@@ -105,6 +105,7 @@ import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
 import Swal from 'sweetalert2';
 import CryptoJs from 'crypto-js';
 
+
 import Switches from 'vue-switches';
 export default {
 	name: "balance-limit",
@@ -138,6 +139,15 @@ export default {
 			if (value === true){
 					this.enabled_email_notification = true;
 			}
+
+			if (value === false){
+				this.auto_recharge_amount = 0;
+				if(this.balance_limit_data){
+					this.deleteIntent();
+				}
+
+			}
+
 		},
 		balance_limit(value){
 			this.balance_limit = value;
@@ -191,6 +201,26 @@ export default {
 				this.hasLimitError = false;
 			}
 		},
+		async deleteIntent(){
+			try{
+				await Swal.fire({
+					title: 'Are you sure?',
+					text: "You would have to add your card again!",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes!'
+				}).then(async (result) => {
+					if (result.value){
+						await this.$axios.$delete('/billing/payment/intent').catch((e)=>{this.$toast.error("An Error occurred while trying to delete this contact");});
+						this.$toast.success("Payment Intent deleted successfully");
+					}
+				});
+			}catch (e) {
+
+			}
+	},
 		async process() {
 			try {
 				let response_data = await this.$axios.$post('/billing/balance-limit', {
