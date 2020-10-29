@@ -111,17 +111,20 @@
 							let current_time = Date(0);
 							const d = new Date(0);
 					  	d.setUTCSeconds(exp_time);
-							let log_out_time = moment(d).subtract(5, 'minutes').toDate();
+							let log_out_time = moment(d).subtract(57, 'minutes').toDate();
 							let logout_out_time_in_sec = new Date().getMilliseconds()  ;
-
 							setTimeout(  async function () {
-								await $nuxt.$axios.$get('auth/logout');
-								$nuxt.$store.commit('setLIState', false);
-								localStorage.clear();
-								await $nuxt.$router.push({name: 'login'});
-								$nuxt.$store.commit('setViewVerificationPage', 'false');
-								$nuxt.$toast.error("Token has Expired")
+								try {
+									await $nuxt.$axios.$get('auth/logout');
+									$nuxt.$store.commit('setLIState', false);
+									localStorage.clear();
+									await $nuxt.$router.push({name: 'login'});
+									$nuxt.$store.commit('setViewVerificationPage', 'false');
+									$nuxt.$toast.error("Token has Expired")
 
+								}catch (e) {
+
+								}
 										}, log_out_time - Date.now());
 
 					},
