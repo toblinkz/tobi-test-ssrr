@@ -77,7 +77,7 @@
     export default {
         name: "deactivate",
       components: {VerificationModal, ApiNavbar, DashboardNavbar, Sidebar},
-					middleware: 'auth',
+					middleware: ['auth'],
       data(){
           return{
             user_feedback: '',
@@ -114,7 +114,11 @@
                 title: 'Oops...',
                 text: 'We are sorry to see you leave.',
               });
-              await this.$auth.logout();
+													await this.$axios.$get('auth/logout');
+													localStorage.clear();
+													await this.$router.push({name: 'login'});
+													this.$store.commit('setViewVerificationPage', 'false');
+													location.reload();
 
             }catch (e) {
               if (e.response.data.data === 'Incorrect Password Entered'){

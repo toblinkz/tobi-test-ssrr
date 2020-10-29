@@ -286,7 +286,7 @@ export default {
 			this.button_text = "Creating..."
 
 			try{
-				await this.$axios.post('auth/register', {
+			 	await this.$axios.post('auth/register', {
 					first_name: this.first_name,
 					last_name: this.last_name,
 					email: this.email,
@@ -296,10 +296,16 @@ export default {
 					sector: this.sectors_id,
 					notification_opt_in: this.notification_opt_in
 				},);
-				await this.$auth.loginWith('local', {
-					data: {
-						email: this.email,
-						password: this.password
+			 	//call login endpoint
+				let response_data =   await this.$axios.post('auth/login', {
+					email: this.email,
+					password: this.password
+				});
+				localStorage.setItem('local', response_data.data.access_token); //set user token in local storage
+			  // call user endpoint
+				await this.$axios.$get('user', {
+					headers: {
+						'Authorization': `Bearer ${localStorage.getItem('local')}`
 					}
 				});
 				this.isLoading = false;
@@ -310,10 +316,7 @@ export default {
 				if (navigator.onLine){
 					if (e.response.data.error === 'Account not verified.'){
 						this.$store.commit('setFirstName', e.response.data.data);
-						this.$store.commit('setEmail', this.email);
-						this.$store.commit('setPassword', this.password);
 						this.$store.commit('setViewVerificationPage', 'true');
-						this.$store.commit('setLoggedInState', 'true');
 						await this.$router.push({ name: 'index', });
 					}else {
 						let errors = e.response.data.errors;

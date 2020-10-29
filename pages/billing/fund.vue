@@ -173,7 +173,7 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "funding",
-					   middleware: ['auth','inactive_user'],
+					   middleware: ['auth', 'inactive_user'],
         components: {VerificationModal, MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
        data() {
           return {

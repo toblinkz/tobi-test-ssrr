@@ -128,8 +128,8 @@
           return{
               phone_book_contacts:[],
 														page: 1,
-														first_name: this.$store.state.auth.user.fname,
-														last_name: this.$store.state.auth.user.lname,
+														first_name: JSON.parse(localStorage.getItem('user_data')).fname,
+														last_name: JSON.parse(localStorage.getItem('user_data')).lname,
 														total_page: '',
 														showPagination: false,
 														show_shimmer: false,

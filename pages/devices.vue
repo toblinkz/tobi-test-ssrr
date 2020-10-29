@@ -137,16 +137,12 @@
 
           }
       },
-      computed:{
-
-
-    },
       methods: {
 
         async fetch(){
           try {
           	// get device ids
-            let data = await this.$axios.$get('devices', );
+            let data = await this.$axios.$get('devices');
             this.response_data = data;
 											this.show_shimmer = true;
           }catch (e) {
@@ -159,7 +155,7 @@
             $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
           $('#qr-code').attr("disabled", true);
 
-           let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${this.$auth.getToken('local').substring(7)}`
+           let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${localStorage.getItem('local')}`
           	 url = url.replace(':slug', device_id);
 
           // $.get(url, function (data, status) {
@@ -171,7 +167,7 @@
 
         },
         showModal(){
-        	if (this.$store.state.auth.user.active_status_id.id ===  6){
+        	if (JSON.parse(localStorage.getItem('user_data')).active_status_id.id ===  6){
 										this.$modal.show('in-active-user-modal');
 									}else {
 										this.$modal.show('device-id-modal');

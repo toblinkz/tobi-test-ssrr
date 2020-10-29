@@ -2,6 +2,6 @@ import createPersistedState from 'vuex-persistedstate'
 
 export default ({store}) => {
   createPersistedState({
-    paths: ['bearer_token', 'email', 'password','view_verify_page','first_name','phone_book_id','successful_payment_url', 'auth.loggedIn']
+    paths: ['view_verify_page','L_I','first_name','phone_book_id','successful_payment_url', ]
   })(store)
 }

@@ -64,7 +64,7 @@ import VerificationModal from "~/components/modals/VerificationModal";
 
 export default {
 	name: "successful-payment",
-	middleware: 'auth',
+	middleware: ['auth','inactive_user'],
 	components: {VerificationModal, DashboardNavbar, Sidebar},
 	data(){
 		return{

@@ -87,13 +87,23 @@
 											this.$modal.hide('service-pricing-modal');
           },
 							async	setCountry(country){
-          	let response =await this.$axios.$get('/utility/pricing?country=' + country.name);
-          	this.services = response.data;
+          	try {
+												let response =await this.$axios.$get('/utility/pricing?country=' + country.name);
+												this.services = response.data;
+											}catch (e) {
+
+											}
+
 								},
 								async getExchange(){
-         let response = 	await this.$axios.$get('/utility/exchange/rate');
-									this.exchange_rates = response.data;
-									this.setExchangeRate();
+          	try {
+												let response = 	await this.$axios.$get('/utility/exchange/rate');
+												this.exchange_rates = response.data;
+												this.setExchangeRate();
+											}catch (e){
+
+											}
+
 								},
 								setExchangeRate() {
 									this.exchange_rates.forEach((exchange_rate)=>{
@@ -162,9 +172,14 @@
 			},
 
 					async mounted() {
-						let response = await this.$axios.$get('/utility/pricing?country=Nigeria');
-						this.services = response.data;
-						await this.getExchange();
+        	try {
+										let response = await this.$axios.$get('/utility/pricing?country=Nigeria');
+										this.services = response.data;
+										await this.getExchange();
+									}catch (e) {
+
+									}
+
 					}
 				}
 </script>

@@ -99,11 +99,9 @@
       data(){
           return{
           open: false,
-											baseUrl: this.$config.baseURL
+											baseUrl: this.$config.baseURL,
+											isAuthenticated: false,
           }
-      },
-      computed:{
-        ...mapGetters(['isAuthenticated', 'loggedInUser'])
       },
       methods: {
           toggle(){
@@ -111,10 +109,22 @@
               $("#navbar-mobile").toggleClass("hide-menu");
           },
         async logout(){
-          await this.$auth.logout();
+									try {
+										await this.$axios.$get('auth/logout');
+										localStorage.clear();
+										await this.$router.push({name: 'login'});
+										this.$store.commit('setViewVerificationPage', 'false');
+									} catch (e) {
+
+									}
         }
       },
-    }
+					mounted() {
+        	if (localStorage.getItem('local')){
+        			this.isAuthenticated = true;
+									}
+					}
+				}
 </script>
 
 <style scoped>

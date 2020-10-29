@@ -189,7 +189,7 @@
           return new S3(this.config);
         },
 							newFileName(){
-          	return `customer_dp_${this.loggedInUser.fname}_${this.loggedInUser.customer.uid}`
+          	return `customer_dp_${JSON.parse(localStorage.getItem('user_data')).fname}_${JSON.parse(localStorage.getItem('user_data')).customer.uid}`
 							},
         ...mapGetters(['isAuthenticated', 'loggedInUser'])
       },
@@ -292,14 +292,14 @@
 							if(this.$store.state.view_verify_page === 'true'){
 								this.$modal.show('verification-id-modal');
 							}else{
-								 this.first_name = this.$store.state.auth.user.fname;
-									this.last_name = this.$store.state.auth.user.lname;
-									this.email = this.$store.state.auth.user.email;
-							  this.selected_country = this.$store.state.auth.user.country.toString();
-									this.selected_sector = this.$store.state.auth.user.company_sector.id.toString();
-									this.user_image = this.$store.state.auth.user.image;
-									this.phone_number =  this.$store.state.auth.user.phone;
-								 this.sectors = [this.$store.state.auth.user.company_sector.name];
+								 this.first_name = JSON.parse(localStorage.getItem('user_data')).fname;
+									this.last_name = JSON.parse(localStorage.getItem('user_data')).lname;
+									this.email = JSON.parse(localStorage.getItem('user_data')).email;
+							  this.selected_country = JSON.parse(localStorage.getItem('user_data')).country;
+									this.selected_sector = JSON.parse(localStorage.getItem('user_data')).company_sector.id;
+									this.user_image = JSON.parse(localStorage.getItem('user_data')).image;
+									this.phone_number =  JSON.parse(localStorage.getItem('user_data')).phone;
+								 this.sectors = [JSON.parse(localStorage.getItem('user_data')).company_sector.name];
 								this.fetchUtilityData();
 							}
 
