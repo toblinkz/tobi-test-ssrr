@@ -85,8 +85,13 @@ export default {
 			this.inputValue = '';
 		},
 	async	getCountries(){
-		 let response =  await this.$axios.$get('/utility/countries');
-			this.countries = response.data;
+			try{
+				let response =  await this.$axios.$get('/utility/countries');
+				this.countries = response.data;
+			}catch (e) {
+
+			}
+
 		},
 		selectedItem(row){
 			this.inputValue = '';

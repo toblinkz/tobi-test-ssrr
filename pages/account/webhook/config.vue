@@ -165,7 +165,8 @@
 						if(this.$store.state.view_verify_page === 'true'){
 							this.$modal.show('verification-id-modal');
 						}else {
-							this.live_webhook = this.$store.state.auth.user.customer.live_webhook_url;
+							let user_data = JSON.parse(localStorage.getItem('user_data'));
+							 this.live_webhook = user_data.customer.live_webhook_url;
 						}
 					}
 				}

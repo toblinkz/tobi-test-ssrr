@@ -160,9 +160,8 @@ export default {
 			return new S3(this.config);
 		},
 		newFileName(){
-			return `termii_list_${this.selected_phone_book}_${this.loggedInUser.customer.uid}`
+			return `termii_list_${this.selected_phone_book}_${JSON.parse(localStorage.getItem('user_data')).customer.uid}`
 		},
-		...mapGetters(['isAuthenticated', 'loggedInUser'])
 	},
 	methods: {
 		async fetch(){

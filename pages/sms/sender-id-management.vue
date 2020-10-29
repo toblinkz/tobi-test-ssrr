@@ -134,7 +134,7 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "sender-id-management",
-					   middleware: ['auth',],
+					   middleware: ['auth'],
       components: {
 							VerificationModal,
 							InActiveSenderIdModal,
@@ -175,11 +175,10 @@
           this.fetch();
         },
         showModal () {
-        	if (this.$store.state.auth.user.active_status_id.id ===  6){
+        	if (JSON.parse(localStorage.getItem('user_data')).active_status_id.id ===  6){
 										this.$modal.show('in-active-user-modal');
 									}else {
 										this.$modal.show('sender-id-modal');
-										$("body").css("overflow", "hidden");
 									}
 
         },

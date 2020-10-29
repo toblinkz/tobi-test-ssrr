@@ -128,7 +128,7 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "manage-campaign",
-					   middleware: 'auth',
+					   middleware: ['auth', 'inactive_user'],
 								components: {VerificationModal, Pagination, PieChartPlaceHolder, TableVuePlaceHolder, ManageCampaignChart, DashboardNavbar, Sidebar},
 								computed:{
 										...mapGetters(['getCampaignCreatedDate'])

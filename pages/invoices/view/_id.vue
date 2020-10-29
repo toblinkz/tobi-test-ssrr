@@ -155,10 +155,10 @@
             invoice_date:'',
 											 page_url: '',
             item:'',
-											first_name: this.$store.state.auth.user.fname,
-											last_name:  this.$store.state.auth.user.lname,
-											email:  this.$store.state.auth.user.email,
-											phone_number:  this.$store.state.auth.user.phone,
+											first_name: '',
+											last_name:  '',
+											email:  '',
+											phone_number:  '',
             price:'',
             quantity:'',
             subtotal:'',
@@ -186,6 +186,8 @@
 											this.tax = inv_item.tax;
 											this.discount = inv_item.discount;
 											this.total = inv_item.total;
+
+
 										}catch (e) {
 
 										}
@@ -204,6 +206,11 @@
 								this.$modal.show('verification-id-modal');
 							}else {
 								this.page_url = window.location.href;
+								let user_data = JSON.parse(localStorage.getItem('user_data'));
+								this.first_name = user_data.fname;
+								this.last_name = user_data.lname;
+								this.email = user_data.email;
+								this.phone_number = user_data.phone;
 								this.fetch();
 							}
 

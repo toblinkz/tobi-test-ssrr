@@ -86,7 +86,7 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "set-unit-limit",
-					middleware: 'auth',
+					middleware: ['auth', 'inactive_user'],
       components: {VerificationModal, DashboardNavbar, Sidebar},
       data(){
           return{

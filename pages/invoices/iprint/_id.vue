@@ -106,7 +106,7 @@
             invoice_status:'',
             invoice_due_date:'',
             invoice_paid_date:'',
-												email:  this.$store.state.auth.user.email,
+												email:  JSON.parse(localStorage.getItem('user_data')).email,
             invoice_no:'',
             invoice_date:'',
             item:'',
@@ -124,7 +124,7 @@
           let data = response_data.data[0];
           let inv_item = response_data.inv_item[0];
 
-          this.invoice_no = data.id;
+           this.invoice_no = data.id;
           this.invoice_due_date = data.duedate;
           this.invoice_paid_date = data.datepaid;
           this.invoice_status = data.status;

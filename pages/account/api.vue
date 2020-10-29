@@ -114,7 +114,6 @@
         }
       },
       computed: {
-        ...mapGetters(['isAuthenticated', 'loggedInUser']),
 							isDisabled: function () {
 								return (this.hasPasswordError || this.password === '');
 							},
@@ -139,8 +138,6 @@
                 text: 'Your API token was successfully renewed',
               });
 
-             let data = await this.$axios.get('user',);
-             this.api_key = data.data.data.customer.live_api_key;
             }catch (e) {
 													this.error_message['password'] = 'Password Incorrect';
 													this.hasPasswordError = true;
@@ -168,11 +165,7 @@
 							},
       },
 					mounted() {
-						if(this.$store.state.view_verify_page === 'true'){
-							this.$modal.show('verification-id-modal');
-						}else {
-							this.api_key = this.$store.state.auth.user.customer.live_api_key
-						}
+						this.api_key = 	JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
 					}
 
     }

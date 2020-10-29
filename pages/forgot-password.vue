@@ -47,6 +47,7 @@
 <script>
   export default {
     name: "forgot-password",
+			 middleware: "guest",
     data(){
       return{
         email: "",

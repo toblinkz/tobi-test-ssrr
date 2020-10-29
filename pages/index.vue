@@ -77,15 +77,6 @@
 																		</div>
 																	</div>
 																</div>
-																<!-- END PANEL -->
-																<!--                              <div class="row" v-show="emptyActivityLog === false">-->
-																<!--                                <div class="empty-list hidden-xs">-->
-																<!--                                  <i class="icon-history"></i>-->
-																<!--                                  <span class="line-1">-->
-																<!--                                    You haven&#039;t made major changes to your account-->
-																<!--                                </span>-->
-																<!--                                </div>-->
-																<!--                              </div>-->
 
 																<ActivityLog @emptyActivityLog="emptyActivityLog = $event"></ActivityLog>
 																<!-- END JUMBOTRON -->
@@ -99,7 +90,7 @@
 																				<div class="col-md-11">
 																					<p class="text-semibold"><i class="entypo-light-up" style="color: #079805 !important;"></i>API Key</p>
 																				</div>
-																				<ContentLoader v-if="!live_api_key"
+																				<ContentLoader v-if="!account_balance"
 																																			:speed="2"
 																																			:animate="true"
 																				>
@@ -222,7 +213,7 @@
 	import SmsHistoryModal from "../components/modals/SmsHistoryModal";
 	import YourWalletModal from "../components/modals/YourWalletModal";
 	import ActivateIdModal from "../components/modals/ActivateIdModal";
-	import { mapGetters } from 'vuex'
+	import { mapGetters } from 'vuex';
 	import ActivityLog from "../components/general/ActivityLog";
 	import {
 		ContentLoader,
@@ -244,9 +235,9 @@
 				script: [{src:"/js/intro.js" }]
 			}
 		},
-		middleware: 'auth',
+		 middleware: ['auth','inactive_user'],
 		computed: {
-			...mapGetters(['isAuthenticated', 'loggedInUser', 'getViewVerifyPage', 'getFirstName'])
+			...mapGetters([ 'getViewVerifyPage', 'getFirstName'])
 		},
 		data(){
 			return{
@@ -268,11 +259,19 @@
 			async fetch() {
 				try{
 					// get account balance
-					let data = await this.$axios.$get('billing/wallet');
+					let data = await this.$axios.$get('billing/wallet', {
+						headers: {
+							'Authorization': `Bearer ${localStorage.getItem('local')}`
+						}
+					});
 					this.account_balance = data.data.converted_balance;
 					//get user data
-					let response_data = await this.$axios.$get('user');
-					this.live_api_key = response_data.data.customer.live_api_key;
+					// let response_data = await this.$axios.$get('user',{
+					// 	headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
+					// });
+
+						// localStorage.setItem('user_data', JSON.stringify(response_data.data));
+
 				} catch(e){
 
 				}
@@ -280,11 +279,14 @@
 			async getBalance(){
 				try{
 					// get account balance
-					let data = await this.$axios.$get('billing/wallet');
+					let data = await this.$axios.$get('billing/wallet' );
 					this.account_balance = data.data.converted_balance;
 				}catch (e) {
 
 				}
+			},
+			autoRefresh(){
+
 			},
 			startIntro() {
 
@@ -335,20 +337,21 @@
 			}
 
 		},
-		mounted: function () {
+
+	async	mounted () {
 
 			if(this.$store.state.view_verify_page === 'true'){
 				this.first_name = this.getFirstName;
 				this.$modal.show('verification-id-modal');
-			} else {
-				this.fetch();
+			} else if (localStorage.getItem('local')) {
+				this.autoRefresh();
+
+				await this.fetch();
 				this.startIntro();
-				this.first_name = this.$store.state.auth.user.fname;
+				this.first_name = JSON.parse(localStorage.getItem('user_data')).fname;
+				this.live_api_key = JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
 				setInterval(this.getBalance, 60000);
 			}
-
-
-
 
 		}
 

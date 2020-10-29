@@ -116,7 +116,7 @@
             password: this.password
           });
           this.$toast.success("successfully updated.")
-          this.$router.push({name: 'login'});
+          await this.$router.push({name: 'login'});
         }catch (e) {
 
         }

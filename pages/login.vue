@@ -71,7 +71,7 @@
   export default {
     name: "login",
     components: {ButtonSpinner},
-    middleware: "guest",
+			 middleware: "guest",
     data(){
       return{
         email:"",
@@ -139,18 +139,22 @@
       },
       async loginUser() {
         try{
-              this.isLoading = true;
-              this.button_text = "Logging in"
-
-                await this.$auth.loginWith('local', {
-                  data: {
-                    email: this.email,
-                    password: this.password
-                  }
-                });
+												this.isLoading = true;
+												this.button_text = "Logging in";
+												let response_data =   await this.$axios.post('auth/login', {
+																		email: this.email,
+																		password: this.password
+														});
+								 await 	localStorage.setItem('local', response_data.data.access_token);
+								 this.$store.commit('setLIState', true);
+								let response = 	await this.$axios.$get('user', {
+									headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
+								});
+								await localStorage.setItem('user_data', JSON.stringify(response.data));
 											this.isLoading = false;
 											this.button_text = "Proceed";
            await this.$router.push('/');
+
 									this.$store.commit('setViewVerificationPage', 'false');
         } catch (e) {
 									this.isLoading = false;
@@ -161,7 +165,6 @@
 													this.$store.commit('setEmail', this.email);
 													this.$store.commit('setPassword', this.password);
 													this.$store.commit('setViewVerificationPage', 'true');
-													this.$store.commit('setLoggedInState', 'true');
 													await this.$router.push({ name: 'index', });
 												}else if (e.response.data.error === 'Unauthorized'){
 
@@ -197,8 +200,6 @@
       }
     },
 			mounted() {
-
-    	console.log(localStorage.setItem('love', 'joy'))
 
 			}
 

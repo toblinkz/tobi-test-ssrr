@@ -78,23 +78,17 @@ name: "VerificationModal",
 					this.button_text = "Verifying";
 					await this.$axios.$post('auth/account/verify',{
 						verification_code: this.verification_code
-					}, {headers: {'Authorization': this.$auth.getToken('local')}});
+					}, {headers: {'Authorization':  `Bearer ${localStorage.getItem('local')}`}});
 
-
-					await this.$auth.loginWith('local', {
-						data: {
-							email: this.getUserEmail,
-							password: this.getUserPassword
-						}
+					let response = 	await this.$axios.$get('user', {
+						headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
 					});
+					await localStorage.setItem('user_data', JSON.stringify(response.data));
 					this.isLoading = false;
 					this.button_text = "Verify Code";
 					this.$toast.show("Successfully verified");
 					this.$store.commit('setViewVerificationPage', 'false');
-					this.$store.commit('setEmail', '');
-					this.$store.commit('setPassword', '');
-					location.reload();
-					localStorage.removeItem('vuex');
+					await location.reload();
 				}catch (error) {
 					if (navigator.onLine) {
 						this.isLoading = false;
@@ -122,15 +116,16 @@ name: "VerificationModal",
 				}
 			},
 			async logOut(){
-				await this.$auth.logout();
-				await this.$router.push({name: 'login',});
-				this.$store.commit('setEmail', '');
-				this.$store.commit('setPassword', '');
-				this.$store.commit('setFirstName', '');
-				this.$store.commit('setLoggedInState', '');
-				localStorage.clear();
-				this.$store.commit('setViewVerificationPage', 'false');
-				location.reload();
+				try {
+					await this.$axios.$get('auth/logout');
+					localStorage.clear();
+					await this.$router.push({name: 'login'});
+					this.$store.commit('setViewVerificationPage', 'false');
+					location.reload();
+				} catch (e) {
+
+				}
+
 			}
 	}
 }

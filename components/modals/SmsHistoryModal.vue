@@ -42,7 +42,7 @@
                     </table>
                   </div>
                   <div class="col-lg-6">
-																			<ContentLoader v-if="!message_id "
+																			<ContentLoader v-if="!channel "
 																																		:speed="2"
 																																		:animate="true"
 																			>
