@@ -117,11 +117,12 @@
 							setTimeout(  async function () {
 								await $nuxt.$axios.$get('auth/logout');
 								$nuxt.$store.commit('setLIState', false);
-								await $nuxt.$router.push({name: 'login'});
 								localStorage.clear();
+								await $nuxt.$router.push({name: 'login'});
+								$nuxt.$store.commit('setViewVerificationPage', 'false');
+								$nuxt.$toast.error("Token has Expired")
 
 										}, log_out_time - Date.now());
-
 
 					},
       toggleMenu(){
