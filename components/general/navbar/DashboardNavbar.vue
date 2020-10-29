@@ -88,7 +88,9 @@
 		 	middleware: 'auth',
     components: {Dropdown},
 			head: {
-
+				script: [
+					// {src:"/js/auto-logout.js" },
+				],
 			},
     data(){
       return{
@@ -110,18 +112,18 @@
 							let current_time = Date(0);
 							const d = new Date(0);
 					  	d.setUTCSeconds(exp_time);
-							let log_out_time = moment(d).subtract(58, 'minutes').toDate();
+							let log_out_time = moment(d).subtract(5, 'minutes').toDate();
 							let logout_out_time_in_sec = new Date().getMilliseconds()  ;
 
 							setTimeout( async function () {
-								await this.$axios.get('auth/logout');
+								await this.$axios.$get('auth/logout');
 										}, log_out_time - Date.now());
 
 							console.log('current time', current_time);
 							console.log('expiry_time', d);
 							console.log('Log_out_time', log_out_time);
 							console.log(logout_out_time_in_sec);
-						console.log(log_out_time - Date.now())
+					 	console.log(log_out_time - Date.now())
 
 
 					},
