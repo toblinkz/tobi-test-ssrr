@@ -89,7 +89,7 @@
     components: {Dropdown},
 			head: {
 				script: [
-					// {src:"/js/auto-logout.js" },
+					 // {src:"/js/auto-logout.js" },
 				],
 			},
     data(){
@@ -107,7 +107,6 @@
 
 						 let token = localStorage.getItem('local');
 						 let decoded = jwt_decode(token);
-					 	console.log(jwt_decode(token))
 							let exp_time = decoded.exp
 							let current_time = Date(0);
 							const d = new Date(0);
@@ -115,15 +114,13 @@
 							let log_out_time = moment(d).subtract(5, 'minutes').toDate();
 							let logout_out_time_in_sec = new Date().getMilliseconds()  ;
 
-							setTimeout( async function () {
-								await this.$axios.$get('auth/logout');
-										}, log_out_time - Date.now());
+							setTimeout(  async function () {
+								await $nuxt.$axios.$get('auth/logout');
+								$nuxt.$store.commit('setLIState', false);
+								await $nuxt.$router.push({name: 'login'});
+								localStorage.clear();
 
-							console.log('current time', current_time);
-							console.log('expiry_time', d);
-							console.log('Log_out_time', log_out_time);
-							console.log(logout_out_time_in_sec);
-					 	console.log(log_out_time - Date.now())
+										}, log_out_time - Date.now());
 
 
 					},
@@ -133,7 +130,7 @@
       async logout(){
       	try {
       		await this.$axios.$get('auth/logout');
-							this.$store.commit('setLIState', false);
+							 this.$store.commit('setLIState', false);
 								await localStorage.clear();
 								await this.$router.push({name: 'login'});
 								this.$store.commit('setViewVerificationPage', 'false');
