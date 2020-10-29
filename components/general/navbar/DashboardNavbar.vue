@@ -82,11 +82,14 @@
 
 <script>
   import Dropdown from "../dropdown/Dropdown";
-		import {mapGetters} from "vuex";
+		import jwt_decode from "jwt-decode";
   export default {
     name: "DashboardNavbar",
 		 	middleware: 'auth',
     components: {Dropdown},
+			head: {
+
+			},
     data(){
       return{
         isOpen:'false',
@@ -94,26 +97,43 @@
 							 imageUrl: 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg'
       }
     },
-			computed:{
-				...mapGetters(['loggedInUser'])
-			},
     methods: {
       toggle: function () {
         this.isOpen = !this.isOpen
       },
+					decode(){
+
+						 let token = localStorage.getItem('local');
+						 let decoded = jwt_decode(token);
+					 	console.log(jwt_decode(token))
+							let exp_time = decoded.exp
+							let current_time = Date(0);
+							const d = new Date(0);
+					  	d.setUTCSeconds(exp_time);
+							let log_out_time = moment(d).subtract(58, 'minutes').toDate();
+							let logout_out_time_in_sec = new Date().getMilliseconds()  ;
+
+							setTimeout( async function () {
+								await this.$axios.get('auth/logout');
+										}, log_out_time - Date.now());
+
+							console.log('current time', current_time);
+							console.log('expiry_time', d);
+							console.log('Log_out_time', log_out_time);
+							console.log(logout_out_time_in_sec);
+						console.log(log_out_time - Date.now())
+
+
+					},
       toggleMenu(){
         $("#mobile-menu").toggleClass("hide-menu");
       },
       async logout(){
       	try {
-								await this.$auth.logout();
+      		await this.$axios.$get('auth/logout');
+							this.$store.commit('setLIState', false);
+								await localStorage.clear();
 								await this.$router.push({name: 'login'});
-								this.$store.commit('setEmail', '');
-								this.$store.commit('setPassword', '');
-								this.$store.commit('setFirstName', '');
-								this.$store.commit('setLoggedInState', '');
-								this.$store.commit('setPhoneBookId', '');
-								localStorage.clear();
 								this.$store.commit('setViewVerificationPage', 'false');
 								location.reload();
 							} catch (e) {
@@ -121,13 +141,14 @@
 							}
       }
     },
-			mounted() {
+			async mounted() {
 				if(this.$store.state.view_verify_page === 'true'){
 						this.imageUrl = 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg';
 				}else{
-						  this.imageUrl = this.$store.state.auth.user.image
+					this.imageUrl = JSON.parse(localStorage.getItem('user_data')).image;
+					this.decode();
 				}
-			}
+			 }
 
 
 		}
