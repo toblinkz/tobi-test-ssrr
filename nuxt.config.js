@@ -18,7 +18,6 @@ export default {
       {src: '/js/feedback.js'},
       { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
       { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
-
       {src:"/js/intro.js" },
       ],
     link: [
@@ -56,7 +55,8 @@ export default {
     { src: '~plugins/vue-js-modal.js'},
     { src: '~plugins/vue-paginate.js'},
     { src: '~plugins/vue-notification.js'},
-			{ src: '~plugins/vue-select.js'},
+			 { src: '~plugins/vue-select.js'},
+				{ src: '~plugins/axios.js'},
     { src: '~plugins/local-storage.js', ssr: false},
 
   ],
@@ -71,7 +71,6 @@ export default {
   */
   modules: [
     '@nuxtjs/axios',
-			 '@nuxtjs/auth',
     '@nuxtjs/toast',
 			['nuxt-stripe-module', {
 				publishableKey: process.env.STRIPE_PK,
@@ -92,31 +91,6 @@ export default {
     duration: 3000
   },
 
-	auth: {
-		localStorage: false,
-		cookie: {
-			prefix: 'auth.',
-			options: {
-				maxAge: 3600
-			}
-		},
-		redirect:{
-			login: '/login',
-			home: '/'
-
-		},
-		strategies: {
-			local: {
-				endpoints: {
-					login: {url: 'auth/login', method: 'post', propertyName: 'access_token'},
-					user: {url: '/user', method: 'get', propertyName: 'data'},
-					logout:{url:'auth/logout', method:'get'}
-
-				}
-			}
-			},
-		plugins: ['~/plugins/axios.js', { src: '~/plugins/auth.js', mode: 'client' }]
-	},
 	//added env object in other to access API_BASE_URL variable in .env file
 	env: {
 			apiBaseUrl: process.env.API_BASE_URL
