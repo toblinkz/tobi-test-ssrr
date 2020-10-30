@@ -130,6 +130,7 @@ export default {
 			enabled: true,
 			color: '#394066',
 			enabled_auto_recharge: false,
+			auto_recharge: false,
 			enabled_email_notification: false
 
 		}
@@ -137,10 +138,12 @@ export default {
 	watch:{
 		enabled_auto_recharge(value){
 			if (value === true){
+				this.auto_recharge = true;
 					this.enabled_email_notification = true;
 			}
 
 			if (value === false){
+				this.auto_recharge = false;
 				this.auto_recharge_amount = 0;
 				if(this.balance_limit_data){
 					this.deleteIntent();
@@ -223,11 +226,14 @@ export default {
 	},
 		async process() {
 			try {
+
 				let response_data = await this.$axios.$post('/billing/balance-limit', {
 					balance_limit: this.balance_limit,
-					auto_recharge: this.enabled_auto_recharge,
+					auto_recharge: this.auto_recharge,
 					recharge_amount: this.auto_recharge_amount
 				});
+
+				this.$toast.success(response_data.data);
 
 				switch (response_data.data.payment_type) {
 					case('paystack'): {
