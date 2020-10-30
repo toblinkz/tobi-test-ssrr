@@ -345,7 +345,7 @@
 				this.$modal.show('verification-id-modal');
 			} else if (localStorage.getItem('local')) {
 				this.autoRefresh();
-
+			 this.$axios.setHeader('Authorization',  `Bearer ${localStorage.getItem('local')}`);
 				await this.fetch();
 				this.startIntro();
 				this.first_name = JSON.parse(localStorage.getItem('user_data')).fname;
