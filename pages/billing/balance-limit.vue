@@ -225,7 +225,7 @@ export default {
 			try {
 				let response_data = await this.$axios.$post('/billing/balance-limit', {
 					balance_limit: this.balance_limit,
-					auto_recharge: true,
+					auto_recharge: this.enabled_auto_recharge,
 					recharge_amount: this.auto_recharge_amount
 				});
 
