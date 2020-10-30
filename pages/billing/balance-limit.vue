@@ -233,7 +233,7 @@ export default {
 					recharge_amount: this.auto_recharge_amount
 				});
 
-				this.$toast.success(response_data.data);
+				this.$toast.success(response_data.data.message);
 
 				switch (response_data.data.payment_type) {
 					case('paystack'): {
