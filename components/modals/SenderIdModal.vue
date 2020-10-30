@@ -61,7 +61,7 @@
       isDisabled:function () {
             return (this.hasSenderIdError || this.sender_id === '' || this.company === '' || this.use_case === '');
       },
-      ...mapGetters(['loggedInUser', 'getBearerToken'])
+
     },
     watch: {
       sender_id(value){
@@ -73,13 +73,12 @@
       close() {
         this.resetForm();
         this.$modal.hide('sender-id-modal');
-        $("body").css("overflow", "auto");
       },
       async requestSenderId(){
         try {
          await this.$axios.post('sms/sender-id', {
             sender_id: this.sender_id,
-            country: this.loggedInUser.country,
+            country: JSON.parse(localStorage.getItem('user_data')).country,
             usecase: this.usecase,
             company: this.company
           }, );
@@ -88,6 +87,7 @@
           this.$modal.hide('sender-id-modal');
           this.$toast.success("Request sent successfully");
         } catch (e) {
+
 									let errors = e.response.data.errors;
 									for (let key in errors) {
 										errors[key].forEach(err => {
@@ -106,12 +106,17 @@
         this.hasSenderIdError = false;
       },
       validateSenderId(value) {
-        if (value.length < 3 || value.length > 11){
+        if (value.length < 3){
           this.error_message['sender_id'] = 'The sender id must be at least 3 characters.';
           this.hasSenderIdError = true;
-        } else {
-          this.error_message['sender_id'] = '';
-          this.hasSenderIdError = false;
+        }else if (value.length > 11) {
+									this.error_message['sender_id'] = 'The sender id may not be greater than 11 characters.';
+									this.hasSenderIdError = true;
+								}
+        	else {
+									this.error_message['sender_id'] = '';
+									this.hasSenderIdError = false;
+
         }
       }
     },
