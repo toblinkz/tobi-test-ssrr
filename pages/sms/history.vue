@@ -88,7 +88,9 @@
 												</div>
 												<div style="width: 20%"></div>
 												<div style="display: flex; flex-direction: row; width: 30%">
+													<center> <button @click="showExportModal" class="btn btn-primary wd-100 bx-line" ><i class="fa fa-filter"></i>Filter</button></center>
 													<center> <button @click="showExportModal" class="btn btn-primary wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
+
 												</div>
 											</div>
 
