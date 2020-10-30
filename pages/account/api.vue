@@ -139,6 +139,8 @@
               });
 
             }catch (e) {
+													this.isLoading = false;
+													this.button_text = 'Renew API key';
 													this.error_message['password'] = 'Password Incorrect';
 													this.hasPasswordError = true;
             }
