@@ -53,7 +53,6 @@ name: "VerificationModal",
 					isDisabled: function (){
 						return( this.verification_code === '' || this.error_message.verification_code !== '');
 					},
-				...mapGetters([ 'getUserPassword', 'getUserEmail'])
 			},
 		watch: {
 			verification_code(value) {
