@@ -240,7 +240,7 @@ export default {
 
 						await Swal.fire({
 							title: 'You are about to add your card!',
-							text: "Please note that we would need to attempt to debit your card, but the amount would be added to your wallet.",
+							text: "Please note that we would need to attempt to debit your card with ₦100, but the amount would be added to your wallet.",
 							icon: 'warning',
 							showCancelButton: true,
 							confirmButtonColor: '#3085d6',
