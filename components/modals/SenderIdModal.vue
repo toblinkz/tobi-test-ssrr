@@ -73,7 +73,6 @@
       close() {
         this.resetForm();
         this.$modal.hide('sender-id-modal');
-        $("body").css("overflow", "auto");
       },
       async requestSenderId(){
         try {
@@ -107,12 +106,17 @@
         this.hasSenderIdError = false;
       },
       validateSenderId(value) {
-        if (value.length < 3 || value.length > 11){
+        if (value.length < 3){
           this.error_message['sender_id'] = 'The sender id must be at least 3 characters.';
           this.hasSenderIdError = true;
-        } else {
-          this.error_message['sender_id'] = '';
-          this.hasSenderIdError = false;
+        }else if (value.length > 11) {
+									this.error_message['sender_id'] = 'The sender id may not be greater than 11 characters.';
+									this.hasSenderIdError = true;
+								}
+        	else {
+									this.error_message['sender_id'] = '';
+									this.hasSenderIdError = false;
+
         }
       }
     },
