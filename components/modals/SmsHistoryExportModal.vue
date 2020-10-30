@@ -89,6 +89,7 @@
         		this.$modal.hide('export-modal');
 										this.no_of_records = '';
 										this.date_time = null;
+										this.hasRecordsError = false;
 										this.exportUrlReady = false;
 									},
 						onChange(event){

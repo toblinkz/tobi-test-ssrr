@@ -33,8 +33,8 @@
 															<p class="insight">View all your messaging insights. <br>Insights captured here include all sent messages.</p>
 														</div>
 														<div class="panel-body text-center">
-															<SmsHistoryChart class="hidden-xs"
-															></SmsHistoryChart>
+<!--															<SmsHistoryChart class="hidden-xs"-->
+<!--															></SmsHistoryChart>-->
 														</div>
 														<!--															<div class="row">-->
 														<!--																<form @submit.prevent="filterSmsHistory" role="form" method="get" >-->
@@ -87,42 +87,63 @@
 													<button class="channel-button" :class="{'whatsapp': whatsapp_active}" @click="display_whatsapp">Whatsapp</button>
 												</div>
 												<div style="width: 20%"></div>
-												<div style="display: flex; flex-direction: row; width: 30%">
-													<center> <button @click="showExportModal" class="btn btn-primary wd-100 bx-line" ><i class="fa fa-filter"></i>Filter</button></center>
-													<center> <button @click="showExportModal" class="btn btn-primary wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
+												<div style="display: flex; flex-direction: row; width: 30%; justify-content: space-around">
+													<div  v-click-outside="hideDrop">
+														<a @click="showFilterModal" class="btn label-success wd-100 bx-line " >
+															<i class="fa fa-filter m-r-5"></i>Filter
+														</a>
+														<div class="filter-card mt-10"  v-show="filter_active">
+															<form @submit.prevent="filterSmsHistory" role="form" method="get" >
+																<div>
+																	<input type="text" placeholder="Phone Number" class="form-control" v-model="phone_number">
+																</div>
+																<div class="mt-20">
+																	<date-picker v-model="date_time" value-type="YYYY-MM-DD " type="date" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
+																</div>
+																<div class="mt-20">
+																	<button type="submit" class="btn btn-success wd-100 bx-line" :disabled="isDisabled">
+																		<i class="fa fa-search" v-show="showIcon"></i> {{searchText}}
+																		<span v-show="isLoading">
+																				<img src="/images/spinner.svg" height="20px" width="80px"/>
+																		</span>
+																	</button>
+																</div>
+															 </form>
+																	</div>
+																</div>
+																<center> <button @click="showExportModal" class="btn btn-primary wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
+															</div>
+														</div>
 
-												</div>
-											</div>
 
+														<div class="mb-10" style="display: flex; flex-direction: row">
+															<span class="" style="width: 50%; font-size: 15px"><i class="fa fa-circle  m-r-10 m-l-30" :class="{'all-chat-color': all_active, 'number-api-chat-color': number_api_active, 'dnd-chat-color': dnd_active, 'generic-chat-color':generic_active, 'whatsapp-chat-color': whatsapp_active}" style="color: #2D74AC"></i>Description</span>
+															<span style="width: 15%; font-size: 15px">Receiver</span>
+															<span style="width: 10%;font-size: 15px">Pages</span>
+															<span style="width: 25%;font-size: 15px">Status</span>
+														</div>
+														<div class="m-l-10 " style="border-bottom: dotted #ddd!important;"></div>
+													</div>
+													<div class="row" v-for="row in messages_sent.data" :key="row.id">
+														<div class="sms-history-card" style="display: flex; flex-direction: row">
+															<div><i class="entypo-chat" :class="{'all-chat-color': all_active, 'number-api-chat-color': number_api_active, 'dnd-chat-color': dnd_active, 'generic-chat-color':generic_active, 'whatsapp-chat-color': whatsapp_active}" style="font-size: 20px; color: green; width: 5%"></i></div>
+															<div style="width: 45%">
+																<div class="bold m-l-10" style="font-size: 16px; font-weight: 500" >Outgoing Message from {{ row.sender }}</div>
+																<div class="m-t-5 m-l-10">	<span style="color: #898989">{{ row.created_at }}</span> 	<span class="m-l-10" style="color: #898989">Channel: {{ row.channel }}</span></div>
+																<div class="m-t-5 m-l-10">{{ row.message }}</div>
+															</div>
+															<div style="width: 20%">
+																<div >{{row.receiver }}</div>
+															</div>
+															<div style="width: 10%">
+																<div>{{ row.amount }}</div>
+															</div>
+															<div style="width: 20%">
+																<div class="label label-success">{{row.status }}</div>
+															</div>
 
-											<div class="mb-10" style="display: flex; flex-direction: row">
-												<span class="" style="width: 50%; font-size: 15px"><i class="fa fa-circle  m-r-10 m-l-30" :class="{'all-chat-color': all_active, 'number-api-chat-color': number_api_active, 'dnd-chat-color': dnd_active, 'generic-chat-color':generic_active, 'whatsapp-chat-color': whatsapp_active}" style="color: #2D74AC"></i>Description</span>
-												<span style="width: 15%; font-size: 15px">Receiver</span>
-												<span style="width: 10%;font-size: 15px">Pages</span>
-												<span style="width: 25%;font-size: 15px">Status</span>
-											</div>
-											<div class="m-l-10 " style="border-bottom: dotted #ddd!important;"></div>
-										</div>
-										<div class="row" v-for="row in messages_sent.data" :key="row.id">
-											<div class="sms-history-card" style="display: flex; flex-direction: row">
-												<div><i class="entypo-chat" :class="{'all-chat-color': all_active, 'number-api-chat-color': number_api_active, 'dnd-chat-color': dnd_active, 'generic-chat-color':generic_active, 'whatsapp-chat-color': whatsapp_active}" style="font-size: 20px; color: green; width: 5%"></i></div>
-												<div style="width: 45%">
-													<div class="bold m-l-10" style="font-size: 16px; font-weight: 500" >Outgoing Message from {{ row.sender }}</div>
-													<div class="m-t-5 m-l-10">	<span style="color: #898989">{{ row.created_at }}</span> 	<span class="m-l-10" style="color: #898989">Channel: {{ row.channel }}</span></div>
-													<div class="m-t-5 m-l-10">{{ row.message }}</div>
-												</div>
-												<div style="width: 20%">
-													<div >{{row.receiver }}</div>
-												</div>
-												<div style="width: 10%">
-													<div>{{ row.amount }}</div>
-												</div>
-												<div style="width: 20%">
-													<div class="label label-success">{{row.status }}</div>
-												</div>
-
-											</div>
-											<!--                      <div class="panel">-->
+														</div>
+														<!--                      <div class="panel">-->
 											<!--                        <div class="panel-body scrollme" style="padding: 10px !Important;">-->
 											<!--                          <table class="table table-responsive data-table table-hover">-->
 											<!--                            <thead>-->
@@ -179,6 +200,7 @@ import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
 import SmsHistoryModal from "../../components/modals/SmsHistoryModal";
 import Pagination from "../../components/general/Pagination";
 import DatePicker from "vue2-datepicker";
+import ClickOutside from "vue-click-outside";
 import 'vue2-datepicker/index.css';
 import SmsHistoryChart from "../../components/general/charts/SmsHistoryChart";
 import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
@@ -209,6 +231,7 @@ export default {
 			sms_history_id:'',
 			show_shimmer: false,
 			all_active: true,
+			filter_active: false,
 			number_api_active: false,
 			whatsapp_active: false,
 			dnd_active: false,
@@ -225,10 +248,11 @@ export default {
 	},
 	computed:{
 		isDisabled: function () {
-			return(this.Phone_number === '' ||  this.date_time === null)
+			return(this.phone_number === '' ||  this.date_time === null)
 		}
 	},
 	methods: {
+
 		closeModal() {
 			this.showSmsModal = false;
 		},
@@ -250,6 +274,12 @@ export default {
 		},
 		showExportModal(){
 			this.$modal.show('export-modal');
+		},
+		showFilterModal(){
+			this.filter_active = !this.filter_active;
+		},
+		hideDrop(){
+			this.filter_active = false;
 		},
 		async fetch(){
 			try {
@@ -318,6 +348,9 @@ export default {
 			this.dnd_active = false;
 			this.number_api_active = false;
 		},
+		display_filter(){
+			this.filter_active = true;
+		},
 		display_dnd(){
 			this.all_active = false;
 			this.whatsapp_active = false;
@@ -347,6 +380,9 @@ export default {
 			this.dnd_active = false;
 			this.number_api_active = false;
 		}
+	},
+	directives: {
+		ClickOutside
 	},
 
 }
@@ -411,6 +447,14 @@ export default {
 	box-shadow: 0 10px 45px 0 rgba(0,0,0,.1);
 	margin-bottom: 20px;
 	padding: 40px 30px;
+}
+.filter-card{
+	position: absolute;
+	padding: 50px 50px;
+	border-width: 1px;
+	border-radius: 8px;
+	background-color: white;
+	box-shadow: 0 10px 45px 0 rgba(0,0,0,.1);
 }
 .row {
 	margin-left: 0px;
@@ -579,7 +623,16 @@ table {
 .number-api-chat-color{
 	color: #4CAF50!important;
 }
-
+.filter-button::after{
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
+}
 
 .bx-line {
 	border: transparent !important;
