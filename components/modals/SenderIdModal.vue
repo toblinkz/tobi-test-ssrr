@@ -61,7 +61,7 @@
       isDisabled:function () {
             return (this.hasSenderIdError || this.sender_id === '' || this.company === '' || this.use_case === '');
       },
-      ...mapGetters(['loggedInUser', 'getBearerToken'])
+
     },
     watch: {
       sender_id(value){
@@ -79,7 +79,7 @@
         try {
          await this.$axios.post('sms/sender-id', {
             sender_id: this.sender_id,
-            country: this.loggedInUser.country,
+            country: JSON.parse(localStorage.getItem('user_data')).country,
             usecase: this.usecase,
             company: this.company
           }, );
@@ -88,6 +88,7 @@
           this.$modal.hide('sender-id-modal');
           this.$toast.success("Request sent successfully");
         } catch (e) {
+
 									let errors = e.response.data.errors;
 									for (let key in errors) {
 										errors[key].forEach(err => {
