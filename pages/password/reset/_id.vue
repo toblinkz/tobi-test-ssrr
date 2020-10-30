@@ -55,6 +55,7 @@
 
 
 <script>
+import Swal from 'sweetalert2';
   export default {
     name: "_id",
     data(){
@@ -106,7 +107,16 @@
         let verifyToken = await this.$axios.$get('password-reset/verify/token-link/'+ this.$route.params.id);
 
         if (verifyToken.data === false){
-          this.$toast.error("Request for password reset again");
+									await Swal.fire({
+										icon: 'error',
+										title: 'Oops...',
+										text: 'Request for password reset again',
+										confirmButtonText: '<a href="/#/forgot-password" style="color: #ffffff">Reset Password</a>'
+									}).then(async (result)=> {
+												if (result.value){
+													window.location.href = "/#/forgot-password"
+												}
+									})
         }
       },
       async requestPasswordReset(){
@@ -118,16 +128,23 @@
           this.$toast.success("successfully updated.")
           await this.$router.push({name: 'login'});
         }catch (e) {
-
+									await Swal.fire({
+										icon: 'error',
+										title: 'Oops...',
+										text: 'Reset link expired. Request for password reset again',
+										confirmButtonText: '<a href="/#/forgot-password" style="color: #ffffff">Reset Password</a>'
+									}).then(async (result)=> {
+										if (result.value){
+											window.location.href = "/#/forgot-password"
+										}
+									})
         }
 
       },
     },
-    created() {
-      this.verifyResetPasswordToken();
-    },
-    mounted() {
 
+    mounted() {
+					this.verifyResetPasswordToken();
 
     }
 
