@@ -90,10 +90,10 @@
 
 									let errors = e.response.data.errors;
 									for (let key in errors) {
-										errors[key].forEach(err => {
-											this.error_message['sender_id'] = err;
-											this.hasSenderIdError = true;
-										});
+													errors[key].forEach(err => {
+														this.error_message['sender_id'] = err;
+														this.hasSenderIdError = true;
+													});
 
 									}
 								}
