@@ -19,10 +19,12 @@
                   <span class=" error_field_message" v-if="error_message.sender_id">{{error_message.sender_id}}</span>
                   <br>
                   <label>Company</label>
-                  <input type="text" class="form-control" v-model="company" required placeholder="eg. Termii" name="company">
+                  <input type="text" class="form-control" v-model="company" required placeholder="eg. Termii" name="company" :class="{'error' : hasCompanyError}">
+																	<span class=" error_field_message" v-if="error_message.company">{{error_message.company}}</span>
                   <br>
                   <label>Use Case</label>
-                  <textarea type="text" class="form-control" v-model="usecase" required="" placeholder="eg. Hello dear is a sample of the message you will be sending with Termii" name="usecase"></textarea>
+                  <textarea type="text" class="form-control" v-model="usecase" required="" placeholder="eg. Hello dear is a sample of the message you will be sending with Termii" name="usecase" :class="{'error' : hasUseCaseError}"></textarea>
+																 	<span class=" error_field_message" v-if="error_message.usecase">{{error_message.usecase}}</span>
                   <br><br>
                   <strong>NB:</strong> Sender ID registration are approved only on weekdays and takes 24 hours to activate across all telcos in your country. If you need to try out the sms feature during weekends without an approved ID, please <a class="blue-t text-bold" id="CHATID">click here to Contact Sales</a>
                 </div>
@@ -54,7 +56,9 @@
         usecase:"",
         error_message:[],
         error: "",
-        hasSenderIdError: false
+        hasSenderIdError: false,
+							 hasCompanyError: false,
+							 hasUseCaseError: false
       }
     },
     computed:{
@@ -67,7 +71,15 @@
       sender_id(value){
         this.sender_id = value;
         this.validateSenderId(value);
-      }
+      },
+      company(value){
+      	this.company = value;
+      	this.clearCompanyError();
+						},
+					usecase(value){
+      	this.usecase = value;
+      	this.clearUseCaseError();
+					}
     },
     methods: {
       close() {
@@ -90,10 +102,32 @@
 
 									let errors = e.response.data.errors;
 									for (let key in errors) {
-										errors[key].forEach(err => {
-											this.error_message['sender_id'] = err;
-											this.hasSenderIdError = true;
-										});
+										switch (key){
+											case('name'):{
+												errors[key].forEach(err => {
+													this.error_message['sender_id'] = err;
+													this.hasSenderIdError = true;
+
+												});
+												break;
+											}
+											case ('company'):{
+												errors[key].forEach(err => {
+													this.error_message['company'] = err;
+													this.hasCompanyError = true;
+
+												});
+												break;
+											}
+											case ('usecase'):{
+												errors[key].forEach(err => {
+													this.error_message['usecase'] = err;
+													this.hasUseCaseError = true;
+
+												});
+												break;
+											}
+										}
 
 									}
 								}
@@ -118,7 +152,19 @@
 									this.hasSenderIdError = false;
 
         }
-      }
+      },
+					clearCompanyError(){
+      	if (this.hasCompanyError){
+      		this.error_message['company'] = '';
+      		this.hasCompanyError = false;
+							}
+					},
+					clearUseCaseError(){
+      	if (this.hasUseCaseError){
+      		this.error_message['usecase'] = '';
+      		this.hasUseCaseError = true;
+							}
+					}
     },
   }
 </script>
