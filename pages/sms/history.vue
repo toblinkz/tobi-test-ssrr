@@ -72,10 +72,8 @@
 										</div>
 									</div>
 								</div>
-								<TableVuePlaceHolder v-if="!show_shimmer">
 
-								</TableVuePlaceHolder>
-								<div class="col-md-12" v-else>
+								<div class="col-md-12" >
 									<div class="col-sm-12">
 										<div class="mb-20">
 											<div style="display: flex; flex-direction: row;">
@@ -115,8 +113,10 @@
 															</div>
 														</div>
 
+											<TableVuePlaceHolder v-if="!show_shimmer">
 
-														<div class="mb-10" style="display: flex; flex-direction: row">
+											</TableVuePlaceHolder>
+														<div class="mb-10" style="display: flex; flex-direction: row" v-show="show_shimmer">
 															<span class="" style="width: 50%; font-size: 15px"><i class="fa fa-circle  m-r-10 m-l-30" :class="{'all-chat-color': all_active, 'number-api-chat-color': number_api_active, 'dnd-chat-color': dnd_active, 'generic-chat-color':generic_active, 'whatsapp-chat-color': whatsapp_active}" style="color: #2D74AC"></i>Description</span>
 															<span style="width: 15%; font-size: 15px">Receiver</span>
 															<span style="width: 10%;font-size: 15px">Pages</span>
@@ -130,7 +130,8 @@
 															<div style="width: 45%">
 																<div class="bold m-l-10" style="font-size: 16px; font-weight: 500" >Outgoing Message from {{ row.sender }}</div>
 																<div class="m-t-5 m-l-10">	<span style="color: #898989">{{ row.created_at }}</span> 	<span class="m-l-10" style="color: #898989">Channel: {{ row.channel }}</span></div>
-																<div class="m-t-5 m-l-10">{{ row.message }}</div>
+																<div class="m-t-5 m-l-10" v-if="row.id !== message_id">{{row.message_abbreviation}}</div>
+																<div class="m-t-5 m-l-10" v-if="row.id === message_id">{{row.message}}</div>
 															</div>
 															<div style="width: 20%">
 																<div >{{row.receiver }}</div>
@@ -141,37 +142,13 @@
 															<div style="width: 20%">
 																<div class="label label-success">{{row.status }}</div>
 															</div>
-
+															<div>
+																<span style="width: 25%;font-size: 15px" @click="expandMessageSent(row)">
+																		<i class="fa fa-expand m-r-10 m-l-30" style="color: #2D74AC; cursor: pointer">
+																		</i>
+																</span>
+															</div>
 														</div>
-														<!--                      <div class="panel">-->
-											<!--                        <div class="panel-body scrollme" style="padding: 10px !Important;">-->
-											<!--                          <table class="table table-responsive data-table table-hover">-->
-											<!--                            <thead>-->
-											<!--                            <tr>-->
-											<!--                              <th style="width: 5%;">Date</th>-->
-											<!--                              <th style="width: 5%;">Channel</th>-->
-											<!--                              <th style="width: 5%;">From</th>-->
-											<!--                              <th style="width: 5%;">To</th>-->
-											<!--                              <th style="width: 10%;">Status</th>-->
-											<!--                              <th style="width: 10%;">Action</th>-->
-											<!--                            </tr>-->
-											<!--                            </thead>-->
-											<!--                            <tbody>-->
-											<!--                            <tr v-for="row in messages_sent.data" :key="row.date">-->
-											<!--                              <td style="width: 5%;">{{row.created_at}}</td>-->
-											<!--                              <td style="width: 5%;">{{row.channel}}</td>-->
-											<!--                              <td style="width: 5%;">{{row.sender}}</td>-->
-											<!--                              <td style="width: 5%;">{{row.receiver}}</td>-->
-											<!--                              <td style="width: 10%;">{{row.status}}</td>-->
-											<!--                              <td style="width: 10%;">-->
-											<!--                                <a class="btn btn-success btn-xs" @click="showModal(row)" ><i class="entypo-popup"></i> View</a>-->
-											<!--                              </td>-->
-											<!--                            </tr>-->
-											<!--                            </tbody>-->
-											<!--                          </table>-->
-											<!--                        </div>-->
-											<!--                      </div>-->
-
 										</div>
 									</div>
 								</div>
@@ -226,8 +203,10 @@ export default {
 			messages_sent: [],
 			phone_number:'',
 			showPagination: false,
+			message_id: '',
 			page:'',
 			total_page:'',
+			expand_message: false,
 			sms_history_id:'',
 			show_shimmer: false,
 			all_active: true,
@@ -235,7 +214,10 @@ export default {
 			number_api_active: false,
 			whatsapp_active: false,
 			dnd_active: false,
-			generic_active: false
+			generic_active: false,
+			channel: '',
+			message_sent:'',
+			show_message_abbr: true
 		}
 	},
 	mounted() {
@@ -272,6 +254,16 @@ export default {
 			}
 
 		},
+
+		expandMessageSent(row){
+					if (this.message_id === row.id){
+								this.message_id = ''
+								this.show_message_abbr = false;
+							}else {
+								this.message_id = row.id
+							}
+
+		},
 		showExportModal(){
 			this.$modal.show('export-modal');
 		},
@@ -281,27 +273,26 @@ export default {
 		hideDrop(){
 			this.filter_active = false;
 		},
-		async fetch(){
-			try {
-				//get sms history
-				let data = await this.$axios.$get('sms/history', {params:{page: this.page}});
-				this.messages_sent = data;
-				if (data.meta.last_page > 1 ){
-					this.showPagination = true
-				}else {this.showPagination = false}
-				this.page = this.messages_sent.meta.current_page;
-				this.total_page = this.messages_sent.meta.last_page;
-				this.show_shimmer = true;
-
-				this.isLoading = false;
-				this.searchText = 'Search';
-				this.showIcon = true;
-			}catch (e) {
-
-			}
-
-		},
-		async filterSmsHistory(){
+		// async fetch(){
+		// 	try {
+		// 		//get sms history
+		// 		let data = await this.$axios.$get('sms/history', {params:{page: this.page, channel_filter: this.channel}});
+		// 		this.messages_sent = data;
+		// 		if (data.meta.last_page > 1 ){
+		// 			this.showPagination = true
+		// 		}else {this.showPagination = false}
+		// 		this.page = this.messages_sent.meta.current_page;
+		// 		this.total_page = this.messages_sent.meta.last_page;
+		// 		this.show_shimmer = false;
+		// 		this.isLoading = false;
+		// 		this.searchText = 'Search';
+		// 		this.showIcon = true;
+		// 	}catch (e) {
+		//
+		// 	}
+		//
+		// },
+		async filterSmsHistory() {
 			this.isLoading = true;
 			this.searchText = '';
 			this.showIcon = false;
@@ -311,7 +302,8 @@ export default {
 							page: this.page,
 							phone_number: this.phone_number,
 							date_from: this.date_time[0],
-							date_to: this.date_time[1]
+							date_to: this.date_time[1],
+							channel_filter: this.channel
 						}
 				});
 
@@ -332,16 +324,39 @@ export default {
 			}
 
 		},
+		async filterByChannel(){
+			try {
+				this.show_shimmer = false;
+				let data = await this.$axios.$get('sms/history', {params:
+						{
+							page: this.page,
+							channel_filter: this.channel
+						}
+				});
+
+				this.messages_sent = data;
+				this.show_shimmer = true;
+				if (data.meta.last_page > 1 ){
+					this.showPagination = true
+				}else {this.showPagination = false}
+				this.page = this.messages_sent.meta.current_page;
+				this.total_page = this.messages_sent.meta.last_page;
+				this.show_shimmer = true;
+			}catch (e) {
+
+			}
+		},
 		onPageChange(page) {
 			this.page = page;
-			this.show_shimmer = false;
-			this.fetch();
+			this.filterByChannel();
 		},
 		showModal(row){
 			this.sms_history_id = row.id;
 			this.showSmsModal = true;
 		},
-		display_all(){
+		async display_all(){
+			this.page = 1;
+			await this.filterByChannel();
 			this.all_active = true;
 			this.whatsapp_active = false;
 			this.generic_active = false;
@@ -351,29 +366,41 @@ export default {
 		display_filter(){
 			this.filter_active = true;
 		},
-		display_dnd(){
-			this.all_active = false;
-			this.whatsapp_active = false;
-			this.generic_active = false;
-			this.dnd_active = true;
-			this.number_api_active = false;
-			localStorage.setItem("mytime", "love");
+		 async display_dnd(){
+			 	this.channel = 'Dnd';
+				 this.page = 1;
+				 await this.filterByChannel();
+					this.all_active = false;
+					this.whatsapp_active = false;
+					this.generic_active = false;
+					this.dnd_active = true;
+					this.number_api_active = false;
+
 		},
-		display_generic(){
+		async display_generic(){
+			this.channel = 'Sms';
+			this.page = 1;
+			await this.filterByChannel();
 			this.all_active = false;
 			this.whatsapp_active = false;
 			this.generic_active = true;
 			this.dnd_active = false;
 			this.number_api_active = false;
 		},
-		display_number_api(){
+		async display_number_api(){
+			this.channel = 'Number';
+			this.page = 1;
+			await this.filterByChannel();
 			this.all_active = false;
 			this.whatsapp_active = false;
 			this.generic_active = false;
 			this.dnd_active = false;
 			this.number_api_active = true;
 		},
-		display_whatsapp(){
+		async display_whatsapp(){
+			this.channel = 'Whatsapp';
+			this.page = 1;
+			await this.filterByChannel();
 			this.all_active = false;
 			this.whatsapp_active = true;
 			this.generic_active = false;
@@ -449,6 +476,7 @@ export default {
 	padding: 40px 30px;
 }
 .filter-card{
+	z-index: 10;
 	position: absolute;
 	padding: 50px 50px;
 	border-width: 1px;
