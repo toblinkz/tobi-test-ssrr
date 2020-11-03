@@ -33,39 +33,9 @@
 															<p class="insight">View all your messaging insights. <br>Insights captured here include all sent messages.</p>
 														</div>
 														<div class="panel-body text-center">
-<!--															<SmsHistoryChart class="hidden-xs"-->
-<!--															></SmsHistoryChart>-->
+															<SmsHistoryChart class="hidden-xs"></SmsHistoryChart>
 														</div>
-														<!--															<div class="row">-->
-														<!--																<form @submit.prevent="filterSmsHistory" role="form" method="get" >-->
-														<!--																	<div class="row">-->
-														<!--																		<div class="col-md-12 mb-20" style="padding-left: 0px;padding-right: 0px;">-->
-														<!--																			<input type="text" placeholder="Phone Number" class="form-control" v-model="phone_number">-->
-														<!--																		</div>-->
-
-														<!--																		<div class="col-md-12 mb-20" style="padding-left: 0px;padding-right: 0px;">-->
-														<!--																			<date-picker v-model="date_time" value-type="YYYY-MM-DD " type="date" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>-->
-														<!--																		</div>-->
-														<!--																	</div>-->
-														<!--																	<center>-->
-														<!--																		<button type="submit" class="btn btn-success wd-100 bx-line" :disabled="isDisabled"-->
-														<!--																		><i class="fa fa-search" v-show="showIcon"></i> {{searchText}}-->
-														<!--																			<span v-show="isLoading">-->
-														<!--                                         <img src="/images/spinner.svg" height="20px" width="80px"/>-->
-														<!--                                      </span>-->
-														<!--																		</button>-->
-														<!--																	</center>-->
-														<!--																</form>-->
-														<!--																<div class="mt-20">-->
-														<!--																	<center> <button @click="showExportModal" class="btn btn-primary wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>-->
-														<!--																</div>-->
-
-														<!--															</div>-->
 													</div>
-													<!--													</div>-->
-													<!--													<div class="col-lg-8 mb-20">-->
-													<!--													-->
-													<!--													</div>-->
 
 												</div>
 											</div>
