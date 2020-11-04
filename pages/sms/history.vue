@@ -651,7 +651,7 @@ table {
 	border: none;
 }
 .all-chat-color{
-	color: #365899!important;
+	color: #2D74AC!important;
 }
 .whatsapp-chat-color{
 	color: #982649 !important;
