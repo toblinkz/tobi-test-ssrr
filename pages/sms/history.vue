@@ -83,42 +83,47 @@
 															</div>
 														</div>
 
-											<TableVuePlaceHolder v-if="!show_shimmer">
-
-											</TableVuePlaceHolder>
-														<div class="mb-10" style="display: flex; flex-direction: row" v-show="show_shimmer">
+														<div class="mb-10" style="display: flex; flex-direction: row">
 															<span class="" style="width: 50%; font-size: 15px"><i class="fa fa-circle  m-r-10 m-l-30" :class="{'all-chat-color': all_active, 'number-api-chat-color': number_api_active, 'dnd-chat-color': dnd_active, 'generic-chat-color':generic_active, 'whatsapp-chat-color': whatsapp_active}" style="color: #2D74AC"></i>Description</span>
 															<span style="width: 15%; font-size: 15px">Receiver</span>
-															<span style="width: 10%;font-size: 15px">Pages</span>
+															<span style="width: 15%;font-size: 15px">Pages</span>
 															<span style="width: 25%;font-size: 15px">Status</span>
 														</div>
 														<div class="m-l-10 " style="border-bottom: dotted #ddd!important;"></div>
 													</div>
-													<div class="row" v-for="row in messages_sent.data" :key="row.id">
-														<div class="sms-history-card" style="display: flex; flex-direction: row">
-															<div><i class="entypo-chat" :class="{'all-chat-color': all_active, 'number-api-chat-color': number_api_active, 'dnd-chat-color': dnd_active, 'generic-chat-color':generic_active, 'whatsapp-chat-color': whatsapp_active}" style="font-size: 20px; color: green; width: 5%"></i></div>
-															<div style="width: 45%">
-																<div class="bold m-l-10" style="font-size: 16px; font-weight: 500" >Outgoing Message from {{ row.sender }}</div>
-																<div class="m-t-5 m-l-10">	<span style="color: #898989">{{ row.created_at }}</span> 	<span class="m-l-10" style="color: #898989">Channel: {{ row.channel }}</span></div>
-																<div class="m-t-5 m-l-10" v-if="row.id !== message_id">{{row.message_abbreviation}}</div>
-																<div class="m-t-5 m-l-10" v-if="row.id === message_id">{{row.message}}</div>
-															</div>
-															<div style="width: 20%">
-																<div >{{row.receiver }}</div>
-															</div>
-															<div style="width: 10%">
-																<div>{{ row.amount }}</div>
-															</div>
-															<div style="width: 20%">
-																<div class="label label-success">{{row.status }}</div>
-															</div>
-															<div>
-																<span style="width: 25%;font-size: 15px" @click="expandMessageSent(row)">
+												<TableVuePlaceHolder v-if="!show_shimmer">
+
+												</TableVuePlaceHolder>
+										<div v-else>
+											<div class="row" v-for="row in messages_sent.data" :key="row.id" v-show="messages_sent.data.length > 0">
+												<div class="sms-history-card" style="display: flex; flex-direction: row">
+													<div><i class="entypo-chat" :class="{'all-chat-color': all_active, 'number-api-chat-color': number_api_active, 'dnd-chat-color': dnd_active, 'generic-chat-color':generic_active, 'whatsapp-chat-color': whatsapp_active}" style="font-size: 20px; color: green; width: 5%"></i></div>
+													<div style="width: 45%">
+														<div class="bold m-l-10" style="font-size: 15px; font-weight: 500" >Outgoing Message from {{ row.sender }}</div>
+														<div class="m-t-5 m-l-10">	<span style="color: #898989">{{ row.created_at }}</span> 	<span class="m-l-10" style="color: #898989">Channel: {{ row.channel }}</span></div>
+														<div class="m-t-5 m-l-10" v-if="row.id !== message_id">{{row.message_abbreviation}}</div>
+														<div class="m-t-5 m-l-10" v-if="row.id === message_id">{{row.message}}</div>
+													</div>
+													<div style="width: 20%">
+														<div >{{row.receiver }}</div>
+													</div>
+													<div style="width: 12%">
+														<div>{{ row.amount }}</div>
+													</div>
+													<div style="width: 18%">
+														<div class="label " :class="rowStatusClass(row)">{{row.status }}</div>
+													</div>
+													<div>
+																<span style="width: 5%;font-size: 15px" @click="expandMessageSent(row)">
 																		<i class="fa fa-expand m-r-10 m-l-30" style="color: #2D74AC; cursor: pointer">
 																		</i>
 																</span>
-															</div>
-														</div>
+													</div>
+												</div>
+											</div>
+											<div>
+												<div style="text-align: center; cursor: pointer" v-show="messages_sent.data.length < 1">No data available</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -224,7 +229,23 @@ export default {
 			}
 
 		},
+		rowStatusClass(row){
+			switch (row.status) {
+					case('Sent'):{
+						return 'label-sent'
+					}
+					case ('Delivered'):{
+						return 'label-delivered'
+					}
+					case('Failed'):{
+						return 'label-failed'
+					}
+					case('Rejected'):{
+						return 'label-rejected'
+					}
+			}
 
+		},
 		expandMessageSent(row){
 					if (this.message_id === row.id){
 								this.message_id = ''
@@ -318,6 +339,7 @@ export default {
 		},
 		onPageChange(page) {
 			this.page = page;
+			this.show_shimmer = false;
 			this.filterByChannel();
 		},
 		showModal(row){
@@ -325,6 +347,7 @@ export default {
 			this.showSmsModal = true;
 		},
 		async display_all(){
+			this.channel = '';
 			this.page = 1;
 			await this.filterByChannel();
 			this.all_active = true;
@@ -537,6 +560,27 @@ table {
 	color: #fff;
 	background-color: #4CAF50;
 }
+.label-sent {
+	border-color: #365899;
+	color: #fff;
+	background-color: #365899;
+}
+.label-failed {
+	border-color:#ffc107;
+	color: #fff;
+	background-color: #ffc107;
+}
+.label-rejected {
+	border-color:#FF0000;
+	color: #fff;
+	background-color:#FF0000;
+}
+.label-delivered{
+	border-color:#226a4a;
+	color: #fff;
+	background-color:#226a4a;
+}
+
 .btn-success {
 	color: #fff;
 	background: linear-gradient(-48deg, #70ddad -30%, #226a4a 60%) !important;
@@ -577,8 +621,7 @@ table {
 	outline: none;
 	background: #fff;
 	color: #A9A9A9;
-	border-color: #DBDBDB;
-	border-width: thin;
+	border: 1px solid #A9A9A9;
 	cursor: pointer;
 }
 .all.channel-button{
