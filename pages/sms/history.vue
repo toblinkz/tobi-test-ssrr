@@ -243,25 +243,25 @@ export default {
 		hideDrop(){
 			this.filter_active = false;
 		},
-		// async fetch(){
-		// 	try {
-		// 		//get sms history
-		// 		let data = await this.$axios.$get('sms/history', {params:{page: this.page, channel_filter: this.channel}});
-		// 		this.messages_sent = data;
-		// 		if (data.meta.last_page > 1 ){
-		// 			this.showPagination = true
-		// 		}else {this.showPagination = false}
-		// 		this.page = this.messages_sent.meta.current_page;
-		// 		this.total_page = this.messages_sent.meta.last_page;
-		// 		this.show_shimmer = false;
-		// 		this.isLoading = false;
-		// 		this.searchText = 'Search';
-		// 		this.showIcon = true;
-		// 	}catch (e) {
-		//
-		// 	}
-		//
-		// },
+		async fetch(){
+			try {
+				//get sms history
+				let data = await this.$axios.$get('sms/history', {params:{page: this.page, channel_filter: this.channel}});
+				this.messages_sent = data;
+				if (data.meta.last_page > 1 ){
+					this.showPagination = true
+				}else {this.showPagination = false}
+				this.page = this.messages_sent.meta.current_page;
+				this.total_page = this.messages_sent.meta.last_page;
+				this.show_shimmer = false;
+				this.isLoading = false;
+				this.searchText = 'Search';
+				this.showIcon = true;
+			}catch (e) {
+
+			}
+
+		},
 		async filterSmsHistory() {
 			this.isLoading = true;
 			this.searchText = '';
