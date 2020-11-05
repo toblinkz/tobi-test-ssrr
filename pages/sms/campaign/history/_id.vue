@@ -16,7 +16,7 @@
         <!-- Page content -->
         <div class="page-content">
           <!-- Main content -->
-          <div class="content-wrapper">
+          <div>
             <!-- main inner content -->
             <main id="wrapper" class="wrapper">
               <section class="wrapper-bottom-sec">
@@ -37,14 +37,14 @@
                               <form @submit.prevent="fetch" role="form" method="get" id="search-form">
                                 <div class="row">
                                   <div class="form-group">
-                                    <input type="text" placeholder="Phone Number"   class="form-control" v-model="phone_number">
+                                    <input type="text" placeholder="Phone Number"  class="form-control" v-model="phone_number">
                                   </div>
                                 </div>
-                                <button type="submit" class="btn btn-success wd-100 bx-line"><i class="fa fa-search"></i> Search</button>
+                                <button type="submit" :disabled="isDisabled"  class="btn btn-success wd-100 bx-line" style="border: 1px solid transparent;"><i class="fa fa-search"></i> Search</button>
                               </form>
                               <br />
                               <form  @submit.prevent="getReportDownloadUrl" method="get" role="form">
-                                <button type="submit" class="btn btn-primary wd-100 bx-line" :disabled="isDisabled"><i class="fa fa-level-down" v-show="!isLoading"></i> 	<span v-show="isLoading">
+                                <button type="submit" class="btn btn-primary wd-100 bx-line" style="border: 1px solid transparent;" ><i class="fa fa-level-down" v-show="!isLoading"></i> 	<span v-show="isLoading">
 																																	<img src="/images/spinner.svg" height="20px" width="20px"/>
 																															</span> {{download_report_button_text}}</button>
 																														</form>
@@ -65,36 +65,52 @@
                     </div>
                   </div>
                 </div>
-															<TableVuePlaceHolder v-if="!show_shimmer">
 
-															</TableVuePlaceHolder>
-                <div class="col-md-12" v-else>
+                <div class="col-md-12" >
                   <div class="p-15">
                     <div class="row">
-                      <div class="col-lg-12 panel">
-                        <div role="tabpanel" class="mt-50" id="recipients">
-                          <table class="table  table-hover">
-                            <thead>
-                            <tr>
-                              <th style="width: 5%">Sent At</th>
-                              <th style="width: 5%">Number</th>
-                              <th style="width: 25%">Message</th>
-                              <th style="width: 5%">Amount</th>
-                              <th style="width: 5%">Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="row in manage_campaign_list" :key="row.sent_at">
-                              <td style="width: 5%">{{row.created_at}}</td>
-                              <td style="width: 5%">{{row.receiver}}</td>
-                              <td style="width: 25%">{{row.message}}</td>
-                              <td style="width: 5%">{{row.amount}}</td>
-                              <td style="width: 5%">{{row.status}}</td>
-                            </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
+																					<div class="mb-10" style="display: flex; flex-direction: row">
+																						<span class="" style="width: 50%; font-size: 15px"><i class="fa fa-circle  m-r-10 m-l-30"  style="color: #2D74AC"></i>Description</span>
+																						<span style="width: 15%; font-size: 15px">Receiver</span>
+																						<span style="width: 15%;font-size: 15px">Pages</span>
+																						<span style="width: 25%;font-size: 15px">Status</span>
+																					</div>
+																					<div class="m-l-10 " style="border-bottom: dotted #ddd!important;"></div>
+																					<TableVuePlaceHolder v-if="!show_shimmer">
+
+																					</TableVuePlaceHolder>
+																					<div class="mt-20" v-else>
+																						<div class="row" v-for="row in manage_campaign_list" :key="row.id" v-show="manage_campaign_list.length > 0">
+																							<div class="sms-history-card" style="display: flex; flex-direction: row">
+																								<div><i class="entypo-chat"  style="font-size: 20px; color:#2D74AC; width: 5%"></i></div>
+																								<div style="width: 45%">
+																									<div class="bold m-l-10" style="font-size: 15px; font-weight: 500" >Outgoing Message from {{  row.sender }}</div>
+																									<div class="m-t-5 m-l-10">	<span style="color: #898989">{{ row.created_at }}</span> 	<span class="m-l-10" style="color: #898989">Channel: {{ row.channel }}</span></div>
+																									<div class="m-t-5 m-l-10" v-if="row.id !== message_id">{{row.message_abbreviation}}</div>
+																									<div class="m-t-5 m-l-10" v-if="row.id === message_id">{{row.message}}</div>
+																								</div>
+																								<div style="width: 20%">
+																									<div >{{row.receiver }}</div>
+																								</div>
+																								<div style="width: 12%">
+																									<div>{{ row.amount }}</div>
+																								</div>
+																								<div style="width: 18%">
+																									<div class="label" :class="rowStatusClass(row)" >{{row.status }}</div>
+																								</div>
+																								<div>
+																									<span style="width: 5%;font-size: 15px" @click="expandMessageSent(row)">
+																											<i class="fa fa-expand m-r-10 m-l-30" style="color: #2D74AC; cursor: pointer">
+																											</i>
+																									</span>
+																								</div>
+																							</div>
+																						</div>
+																						<div>
+																							<div style="text-align: center; cursor: pointer" v-show="manage_campaign_list.length < 1">No data available</div>
+																						</div>
+																					</div>
+
                     </div>
 																			<Pagination
 																				:page="page"
@@ -102,7 +118,6 @@
 																				:on-page-change="onPageChange"
 																				v-show="showPagination === true"
 																			>
-
 																			</Pagination>
                   </div>
                 </div>
@@ -130,9 +145,6 @@
         name: "manage-campaign",
 					   middleware: ['auth', 'inactive_user'],
 								components: {VerificationModal, Pagination, PieChartPlaceHolder, TableVuePlaceHolder, ManageCampaignChart, DashboardNavbar, Sidebar},
-								computed:{
-										...mapGetters(['getCampaignCreatedDate'])
-      },
       data() {
           return{
             manage_campaign_list:[],
@@ -140,16 +152,23 @@
             campaign_id: this.$route.params.id,
 												exportUrlReady: false,
             phone_number:'',
-											isLoading:false,
-											isDisabled:false,
-            triggered_date: moment(this.getCampaignCreatedDate).format('lll'),
-											 show_shimmer: false,
-													page: 1,
-													total_page:'',
-													showPagination: false,
+												isLoading:false,
+												isDisabled:false,
+												triggered_date: moment(this.getCampaignCreatedDate).format('lll'),
+												show_shimmer: false,
+												page: 1,
+												total_page:'',
+												showPagination: false,
+												message_id:''
 
           }
       },
+					computed:{
+						...mapGetters(['getCampaignCreatedDate']),
+						isDisabled: function () {
+							 return(this.phone_number === '')
+						}
+					},
       methods:{
           async fetch(){
           	try{
@@ -159,7 +178,7 @@
 														phone_number: this.phone_number
 													}});
 												this.manage_campaign_list = response_data.data
-												if (this.manage_campaign_list.length !==0){this.showPagination = true;}
+												if (response_data.meta.last_page > 1){this.showPagination = true;}
 												this.page = response_data.meta.current_page;
 												this.total_page = response_data.meta.last_page;
 												this.show_shimmer = true;
@@ -170,7 +189,7 @@
 														title: 'Oops...',
 														text: 'Phone number could not be found',
 													});
-													this.$router.push({name: 'sms-campaign-reports'});
+													await this.$router.push({name: 'sms-campaign-reports'});
 												}
 
 											}catch (e) {
@@ -219,7 +238,33 @@
 							}catch (e){
 
 							}
-							}
+							},
+							rowStatusClass(row){
+								switch (row.status) {
+									case('Sent'):{
+										return 'label-sent'
+									}
+									case ('Delivered'):{
+										return 'label-delivered'
+									}
+									case('Failed'):{
+										return 'label-failed'
+									}
+									case('Rejected'):{
+										return 'label-rejected'
+									}
+								}
+
+							},
+							expandMessageSent(row){
+								if (this.message_id === row.id){
+									this.message_id = ''
+									this.show_message_abbr = false;
+								}else {
+									this.message_id = row.id
+								}
+
+							},
 
       },
       mounted() {
@@ -319,4 +364,46 @@
     outline: 0;
     box-shadow: none;
   }
+		.sms-history-card{
+			border-width: 1px;
+			border-radius: 8px;
+			background-color: white;
+			box-shadow: 0 10px 45px 0 rgba(0,0,0,.1);
+			margin-bottom: 20px;
+			padding: 40px 30px;
+		}
+		.label {
+			font-size: 11px;
+			padding: 2px 10px;
+			margin: 2px 0;
+			border-radius: 20px;
+			font-weight: 500;
+		}
+		.label {
+			display: inline-block;
+			border: 1px solid transparent;
+			/*text-transform: uppercase;*/
+			letter-spacing: 0.1px;
+		}
+		.label-sent {
+			border-color: #365899;
+			color: #fff;
+			background-color: #365899;
+		}
+		.label-failed {
+			border-color:#ffc107;
+			color: #fff;
+			background-color: #ffc107;
+		}
+		.label-rejected {
+			border-color:#FF0000;
+			color: #fff;
+			background-color:#FF0000;
+		}
+		.label-delivered{
+			border-color:#226a4a;
+			color: #fff;
+			background-color:#226a4a;
+		}
+
 </style>

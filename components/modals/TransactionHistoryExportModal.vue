@@ -72,6 +72,7 @@
 							this.$modal.hide('transaction-history-modal');
 							this.no_of_records = '';
 							this.date_time = null;
+							this.hasRecordsError = false;
 							this.exportUrlReady = false;
 						},
 						validateRecordInput(value){
