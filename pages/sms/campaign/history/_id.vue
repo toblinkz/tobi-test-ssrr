@@ -40,7 +40,7 @@
                                     <input type="text" placeholder="Phone Number"  class="form-control" v-model="phone_number">
                                   </div>
                                 </div>
-                                <button type="submit" :disabled="isDisabled"  class="btn btn-success wd-100 bx-line" style="border: 1px solid transparent;"><i class="fa fa-search"></i> Search</button>
+                                <button type="submit" :disabled="disabled"  class="btn btn-success wd-100 bx-line" style="border: 1px solid transparent;"><i class="fa fa-search"></i> Search</button>
                               </form>
                               <br />
                               <form  @submit.prevent="getReportDownloadUrl" method="get" role="form">
@@ -151,7 +151,7 @@
 												download_report_button_text: 'Download Campaign Report',
             campaign_id: this.$route.params.id,
 												exportUrlReady: false,
-            phone_number:'',
+            phone_number: '',
 												isLoading:false,
 												isDisabled:false,
 												triggered_date: moment(this.getCampaignCreatedDate).format('lll'),
@@ -165,8 +165,8 @@
       },
 					computed:{
 						...mapGetters(['getCampaignCreatedDate']),
-						isDisabled: function () {
-							 return(this.phone_number === '')
+						disabled: function () {
+							return (this.phone_number === '');
 						}
 					},
       methods:{
