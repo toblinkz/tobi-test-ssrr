@@ -16,7 +16,7 @@
         <!-- Page content -->
         <div class="page-content">
           <!-- Main content -->
-          <div class="content-wrapper">
+          <div>
             <!-- main inner content -->
             <main id="wrapper" class="wrapper">
               <section class="wrapper-bottom-sec mt-100">

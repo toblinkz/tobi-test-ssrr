@@ -63,7 +63,7 @@
     },
     computed:{
       isDisabled:function () {
-            return (this.hasSenderIdError || this.sender_id === '' || this.company === '' || this.use_case === '');
+            return (this.hasSenderIdError || this.sender_id === '' || this.company === '' || this.usecase === '');
       },
 
     },
