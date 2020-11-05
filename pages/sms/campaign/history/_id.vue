@@ -40,7 +40,7 @@
                                     <input type="text" placeholder="Phone Number"  class="form-control" v-model="phone_number">
                                   </div>
                                 </div>
-                                <button type="submit" :disabled="Disabled"  class="btn btn-success wd-100 bx-line" style="border: 1px solid transparent;"><i class="fa fa-search"></i> Search</button>
+                                <button type="submit" :disabled="disabled"  class="btn btn-success wd-100 bx-line" style="border: 1px solid transparent;"><i class="fa fa-search"></i> Search</button>
                               </form>
                               <br />
                               <form  @submit.prevent="getReportDownloadUrl" method="get" role="form">
@@ -165,7 +165,7 @@
       },
 					computed:{
 						...mapGetters(['getCampaignCreatedDate']),
-						Disabled: function () {
+						disabled: function () {
 							return (this.phone_number === '');
 						}
 					},
