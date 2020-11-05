@@ -53,8 +53,8 @@
         new Chart(ctx, {
           type: 'pie',
           data: {
-            labels: ["Delivered","Message Sent","DND Active","Failed"],
-            datasets: [{"backgroundColor":["#5BC0DE","#30DDBC","#f0ad4e","#D9534F"],"hoverBackgroundColor":["#5BC0DE","#30DDBC","#f0ad4e","#D9534F"],"data":[this.delivered_message_count,this.message_sent_count,this.dnd_active_count,this.failed_message_count]}]
+            labels: ["Delivered","Sent","Failed","Rejected"],
+            datasets: [{"backgroundColor":["#226a4a","#365899","#ffc107","#FF0000"],"hoverBackgroundColor":["#226a4a","#365899","#ffc107","#FF0000"],"data":[this.delivered_message_count,this.message_sent_count,this.dnd_active_count,this.failed_message_count]}]
           },
           options: {"legend":{"display":true}}
         });
