@@ -247,7 +247,8 @@
 									case ('Delivered'):{
 										return 'label-delivered'
 									}
-									case('Failed'):{
+									case('Failed'):
+									case('Default'):{
 										return 'label-failed'
 									}
 									case('Rejected'):{
