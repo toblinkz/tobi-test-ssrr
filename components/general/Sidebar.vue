@@ -58,6 +58,12 @@
             <li><nuxt-link to="/devices" ><i class="fa fa-barcode"></i> Device ID</nuxt-link></li>
           </template>
         </Dropdown>
+							<li class="padd-x" v-if="show_drop_down">
+								<nuxt-link to="/numbers" class="color-a level-1">
+									<span> <i class="icon-phone2 m-l-5"></i> Numbers</span>
+									 <span class="badge badge-sm badge-sidebar">New</span>
+								</nuxt-link>
+							</li>
         <Dropdown>
           <template v-slot:dropdown_title>
             <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-users"></i> Add Contacts
