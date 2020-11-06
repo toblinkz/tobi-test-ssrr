@@ -38,7 +38,7 @@
 </script>
 
 <style scoped>
-  @media (max-width: 768px) {
+  @media (max-width: 769px) {
     .dropdown-menu, .navbar .input-group .dropdown-menu {
       width: 100%;
       border-width: 0 0 1px 0;
