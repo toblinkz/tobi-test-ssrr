@@ -29,10 +29,10 @@
 													<!-- START PANEL -->
 													<div class="col-md-12">
 														<div class="panel-transparent mt-30">
-															<p id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-chart-pie"></i> Messaging Insight</p>
-															<p class="insight">View all your messaging insights. <br>Insights captured here include all sent messages.</p>
+															<p class="insight text-center"  id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-chart-pie"></i> Messaging Insight</p>
+															<p class="insight text-center" >View all your messaging insights. <br>Insights captured here include all sent messages.</p>
 														</div>
-														<div class="panel-body text-center">
+														<div class="panel-body ">
 															<SmsHistoryChart class="hidden-xs"></SmsHistoryChart>
 														</div>
 													</div>

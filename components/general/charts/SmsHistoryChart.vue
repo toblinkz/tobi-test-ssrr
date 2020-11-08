@@ -3,8 +3,8 @@
 
 	</LineChartPlaceHolder>
 	<div  v-else>
-		<div style="display: flex; justify-content: flex-end">
-			<select id="date_range" class="select-style mb-30" @change="renderGraph($event.target.value)">
+		<div style="display: flex; justify-content: center">
+			<select id="date_range" class="select-style mb-30 text-center" @change="renderGraph($event.target.value)">
 				<option value="15 Minutes">Last 15 Minutes</option>
 				<option value="6 Hours">Last 6 Hours</option>
 				<option value="24 Hours">Last 24 Hours</option>
@@ -16,7 +16,7 @@
 
 		<div class="graph-card panel-body">
 
-			<canvas id="smsHistoryChart" width="400" height="200">
+			<canvas id="smsHistoryChart" width="400" height="150">
 			</canvas>
 		</div>
 	</div>
@@ -143,6 +143,9 @@ export default {
 								display: true,
 								position: 'left',
 								id: 'y-axis-1',
+								ticks: {
+									beginAtZero: true
+								},
 								gridLines: {
 									drawOnChartArea: false, // only want the grid lines for one axis to show up
 								},
