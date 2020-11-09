@@ -59,8 +59,8 @@
           </template>
         </Dropdown>
 							<li class="padd-x" v-if="show_drop_down">
-								<nuxt-link to="/numbers" class="color-a level-1">
-									<span> <i class="icon-phone2 m-l-5"></i> Numbers</span>
+								<nuxt-link to="/number" class="color-a level-1">
+									<span> <i class="fa fa-tty m-l-5"></i> Numbers</span>
 									 <span class="badge badge-sm badge-sidebar">New</span>
 								</nuxt-link>
 							</li>
