@@ -193,7 +193,8 @@
 											return 'label-success'
 										}
 										case('block'):
-        		case('pending'):{
+        		case('pending'):
+        			default:{
 											return 'label-warning'
 										}
 									}
