@@ -187,15 +187,16 @@
           $("body").css("overflow", "auto");
         },
         rowStatusClass(row){
-           if (row.status === 'unblock'){
-            return 'label-success'
-          } else if (row.status === 'pending'){
-           return 'label-warning'
-           }
-           else if (row.status === 'block'){
-             return 'label-danger'
-           }
-
+        	switch(row.status){
+        		case('unblock'):
+        		case('active'):{
+											return 'label-success'
+										}
+										case('block'):
+        		case('pending'):{
+											return 'label-warning'
+										}
+									}
         }
       },
      mounted() {
