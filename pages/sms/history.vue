@@ -237,7 +237,8 @@ export default {
 					case ('Delivered'):{
 						return 'label-delivered'
 					}
-					case('Failed'):{
+					case('Failed'):
+						default:{
 						return 'label-failed'
 					}
 					case('Rejected'):{

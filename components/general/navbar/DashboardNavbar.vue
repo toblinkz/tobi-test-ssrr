@@ -1,12 +1,12 @@
 <template>
   <div class="body navbar-fixed-top navbar navbar-inverse" style="z-index: 800;background-color: #ffffff;">
     <div class="navbar-header">
-      <nuxt-link class="navbar-brand visible-xs-block" to="/">
+      <nuxt-link class="navbar-brand " to="/">
         <img src="/images/logo.png" alt="">
       </nuxt-link>
-      <ul  class="nav navbar-nav pull-right visible-xs-block" >
+      <ul  class="nav navbar-nav pull-right visible-menu-icon" >
         <li>
-          <a class="mobile-menu-button" data-toggle="collapse" ><i  class="icon-menu7" style="color: #000;" @click="toggleMenu"></i></a></li>
+          <a class="mobile-menu-button" data-toggle="collapse" ><i  class="icon-menu7 " style="color: #000;" @click="toggleMenu"></i></a></li>
       </ul>
     </div>
     <div class="navbar-header hidden-xs" style="margin-left: 250px; margin-top: 18px">
@@ -37,7 +37,7 @@
 
           <li class="m-left hidden-xs">
             <nuxt-link to="/message/select-type" type="button" class="btn stretch-a" style="height: 30px !important;margin-top: 8px !important;padding-bottom: 26px;
-    color: #fff !important;padding-top: 7px !important;background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);font-weight: 100 !important;">
+               color: #fff !important;padding-top: 7px !important;background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);font-weight: 100 !important;">
               <i class="entypo-paper-plane " style="font-size: 14px;"></i> Compose message
             </nuxt-link>
           </li>
