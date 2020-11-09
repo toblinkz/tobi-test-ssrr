@@ -22,6 +22,11 @@
             <i class="entypo-logout position-left"></i> Deactivate Account
           </nuxt-link>
         </li>
+							<li rel0="AccountController/api">
+								<nuxt-link to="/account/change-password" class="level-1  ">
+									<i class="icon-lock position-left"></i> Change Password
+								</nuxt-link>
+							</li>
       </ul>
     </div>
   </div>
