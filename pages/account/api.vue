@@ -20,9 +20,9 @@
                     <div class="inner">
                       <div class="row m-t-60">
                         <div class="col-md-8">
-                          <h3 class="mb-50"> </h3>
+                          <h3 > </h3>
                           <p><i class="icon-profile"></i> Your API Keys</p>
-                          <p class="insight">We have given you the power to build awesome apps that can integrate with our system but we only ask that you repay us the favour by keeping your passkeys secure and private.
+                          <p class="insight">We have given you the power to build awesome apps that can integrate<br> with our system but we only ask that you repay us the favour by keeping<br> your passkeys secure and private.
                           </p>
                         </div>
                         <div class="col-md-4 hidden-xs">
@@ -30,7 +30,7 @@
                         </div>
                       </div>
                       <center>
-                        <div class="hrr-2"></div>
+                        <div class="item-height"></div>
                       </center>
                     </div>
                     <!-- Page container -->
