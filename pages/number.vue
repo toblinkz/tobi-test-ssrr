@@ -16,12 +16,17 @@
 
 						<div class="panel mt-50" >
 							<div class="panel-body p-none scrollme">
-								<div style="display: flex; flex-direction: row">
-									<input id="email"   class="form-control ">
-									<a class="btnl bg-blue" style="justify-content: flex-end" >
-										Buy a Number
-									</a>
+								<div style="display: flex; flex-direction: row; width: 100%">
+									<div style="width: 80%">
+										<input type="search"  class="form-control" >
+									</div>
+									<div style="width: 20%">
+										<a class="btnl bg-blue" style="justify-content: flex-end" >
+											# Buy a Number
+										</a>
+									</div>
 								</div>
+								<div class="mt-20 " style="border-bottom: dotted #ddd!important;"></div>
 							</div>
 						</div>
 					</div>
