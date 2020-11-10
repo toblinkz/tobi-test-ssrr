@@ -182,7 +182,7 @@ export default {
 				try{
 					this.isLoading = true;
 					this.button_text = "";
-					let response_data =   await this.$axios.patch('user/change-password', {
+					await this.$axios.patch('user/change-password', {
 						old_password: this.old_password,
 						password: this.new_password,
 						password_confirmation: this.confirm_password
@@ -193,9 +193,7 @@ export default {
 					this.isLoading = false;
 					this.button_text = "Change";
 					let errors = e.response.data.errors;
-					console.log(e.response)
 					for(let key in errors){
-						console.log(key)
 						switch (key) {
 									case('old_password'):{
 										errors[key].forEach(err => {
