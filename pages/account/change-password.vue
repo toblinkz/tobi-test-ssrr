@@ -20,17 +20,17 @@
 										<div class="inner">
 											<div class="row m-t-60">
 												<div class="col-md-8">
-													<h3 class="mb-50"> </h3>
+													<h3> </h3>
 													<p><i class="icon-profile"></i> Change Password</p>
 													<p class="insight">
-														We have given you the power to set security access to your dashboard. Change your Termii password using the form below.</p>
+														We have given you the power to set security access to your dashboard.<br> Change your Termii password using the form below.</p>
 												</div>
 												<div class="col-md-4 hidden-xs">
 													<img src="/images/api-doc.gif" class="wide">
 												</div>
 											</div>
 											<center>
-												<div class="hrr-2"></div>
+												<div class="item-height"></div>
 											</center>
 										</div>
 										<!-- Page container -->
@@ -43,13 +43,13 @@
 													<div class="col-md-6">
 														<form method="patch" @submit.prevent="changePassword">
 															<div class="form-group mt-20">
-																<input v-model="old_password"  :type="type" class="password-form-control"  placeholder="Old Password"  :class="{'error' : hasOldPasswordError}">
-																<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
+																<input v-model="old_password"  :type="old_type" class="password-form-control"  placeholder="Old Password"  :class="{'error' : hasOldPasswordError}">
+																<i class="password-visibility" :class="[isOldPasswordToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showOldPassword"></i>
 																<span class=" error_field_message" v-if="error_message.old_password">{{error_message.old_password}}</span>
 															</div>
 															<div class="form-group mt-20">
-																<input v-model="new_password"  :type="type" class="password-form-control"  placeholder="New Password"  :class="{'error' : hasNewPasswordError}">
-																<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
+																<input v-model="new_password"  :type="new_type" class="password-form-control"  placeholder="New Password"  :class="{'error' : hasNewPasswordError}">
+																<i class="password-visibility" :class="[isNewPasswordToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showNewPassword"></i>
 																<span class=" error_field_message" v-if="error_message.new_password">{{error_message.new_password}}</span>
 																<div v-show="hasNewPasswordError">
 																	<p>Password should contain at least:</p>
@@ -62,8 +62,8 @@
 																</div>
 															</div>
 															<div class="form-group mt-20">
-																<input v-model="confirm_password"  :type="type" class="password-form-control"  placeholder="Confirm Password"  :class="{'error' : hasConfirmPasswordError}">
-																<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
+																<input v-model="confirm_password"  :type="confirm_type" class="password-form-control"  placeholder="Confirm Password"  :class="{'error' : hasConfirmPasswordError}">
+																<i class="password-visibility" :class="[isConfirmPasswordToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showConfirmPassword"></i>
 																<span class=" error_field_message" v-if="error_message.confirm_password">{{error_message.confirm_password}}</span>
 															</div>
 														<button type="submit" class="btn btn-primary btn-cons mt-20" :disabled="isDisabled">
@@ -108,12 +108,17 @@ export default {
 				isLoading: false,
 				showIcon: false,
 				button_text: 'Change',
-				isToggled: false,
+				isOldPasswordToggled: false,
+				isNewPasswordToggled: false,
+				isConfirmPasswordToggled: false,
 				error_message:[],
 				hasOldPasswordError: false,
 				hasConfirmPasswordError: false,
 				hasNewPasswordError: false,
-				type: "password",
+				old_type: "password",
+				new_type: "password",
+				confirm_type: "password",
+
 
 			}
 	},
@@ -164,21 +169,20 @@ export default {
 				this.hasConfirmPasswordError = false;
 			}
 		},
-		showPassword(){
-			if (this.type === "password") {
-				this.type = 'text';
-				this.isToggled = true;
-			}
-			else {
-				this.type = "password";
-				this.isToggled = false;
-			}
+		showOldPassword(){
+			this.isOldPasswordToggled = !this.isOldPasswordToggled;
+		},
+		showNewPassword(){
+				this.isNewPasswordToggled = !this.isNewPasswordToggled;
+		},
+		showConfirmPassword(){
+				this.isConfirmPasswordToggled = !this.isConfirmPasswordToggled;
 		},
 		async changePassword(){
 				try{
 					this.isLoading = true;
 					this.button_text = "";
-					let response_data =   await this.$axios.patch('user/change-password', {
+					await this.$axios.patch('user/change-password', {
 						old_password: this.old_password,
 						password: this.new_password,
 						password_confirmation: this.confirm_password
@@ -189,9 +193,7 @@ export default {
 					this.isLoading = false;
 					this.button_text = "Change";
 					let errors = e.response.data.errors;
-					console.log(e.response)
 					for(let key in errors){
-						console.log(key)
 						switch (key) {
 									case('old_password'):{
 										errors[key].forEach(err => {

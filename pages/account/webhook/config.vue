@@ -19,9 +19,9 @@
                     <div class="inner">
                       <div class="row mt-70">
                         <div class="col-md-8">
-                          <h3 class="mb-30"> </h3>
+                          <h3 > </h3>
                           <p><i class="icon-profile"></i> Your Webhook</p>
-                          <p class="insight">We have given you the power to integrate your application with our system.
+                          <p class="insight">We have given you the power to integrate your application with our system.<br>
                             Use your webhook url to receive status of your messages.
                           </p>
                         </div>
@@ -30,7 +30,7 @@
                         </div>
                       </div>
                       <center>
-                        <div class="hrr-2"></div>
+                        <div class="item-height"></div>
                       </center>
                     </div>
                     <!-- Page container -->

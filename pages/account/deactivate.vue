@@ -18,10 +18,9 @@
                   <div class="container-fluid container-fixed-lg">
                     <div class="inner">
                       <div class="row mt-70">
-                        <div class="col-md-6">
-                          <h3 class="mb-10">Termii</h3>
+                        <div class="col-md-8">
                           <p><i class="icon-profile"></i> Deactivate your Account</p>
-                          <p class="insight">Thinking about leaving us, We make it super easy! Simply fill the forms below and you will be on your way!
+                          <p class="insight">Thinking about leaving us, We make it super easy! Simply fill the forms <br>below and you will be on your way!
                           </p>
                         </div>
                         <div class="col-md-4 hidden-xs">
@@ -29,7 +28,7 @@
                         </div>
                       </div>
                       <center>
-                        <div class="hrr-2"></div>
+                        <div class="item-height"></div>
                       </center>
                     </div>
                     <!-- Page container -->

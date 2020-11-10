@@ -6,39 +6,40 @@
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
       <!-- Page header -->
-      <div class="page-header">
-        <div class="page-header-content">
-          <!-- Page container -->
-          <div class="profile-page-container">
-            <!-- Page content -->
-            <div class="profile-page-content">
-              <div class="profile-content-wrapper">
-                <!-- START JUMBOTRON -->
-                <div class="jumbotron" data-pages="parallax">
-                  <div class="container-fluid container-fixed-lg">
-                    <div class="inner">
-                      <div class="profile-row mt-70">
-                        <div class="col-md-8">
-                          <h3 class="mb-10"> </h3>
-                          <p><i class="icon-profile"></i> Your Account Profile</p>
-                          <p class="insight">Ensure your details are always up to date. This helps us provide a really great service and target your campaigns effectively.
-                          </p>
-                        </div>
-                        <div class="col-md-4 hidden-xs">
-                          <img src="/images/profile.gif" class="wide">
-                        </div>
-                      </div>
-                      <center>
-                        <div class="hrr-2"></div>
-                      </center>
-                    </div>
-                    <!-- Page container -->
-                    <div class="profile-page-container">
-                      <!-- Page content -->
-                      <div class="profile-page-content">
-                        <!-- main inner content -->
-                        <main id="wrapper" class="wrapper">
-                          <ApiNavbar></ApiNavbar>
+					<div class="page-header">
+						<div class="page-header-content">
+							<!-- Page container -->
+							<div class="page-container">
+								<!-- Page content -->
+								<div class="page-content">
+									<!-- Main content -->
+									<div class="content-wrapper">
+										<!-- START JUMBOTRON -->
+										<div class="jumbotron" data-pages="parallax">
+											<div class="container-fluid container-fixed-lg">
+												<div class="inner">
+													<div class="row m-t-60">
+														<div class="col-md-8">
+															<h3 > </h3>
+															<p><i class="icon-profile"></i> Your Account Profile</p>
+															<p class="insight">Ensure your details are always up to date. This helps us provide a really<br> great service and target your campaigns effectively.
+															</p>
+														</div>
+														<div class="col-md-4 hidden-xs">
+															<img src="/images/profile.gif" class="wide">
+														</div>
+													</div>
+													<center>
+														<div class="item-height"></div>
+													</center>
+												</div>
+												<!-- Page container -->
+												<div class="page-container">
+													<!-- Page content -->
+													<div class="page-content">
+														<!-- main inner content -->
+														<main id="wrapper" class="wrapper">
+															<ApiNavbar></ApiNavbar>
                           <form @submit.prevent="updateProfile" method="POST" >
                             <div class="profile-row">
                               <div class="col-md-2">
@@ -107,25 +108,25 @@
                                 <label>Password</label>
                                 <div class="form-group control-password">
                                   <input :type="type" v-model="password" name="password" class="profile-form-control " :class="{'error': hasPasswordError}">
-																																	<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
-                                  <i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
-                                </div>
+																			<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
+																			<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
+																		</div>
 
                                 <hr />
                                 <button class="btn bg-teal pull-right" type="submit"><i class="icon-check"></i> Save</button>
-                              </div>
-                            </div>
-                          </form>
-                        </main>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+																	</div>
+																</div>
+																										</form>
+														</main>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<VerificationModal></VerificationModal>
     </div>
   </div>
@@ -191,7 +192,7 @@
 							newFileName(){
           	return `customer_dp_${JSON.parse(localStorage.getItem('user_data')).fname}_${JSON.parse(localStorage.getItem('user_data')).customer.uid}`
 							},
-        ...mapGetters(['isAuthenticated', 'loggedInUser'])
+
       },
       methods:{
         showPassword(){
