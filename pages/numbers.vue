@@ -11,17 +11,21 @@
 									<span style="font-size: 15px; font-weight: bold"> <i class="fa fa-tty m-r-5"></i>Buy a Number </span>
 										<div class="mt-30" style="display: flex; flex-direction: row; width: 100%" >
 											<select class="select-style mb-30 m-r-20" style="width: 30%">
-												<option value="15 Minutes">Select Capability</option>
+												<option >Select Capability</option>
+												<option >Sms</option>
+												<option >Whatsapp</option>
 											</select>
 											<select class="select-style mb-30 m-r-20"  style="width: 30%">
-												<option value="15 Minutes">Select Country</option>
+												<option >Select Country</option>
+												<option >Nigeria</option>
+												<option >Ghana</option>
 											</select>
 											<select  class="select-style mb-30"  style="width: 30%">
-												<option value="15 Minutes">Search Available Numbers</option>
+												<option >Search Available Numbers</option>
 											</select>
 										</div>
 								 </div>
-								<div class="panel">
+								<div class="panel" style="height: 300px;">
 									<div class="panel-body p-none scrollme">
 										<table class="table table-responsive  table-hover">
 											<thead>

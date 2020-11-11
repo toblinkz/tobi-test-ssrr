@@ -14,19 +14,34 @@
 					</div>
 					<div class="col-md-11">
 
-						<div class="panel mt-50" >
+						<div class="panel mt-50" style="height: 300px;">
 							<div class="panel-body p-none scrollme">
 								<div style="display: flex; flex-direction: row; width: 100%">
 									<div style="width: 80%">
-										<input type="search"  class="form-control" >
+										<input type="text"  class="form-control" >
 									</div>
 									<div style="width: 20%">
-										<a class="btnl bg-blue" style="justify-content: flex-end" >
+										<nuxt-link to="/numbers" class="btnl bg-blue" style="justify-content: flex-end" >
 											# Buy a Number
-										</a>
+										</nuxt-link>
 									</div>
 								</div>
 								<div class="mt-20 " style="border-bottom: dotted #ddd!important;"></div>
+								<table class="table table-responsive  table-hover">
+									<thead>
+									<tr class="m-l-10">
+										<th style="width: 20%;">Numbers (0)</th>
+										<th style="width: 20%;">Country</th>
+										<th style="width: 20%;">Capabilities</th>
+										<th style="width: 20%;">Status</th>
+										<th style="width: 20%;">Action</th>
+									</tr>
+									</thead>
+									<tbody>
+
+
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -45,5 +60,68 @@ name: "number",
 </script>
 
 <style scoped>
+.scrollme {
+	overflow-y: auto;
+}
+.table {
+	margin-bottom: 0;
+}.table > thead > tr > th {
+		border-bottom: dotted #ddd !important;
+		vertical-align: middle;
+		padding: 12px 20px;
+		line-height: 1.5384616;
+	}
+.table-responsive {
+	overflow-x: auto;
+	min-height: 0.01%;
+}
+.table {
+	width: 100%;
+	max-width: 100%;
+	/* margin-bottom: 20px; */
+}
 
+.table > tbody > tr > td{
+	vertical-align: middle;
+	padding: 12px 20px;
+	line-height: 1.5384616;
+}
+th {
+	font-weight: 500;
+	text-align: left;
+}
+.table-hover > tbody > tr:hover {
+	background-color: #f8f8f8;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	background-color: transparent;
+}
+.form-control{
+	display: block;
+	width: 30%;
+	height: 30px;
+	padding: 10px 16px;
+	font-size: 13px;
+	border-radius: 5px;
+	font-weight: 500;
+	box-shadow: none;
+	line-height: 1.5384616;
+	color: #333333;
+	background-color: #fff;
+	background-image: none;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+input[type="text"], input[type="password"]{
+	-webkit-appearance: none;
+	border: 2px solid rgba(0, 0, 0, 0.07);
+}
+.form-control:focus {
+	border-color: #4DB6AC;
+	box-shadow: none;
+	outline: 0;
+}
 </style>
