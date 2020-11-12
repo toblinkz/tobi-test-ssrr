@@ -87,8 +87,7 @@ import ButtonSpinner from "../general/ButtonSpinner";
 import {mapGetters} from "vuex";
 export default {
 	name: "DeviceSubscriptionModal",
-	middleware:'auth',
-	components: {ButtonSpinner},
+
 	props: {
 		device_name: {
 			required: true
@@ -123,6 +122,7 @@ export default {
 
 	methods: {
 		close() {
+			console.log()
 			this.$modal.hide('device-subscription-modal');
 		},
 
@@ -133,7 +133,7 @@ export default {
 					payment_method: this.payment_gateway,
 				});
 				this.close();
-				console.log(data.data.url)
+				console.log(monthly_limit)
 				if(data.data.url) {
 					window.location.href = data.data.url;
 				}

@@ -83,6 +83,9 @@ name: "DeviceSubscription",
 		},
 		device_id:{
 			requires:true
+		},
+		device_monthly_limit:{
+			requires:true
 		}
 },
 	methods: {

@@ -81,9 +81,6 @@
           }
       },
       methods: {
-							showModal(){
-								this.$modal.show('device-subscription-modal')
-							},
 							templateExists(){
 								return (this.template_data.length !== 0);
 							},
@@ -91,14 +88,13 @@
             try {
             	//get subscriptions
              let data =  await this.$axios.$get('devices/'+ this.device_id +'/subscription');
+
              this.response_data = data;
              this.template_data = data.device.template
-             this.plan_id = this.response_data.data[0].plan_id;
-             if (data.data.length !== 0){this.new_subscription = true}
              	this.device_name = data.device.name;
 														this.monthly_charge = data.device.monthly_charge;
 														this.device_daily_limit = (data.device.daily_limit) ? data.device.daily_limit:'unlimited';
-														this.device_monthly_limit = (data.device.monthly_limit)?data.device.monthly_limit:'unlimited';
+														this.device_monthly_limit = (data.device.monthly_limit > 0)?data.device.monthly_limit:'unlimited';
 														this.device_type = data.device.device_type;
 														this.cost_per_message = (data.device.cost_per_message.substr(1) > 0)
 															?`Messages are free until the ${this.device_monthly_limit + 1} message and then would cost ${data.device.cost_per_message} per message till your next subscription`:0;

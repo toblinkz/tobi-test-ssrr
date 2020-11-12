@@ -66,7 +66,7 @@
                               <table class="table table-responsive  table-hover">
                                 <thead>
                                 <tr>
-                                  <th style="width: 10%;" class="hidden-xs">SL#</th>
+                                  <th style="width: 10%;" class="hidden-xs">#ID</th>
                                   <th style="width: 30%;">Device ID</th>
                                   <th style="width: 20%;">Status</th>
                                   <th style="width: 20%;">Total Messages Sent Today</th>
@@ -76,7 +76,7 @@
                                 </thead>
                                 <tbody>
                                 <tr v-for="(row, index) in response_data.data" :key="row.id">
-                                  <td data-label="SL" class="hidden-xs">{{index + 1}}</td>
+                                  <td data-label="SL" ><p>{{row.id}}</p></td>
                                   <td data-label="Sender ID"><p>{{row.name}}</p></td>
                                   <td data-label="Status"><p class="label"  :class="rowClassName(row,index)">{{row.device_status}}</p>
                                   <td data-label="Sender ID" ><p></p></td>

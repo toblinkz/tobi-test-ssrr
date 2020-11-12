@@ -9,18 +9,15 @@
 								<table class="table data-table table-hover">
 								<thead>
 								<tr>
-									<th style="width: 10%;">SL#</th>
+									<th style="width: 10%;">ID#</th>
 									<th style="width: 20%;">Template</th>
-									<th style="width: 20%;">Template Type</th>
-
-
 								</tr>
 								</thead>
 								<tbody>
-								<tr v-for="row in template_data.data" :key="row.id">
-									<td data-label="SL" >#</td>
+								<tr v-for="row in template_data" :key="row.id">
+									<td data-label="SL" >{{row.id}}</td>
+
 									<td style="width: 20%;"><p>{{row.template || 'None'}}</p></td>
-									<td style="width: 20%;"><p>{{row.type}}</p></td>
 								</tr>
 								</tbody>
 							</table>
