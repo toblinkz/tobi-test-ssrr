@@ -79,7 +79,7 @@
                                   <td data-label="SL" ><p>{{row.id}}</p></td>
                                   <td data-label="Sender ID"><p>{{row.name}}</p></td>
                                   <td data-label="Status"><p class="label"  :class="rowClassName(row,index)">{{row.device_status}}</p>
-                                  <td data-label="Sender ID" ><p></p></td>
+                                  <td ><p>{{row.total_messages_today}}</p></td>
                                   <td data-label="Status">
                                     <button id="qr-code" @click="getQRCode(row.id)"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" v-show="showBarcodeIcon(row)"><i class="fa fa-barcode" style="color: #fff;"></i></button>
                                     <p v-show="lockBarcode(row)"><i class="entypo-lock" style="color: red;"></i></p>
