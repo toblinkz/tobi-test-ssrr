@@ -48,6 +48,11 @@
         </Dropdown>
         <!-- BEGIN SIDEBAR MENU ITEMS-->
         <div class="clearfix mb-30"></div>
+							<li class="padd-x" v-if="show_drop_down">
+								<nuxt-link  to="/devices" class="color-a level-1">
+									<span> 	<i class="fa fa-barcode"></i> Devices</span>
+								</nuxt-link>
+							</li>
         <Dropdown>
           <template v-slot:dropdown_title>
             <a data-toggle="dropdown" class="dropdown-toggle color-a"><span class="menu-text"><i class="entypo-list"></i> Activate ID
@@ -55,9 +60,10 @@
           </template>
           <template v-slot:dropdown_menu>
             <li><nuxt-link to="/sms/sender-id-management" ><i class="entypo-list-add"></i> Sender ID</nuxt-link></li>
-            <li><nuxt-link to="/devices" ><i class="fa fa-barcode"></i> Device ID</nuxt-link></li>
+
           </template>
         </Dropdown>
+
         <Dropdown>
           <template v-slot:dropdown_title>
             <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-users"></i> Add Contacts

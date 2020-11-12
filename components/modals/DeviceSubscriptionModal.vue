@@ -1,37 +1,77 @@
 <template>
 
 	<!-- Modal -->
-	<modal name="sender-id-modal" height="auto">
+	<modal name="device-subscription-modal" height="auto">
 		<div  tabindex="-1" role="dialog" style="display: block;
     padding-left: 9px;">
 			<div  role="document" >
 				<div>
 					<div class="modal-header" >
 						<button type="button" class="close" @click="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel">Request New ID</h4>
+						<h4 class="modal-title" id="myModalLabel">New Subscription</h4>
 					</div>
-					<form method="post" @submit.prevent="requestSenderId">
+					<form method="post" @submit.prevent="deviceSubscribe">
 
 						<div class="modal-body">
 							<div class="form-group">
-								<label>Sender ID For Sms</label>
-								<input type="text" class="form-control" required v-model="sender_id" placeholder="eg. Termii (Ensure your ID is not more than 11 characters)" name="sender_id" maxlength="11" :class="{'error' : hasSenderIdError}">
-								<span class=" error_field_message" v-if="error_message.sender_id">{{error_message.sender_id}}</span>
-								<br>
-								<label>Company</label>
-								<input type="text" class="form-control" v-model="company" required placeholder="eg. Termii" name="company" :class="{'error' : hasCompanyError}">
-								<span class=" error_field_message" v-if="error_message.company">{{error_message.company}}</span>
-								<br>
-								<label>Use Case</label>
-								<textarea type="text" class="form-control" v-model="usecase" required="" placeholder="eg. Hello dear is a sample of the message you will be sending with Termii" name="usecase" :class="{'error' : hasUseCaseError}"></textarea>
-								<span class=" error_field_message" v-if="error_message.usecase">{{error_message.usecase}}</span>
-								<br><br>
-								<strong>NB:</strong> Sender ID registration are approved only on weekdays and takes 24 hours to activate across all telcos in your country. If you need to try out the sms feature during weekends without an approved ID, please <a class="blue-t text-bold" id="CHATID">click here to Contact Sales</a>
+								<div class="col-lg-12">
+								<div class="row">
+									<div class="col-md-6">
+										<label>Device: </label>
+										<span>{{device_name}}</span>
+										<br>
+										<br>
+									</div>
+									<div class="col-md-6">
+											<label>Device Type: </label>
+											<span >{{device_type}}</span>
+											<br>
+											<br>
+										</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<label>Monthly Charge: </label>
+										<span >{{monthly_charge}}</span>
+										<br>
+										<br>
+									</div>
+									<div class="col-md-6">
+										<label>Cost per Message: </label>
+										<span >{{cost_per_message}}</span>
+										<br>
+										<br>
+									</div>
+								</div>
+								<div class="row">
+										<div class="col-md-6">
+											<label>Monthly Limit: </label>
+											<span >{{monthly_limit}}</span>
+											<br>
+											<br>
+										</div>
+										<div class="col-md-6">
+											<label>Daily Limit: </label>
+											<span >{{device_daily_limit}}</span>
+											<br>
+											<br>
+										</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6">
+										<label>Select Payment Method</label>
+										<select  v-model="payment_gateway" class="form-control">
+											<option v-for="item in payment_method" :value="item" selected>{{item}}</option>
+										</select>
+									</div>
+								</div>
 							</div>
-						</div>
+							</div>
+							</div>
 						<div class="modal-footer">
 							<a type="button" class="btn btn-danger" @click="close"> Close </a>
-							<button type="submit" class="btn id-btn-primary"   :disabled="isDisabled"> Save </button>
+							<button type="submit" class="btn id-btn-primary" > Save </button>
 						</div>
 
 					</form>
@@ -46,126 +86,77 @@
 import ButtonSpinner from "../general/ButtonSpinner";
 import {mapGetters} from "vuex";
 export default {
-	name: "SenderIdModal",
+	name: "DeviceSubscriptionModal",
 	middleware:'auth',
 	components: {ButtonSpinner},
+	props: {
+		device_name: {
+			required: true
+		},
+		monthly_charge: {
+			required: true
+		},
+		cost_per_message: {
+			required: true
+		},
+		device_daily_limit: {
+			required: true
+		},
+		monthly_limit: {
+			required: true
+		},
+		device_type:{
+			requires: true
+		},
+		payment_method:{
+			requires:true
+		},
+		device_id:{
+			requires:true
+		}
+	},
 	data(){
 		return{
-			sender_id:"",
-			company:"",
-			usecase:"",
-			error_message:[],
-			error: "",
-			hasSenderIdError: false,
-			hasCompanyError: false,
-			hasUseCaseError: false
+			payment_gateway: ''
 		}
 	},
-	computed:{
-		isDisabled:function () {
-			return (this.hasSenderIdError || this.sender_id === '' || this.company === '' || this.usecase === '');
-		},
 
-	},
-	watch: {
-		sender_id(value){
-			this.sender_id = value;
-			this.validateSenderId(value);
-		},
-		company(value){
-			this.company = value;
-			this.clearCompanyError();
-		},
-		usecase(value){
-			this.usecase = value;
-			this.clearUseCaseError();
-		}
-	},
 	methods: {
 		close() {
-			this.resetForm();
-			this.$modal.hide('sender-id-modal');
+			this.$modal.hide('device-subscription-modal');
 		},
-		async requestSenderId(){
+
+		async deviceSubscribe() {
+
 			try {
-				await this.$axios.post('sms/sender-id', {
-					sender_id: this.sender_id,
-					country: JSON.parse(localStorage.getItem('user_data')).country,
-					usecase: this.usecase,
-					company: this.company
-				}, );
-				this.$emit('requested');
-				this.resetForm();
-				this.$modal.hide('sender-id-modal');
+			let data =	await this.$axios.post(`devices/${this.device_id}/subscribe`, {
+					payment_method: this.payment_gateway,
+				});
+				this.close();
+				console.log(data.data.url)
+				if(data.data.url) {
+					window.location.href = data.data.url;
+				}
+				if(data.data) {
+					this.$stripe.import().redirectToCheckout({
+						sessionId: data.data
+					}).then(function (result) {
+						this.$toast.error(result.error.message)
+					});
+				}
+
 				this.$toast.success("Request sent successfully");
 			} catch (e) {
 
 				let errors = e.response.data.errors;
 				for (let key in errors) {
-					switch (key){
-						case('name'):{
-							errors[key].forEach(err => {
-								this.error_message['sender_id'] = err;
-								this.hasSenderIdError = true;
-
-							});
-							break;
-						}
-						case ('company'):{
-							errors[key].forEach(err => {
-								this.error_message['company'] = err;
-								this.hasCompanyError = true;
-
-							});
-							break;
-						}
-						case ('usecase'):{
-							errors[key].forEach(err => {
-								this.error_message['usecase'] = err;
-								this.hasUseCaseError = true;
-
-							});
-							break;
-						}
-					}
-
+					errors[key].forEach(err => {
+						this.$toast.error(err);
+					});
 				}
 			}
-		},
-		resetForm(){
-			this.sender_id = "";
-			this.company = "";
-			this.usecase = "";
-			this.error_message['sender_id'] = '';
-			this.hasSenderIdError = false;
-		},
-		validateSenderId(value) {
-			if (value.length < 3){
-				this.error_message['sender_id'] = 'The sender id must be at least 3 characters.';
-				this.hasSenderIdError = true;
-			}else if (value.length > 11) {
-				this.error_message['sender_id'] = 'The sender id may not be greater than 11 characters.';
-				this.hasSenderIdError = true;
-			}
-			else {
-				this.error_message['sender_id'] = '';
-				this.hasSenderIdError = false;
-
-			}
-		},
-		clearCompanyError(){
-			if (this.hasCompanyError){
-				this.error_message['company'] = '';
-				this.hasCompanyError = false;
-			}
-		},
-		clearUseCaseError(){
-			if (this.hasUseCaseError){
-				this.error_message['usecase'] = '';
-				this.hasUseCaseError = true;
-			}
 		}
-	},
+	}
 }
 </script>
 
