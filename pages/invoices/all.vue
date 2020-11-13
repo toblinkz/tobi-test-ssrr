@@ -107,7 +107,7 @@
                                   </td>
                                   <td>
                                     <nuxt-link :to="{path: 'view/' + row.id, params:{id: row.id}}" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
-                                  </td>
+																																		</td>
 
                                 </tr>
 																																<tr>
