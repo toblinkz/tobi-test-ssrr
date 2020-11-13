@@ -107,7 +107,7 @@
                                 </div>
                                 <label>Password</label>
                                 <div class="form-group control-password">
-                                  <input :type="type" v-model="password" name="password" class="profile-form-control " :class="{'error': hasPasswordError}">
+                                  <input :type="type" v-model="password" name="password" class="profile-form-control " :class="{'error': hasPasswordError}" required>
 																			<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
 																			<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
 																		</div>
@@ -229,6 +229,10 @@
               icon: 'success',
               text: 'Profile Updated Successfully',
             })
+											let response = 	await this.$axios.$get('user', {
+												headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
+											});
+											await localStorage.setItem('user_data', JSON.stringify(response.data));
           }catch (e) {
 												let errors = e.response.data.errors;
 												for(let key in errors){
