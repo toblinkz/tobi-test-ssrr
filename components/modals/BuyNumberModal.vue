@@ -49,7 +49,6 @@
 								<button class="btn id-btn-primary"> Proceed </button>
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>

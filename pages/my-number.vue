@@ -18,10 +18,10 @@
 							<div class="panel-body p-none scrollme">
 								<div style="display: flex; flex-direction: row; width: 100%">
 									<div style="width: 80%">
-										<input type="text"  class="form-control" >
+										<input type="text"  class="form-control" placeholder="Search number">
 									</div>
 									<div style="width: 20%">
-										<nuxt-link to="/numbers" class="btnl bg-blue" style="justify-content: flex-end" >
+										<nuxt-link to="/buy-a-number" class="btnl bg-blue" style="justify-content: flex-end" >
 											# Buy a Number
 										</nuxt-link>
 									</div>
@@ -30,16 +30,25 @@
 								<table class="table table-responsive  table-hover">
 									<thead>
 									<tr class="m-l-10">
-										<th style="width: 20%;">Numbers (0)</th>
-										<th style="width: 20%;">Country</th>
-										<th style="width: 20%;">Capabilities</th>
-										<th style="width: 20%;">Status</th>
-										<th style="width: 20%;">Action</th>
+										<th style="width: 10%;">Numbers</th>
+										<th style="width: 15%;">Country</th>
+										<th style="width: 15%;">Number Type</th>
+										<th style="width: 15%;">Rental Charge</th>
+										<th style="width: 15%;">Date Rented</th>
+										<th style="width: 15%;">Expiry Date</th>
+										<th style="width: 15%;"></th>
 									</tr>
 									</thead>
 									<tbody>
-
-
+									<tr>
+										<td>08100696707</td>
+										<td>United states </td>
+										<td>Sms</td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td><a class="btn btn-danger btn-xs"> Unrent</a></td>
+									</tr>
 									</tbody>
 								</table>
 							</div>

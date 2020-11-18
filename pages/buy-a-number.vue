@@ -10,24 +10,19 @@
 							 	<div class="mt-150">
 											<span style="font-size: 15px; font-weight: bold"> <i class="fa fa-tty m-r-5"></i>Buy a Number </span>
 													<div class="mt-30" style="display: flex; flex-direction: row; width: 100%" >
-														<select class="select-style mb-30 m-r-20" style="width: 30%" @change="setCapability($event.target.value)">
-															<option >Select Capability</option>
+														<select class="select-style mb-30 m-r-20"  @change="setCapability($event.target.value)">
+															<option >Number Type</option>
 															<option >Sms</option>
 															<option >Whatsapp</option>
 															<option >Voice</option>
 														</select>
-														<select class="select-style mb-30 m-r-20"  style="width: 30%" @change="setCountry($event.target.value)">
+														<select class="select-style mb-30 m-r-20"  @change="setCountry($event.target.value)">
 															<option >Select Country</option>
 															<option>Algeria</option>
 															<option >Nigeria</option>
 															<option >Ghana</option>
 														</select>
-														<select  class="select-style mb-30"  style="width: 30%" @change="setNumber($event.target.value)">
-															<option >Search Available Numbers</option>
-															<option>+2348100696707</option>
-															<option>+2348154732900</option>
-															<option>+2348174532600</option>
-														</select>
+														<button class="search-button  mb-30 m-r-20">Search</button>
 													</div>
 								 </div>
 							</div>
@@ -37,22 +32,24 @@
 										<table id="number-table" class="table table-responsive  table-hover">
 											<thead>
 											<tr>
-												<th style="width: 20%;">Numbers (0)</th>
-												<th style="width: 20%;">Country</th>
-												<th style="width: 20%;">Capabilities</th>
-												<th style="width: 20%;"></th>
-												<th style="width: 15%;"></th>
-												<th style="width: 5%;"></th>
+												<th style="width: 10%;">Numbers</th>
+												<th style="width: 15%;">Country</th>
+												<th style="width: 15%;">Number Type</th>
+												<th style="width: 15%;">Setup Charge</th>
+												<th style="width: 20%;">Monthly Charge</th>
+												<th style="width: 15%;">Inbound Sms</th>
+												<th style="width: 10%;"></th>
 											</tr>
 											</thead>
 											<tbody>
 														<tr>
 															<td>{{number}}</td>
-															<td>{{country}}</td>
-															<td>{{capability}}</td>
+															<td>United states </td>
+															<td>{{number_type }}</td>
+															<td>{{setup_charge }}</td>
+															<td>{{monthly_charge}}</td>
+															<td>{{inbound_sms}}</td>
 															<td  @click="showRentNumberModal"><a  class="btn btn-success btn-xs"><img src="/images/ic_outline-confirmation-number.png"/> Rent Number</a></td>
-															<td><a  @click="showBuyNumberModal" class="btn  btn-xs" style="background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important; color: #FFFFFF" ># Buy Number</a></td>
-															<td @click="deleteSelectedNumber"><i class="icon-cancel-circle2"></i></td>
 														</tr>
 											</tbody>
 										</table>
@@ -77,12 +74,15 @@ export default {
 		return {
 			country:'',
 			number:'',
-			capability:'',
+			number_type:'',
+			setup_charge:'',
+			monthly_charge:'',
+			inbound_sms:'',
 		}
 	},
 	methods: {
 		setCapability(value){
-			this.capability = value;
+			this.number_type = value;
 		},
 		setCountry(value){
 			this.country = value;
@@ -105,7 +105,7 @@ export default {
 
 <style scoped>
 .select-style{
-	padding: 10px 30px;
+	padding: 10px 10px;
 	outline: none;
 	border-radius: 5px;
 	border-color: #2D74AC;
@@ -153,6 +153,14 @@ table {
 
 [class^="icon-"], [class*=" icon-"] {
 	color: #F10000 !important;
+}
+.search-button {
+	background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
+	box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+	color: #fff !important;
+	padding: 10px 10px;
+	border-radius: 5px;
+	outline: none;
 }
 
 </style>
