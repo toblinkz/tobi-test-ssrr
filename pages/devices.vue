@@ -66,10 +66,10 @@
                               <table class="table table-responsive  table-hover">
                                 <thead>
                                 <tr>
-                                  <th style="width: 10%;" class="hidden-xs">#ID</th>
-                                  <th style="width: 30%;">Device ID</th>
+                                  <th style="width: 20%;" class="hidden-xs">Device ID</th>
+                                  <th style="width: 20%;">Device Name</th>
                                   <th style="width: 20%;">Status</th>
-                                  <th style="width: 20%;">Total Messages Sent Today</th>
+                                  <th style="width: 20%;">Device Type</th>
                                   <th style="width: 20%;">Scan Device</th>
                                   <th style="width: 20%;"></th>
                                 </tr>
@@ -79,9 +79,9 @@
                                   <td data-label="SL" ><p>{{row.id}}</p></td>
                                   <td data-label="Sender ID"><p>{{row.name}}</p></td>
                                   <td data-label="Status"><p class="label"  :class="rowClassName(row,index)">{{row.device_status}}</p>
-                                  <td ><p>{{row.total_messages_today}}</p></td>
+                                  <td ><p>{{row.device_type}}</p></td>
                                   <td data-label="Status">
-                                    <button id="qr-code" @click="getQRCode(row.id)"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" v-show="showBarcodeIcon(row)"><i class="fa fa-barcode" style="color: #fff;"></i></button>
+                                    <button id="qr-code" @click="getQRCode(row.id)"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" :class="barcodeDisabled(row)" v-show="showBarcodeIcon(row)"><i class="fa fa-barcode"   style="color: #fff;"></i></button>
                                     <p v-show="lockBarcode(row)"><i class="entypo-lock" style="color: red;"></i></p>
                                   </td>
                                   <td data-label="view subscriptions">
@@ -177,15 +177,18 @@
         requested(){
           this.fetch();
         },
-        rowClassName(row,index){
-          if (row.device_status === 'ACTIVE'){
-            this.isActive = true
-            return 'label-success'
-          } else if (row.device_status === 'PENDING'){
-            return 'label-warning'
-          }
-          else {
-          	return 'label-danger'
+        rowClassName(row){
+        	switch (row.device_status) {
+										case "ACTIVE": {
+												this.isActive = true;
+											 return 'label-success'
+										}
+										case "PENDING": {
+											return 'label-warning'
+										}
+										default: {
+											return 'label-danger'
+										}
 									}
         },
         showBarcodeIcon(row){
@@ -196,7 +199,10 @@
         },
         isDisabled(row){
           return(row.device_status === 'PENDING' )
-        }
+        },
+							barcodeDisabled(row){
+        if (row.device_type === 'Template') return 'barcode-disabled'
+							}
       },
       mounted() {
 							if(this.$store.state.view_verify_page === 'true'){
@@ -368,5 +374,10 @@
     color: #fff;
     background-color: #4CAF50;
   }
+		.barcode-disabled{
+			opacity: .5;
+			pointer-events: none;
+
+		}
 
 </style>
