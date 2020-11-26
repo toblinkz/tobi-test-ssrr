@@ -134,6 +134,7 @@
           this.phone_book_id = response_data.data.pid;
           this.first_name = response_data.data.first_name;
           this.last_name = response_data.data.last_name;
+          this.message = response_data.data.message;
         }catch (e) {
 
         }
@@ -149,6 +150,7 @@
             phone_number: this.phone_number,
             first_name: this.first_name,
             last_name: this.last_name,
+            message: this.message,
           });
           this.isLoading = false;
           this.button_text = "Update";

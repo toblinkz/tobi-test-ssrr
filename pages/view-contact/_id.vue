@@ -82,7 +82,7 @@
                               <tbody>
                               <tr v-for="row in phone_book_contacts.data" :key="row.id">
                                 <td >{{row.first_name || '-'}}</td>
-                                <td>-</td>
+                                <td> {{row.message || '-'}}</td>
                                 <td>{{row.phone_number}}</td>
                                 <td> <nuxt-link class="btn btn-success btn-xs" :to="{name: 'edit-contact-id', params:{id: row.id, phone_number: row.phone_number, first_name: row.first_name, last_name: row.last_name}}" :class="setPid(row)" ><i class="fa fa-edit"></i> Edit</nuxt-link>
                                   <a @click="deletePhoneBookContact(row)" class="btn btn-danger btn-xs cdelete" ><i class="fa fa-trash"></i> Delete</a></td>
