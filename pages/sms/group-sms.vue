@@ -72,6 +72,14 @@
 																																				</template>
 																																			</v-select>
                                  </div>
+																														<div class="form-group">
+																															<label>Message Type</label>
+																															<v-select :options="message_type" append-to-body :calculate-position="withPopper" :reduce="type => type.name" v-model="selected_message_type" label="name">
+																																<template #option="{ name }">
+																																	<p >{{ name }} </p>
+																																</template>
+																															</v-select>
+																														</div>
                                  <div class="form-group">
                                    <div class="coder-checkbox">
                                      <input type="checkbox" name="send_later"  class="send_later" v-on:click="toggleScheduleTime">
@@ -156,6 +164,8 @@
             countries: [],
 									 		placement: 'top',
 											 message:'',
+											message_type: [{name: 'Plain'}, {name:'Unicode'}],
+											selected_message_type:'Plain',
             active_sender_id: [],
 										 	campaign_type: [{id: 0, name: 'Regular'}, {id: 1, name:'Personalized'}],
 										 	selected_campaign_type: '',
@@ -244,6 +254,7 @@
 											contact_list_id: this.selected_phone_book,
 											campaign_type: this.selected_campaign_type,
 											schedule_time: this.date_time,
+											message_type: this.selected_message_type,
 											schedule_sms_status: this.schedule_sms_status,
 										});
 										await Swal.fire({
