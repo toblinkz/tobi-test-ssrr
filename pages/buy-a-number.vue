@@ -10,12 +10,6 @@
 							 	<div class="mt-150">
 											<span style="font-size: 15px; font-weight: bold"> <i class="fa fa-tty m-r-5"></i>Buy a Number </span>
 													<div class="mt-30" style="display: flex; flex-direction: row; width: 100%" >
-														<select class="select-style mb-30 m-r-20"  @change="setCapability($event.target.value)">
-															<option >Number Type</option>
-															<option >Sms</option>
-															<option >Whatsapp</option>
-															<option >Voice</option>
-														</select>
 														<select class="select-style mb-30 m-r-20"  @change="setCountry($event.target.value)">
 															<option >Select Country</option>
 															<option>Algeria</option>
