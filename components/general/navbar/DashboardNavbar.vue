@@ -112,6 +112,8 @@
 							const d = new Date(0);
 					  	d.setUTCSeconds(exp_time);
 							let log_out_time = moment(d).subtract(5, 'minutes').toDate();
+							console.log("expiration time", log_out_time - Date.now());
+						 console.log("log_out_time", log_out_time)
 							let logout_out_time_in_sec = new Date().getMilliseconds()  ;
 							setTimeout(  async function () {
 								try {

@@ -285,9 +285,7 @@
 
 				}
 			},
-			autoRefresh(){
 
-			},
 			startIntro() {
 
 				let intro = introJs();
@@ -344,7 +342,6 @@
 				this.first_name = this.getFirstName;
 				this.$modal.show('verification-id-modal');
 			} else if (localStorage.getItem('local')) {
-				this.autoRefresh();
 			 this.$axios.setHeader('Authorization',  `Bearer ${localStorage.getItem('local')}`);
 				await this.fetch();
 				this.startIntro();
