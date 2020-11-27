@@ -105,16 +105,22 @@
       },
 					decode(){
 
-						 let token = localStorage.getItem('local');
-						 let decoded = jwt_decode(token);
-							let exp_time = decoded.exp
-							let current_time = Date(0);
-							const d = new Date(0);
-					  	d.setUTCSeconds(exp_time);
-							let log_out_time = moment(d).subtract(5, 'minutes').toDate();
-							console.log("expiration time", log_out_time - Date.now());
-						 console.log("log_out_time", log_out_time)
-							let logout_out_time_in_sec = new Date().getMilliseconds()  ;
+						 // let token = localStorage.getItem('local');
+						 // let decoded = jwt_decode(token);
+							// let exp_time = decoded.exp;
+							// let current_time = Date();
+							// const d = new Date(0);
+					  // 	d.setUTCSeconds(exp_time);
+							// let log_out_time = moment(d).subtract(5, 'minutes').toDate();
+
+						// console.log("check", moment(localStorage.getItem('LGIT')).add(55, 'minutes'))
+						// let logged_in_time = localStorage.getItem('LGIT')
+						// 	// const d = new Date(0);
+						// 	// d.setUTCSeconds(logged_in_time);
+						// console.log(logged_in_time.getTime());
+						// console.log(localStorage.getItem('LGIT'))
+
+						let timeout = localStorage.getItem('ET')
 							setTimeout(  async function () {
 								try {
 									await $nuxt.$axios.$get('auth/logout');
@@ -127,7 +133,7 @@
 								}catch (e) {
 
 								}
-										}, log_out_time - Date.now());
+										}, timeout);
 
 					},
       toggleMenu(){

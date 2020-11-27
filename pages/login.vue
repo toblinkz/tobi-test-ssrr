@@ -146,6 +146,14 @@
 																		password: this.password
 														});
 								 await 	localStorage.setItem('local', response_data.data.access_token);
+
+								 //set expiry time
+									let loggedInTime = Date.now();
+									let expiryTime =  moment(loggedInTime).add(56, 'minutes').toDate();
+									await localStorage.setItem('LGIT', loggedInTime);
+									await localStorage.setItem('ET', expiryTime - Date.now() );
+
+
 								 this.$store.commit('setLIState', true);
 								let response = 	await this.$axios.$get('user', {
 									headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
