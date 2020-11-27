@@ -134,7 +134,7 @@
             countries: [],
 												phone_numbers:[],
             active_sender_id: [],
-            message_type: [{name: 'Plain'}, {name:'Voice'}, {name:'MMS'}, {name:'Unicode'}, {name:'Arabic'},],
+            message_type: [{name: 'Plain'}, {name:'Unicode'}],
 												selected_message_type:'Plain',
 												selected_country_code:'',
 												selected_sender_id:'',

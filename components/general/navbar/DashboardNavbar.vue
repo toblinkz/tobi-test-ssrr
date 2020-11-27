@@ -136,6 +136,7 @@
 										}, timeout);
 
 					},
+
       toggleMenu(){
         $("#mobile-menu").toggleClass("hide-menu");
       },
