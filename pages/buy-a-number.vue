@@ -7,21 +7,32 @@
 					<DashboardNavbar></DashboardNavbar>
 
 							<div class="col-md-10">
-							 	<div class="mt-150">
+							 	<div class="mt-150 mb-30">
 											<span style="font-size: 15px; font-weight: bold"> <i class="fa fa-tty m-r-5"></i>Buy a Number </span>
-													<div class="mt-30" style="display: flex; flex-direction: row; width: 100%" >
-														<select class="select-style mb-30 m-r-20"  @change="setCountry($event.target.value)">
-															<option >Select Country</option>
-															<option>Algeria</option>
-															<option >Nigeria</option>
-															<option >Ghana</option>
-														</select>
-														<button class="search-button  mb-30 m-r-20">Search</button>
-													</div>
-								 </div>
+									</div>
 							</div>
-							<div class="col-md-11">
-								<div class="panel" style="height: 300px;">
+											<div class="mb-50" >
+												<form @submit.prevent="getAvailableCountryNumber">
+													<div class="col-md-7" >
+														<v-select class="style-chooser" :options="countries" :reduce="code => code.code"  label="name" placeholder="Select country"  append-to-body :calculate-position="withPopper"  v-model="selected_country_code">
+															<template #option="{ name, code }">
+																<p >{{ name }} </p>
+															</template>
+														</v-select>
+													</div>
+													<div class="col-md-5">
+														<button type="submit" class="search-button  m-r-20">
+															{{ button_text }}
+															<span v-show="isLoading">
+																<img src="/images/spinner.svg" height="20px" width="30px"/>
+														</span>
+														</button>
+													</div>
+												</form>
+											</div>
+
+							<div class="col-md-11 mt-30">
+								<div class="panel" >
 									<div class="panel-body p-none scrollme">
 										<table id="number-table" class="table table-responsive  table-hover">
 											<thead>
@@ -36,14 +47,17 @@
 											</tr>
 											</thead>
 											<tbody>
-														<tr>
-															<td>{{number}}</td>
-															<td>United states </td>
-															<td>{{number_type }}</td>
-															<td>{{setup_charge }}</td>
-															<td>{{monthly_charge}}</td>
-															<td>{{inbound_sms}}</td>
+														<tr v-for="(row, index) in numbers_available_for_rent" :key="row.id" >
+															<td>{{row.number}}</td>
+															<td>{{row.country}} </td>
+															<td>{{row.number_type }}</td>
+															<td>{{row.service_charge }}</td>
+															<td>{{row.monthly_charge}}</td>
+															<td>{{row.inbound_sms}}</td>
 															<td  @click="showRentNumberModal"><a  class="btn btn-success btn-xs"><img src="/images/ic_outline-confirmation-number.png"/> Rent Number</a></td>
+														</tr>
+														<tr>
+															<td  colspan="7" style="text-align: center; cursor: pointer" v-show="numbers_available_for_rent.length < 1">No available number</td>
 														</tr>
 											</tbody>
 										</table>
@@ -59,40 +73,103 @@
 <script>
 import DashboardNavbar from "@/components/general/navbar/DashboardNavbar";
 import Sidebar from "@/components/general/Sidebar";
+import 'vue-select/dist/vue-select.css';
+import { createPopper } from '@popperjs/core';
+import Fuse from 'fuse.js';
+import vSelect from 'vue-select';
 import BuyNumberModal from "@/components/modals/BuyNumberModal";
 import RentNumberModal from "@/components/modals/RentNumberModal";
 export default {
 	name: "numbers",
-	components: {BuyNumberModal,  RentNumberModal, Sidebar, DashboardNavbar},
+	components: {BuyNumberModal,  RentNumberModal, Sidebar, DashboardNavbar, vSelect},
 	data(){
 		return {
-			country:'',
+			countries:[],
+			country_code:'',
+			placement: 'top',
 			number:'',
 			number_type:'',
+			selected_country_code:'',
 			setup_charge:'',
 			monthly_charge:'',
 			inbound_sms:'',
+			isLoading: false,
+			button_text: 'Search',
+			numbers_available_for_rent:''
 		}
 	},
 	methods: {
-		setCapability(value){
-			this.number_type = value;
+			setCapability(value){
+				this.number_type = value;
+			},
+			setCountry(value){
+				this.country = value;
+			},
+			setNumber(value){
+				this.number = value;
+			},
+			showRentNumberModal(){
+				this.$modal.show('rent-number-modal');
+			},
+			showBuyNumberModal(){
+				this.$modal.show('buy-number-modal')
+			},
+			deleteSelectedNumber(){
+				document.getElementById("number-table").deleteRow(1);
+			},
+		async getAvailableCountryNumber(){
+				this.button_text = '';
+				this.isLoading = true;
+				try {
+					let response = await this.$axios.$get('sms/number/search', {params: {
+							country: this.selected_country_code
+						}});
+					this.numbers_available_for_rent = response.data;
+					this.button_text = "Search";
+					this.isLoading = false;
+				}catch (e){
+
+				}
+
 		},
-		setCountry(value){
-			this.country = value;
+		async getCountries(){
+			let response = await this.$axios.$get('utility/countries');
+			this.countries = response.data;
 		},
-		setNumber(value){
-			this.number = value;
+		fuseSearch(options, search) {
+			const fuse = new Fuse(options, {
+				keys: ["name", "d_code", ],
+				shouldSort: true
+			});
+			return search.length
+				? fuse.search(search).map(({ item }) => item)
+				: fuse.list;
 		},
-		showRentNumberModal(){
-			this.$modal.show('rent-number-modal');
+		withPopper (dropdownList, component, {width}) {
+			dropdownList.style.width = width;
+			const popper = createPopper(component.$refs.toggle, dropdownList, {
+				placement: this.placement,
+				modifiers: [
+					{
+						name: 'offset', options: {
+							offset: [0, -1]
+						}
+					},
+					{
+						name: 'toggleClass',
+						enabled: true,
+						phase: 'write',
+						fn ({state}) {
+							component.$el.classList.toggle('drop-up', state.placement === 'top')
+						},
+					}]
+			});
+			return () => popper.destroy();
+
 		},
-		showBuyNumberModal(){
-			this.$modal.show('buy-number-modal')
-		},
-		deleteSelectedNumber(){
-			document.getElementById("number-table").deleteRow(1);
-		}
+	},
+	mounted() {
+		this.getCountries();
 	}
 }
 </script>
@@ -155,6 +232,7 @@ table {
 	padding: 10px 10px;
 	border-radius: 5px;
 	outline: none;
+	cursor: pointer;
 }
 
 </style>

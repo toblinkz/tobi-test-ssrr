@@ -40,11 +40,11 @@
 									</tr>
 									</thead>
 									<tbody>
-									<tr>
-										<td>08100696707</td>
-										<td>United states </td>
-										<td>Sms</td>
-										<td></td>
+									<tr v-for="(row, index) in rented_numbers" :key="row.id">
+										<td>{{ row.phone_number }}</td>
+										<td>{{ row.number_type}}</td>
+										<td>{{ row.service }}</td>
+										<td>{{row.rental_cost}}</td>
 										<td></td>
 										<td></td>
 										<td><a class="btn btn-danger btn-xs"> Unrent</a></td>
@@ -64,7 +64,21 @@ import Sidebar from "@/components/general/Sidebar";
 import DashboardNavbar from "@/components/general/navbar/DashboardNavbar";
 export default {
 name: "number",
-	components: {DashboardNavbar, Sidebar}
+		components: {DashboardNavbar, Sidebar},
+		data(){
+			return{
+					rented_numbers: []
+			}
+		},
+		methods: {
+				async getRentedNumbers(){
+						this.rented_numbers = await this.$axios.$get('sms/numbers/rented').data;
+
+				}
+		},
+		mounted() {
+				this.getRentedNumbers();
+		}
 }
 </script>
 
