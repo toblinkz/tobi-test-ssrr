@@ -70,6 +70,10 @@
                       <div class="col-lg-12">
                         <div class="panel">
                           <div class="panel-body">
+																											<form @submit.prevent="getPhonebookContacts" class="mb-10">
+																												<input type="search" class="form-control2 input-sm" placeholder="Search phone number" v-model="phone_number">
+																												<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
+																											</form>
                             <table class="table data-table table-hover">
                               <thead>
                               <tr>
@@ -77,6 +81,7 @@
                                 <th >Message</th>
                                 <th >Phone Number</th>
                                 <th >Action</th>
+																																<th></th>
                               </tr>
                               </thead>
                               <tbody>
@@ -133,31 +138,49 @@
 														total_page: '',
 														showPagination: false,
 														show_shimmer: false,
+														phone_number:'',
+										  	 error_message:'',
           }
       },
+					watch:{
+					 	phone_number(value){
+								this.validatePhoneNumber(value);
+							}
+					},
 					computed:{
       	isDisabled:function () {
 										return (this.phone_book_contacts.data < 1)
-							}
+							},
 					},
       methods: {
 
 						async	getPhonebookContacts(){
-							try {
-								//get phonebook contact
-								let data = await this.$axios.$get('sms/phone-book/' +this.$route.params.id,{params:{
-										page: this.page
-									}});
-								this.phone_book_contacts = data;
-								if (data.meta.last_page > 1){this.showPagination = true}
-								this.page = data.meta.current_page;
-								this.total_page = data.meta.last_page;
-								this.show_shimmer = true;
+							if(!this.error_message){
+								try {
+									//get phonebook contact
+									let data = await this.$axios.$get('sms/phone-book/' +this.$route.params.id,{params:{
+											page: this.page,
+											phone_number: this.phone_number
+										}});
+									this.phone_book_contacts = data;
+									if (data.meta.last_page > 1){this.showPagination = true}
+									this.page = data.meta.current_page;
+									this.total_page = data.meta.last_page;
+									this.show_shimmer = true;
 
-							}catch (e) {
+								}catch (e) {
+
+								}
 
 							}
 
+							},
+							validatePhoneNumber(value){
+										if (isNaN(value)){
+													this.error_message = 'Please enter a number';
+										}else{
+												this.error_message = '';
+										}
 							},
           setPid(row){
             this.$store.commit('setPhoneBookId', row.pid);
@@ -244,5 +267,21 @@
     border-spacing: 0;
     background-color: transparent;
   }
+		.form-control2 {
+			font-size: 13px;
+			border-color: #bbb;
+			border-radius: 5px;
+			border: solid 1px rgba(204, 204, 204, 0.34);
+			font-weight: 500;
+			box-shadow: none;
+			height: 36px;
+			padding: 7px 12px;
+			line-height: 1.5384616;
+		}
+		.form-control2:focus {
+			border-color: #4DB6AC;
+			outline: 0;
+		}
+
 
 </style>
