@@ -142,19 +142,16 @@
             }
           },
 							validateWebUrl(value){
-          	if (/^(ftp|http|https):\/\/[^ "]+$/.test(value)){
+          	if (/^(ftp|http|https):\/\/[^ "]+$/.test(value) || !value){
 												this.hasLiveWebhookError = false;
 												this.error_message['live_webhook'] = '';
-											}else if (!value) {
-												this.hasLiveWebhookError = true;
-												this.error_message['live_webhook'] = 'The live webhook field is required.';
 											}else{
 												this.hasLiveWebhookError = true;
 												this.error_message['live_webhook'] = 'The live webhook format is invalid.';
 											}
 							},
 							validateTestUrl(value){
-								if (/^(ftp|http|https):\/\/[^ "]+$/.test(value)){
+								if (/^(ftp|http|https):\/\/[^ "]+$/.test(value) || !value){
 									this.hasTestWebhookError = false;
 									this.error_message['test_webhook'] = '';
 								}else {
