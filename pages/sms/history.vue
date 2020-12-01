@@ -46,16 +46,16 @@
 								<div class="col-md-12" >
 									<div class="col-sm-12">
 										<div class="mb-20">
-											<div style="display: flex; flex-direction: row;">
-												<div class="mb-50 m-l-10" style="display: flex; flex-direction: row; width: 50%; justify-content: space-around">
+											<div class="pill-container">
+												<div class="history-pill" >
 													<button class="channel-button " :class="{'all': all_active}" @click="display_all">All</button>
 													<button class="channel-button" :class="{'number-api': number_api_active}" @click="display_number_api">Number API</button>
 													<button class="channel-button" :class="{'dnd': dnd_active}" @click="display_dnd">DND</button>
 													<button class="channel-button" :class="{'generic': generic_active}" @click="display_generic">Generic</button>
 													<button class="channel-button" :class="{'whatsapp': whatsapp_active}" @click="display_whatsapp">Whatsapp</button>
 												</div>
-												<div style="width: 20%"></div>
-												<div style="display: flex; flex-direction: row; width: 30%; justify-content: space-around">
+												<div class="hidden-xs" style="width: 20%"></div>
+												<div class="history-pill2">
 													<div  v-click-outside="hideDrop">
 														<a @click="showFilterModal" class="btn label-success wd-100 bx-line " >
 															<i class="fa fa-filter m-r-5"></i>Filter
@@ -79,11 +79,11 @@
 															 </form>
 																	</div>
 																</div>
-																<center> <button @click="showExportModal" class="btn btn-primary wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
+																<center class="hidden-xs"> <button @click="showExportModal" class="btn btn-primary wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
 															</div>
 														</div>
 
-														<div class="mb-10" style="display: flex; flex-direction: row">
+														<div class="mb-10 hidden-xs" style="display: flex; flex-direction: row">
 															<span class="" style="width: 50%; font-size: 15px"><i class="fa fa-circle  m-r-10 m-l-30" :class="{'all-chat-color': all_active, 'number-api-chat-color': number_api_active, 'dnd-chat-color': dnd_active, 'generic-chat-color':generic_active, 'whatsapp-chat-color': whatsapp_active}" style="color: #2D74AC"></i>Description</span>
 															<span style="width: 15%; font-size: 15px">Receiver</span>
 															<span style="width: 15%;font-size: 15px">Pages</span>
@@ -96,26 +96,26 @@
 												</TableVuePlaceHolder>
 										<div v-else>
 											<div class="row" v-for="row in messages_sent.data" :key="row.id" v-show="messages_sent.data.length > 0">
-												<div class="sms-history-card" style="display: flex; flex-direction: row">
+												<div class="sms-history-card card-container">
 													<div><i class="entypo-chat" :class="{'all-chat-color': all_active, 'number-api-chat-color': number_api_active, 'dnd-chat-color': dnd_active, 'generic-chat-color':generic_active, 'whatsapp-chat-color': whatsapp_active}" style="font-size: 20px; color: green; width: 5%"></i></div>
-													<div style="width: 45%">
+													<div class="section-width">
 														<div class="bold m-l-10" style="font-size: 15px; font-weight: 500" >Outgoing Message from {{ row.sender }}</div>
 														<div class="m-t-5 m-l-10">	<span style="color: #898989">{{ row.created_at }}</span> 	<span class="m-l-10" style="color: #898989">Channel: {{ row.channel }}</span></div>
 														<div class="m-t-5 m-l-10" v-if="row.id !== message_id">{{row.message_abbreviation}}</div>
 														<div class="m-t-5 m-l-10" v-if="row.id === message_id">{{row.message}}</div>
 													</div>
-													<div style="width: 20%">
+													<div class="left-margin" style="width: 20%">
 														<div >{{row.receiver }}</div>
 													</div>
-													<div style="width: 12%">
+													<div class="hidden-xs" style="width: 12%">
 														<div>{{ row.amount }}</div>
 													</div>
-													<div style="width: 18%">
+													<div class="left-margin" style="width: 18%">
 														<div class="label " :class="rowStatusClass(row)">{{row.status }}</div>
 													</div>
-													<div>
-																<span style="width: 5%;font-size: 15px" @click="expandMessageSent(row)">
-																		<i class="fa fa-expand m-r-10 m-l-30" style="color: #2D74AC; cursor: pointer">
+													<div class="">
+																<span style="width: 5%" class="expand-icon" @click="expandMessageSent(row)">
+																		<i class="fa fa-expand" style="color: #2D74AC; cursor: pointer">
 																		</i>
 																</span>
 													</div>
@@ -688,6 +688,73 @@ table {
 	box-shadow: none;
 	outline: 0;
 }
+
+.history-pill {
+	display: flex;
+	flex-direction: row;
+	width: 50%;
+	justify-content: space-around;
+	margin-bottom: 50px;
+	margin-left:10px ;
+}
+.pill-container {
+	display: flex;
+	flex-direction: row;
+}
+.section-width{
+	width: 45%;
+}
+
+.history-pill2 {
+	display: flex;
+	flex-direction: row;
+	width: 30%;
+	justify-content: space-around
+}
+.expand-icon{
+	font-size: 15px;
+	margin-right: 10px;
+	margin-left: 30px;
+}
+.card-container{
+	display: flex;
+	flex-direction: row;
+}
+ @media (max-width: 769px){
+		.expand-icon{
+			font-size: 25px;
+			margin-right: 10px;
+			margin-left: 0px;
+		}
+		.card-container{
+			display: flex;
+			flex-direction: column;
+		}
+		.section-width{
+			width: 100%;
+		}
+		.left-margin{
+			margin-left: 10px;
+		}
+
+		.history-pill {
+			display: flex;
+			flex-direction: column;
+			align-content:space-between ;
+			margin-bottom: 10px;
+			margin-left:0px ;
+		}
+		.history-pill2 {
+			display: flex;
+			flex-direction: column;
+			align-content:space-between ;
+		}
+		.pill-container {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+
 .form-control {
 	display: block;
 	width: 100%;
