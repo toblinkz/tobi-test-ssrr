@@ -30,7 +30,7 @@
 								<table class="table table-responsive  table-hover">
 									<thead>
 									<tr class="m-l-10">
-										<th style="width: 10%;">Numbers</th>
+										<th style="width: 10%;">Number</th>
 										<th style="width: 15%;">Country</th>
 										<th style="width: 15%;">Number Type</th>
 										<th style="width: 15%;">Rental Charge</th>
@@ -43,9 +43,9 @@
 									<tr v-for="(row, index) in rented_numbers" :key="row.id">
 										<td>{{ row.phone_number }}</td>
 										<td>{{ row.number_type}}</td>
-										<td>{{ row.service }}</td>
-										<td>{{row.rental_cost}}</td>
-										<td></td>
+										<td>{{ row.monthly_charge }}</td>
+										<td>{{row.date_rented}}</td>
+										<td>{{row.expiry_date}}</td>
 										<td></td>
 										<td><a class="btn btn-danger btn-xs"> Unrent</a></td>
 									</tr>
@@ -72,7 +72,7 @@ name: "number",
 		},
 		methods: {
 				async getRentedNumbers(){
-						this.rented_numbers = await this.$axios.$get('sms/numbers/rented').data;
+						this.rented_numbers = await this.$axios.$get('/number/rented').data;
 
 				}
 		},

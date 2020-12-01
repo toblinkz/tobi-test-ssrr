@@ -27,15 +27,32 @@
 										<tr>
 											<td><p><strong>Services</strong></p></td>
 											<td><p><strong>Pricing</strong></p></td>
+											<td><p><strong>Date Rented </strong></p></td>
+											<td><p><strong>Expiry Date</strong></p></td>
 										</tr>
 										</tbody>
 										<tbody>
 										<tr>
 											<td><p>SMS</p></td>
 											<td><p>$2/month</p></td>
+											<td><p>{{ date_rented }}</p></td>
+											<td><p>{{ expiry_date }}</p></td>
 										</tr>
 										</tbody>
 									</table>
+								</div>
+								<div class="form-group mt-20">
+									<label>Select Payment Method</label>
+									<select class="form-control">
+										<option >Wallet</option>
+										<option >Card</option>
+									</select>
+								</div>
+								<div class='form-group'>
+									<label class="checkbox-inline">
+										<input type="checkbox" class="styled" checked="checked" name="remember">
+										Auto Renew Subscription
+									</label>
 								</div>
 								<div class="mt-30">
 									<p>Please confirm that you’re ok with the price. You will not be able to reverse this action after you’ve purchased the number</p>
@@ -62,13 +79,16 @@ export default {
 	data(){
 		return{
 
+				date_rented:moment(Date.now()).format('DD/MM/YYYY'),
+				expiry_date:moment(Date.now()).add(30, 'days').format('DD/MM/YYYY')
 		}
 	},
 	methods: {
 		close() {
 			this.$modal.hide('rent-number-modal');
 		},
-	}
+	},
+
 }
 </script>
 
@@ -125,7 +145,7 @@ export default {
 	padding-bottom: 0;
 }
 .modal-header {
-	padding: 20px;
+	padding: 5px 20px;
 	border-bottom: 1px solid transparent;
 }
 .modal-header .close[type=button] {
@@ -164,7 +184,7 @@ button.close {
 	filter: alpha(opacity=100);
 }
 .modal-body {
-	padding: 5px 20px 60px 20px;
+	padding: 0px 20px 60px 20px;
 	position: relative;
 }
 .row {
@@ -215,7 +235,7 @@ table {
 }
 .table > tbody > tr > td, .table > tfoot > tr > td {
 	vertical-align: middle;
-	padding: 12px 50px;
+	padding: 12px 20px;
 	line-height: 1.5384616;
 	border-top: 2px solid #ddd;
 }
@@ -236,7 +256,34 @@ table {
 	text-align: right;
 	border-top: 1px solid transparent;
 }
+.form-control {
+	display: block;
+	width: 100%;
+	height: 36px;
+	padding: 7px 12px;
+	font-size: 13px;
+	line-height: 1.5384616;
+	color: #333333;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	-webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
 
+.form-control:focus {
+	border-color: #4DB6AC;
+	box-shadow: none;
+	outline: 0;
+}
+.form-group label {
+	margin-bottom: 5px;
+	display: block;
+	font-weight: 600;
+	line-height: 24px;
+}
 .btn-default {
 	color: #333;
 	background-color: #fcfcfc;
@@ -244,6 +291,7 @@ table {
 }
 .modal-footer .btn + .btn {
 	margin-left: 5px;
+	/* margin-bottom: 0; */
 	/* margin-bottom: 0; */
 }
 </style>

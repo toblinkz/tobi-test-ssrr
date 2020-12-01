@@ -47,18 +47,27 @@
 											</tr>
 											</thead>
 											<tbody>
-														<tr v-for="(row, index) in numbers_available_for_rent" :key="row.id" >
-															<td>{{row.number}}</td>
-															<td>{{row.country}} </td>
-															<td>{{row.number_type }}</td>
-															<td>{{row.service_charge }}</td>
-															<td>{{row.monthly_charge}}</td>
-															<td>{{row.inbound_sms}}</td>
+<!--														<tr v-for="(row, index) in numbers_available_for_rent" :key="row.id" >-->
+<!--															<td>{{row.number}}</td>-->
+<!--															<td>{{row.country}} </td>-->
+<!--															<td>{{row.number_type }}</td>-->
+<!--															<td>{{row.service_charge }}</td>-->
+<!--															<td>{{row.monthly_charge}}</td>-->
+<!--															<td>{{row.inbound_sms}}</td>-->
+<!--															<td  @click="showRentNumberModal"><a  class="btn btn-success btn-xs"><img src="/images/ic_outline-confirmation-number.png"/> Rent Number</a></td>-->
+<!--														</tr>-->
+														<tr  >
+															<td>08100696799</td>
+															<td>US</td>
+															<td>Local</td>
+															<td>0.444</td>
+															<td>0.00944</td>
+															<td>0</td>
 															<td  @click="showRentNumberModal"><a  class="btn btn-success btn-xs"><img src="/images/ic_outline-confirmation-number.png"/> Rent Number</a></td>
 														</tr>
-														<tr>
-															<td  colspan="7" style="text-align: center; cursor: pointer" v-show="numbers_available_for_rent.length < 1">No available number</td>
-														</tr>
+<!--														<tr>-->
+<!--															<td  colspan="7" style="text-align: center; cursor: pointer" v-show="numbers_available_for_rent.length < 1">No available number</td>-->
+<!--														</tr>-->
 											</tbody>
 										</table>
 									</div>
@@ -121,14 +130,15 @@ export default {
 				this.button_text = '';
 				this.isLoading = true;
 				try {
-					let response = await this.$axios.$get('sms/number/search', {params: {
+					let response = await this.$axios.$get('/number/search', {params: {
 							country: this.selected_country_code
 						}});
 					this.numbers_available_for_rent = response.data;
 					this.button_text = "Search";
 					this.isLoading = false;
 				}catch (e){
-
+					this.button_text = "Search";
+					this.isLoading = false;
 				}
 
 		},
