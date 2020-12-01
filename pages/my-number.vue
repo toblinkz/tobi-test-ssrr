@@ -42,6 +42,7 @@
 									<tbody>
 									<tr v-for="(row, index) in rented_numbers" :key="row.id">
 										<td>{{ row.phone_number }}</td>
+										<td>{{row.country}}</td>
 										<td>{{ row.number_type}}</td>
 										<td>{{ row.monthly_charge }}</td>
 										<td>{{row.date_rented}}</td>
@@ -63,11 +64,12 @@
 import Sidebar from "@/components/general/Sidebar";
 import DashboardNavbar from "@/components/general/navbar/DashboardNavbar";
 export default {
-name: "number",
+ name: "number",
+	middleware: ['auth', 'inactive_user'],
 		components: {DashboardNavbar, Sidebar},
 		data(){
 			return{
-					rented_numbers: []
+					rented_numbers: [{phone_number: "08100696707", country:"NG", number_type: 'local', monthly_charge: '400', date_rented:'2/12/2020', expiry_date: '2/1/2021'}]
 			}
 		},
 		methods: {
@@ -77,7 +79,7 @@ name: "number",
 				}
 		},
 		mounted() {
-				this.getRentedNumbers();
+				// this.getRentedNumbers();
 		}
 }
 </script>

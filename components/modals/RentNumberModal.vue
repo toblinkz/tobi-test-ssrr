@@ -25,7 +25,7 @@
 									<table class="table table-hover toke">
 										<tbody>
 										<tr>
-											<td><p><strong>Services</strong></p></td>
+											<td><p><strong>Number Type</strong></p></td>
 											<td><p><strong>Pricing</strong></p></td>
 											<td><p><strong>Date Rented </strong></p></td>
 											<td><p><strong>Expiry Date</strong></p></td>
@@ -33,8 +33,8 @@
 										</tbody>
 										<tbody>
 										<tr>
-											<td><p>SMS</p></td>
-											<td><p>$2/month</p></td>
+											<td><p>{{number_type}}</p></td>
+											<td><p>{{rental_cost}}</p></td>
 											<td><p>{{ date_rented }}</p></td>
 											<td><p>{{ expiry_date }}</p></td>
 										</tr>
@@ -43,9 +43,9 @@
 								</div>
 								<div class="form-group mt-20">
 									<label>Select Payment Method</label>
-									<select class="form-control">
+									<select class="form-control" @change="selectPaymentMethod($event)">
 										<option >Wallet</option>
-										<option >Card</option>
+										<option v-for="item in payment_method.data" :value="item.settings">{{item.name}}</option>
 									</select>
 								</div>
 								<div class='form-group'>
@@ -60,7 +60,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" @click="close"> Close </button>
-								<button class="btn id-btn-primary"> Proceed </button>
+								<button class="btn id-btn-primary" @click="RentNumber"> Proceed </button>
 							</div>
 						</div>
 
@@ -76,18 +76,59 @@ import PricingDropdown from "@/components/general/dropdown/PricingDropdown";
 export default {
 	name: "RentNumberModal",
 	components: {PricingDropdown},
+	props: {
+			number_type:{
+				required: true
+			},
+			rental_cost:{
+				required: true
+			},
+		phone_number: {
+				required: true
+		}
+	},
 	data(){
 		return{
-
 				date_rented:moment(Date.now()).format('DD/MM/YYYY'),
-				expiry_date:moment(Date.now()).add(30, 'days').format('DD/MM/YYYY')
+				expiry_date:moment(Date.now()).add(30, 'days').format('DD/MM/YYYY'),
+			 payment_method:'',
 		}
 	},
 	methods: {
 		close() {
 			this.$modal.hide('rent-number-modal');
 		},
+		RentNumber(){
+				try{
+						this.$axios.$post('number/rent', {
+								phone_number: this.phone_number,
+								payment_method: '',
+							 rental_cost: this.rental_cost,
+							 auto_renew: ''
+						});
+						this.$toast.success("Number Successfully rented");
+				}
+				catch (e) {
+
+				}
+		},
+		async getPaymentMethod(){
+			try {
+				let response_data = await this.$axios.$get('billing/payment-method');
+				this.payment_method = response_data;
+				this.payment_gateway = response_data.data[0].settings;
+			}catch (e) {
+
+			}
+		},
+		selectPaymentMethod(event){
+			this.payment_method = event.target.value;
+			console.log(event.target.value);
+		}
 	},
+	mounted() {
+		this.getPaymentMethod();
+	}
 
 }
 </script>

@@ -41,38 +41,29 @@
 												<th style="width: 15%;">Country</th>
 												<th style="width: 15%;">Number Type</th>
 												<th style="width: 15%;">Setup Charge</th>
-												<th style="width: 20%;">Monthly Charge</th>
+												<th style="width: 15%;">Monthly Charge</th>
 												<th style="width: 15%;">Inbound Sms</th>
-												<th style="width: 10%;"></th>
+												<th style="width: 15%;"></th>
 											</tr>
 											</thead>
 											<tbody>
-<!--														<tr v-for="(row, index) in numbers_available_for_rent" :key="row.id" >-->
-<!--															<td>{{row.number}}</td>-->
-<!--															<td>{{row.country}} </td>-->
-<!--															<td>{{row.number_type }}</td>-->
-<!--															<td>{{row.service_charge }}</td>-->
-<!--															<td>{{row.monthly_charge}}</td>-->
-<!--															<td>{{row.inbound_sms}}</td>-->
-<!--															<td  @click="showRentNumberModal"><a  class="btn btn-success btn-xs"><img src="/images/ic_outline-confirmation-number.png"/> Rent Number</a></td>-->
-<!--														</tr>-->
-														<tr  >
-															<td>08100696799</td>
-															<td>US</td>
-															<td>Local</td>
-															<td>0.444</td>
-															<td>0.00944</td>
-															<td>0</td>
-															<td  @click="showRentNumberModal"><a  class="btn btn-success btn-xs"><img src="/images/ic_outline-confirmation-number.png"/> Rent Number</a></td>
+														<tr v-for="(row, index) in numbers_available_for_rent" :key="row.id" >
+															<td>{{row.number}}</td>
+															<td>{{row.country}} </td>
+															<td>{{row.number_type }}</td>
+															<td>{{row.service_charge }}</td>
+															<td>{{row.monthly_charge}}</td>
+															<td>{{row.inbound_sms}}</td>
+															<td  @click="showRentNumberModal(row)"><a  class="btn btn-success btn-xs"><img src="/images/ic_outline-confirmation-number.png"/> Rent Number</a></td>
 														</tr>
-<!--														<tr>-->
-<!--															<td  colspan="7" style="text-align: center; cursor: pointer" v-show="numbers_available_for_rent.length < 1">No available number</td>-->
-<!--														</tr>-->
+														<tr>
+															<td  colspan="7" style="text-align: center; cursor: pointer" v-show="numbers_available_for_rent.length < 1">No available number</td>
+														</tr>
 											</tbody>
 										</table>
 									</div>
 								</div>
-								<RentNumberModal></RentNumberModal>
+								<RentNumberModal :phone_number="phone_number" :rental_cost="price" :number_type="number_type"></RentNumberModal>
 								<BuyNumberModal></BuyNumberModal>
 							</div>
 			</div>
@@ -95,8 +86,10 @@ export default {
 		return {
 			countries:[],
 			country_code:'',
+			middleware: ['auth', 'inactive_user'],
 			placement: 'top',
-			number:'',
+			phone_number:'',
+			price:'',
 			number_type:'',
 			selected_country_code:'',
 			setup_charge:'',
@@ -104,24 +97,17 @@ export default {
 			inbound_sms:'',
 			isLoading: false,
 			button_text: 'Search',
-			numbers_available_for_rent:''
+			numbers_available_for_rent:[{number: "08100696707", country: "NG", number_type: "local", service_charge:'0.004', monthly_charge: '366', inbound_sms: '0'}]
 		}
 	},
 	methods: {
-			setCapability(value){
-				this.number_type = value;
-			},
-			setCountry(value){
-				this.country = value;
-			},
-			setNumber(value){
-				this.number = value;
-			},
-			showRentNumberModal(){
+
+
+			showRentNumberModal(row){
+				this.phone_number = row.phone_number;
+				this.price = row.monthly_charge;
+				this.number_type = row.number_type;
 				this.$modal.show('rent-number-modal');
-			},
-			showBuyNumberModal(){
-				this.$modal.show('buy-number-modal')
 			},
 			deleteSelectedNumber(){
 				document.getElementById("number-table").deleteRow(1);
