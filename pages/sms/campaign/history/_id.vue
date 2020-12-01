@@ -69,7 +69,7 @@
                 <div class="col-md-12" >
                   <div class="p-15">
                     <div class="row">
-																					<div class="mb-10" style="display: flex; flex-direction: row">
+																					<div class="mb-10 hidden-xs" style="display: flex; flex-direction: row">
 																						<span class="" style="width: 50%; font-size: 15px"><i class="fa fa-circle  m-r-10 m-l-30"  style="color: #2D74AC"></i>Description</span>
 																						<span style="width: 15%; font-size: 15px">Receiver</span>
 																						<span style="width: 15%;font-size: 15px">Pages</span>
@@ -81,26 +81,26 @@
 																					</TableVuePlaceHolder>
 																					<div class="mt-20" v-else>
 																						<div class="row" v-for="row in manage_campaign_list" :key="row.id" v-show="manage_campaign_list.length > 0">
-																							<div class="sms-history-card" style="display: flex; flex-direction: row">
+																							<div class="sms-history-card card-container">
 																								<div><i class="entypo-chat"  style="font-size: 20px; color:#2D74AC; width: 5%"></i></div>
-																								<div style="width: 45%">
+																								<div class="section-width">
 																									<div class="bold m-l-10" style="font-size: 15px; font-weight: 500" >Outgoing Message from {{  row.sender }}</div>
 																									<div class="m-t-5 m-l-10">	<span style="color: #898989">{{ row.created_at }}</span> 	<span class="m-l-10" style="color: #898989">Channel: {{ row.channel }}</span></div>
 																									<div class="m-t-5 m-l-10" v-if="row.id !== message_id">{{row.message_abbreviation}}</div>
 																									<div class="m-t-5 m-l-10" v-if="row.id === message_id">{{row.message}}</div>
 																								</div>
-																								<div style="width: 20%">
+																								<div class="left-margin" style="width: 20%">
 																									<div >{{row.receiver }}</div>
 																								</div>
-																								<div style="width: 12%">
+																								<div class="hidden-xs" style="width: 12%">
 																									<div>{{ row.amount }}</div>
 																								</div>
-																								<div style="width: 18%">
+																								<div class="left-margin" style="width: 18%">
 																									<div class="label" :class="rowStatusClass(row)" >{{row.status }}</div>
 																								</div>
 																								<div>
-																									<span style="width: 5%;font-size: 15px" @click="expandMessageSent(row)">
-																											<i class="fa fa-expand m-r-10 m-l-30" style="color: #2D74AC; cursor: pointer">
+																									<span style="width: 5%;"  class="expand-icon" @click="expandMessageSent(row)">
+																											<i class="fa fa-expand " style="color: #2D74AC; cursor: pointer">
 																											</i>
 																									</span>
 																								</div>
@@ -372,6 +372,30 @@
 			box-shadow: 0 10px 45px 0 rgba(0,0,0,.1);
 			margin-bottom: 20px;
 			padding: 40px 30px;
+		}
+		.card-container{
+			display: flex;
+			flex-direction: row;
+		}
+		.section-width{
+			width: 45%;
+		}
+		@media (max-width: 769px) {
+			.expand-icon{
+				font-size: 25px;
+				margin-right: 10px;
+				margin-left: 0px;
+			}
+			.section-width{
+				width: 100%;
+			}
+			.card-container{
+				display: flex;
+				flex-direction: column;
+			}
+			.left-margin{
+				margin-left: 10px;
+			}
 		}
 		.label {
 			font-size: 11px;
