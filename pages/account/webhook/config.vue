@@ -122,8 +122,7 @@
 					},
       computed:{
           isDisabled: function () {
-              return(this.live_webhook === '' || this.test_webhook === '' || this.hasLiveWebhookError
-                || this.hasTestWebhookError )
+              return(  this.hasLiveWebhookError || this.hasTestWebhookError )
           }
       },
       methods: {
@@ -146,7 +145,10 @@
           	if (/^(ftp|http|https):\/\/[^ "]+$/.test(value)){
 												this.hasLiveWebhookError = false;
 												this.error_message['live_webhook'] = '';
-											}else {
+											}else if (!value) {
+												this.hasLiveWebhookError = true;
+												this.error_message['live_webhook'] = 'The live webhook field is required.';
+											}else{
 												this.hasLiveWebhookError = true;
 												this.error_message['live_webhook'] = 'The live webhook format is invalid.';
 											}
