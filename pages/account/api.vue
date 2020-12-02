@@ -54,7 +54,7 @@
                                  <p class="insight" style="color: #595959 !important;">{{api_key}}</p> </div>
 																																<form @submit.prevent="renewApiToken">
 																																	<div class="form-group mt-20">
-																																		<input v-model="password" :type="type"  class="profile-form-control" :class="{'error': hasPasswordError}" placeholder="Enter Password">
+																																		<input id="password" v-model="password" :type="type"  class="profile-form-control" :class="{'error': hasPasswordError}" placeholder="Enter Password">
 																																		<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
 																																		<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
 																																	</div>
@@ -139,6 +139,8 @@
 													let response = await this.$axios.$get('user');
 													await localStorage.setItem('user_data', JSON.stringify(response.data));
 													this.api_key = 	JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
+													this.password = '';
+
               await Swal.fire({
                 icon: 'success',
                 text: 'Your API token was successfully renewed',
