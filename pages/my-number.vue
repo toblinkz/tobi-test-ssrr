@@ -14,11 +14,12 @@
 					</div>
 					<div class="col-md-11">
 
-						<div class="panel mt-50" style="height: 300px;">
+						<div class="panel mt-50" >
 							<div class="panel-body p-none scrollme">
 								<div style="display: flex; flex-direction: row; width: 100%">
 									<div style="width: 80%">
-										<input type="text"  class="form-control" placeholder="Search number">
+										<input type="text" v-model="searchQuery"  class="form-control" placeholder="Search number">
+										<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
 									</div>
 									<div style="width: 20%">
 										<nuxt-link to="/buy-a-number" class="btnl bg-blue" style="justify-content: flex-end" >
@@ -40,15 +41,17 @@
 									</tr>
 									</thead>
 									<tbody>
-									<tr v-for="(row, index) in rented_numbers" :key="row.id">
+									<tr v-for="(row, index) in filteredPhoneNumber" :key="row.id">
 										<td>{{ row.phone_number }}</td>
 										<td>{{row.country}}</td>
 										<td>{{ row.number_type}}</td>
 										<td>{{ row.monthly_charge }}</td>
 										<td>{{row.date_rented}}</td>
 										<td>{{row.expiry_date}}</td>
-										<td></td>
-										<td><a class="btn btn-danger btn-xs"> Unrent</a></td>
+										<td><a class="btn btn-danger btn-xs" @click="unRentNumber(row)"> Unrent</a></td>
+									</tr>
+									<tr>
+										<td  colspan="7" style="text-align: center; cursor: pointer" v-show="filteredPhoneNumber.length < 1">No data available in table</td>
 									</tr>
 									</tbody>
 								</table>
@@ -66,17 +69,54 @@ import DashboardNavbar from "@/components/general/navbar/DashboardNavbar";
 export default {
  name: "number",
 	middleware: ['auth', 'inactive_user'],
-		components: {DashboardNavbar, Sidebar},
+	components: {DashboardNavbar, Sidebar},
+	watch: {
+ 	searchQuery(value){
+ 		this.validateSearchQuery(value);
+		}
+	},
 		data(){
 			return{
-					rented_numbers: [{phone_number: "08100696707", country:"NG", number_type: 'local', monthly_charge: '400', date_rented:'2/12/2020', expiry_date: '2/1/2021'}]
+					rented_numbers: [{phone_number: "08100696707", country:"NG", number_type: 'local', monthly_charge: '400', date_rented:'2/12/2020', expiry_date: '2/1/2021'},
+						{phone_number: "08154732900", country:"NG", number_type: 'local', monthly_charge: '400', date_rented:'2/12/2020', expiry_date: '2/1/2021'}],
+					searchQuery: '',
+			 	error_message:''
 			}
 		},
+	computed: {
+ 		filteredPhoneNumber(){
+ 			if(!isNaN(this.searchQuery)){
+ 				return this.rented_numbers.filter(item => {
+ 						return item.phone_number.includes(this.searchQuery);
+					})
+				} else {
+ 				return this.rented_numbers
+				}
+			}
+	},
 		methods: {
 				async getRentedNumbers(){
 						this.rented_numbers = await this.$axios.$get('/number/rented').data;
-
+				},
+			validateSearchQuery(value){
+				if (isNaN(value)){
+					this.error_message = 'Please enter a valid number';
+				}else{
+					this.error_message = '';
 				}
+			},
+			async unRentNumber(row){
+					try{
+						await this.$axios.$delete('/number/unrent', {
+							params:{
+								phone_number: row.phone_number
+							}
+						});
+						this.$toast.success('Done successfully');
+					}catch (e) {
+
+					}
+			}
 		},
 		mounted() {
 				// this.getRentedNumbers();

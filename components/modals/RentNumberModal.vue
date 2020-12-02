@@ -45,12 +45,12 @@
 									<label>Select Payment Method</label>
 									<select class="form-control" @change="selectPaymentMethod($event)">
 										<option >Wallet</option>
-										<option v-for="item in payment_method.data" :value="item.settings">{{item.name}}</option>
+										<option v-for="item in payment_methods.data" :value="item.settings">{{item.name}}</option>
 									</select>
 								</div>
 								<div class='form-group'>
 									<label class="checkbox-inline">
-										<input type="checkbox" class="styled" checked="checked" name="remember">
+										<input type="checkbox" class="styled" v-model="auto_renewal_status">
 										Auto Renew Subscription
 									</label>
 								</div>
@@ -91,7 +91,9 @@ export default {
 		return{
 				date_rented:moment(Date.now()).format('DD/MM/YYYY'),
 				expiry_date:moment(Date.now()).add(30, 'days').format('DD/MM/YYYY'),
-			 payment_method:'',
+			 payment_methods:'',
+				selected_payment_method:'wallet',
+			 auto_renewal_status: true
 		}
 	},
 	methods: {
@@ -102,9 +104,9 @@ export default {
 				try{
 						this.$axios.$post('number/rent', {
 								phone_number: this.phone_number,
-								payment_method: '',
+								payment_method: this.selected_payment_method,
 							 rental_cost: this.rental_cost,
-							 auto_renew: ''
+							 auto_renew: this.auto_renewal_status
 						});
 						this.$toast.success("Number Successfully rented");
 				}
@@ -114,15 +116,14 @@ export default {
 		},
 		async getPaymentMethod(){
 			try {
-				let response_data = await this.$axios.$get('billing/payment-method');
-				this.payment_method = response_data;
-				this.payment_gateway = response_data.data[0].settings;
+				this.payment_methods = await this.$axios.$get('billing/payment-method');
 			}catch (e) {
 
 			}
 		},
+
 		selectPaymentMethod(event){
-			this.payment_method = event.target.value;
+			this.selected_payment_method = event.target.value;
 			console.log(event.target.value);
 		}
 	},
