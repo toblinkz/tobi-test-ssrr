@@ -100,15 +100,15 @@ export default {
 		close() {
 			this.$modal.hide('rent-number-modal');
 		},
-		RentNumber(){
+		async RentNumber(){
 				try{
-						this.$axios.$post('number/rent', {
+						await this.$axios.$post('number/rent', {
 								phone_number: this.phone_number,
 								payment_method: this.selected_payment_method,
 							 rental_cost: this.rental_cost,
 							 auto_renew: this.auto_renewal_status
 						});
-						this.$toast.success("Number Successfully rented");
+					this.$toast.success("Number Successfully rented");
 				}
 				catch (e) {
 
