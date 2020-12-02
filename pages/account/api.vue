@@ -52,19 +52,22 @@
 																																			<img src="/images/copy.svg"/>
                                   </button>
                                  <p class="insight" style="color: #595959 !important;">{{api_key}}</p> </div>
-																															<div class="form-group mt-20">
-																																<input v-model="password" :type="type"  class="profile-form-control" :class="{'error': hasPasswordError}" placeholder="Enter Password">
-																																<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
-																																<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
-																															</div>
-																															<br>
-																															<button class="btn btn-primary btn-cons" @click="renewApiToken" :disabled="isDisabled">
-																																<i class="fa fa-certificate" v-show="showIcon"></i>
-																																{{button_text}}
-																																<span v-show="isLoading">
+																																<form @submit.prevent="renewApiToken">
+																																	<div class="form-group mt-20">
+																																		<input v-model="password" :type="type"  class="profile-form-control" :class="{'error': hasPasswordError}" placeholder="Enter Password">
+																																		<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
+																																		<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
+																																	</div>
+																																	<br>
+																																	<button class="btn btn-primary btn-cons" @click="renewApiToken" :disabled="isDisabled">
+																																		<i class="fa fa-certificate" v-show="showIcon"></i>
+																																		{{button_text}}
+																																		<span v-show="isLoading">
 																																			<img src="/images/spinner.svg" height="20px" width="80px"/>
 																																		</span>
-																															</button>
+																																	</button>
+																																</form>
+
                                 <!-- END PANEL -->
                               </div>
                             </div>
@@ -133,6 +136,9 @@
 													this.isLoading = false;
 													this.button_text = 'Renew API key';
 													this.showIcon = true;
+													let response = await this.$axios.$get('user');
+													await localStorage.setItem('user_data', JSON.stringify(response.data));
+													this.api_key = 	JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
               await Swal.fire({
                 icon: 'success',
                 text: 'Your API token was successfully renewed',
