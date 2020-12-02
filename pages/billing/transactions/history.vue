@@ -114,7 +114,7 @@
 																					</TableVuePlaceHolder>
                       <div class="panel-body p-15 p-t-none p-b-none" v-else>
                         <div class="row" >
-                          <div class="pml-table-container">
+                          <div class="pml-table-container"  style="overflow-x:auto;">
                             <table class="table table-box pml-table">
 
                               <thead>

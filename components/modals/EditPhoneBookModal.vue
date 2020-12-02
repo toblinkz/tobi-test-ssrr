@@ -1,7 +1,7 @@
 <template>
 
   <!-- Modal -->
-  <modal name="edit-phonebook-modal" height="auto" role="dialog" >
+  <modal name="edit-phonebook-modal" height="auto"  :resizable="true" >
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" @click="close"><span aria-hidden="true">&times;</span></button>
