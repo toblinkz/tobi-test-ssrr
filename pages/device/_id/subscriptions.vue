@@ -21,6 +21,21 @@
 													<div class="padding-30">
 														<h2 class="page-title"><b>Device - {{device_name}}</b></h2>
 													</div>
+													<div class="stats-container" style="display: flex; flex-direction: row;">
+																<div class=" first-card  border rounded   m-4 flex">
+																			<i class="entypo-credit-card px-3 py-10"></i> <p class="text-xs pr-12 py-8 "> Total messages sent <br>
+																			<span class="text-lg">230,567.50</span></p>
+																</div>
+																<div class=" second-card  border rounded   m-4 flex">
+																			<i class="entypo-credit-card px-3 py-10"></i> <p class="text-xs pr-12 py-8 "> Messages sent today <br>
+																			<span class="text-lg"> 230,567.50</span></p>
+																</div>
+																<div class=" third-card  border rounded   m-4 flex">
+																			<i class="entypo-credit-card px-3 py-10"></i> <p class="text-xs pr-12 py-8 "> Messages sent this week <br>
+																			<span class="text-lg"> 230,567.50</span></p>
+																</div>
+
+													</div>
 													<DeviceTemplate v-show="templateExists()" :template_data="template_data"></DeviceTemplate>
              <DeviceSubscription :subscription_data="response_data"
 																																	:device_name="device_name"
@@ -264,4 +279,50 @@
     background-color: #0c7cd5;
     border: 1px solid transparent !important;
   }
+		.first-card {
+			color: #ffffff;
+			background: linear-gradient(-48deg,#0dcbe5 -30%,#365899 60%)!important;
+			box-shadow: 8px 10px 20px 0 rgba(0,0,0,.22);
+			border: 2px;
+			display: flex;
+		}
+		.second-card {
+			background: #0DCBE5;
+			color: #ffffff;
+			box-shadow: 8px 10px 20px 0 rgba(0,0,0,.22);
+			border: 2px;
+			display: flex;
+		}
+		.third-card {
+			background: linear-gradient(287.28deg, #59B68D -16.81%, #048049 111.69%);
+			color: #ffffff;
+			box-shadow: 8px 10px 20px 0 rgba(0,0,0,.22);
+			border: 2px;
+			display: flex;
+		}
+		.m-4 {
+			margin: 1rem;
+		}
+		.px-3 {
+			padding-left: 0.75rem;
+			padding-right: 0.75rem;
+		}
+		.py-10 {
+			padding-top: 2.5rem;
+			padding-bottom: 2.5rem;
+		}
+		.py-8 {
+			padding-top: 2rem;
+			padding-bottom: 2rem;
+		}
+		.pr-12 {
+			padding-right: 10rem;
+		}
+		.rounded {
+			border-radius: 0.25rem;
+		}
+		.stats-container{
+			padding: 5px 15px 15px 15px;
+		}
+
 </style>
