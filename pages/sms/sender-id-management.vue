@@ -58,12 +58,12 @@
 																	<TableVuePlaceHolder v-if="!showShimmer">
 
 																	</TableVuePlaceHolder>
-                  <div class="col-md-12" v-else>
+                  <div  v-else>
                     <div class="p-15 ">
                       <div class="row">
-                        <div class="col-lg-12">
+                        <div>
                           <div class="panel">
-                            <div class="panel-body p-none scrollme">
+                            <div class="panel-body p-none scrollme"  style="overflow-x:auto;">
                               <table class="table table-responsive  table-hover">
                                 <thead>
                                 <tr>

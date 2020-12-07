@@ -67,8 +67,8 @@
 																	</TableVuePlaceHolder>
                   <div class="col-md-12 mt-100" v-else>
                     <div class="row">
-                      <div class="col-lg-12">
-                        <div class="panel">
+                      <div >
+                        <div class="panel" style="overflow-x:auto;">
                           <div class="panel-body">
 																											<form @submit.prevent="getPhonebookContacts" class="mb-10">
 																												<input type="search" class="form-control2 input-sm" placeholder="Search phone number" v-model="phone_number">

@@ -80,43 +80,45 @@
                                   </div>
                                 </div>
                               </div>
-                              <table  class="table table-responsive data-table table-hover">
-                                <thead>
-                                <tr>
-                                  <th style="width: 10%;">#</th>
-                                  <th style="width: 10%;">Amount</th>
-                                  <th style="width: 15%;">Invoice Date</th>
-                                  <th style="width: 15%;">Due Date</th>
-                                  <th style="width: 10%;">Status</th>
-                                  <th style="width: 15%;">Type</th>
-                                  <th style="width: 30%;">Manage</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="(row, index) in filteredInvoices" :key="row.id" v-show="filteredInvoices.length > 0">
-                                  <td>{{index + 1}}</td>
-                                  <td>{{row.total}}</td>
-                                  <td>{{row.datepaid}}</td>
-                                  <td>{{row.duedate}}</td>
-                                  <td>
-                                    <span class="label" :class="statusClass(row)">{{row.status}}</span>
-                                  </td>
-                                  <td>
-                                    <span class="label label-success" v-show="showRecurringLabel(row)" >Recurring</span>
-                                    <span class="label label-success" v-show="showOnetimeLabel(row)">Onetime</span>
-                                  </td>
-                                  <td>
-                                    <nuxt-link :to="{path: 'view/' + row.id, params:{id: row.id}}" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
-                                  </td>
+																													<div  style="overflow-x:auto;">
+																														<table  class="table table-responsive data-table table-hover">
+																															<thead>
+																															<tr>
+																																<th style="width: 10%;">#</th>
+																																<th style="width: 10%;">Amount</th>
+																																<th style="width: 15%;">Invoice Date</th>
+																																<th style="width: 15%;">Due Date</th>
+																																<th style="width: 10%;">Status</th>
+																																<th style="width: 15%;">Type</th>
+																																<th style="width: 30%;">Manage</th>
+																															</tr>
+																															</thead>
+																															<tbody>
+																															<tr v-for="(row, index) in filteredInvoices" :key="row.id" v-show="filteredInvoices.length > 0">
+																																<td>{{index + 1}}</td>
+																																<td>{{row.total}}</td>
+																																<td>{{row.datepaid}}</td>
+																																<td>{{row.duedate}}</td>
+																																<td>
+																																	<span class="label" :class="statusClass(row)">{{row.status}}</span>
+																																</td>
+																																<td>
+																																	<span class="label label-success" v-show="showRecurringLabel(row)" >Recurring</span>
+																																	<span class="label label-success" v-show="showOnetimeLabel(row)">Onetime</span>
+																																</td>
+																																<td>
+																																	<nuxt-link :to="{path: 'view/' + row.id, params:{id: row.id}}" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View</nuxt-link>
+																																</td>
 
-                                </tr>
-																																<tr>
-																																	<td  colspan="7" style="text-align: center; cursor: pointer" v-show="filteredInvoices.length < 1">No data available in table</td>
-																																</tr>
-                                </tbody>
-                              </table>
+																															</tr>
+																															<tr>
+																																<td  colspan="7" style="text-align: center; cursor: pointer" v-show="filteredInvoices.length < 1">No data available in table</td>
+																															</tr>
+																															</tbody>
+																														</table>
 
 
+																													</div>
                             </div>
                           </div>
                         </div>
