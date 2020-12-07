@@ -77,8 +77,7 @@ export default {
 	},
 		data(){
 			return{
-					rented_numbers: [{phone_number: "08100696707", country:"NG", number_type: 'local', monthly_charge: '400', date_rented:'2/12/2020', expiry_date: '2/1/2021'},
-						{phone_number: "08154732900", country:"NG", number_type: 'local', monthly_charge: '400', date_rented:'2/12/2020', expiry_date: '2/1/2021'}],
+					rented_numbers: [],
 					searchQuery: '',
 			 	error_message:''
 			}
@@ -119,7 +118,7 @@ export default {
 			}
 		},
 		mounted() {
-				// this.getRentedNumbers();
+				 this.getRentedNumbers();
 		}
 }
 </script>
