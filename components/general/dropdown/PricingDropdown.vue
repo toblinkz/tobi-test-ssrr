@@ -41,7 +41,6 @@
 	</div>
 </template>
 <script>
-
 import ClickOutside from "vue-click-outside";
 export default {
 	name: "PricingDropdown",

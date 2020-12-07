@@ -135,12 +135,12 @@
     export default {
         name: "sender-id-management",
 					   middleware: ['auth'],
-      components: {
-							VerificationModal,
-							InActiveSenderIdModal,
-							TableVuePlaceHolder,
-							ButtonSpinner,
-							Pagination, SenderIdModal, DashboardNavbar, Sidebar, ListLoader, FacebookLoader, ContentLoader,BulletListLoader},
+								components: {
+									VerificationModal,
+									InActiveSenderIdModal,
+									TableVuePlaceHolder,
+									ButtonSpinner,
+									Pagination, SenderIdModal, DashboardNavbar, Sidebar, ListLoader, FacebookLoader, ContentLoader,BulletListLoader},
       data(){
           return{
             response_data: [],

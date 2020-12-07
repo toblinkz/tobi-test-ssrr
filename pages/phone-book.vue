@@ -71,7 +71,6 @@
 
 											</div>
 											<TableVuePlaceHolder v-if="!show_shimmer">
-
 											</TableVuePlaceHolder>
 											<div class="row m-t-35" v-else>
 												<div >

@@ -2,13 +2,12 @@
 
     <!-- Modal -->
     <modal name="sender-id-modal" height="auto">
-      <div  tabindex="-1" role="dialog" style="display: block;
-    padding-left: 9px;">
+      <div  tabindex="-1" role="dialog" style="display: block; padding-left: 9px;">
         <div  role="document" >
           <div>
             <div class="modal-header" >
               <button type="button" class="close" @click="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Request New ID</h4>
+              <h4 class="modal-title" >Request New ID</h4>
             </div>
             <form method="post" @submit.prevent="requestSenderId">
 
