@@ -21,18 +21,18 @@
 													<div class="padding-30">
 														<h2 class="page-title"><b>Device - {{device_name}}</b></h2>
 													</div>
-													<div class="stats-container" style="display: flex; flex-direction: row;">
+													<div class="stats-container">
 																<div class=" first-card  border rounded   m-4 flex">
 																			<i class="entypo-credit-card px-3 py-10"></i> <p class="text-xs pr-12 py-8 "> Total messages sent <br>
-																			<span class="text-lg">230,567.50</span></p>
+																			<span class="text-lg">{{ total_messages_sent_all_time }}</span></p>
 																</div>
 																<div class=" second-card  border rounded   m-4 flex">
 																			<i class="entypo-credit-card px-3 py-10"></i> <p class="text-xs pr-12 py-8 "> Messages sent today <br>
-																			<span class="text-lg"> 230,567.50</span></p>
+																			<span class="text-lg"> {{total_messages_sent_today}}</span></p>
 																</div>
 																<div class=" third-card  border rounded   m-4 flex">
-																			<i class="entypo-credit-card px-3 py-10"></i> <p class="text-xs pr-12 py-8 "> Messages sent this week <br>
-																			<span class="text-lg"> 230,567.50</span></p>
+																			<i class="entypo-credit-card px-3 py-10"></i> <p class="text-xs pr-12 py-8 "> Messages sent this month <br>
+																			<span class="text-lg"> {{ total_messages_sent_this_month }}</span></p>
 																</div>
 
 													</div>
@@ -79,6 +79,9 @@
 												device_cost: '',
 												device_daily_limit: '',
 												monthly_charge: '',
+												total_messages_sent_all_time:'',
+												total_messages_sent_this_month:'',
+												total_messages_sent_today:'',
 												device_monthly_limit: '',
 												cost_per_message: '',
 												device_type: '',
@@ -89,7 +92,7 @@
             plan_id:"",
 											 page_url: '',
             payment_url:"",
-											payment_method : '',
+											 payment_method : '',
 												button_text: 'Pay Now',
 											 showIcon: true,
 												isLoading: false,
@@ -102,10 +105,12 @@
           async fetch(){
             try {
             	//get subscriptions
-             let data =  await this.$axios.$get('devices/'+ this.device_id +'/subscription');
-
-             this.response_data = data;
-             this.template_data = data.device.template
+														let data =  await this.$axios.$get('devices/'+ this.device_id +'/subscription');
+														this.total_messages_sent_all_time = data.device_stats.total_messages_sent_all_time;
+														this.total_messages_sent_this_month = data.device_stats.total_messages_sent_this_month;
+														this.total_messages_sent_today = data.device_stats.total_messages_sent_today;
+														this.response_data = data;
+														this.template_data = data.device.template
              	this.device_name = data.device.name;
 														this.monthly_charge = data.device.monthly_charge;
 														this.device_daily_limit = (data.device.daily_limit) ? data.device.daily_limit:'unlimited';
@@ -282,21 +287,20 @@
 		.first-card {
 			color: #ffffff;
 			background: linear-gradient(-48deg,#0dcbe5 -30%,#365899 60%)!important;
-			box-shadow: 8px 10px 20px 0 rgba(0,0,0,.22);
+
 			border: 2px;
 			display: flex;
 		}
 		.second-card {
 			background: #0DCBE5;
 			color: #ffffff;
-			box-shadow: 8px 10px 20px 0 rgba(0,0,0,.22);
+
 			border: 2px;
 			display: flex;
 		}
 		.third-card {
 			background: linear-gradient(287.28deg, #59B68D -16.81%, #048049 111.69%);
 			color: #ffffff;
-			box-shadow: 8px 10px 20px 0 rgba(0,0,0,.22);
 			border: 2px;
 			display: flex;
 		}
@@ -323,6 +327,12 @@
 		}
 		.stats-container{
 			padding: 5px 15px 15px 15px;
+			display: flex; flex-direction: row;
+		}
+		@media (max-width: 769px){
+			.stats-container {
+				display: flex; flex-direction: column;
+			}
 		}
 
 </style>
