@@ -97,7 +97,7 @@ export default {
 			inbound_sms:'',
 			isLoading: false,
 			button_text: 'Search',
-			numbers_available_for_rent:[{number: "08100696707", country: "NG", number_type: "local", service_charge:'0.004', monthly_charge: '366', inbound_sms: '0'}]
+			numbers_available_for_rent:[]
 		}
 	},
 	methods: {
