@@ -3,11 +3,24 @@
 		<div class="p-30">
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="panel">
+					<div class="panel" style="overflow-x:auto;">
 						<div class="panel-body ">
-							<h3 class="panel-title">Subscriptions</h3>
-							<button class="btn btn-primary btn-sm pull-right" @click="showModal"  ><i class="fa fa-plus"></i> New Subscription</button>
-							<table class="table data-table table-hover">
+							<div class="mb-20">
+
+											<div >
+												<h3 class="panel-title">Subscriptions</h3>
+													<div style="" class="switch-button-container">
+															<button class="btn btn-primary btn-sm " @click="showModal"  ><i class="fa fa-plus"></i> New Subscription</button>
+
+															<Switches class=" btn-sm " v-model="enabled_device_notification" type-bold="true" color="blue"></Switches>
+															<p :class="{'switch-color': enabled_device_notification}">Device Notification</p>
+
+													</div>
+											</div>
+
+
+							</div>
+							<table class="table data-table table-hover" >
 								<thead>
 								<tr>
 									<th style="width: 10%;">SL#</th>
@@ -51,11 +64,17 @@
 import ButtonSpinner from "@/components/general/ButtonSpinner";
 import DeviceSubscriptionModal from "~/components/modals/DeviceSubscriptionModal";
 import Swal from "sweetalert2";
+import Switches from 'vue-switches';
 
 export default {
 name: "DeviceSubscription",
 	middleware:'auth',
-	components: {ButtonSpinner, DeviceSubscriptionModal},
+	components: {ButtonSpinner, DeviceSubscriptionModal, Switches},
+	data(){
+		return{
+			enabled_device_notification: false,
+		}
+	},
 	props: {
 		subscription_data: {
 			required: true
@@ -86,7 +105,8 @@ name: "DeviceSubscription",
 		},
 		device_monthly_limit:{
 			requires:true
-		}
+		},
+
 },
 	methods: {
 		showModal(){
@@ -232,6 +252,26 @@ h3 {
 	color: #fff;
 	background-color: #0c7cd5;
 	border: 1px solid transparent !important;
+}
+.select-class {
+	display: flex;
+	flex-direction: row;
+	background: #FFFFFF ;
+	/*justify-content: flex-end;*/
+}
+.switch-color{
+	color: #394066;
+}
+.switch-button-container{
+	display: flex;
+	float: right;
+}
+@media (max-width: 769px) {
+	.switch-button-container{
+			display: flex;
+		flex-direction: column;
+		float: left;
+	}
 }
 </style>
 

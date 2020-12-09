@@ -65,14 +65,14 @@
                             <div class="panel-body p-none scrollme">
                               <table class="table table-responsive  table-hover">
                                 <thead>
-                                <tr>
-                                  <th style="width: 20%;" class="hidden-xs">Device ID</th>
-                                  <th style="width: 20%;">Device Name</th>
-                                  <th style="width: 20%;">Status</th>
-                                  <th style="width: 20%;">Device Type</th>
-                                  <th style="width: 20%;">Scan Device</th>
-                                  <th style="width: 20%;"></th>
-                                </tr>
+																																	<tr>
+																																			<th style="width: 20%;" class="hidden-xs">Device ID</th>
+																																			<th style="width: 20%;">Device Name</th>
+																																			<th style="width: 20%;">Status</th>
+																																			<th style="width: 20%;">Device Type</th>
+																																			<th style="width: 20%;">Scan Device</th>
+																																			<th style="width: 20%;"></th>
+																																	</tr>
                                 </thead>
                                 <tbody>
                                 <tr v-for="(row, index) in response_data.data" :key="row.id">
@@ -123,8 +123,8 @@
 	export default {
 		     name: "devices",
 		     middleware: ['auth'],
-      components: {VerificationModal, InActiveSenderIdModal, TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
-      data(){
+							components: {VerificationModal, InActiveSenderIdModal, TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
+							data(){
           return{
             response_data:[],
             name:"",
