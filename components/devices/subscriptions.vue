@@ -3,17 +3,15 @@
 		<div class="p-30">
 			<div class="row">
 				<div class="col-lg-12">
+					<h3 class="panel-title">Subscriptions</h3>
 					<div class="panel" style="overflow-x:auto;">
 						<div class="panel-body ">
 							<div class="mb-20">
-
 											<div >
-												<h3 class="panel-title">Subscriptions</h3>
-													<div style="" class="switch-button-container">
-															<button class="btn btn-primary btn-sm " @click="showModal"  ><i class="fa fa-plus"></i> New Subscription</button>
-
+												<button class="btn btn-primary btn-sm " @click="showModal"  ><i class="fa fa-plus"></i> New Subscription</button>
+													<div v-show="device_type === 'Capped'" style="" class="switch-button-container">
+														<span :class="{'switch-color': enabled_device_notification}" style="font-size: 16px; padding: 3px">Device Offline Notification</span>
 															<Switches class=" btn-sm " v-model="enabled_device_notification" type-bold="true" color="blue"></Switches>
-															<p :class="{'switch-color': enabled_device_notification}">Device Notification</p>
 
 													</div>
 											</div>
@@ -106,6 +104,7 @@ name: "DeviceSubscription",
 		device_monthly_limit:{
 			requires:true
 		},
+
 
 },
 	methods: {
