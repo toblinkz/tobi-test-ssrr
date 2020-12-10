@@ -22,6 +22,7 @@
 														<h2 class="page-title"><b>Device - {{device_name}}</b></h2>
 													</div>
 													<div class="stats-container">
+
 																<div class=" first-card  border rounded   m-4 flex">
 																			<i class="entypo-credit-card px-3 py-10" style="font-size: 18px"></i> <p class=" pr-12 py-8 " style="font-size: 18px"> Total messages sent <br>
 																			<span class="text-lg">{{ total_messages_sent_all_time }}</span></p>
@@ -334,7 +335,7 @@
 			}
 		}
 		.device-padding{
-			padding: 30px 5px!important;
+			padding: 20px 5px 5px 5px!important;
 		}
 
 </style>

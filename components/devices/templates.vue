@@ -3,9 +3,10 @@
 		<div class="p-30">
 			<div class="row">
 				<div class="col-lg-12">
+					<h3 class="panel-title">Templates</h3>
 					<div class="panel" style="overflow-x:auto;">
 						<div class="panel-body ">
-							<h3 class="panel-title">Templates</h3>
+
 								<table class="table data-table table-hover">
 								<thead>
 								<tr>
