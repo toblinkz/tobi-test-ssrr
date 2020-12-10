@@ -18,20 +18,20 @@
           <div class="content-wrapper">
             <!-- main inner content -->
             <main id="wrapper" class="wrapper">
-													<div class="padding-30">
+													<div class="device-padding">
 														<h2 class="page-title"><b>Device - {{device_name}}</b></h2>
 													</div>
 													<div class="stats-container">
 																<div class=" first-card  border rounded   m-4 flex">
-																			<i class="entypo-credit-card px-3 py-10"></i> <p class="text-xs pr-12 py-8 "> Total messages sent <br>
+																			<i class="entypo-credit-card px-3 py-10" style="font-size: 18px"></i> <p class=" pr-12 py-8 " style="font-size: 18px"> Total messages sent <br>
 																			<span class="text-lg">{{ total_messages_sent_all_time }}</span></p>
 																</div>
 																<div class=" second-card  border rounded   m-4 flex">
-																			<i class="entypo-credit-card px-3 py-10"></i> <p class="text-xs pr-12 py-8 "> Messages sent today <br>
+																			<i class="entypo-credit-card px-3 py-10" style="font-size: 18px"></i> <p class="text-xs pr-12 py-8 " style="font-size: 18px"> Messages sent today <br>
 																			<span class="text-lg"> {{total_messages_sent_today}}</span></p>
 																</div>
 																<div class=" third-card  border rounded   m-4 flex">
-																			<i class="entypo-credit-card px-3 py-10"></i> <p class="text-xs pr-12 py-8 "> Messages sent this month <br>
+																			<i class="entypo-credit-card px-3 py-10" style="font-size: 18px"></i> <p class="text-xs pr-12 py-8 " style="font-size: 18px"> Messages sent this month <br>
 																			<span class="text-lg"> {{ total_messages_sent_this_month }}</span></p>
 																</div>
 
@@ -287,14 +287,14 @@
 		.first-card {
 			color: #ffffff;
 			background: linear-gradient(-48deg,#0dcbe5 -30%,#365899 60%)!important;
-
+			border-radius: 5px;
 			border: 2px;
 			display: flex;
 		}
 		.second-card {
 			background: #0DCBE5;
 			color: #ffffff;
-
+			border-radius: 5px;
 			border: 2px;
 			display: flex;
 		}
@@ -302,6 +302,7 @@
 			background: linear-gradient(287.28deg, #59B68D -16.81%, #048049 111.69%);
 			color: #ffffff;
 			border: 2px;
+			border-radius: 5px;
 			display: flex;
 		}
 		.m-4 {
@@ -322,17 +323,18 @@
 		.pr-12 {
 			padding-right: 10rem;
 		}
-		.rounded {
-			border-radius: 0.25rem;
-		}
+
 		.stats-container{
-			padding: 5px 15px 15px 15px;
+			padding: 5px 15px 15px 1px;
 			display: flex; flex-direction: row;
 		}
 		@media (max-width: 769px){
 			.stats-container {
 				display: flex; flex-direction: column;
 			}
+		}
+		.device-padding{
+			padding: 30px 5px!important;
 		}
 
 </style>

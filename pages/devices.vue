@@ -79,7 +79,7 @@
                                   <td data-label="SL" ><p>{{row.id}}</p></td>
                                   <td data-label="Sender ID"><p>{{row.name}}</p></td>
                                   <td data-label="Status"><p class="label"  :class="rowClassName(row,index)">{{row.device_status}}</p>
-                                  <td ><p>{{row.device_type}}</p></td>
+                                  <td ><p  class="label"  :class="rowClassType(row,index)">{{row.device_type}}</p></td>
                                   <td data-label="Status">
                                     <button id="qr-code" @click="getQRCode(row.id)"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" :class="barcodeDisabled(row)" v-show="showBarcodeIcon(row)"><i class="fa fa-barcode"   style="color: #fff;"></i></button>
                                     <p v-show="lockBarcode(row)"><i class="entypo-lock" style="color: red;"></i></p>
@@ -191,6 +191,17 @@
 										}
 									}
         },
+							rowClassType(row){
+        	switch (row.device_type){
+										case "Capped": {
+												return 'capped-pill'
+										}
+										case "Template": {
+											return 'template-pill'
+										}
+
+									}
+							},
         showBarcodeIcon(row){
           return (row.device_status === 'ACTIVE');
         },
@@ -374,6 +385,17 @@
     color: #fff;
     background-color: #4CAF50;
   }
+		.capped-pill {
+			border-color: #456990;
+			color: #fff;
+			background-color: #456990;
+		}
+		.template-pill {
+			border-color:#2C0E37;
+			color: #fff;
+			background-color: #2C0E37;
+		}
+
 		.barcode-disabled{
 			opacity: .5;
 			pointer-events: none;
