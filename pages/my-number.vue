@@ -51,7 +51,7 @@
 										<td><a class="btn btn-danger btn-xs" @click="unRentNumber(row)"> Unrent</a></td>
 									</tr>
 									<tr>
-										<td  colspan="7" style="text-align: center; cursor: pointer" v-show="filteredPhoneNumber.length < 1">No data available in table</td>
+										<td  colspan="7" style="text-align: center; cursor: pointer" v-show="!rented_numbers">No data available in table</td>
 									</tr>
 									</tbody>
 								</table>
@@ -84,20 +84,20 @@ export default {
 		},
 	computed: {
  		filteredPhoneNumber(){
- 			if(!isNaN(this.searchQuery)){
- 				return this.rented_numbers.filter(item => {
- 						return item.phone_number.includes(this.searchQuery);
-					})
-				} else {
- 				return this.rented_numbers
-				}
+				if(this.rented_numbers ){
+						if (!isNaN(this.searchQuery))
+							return this.rented_numbers.filter(item => {
+								return item.phone_number.includes(this.searchQuery);
+						})
+					} else {
+						return this.rented_numbers
+					}
 			}
 	},
 		methods: {
 				async getRentedNumbers(){
 					try{
 						this.rented_numbers = await this.$axios.$get('/number/rented').data;
-
 					}catch (e) {
 
 					}

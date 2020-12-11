@@ -61,8 +61,8 @@
 								<div class="row">
 									<div class="col-md-6">
 										<label>Select Payment Method</label>
-										<select  v-model="payment_gateway" class="form-control">
-											<option v-for="item in payment_method" :value="item" selected>{{item}}</option>
+										<select @change="onChange($event)" class="form-control">
+											<option v-for="item in payment_method" :value="item" >{{item}}</option>
 										</select>
 									</div>
 								</div>
@@ -71,7 +71,7 @@
 							</div>
 						<div class="modal-footer">
 							<a type="button" class="btn btn-danger" @click="close"> Close </a>
-							<button type="submit" class="btn id-btn-primary" > Save </button>
+							<button type="submit" class="btn id-btn-primary" > Proceed </button>
 						</div>
 
 					</form>
@@ -105,18 +105,18 @@ export default {
 			required: true
 		},
 		device_type:{
-			requires: true
+			required: true
 		},
 		payment_method:{
-			requires:true
+			required:true
 		},
 		device_id:{
-			requires:true
+			required:true
 		}
 	},
 	data(){
 		return{
-			payment_gateway: ''
+			payment_gateway: 'wallet'
 		}
 	},
 
@@ -155,6 +155,10 @@ export default {
 					});
 				}
 			}
+		},
+		onChange(event){
+			this.payment_gateway = event.target.value;
+			console.log(event.target.value)
 		}
 	}
 }

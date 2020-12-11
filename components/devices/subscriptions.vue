@@ -10,9 +10,9 @@
 											<div >
 												<button class="btn btn-primary btn-sm " @click="showModal"  ><i class="fa fa-plus"></i> New Subscription</button>
 													<div v-show="device_type === 'Capped'" style="" class="switch-button-container">
-														<span :class="{'switch-color': enabled_device_notification}" style="font-size: 16px; padding: 3px" >Device Offline Notification</span>
+														<span :class="{'switch-color': enabled_offline_notification}" style="font-size: 16px; padding: 3px" >Device Offline Notification</span>
 														<div class="tooltip">
-															<Switches class="tooltip btn-sm" v-model="enabled_device_notification" type-bold="true" color="blue"></Switches>
+															<Switches class="tooltip btn-sm" v-model="enabled_offline_notification" type-bold="true" :emit-on-mount="false"  color="blue"></Switches>
 															<span class="tooltiptext">Notification would be received via email and over your webhook if it is set on your account.</span>
 														</div>
 													</div>
@@ -52,7 +52,7 @@
 																											:monthly_charge="monthly_charge"
 																											:cost_per_message="cost_per_message"
 																											:device_daily_limit ="device_daily_limit"
-																											:monthly_limit="device_monthly_limit"
+																											:monthly_limit="monthly_limit"
 																											:device_type="device_type"
 																											:payment_method = "payment_method"
 																											:device_id =  "device_id"
@@ -73,9 +73,26 @@ name: "DeviceSubscription",
 	components: {ButtonSpinner, DeviceSubscriptionModal, Switches},
 	data(){
 		return{
-			enabled_device_notification: false,
+			enabled_offline_notification: localStorage.getItem('notify-offline'),
+			send_offline_notification: ''
 		}
 	},
+	watch: {
+		async enabled_offline_notification(value){
+			try{
+				await this.$axios.$get('/devices/'+ this.device_id+ '/notification/toggle');
+				this.$toast.success('Device offline notification updated successfully');
+
+			}catch (e) {
+
+			}
+
+			// this.send_offline_notification = !this.send_offline_notification;
+			// localStorage.setItem('notify-offline', this.send_offline_notification);
+
+		}
+	},
+
 	props: {
 		subscription_data: {
 			required: true
@@ -105,8 +122,9 @@ name: "DeviceSubscription",
 			requires:true
 		},
 		device_monthly_limit:{
-			requires:true
+			required:true
 		},
+
 
 
 },
@@ -130,6 +148,9 @@ name: "DeviceSubscription",
 			}
 		},
 },
+	mounted() {
+		// this.enabled_offline_notification = localStorage.getItem('notify-offline')
+	}
 
 }
 

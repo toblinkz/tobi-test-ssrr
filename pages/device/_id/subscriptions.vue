@@ -46,7 +46,8 @@
 																																	:monthly_limit="device_monthly_limit"
 																																	:device_type="device_type"
 																																	:payment_method = "payment_method"
-																																	:device_id =  "device_id">
+																																	:device_id =  "device_id"
+																																	>
 													</DeviceSubscription>
 
             </main>
@@ -93,7 +94,7 @@
             plan_id:"",
 											 page_url: '',
             payment_url:"",
-											 payment_method : '',
+											 payment_method : [],
 												button_text: 'Pay Now',
 											 showIcon: true,
 												isLoading: false,
@@ -115,11 +116,13 @@
              	this.device_name = data.device.name;
 														this.monthly_charge = data.device.monthly_charge;
 														this.device_daily_limit = (data.device.daily_limit) ? data.device.daily_limit:'unlimited';
-														this.device_monthly_limit = (data.device.monthly_limit > 0)?data.device.monthly_limit:'unlimited';
+														this.device_monthly_limit = (data.device.monthly_limit > 0)? data.device.monthly_limit:'unlimited';
 														this.device_type = data.device.device_type;
+														localStorage.setItem('notify-offline', data.device.send_offline_notification);
 														this.cost_per_message = (data.device.cost_per_message.substr(1) > 0)
 															?`Messages are free until the ${this.device_monthly_limit + 1} message and then would cost ${data.device.cost_per_message} per message till your next subscription`:0;
-														this.payment_method = data.payment_method
+														this.payment_method = data.payment_method;
+														console.log(data.payment_method)
             } catch (e) {
 
             }
