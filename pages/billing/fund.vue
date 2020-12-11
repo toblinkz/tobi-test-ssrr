@@ -124,7 +124,7 @@
                                       </div>
                                       <div class="form-group alert toke">
                                         <p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
-                                        <p > <div > <b>{{total}}</b> </div></p>
+                                        <p>  <b>{{total}}</b>  </p>
                                       </div>
                                       <div class="form-group">
                                         <p ><b>Notice:</b> <br>Also all payments would be remitted in Naira, but your accounts would be credited in your local currency. </p>

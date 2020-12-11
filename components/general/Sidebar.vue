@@ -32,8 +32,8 @@
         </li>
         <Dropdown>
           <template v-slot:dropdown_title>
-            <a  class="dropdown-toggle color-a btn-primary btn-cons bord" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-cc"></i> Wallet
-									    <i class="caret"></i></span> <span class="badge badge-sm">New</span></a>
+            <a  class="dropdown-toggle color-a btn-primary btn-cons bord" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-cc"></i> Wallet <i class="caret"></i>
+												</span></a>
           </template>
           <template v-slot:dropdown_menu v-if="show_drop_down">
             <li><nuxt-link to="/billing/fund"><i class="entypo-credit-card"></i> Top Up</nuxt-link></li>
@@ -48,6 +48,11 @@
         </Dropdown>
         <!-- BEGIN SIDEBAR MENU ITEMS-->
         <div class="clearfix mb-30"></div>
+							<li class="padd-x" v-if="show_drop_down">
+								<nuxt-link  to="/devices" class="color-a level-1">
+									<span> 	<i class="fa fa-barcode"></i> Devices </span> <span class="badge badge-sm">New</span>
+								</nuxt-link>
+							</li>
         <Dropdown>
           <template v-slot:dropdown_title>
             <a data-toggle="dropdown" class="dropdown-toggle color-a"><span class="menu-text"><i class="entypo-list"></i> Activate ID
@@ -55,9 +60,10 @@
           </template>
           <template v-slot:dropdown_menu>
             <li><nuxt-link to="/sms/sender-id-management" ><i class="entypo-list-add"></i> Sender ID</nuxt-link></li>
-            <li><nuxt-link to="/devices" ><i class="fa fa-barcode"></i> Device ID</nuxt-link></li>
+
           </template>
         </Dropdown>
+
 							<li class="padd-x" v-if="show_drop_down">
 								<nuxt-link to="/my-number" class="color-a level-1">
 									<span> <i class="fa fa-tty m-l-5"></i> Numbers</span>
@@ -67,7 +73,7 @@
         <Dropdown>
           <template v-slot:dropdown_title>
             <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-users"></i> Add Contacts
-									    <i class="caret"></i></span> <span class="badge badge-sm badge-sidebar">New</span></a>
+									    <i class="caret"></i></span></a>
           </template>
           <template v-slot:dropdown_menu v-if="show_drop_down">
             <li><nuxt-link to="/phone-book" ><i class="entypo-user-add"></i> Single contacts</nuxt-link></li>
@@ -82,7 +88,7 @@
         <Dropdown>
           <template v-slot:dropdown_title>
             <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-chart-line"></i> Delivery Report
-									    <i class="caret"></i></span> <span class="badge badge-sm badge-sidebar">New</span></a>
+									    <i class="caret"></i></span></a>
           </template>
           <template v-slot:dropdown_menu v-if="show_drop_down">
             <li><nuxt-link to="/sms/history" ><i class="entypo-chart-area"></i> Direct Insights</nuxt-link></li>

@@ -18,61 +18,42 @@
           <div class="content-wrapper">
             <!-- main inner content -->
             <main id="wrapper" class="wrapper">
-              <section class="wrapper-bottom-sec">
-                <div class="padding-30">
-                  <h2 class="page-title"><b>Device - {{device_name}}</b></h2>
-                </div>
-                <div class="p-30">
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <div class="panel">
-                        <div class="panel-body ">
-                          <h3 class="panel-title">Subscriptions</h3>
-                          <button class="btn btn-primary btn-sm pull-right" @click="newSubscription"  v-show="new_subscription === true"><i class="fa fa-plus"></i> New Subscription</button>
-                          <table class="table data-table table-hover">
-                            <thead>
-                            <tr>
-                              <th style="width: 10%;">SL#</th>
-                              <th style="width: 20%;">Plan</th>
-                              <th style="width: 20%;">Last Subscription</th>
-                              <th style="width: 20%;">Subscription Expiry</th>
-                              <th style="width: 20%;">Amount</th>
-                              <th style="width: 20%;">Status</th>
-                              <th></th>
+													<div class="device-padding">
+														<h2 class="page-title"><b>Device - {{device_name}}</b></h2>
+													</div>
+													<div class="stats-container">
 
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="row in response_data.data" :key="row.id">
-                              <td data-label="SL" >{{row.id}}</td>
-                              <td style="width: 20%;">{{row.plan_name}}</td>
-                              <td style="width: 20%;"><p>{{row.last_subscription || 'None'}}</p></td>
-                              <td style="width: 20%;"><p>{{row.subscription_expiry}}</p></td>
-                              <td style="width: 10%;"><p>{{row.amount}}</p></td>
-                              <td data-label="Status">
-                                <form @submit.prevent="payNow(row.id)"  method="PATCH">
-																																	<button class="btn btn-success btn-sm" type="submit"  v-show="showPayNowButton(row)"><i class="fa fa-plus" v-show="showIcon"></i>
-																																		{{ button_text }}
-																																		<span v-show="isLoading">
-																																				<img src="/images/spinner.svg" height="20px" width="30px"/>
-																																		</span>
-																																	</button>
-																																</form>
-                                <p class="label label-success" v-show="showPaidLabel(row)">Paid</p>
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
+																<div class=" first-card  border rounded   m-4 flex">
+																			<i class="entypo-credit-card px-3 py-10" style="font-size: 18px"></i> <p class=" pr-12 py-8 " style="font-size: 18px"> Total messages sent <br>
+																			<span class="text-lg">{{ total_messages_sent_all_time }}</span></p>
+																</div>
+																<div class=" second-card  border rounded   m-4 flex">
+																			<i class="entypo-credit-card px-3 py-10" style="font-size: 18px"></i> <p class="text-xs pr-12 py-8 " style="font-size: 18px"> Messages sent today <br>
+																			<span class="text-lg"> {{total_messages_sent_today}}</span></p>
+																</div>
+																<div class=" third-card  border rounded   m-4 flex">
+																			<i class="entypo-credit-card px-3 py-10" style="font-size: 18px"></i> <p class="text-xs pr-12 py-8 " style="font-size: 18px"> Messages sent this month <br>
+																			<span class="text-lg"> {{ total_messages_sent_this_month }}</span></p>
+																</div>
+
+													</div>
+													<DeviceTemplate v-show="templateExists()" :template_data="template_data"></DeviceTemplate>
+             <DeviceSubscription :subscription_data="response_data"
+																																	:device_name="device_name"
+																																	:monthly_charge="monthly_charge"
+																																	:cost_per_message="cost_per_message"
+																																	:device_daily_limit ="device_daily_limit"
+																																	:monthly_limit="device_monthly_limit"
+																																	:device_type="device_type"
+																																	:payment_method = "payment_method"
+																																	:device_id =  "device_id">
+													</DeviceSubscription>
+
             </main>
           </div>
           <notifications group="error" ignoreDuplicates="true" position="top center"/>
 									<VerificationModal></VerificationModal>
+
         </div>
       </div>
     </div>
@@ -84,51 +65,66 @@
     import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
 				import Swal from "sweetalert2";
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import DeviceSubscriptionModal from "~/components/modals/DeviceSubscriptionModal";
+				import DeviceSubscription from "~/components/devices/subscriptions";
+				import DeviceTemplate from "@/components/devices/templates";
     export default {
 					  name: "subscriptions",
 					  middleware: ['auth', 'inactive_user'],
-       components: {VerificationModal,DashboardNavbar, Sidebar},
+       components: {
+								DeviceTemplate,
+								DeviceSubscription, VerificationModal,DashboardNavbar, Sidebar, DeviceSubscriptionModal},
        data(){
           return{
-            device_name: this.$route.params.name,
+            device_name: '',
+												device_cost: '',
+												device_daily_limit: '',
+												monthly_charge: '',
+												total_messages_sent_all_time:'',
+												total_messages_sent_this_month:'',
+												total_messages_sent_today:'',
+												device_monthly_limit: '',
+												cost_per_message: '',
+												device_type: '',
             device_id: this.$route.params.id,
+												template_data: '',
             response_data:[],
             new_subscription: false,
             plan_id:"",
 											 page_url: '',
             payment_url:"",
+											 payment_method : '',
 												button_text: 'Pay Now',
 											 showIcon: true,
 												isLoading: false,
           }
       },
       methods: {
+							templateExists(){
+								return (this.template_data.length !== 0);
+							},
           async fetch(){
             try {
             	//get subscriptions
-             let data =  await this.$axios.$get('devices/'+ this.device_id +'/subscription');
-             this.response_data = data;
-             this.plan_id = this.response_data.data[0].plan_id;
-             if (data.data.length !== 0){this.new_subscription = true}
+														let data =  await this.$axios.$get('devices/'+ this.device_id +'/subscription');
+														this.total_messages_sent_all_time = data.device_stats.total_messages_sent_all_time;
+														this.total_messages_sent_this_month = data.device_stats.total_messages_sent_this_month;
+														this.total_messages_sent_today = data.device_stats.total_messages_sent_today;
+														this.response_data = data;
+														this.template_data = data.device.template
+             	this.device_name = data.device.name;
+														this.monthly_charge = data.device.monthly_charge;
+														this.device_daily_limit = (data.device.daily_limit) ? data.device.daily_limit:'unlimited';
+														this.device_monthly_limit = (data.device.monthly_limit > 0)?data.device.monthly_limit:'unlimited';
+														this.device_type = data.device.device_type;
+														this.cost_per_message = (data.device.cost_per_message.substr(1) > 0)
+															?`Messages are free until the ${this.device_monthly_limit + 1} message and then would cost ${data.device.cost_per_message} per message till your next subscription`:0;
+														this.payment_method = data.payment_method
             } catch (e) {
 
             }
           },
-        async newSubscription(){
-            try{
-              await this.$axios.$post('devices/'+ this.device_id + '/subscribe', {
-               plan_id: this.plan_id
-             });
-              await this.fetch();
-            } catch (e) {
-													await Swal.fire({
-														icon: 'error',
-														title: 'Oops...',
-														text: 'You have pending payment on this device, Contact Account Manager',
-													});
 
-            }
-        },
         showPayNowButton(row){
             return (row.payment_status === 'PENDING')
         },
@@ -289,4 +285,57 @@
     background-color: #0c7cd5;
     border: 1px solid transparent !important;
   }
+		.first-card {
+			color: #ffffff;
+			background: linear-gradient(-48deg,#0dcbe5 -30%,#365899 60%)!important;
+			border-radius: 5px;
+			border: 2px;
+			display: flex;
+		}
+		.second-card {
+			background: #0DCBE5;
+			color: #ffffff;
+			border-radius: 5px;
+			border: 2px;
+			display: flex;
+		}
+		.third-card {
+			background: linear-gradient(287.28deg, #59B68D -16.81%, #048049 111.69%);
+			color: #ffffff;
+			border: 2px;
+			border-radius: 5px;
+			display: flex;
+		}
+		.m-4 {
+			margin: 1rem;
+		}
+		.px-3 {
+			padding-left: 0.75rem;
+			padding-right: 0.75rem;
+		}
+		.py-10 {
+			padding-top: 2.5rem;
+			padding-bottom: 2.5rem;
+		}
+		.py-8 {
+			padding-top: 2rem;
+			padding-bottom: 2rem;
+		}
+		.pr-12 {
+			padding-right: 10rem;
+		}
+
+		.stats-container{
+			padding: 5px 15px 15px 1px;
+			display: flex; flex-direction: row;
+		}
+		@media (max-width: 769px){
+			.stats-container {
+				display: flex; flex-direction: column;
+			}
+		}
+		.device-padding{
+			padding: 20px 5px 5px 5px!important;
+		}
+
 </style>

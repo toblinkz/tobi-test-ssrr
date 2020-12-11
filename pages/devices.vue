@@ -65,23 +65,23 @@
                             <div class="panel-body p-none scrollme" style="overflow-x:auto;">
                               <table class="table table-responsive  table-hover">
                                 <thead>
-                                <tr>
-                                  <th style="width: 10%;" class="hidden-xs">SL#</th>
-                                  <th style="width: 30%;">Device ID</th>
-                                  <th style="width: 20%;">Status</th>
-                                  <th style="width: 20%;">Total Messages Sent Today</th>
-                                  <th style="width: 20%;">Scan Device</th>
-                                  <th style="width: 20%;"></th>
-                                </tr>
+																																	<tr>
+																																			<th style="width: 20%;" class="hidden-xs">Device ID</th>
+																																			<th style="width: 20%;">Device Name</th>
+																																			<th style="width: 20%;">Status</th>
+																																			<th style="width: 20%;">Device Type</th>
+																																			<th style="width: 20%;">Scan Device</th>
+																																			<th style="width: 20%;"></th>
+																																	</tr>
                                 </thead>
                                 <tbody>
                                 <tr v-for="(row, index) in response_data.data" :key="row.id">
-                                  <td data-label="SL" class="hidden-xs">{{index + 1}}</td>
+                                  <td data-label="SL" ><p>{{row.id}}</p></td>
                                   <td data-label="Sender ID"><p>{{row.name}}</p></td>
                                   <td data-label="Status"><p class="label"  :class="rowClassName(row,index)">{{row.device_status}}</p>
-                                  <td data-label="Sender ID" ><p></p></td>
+                                  <td ><p  class="label"  :class="rowClassType(row,index)">{{row.device_type}}</p></td>
                                   <td data-label="Status">
-                                    <button id="qr-code" @click="getQRCode(row.id)"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" v-show="showBarcodeIcon(row)"><i class="fa fa-barcode" style="color: #fff;"></i></button>
+                                    <button id="qr-code" @click="getQRCode(row.id)"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" :class="barcodeDisabled(row)" v-show="showBarcodeIcon(row)"><i class="fa fa-barcode"   style="color: #fff;"></i></button>
                                     <p v-show="lockBarcode(row)"><i class="entypo-lock" style="color: red;"></i></p>
                                   </td>
                                   <td data-label="view subscriptions">
@@ -123,8 +123,8 @@
 	export default {
 		     name: "devices",
 		     middleware: ['auth'],
-      components: {VerificationModal, InActiveSenderIdModal, TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
-      data(){
+							components: {VerificationModal, InActiveSenderIdModal, TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
+							data(){
           return{
             response_data:[],
             name:"",
@@ -177,17 +177,31 @@
         requested(){
           this.fetch();
         },
-        rowClassName(row,index){
-          if (row.device_status === 'ACTIVE'){
-            this.isActive = true
-            return 'label-success'
-          } else if (row.device_status === 'PENDING'){
-            return 'label-warning'
-          }
-          else {
-          	return 'label-danger'
+        rowClassName(row){
+        	switch (row.device_status) {
+										case "ACTIVE": {
+												this.isActive = true;
+											 return 'label-success'
+										}
+										case "PENDING": {
+											return 'label-warning'
+										}
+										default: {
+											return 'label-danger'
+										}
 									}
         },
+							rowClassType(row){
+        	switch (row.device_type){
+										case "Capped": {
+												return 'capped-pill'
+										}
+										case "Template": {
+											return 'template-pill'
+										}
+
+									}
+							},
         showBarcodeIcon(row){
           return (row.device_status === 'ACTIVE');
         },
@@ -196,7 +210,10 @@
         },
         isDisabled(row){
           return(row.device_status === 'PENDING' )
-        }
+        },
+							barcodeDisabled(row){
+        if (row.device_type === 'Template') return 'barcode-disabled'
+							}
       },
       mounted() {
 							if(this.$store.state.view_verify_page === 'true'){
@@ -368,5 +385,21 @@
     color: #fff;
     background-color: #4CAF50;
   }
+		.capped-pill {
+			border-color: #456990;
+			color: #fff;
+			background-color: #456990;
+		}
+		.template-pill {
+			border-color:#2C0E37;
+			color: #fff;
+			background-color: #2C0E37;
+		}
+
+		.barcode-disabled{
+			opacity: .5;
+			pointer-events: none;
+
+		}
 
 </style>
