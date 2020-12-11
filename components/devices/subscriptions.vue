@@ -4,15 +4,17 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<h3 class="panel-title">Subscriptions</h3>
-					<div class="panel" style="overflow-x:auto;">
+					<div class="panel" >
 						<div class="panel-body ">
 							<div class="mb-20">
 											<div >
 												<button class="btn btn-primary btn-sm " @click="showModal"  ><i class="fa fa-plus"></i> New Subscription</button>
 													<div v-show="device_type === 'Capped'" style="" class="switch-button-container">
-														<span :class="{'switch-color': enabled_device_notification}" style="font-size: 16px; padding: 3px">Device Offline Notification</span>
-															<Switches class=" btn-sm " v-model="enabled_device_notification" type-bold="true" color="blue"></Switches>
-
+														<span :class="{'switch-color': enabled_device_notification}" style="font-size: 16px; padding: 3px" >Device Offline Notification</span>
+														<div class="tooltip">
+															<Switches class="tooltip btn-sm" v-model="enabled_device_notification" type-bold="true" color="blue"></Switches>
+															<span class="tooltiptext">Notification would be received via email and over your webhook if it is set on your account.</span>
+														</div>
 													</div>
 											</div>
 
@@ -63,6 +65,7 @@ import ButtonSpinner from "@/components/general/ButtonSpinner";
 import DeviceSubscriptionModal from "~/components/modals/DeviceSubscriptionModal";
 import Swal from "sweetalert2";
 import Switches from 'vue-switches';
+
 
 export default {
 name: "DeviceSubscription",
@@ -126,7 +129,8 @@ name: "DeviceSubscription",
 
 			}
 		},
-}
+},
+
 }
 
 </script>
@@ -271,6 +275,49 @@ h3 {
 		flex-direction: column;
 		float: left;
 	}
+}
+
+.tooltip{
+	position: relative;
+	display: inline-block;
+}
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 150px;
+	background-color: #555;
+	color: #fff;
+	font-size: 10px;
+	/*text-align: center;*/
+	padding: 5px 5px;
+	border-radius: 6px;
+
+	/* Position the tooltip text */
+	position: absolute;
+	z-index: 1;
+	bottom: 125%;
+	left: 40%;
+	margin-left: -60px;
+
+	/* Fade in tooltip */
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+	opacity: 1;
 }
 </style>
 
