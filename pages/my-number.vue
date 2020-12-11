@@ -95,7 +95,12 @@ export default {
 	},
 		methods: {
 				async getRentedNumbers(){
+					try{
 						this.rented_numbers = await this.$axios.$get('/number/rented').data;
+					}catch (e) {
+
+					}
+
 				},
 			validateSearchQuery(value){
 				if (isNaN(value)){
