@@ -72,102 +72,68 @@ import Fuse from "fuse.js";
 import {createPopper} from "@popperjs/core";
 
 export default {
-	name: "number",
+ name: "number",
 	middleware: ['auth', 'inactive_user'],
 	components: {DashboardNavbar, Sidebar, BuyNumberModal, vSelect},
 	watch: {
-		searchQuery(value){
-			this.validateSearchQuery(value);
+ 	searchQuery(value){
+ 		this.validateSearchQuery(value);
 		}
 	},
-	props: {
-	},
-	data(){
-		return{
-			rented_numbers: [],
-			searchQuery: '',
-			error_message:''
-		}
-	},
+		data(){
+			return{
+					rented_numbers: [],
+					searchQuery: '',
+			 	error_message:''
+			}
+		},
 	computed: {
-
-				filteredPhoneNumber(){
-					if(this.rented_numbers ){
+ 		filteredPhoneNumber(){
+				if(this.rented_numbers ){
 						if (!isNaN(this.searchQuery))
 							return this.rented_numbers.filter(item => {
 								return item.phone_number.includes(this.searchQuery);
-							})
+						})
 					} else {
 						return this.rented_numbers
 					}
-				}
+			}
 	},
-	methods: {
-		fuseSearch(options, search) {
-			const fuse = new Fuse(options, {
-				keys: ["name", "d_code", ],
-				shouldSort: true
-			});
-			return search.length
-				? fuse.search(search).map(({ item }) => item)
-				: fuse.list;
-		},
-		withPopper (dropdownList, component, {width}) {
-			dropdownList.style.width = width;
-			const popper = createPopper(component.$refs.toggle, dropdownList, {
-				placement: this.placement,
-				modifiers: [
-					{
-						name: 'offset', options: {
-							offset: [0, -1]
-						}
-					},
-					{
-						name: 'toggleClass',
-						enabled: true,
-						phase: 'write',
-						fn ({state}) {
-							component.$el.classList.toggle('drop-up', state.placement === 'top')
-						},
-					}]
-			});
-			return () => popper.destroy();
+		methods: {
+				async getRentedNumbers(){
+					try{
+						this.rented_numbers = await this.$axios.$get('/number/rented').data;
+					}catch (e) {
 
-		},
-		showBuyNumberModal(){
-			this.$modal.show('buy-number-modal')
-		},
-		async getRentedNumbers(){
-			try{
-				this.rented_numbers = await this.$axios.$get('/number/rented').data;
-			}catch (e) {
-
-			}
-
-		},
-		validateSearchQuery(value){
-			if (isNaN(value)){
-				this.error_message = 'Please enter a valid number';
-			}else{
-				this.error_message = '';
-			}
-		},
-		async unRentNumber(row){
-			try{
-				await this.$axios.$delete('/number/unrent', {
-					params:{
-						phone_number: row.phone_number
 					}
-				});
-				this.$toast.success('Done successfully');
-			}catch (e) {
 
+				},
+			showBuyNumberModal(){
+				this.$modal.show('buy-number-modal')
+			},
+			validateSearchQuery(value){
+				if (isNaN(value)){
+					this.error_message = 'Please enter a valid number';
+				}else{
+					this.error_message = '';
+				}
+			},
+			async unRentNumber(row){
+					try{
+						await this.$axios.$delete('/number/unrent', {
+							params:{
+								phone_number: row.phone_number
+							}
+						});
+						this.$toast.success('Done successfully');
+					}catch (e) {
+
+					}
 			}
+		},
+		mounted() {
+				 this.getRentedNumbers();
 		}
-	},
-	mounted() {
-		this.getRentedNumbers();
-	}
 }
 </script>
 

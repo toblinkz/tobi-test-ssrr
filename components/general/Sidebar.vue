@@ -50,7 +50,8 @@
         <div class="clearfix mb-30"></div>
 							<li class="padd-x" v-if="show_drop_down">
 								<nuxt-link  to="/devices" class="color-a level-1">
-									<span> 	<i class="fa fa-barcode"></i> Devices </span> <span class="badge badge-sm">New</span>
+									<span> 	<i class="fa fa-barcode"></i> Devices </span>
+									<span class="badge badge-sm badge-sidebar">New</span>
 								</nuxt-link>
 							</li>
         <Dropdown>
