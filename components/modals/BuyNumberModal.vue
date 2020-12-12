@@ -8,48 +8,95 @@
 						<button type="button" class="close" @click="close">×</button>
 						<h4 class="modal-title"><strong># Buy Number</strong></h4>
 					</div>
-					<div class="modal-body">
+
+					<div v-show="show_country_select" class="modal-body">
 						<div class="row">
-							<div>
-								<div class="panel-transparent">
-									<p class="insight"><strong>Pricing</strong></p>
-								</div>
-							</div>
-
+					<form @submit.prevent="getAvailableCountryNumber">
+						<div class="form-group">
+						<div class="col-md-7" >
+							<label> Select Country</label>
+							<select name="country" class="form-control" v-model="country">
+								<option value="AT" >Austria ( +43 )</option>
+								<option value="AU">Australia ( +61 )</option>
+								<option value="BE">Belgium ( +32 )</option>
+								<option value="BR">Brazil ( +55 )</option>
+								<option value="CA">Canada ( +1 )</option>
+								<option value="CN">China ( +86 )</option>
+								<option value="CZ">Czechia ( +420 )</option>
+								<option value="DK">Denmark ( +45 )</option>
+								<option value="FR">France ( +33 )</option>
+								<option value="GB">United Kingdom ( +44 )</option>
+								<option value="HR">Croatia ( +385 )</option>
+								<option value="IL">Israel ( +972 )</option>
+								<option value="LT">Lithuania ( +370 )</option>
+								<option value="LV">Latvia ( +371 )</option>
+								<option value="NL">Netherlands ( +31 )</option>
+								<option value="NO">Norway ( +47 )</option>
+								<option value="PL">Poland ( +48 )</option>
+								<option value="RO">Romania ( +40 )</option>
+								<option value="SE">Sweden ( +46 )</option>
+								<option value="US">United States of America ( +1 )</option>
+							</select>
 						</div>
+						<div class="col-md-5">
+							<button type="submit" class="btn btn-primary m-r-5">
+								Proceed
+								<span v-show="isLoading">
+																<img src="/images/spinner.svg" height="20px" width="30px"/>
+														</span>
+							</button>
+						</div>
+						</div>
+					</form>
+						</div>
+				</div>
 
+					<div v-show="show_invoice" class="modal-body">
 						<div>
 							<div >
 								<div class="rent-body p-none">
 									<table class="table table-hover toke">
 										<tbody>
 										<tr>
-											<td><p><strong>Services</strong></p></td>
-											<td><p><strong>Pricing</strong></p></td>
 										</tr>
 										</tbody>
 										<tbody>
 										<tr>
-											<td><p>SMS</p></td>
-											<td><p>$4</p></td>
+											<td><p><strong>Available Phone number:</strong></p></td>
+											<td><p>{{this.phone_number}}</p></td>
+										</tr>
+										<tr>
+											<td><p>Service Charge</p></td>
+											<td><p>{{this.service_charge}}</p></td>
+										</tr>
+										<tr>
+											<td><p>Monthly Charge</p></td>
+											<td><p>{{this.monthly_charge}}</p></td>
+										</tr>
+										<tr>
+											<td><p>Inbound Sms</p></td>
+											<td><p>{{this.inbound_sms}}</p></td>
 										</tr>
 										<tr>
 											<td><p><strong>Total amount due:</strong></p></td>
-											<td><p><strong>$4</strong></p></td>
+											<td><p><strong>{{this.currency}}{{this.total_amount_due}}</strong></p></td>
 										</tr>
 										</tbody>
 									</table>
 								</div>
 								<div class="mt-30">
-									<p>Please confirm that you’re ok with the price. You will not be able to reverse this action after you’ve purchased the number</p>
+									<p>Your <b>Termii Wallet</b> will be debited of <b>{{this.currency}} {{this.total_amount_due}}</b>.  <br> Please confirm that you’re ok with the price. You will not be able to reverse this action after you’ve purchased the number</p>
+									<br>
+									<p><input type="checkbox" name="auto_renew">Auto renew your rent on this number</p>
 								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" @click="close"> Close </button>
-								<button class="btn id-btn-primary"> Proceed </button>
+								<button class="btn id-btn-primary" @click="pay"> Proceed </button>
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</modal>
@@ -63,13 +110,86 @@ export default {
 	components: {PricingDropdown},
 	data(){
 		return{
-
+			show_invoice : false,
+			show_payment_options : false,
+			show_country_select: true,
+			button_text: 'Get Number',
+			country: '',
+			phone_number: '',
+			currency: '',
+			service_charge: '',
+			monthly_charge:'',
+			inbound_sms: '',
+			total_amount_due: '',
+			payment_methods:'',
+			auto_renew:false
 		}
 	},
 	methods: {
 		close() {
+			this.show_invoice = true;
+				this.show_country_select = false;
 			this.$modal.hide('buy-number-modal');
 		},
+		async pay(){
+			await this.$axios.$post('number/rent', {
+				phone_number: this.phone_number,
+				payment_method: this.selected_payment_method,
+				rental_cost: this.monthly_charge,
+				setup_cost: this.service_charge,
+				inbound_sms_cost: this.inbound_sms,
+				auto_renew: this.auto_renew,
+				country: this.country
+			});
+			this.close();
+			this.$toast.success("Number Successfully rented");
+
+		},
+		proceedToPayment(){
+			this.show_invoice = false;
+			this.show_payment_options = true;
+		},
+		async getAvailableCountryNumber(){
+			this.button_text = '';
+			this.isLoading = true;
+			try {
+				let response = await this.$axios.$get('/number/search', {params: {
+						country: this.country
+					}});
+
+				this.show_country_select = false;
+				this.show_invoice = true;
+
+				this.phone_number = response.data.number;
+				this.currency = response.data.currency;
+				this.service_charge = response.data.service_charge;
+				this.monthly_charge = response.data.monthly_charge;
+				this.inbound_sms = response.data.inbound_sms;
+				this.total_amount_due = this.service_charge + this.monthly_charge + this.inbound_sms;
+				this.button_text = "Search";
+				this.isLoading = false;
+
+				await this.getPaymentMethod();
+			}catch (e){
+				this.button_text = "Search";
+				this.isLoading = false;
+			}
+		},
+		async getPaymentMethod(){
+			try {
+				this.payment_methods = await this.$axios.$get('billing/payment-method');
+			}catch (e) {
+
+			}
+		},
+		async rentNumber(){
+
+		}
+	},
+	mounted() {
+		this.show_invoice = false;
+		this.show_payment_options = false;
+		this.show_country_select = true;
 	}
 }
 </script>
@@ -247,5 +367,18 @@ table {
 .modal-footer .btn + .btn {
 	margin-left: 5px;
 	/* margin-bottom: 0; */
+
+[class^="icon-"], [class*=" icon-"] {
+	color: #F10000 !important;
+}
+.search-button {
+	background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
+	box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+	color: #fff !important;
+	padding: 10px 10px;
+	border-radius: 5px;
+	outline: none;
+	cursor: pointer;
+}
 }
 </style>

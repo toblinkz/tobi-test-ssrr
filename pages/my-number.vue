@@ -1,88 +1,96 @@
 <template>
-			<div class="container-fluid body">
-				<div id="msb" class="col-md-2 hidden-xs">
-					<Sidebar class="hidden-xs"></Sidebar>
+	<div class="container-fluid body">
+		<div id="msb" class="col-md-2 hidden-xs">
+			<Sidebar class="hidden-xs"></Sidebar>
+		</div>
+		<div class="col-md-10">
+			<DashboardNavbar></DashboardNavbar>
+			<div class="col-md-10">
+				<div class="mt-150">
+					<span style="font-size: 20px; font-weight: bold"> <i class="fa fa-tty m-r-5" style="font-size: 15px"></i> Numbers </span>
+					<p class="insight">Reach your customers easily in other<br> regions by using numbers with their country code</p>
 				</div>
-				<div class="col-md-10">
-					 <DashboardNavbar></DashboardNavbar>
-					<div class="col-md-10">
-						<div class="mt-150">
-							<span style="font-size: 20px; font-weight: bold"> <i class="fa fa-tty m-r-5" style="font-size: 15px"></i> Numbers </span>
-							<p class="insight">Reach your customers easily in other<br> regions by using numbers with their country code</p>
-						</div>
 
-					</div>
-					<div class="col-md-11">
+			</div>
+			<div class="col-md-11">
 
-						<div class="panel mt-50" >
-							<div class="panel-body p-none scrollme">
-								<div style="display: flex; flex-direction: row; width: 100%">
-									<div style="width: 80%">
-										<input type="text" v-model="searchQuery"  class="form-control" placeholder="Search number">
-										<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
-									</div>
-									<div style="width: 20%">
-										<nuxt-link to="/buy-a-number" class="btnl bg-blue" style="justify-content: flex-end" >
-											# Buy a Number
-										</nuxt-link>
-									</div>
-								</div>
-								<div class="mt-20 " style="border-bottom: dotted #ddd!important;"></div>
-								<table class="table table-responsive  table-hover">
-									<thead>
-									<tr class="m-l-10">
-										<th style="width: 10%;">Number</th>
-										<th style="width: 15%;">Country</th>
-										<th style="width: 15%;">Number Type</th>
-										<th style="width: 15%;">Rental Charge</th>
-										<th style="width: 15%;">Date Rented</th>
-										<th style="width: 15%;">Expiry Date</th>
-										<th style="width: 15%;"></th>
-									</tr>
-									</thead>
-									<tbody>
-									<tr v-for="(row, index) in filteredPhoneNumber" :key="row.id">
-										<td>{{ row.phone_number }}</td>
-										<td>{{row.country}}</td>
-										<td>{{ row.number_type}}</td>
-										<td>{{ row.monthly_charge }}</td>
-										<td>{{row.date_rented}}</td>
-										<td>{{row.expiry_date}}</td>
-										<td><a class="btn btn-danger btn-xs" @click="unRentNumber(row)"> Unrent</a></td>
-									</tr>
-									<tr>
-										<td  colspan="7" style="text-align: center; cursor: pointer" v-show="filteredPhoneNumber.length < 1">No data available in table</td>
-									</tr>
-									</tbody>
-								</table>
+				<div class="panel mt-50" >
+					<div class="panel-body p-none scrollme">
+						<div style="display: flex; flex-direction: row; width: 100%">
+							<div style="width: 80%">
+								<input type="text" v-model="searchQuery"  class="form-control" placeholder="Search number">
+								<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
+							</div>
+							<div style="width: 20%">
+								<button @click="showBuyNumberModal" class="btnl bg-blue" style="justify-content: flex-end" >
+									# Buy a Number</button>
 							</div>
 						</div>
+						<div class="mt-10 " style="border-bottom: dotted #ddd!important;"></div>
+						<table class="table table-responsive  table-hover">
+							<thead>
+							<tr class="m-l-10">
+								<th style="width: 10%;">Number</th>
+								<th style="width: 15%;">Country</th>
+								<th style="width: 15%;">Number Type</th>
+								<th style="width: 15%;">Rental Charge</th>
+								<th style="width: 15%;">Date Rented</th>
+								<th style="width: 15%;">Expiry Date</th>
+								<th style="width: 15%;"></th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr v-for="(row, index) in filteredPhoneNumber" :key="row.id">
+								<td>{{ row.phone_number }}</td>
+								<td>{{row.country}}</td>
+								<td>{{ row.number_type}}</td>
+								<td>{{ row.monthly_charge }}</td>
+								<td>{{row.date_rented}}</td>
+								<td>{{row.expiry_date}}</td>
+								<td><a class="btn btn-danger btn-xs" @click="unRentNumber(row)"> Unrent</a></td>
+							</tr>
+							<tr>
+								<td  colspan="7" style="text-align: center; cursor: pointer" v-show="!rented_numbers">No data available in table</td>
+							</tr>
+							</tbody>
+						</table>
 					</div>
-
 				</div>
 			</div>
+			<BuyNumberModal></BuyNumberModal>
+		</div>
+	</div>
 </template>
 
 <script>
 import Sidebar from "@/components/general/Sidebar";
 import DashboardNavbar from "@/components/general/navbar/DashboardNavbar";
+import BuyNumberModal from "~/components/modals/BuyNumberModal";
+import 'vue-select/dist/vue-select.css';
+import vSelect from 'vue-select';
+import Fuse from "fuse.js";
+import {createPopper} from "@popperjs/core";
+
 export default {
- name: "number",
+	name: "number",
 	middleware: ['auth', 'inactive_user'],
-	components: {DashboardNavbar, Sidebar},
+	components: {DashboardNavbar, Sidebar, BuyNumberModal, vSelect},
 	watch: {
- 	searchQuery(value){
- 		this.validateSearchQuery(value);
+		searchQuery(value){
+			this.validateSearchQuery(value);
 		}
 	},
-		data(){
-			return{
-					rented_numbers: [],
-					searchQuery: '',
-			 	error_message:''
-			}
-		},
+	props: {
+	},
+	data(){
+		return{
+			rented_numbers: [],
+			searchQuery: '',
+			error_message:''
+		}
+	},
 	computed: {
+
 				filteredPhoneNumber(){
 					if(this.rented_numbers ){
 						if (!isNaN(this.searchQuery))
@@ -94,39 +102,72 @@ export default {
 					}
 				}
 	},
-		methods: {
-				async getRentedNumbers(){
-					try{
-						this.rented_numbers = await this.$axios.$get('/number/rented').data;
+	methods: {
+		fuseSearch(options, search) {
+			const fuse = new Fuse(options, {
+				keys: ["name", "d_code", ],
+				shouldSort: true
+			});
+			return search.length
+				? fuse.search(search).map(({ item }) => item)
+				: fuse.list;
+		},
+		withPopper (dropdownList, component, {width}) {
+			dropdownList.style.width = width;
+			const popper = createPopper(component.$refs.toggle, dropdownList, {
+				placement: this.placement,
+				modifiers: [
+					{
+						name: 'offset', options: {
+							offset: [0, -1]
+						}
+					},
+					{
+						name: 'toggleClass',
+						enabled: true,
+						phase: 'write',
+						fn ({state}) {
+							component.$el.classList.toggle('drop-up', state.placement === 'top')
+						},
+					}]
+			});
+			return () => popper.destroy();
 
-					}catch (e) {
+		},
+		showBuyNumberModal(){
+			this.$modal.show('buy-number-modal')
+		},
+		async getRentedNumbers(){
+			try{
+				this.rented_numbers = await this.$axios.$get('/number/rented').data;
+			}catch (e) {
 
-					}
+			}
 
-				},
-			validateSearchQuery(value){
-				if (isNaN(value)){
-					this.error_message = 'Please enter a valid number';
-				}else{
-					this.error_message = '';
-				}
-			},
-			async unRentNumber(row){
-					try{
-						await this.$axios.$delete('/number/unrent', {
-							params:{
-								phone_number: row.phone_number
-							}
-						});
-						this.$toast.success('Done successfully');
-					}catch (e) {
-
-					}
+		},
+		validateSearchQuery(value){
+			if (isNaN(value)){
+				this.error_message = 'Please enter a valid number';
+			}else{
+				this.error_message = '';
 			}
 		},
-		mounted() {
-				 this.getRentedNumbers();
+		async unRentNumber(row){
+			try{
+				await this.$axios.$delete('/number/unrent', {
+					params:{
+						phone_number: row.phone_number
+					}
+				});
+				this.$toast.success('Done successfully');
+			}catch (e) {
+
+			}
 		}
+	},
+	mounted() {
+		this.getRentedNumbers();
+	}
 }
 </script>
 

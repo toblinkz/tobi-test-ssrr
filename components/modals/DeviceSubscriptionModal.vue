@@ -133,7 +133,6 @@ export default {
 					payment_method: this.payment_gateway,
 				});
 				this.close();
-				console.log(monthly_limit)
 				if(data.data.url) {
 					window.location.href = data.data.url;
 				}
