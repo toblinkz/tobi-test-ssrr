@@ -83,15 +83,16 @@ export default {
 			}
 		},
 	computed: {
- 		filteredPhoneNumber(){
- 			if(!isNaN(this.searchQuery)){
- 				return this.rented_numbers.filter(item => {
- 						return item.phone_number.includes(this.searchQuery);
-					})
-				} else {
- 				return this.rented_numbers
+				filteredPhoneNumber(){
+					if(this.rented_numbers ){
+						if (!isNaN(this.searchQuery))
+							return this.rented_numbers.filter(item => {
+								return item.phone_number.includes(this.searchQuery);
+							})
+					} else {
+						return this.rented_numbers
+					}
 				}
-			}
 	},
 		methods: {
 				async getRentedNumbers(){
