@@ -17,10 +17,6 @@
 				<div class="panel mt-50" >
 					<div class="panel-body p-none scrollme">
 						<div style="display: flex; flex-direction: row; width: 100%">
-							<div style="width: 80%">
-								<input type="text" v-model="searchQuery"  class="form-control" placeholder="Search number">
-								<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
-							</div>
 							<div style="width: 20%">
 								<button @click="showBuyNumberModal" class="btnl bg-blue" style="justify-content: flex-end" >
 									# Buy a Number</button>
@@ -40,7 +36,7 @@
 							</tr>
 							</thead>
 							<tbody>
-							<tr v-for="(row, index) in filteredPhoneNumber" :key="row.id">
+							<tr v-for="row in rented_numbers.data" :key="row.id">
 								<td>{{ row.phone_number }}</td>
 								<td>{{row.country}}</td>
 								<td>{{ row.number_type}}</td>
@@ -75,34 +71,16 @@ export default {
  name: "number",
 	middleware: ['auth', 'inactive_user'],
 	components: {DashboardNavbar, Sidebar, BuyNumberModal, vSelect},
-	watch: {
- 	searchQuery(value){
- 		this.validateSearchQuery(value);
-		}
-	},
 		data(){
 			return{
 					rented_numbers: [],
-					searchQuery: '',
 			 	error_message:''
 			}
 		},
-	computed: {
- 		filteredPhoneNumber(){
-				if(this.rented_numbers ){
-						if (!isNaN(this.searchQuery))
-							return this.rented_numbers.filter(item => {
-								return item.phone_number.includes(this.searchQuery);
-						})
-					} else {
-						return this.rented_numbers
-					}
-			}
-	},
 		methods: {
 				async getRentedNumbers(){
 					try{
-						this.rented_numbers = await this.$axios.$get('/number/rented').data;
+						this.rented_numbers = await this.$axios.$get('/number/rented');
 					}catch (e) {
 
 					}
@@ -110,13 +88,6 @@ export default {
 				},
 			showBuyNumberModal(){
 				this.$modal.show('buy-number-modal')
-			},
-			validateSearchQuery(value){
-				if (isNaN(value)){
-					this.error_message = 'Please enter a valid number';
-				}else{
-					this.error_message = '';
-				}
 			},
 			async unRentNumber(row){
 					try{
