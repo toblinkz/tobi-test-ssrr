@@ -32,6 +32,7 @@
 								<th style="width: 15%;">Rental Charge</th>
 								<th style="width: 15%;">Date Rented</th>
 								<th style="width: 15%;">Expiry Date</th>
+								<th style="width: 15%;">Status</th>
 								<th style="width: 15%;"></th>
 							</tr>
 							</thead>
@@ -43,7 +44,8 @@
 								<td>{{ row.monthly_charge }}</td>
 								<td>{{row.date_rented}}</td>
 								<td>{{row.expiry_date}}</td>
-								<td><a class="btn btn-danger btn-xs" @click="unRentNumber(row)"> Unrent</a></td>
+								<td> <p class="label"  :class="statusClass(row.status)">{{row.status.toUpperCase()}}</p></td>
+								<td><a class="btn btn-danger btn-xs"  :aria-disabled="isDisabled(row.status)"  @click="unRentNumber(row)" > Unrent</a></td>
 							</tr>
 							<tr>
 								<td  colspan="7" style="text-align: center; cursor: pointer" v-show="!rented_numbers">No data available in table</td>
@@ -86,6 +88,30 @@ export default {
 					}
 
 				},
+			statusClass(status){
+				switch (status) {
+					case "active": {
+						return 'label-success'
+					}
+					case "pending": {
+						return 'label-warning'
+					}
+					default: {
+						return 'label-danger'
+					}
+				}
+			},
+			isDisabled(status) {
+				switch (status) {
+					case "active": {
+						return false;
+					}
+					case "pending":
+					default: {
+						return true;
+					}
+				}
+			},
 			showBuyNumberModal(){
 				this.$modal.show('buy-number-modal')
 			},
@@ -172,5 +198,32 @@ input[type="text"], input[type="password"]{
 	border-color: #4DB6AC;
 	box-shadow: none;
 	outline: 0;
+}
+.label {
+	font-size: 11px;
+	padding: 2px 10px;
+	margin: 2px 0;
+	border-radius: 20px;
+	font-weight: 600;
+	line-height: 1;
+	white-space: nowrap;
+	text-align: center;
+	display: inline-block;
+	text-transform: uppercase;
+	border: 1px solid transparent;
+	letter-spacing: 0.1px;
+}
+.label-warning {
+	color: #fff;
+	background-color: #FF5722;
+}
+.label-danger{
+	background-color: red;
+	color: #fff;
+}
+.label-success {
+	border-color: #4CAF50;
+	color: #fff;
+	background-color: #4CAF50;
 }
 </style>
