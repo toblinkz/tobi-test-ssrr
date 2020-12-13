@@ -6,7 +6,7 @@
 				<div>
 					<div class="modal-header">
 						<button type="button" class="close" @click="close">×</button>
-						<h4 class="modal-title"><strong># Buy Number</strong></h4>
+						<h4 class="modal-title"><strong># Rent a Number</strong></h4>
 					</div>
 					<div v-show="show_country_select" class="modal-body">
 							<b>Select the country you want to rent a number from:</b>
@@ -98,7 +98,6 @@
 					</div>
 
 				</div>
-			</div>
 		</modal>
 	</transition>
 </template>

@@ -19,7 +19,7 @@
 						<div style="display: flex; flex-direction: row; width: 100%">
 							<div style="width: 20%">
 								<button @click="showBuyNumberModal" class="btnl bg-blue" style="justify-content: flex-end" >
-									# Buy a Number</button>
+									# Rent a Number</button>
 							</div>
 						</div>
 						<div class="mt-10 " style="border-bottom: dotted #ddd!important;"></div>
