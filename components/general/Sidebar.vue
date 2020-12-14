@@ -48,26 +48,26 @@
         </Dropdown>
         <!-- BEGIN SIDEBAR MENU ITEMS-->
         <div class="clearfix mb-30"></div>
+							<Dropdown>
+								<template v-slot:dropdown_title>
+									<a data-toggle="dropdown" class="dropdown-toggle color-a"><span class="menu-text"><i class="entypo-list"></i> Setup Sender
+									    <i class="caret"></i></span> </a>
+								</template>
+								<template v-slot:dropdown_menu>
+									<li><nuxt-link to="/sms/sender-id-management" ><i class="entypo-list-add"></i> Sender ID</nuxt-link></li>
+
+								</template>
+							</Dropdown>
+
 							<li class="padd-x" v-if="show_drop_down">
 								<nuxt-link  to="/devices" class="color-a level-1">
-									<span> 	<i class="fa fa-barcode"></i> Devices </span>
+									<span> <i class="fa fa-barcode"></i> Manage Device </span>
 									<span class="badge badge-sm badge-sidebar">New</span>
 								</nuxt-link>
 							</li>
-        <Dropdown>
-          <template v-slot:dropdown_title>
-            <a data-toggle="dropdown" class="dropdown-toggle color-a"><span class="menu-text"><i class="entypo-list"></i> Activate ID
-									    <i class="caret"></i></span> </a>
-          </template>
-          <template v-slot:dropdown_menu>
-            <li><nuxt-link to="/sms/sender-id-management" ><i class="entypo-list-add"></i> Sender ID</nuxt-link></li>
-
-          </template>
-        </Dropdown>
-
 							<li class="padd-x" v-if="show_drop_down">
 								<nuxt-link to="/my-number" class="color-a level-1">
-									<span> <i class="fa fa-tty m-l-5"></i> Numbers</span>
+									<span> <i class="fa fa-tty "></i> Rent Numbers </span>
 									 <span class="badge badge-sm badge-sidebar">New</span>
 								</nuxt-link>
 							</li>
@@ -113,7 +113,7 @@
         </Dropdown>
 							<li class="padd-x">
 								<a target="_blank" class="color-a level-1"  href="https://join.slack.com/t/termii-loop/shared_invite/zt-imbqlf68-w4lsPkOzibBXSQohu8_8dQ">
-									<i class="entypo-users"></i>Join Community</a>
+									<i class="entypo-users"></i> Join Community</a>
 							</li>
         <li class="padd-x">
           <nuxt-link to="/account/profile" class="color-a level-1">
