@@ -161,7 +161,7 @@
           // $.get(url, function (data, status) {
               Swal.fire({
                 title:"<h2>Scan QR Code</br><p>To use WhatsApp on your phone, tap settings icon and select WhatsApp Web</p></h2>",
-                html: `<img src="${url}" alt="Try again">`,
+                html: `<img src="${url}" alt="Try again" style="width: 100%">`,
                 confirmButtonText: "Close",
               });
 
