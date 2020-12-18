@@ -121,7 +121,8 @@ export default {
 			inbound_sms: '',
 			total_amount_due: '',
 			payment_methods:'',
-			auto_renew:false
+			auto_renew:false,
+			isLoading: false
 		}
 	},
 	methods: {
