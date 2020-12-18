@@ -12,7 +12,7 @@
 				</div>
 
 			</div>
-			<div class="col-md-11">
+			<div class="col-md-12">
 
 				<div class="panel mt-50" >
 					<div class="panel-body p-none scrollme">
@@ -27,25 +27,28 @@
 							<thead>
 							<tr class="m-l-10">
 								<th style="width: 10%;">Number</th>
-								<th style="width: 15%;">Country</th>
-								<th style="width: 15%;">Number Type</th>
+								<th style="width: 5%;">Country</th>
+								<th style="width: 5%;">Number Type</th>
 								<th style="width: 15%;">Rental Charge</th>
 								<th style="width: 15%;">Date Rented</th>
 								<th style="width: 15%;">Expiry Date</th>
-								<th style="width: 15%;">Status</th>
+								<th style="width: 10%;">Status</th>
+								<th style="width: 10%;"></th>
 								<th style="width: 15%;"></th>
 							</tr>
 							</thead>
 							<tbody>
-							<tr v-for="row in rented_numbers.data" :key="row.id">
+							<tr v-for="row in data" :key="row.id">
 								<td>{{ row.phone_number }}</td>
 								<td>{{row.country}}</td>
 								<td>{{ row.number_type}}</td>
 								<td>{{ row.monthly_charge }}</td>
 								<td>{{row.date_rented}}</td>
-								<td>{{row.expiry_date}}</td>
+								<td>{{ row.expiry_date }}</td>
 								<td> <p class="label"  :class="statusClass(row.status)">{{row.status.toUpperCase()}}</p></td>
-								<td><a class="btn btn-danger btn-xs"  :aria-disabled="isDisabled(row.status)"  @click="unRentNumber(row)" > Unrent</a></td>
+								<td v-show="current_date < row.expiry_date"><a class="btn btn-danger btn-xs"  :aria-disabled="isDisabled(row.status)"  @click="unRentNumber(row)" >Unrent</a></td>
+								<td  v-show="current_date > row.expiry_date"><a class="btn btn-success btn-xs"  :aria-disabled="isDisabled(row.status)"  @click="RenewNumber(row)" >Renew</a></td>
+								<td><nuxt-link :to="{name: 'number-id-subscriptions', params:{id: row.phone_number}}" class="btn btn-primary btn-xs"  :aria-disabled="isDisabled(row.status)" > Manage Number</nuxt-link></td>
 							</tr>
 							<tr>
 								<td  colspan="7" style="text-align: center; cursor: pointer" v-show="!rented_numbers">No data available in table</td>
@@ -76,7 +79,10 @@ export default {
 		data(){
 			return{
 					rented_numbers: [],
-			 	error_message:''
+			 	error_message:'',
+					current_date: moment(Date.now()).format('YYYY/MM/DD'),
+					number_action_button_text:'',
+				data:[{"phone_number":"02022214836","number_type":"Local","country":"","monthly_charge":0,"service_charge":0,"alias":"","status":"active","date_rented":"2020-12-08","expiry_date":"2020-12-11"},{"phone_number":"+13252034406","number_type":"Local","country":"","monthly_charge":0,"service_charge":0,"alias":"","status":"pending","date_rented":"2020-12-08","expiry_date":"2021-09-08"},{"phone_number":"17657051520","number_type":"Local","country":"US","monthly_charge":0,"service_charge":0,"alias":"Termii number637","status":"active","date_rented":"2020-12-13","expiry_date":"2002-01-13"},{"phone_number":"13254005451","number_type":"Local","country":"US","monthly_charge":1.1868,"service_charge":0,"alias":"Termii number335","status":"active","date_rented":"2020-12-13","expiry_date":"2021-01-13"},{"phone_number":"13254006498","number_type":"Local","country":"US","monthly_charge":1.1868,"service_charge":0,"alias":"Termii number063","status":"active","date_rented":"2020-12-13","expiry_date":"2021-01-13"}]
 			}
 		},
 		methods: {
@@ -112,20 +118,30 @@ export default {
 					}
 				}
 			},
+
 			showBuyNumberModal(){
 				this.$modal.show('buy-number-modal')
 			},
 			async unRentNumber(row){
-					try{
-						await this.$axios.$delete('/number/unrent', {
-							params:{
-								phone_number: row.phone_number
-							}
-						});
-						this.$toast.success('Done successfully');
-					}catch (e) {
 
-					}
+						try{
+							await this.$axios.$delete('/number/unrent', {
+								params:{
+									phone_number: row.phone_number
+								}
+							});
+							this.$toast.success('Done successfully');
+						}catch (e) {
+
+						}
+
+			},
+			async renewNumber(row){
+						try{
+
+						}catch (e){
+
+						}
 			}
 		},
 		mounted() {
