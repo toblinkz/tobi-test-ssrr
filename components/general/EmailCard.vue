@@ -1,10 +1,10 @@
 <template>
 	<div class="email-card">
-		<div class="col-md-11">
-			<p>{{ email }}</p>
+		<div class="col-md-11" style="padding: 5px">
+			{{ email }}
 		</div>
 		<div class="col-md-1">
-			<i class="fa fa-minus-circle" style="cursor: pointer"></i>
+			<i class="fa fa-minus-circle" style="cursor: pointer; color: red"></i>
 		</div>
 
 	</div>
@@ -30,7 +30,8 @@ name: "EmailCard",
 	margin-bottom: 5px;
 	/*background-color: white;*/
 	display: flex;
-	/*box-shadow: 0 10px 45px 0 rgba(0,0,0,.1);*/
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	box-shadow: 0 10px 45px 0 rgba(0,0,0,.07);
+	/*box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);*/
+	/*box-shadow: 0 10px 45px 0 rgb(0 0 0 / 5%);*/
 }
 </style>

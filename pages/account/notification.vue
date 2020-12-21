@@ -64,6 +64,7 @@
 					</div>
 				</div>
 				<VerificationModal></VerificationModal>
+				<AddNewEmail></AddNewEmail>
 			</div>
 		</div>
 	</div>
@@ -75,10 +76,11 @@ import DashboardNavbar from "@/components/general/navbar/DashboardNavbar";
 import VerificationModal from "@/components/modals/VerificationModal";
 import ApiNavbar from "@/components/general/navbar/ApiNavbar";
 import EmailCard from "@/components/general/EmailCard";
+import AddNewEmail from "@/components/modals/AddNewEmailModal";
 export default {
 	name: "notification",
 	middleware: ['auth', 'inactive_user'],
-	components: {EmailCard, ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
+	components: {AddNewEmail, EmailCard, ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
 	data(){
 		return{
 
@@ -123,7 +125,7 @@ export default {
 	},
 	methods:{
 		showInputField(){
-			this.show_input_field = !this.show_input_field;
+			this.$modal.show('add-new-email');
 		},
 		validateOldPassword(value){
 			if (value.length < 8) {
