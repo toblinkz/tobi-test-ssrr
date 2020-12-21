@@ -1,27 +1,29 @@
 <template>
 	<section class="wrapper-bottom-sec">
-		<div class="p-30">
-			<div class="row">
-				<div class="col-lg-12">
-					<h3 class="panel-title">Templates</h3>
-					<div class="panel" style="overflow-x:auto;">
-						<div class="panel-body ">
+		<div class="col-md-12">
+			<div class="p-30">
+				<div class="row">
+					<div class="">
+						<h3 class="panel-title">Templates</h3>
+						<div class="panel" style="overflow-x:auto;">
+							<div class="panel-body ">
 
 								<table class="table data-table table-hover">
-								<thead>
-								<tr>
-									<th style="width: 10%;">ID#</th>
-									<th style="width: 20%;">Template</th>
-								</tr>
-								</thead>
-								<tbody>
-								<tr v-for="row in template_data" :key="row.id">
-									<td data-label="SL" >{{row.id}}</td>
+									<thead>
+									<tr>
+										<th style="width: 10%;">ID#</th>
+										<th style="width: 20%;">Template</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr v-for="row in template_data" :key="row.id">
+										<td data-label="SL" >{{row.id}}</td>
 
-									<td style="width: 20%;"><p>{{row.template || 'None'}}</p></td>
-								</tr>
-								</tbody>
-							</table>
+										<td style="width: 20%;"><p>{{row.template || 'None'}}</p></td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>

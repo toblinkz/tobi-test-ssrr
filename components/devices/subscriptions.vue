@@ -1,53 +1,56 @@
 <template>
 	<section class="wrapper-bottom-sec">
-		<div class="p-30">
-			<div class="row">
-				<div class="col-lg-12">
-					<h3 class="panel-title">Subscriptions</h3>
-					<div class="panel" >
-						<div class="panel-body ">
-							<div class="mb-20">
-											<div >
-												<button class="btn btn-primary btn-sm " @click="showModal"  ><i class="fa fa-plus"></i> New Subscription</button>
-													<div v-show="device_type === 'Capped'" style="" class="switch-button-container">
-														<span :class="{'switch-color': enabled_offline_notification}" style="font-size: 16px; padding: 3px" >Device Offline Notification</span>
-														<div class="tooltip">
-															<Switches class="tooltip btn-sm" v-model="enabled_offline_notification" type-bold="true" :emit-on-mount="false"  color="blue"></Switches>
-															<span class="tooltiptext">Notification would be received via email and over your webhook if it is set on your account.</span>
-														</div>
-													</div>
+		<div class="col-md-12">
+			<div class="p-30">
+				<div class="row">
+					<div class="">
+						<h3 class="panel-title">Subscriptions</h3>
+						<div class="panel" >
+							<div class="panel-body ">
+								<div class="mb-20">
+									<div >
+										<button class="btn btn-primary btn-sm " @click="showModal"  ><i class="fa fa-plus"></i> New Subscription</button>
+										<div v-show="device_type === 'Capped'" style="" class="switch-button-container">
+											<span :class="{'switch-color': enabled_offline_notification}" style="font-size: 16px; padding: 3px" >Device Offline Notification</span>
+											<div class="tooltip">
+												<Switches class="tooltip btn-sm" v-model="enabled_offline_notification" type-bold="true" :emit-on-mount="false"  color="blue"></Switches>
+												<span class="tooltiptext">Notification would be received via email and over your webhook if it is set on your account.</span>
 											</div>
+										</div>
+									</div>
 
 
+								</div>
+								<table class="table data-table table-hover" >
+									<thead>
+									<tr>
+										<th style="width: 10%;">SL#</th>
+										<th style="width: 20%;">Last Subscription</th>
+										<th style="width: 20%;">Subscription Expiry</th>
+										<th style="width: 20%;">Amount</th>
+										<th style="width: 20%;">Status</th>
+
+									</tr>
+									</thead>
+									<tbody>
+									<tr v-for="row in subscription_data.data" :key="row.id">
+										<td data-label="SL" >#</td>
+										<td style="width: 20%;"><p>{{row.last_subscription || 'None'}}</p></td>
+										<td style="width: 20%;"><p>{{row.subscription_expiry}}</p></td>
+										<td style="width: 10%;"><p>{{row.amount}}</p></td>
+										<td data-label="Status">
+											<p class="label label-success">Paid</p>
+										</td>
+									</tr>
+									</tbody>
+								</table>
 							</div>
-							<table class="table data-table table-hover" >
-								<thead>
-								<tr>
-									<th style="width: 10%;">SL#</th>
-									<th style="width: 20%;">Last Subscription</th>
-									<th style="width: 20%;">Subscription Expiry</th>
-									<th style="width: 20%;">Amount</th>
-									<th style="width: 20%;">Status</th>
-
-								</tr>
-								</thead>
-								<tbody>
-								<tr v-for="row in subscription_data.data" :key="row.id">
-									<td data-label="SL" >#</td>
-									<td style="width: 20%;"><p>{{row.last_subscription || 'None'}}</p></td>
-									<td style="width: 20%;"><p>{{row.subscription_expiry}}</p></td>
-									<td style="width: 10%;"><p>{{row.amount}}</p></td>
-									<td data-label="Status">
-										<p class="label label-success">Paid</p>
-									</td>
-								</tr>
-								</tbody>
-							</table>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
 		<DeviceSubscriptionModal :device_name="device_name"
 																											:monthly_charge="monthly_charge"
 																											:cost_per_message="cost_per_message"

@@ -18,37 +18,53 @@
           <div class="content-wrapper">
             <!-- main inner content -->
             <main id="wrapper" class="wrapper">
-													<div class="device-padding">
-														<h2 class="page-title"><b>Device - {{device_name}}</b></h2>
+													<div class="col-md-12 mt-20">
+														<h2 style="margin-left: 10px; padding-top: 20px" ><b>Device - {{device_name}}</b></h2>
+														<div style="padding: 10px">
+																	<div class="col-md-4 alert toke">
+																				<p class="text-semibold"><i class="entypo-light-up" style="color: #bbb !important;"></i>
+																					Total messages sent
+																				</p>
+																		<!-- START PANEL -->
+																				<p class="alert insight wd">
+																					<span>{{total_messages_sent_all_time}}</span>
+																				</p>
+																		<!-- END PANEL -->
+																	</div>
+															<div class="col-md-4 alert toke">
+																	<p class="text-semibold"><i class="entypo-light-down" style="color: #bbb !important;"></i>
+																		Messages sent today
+																	</p>
+																<!-- START PANEL -->
+																	<p class="alert insight wd">
+																		<span>{{total_messages_sent_today}}</span>
+																	</p>
+																<!-- END PANEL -->
+															</div>
+															<div class="col-md-4 alert toke">
+																	<p class="text-semibold"><i class="entypo-light-up" style="color: #bbb !important;"></i>
+																		Messages sent this month
+																	</p>
+																<!-- START PANEL -->
+																	<p class="alert insight wd">
+																		<span>{{total_messages_sent_this_month}}</span>
+																	</p>
+																<!-- END PANEL -->
+															</div>
+														</div>
+														<DeviceTemplate v-show="templateExists()" :template_data="template_data"></DeviceTemplate>
+														<DeviceSubscription :subscription_data="response_data"
+																																		:device_name="device_name"
+																																		:monthly_charge="monthly_charge"
+																																		:cost_per_message="cost_per_message"
+																																		:device_daily_limit ="device_daily_limit"
+																																		:monthly_limit="device_monthly_limit"
+																																		:device_type="device_type"
+																																		:payment_method = "payment_method"
+																																		:device_id =  "device_id"
+														>
+														</DeviceSubscription>
 													</div>
-													<div class="stats-container">
-
-																<div class=" first-card  border rounded   m-4 flex">
-																			<i class="entypo-credit-card px-3 py-10" style="font-size: 18px"></i> <p class=" pr-12 py-8 " style="font-size: 18px"> Total messages sent <br>
-																			<span class="text-lg">{{ total_messages_sent_all_time }}</span></p>
-																</div>
-																<div class=" second-card  border rounded   m-4 flex">
-																			<i class="entypo-credit-card px-3 py-10" style="font-size: 18px"></i> <p class="text-xs pr-12 py-8 " style="font-size: 18px"> Messages sent today <br>
-																			<span class="text-lg"> {{total_messages_sent_today}}</span></p>
-																</div>
-																<div class=" third-card  border rounded   m-4 flex">
-																			<i class="entypo-credit-card px-3 py-10" style="font-size: 18px"></i> <p class="text-xs pr-12 py-8 " style="font-size: 18px"> Messages sent this month <br>
-																			<span class="text-lg"> {{ total_messages_sent_this_month }}</span></p>
-																</div>
-
-													</div>
-													<DeviceTemplate v-show="templateExists()" :template_data="template_data"></DeviceTemplate>
-             <DeviceSubscription :subscription_data="response_data"
-																																	:device_name="device_name"
-																																	:monthly_charge="monthly_charge"
-																																	:cost_per_message="cost_per_message"
-																																	:device_daily_limit ="device_daily_limit"
-																																	:monthly_limit="device_monthly_limit"
-																																	:device_type="device_type"
-																																	:payment_method = "payment_method"
-																																	:device_id =  "device_id"
-																																	>
-													</DeviceSubscription>
 
             </main>
           </div>
@@ -327,7 +343,35 @@
 		.pr-12 {
 			padding-right: 10rem;
 		}
-
+		.toke {
+			background-color: #f5f5f5;
+			border-color: #efefef;
+			color: #595959 !important;
+		}
+		.mb-30 {
+			margin-bottom: 30px !important;
+		}
+		.alert > p, .alert > ul {
+			margin-bottom: 0;
+		}
+		.alert {
+			position: relative;
+			padding: 15px;
+			margin-bottom: 20px;
+			border: 1px solid transparent;
+			border-radius: 3px;
+		}
+		.alert {
+			position: relative;
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+		.alert > p + p {
+			margin-top: 5px;
+		}
+		.alert > p, .alert > ul {
+			margin-bottom: 0;
+		}
 		.stats-container{
 			padding: 5px 15px 15px 1px;
 			display: flex; flex-direction: row;
