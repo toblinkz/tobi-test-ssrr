@@ -31,11 +31,15 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: {
-    color: '#1991bd',
-    height: '2px',
-    throttle: 0
-  },
+	loading:{
+		color: '#1991bd',
+		height: '2px',
+		throttle: 0
+	},
+	loadingIndicator: {
+		name: '~/termii_bird_loader.html',
+		background: 'white'
+	},
   /*
   ** Global CSS
   */
