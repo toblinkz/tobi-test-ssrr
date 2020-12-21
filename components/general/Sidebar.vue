@@ -71,16 +71,16 @@
 									 <span class="badge badge-sm badge-sidebar">New</span>
 								</nuxt-link>
 							</li>
-        <Dropdown>
-          <template v-slot:dropdown_title>
-            <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-users"></i> Add Contacts
+							<Dropdown>
+								<template v-slot:dropdown_title>
+									<a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-users"></i> Manage Contacts
 									    <i class="caret"></i></span></a>
-          </template>
-          <template v-slot:dropdown_menu v-if="show_drop_down">
-            <li><nuxt-link to="/phone-book" ><i class="entypo-user-add"></i> Single contacts</nuxt-link></li>
-            <li><nuxt-link to="/sms/import-contacts"><i class="entypo-upload"></i> Bulk contacts</nuxt-link></li>
-          </template>
-        </Dropdown>
+								</template>
+								<template v-slot:dropdown_menu v-if="show_drop_down">
+									<li><nuxt-link to="/phone-book" ><i class="entypo-user-add"></i> View contacts</nuxt-link></li>
+									<li><nuxt-link to="/sms/import-contacts"><i class="entypo-upload"></i> Upload contacts</nuxt-link></li>
+								</template>
+							</Dropdown>
         <li class="padd-x" v-if="show_drop_down">
           <nuxt-link to="/message/select-type" class="color-a level-1">
             <span> <i class="entypo-paper-plane"></i> Compose message</span>
