@@ -156,7 +156,7 @@
       },
       mounted() {
 							if(this.$store.state.view_verify_page === 'true') {
-								this.$modal.show('verification-id-modal');
+								 this.$modal.show('verification-id-modal');
 							}else {
 								this.page_url = window.location.href
 								this.fetch();
