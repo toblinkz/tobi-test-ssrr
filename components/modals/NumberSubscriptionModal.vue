@@ -10,7 +10,7 @@
 						<button type="button" class="close" @click="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title" id="myModalLabel">New Subscription</h4>
 					</div>
-					<form method="post" @submit.prevent="deviceSubscribe">
+					<form method="post" @submit.prevent="numberSubscribe">
 
 						<div class="modal-body">
 							<div class="form-group">
@@ -55,15 +55,6 @@
 											<span >{{number_status}}</span>
 											<br>
 											<br>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-md-6">
-											<label>Select Payment Method</label>
-											<select @change="onChange($event)" class="form-control">
-												<option v-for="item in payment_method" :value="item" >{{item}}</option>
-											</select>
 										</div>
 									</div>
 								</div>
@@ -128,23 +119,11 @@ export default {
 			this.$modal.hide('number-subscription-modal');
 		},
 
-		async deviceSubscribe() {
+		async numberSubscribe() {
 
 			try {
-				let data =	await this.$axios.post(`devices/${this.device_id}/subscribe`, {
-					payment_method: this.payment_gateway,
-				});
-				this.close();
-				if(data.data.url) {
-					window.location.href = data.data.url;
-				}
-				if(data.data) {
-					this.$stripe.import().redirectToCheckout({
-						sessionId: data.data
-					}).then(function (result) {
-						this.$toast.error(result.error.message)
-					});
-				}
+				let data =	await this.$axios.post('number/rent/'+ this.number_id + '/renew');
+
 
 				this.$toast.success("Request sent successfully");
 			} catch (e) {
@@ -157,10 +136,6 @@ export default {
 				}
 			}
 		},
-		onChange(event){
-			this.payment_gateway = event.target.value;
-			console.log(event.target.value)
-		}
 	},
 	mounted() {
 
