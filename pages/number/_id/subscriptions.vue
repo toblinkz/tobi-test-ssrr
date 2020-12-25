@@ -19,7 +19,7 @@
 						<!-- main inner content -->
 						<main id="wrapper" class="wrapper">
 							<div class="device-padding">
-								<h2 class="page-title"><b>Number - {{phone_number}}</b></h2>
+								<h2 class="page-title"><b>Number - {{number}}</b></h2>
 							</div>
 							<div class="stats-container">
 
@@ -37,22 +37,21 @@
 								</div>
 
 							</div>
-							<DeviceTemplate v-show="templateExists()" :template_data="template_data"></DeviceTemplate>
-							<DeviceSubscription :subscription_data="response_data"
-																											:device_name="device_name"
-																											:monthly_charge="monthly_charge"
-																											:cost_per_message="cost_per_message"
-																											:device_daily_limit ="device_daily_limit"
-																											:monthly_limit="device_monthly_limit"
-																											:device_type="device_type"
-																											:payment_method = "payment_method"
-																											:device_id =  "device_id"
+							<NumberSubscriptions :subscription_data="response_data"
+																												:alias="alias"
+																												:country="country"
+																												:number_type="number_type"
+																												:service_charge="service_charge"
+																												:number_status="number_status"
+																												:phone_number="number"
+																												:payment_method = "payment_method"
+																												:number_id =  "number_id"
+																												:monthly_charge="monthly_charge"
 							>
-							</DeviceSubscription>
+							</NumberSubscriptions>
 
 						</main>
 					</div>
-					<notifications group="error" ignoreDuplicates="true" position="top center"/>
 					<VerificationModal></VerificationModal>
 
 				</div>
@@ -69,17 +68,23 @@ import VerificationModal from "~/components/modals/VerificationModal";
 import DeviceSubscriptionModal from "~/components/modals/DeviceSubscriptionModal";
 import DeviceSubscription from "~/components/devices/subscriptions";
 import DeviceTemplate from "@/components/devices/templates";
+import NumberSubscriptions from "@/components/number/Subscriptions";
 export default {
 	name: "subscriptions",
 	middleware: ['auth', 'inactive_user'],
 	components: {
+		NumberSubscriptions,
 		DeviceTemplate,
 		DeviceSubscription, VerificationModal,DashboardNavbar, Sidebar, DeviceSubscriptionModal},
 	data(){
 		return{
-			device_name: '',
-			device_cost: '',
-			device_daily_limit: '',
+			number_id: this.$route.params.id,
+			alias: '',
+			country: '',
+			number_type:'',
+			service_charge:'',
+			number_status: '',
+			number: '',
 			monthly_charge: '',
 			total_messages_sent_all_time:'',
 			total_messages_sent_this_month:'',
@@ -87,7 +92,7 @@ export default {
 			device_monthly_limit: '',
 			cost_per_message: '',
 			device_type: '',
-			phone_number: this.$route.params.id,
+			phone_number: this.$route.params.phone_number,
 			template_data: '',
 			response_data:[],
 			new_subscription: false,
@@ -107,22 +112,16 @@ export default {
 		async fetch(){
 			try {
 				//get subscriptions
-				let data =  await this.$axios.$get('devices/'+ this.device_id +'/subscription');
-				this.total_messages_sent_all_time = data.device_stats.total_messages_sent_all_time;
-				this.total_messages_sent_this_month = data.device_stats.total_messages_sent_this_month;
-				this.total_messages_sent_today = data.device_stats.total_messages_sent_today;
+				let data =  await this.$axios.$get('number/rent/'+ this.number_id + '/subscriptions');
 				this.response_data = data;
-				this.template_data = data.device.template
-				this.device_name = data.device.name;
-				this.monthly_charge = data.device.monthly_charge;
-				this.device_daily_limit = (data.device.daily_limit) ? data.device.daily_limit:'unlimited';
-				this.device_monthly_limit = (data.device.monthly_limit > 0)? data.device.monthly_limit:'unlimited';
-				this.device_type = data.device.device_type;
-				localStorage.setItem('notify-offline', data.device.send_offline_notification);
-				this.cost_per_message = (data.device.cost_per_message.substr(1) > 0)
-					?`Messages are free until the ${this.device_monthly_limit + 1} message and then would cost ${data.device.cost_per_message} per message till your next subscription`:0;
-				this.payment_method = data.payment_method;
-				console.log(data.payment_method)
+				console.log(data.rented_number.country)
+				this.alias = data.rented_number.alias;
+				this.number = data.rented_number.phone_number;
+				this.country = data.rented_number.country;
+				this.number_type = data.rented_number.number_type;
+				this.service_charge = data.rented_number.service_charge;
+				this.number_status = data.rented_number.status;
+				this.monthly_charge = data.rented_number.monthly_charge;
 			} catch (e) {
 
 			}
@@ -159,7 +158,7 @@ export default {
 			this.$modal.show('verification-id-modal');
 		}else {
 			this.page_url = window.location.href
-			// this.fetch();
+			 this.fetch();
 		}
 
 	},

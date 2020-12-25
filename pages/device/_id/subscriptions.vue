@@ -52,7 +52,6 @@
 
             </main>
           </div>
-          <notifications group="error" ignoreDuplicates="true" position="top center"/>
 									<VerificationModal></VerificationModal>
 
         </div>

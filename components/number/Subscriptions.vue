@@ -7,16 +7,9 @@
 					<div class="panel" >
 						<div class="panel-body ">
 							<div class="mb-20">
-											<div >
-												<button class="btn btn-primary btn-sm " @click="showModal"  ><i class="fa fa-plus"></i> New Subscription</button>
-													<div v-show="device_type === 'Capped'" style="" class="switch-button-container">
-														<span :class="{'switch-color': enabled_offline_notification}" style="font-size: 16px; padding: 3px" >Device Offline Notification</span>
-														<div class="tooltip">
-															<Switches class="tooltip btn-sm" v-model="enabled_offline_notification" type-bold="true" :emit-on-mount="false"  color="blue"></Switches>
-															<span class="tooltiptext">Notification would be received via email and over your webhook if it is set on your account.</span>
-														</div>
-													</div>
-											</div>
+								<div >
+									<button class="btn btn-primary btn-sm " @click="showModal"  ><i class="fa fa-plus"></i> New Subscription</button>
+								</div>
 
 
 							</div>
@@ -24,7 +17,7 @@
 								<thead>
 								<tr>
 									<th style="width: 10%;">SL#</th>
-									<th style="width: 20%;">Last Subscription</th>
+									<th style="width: 20%;">Subscription Date</th>
 									<th style="width: 20%;">Subscription Expiry</th>
 									<th style="width: 20%;">Amount</th>
 									<th style="width: 20%;">Status</th>
@@ -34,11 +27,11 @@
 								<tbody>
 								<tr v-for="row in subscription_data.data" :key="row.id">
 									<td data-label="SL" >#</td>
-									<td style="width: 20%;"><p>{{row.last_subscription || 'None'}}</p></td>
-									<td style="width: 20%;"><p>{{row.subscription_expiry}}</p></td>
-									<td style="width: 10%;"><p>{{row.amount}}</p></td>
+									<td style="width: 20%;"><p>{{row.subscription_date || 'None'}}</p></td>
+									<td style="width: 20%;"><p>{{row.expiry_date}}</p></td>
+									<td style="width: 10%;"><p>{{row.rental_cost}}</p></td>
 									<td data-label="Status">
-										<p class="label label-success">Paid</p>
+										<p class="label label-success">{{ row.status }}</p>
 									</td>
 								</tr>
 								</tbody>
@@ -48,15 +41,17 @@
 				</div>
 			</div>
 		</div>
-			<DeviceSubscriptionModal :device_name="device_name"
-																												:monthly_charge="monthly_charge"
-																												:cost_per_message="cost_per_message"
-																												:device_daily_limit ="device_daily_limit"
-																												:monthly_limit="monthly_limit"
-																												:device_type="device_type"
-																												:payment_method = "payment_method"
-																												:device_id =  "device_id"
-		></DeviceSubscriptionModal>
+		<NumberSubscriptionModal :alias="alias"
+																											:country="country"
+																											:number_type="number_type"
+																											:service_charge="service_charge"
+																											:number_status="number_status"
+																											:phone_number="phone_number"
+																											:payment_method = "payment_method"
+																											:number_id =  "number_id"
+																											:monthly_charge="monthly_charge"
+		></NumberSubscriptionModal>
+
 	</section>
 </template>
 
@@ -65,72 +60,56 @@ import ButtonSpinner from "@/components/general/ButtonSpinner";
 import DeviceSubscriptionModal from "~/components/modals/DeviceSubscriptionModal";
 import Swal from "sweetalert2";
 import Switches from 'vue-switches';
+import NumberSubscriptionModal from "@/components/modals/NumberSubscriptionModal";
 
 
 export default {
-name: "DeviceSubscription",
+	name: "NumberSubscriptions",
 	middleware:'auth',
-	components: {ButtonSpinner, DeviceSubscriptionModal, Switches},
+	components: {NumberSubscriptionModal, ButtonSpinner, DeviceSubscriptionModal, Switches},
 	data(){
 		return{
-			enabled_offline_notification: localStorage.getItem('notify-offline'),
-			send_offline_notification: ''
 		}
 	},
 	watch: {
-		async enabled_offline_notification(value){
-			try{
-				await this.$axios.$get('/devices/'+ this.device_id+ '/notification/toggle');
-				this.$toast.success('Device offline notification updated successfully');
-
-			}catch (e) {
-
-			}
-
-			// this.send_offline_notification = !this.send_offline_notification;
-			// localStorage.setItem('notify-offline', this.send_offline_notification);
-
-		}
 	},
 
 	props: {
 		subscription_data: {
 			required: true
 		},
-		device_name: {
+		alias: {
+			required: true
+		},
+		country: {
+			required: true
+		},
+		number_type: {
+			required: true
+		},
+		service_charge: {
 			required: true
 		},
 		monthly_charge: {
 			required: true
 		},
-		cost_per_message: {
+		number_status: {
 			required: true
 		},
-		device_daily_limit: {
-			required: true
-		},
-		monthly_limit: {
-			required: true
-		},
-		device_type:{
+		 phone_number:{
 			requires: true
 		},
 		payment_method:{
 			requires:true
 		},
-		device_id:{
+		number_id:{
 			requires:true
 		},
-		device_monthly_limit:{
-			required:true
-		},
 
-
-
-},
+	},
 	methods: {
 		showModal(){
-			this.$modal.show('device-subscription-modal')
+			this.$modal.show('number-subscription-modal')
 		},
 		async newSubscription(){
 			try{
@@ -147,9 +126,9 @@ name: "DeviceSubscription",
 
 			}
 		},
-},
+	},
 	mounted() {
-		// this.enabled_offline_notification = localStorage.getItem('notify-offline')
+
 	}
 
 }
@@ -292,7 +271,7 @@ h3 {
 }
 @media (max-width: 769px) {
 	.switch-button-container{
-			display: flex;
+		display: flex;
 		flex-direction: column;
 		float: left;
 	}
