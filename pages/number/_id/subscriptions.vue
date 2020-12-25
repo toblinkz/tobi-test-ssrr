@@ -18,37 +18,55 @@
 					<div class="content-wrapper">
 						<!-- main inner content -->
 						<main id="wrapper" class="wrapper">
-							<div class="device-padding">
-								<h2 class="page-title"><b>Number - {{number}}</b></h2>
-							</div>
-							<div class="stats-container">
+							<div class="col-md-12 mt-20">
+								<h2  style="margin-left: 10px; padding-top: 20px"><b>Number - {{number}}</b></h2>
+								<div style="padding: 10px;">
+									<div class="col-md-4 alert toke">
+										<p class="text-semibold"><i class="entypo-light-up" style="color: #bbb !important;"></i>
+											Total messages sent
+										</p>
+										<!-- START PANEL -->
+										<p class="alert insight wd">
+											<span>{{total_messages_sent_all_time}}</span>
+										</p>
+										<!-- END PANEL -->
+									</div>
 
-								<div class=" first-card  border rounded   m-4 flex">
-									<i class="entypo-credit-card px-3 py-10" style="font-size: 18px"></i> <p class=" pr-12 py-8 " style="font-size: 18px"> Total messages sent <br>
-									<span class="text-lg">{{ total_messages_sent_all_time }}</span></p>
-								</div>
-								<div class=" second-card  border rounded   m-4 flex">
-									<i class="entypo-credit-card px-3 py-10" style="font-size: 18px"></i> <p class="text-xs pr-12 py-8 " style="font-size: 18px"> Messages sent today <br>
-									<span class="text-lg"> {{total_messages_sent_today}}</span></p>
-								</div>
-								<div class=" third-card  border rounded   m-4 flex">
-									<i class="entypo-credit-card px-3 py-10" style="font-size: 18px"></i> <p class="text-xs pr-12 py-8 " style="font-size: 18px"> Messages sent this month <br>
-									<span class="text-lg"> {{ total_messages_sent_this_month }}</span></p>
-								</div>
+									<div class="col-md-4 alert toke">
+										<p class="text-semibold"><i class="entypo-light-down" style="color: #bbb !important;"></i>
+											Messages sent today
+										</p>
+										<!-- START PANEL -->
+										<p class="alert insight wd">
+											<span>{{total_messages_sent_today}}</span>
+										</p>
+										<!-- END PANEL -->
+									</div>
 
+									<div class="col-md-4 alert toke">
+										<p class="text-semibold"><i class="entypo-light-up" style="color: #bbb !important;"></i>
+											Messages sent this month
+										</p>
+										<!-- START PANEL -->
+										<p class="alert insight wd">
+											<span>{{total_messages_sent_this_month}}</span>
+										</p>
+										<!-- END PANEL -->
+									</div>
+								</div>
+								<NumberSubscriptions :subscription_data="response_data"
+																													:alias="alias"
+																													:country="country"
+																													:number_type="number_type"
+																													:service_charge="service_charge"
+																													:number_status="number_status"
+																													:phone_number="number"
+																													:payment_method = "payment_method"
+																													:number_id =  "number_id"
+																													:monthly_charge="monthly_charge"
+								>
+								</NumberSubscriptions>
 							</div>
-							<NumberSubscriptions :subscription_data="response_data"
-																												:alias="alias"
-																												:country="country"
-																												:number_type="number_type"
-																												:service_charge="service_charge"
-																												:number_status="number_status"
-																												:phone_number="number"
-																												:payment_method = "payment_method"
-																												:number_id =  "number_id"
-																												:monthly_charge="monthly_charge"
-							>
-							</NumberSubscriptions>
 
 						</main>
 					</div>
@@ -133,25 +151,7 @@ export default {
 		showPaidLabel(row){
 			return(row.payment_status === 'PAID')
 		},
-		async payNow(subscription_id){
-			this.$store.commit('setSuccessfulPaymentUrl', this.page_url);
-			this.button_text = '';
-			this.isLoading = true;
-			this.showIcon = false;
-			try{
-				let data = await this.$axios.$patch('devices/subscription/'+subscription_id +'/pay');
-				this.payment_url = data.url
-				this.button_text = 'Pay Now';
-				this.isLoading = false;
-				this.showIcon = false;
-				window.location.href = this.payment_url;
-			} catch (e) {
-				this.$toast.error("Something went wrong.Try again!");
-				this.button_text = 'Pay Now';
-				this.isLoading = false;
-				this.showIcon = false;
-			}
-		}
+
 	},
 	mounted() {
 		if(this.$store.state.view_verify_page === 'true') {
@@ -338,6 +338,43 @@ h3 {
 }
 .device-padding{
 	padding: 20px 5px 5px 5px!important;
+}
+
+
+.toke {
+	background-color: #f5f5f5;
+	border-color: #efefef;
+	color: #595959 !important;
+}
+
+.mb-30 {
+	margin-bottom: 30px !important;
+}
+
+.alert > p, .alert > ul {
+	margin-bottom: 0;
+}
+
+.alert {
+	position: relative;
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 3px;
+}
+
+.alert {
+	position: relative;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.alert > p + p {
+	margin-top: 5px;
+}
+
+.alert > p, .alert > ul {
+	margin-bottom: 0;
 }
 
 </style>
