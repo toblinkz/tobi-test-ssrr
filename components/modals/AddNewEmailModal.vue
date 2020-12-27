@@ -14,15 +14,18 @@
 						</div>
 
 						<div>
-							<div >
-								<div class="form-group mt-20">
-									<label>Email Address</label>
-									<input class="form-control"  placeholder="Email"/>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button class="btn id-btn-primary"> Add </button>
-							</div>
+							<form @submit.prevent="addEmailForNotification">
+									<div>
+											<div class="form-group mt-20">
+												<label>Email Address</label>
+												<input v-model="email" class="form-control"  placeholder="Email"  :class="{'error ' : hasEmailError, }" />
+												<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button class="btn id-btn-primary" type="submit" :disabled="isDisabled"> Add </button>
+										</div>
+							</form>
 						</div>
 
 					</div>
@@ -37,57 +40,71 @@ import PricingDropdown from "@/components/general/dropdown/PricingDropdown";
 export default {
 	name: "AddNewEmail",
 	components: {PricingDropdown},
-	props: {
-		number_type:{
-			required: true
-		},
-		rental_cost:{
-			required: true
-		},
-		phone_number: {
-			required: true
+	data(){
+		return{
+				email:"",
+			 error_message:[],
+			 hasEmailError: false,
 		}
 	},
-
+	watch:{
+			email(value){
+					this.validateEmail(value);
+			}
+	},
+computed:{
+	isDisabled:function () {
+		return (this.hasEmailError || !this.email);
+	},
+},
 	methods: {
-		close() {
-			this.$modal.hide('add-new-email');
+			close() {
+				this.$modal.hide('add-new-email');
+				this.email="";
+				this.hasEmailError = false;
 		},
-		async RentNumber(){
-			try{
-				await this.$axios.$post('number/rent', {
-					phone_number: this.phone_number,
-					payment_method: this.selected_payment_method,
-					rental_cost: this.rental_cost,
-					auto_renew: this.auto_renewal_status
-				});
-				this.$toast.success("Number Successfully rented");
-			}
-			catch (e) {
+		validateEmail(value){
+			if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)){
+				this.error_message['email'] = '';
+				this.hasEmailError = false;
+
+			}else {
+				this.error_message['email'] = 'The email field must be a valid email';
+				this.hasEmailError = true;
 
 			}
 		},
-		async getPaymentMethod(){
+		async addEmailForNotification(){
+
 			try {
-				this.payment_methods = await this.$axios.$get('billing/payment-method');
+				await this.$axios.$post('user/notification/email', {
+					email: [this.email]
+				});
+				this.$emit('addedEmail', this.email);
+				this.close();
+
+				this.$toast.success("Added Successfully");
 			}catch (e) {
 
 			}
-		},
 
-		selectPaymentMethod(event){
-			this.selected_payment_method = event.target.value;
-			console.log(event.target.value);
 		}
+
+
 	},
 	mounted() {
-		this.getPaymentMethod();
+
 	}
 
 }
 </script>
 
 <style scoped>
+@import "assets/css/general_style/authentication_pages.css";
+.error{
+	border-color: red !important;
+}
+
 .modal-open .modal {
 	overflow-x: hidden;
 	overflow-y: auto;

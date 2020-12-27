@@ -1,10 +1,10 @@
 <template>
-	<div class="email-card">
+	<div class="email-card" >
 		<div class="col-md-11" style="padding: 5px">
 			{{ email }}
 		</div>
 		<div class="col-md-1">
-			<i class="fa fa-minus-circle" style="cursor: pointer; color: red"></i>
+			<i @click="deleteEmail" class="fa fa-minus-circle" style="cursor: pointer; color: red"></i>
 		</div>
 
 	</div>
@@ -18,6 +18,19 @@ name: "EmailCard",
 
 			}
 	},
+	methods: {
+		async	deleteEmail(){
+				await this.$axios.$delete('user/notification/email', {
+					params:{
+						email: this.email
+					}
+				});
+				this.$emit("deletedEmail", this.email);
+				this.$toast.success("Deleted successfully");
+			},
+
+	},
+
 
 }
 </script>

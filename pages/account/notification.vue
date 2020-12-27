@@ -21,9 +21,9 @@
 											<div class="row m-t-60">
 												<div class="col-md-8">
 													<h3> </h3>
-													<p><i class="icon-profile"></i> Change Password</p>
+													<p><i class="icon-mail-read"></i> Notification</p>
 													<p class="insight">
-														We have given you the power to set security access to your dashboard.<br> Change your Termii password using the form below.</p>
+														You can add one or more email address to receive notifications on <br>updates to the application or services, like new products, features <br>or scheduled application maintenance.</p>
 												</div>
 												<div class="col-md-4 hidden-xs">
 													<img src="/images/api-doc.gif" class="wide">
@@ -43,14 +43,10 @@
 													<div class="col-md-6">
 														<p><b>Added Emails</b></p>
 														<div v-for="row in emails">
-															<email-card :email="row"></email-card>
+															<email-card :email="row.email" @deletedEmail="deletedEmail($event)"></email-card>
 														</div>
 																<div class="mt-20">
 																			<a @click="showInputField">Click here to add a new email</a>
-																			<div class="mt-10" v-show="show_input_field">
-																				<input  class="email-form-control mb-20"  placeholder="Email" >
-																				<a class="btn btn-primary">ADD</a>
-																			</div>
 																</div>
 													</div>
 
@@ -64,7 +60,7 @@
 					</div>
 				</div>
 				<VerificationModal></VerificationModal>
-				<AddNewEmail></AddNewEmail>
+				<AddNewEmailModal @addedEmail="addNewEmail($event)"></AddNewEmailModal>
 			</div>
 		</div>
 	</div>
@@ -76,17 +72,18 @@ import DashboardNavbar from "@/components/general/navbar/DashboardNavbar";
 import VerificationModal from "@/components/modals/VerificationModal";
 import ApiNavbar from "@/components/general/navbar/ApiNavbar";
 import EmailCard from "@/components/general/EmailCard";
-import AddNewEmail from "@/components/modals/AddNewEmailModal";
+import AddNewEmailModal from "@/components/modals/AddNewEmailModal";
 export default {
 	name: "notification",
 	middleware: ['auth', 'inactive_user'],
-	components: {AddNewEmail, EmailCard, ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
+	components: {AddNewEmailModal, EmailCard, ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
 	data(){
 		return{
 
-			emails: ["forteune@gmail.com", "love@gmail.com", "greace@gmail.com", "mercy@gmail.com"],
+			emails: [],
 			old_password:'',
 			new_password:'',
+			new_email:{},
 			show_input_field: false,
 			confirm_password:'',
 			isLoading: false,
@@ -127,84 +124,22 @@ export default {
 		showInputField(){
 			this.$modal.show('add-new-email');
 		},
-		validateOldPassword(value){
-			if (value.length < 8) {
-				this.error_message['old_password'] = 'The password field must be at least 8 characters';
-				this.hasOldPasswordError = true;
-			}else {
-				this.error_message['old_password'] = '';
-				this.hasOldPasswordError = false;
-			}
+		async getNotificationEmails(){
+			let data = await this.$axios.$get('user/notification/email');
+			console.log(data.data);
+			this.emails = data.data;
 		},
-		validateNewPassword(value){
-			if ( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#@$%^_&*-])(?=.{8,})/.test(value)){
-				this.error_message['new_password'] = '';
-				this.hasNewPasswordError = false;
-			}
-			else {
-				this.error_message['new_password'] = 'Password is too weak';
-				this.hasNewPasswordError = true;
-			}
+		addNewEmail(event){
+			this.emails.push({"email": event});
 		},
-		validateConfirmPassword(value){
-			if ( value !== this.new_password){
-				this.error_message['confirm_password'] = 'The password confirmation does not match';
-				this.hasConfirmPasswordError = true;
-			}
-			else {
-				this.error_message['confirm_password'] = '';
-				this.hasConfirmPasswordError = false;
-			}
-		},
-		showOldPassword(){
-			this.isOldPasswordToggled = !this.isOldPasswordToggled;
-		},
-		showNewPassword(){
-			this.isNewPasswordToggled = !this.isNewPasswordToggled;
-		},
-		showConfirmPassword(){
-			this.isConfirmPasswordToggled = !this.isConfirmPasswordToggled;
-		},
-		async changePassword(){
-			try{
-				this.isLoading = true;
-				this.button_text = "";
-				await this.$axios.patch('user/change-password', {
-					old_password: this.old_password,
-					password: this.new_password,
-					password_confirmation: this.confirm_password
-				});
-				this.isLoading = false;
-				this.button_text = "Change";
-			} catch (e) {
-				this.isLoading = false;
-				this.button_text = "Change";
-				let errors = e.response.data.errors;
-				for(let key in errors){
-					switch (key) {
-						case('old_password'):{
-							errors[key].forEach(err => {
-								this.error_message['old_password'] = err;
-								this.hasOldPasswordError = true;
-							});
-							break;
-						}
-						case('password'):{
-							errors[key].forEach(err => {
-								this.error_message['new_password'] = err;
-								this.hasNewPasswordError = true;
-							});
-							break;
-						}
-					}
-					errors[key].forEach(err => {
-						this.$toast.error(err);
-						this.hasPasswordError = true
-						this.error_message['old_password'] = err;
-					});
-				}
-			}
+		deletedEmail(event){
+			this.getNotificationEmails();
 		}
+
+
+	},
+	mounted() {
+		this.getNotificationEmails()
 	}
 }
 </script>
