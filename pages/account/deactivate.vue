@@ -24,7 +24,7 @@
                           </p>
                         </div>
                         <div class="col-md-4 hidden-xs">
-                          <img src="/images/api-doc.gif" class="wide">
+                          <img src="/images/customers.gif" class="wide">
                         </div>
                       </div>
                       <center>
