@@ -68,7 +68,6 @@
 
             </main>
           </div>
-          <notifications group="error" ignoreDuplicates="true" position="top center"/>
 									<VerificationModal></VerificationModal>
 
         </div>
@@ -138,7 +137,7 @@
 														this.cost_per_message = (data.device.cost_per_message.substr(1) > 0)
 															?`Messages are free until the ${this.device_monthly_limit + 1} message and then would cost ${data.device.cost_per_message} per message till your next subscription`:0;
 														this.payment_method = data.payment_method;
-														console.log(data.payment_method)
+
             } catch (e) {
 
             }
@@ -172,7 +171,7 @@
       },
       mounted() {
 							if(this.$store.state.view_verify_page === 'true') {
-								this.$modal.show('verification-id-modal');
+								 this.$modal.show('verification-id-modal');
 							}else {
 								this.page_url = window.location.href
 								this.fetch();
