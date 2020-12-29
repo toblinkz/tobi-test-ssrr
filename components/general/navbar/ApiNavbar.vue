@@ -27,6 +27,11 @@
 									<i class="icon-lock position-left"></i> Change Password
 								</nuxt-link>
 							</li>
+							<li rel0="AccountController/api">
+								<nuxt-link to="/account/notification" class="level-1  ">
+									<i class="icon-notification2 position-left"></i> Notification
+								</nuxt-link>
+							</li>
       </ul>
     </div>
   </div>
