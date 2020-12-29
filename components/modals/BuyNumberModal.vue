@@ -87,7 +87,7 @@
 								<div class="mt-30">
 									<p>Your <b>Termii Wallet</b> will be debited of <b>{{this.currency}} {{this.total_amount_due}}</b>.  <br> Please confirm that you’re ok with the price. You will not be able to reverse this action after you’ve purchased the number</p>
 									<br>
-									<p><input type="checkbox" name="auto_renew">Auto renew your rent on this number</p>
+									<p><input type="checkbox" v-model="auto_renew">Auto renew your rent on this number</p>
 								</div>
 							</div>
 							<div class="modal-footer">

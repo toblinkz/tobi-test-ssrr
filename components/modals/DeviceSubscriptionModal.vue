@@ -8,70 +8,57 @@
 				<div>
 					<div class="modal-header" >
 						<button type="button" class="close" @click="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel">New Subscription</h4>
+						<h4 class="modal-title"><strong># New Subscription</strong></h4>
 					</div>
 					<form method="post" @submit.prevent="deviceSubscribe">
-
-						<div class="modal-body">
-							<div class="form-group">
-								<div class="col-lg-12">
-								<div class="row">
-									<div class="col-md-6">
-										<label>Device: </label>
-										<span>{{device_name}}</span>
-										<br>
-										<br>
+						<div  class="modal-body">
+							<div>
+								<div >
+									<div class="rent-body p-none">
+										<table class="table table-hover toke">
+											<tbody>
+											<tr>
+											</tr>
+											</tbody>
+											<tbody>
+											<tr>
+												<td><p><strong>Device:</strong></p></td>
+												<td><p>{{device_name}}</p></td>
+											</tr>
+											<tr>
+												<td><p>Device Type</p></td>
+												<td><p>{{device_type}}</p></td>
+											</tr>
+											<tr>
+												<td><p>Monthly Charge</p></td>
+												<td><p>{{monthly_charge}}</p></td>
+											</tr>
+											<tr>
+												<td><p>Cost per Message</p></td>
+												<td><p>{{cost_per_message}}</p></td>
+											</tr>
+											<tr>
+												<td><p>Monthly Limit</p></td>
+												<td><p>{{cost_per_message}}</p></td>
+											</tr>
+											<tr>
+												<td><p>Daily Limit</p></td>
+												<td><p>{{device_daily_limit}}</p></td>
+											</tr>
+											</tbody>
+										</table>
 									</div>
-									<div class="col-md-6">
-											<label>Device Type: </label>
-											<span >{{device_type}}</span>
-											<br>
-											<br>
-										</div>
+									<div class="mt-30">
+										<p>Your <b>Termii Wallet</b> will be debited of <b>{{this.monthly_charge}}</b>.  <br> Please confirm that you’re ok with the price. You will not be able to reverse this action after you’ve purchased the device</p>
+										<br>
+										<p><input type="checkbox" v-model="auto_renew">Auto renew your subscription on this device</p>
+									</div>
 								</div>
-								<div class="row">
-									<div class="col-md-6">
-										<label>Monthly Charge: </label>
-										<span >{{monthly_charge}}</span>
-										<br>
-										<br>
-									</div>
-									<div class="col-md-6">
-										<label>Cost per Message: </label>
-										<span >{{cost_per_message}}</span>
-										<br>
-										<br>
-									</div>
-								</div>
-								<div class="row">
-										<div class="col-md-6">
-											<label>Monthly Limit: </label>
-											<span >{{monthly_limit}}</span>
-											<br>
-											<br>
-										</div>
-										<div class="col-md-6">
-											<label>Daily Limit: </label>
-											<span >{{device_daily_limit}}</span>
-											<br>
-											<br>
-										</div>
-								</div>
-
-								<div class="row">
-									<div class="col-md-6">
-										<label>Select Payment Method</label>
-										<select @change="onChange($event)" class="form-control">
-											<option v-for="item in payment_method" :value="item" >{{item}}</option>
-										</select>
-									</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" @click="close"> Close </button>
+									<button class="btn id-btn-primary" type="submit"> Proceed </button>
 								</div>
 							</div>
-							</div>
-							</div>
-						<div class="modal-footer">
-							<a type="button" class="btn btn-danger" @click="close"> Close </a>
-							<button type="submit" class="btn id-btn-primary" > Proceed </button>
 						</div>
 
 					</form>
@@ -116,13 +103,13 @@ export default {
 	},
 	data(){
 		return{
-			payment_gateway: 'wallet'
+			payment_gateway: 'wallet',
+			auto_renew:false,
 		}
 	},
 
 	methods: {
 		close() {
-			console.log()
 			this.$modal.hide('device-subscription-modal');
 		},
 
@@ -131,6 +118,7 @@ export default {
 			try {
 			let data =	await this.$axios.post(`devices/${this.device_id}/subscribe`, {
 					payment_method: this.payment_gateway,
+					auto_renew: this.auto_renew
 				});
 				this.close();
 				if(data.data.url) {
@@ -294,10 +282,31 @@ strong {
 	font-weight: 600;
 }
 .modal-footer {
-	padding-top: 0;
 	padding: 20px;
 	text-align: right;
 	border-top: 1px solid transparent;
+}
+.rent-body {
+	position: relative;
+	/*padding: 20px;*/
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.table {
+	width: 100%;
+	max-width: 100%;
+	margin-bottom: 0;
+}
+.table > tbody > tr > td, .table > tfoot > tr > td {
+	vertical-align: middle;
+	padding: 12px 50px;
+	line-height: 1.5384616;
+	border-top: 2px solid #ddd;
+}
+.table >tbody:first-child >tr>td{
+	border-top: 0;
 }
 
 .btn-default {
