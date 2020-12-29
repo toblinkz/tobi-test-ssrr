@@ -21,9 +21,10 @@
 											<div class="row m-t-60">
 												<div class="col-md-8">
 													<h3> </h3>
-													<p><i class="icon-mail-read"></i> Notification</p>
+													<p><i class="icon-mail-read"></i> Emails for Notification</p>
 													<p class="insight">
-														You can add one or more email address to receive notifications on <br>updates to the application or services, like new products, features <br>or scheduled application maintenance.</p>
+														You can add one or more email address to receive system triggered notifications like <br> new invoices, low balance notification, subscription expiry <br> or scheduled application maintenance.
+													</p>
 												</div>
 												<div class="col-md-4 hidden-xs">
 													<img src="/images/api-doc.gif" class="wide">
