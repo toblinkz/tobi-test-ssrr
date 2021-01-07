@@ -132,17 +132,23 @@ export default {
 			this.$modal.hide('buy-number-modal');
 		},
 		async pay(){
-			await this.$axios.$post('number/rent', {
-				phone_number: this.phone_number,
-				payment_method: this.selected_payment_method,
-				rental_cost: this.monthly_charge,
-				setup_cost: this.service_charge,
-				inbound_sms_cost: this.inbound_sms,
-				auto_renew: this.auto_renew,
-				country: this.country
-			});
-			this.close();
-			this.$toast.success("Number Successfully rented");
+			try{
+				await this.$axios.$post('number/rent', {
+					phone_number: this.phone_number,
+					payment_method: this.selected_payment_method,
+					rental_cost: this.monthly_charge,
+					setup_cost: this.service_charge,
+					inbound_sms_cost: this.inbound_sms,
+					auto_renew: this.auto_renew,
+					country: this.country
+				});
+				this.close();
+				this.$toast.success("Number Successfully rented");
+
+			}catch (e) {
+				let error_message = e.response.data.message;
+				this.$toast.error(error_message);
+			}
 
 		},
 		proceedToPayment(){
