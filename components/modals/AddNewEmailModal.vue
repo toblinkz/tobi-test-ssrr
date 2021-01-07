@@ -21,6 +21,12 @@
 												<input v-model="email" class="form-control"  placeholder="Email"  :class="{'error ' : hasEmailError, }" />
 												<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
 											</div>
+											<div>
+												<div class="m-b-5">Select Category of Notification for Email Address</div>
+										 	<span>	<input type="checkbox"> New Invoice Notification</span><br>
+												<span>	<input type="checkbox"> Low balance Notification</span><br>
+												<span>	<input type="checkbox"> Subscription expiry Notification</span><br>
+											</div>
 										</div>
 										<div class="modal-footer">
 											<button class="btn id-btn-primary" type="submit" :disabled="isDisabled"> Add </button>
