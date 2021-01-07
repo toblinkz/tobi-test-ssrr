@@ -132,7 +132,7 @@ export default {
 					});
 				}
 
-				this.$toast.success("Request sent successfully");
+				this.$toast.success("Subscription renewed successfully");
 			} catch (e) {
 
 				let errors = e.response.data.errors;
