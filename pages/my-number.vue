@@ -46,8 +46,8 @@
 								<td>{{row.date_rented}}</td>
 								<td>{{ row.expiry_date }}</td>
 								<td> <p class="label"  :class="statusClass(row.status)">{{row.status.toUpperCase()}}</p></td>
-								<td v-show="current_date < row.expiry_date"><a class="btn btn-danger btn-xs"  :aria-disabled="isDisabled(row.status)"  @click="unRentNumber(row)" >Unrent</a></td>
-								<td  v-show="current_date > row.expiry_date"><a class="btn btn-success btn-xs"  :aria-disabled="isDisabled(row.status)"  @click="renewNumber(row)" >Renew</a></td>
+								<td v-show="row.status === 'active'" ><a class="btn btn-danger btn-xs"  :aria-disabled="isDisabled(row.status)"  @click="unRentNumber(row)" >Unrent</a></td>
+								<td  v-show="row.status === 'expired'"><a class="btn btn-success btn-xs"  :aria-disabled="isDisabled(row.status)"  @click="renewNumber(row)" >Renew</a></td>
 								<td><nuxt-link :to="{name: 'number-id-subscriptions', params:{id: row.uuid, phone_number: row.phone_number}}" class="btn btn-primary btn-xs"  :aria-disabled="isDisabled(row.status)" > Manage Number</nuxt-link></td>
 							</tr>
 							<tr>
