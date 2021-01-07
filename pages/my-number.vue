@@ -141,7 +141,8 @@ export default {
 									await this.$axios.$patch("/number/rent/"+row.uuid +"/renew")
 									this.$toast.success('Renewed successfully');
 						}catch (e){
-
+									let error_message = e.response.message;
+									this.$toast.error(error_message);
 						}
 			}
 		},

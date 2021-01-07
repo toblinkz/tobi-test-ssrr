@@ -137,9 +137,8 @@ export default {
 
 				let errors = e.response.data.errors;
 				for (let key in errors) {
-					errors[key].forEach(err => {
-						this.$toast.error(err);
-					});
+						this.$toast.error(errors[key]);
+
 				}
 			}
 		},
