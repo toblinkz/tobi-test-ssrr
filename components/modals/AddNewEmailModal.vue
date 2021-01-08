@@ -22,7 +22,7 @@
 												<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
 											</div>
 											<div>
-												<div class="m-b-5">Select Category of Notification for Email Address</div>
+												<div class="m-b-5 text-bold">Select Category of Notification for Email Address</div>
 										 	<span>	<input type="checkbox"> New Invoice Notification</span><br>
 												<span>	<input type="checkbox"> Low balance Notification</span><br>
 												<span>	<input type="checkbox"> Subscription expiry Notification</span><br>
