@@ -70,10 +70,17 @@
                       <div >
                         <div class="panel" style="overflow-x:auto;">
                           <div class="panel-body">
-																											<form @submit.prevent="getPhonebookContacts" class="mb-10">
-																												<input type="search" class="form-control2 input-sm" placeholder="Search phone number" v-model="phone_number">
-																												<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
-																											</form>
+																												<div class="mb-10">
+																														<form>
+																															<a class="btn btn-primary" style="float: right" :href="download_contact_url"> Download Phonebook Contact</a>
+																														</form>
+																														<form @submit.prevent="getPhonebookContacts" class="">
+																															<input type="search" class="form-control2 input-sm" placeholder="Search phone number" v-model="phone_number">
+																															<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
+																														</form>
+																												</div>
+
+
                             <table class="table data-table table-hover">
                               <thead>
                               <tr>
@@ -140,6 +147,7 @@
 														show_shimmer: false,
 														phone_number:'',
 										  	 error_message:'',
+														download_contact_url:''
           }
       },
 					watch:{
@@ -191,6 +199,14 @@
 								this.show_shimmer = false;
 								this.getPhonebookContacts();
 							},
+							async getDownloadContactUrl(){
+									try{
+											let download_url = await this.$axios.$get('sms/phonebook/export', {params:{ phonebook_id: this.$route.params.id}})
+											this.download_contact_url = download_url.data.file_url;
+									}catch (e) {
+
+									}
+							},
         async deletePhoneBookContact(row){
           	try {
 												await Swal.fire({
@@ -220,6 +236,7 @@
 								this.$modal.show('verification-id-modal');
 							}else {
 								this.getPhonebookContacts();
+								this.getDownloadContactUrl();
 							}
 
       },
