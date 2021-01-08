@@ -7,7 +7,7 @@
 				<div>
 					<div class="modal-header">
 						<button type="button" class="close" @click="close">×</button>
-						<h4 class="modal-title"><i class="entypo-mail"></i> <strong>Email For Notification</strong></h4>
+						<h4 class="modal-title"><i class="entypo-mail"></i> Email For Notification</h4>
 					</div>
 					<div class="modal-body">
 						<div class="row">
@@ -22,10 +22,11 @@
 												<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
 											</div>
 											<div>
-												<div class="m-b-5 text-bold">Select Category of Notification for Email Address</div>
-										 	<span>	<input type="checkbox"> New Invoice Notification</span><br>
-												<span>	<input type="checkbox"> Low balance Notification</span><br>
-												<span>	<input type="checkbox"> Subscription expiry Notification</span><br>
+												<div class="m-b-5" style="font-size: 15px">Select Category of Notification for Email Address</div>
+												<label><input class="checkbox-input" type="checkbox" /> New Invoice Notification</label>
+										 	<span style="font-size: 13px">	<input class="checkbox-input" type="checkbox"> New Invoice Notification</span><br>
+												<span style="font-size: 13px">	<input class="checkbox-input" type="checkbox"> Low balance Notification</span><br>
+												<span style="font-size: 13px">	<input class="checkbox-input" type="checkbox"> Subscription expiry Notification</span><br>
 											</div>
 										</div>
 										<div class="modal-footer">
@@ -311,5 +312,19 @@ table {
 	margin-left: 5px;
 	/* margin-bottom: 0; */
 	/* margin-bottom: 0; */
+}
+label {
+	display: block;
+	padding-left: 15px;
+	text-indent: -15px;
+}
+checkbox-input {
+	width: 15px;
+	height: 15px;
+	padding: 0;
+	margin: 0;
+	vertical-align: bottom;
+	position: relative;
+	top: -1px;
 }
 </style>
