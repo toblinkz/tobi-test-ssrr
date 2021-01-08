@@ -30,7 +30,7 @@
                           <div class="col-md-6">
                             <!-- START PANEL -->
                             <div class="panel-transparent">
-                        <span id="welcome"><i class="entypo-credit-card"></i>Wallet Name - Termii Webtech</span>
+                        <span id="welcome"><i class="entypo-credit-card"></i>Wallet Name - {{ first_name }} {{last_name}}</span>
                               <p class="insight">Select your preferred payment gateway and top up your <br>account using card or bank transfer</p>
                             </div>
                             <!-- Trigger the modal with a button -->
@@ -198,6 +198,8 @@
 										 	bundled_top_up:'',
             payment_url:'',
             selectPayment: false,
+											 first_name: JSON.parse(localStorage.getItem('user_data')).fname,
+											 last_name: JSON.parse(localStorage.getItem('user_data')).lname,
             input_amount:false,
             showMonnifyModal: false,
             error_message:'',
