@@ -71,9 +71,15 @@
                         <div class="panel" style="overflow-x:auto;">
                           <div class="panel-body">
 																												<div class="mb-10">
-																														<form>
-																															<a class="btn btn-primary" style="float: right" :href="download_contact_url"> Download Phonebook Contact</a>
-																														</form>
+																														<div>
+																															<a class="btn btn-primary" id="download_contact_button"  style="float: right" v-show="download_contact_url" :href="download_contact_url"> Downloads Phonebook Contact</a>
+																															<a class="btn btn-primary pull-right" @click="getDownloadContactUrl"  v-show="!download_contact_url" style="float: right">
+																																{{button_text}}
+																																<span v-show="isLoading">
+                                         <img src="/images/spinner.svg" height="20px" width="80px"/>
+                                      </span>
+																															</a>
+																														</div>
 																														<form @submit.prevent="getPhonebookContacts" class="">
 																															<input type="search" class="form-control2 input-sm" placeholder="Search phone number" v-model="phone_number">
 																															<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
@@ -147,7 +153,9 @@
 														show_shimmer: false,
 														phone_number:'',
 										  	 error_message:'',
-														download_contact_url:''
+														download_contact_url:'',
+							       button_text: 'Download Phonebook Contact',
+											   isLoading: false,
           }
       },
 					watch:{
@@ -161,7 +169,9 @@
 							},
 					},
       methods: {
-
+							 myFunction() {
+					 document.getElementById("download_contact_button").click(); // Click on the checkbox
+				},
 						async	getPhonebookContacts(){
 							if(!this.error_message){
 								try {
@@ -201,8 +211,16 @@
 							},
 							async getDownloadContactUrl(){
 									try{
+										 this.isLoading = true;
+										 this.showIcon = true;
 											let download_url = await this.$axios.$get('sms/phonebook/export', {params:{ phonebook_id: this.$route.params.id}})
 											this.download_contact_url = download_url.data.file_url;
+									 	document.getElementById("download_contact_button").click(function(e){
+											e.preventDefault();
+											// Code goes here
+											console.log("lobr")
+										});
+
 									}catch (e) {
 
 									}
@@ -236,7 +254,6 @@
 								this.$modal.show('verification-id-modal');
 							}else {
 								this.getPhonebookContacts();
-								this.getDownloadContactUrl();
 							}
 
       },
