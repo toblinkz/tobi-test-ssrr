@@ -72,7 +72,10 @@
                           <div class="panel-body">
 																												<div class="mb-10">
 																														<div>
-																															<a class="btn btn-primary" id="download_contact_button"  style="float: right" v-show="download_contact_url" :href="download_contact_url"> Downloads Phonebook Contact</a>
+																															<form>
+
+																															</form>
+																															<a class="btn btn-primary" id="download_contact_button"  style="float: right"  v-show="download_contact_url" :href="download_contact_url"> Click to download</a>
 																															<a class="btn btn-primary pull-right" @click="getDownloadContactUrl"  v-show="!download_contact_url" style="float: right">
 																																{{button_text}}
 																																<span v-show="isLoading">
@@ -169,9 +172,7 @@
 							},
 					},
       methods: {
-							 myFunction() {
-					 document.getElementById("download_contact_button").click(); // Click on the checkbox
-				},
+
 						async	getPhonebookContacts(){
 							if(!this.error_message){
 								try {
@@ -213,13 +214,10 @@
 									try{
 										 this.isLoading = true;
 										 this.showIcon = true;
+										 this.button_text = '';
 											let download_url = await this.$axios.$get('sms/phonebook/export', {params:{ phonebook_id: this.$route.params.id}})
 											this.download_contact_url = download_url.data.file_url;
-									 	document.getElementById("download_contact_button").click(function(e){
-											e.preventDefault();
-											// Code goes here
-											console.log("lobr")
-										});
+
 
 									}catch (e) {
 
