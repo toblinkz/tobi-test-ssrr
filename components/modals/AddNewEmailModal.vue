@@ -23,10 +23,7 @@
 											</div>
 											<div>
 												<div class="m-b-5" style="font-size: 15px">Select Category of Notification for Email Address</div>
-												<label><input class="checkbox-input" type="checkbox" /> New Invoice Notification</label>
-										 	<span style="font-size: 13px">	<input class="checkbox-input" type="checkbox"> New Invoice Notification</span><br>
-												<span style="font-size: 13px">	<input class="checkbox-input" type="checkbox"> Low balance Notification</span><br>
-												<span style="font-size: 13px">	<input class="checkbox-input" type="checkbox"> Subscription expiry Notification</span><br>
+												<span v-for="row in email_categories"><label><input class="checkbox-input" type="checkbox" /> {{ row }}</label></span>
 											</div>
 										</div>
 										<div class="modal-footer">
@@ -52,6 +49,7 @@ export default {
 				email:"",
 			 error_message:[],
 			 hasEmailError: false,
+			 email_categories:[]
 		}
 	},
 	watch:{
@@ -95,12 +93,22 @@ computed:{
 
 			}
 
+		},
+		async getEmailCategories(){
+				try {
+						let categories = await this.$axios.$get('utility/email/category');
+						this.email_categories = categories[0];
+
+
+				}catch (e) {
+
+				}
 		}
 
 
 	},
 	mounted() {
-
+ this.getEmailCategories();
 	}
 
 }
