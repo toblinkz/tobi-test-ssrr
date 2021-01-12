@@ -131,6 +131,7 @@
       </div>
     </div>
 			<verification-modal></verification-modal>
+			<download-phone-book-contact></download-phone-book-contact>
   </div>
 </template>
 
@@ -141,9 +142,10 @@
 				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 				import Pagination from "../../components/general/Pagination";
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import DownloadPhoneBookContact from "@/components/modals/DownloadPhoneBookContactModal";
     export default {
 					 name: "_id",
-      components: {VerificationModal,Pagination, TableVuePlaceHolder, DashboardNavbar, Sidebar},
+      components: {DownloadPhoneBookContact, VerificationModal,Pagination, TableVuePlaceHolder, DashboardNavbar, Sidebar},
 					 middleware: ['auth', 'inactive_user'],
       data(){
           return{
@@ -211,17 +213,18 @@
 								this.getPhonebookContacts();
 							},
 							async getDownloadContactUrl(){
-									try{
-										 this.isLoading = true;
-										 this.showIcon = true;
-										 this.button_text = '';
-											let download_url = await this.$axios.$get('sms/phonebook/export', {params:{ phonebook_id: this.$route.params.id}})
-											this.download_contact_url = download_url.data.file_url;
-
-
-									}catch (e) {
-
-									}
+								this.$modal.show('download-phonebook-contact');
+									// try{
+									// 	 this.isLoading = true;
+									// 	 this.showIcon = true;
+									// 	 this.button_text = '';
+									// 		let download_url = await this.$axios.$get('sms/phonebook/export', {params:{ phonebook_id: this.$route.params.id}})
+									// 		this.download_contact_url = download_url.data.file_url;
+									//
+									//
+									// }catch (e) {
+									//
+									// }
 							},
         async deletePhoneBookContact(row){
           	try {
