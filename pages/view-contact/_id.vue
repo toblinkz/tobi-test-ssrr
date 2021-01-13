@@ -76,7 +76,7 @@
 
 																															</form>
 <!--																															<a class="btn btn-primary" id="download_contact_button"  style="float: right"  v-show="download_contact_url" :href="download_contact_url"> Click to download</a>-->
-																															<a class="btn btn-primary pull-right" @click="getDownloadContactUrl"  v-show="!download_contact_url" style="float: right">
+																															<a class="btn btn-primary pull-right" @click="showDownloadContactModal"  style="float: right">
 																																{{button_text}}
 																																<span v-show="isLoading">
                                          <img src="/images/spinner.svg" height="20px" width="80px"/>
@@ -85,7 +85,8 @@
 																														</div>
 																														<form @submit.prevent="getPhonebookContacts" class="">
 																															<input type="search" class="form-control2 input-sm" placeholder="Search phone number" v-model="phone_number">
-																															<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
+																															<span class=" error_fi
+																															eld_message" v-if="error_message">{{error_message}}</span>
 																														</form>
 																												</div>
 
@@ -105,7 +106,7 @@
                                 <td >{{row.first_name || '-'}}</td>
                                 <td> {{row.message || '-'}}</td>
                                 <td>{{row.phone_number}}</td>
-                                <td> <nuxt-link class="btn btn-success btn-xs" :to="{name: 'edit-contact-id', params:{id: row.id, phone_number: row.phone_number, first_name: row.first_name, last_name: row.last_name}}" :class="setPid(row)" ><i class="fa fa-edit"></i> Edit</nuxt-link>
+                                <td> <nuxt-link class="btn btn-success btn-xs" :to="{name: 'edit-contact-id', params:{id: row.id, phone_number: row.phone_number, first_name: row.first_name, last_name: row.last_name}}" @click="setPid(row)" ><i class="fa fa-edit"></i> Edit</nuxt-link>
                                   <a @click="deletePhoneBookContact(row)" class="btn btn-danger btn-xs cdelete" ><i class="fa fa-trash"></i> Delete</a></td>
                               </tr>
                               </tbody>
@@ -214,20 +215,9 @@
 								this.show_shimmer = false;
 								this.getPhonebookContacts();
 							},
-							async getDownloadContactUrl(){
+							showDownloadContactModal(){
 								this.$modal.show('download-phonebook-contact');
 								this.get_url = true;
-									// try{
-									// 	 this.isLoading = true;
-									// 	 this.showIcon = true;
-									// 	 this.button_text = '';
-									// 		let download_url = await this.$axios.$get('sms/phonebook/export', {params:{ phonebook_id: this.$route.params.id}})
-									// 		this.download_contact_url = download_url.data.file_url;
-									//
-									//
-									// }catch (e) {
-									//
-									// }
 							},
         async deletePhoneBookContact(row){
           	try {

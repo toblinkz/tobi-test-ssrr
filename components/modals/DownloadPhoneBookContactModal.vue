@@ -62,7 +62,6 @@ watch:{
 					this.download_contact_url = download_url.data.file_url;
 					this.isLoading = false;
 					this.download_info_text = 'Ready for download';
-					this.get_url = true;
 				} catch (e) {
 
 				}
