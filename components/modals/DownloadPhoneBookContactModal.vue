@@ -15,10 +15,10 @@
 
 						<div>
 									<center>
-											<strong>Processing</strong>
+											<strong>{{ download_info_text }}</strong>
 										<div class="form-group mt-20">
-												 <span v-show="isLoading">
-															<img src="/images/black_spinner.svg" height="60px" width="60px"/>
+												 <span v-show="isLoading" >
+															<img src="/images/black_spinner.svg" height="80px" width="120px"/>
 													</span>
 												<div  class="mt-20">
 													<a class="btn btn-primary" id="download_contact_button"   v-show="download_contact_url" :href="download_contact_url"> Click to download</a>
@@ -43,42 +43,43 @@ export default {
 		return{
 			isLoading: true,
 			download_contact_url:'',
+			download_info_text: 'Processing',
 		}
 	},
 	props:{
 		phone_book_id:{
 			 required: true
+		},
+		get_url:{
+			 required: true
 		}
 	},
+watch:{
+		async get_url() {
+			if (this.get_url) {
+				try {
+					let download_url = await this.$axios.$get('sms/phonebook/export', {params: {phonebook_id: this.$route.params.id}})
+					this.download_contact_url = download_url.data.file_url;
+					this.isLoading = false;
+					this.download_info_text = 'Ready for download';
+					this.get_url = true;
+				} catch (e) {
 
-	watch:{
+				}
+			}
 
-	},
-computed:{
-	isDisabled:function () {
-		return (this.hasEmailError || !this.email);
-	},
+		}
 },
 	methods: {
 			close() {
 				this.$modal.hide('download-phonebook-contact');
 
 		},
-		async getDownloadContactUrl(){
-			try{
 
-					let download_url = await this.$axios.$get('sms/phonebook/export', {params:{ phonebook_id: this.$route.params.id}})
-					this.download_contact_url = download_url.data.file_url;
-					this.isLoading = false;
-
-			}catch (e) {
-
-			}
-		},
 
 	},
 	mounted() {
-   this.getDownloadContactUrl();
+
 	}
 
 }

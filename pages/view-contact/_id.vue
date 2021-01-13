@@ -75,7 +75,7 @@
 																															<form>
 
 																															</form>
-																															<a class="btn btn-primary" id="download_contact_button"  style="float: right"  v-show="download_contact_url" :href="download_contact_url"> Click to download</a>
+<!--																															<a class="btn btn-primary" id="download_contact_button"  style="float: right"  v-show="download_contact_url" :href="download_contact_url"> Click to download</a>-->
 																															<a class="btn btn-primary pull-right" @click="getDownloadContactUrl"  v-show="!download_contact_url" style="float: right">
 																																{{button_text}}
 																																<span v-show="isLoading">
@@ -131,7 +131,7 @@
       </div>
     </div>
 			<verification-modal></verification-modal>
-			<download-phone-book-contact :phone_book_id="phone_book_id" ></download-phone-book-contact>
+			<download-phone-book-contact :phone_book_id="phone_book_id" :get_url="get_url"></download-phone-book-contact>
   </div>
 </template>
 
@@ -161,7 +161,8 @@
 														download_contact_url:'',
 							       button_text: 'Download Phonebook Contact',
 											   isLoading: false,
-											   phone_book_id: this.$route.params.id
+											   phone_book_id: this.$route.params.id,
+											   get_url: false
           }
       },
 					watch:{
@@ -215,6 +216,7 @@
 							},
 							async getDownloadContactUrl(){
 								this.$modal.show('download-phonebook-contact');
+								this.get_url = true;
 									// try{
 									// 	 this.isLoading = true;
 									// 	 this.showIcon = true;
