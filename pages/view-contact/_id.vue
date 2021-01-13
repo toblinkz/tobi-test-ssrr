@@ -131,7 +131,7 @@
       </div>
     </div>
 			<verification-modal></verification-modal>
-			<download-phone-book-contact></download-phone-book-contact>
+			<download-phone-book-contact :phone_book_id="phone_book_id" ></download-phone-book-contact>
   </div>
 </template>
 
@@ -161,6 +161,7 @@
 														download_contact_url:'',
 							       button_text: 'Download Phonebook Contact',
 											   isLoading: false,
+											   phone_book_id: this.$route.params.id
           }
       },
 					watch:{

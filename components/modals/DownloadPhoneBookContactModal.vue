@@ -7,25 +7,25 @@
 				<div>
 					<div class="modal-header">
 						<button type="button" class="close" @click="close">×</button>
-						<h4 class="modal-title"><i class="entypo-mail"></i> <strong>Email For Notification</strong></h4>
+						<h4 class="modal-title"><i class="entypo-download"></i> Download</h4>
 					</div>
 					<div class="modal-body">
 						<div class="row">
 						</div>
 
 						<div>
-							<form @submit.prevent="addEmailForNotification">
-									<div>
-											<div class="form-group mt-20">
-												<label>Email Address</label>
-												<input v-model="email" class="form-control"  placeholder="Email"  :class="{'error ' : hasEmailError, }" />
-												<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
-											</div>
+									<center>
+											<strong>Processing</strong>
+										<div class="form-group mt-20">
+												 <span v-show="isLoading">
+															<img src="/images/black_spinner.svg" height="60px" width="60px"/>
+													</span>
+												<div  class="mt-20">
+													<a class="btn btn-primary" id="download_contact_button"   v-show="download_contact_url" :href="download_contact_url"> Click to download</a>
+												</div>
+
 										</div>
-										<div class="modal-footer">
-											<button class="btn id-btn-primary" type="submit" :disabled="isDisabled"> Add </button>
-										</div>
-							</form>
+									</center>
 						</div>
 
 					</div>
@@ -41,15 +41,18 @@ export default {
 	name: "download-phone-book-contact",
 	data(){
 		return{
-				email:"",
-			 error_message:[],
-			 hasEmailError: false,
+			isLoading: true,
+			download_contact_url:'',
 		}
 	},
+	props:{
+		phone_book_id:{
+			 required: true
+		}
+	},
+
 	watch:{
-			email(value){
-					this.validateEmail(value);
-			}
+
 	},
 computed:{
 	isDisabled:function () {
@@ -59,40 +62,23 @@ computed:{
 	methods: {
 			close() {
 				this.$modal.hide('download-phonebook-contact');
-				this.email="";
-				this.hasEmailError = false;
+
 		},
-		validateEmail(value){
-			if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)){
-				this.error_message['email'] = '';
-				this.hasEmailError = false;
+		async getDownloadContactUrl(){
+			try{
 
-			}else {
-				this.error_message['email'] = 'The email field must be a valid email';
-				this.hasEmailError = true;
+					let download_url = await this.$axios.$get('sms/phonebook/export', {params:{ phonebook_id: this.$route.params.id}})
+					this.download_contact_url = download_url.data.file_url;
+					this.isLoading = false;
 
-			}
-		},
-		async addEmailForNotification(){
-
-			try {
-				await this.$axios.$post('user/notification/email', {
-					email: [this.email]
-				});
-				this.$emit('addedEmail', this.email);
-				this.close();
-
-				this.$toast.success("Added Successfully");
 			}catch (e) {
 
 			}
-
-		}
-
+		},
 
 	},
 	mounted() {
-
+   this.getDownloadContactUrl();
 	}
 
 }
@@ -173,7 +159,7 @@ computed:{
 .modal-header .close {
 	position: absolute;
 	right: 20px;
-	top: 50%;
+	top: 30%;
 	/* margin-top: 0; */
 }
 button.close {
