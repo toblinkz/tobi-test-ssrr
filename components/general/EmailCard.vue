@@ -20,6 +20,7 @@ name: "EmailCard",
 	},
 	methods: {
 		async	deleteEmail(){
+			try{
 				await this.$axios.$delete('user/notification/email', {
 					params:{
 						email: this.email
@@ -27,6 +28,10 @@ name: "EmailCard",
 				});
 				this.$emit("deletedEmail", this.email);
 				this.$toast.success("Deleted successfully");
+			}catch (e) {
+
+			}
+
 			},
 
 	},

@@ -23,11 +23,19 @@
 											</div>
 											<div>
 												<div class="m-b-5" style="font-size: 15px">Select Category of Notification for Email Address</div>
-												<span v-for="row in email_categories"><label><input class="checkbox-input" type="checkbox" :value="row.id" v-model="selected_categories"/> {{ row.category }}</label></span>
+<!--												<span v-for="row in email_categories"><label><input class="checkbox-input" type="checkbox" :value="row.id" v-model="selected_categories"/> {{ row.category }}</label></span>-->
+												<div class="checkboxes" v-for="row in email_categories">
+													<label ><input type="checkbox" :value="row.id" v-model="selected_categories" /> <span> {{ row.category }}</span></label>
+												</div>
 											</div>
 										</div>
 										<div class="modal-footer">
-											<button class="btn id-btn-primary" type="submit" :disabled="isDisabled"> Add </button>
+												<button class="btn id-btn-primary" type="submit" :disabled="isDisabled">
+													{{button_text}}
+													<span v-show="isLoading">
+														<img src="/images/spinner.svg" height="20px" width="30px"/>
+												</span>
+												</button>
 										</div>
 							</form>
 						</div>
@@ -47,6 +55,8 @@ export default {
 	data(){
 		return{
 				email:"",
+			 isLoading: false,
+			 button_text: "Add",
 			 error_message:[],
 			 hasEmailError: false,
 			 email_categories:[],
@@ -81,16 +91,22 @@ computed:{
 			}
 		},
 		async addEmailForNotification(){
-
+  this.isLoading = true;
+  this.button_text = '';
 			try {
 				await this.$axios.$post('user/notification/email', {
-					email: [this.email],
-					category: this.selected_categories
+					email_to_category:[{
+						email: this.email,
+						categories: this.selected_categories
+					}],
+
 				});
+				this.isLoading = false;
+				this.button_text = 'Add';
 				this.$emit('addedEmail', this.email);
 				this.close();
 
-				this.$toast.success("Added Successfully");
+				this.$toast.success("Email Added Successfully");
 			}catch (e) {
 
 			}
@@ -324,18 +340,15 @@ table {
 	/* margin-bottom: 0; */
 	/* margin-bottom: 0; */
 }
-label {
-	display: block;
-	padding-left: 15px;
-	text-indent: -15px;
+.checkboxes label {
+	display: inline-block;
+	padding-right: 10px;
+	white-space: nowrap;
 }
-checkbox-input {
-	width: 15px;
-	height: 15px;
-	padding: 0;
-	margin: 0;
-	vertical-align: bottom;
-	position: relative;
-	top: -1px;
+.checkboxes input {
+	vertical-align: middle;
+}
+.checkboxes label span {
+	vertical-align: middle;
 }
 </style>
