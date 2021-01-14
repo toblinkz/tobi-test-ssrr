@@ -127,7 +127,6 @@ export default {
 		},
 		async getNotificationEmails(){
 			let data = await this.$axios.$get('user/notification/email');
-			console.log(data.data);
 			this.emails = data.data;
 		},
 		addNewEmail(event){

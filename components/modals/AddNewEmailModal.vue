@@ -18,12 +18,12 @@
 									<div>
 											<div class="form-group mt-20">
 												<label>Email Address</label>
-												<input v-model="email" class="form-control"  placeholder="Email"  :class="{'error ' : hasEmailError, }" />
+												<input v-model="email" class="form-control" name="email"  placeholder="Email"  :class="{'error ' : hasEmailError, }" />
 												<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
 											</div>
 											<div>
 												<div class="m-b-5" style="font-size: 15px">Select Category of Notification for Email Address</div>
-												<span v-for="row in email_categories"><label><input class="checkbox-input" type="checkbox" /> {{ row }}</label></span>
+												<span v-for="row in email_categories"><label><input class="checkbox-input" type="checkbox" :value="row.id" v-model="selected_categories"/> {{ row.category }}</label></span>
 											</div>
 										</div>
 										<div class="modal-footer">
@@ -49,7 +49,8 @@ export default {
 				email:"",
 			 error_message:[],
 			 hasEmailError: false,
-			 email_categories:[]
+			 email_categories:[],
+			 selected_categories:[]
 		}
 	},
 	watch:{
@@ -59,7 +60,7 @@ export default {
 	},
 computed:{
 	isDisabled:function () {
-		return (this.hasEmailError || !this.email);
+		return (this.hasEmailError || !this.email || this.selected_categories.length === 0);
 	},
 },
 	methods: {
@@ -83,7 +84,8 @@ computed:{
 
 			try {
 				await this.$axios.$post('user/notification/email', {
-					email: [this.email]
+					email: [this.email],
+					category: this.selected_categories
 				});
 				this.$emit('addedEmail', this.email);
 				this.close();
@@ -97,7 +99,8 @@ computed:{
 		async getEmailCategories(){
 				try {
 						let categories = await this.$axios.$get('utility/email/category');
-						this.email_categories = categories[0];
+						this.email_categories = categories.data;
+
 
 
 				}catch (e) {
