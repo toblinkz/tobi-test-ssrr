@@ -21,7 +21,7 @@
 															<img src="/images/black_spinner.svg" height="80px" width="120px"/>
 													</span>
 												<div  class="mt-20">
-													<a class="btn btn-primary" id="download_contact_button"   v-show="download_contact_url" :href="download_contact_url"> Click to download</a>
+													<a class="btn btn-primary" id="download_contact_button"   v-show="download_contact_url" :href="download_contact_url"><i class="entypo-download"></i> Click to download</a>
 												</div>
 
 										</div>

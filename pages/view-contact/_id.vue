@@ -75,8 +75,8 @@
 																															<form>
 
 																															</form>
-<!--																															<a class="btn btn-primary" id="download_contact_button"  style="float: right"  v-show="download_contact_url" :href="download_contact_url"> Click to download</a>-->
-																															<a class="btn btn-primary pull-right" @click="showDownloadContactModal"  style="float: right">
+																															<a class="btn btn-primary pull-right" @click="showDownloadContactModal"  style="float: right; color: #fff">
+																																<i v-show="!isLoading" class="entypo-download"></i>
 																																{{button_text}}
 																																<span v-show="isLoading">
                                          <img src="/images/spinner.svg" height="20px" width="80px"/>
@@ -97,8 +97,7 @@
                                 <th >Name</th>
                                 <th >Message</th>
                                 <th >Phone Number</th>
-                                <th >Action</th>
-																																<th></th>
+                                <th ></th>
                               </tr>
                               </thead>
                               <tbody>
@@ -160,7 +159,7 @@
 														phone_number:'',
 										  	 error_message:'',
 														download_contact_url:'',
-							       button_text: 'Download Phonebook Contact',
+							       button_text: 'Download Phonebook',
 											   isLoading: false,
 											   phone_book_id: this.$route.params.id,
 											   get_url: false
