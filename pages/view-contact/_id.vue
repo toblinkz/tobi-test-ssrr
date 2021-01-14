@@ -70,18 +70,34 @@
                       <div >
                         <div class="panel" style="overflow-x:auto;">
                           <div class="panel-body">
-																											<form @submit.prevent="getPhonebookContacts" class="mb-10">
-																												<input type="search" class="form-control2 input-sm" placeholder="Search phone number" v-model="phone_number">
-																												<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
-																											</form>
+																												<div class="mb-10">
+																														<div>
+																															<form>
+
+																															</form>
+																															<a class="btn btn-primary pull-right" @click="showDownloadContactModal"  style="float: right; color: #fff">
+																																<i v-show="!isLoading" class="entypo-download"></i>
+																																{{button_text}}
+																																<span v-show="isLoading">
+                                         <img src="/images/spinner.svg" height="20px" width="80px"/>
+                                      </span>
+																															</a>
+																														</div>
+																														<form @submit.prevent="getPhonebookContacts" class="">
+																															<input type="search" class="form-control2 input-sm" placeholder="Search phone number" v-model="phone_number">
+																															<span class=" error_fi
+																															eld_message" v-if="error_message">{{error_message}}</span>
+																														</form>
+																												</div>
+
+
                             <table class="table data-table table-hover">
                               <thead>
                               <tr>
                                 <th >Name</th>
                                 <th >Message</th>
                                 <th >Phone Number</th>
-                                <th >Action</th>
-																																<th></th>
+                                <th ></th>
                               </tr>
                               </thead>
                               <tbody>
@@ -89,7 +105,7 @@
                                 <td >{{row.first_name || '-'}}</td>
                                 <td> {{row.message || '-'}}</td>
                                 <td>{{row.phone_number}}</td>
-                                <td> <nuxt-link class="btn btn-success btn-xs" :to="{name: 'edit-contact-id', params:{id: row.id, phone_number: row.phone_number, first_name: row.first_name, last_name: row.last_name}}" :class="setPid(row)" ><i class="fa fa-edit"></i> Edit</nuxt-link>
+                                <td> <nuxt-link class="btn btn-success btn-xs" :to="{name: 'edit-contact-id', params:{id: row.id, phone_number: row.phone_number, first_name: row.first_name, last_name: row.last_name}}" @click="setPid(row)" ><i class="fa fa-edit"></i> Edit</nuxt-link>
                                   <a @click="deletePhoneBookContact(row)" class="btn btn-danger btn-xs cdelete" ><i class="fa fa-trash"></i> Delete</a></td>
                               </tr>
                               </tbody>
@@ -115,6 +131,7 @@
       </div>
     </div>
 			<verification-modal></verification-modal>
+			<download-phone-book-contact :phone_book_id="phone_book_id" :get_url="get_url"></download-phone-book-contact>
   </div>
 </template>
 
@@ -125,9 +142,10 @@
 				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 				import Pagination from "../../components/general/Pagination";
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import DownloadPhoneBookContact from "@/components/modals/DownloadPhoneBookContactModal";
     export default {
 					 name: "_id",
-      components: {VerificationModal,Pagination, TableVuePlaceHolder, DashboardNavbar, Sidebar},
+      components: {DownloadPhoneBookContact, VerificationModal,Pagination, TableVuePlaceHolder, DashboardNavbar, Sidebar},
 					 middleware: ['auth', 'inactive_user'],
       data(){
           return{
@@ -140,6 +158,11 @@
 														show_shimmer: false,
 														phone_number:'',
 										  	 error_message:'',
+														download_contact_url:'',
+							       button_text: 'Download Phonebook',
+											   isLoading: false,
+											   phone_book_id: this.$route.params.id,
+											   get_url: false
           }
       },
 					watch:{
@@ -190,6 +213,10 @@
 								this.page = page;
 								this.show_shimmer = false;
 								this.getPhonebookContacts();
+							},
+							showDownloadContactModal(){
+								this.$modal.show('download-phonebook-contact');
+								this.get_url = true;
 							},
         async deletePhoneBookContact(row){
           	try {

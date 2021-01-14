@@ -61,7 +61,7 @@
 					</div>
 				</div>
 				<VerificationModal></VerificationModal>
-				<AddNewEmailModal @addedEmail="addNewEmail($event)"></AddNewEmailModal>
+				<AddNewEmailModal @addedEmail="addNewEmail($event) "></AddNewEmailModal>
 			</div>
 		</div>
 	</div>
