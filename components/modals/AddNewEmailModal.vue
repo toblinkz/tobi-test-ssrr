@@ -23,7 +23,6 @@
 											</div>
 											<div>
 												<div class="m-b-5" style="font-size: 15px">Select Category of Notification for Email Address</div>
-<!--												<span v-for="row in email_categories"><label><input class="checkbox-input" type="checkbox" :value="row.id" v-model="selected_categories"/> {{ row.category }}</label></span>-->
 												<div class="checkboxes" v-for="row in email_categories">
 													<label ><input type="checkbox" :value="row.id" v-model="selected_categories" /> <span> {{ row.category }}</span></label>
 												</div>
