@@ -43,12 +43,21 @@
 													<ApiNavbar></ApiNavbar>
 													<div class="col-md-6">
 														<p><b>Added Emails</b></p>
-														<div v-for="row in emails">
-															<email-card :email="row.email" @deletedEmail="deletedEmail($event)"></email-card>
+														<div v-for="(row, index ) in emails">
+															<email-card :email="row.email" :categories="row.categories" @deletedEmail="deletedEmail($event)"></email-card>
 														</div>
 																<div class="mt-20">
 																			<a @click="showInputField">Click here to add a new email</a>
 																</div>
+													</div>
+													<div class="col-md-6">
+														<p><b>Added Emails</b></p>
+														<div v-for="(row, index ) in emails">
+															<email-card :email="row.email" :categories="row.categories" @deletedEmail="deletedEmail($event)"></email-card>
+														</div>
+														<div class="mt-20">
+															<a @click="showInputField">Click here to add a new email</a>
+														</div>
 													</div>
 
 												</main>
@@ -100,7 +109,7 @@ export default {
 			old_type: "password",
 			new_type: "password",
 			confirm_type: "password",
-
+			email_categories:[]
 
 		}
 	},
@@ -128,6 +137,7 @@ export default {
 		async getNotificationEmails(){
 			let data = await this.$axios.$get('user/notification/email');
 			this.emails = data.data;
+			console.log(data.data);
 		},
 		addNewEmail(event){
 			this.emails.push({"email": event});

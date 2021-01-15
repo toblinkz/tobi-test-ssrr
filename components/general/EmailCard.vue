@@ -1,10 +1,21 @@
 <template>
 	<div class="email-card" >
-		<div class="col-md-11" style="padding: 5px">
-			{{ email }}
+		<div class="col-md-10" style="padding: 5px">
+			<span style="font-weight: 600;">{{ email }}</span>
+
+			<div>
+				<span>Categories:</span>
+				<div v-for="row in categories">
+					<span style="font-size: 12px">{{row.category}}</span>
+				</div>
+			</div>
+
 		</div>
-		<div class="col-md-1">
-			<i @click="deleteEmail" class="fa fa-minus-circle" style="cursor: pointer; color: red"></i>
+
+		<div class="col-md-2">
+			<i @click="deleteEmail" class="fa fa-pencil" style="cursor: pointer; color:#1E88E5; margin-right: 4px"></i>
+			<i @click="deleteEmail" class="fa fa-minus-circle" style="cursor: pointer; color: red;"></i>
+
 		</div>
 
 	</div>
@@ -16,7 +27,10 @@ name: "EmailCard",
 	props: {
 			email:{
 
-			}
+			},
+		categories: {
+
+		}
 	},
 	methods: {
 		async	deleteEmail(){

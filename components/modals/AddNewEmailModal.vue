@@ -7,7 +7,7 @@
 				<div>
 					<div class="modal-header">
 						<button type="button" class="close" @click="close">×</button>
-						<h4 class="modal-title"><i class="entypo-mail"></i> Email For Notification</h4>
+						<h4 class="modal-title"><i class="entypo-mail"></i> Email Notification</h4>
 					</div>
 					<div class="modal-body">
 						<div class="row">
@@ -22,7 +22,7 @@
 												<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
 											</div>
 											<div>
-												<div class="m-b-5" style="font-size: 15px">Select Category of Notification for Email Address</div>
+												<div class="m-b-5" style="font-size: 15px">Select Notification Category </div>
 												<div class="checkboxes" v-for="row in email_categories">
 													<label ><input type="checkbox" :value="row.id" v-model="selected_categories" /> <span> {{ row.category }}</span></label>
 												</div>
