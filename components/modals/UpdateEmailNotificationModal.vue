@@ -1,13 +1,13 @@
 <template>
 	<transition>
-		<modal name="add-new-email"  role="dialog" height="auto">
+		<modal name="update-email-notification-modal"  role="dialog" height="auto">
 			<div>
 
 				<!-- Modal content-->
 				<div>
 					<div class="modal-header">
 						<button type="button" class="close" @click="close">×</button>
-						<h4 class="modal-title"><i class="entypo-mail"></i> Email Notification</h4>
+						<h4 class="modal-title"><i class="entypo-mail"></i> Update</h4>
 					</div>
 					<div class="modal-body">
 						<div class="row">
@@ -17,9 +17,7 @@
 							<form @submit.prevent="addEmailForNotification">
 									<div>
 											<div class="form-group mt-20">
-												<label>Email Address</label>
-												<input v-model="email" class="form-control" name="email"  placeholder="Email"  :class="{'error ' : hasEmailError, }" />
-												<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
+												<label>{{ email_address }}</label>
 											</div>
 											<div>
 												<div class="m-b-5" style="font-size: 15px">Select Notification Category </div>
@@ -49,17 +47,22 @@
 <script>
 import PricingDropdown from "@/components/general/dropdown/PricingDropdown";
 export default {
-	name: "AddNewEmail",
+	name: "update-email-notification-modal",
 	components: {PricingDropdown},
 	data(){
 		return{
-				email:"",
+
 			 isLoading: false,
 			 button_text: "Add",
 			 error_message:[],
 			 hasEmailError: false,
 			 email_categories:[],
 			 selected_categories:[]
+		}
+	},
+	props: {
+		email_address:{
+
 		}
 	},
 	watch:{
@@ -69,33 +72,23 @@ export default {
 	},
 computed:{
 	isDisabled:function () {
-		return (this.hasEmailError || !this.email || this.selected_categories.length === 0);
+		return ( this.selected_categories.length === 0);
 	},
 },
 	methods: {
 			close() {
-				this.$modal.hide('add-new-email');
+				this.$modal.hide('update-email-notification-modal');
 				this.email="";
 				this.hasEmailError = false;
 		},
-		validateEmail(value){
-			if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)){
-				this.error_message['email'] = '';
-				this.hasEmailError = false;
 
-			}else {
-				this.error_message['email'] = 'The email field must be a valid email';
-				this.hasEmailError = true;
-
-			}
-		},
 		async addEmailForNotification(){
   this.isLoading = true;
   this.button_text = '';
 			try {
 			await this.$axios.$post('user/notification/email', {
 					email_to_category:[{
-						email: this.email,
+						email: this.email_address,
 						categories: this.selected_categories
 					}],
 

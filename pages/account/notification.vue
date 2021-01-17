@@ -41,25 +41,26 @@
 												<!-- main inner content -->
 												<main id="wrapper" class="wrapper">
 													<ApiNavbar></ApiNavbar>
-													<div class="col-md-6">
-														<p><b>Added Emails</b></p>
-														<div v-for="(row, index ) in emails">
-															<email-card :email="row.email" :categories="row.categories" @deletedEmail="deletedEmail($event)"></email-card>
+													<div>
+														<div  style="display:flex; justify-content: space-between; padding: 0px 25px">
+															<p><b>Added Emails</b></p>
+															<a @click="showInputField" style="font-weight: bold">+ <span style="margin-left: 3px">Add new</span></a>
 														</div>
-																<div class="mt-20">
-																			<a @click="showInputField">Click here to add a new email</a>
-																</div>
+														<div class=" mt-40 hidden-xs" style="display: flex">
+															<span  style="width: 40% ;font-size: 15px"><i class="fa fa-circle m-r-10 m-l-30"></i>Description</span>
+															<span  style="width:30%; font-size: 15px; margin-left: 40px">Categories</span>
+															<span style="width:30%; font-size: 15px;margin-left: 20px"><span style="float: right;margin-right: 70px">Action</span></span>
+														</div>
+														<div  class="col-md-12 mt-20">
+															<div class="m-l-10 " style="border-bottom: dotted #ddd!important;"></div>
+															<div v-for="(row, index ) in emails">
+																<email-card :email="row.email" :categories="row.categories" @deletedEmail="deletedEmail($event)" @updateEmail="updateEmail($event)"></email-card>
+															</div>
+														</div>
 													</div>
-													<div class="col-md-6">
-														<p><b>Added Emails</b></p>
-														<div v-for="(row, index ) in emails">
-															<email-card :email="row.email" :categories="row.categories" @deletedEmail="deletedEmail($event)"></email-card>
-														</div>
-														<div class="mt-20">
-															<a @click="showInputField">Click here to add a new email</a>
-														</div>
-													</div>
+													<div>
 
+													</div>
 												</main>
 											</div>
 										</div>
@@ -71,6 +72,7 @@
 				</div>
 				<VerificationModal></VerificationModal>
 				<AddNewEmailModal @addedEmail="addNewEmail($event)"></AddNewEmailModal>
+				<update-email-notification-modal  @addedEmail="addNewEmail($event)" :email_address="email_address"></update-email-notification-modal>
 			</div>
 		</div>
 	</div>
@@ -83,14 +85,19 @@ import VerificationModal from "@/components/modals/VerificationModal";
 import ApiNavbar from "@/components/general/navbar/ApiNavbar";
 import EmailCard from "@/components/general/EmailCard";
 import AddNewEmailModal from "@/components/modals/AddNewEmailModal";
+import UpdateEmailNotificationModal from "@/components/modals/UpdateEmailNotificationModal";
 export default {
 	name: "notification",
 	middleware: ['auth', 'inactive_user'],
-	components: {AddNewEmailModal, EmailCard, ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
+	components: {
+		UpdateEmailNotificationModal,
+		AddNewEmailModal, EmailCard, ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
 	data(){
 		return{
 
 			emails: [],
+			email_address:'',
+			selected_categories: [],
 			old_password:'',
 			new_password:'',
 			new_email:{},
@@ -137,13 +144,19 @@ export default {
 		async getNotificationEmails(){
 			let data = await this.$axios.$get('user/notification/email');
 			this.emails = data.data;
-			console.log(data.data);
 		},
-		addNewEmail(event){
-			this.emails.push({"email": event});
+		addNewEmail(){
+			this.getNotificationEmails();
+
 		},
+
 		deletedEmail(event){
 			this.getNotificationEmails();
+		},
+		updateEmail(event){
+			this.$modal.show('update-email-notification-modal')
+   this.email_address = event;
+
 		}
 
 

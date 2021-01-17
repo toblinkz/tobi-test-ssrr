@@ -1,23 +1,19 @@
 <template>
-	<div class="email-card" >
-		<div class="col-md-10" style="padding: 5px">
-			<span style="font-weight: 600;">{{ email }}</span>
-
-			<div>
-				<span>Categories:</span>
-				<div v-for="row in categories">
-					<span style="font-size: 12px">{{row.category}}</span>
-				</div>
+	<div class="email-card mt-20" >
+		<div class="" style="padding: 5px; width: 40%">
+			<span style="display: flex"><i class="entypo-chat chat-color"></i><span style="margin-left: 5px; margin-top: -3px">{{ email }}</span> </span>
+		</div>
+		<div class="" style="width: 30%;">
+			<div v-for="row in categories" class="mb-10">
+				<span style="font-size: 13px" class="label label-category ">{{row.category}}</span>
 			</div>
-
 		</div>
-
-		<div class="col-md-2">
-			<i @click="deleteEmail" class="fa fa-pencil" style="cursor: pointer; color:#1E88E5; margin-right: 4px"></i>
-			<i @click="deleteEmail" class="fa fa-minus-circle" style="cursor: pointer; color: red;"></i>
-
+		<div class="" style="width: 30%;">
+			  <div style="float: right">
+						<button class="btn btn-success" @click="updateEmail"><i class="fa fa-edit m-r-5"></i>Update</button>
+						<button class="btn btn-danger" @click="deleteEmail"><i class="icon-bin m-r-5" style="font-size: 12px"></i>Delete</button>
+					</div>
 		</div>
-
 	</div>
 </template>
 
@@ -47,6 +43,9 @@ name: "EmailCard",
 			}
 
 			},
+		updateEmail(){
+			this.$emit('updateEmail', this.email);
+		}
 
 	},
 
@@ -56,14 +55,28 @@ name: "EmailCard",
 
 <style scoped>
 .email-card{
-	padding: 10px 10px;
+	padding: 20px 10px;
 	border-width: 1px;
 	border-radius: 8px;
 	margin-bottom: 5px;
 	/*background-color: white;*/
 	display: flex;
-	box-shadow: 0 10px 45px 0 rgba(0,0,0,.07);
-	/*box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);*/
-	/*box-shadow: 0 10px 45px 0 rgb(0 0 0 / 5%);*/
+	box-shadow: 0 10px 45px 0 rgba(0,0,0,.1);
+}
+.label-category {
+	background: #E5E5E5;
+	border-radius: 8px;
+	color: #333333;
+
+}
+.label {
+	font-size: 11px;
+	padding: 2px 10px;
+	margin: 2px 0;
+	border-radius: 20px;
+	font-weight: 500;
+}
+.chat-color{
+	color: #2D74AC!important;
 }
 </style>
