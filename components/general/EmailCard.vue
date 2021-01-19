@@ -45,6 +45,7 @@ name: "EmailCard",
 			},
 		updateEmail(){
 			this.$emit('updateEmail', this.email);
+			this.$emit('categories', this.categories)
 		}
 
 	},

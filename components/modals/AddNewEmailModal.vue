@@ -100,14 +100,15 @@ computed:{
 					}],
 
 				});
-
 				this.isLoading = false;
 				this.button_text = 'Add';
 				this.$emit('addedEmail');
 				this.close();
 				this.$toast.success("Email Added Successfully");
 			}catch (e) {
-
+				this.isLoading = false;
+				this.button_text = 'Add';
+				this.$toast.error(e.response.data.message);
 			}
 
 		},
@@ -115,9 +116,6 @@ computed:{
 				try {
 						let categories = await this.$axios.$get('utility/email/category');
 						this.email_categories = categories.data;
-
-
-
 				}catch (e) {
 
 				}

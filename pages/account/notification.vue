@@ -54,7 +54,7 @@
 														<div  class="col-md-12 mt-20">
 															<div class="m-l-10 " style="border-bottom: dotted #ddd!important;"></div>
 															<div v-for="(row, index ) in emails">
-																<email-card :email="row.email" :categories="row.categories" @deletedEmail="deletedEmail($event)" @updateEmail="updateEmail($event)"></email-card>
+																<email-card :email="row.email" :categories="row.categories" @deletedEmail="deletedEmail($event)" @updateEmail="updateEmail($event)" @categories="showCategories($event)"></email-card>
 															</div>
 														</div>
 													</div>
@@ -72,7 +72,7 @@
 				</div>
 				<VerificationModal></VerificationModal>
 				<AddNewEmailModal @addedEmail="addNewEmail($event)"></AddNewEmailModal>
-				<update-email-notification-modal  @addedEmail="addNewEmail($event)" :email_address="email_address"></update-email-notification-modal>
+				<update-email-notification-modal  @addedEmail="addNewEmail($event)"  :email_address="email_address" :selected_email_categories="email_categories" ></update-email-notification-modal>
 			</div>
 		</div>
 	</div>
@@ -156,7 +156,9 @@ export default {
 		updateEmail(event){
 			this.$modal.show('update-email-notification-modal')
    this.email_address = event;
-
+		},
+		showCategories(event){
+			 this.email_categories = event;
 		}
 
 

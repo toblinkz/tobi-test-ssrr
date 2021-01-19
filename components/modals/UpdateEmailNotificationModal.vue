@@ -21,7 +21,7 @@
 											</div>
 											<div>
 												<div class="m-b-5" style="font-size: 15px">Select Notification Category </div>
-												<div class="checkboxes" v-for="row in email_categories">
+												<div class="checkboxes" v-for="row in emails">
 													<label ><input type="checkbox" :value="row.id" v-model="selected_categories" /> <span> {{ row.category }}</span></label>
 												</div>
 											</div>
@@ -51,9 +51,9 @@ export default {
 	components: {PricingDropdown},
 	data(){
 		return{
-
+    emails:'',
 			 isLoading: false,
-			 button_text: "Add",
+			 button_text: "Update",
 			 error_message:[],
 			 hasEmailError: false,
 			 email_categories:[],
@@ -62,19 +62,25 @@ export default {
 	},
 	props: {
 		email_address:{
+		},
+		selected_email_categories:{
 
 		}
 	},
 	watch:{
-			email(value){
-					this.validateEmail(value);
+			email_address(value){
+					if (this.email_address){
+						this.selected_categories = []
+						 this.mergeEmailCategories();
+					}
 			}
 	},
 computed:{
 	isDisabled:function () {
-		return ( this.selected_categories.length === 0);
+		 return ( this.selected_categories.length === 0);
 	},
 },
+
 	methods: {
 			close() {
 				this.$modal.hide('update-email-notification-modal');
@@ -95,22 +101,29 @@ computed:{
 				});
 
 				this.isLoading = false;
-				this.button_text = 'Add';
+				this.button_text = 'Update';
 				this.$emit('addedEmail');
 				this.close();
-				this.$toast.success("Email Added Successfully");
+				this.$toast.success("Updated Successfully");
 			}catch (e) {
-
+				this.isLoading = false;
+				this.button_text = 'Update';
+				this.$toast.error(e.response.data.message);
 			}
 
+		},
+		mergeEmailCategories(){
+
+			this.selected_email_categories.forEach((email)=>{
+				  this.selected_categories.push(email.id)
+			})
+		let ids = new Set(this.email_categories.map(d => d.id));
+			this.emails = [...this.email_categories, ...this.selected_email_categories.filter(d => !ids.has(d.id))];
 		},
 		async getEmailCategories(){
 				try {
 						let categories = await this.$axios.$get('utility/email/category');
 						this.email_categories = categories.data;
-
-
-
 				}catch (e) {
 
 				}
