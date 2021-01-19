@@ -29,7 +29,7 @@
 							</li>
 							<li rel0="AccountController/api">
 								<nuxt-link to="/account/notification" class="level-1  ">
-									<i class="icon-notification2 position-left"></i> Emails for Notification
+									<i class="icon-notification2 position-left"></i> Email Notification
 								</nuxt-link>
 							</li>
       </ul>

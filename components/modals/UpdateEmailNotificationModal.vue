@@ -1,13 +1,13 @@
 <template>
 	<transition>
-		<modal name="add-new-email"  role="dialog" height="auto">
+		<modal name="update-email-notification-modal"  role="dialog" height="auto">
 			<div>
 
 				<!-- Modal content-->
 				<div>
 					<div class="modal-header">
 						<button type="button" class="close" @click="close">×</button>
-						<h4 class="modal-title"><i class="entypo-mail"></i> Email Notification</h4>
+						<h4 class="modal-title"><i class="entypo-mail"></i> Update</h4>
 					</div>
 					<div class="modal-body">
 						<div class="row">
@@ -17,13 +17,11 @@
 							<form @submit.prevent="addEmailForNotification">
 									<div>
 											<div class="form-group mt-20">
-												<label>Email Address</label>
-												<input v-model="email" class="form-control" name="email"  placeholder="Email"  :class="{'error ' : hasEmailError, }" />
-												<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
+												<label>{{ email_address }}</label>
 											</div>
 											<div>
 												<div class="m-b-5" style="font-size: 15px">Select Notification Category </div>
-												<div class="checkboxes" v-for="row in email_categories">
+												<div class="checkboxes" v-for="row in emails">
 													<label ><input type="checkbox" :value="row.id" v-model="selected_categories" /> <span> {{ row.category }}</span></label>
 												</div>
 											</div>
@@ -49,65 +47,67 @@
 <script>
 import PricingDropdown from "@/components/general/dropdown/PricingDropdown";
 export default {
-	name: "AddNewEmail",
+	name: "update-email-notification-modal",
 	components: {PricingDropdown},
 	data(){
 		return{
-				email:"",
+    emails:'',
 			 isLoading: false,
-			 button_text: "Add",
+			 button_text: "Update",
 			 error_message:[],
 			 hasEmailError: false,
 			 email_categories:[],
 			 selected_categories:[]
 		}
 	},
+	props: {
+		email_address:{
+		},
+		selected_email_categories:{
+
+		}
+	},
 	watch:{
-			email(value){
-					this.validateEmail(value);
+			email_address(value){
+					if (this.email_address){
+						this.selected_categories = []
+						 this.mergeEmailCategories();
+					}
 			}
 	},
 computed:{
 	isDisabled:function () {
-		return (this.hasEmailError || !this.email || this.selected_categories.length === 0);
+		 return ( this.selected_categories.length === 0);
 	},
 },
+
 	methods: {
 			close() {
-				this.$modal.hide('add-new-email');
+				this.$modal.hide('update-email-notification-modal');
 				this.email="";
 				this.hasEmailError = false;
 		},
-		validateEmail(value){
-			if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)){
-				this.error_message['email'] = '';
-				this.hasEmailError = false;
 
-			}else {
-				this.error_message['email'] = 'The email field must be a valid email';
-				this.hasEmailError = true;
-
-			}
-		},
 		async addEmailForNotification(){
   this.isLoading = true;
   this.button_text = '';
 			try {
 			await this.$axios.$post('user/notification/email', {
 					email_to_category:[{
-						email: this.email,
+						email: this.email_address,
 						categories: this.selected_categories
 					}],
 
 				});
+
 				this.isLoading = false;
-				this.button_text = 'Add';
+				this.button_text = 'Update';
 				this.$emit('addedEmail');
 				this.close();
-				this.$toast.success("Email Added Successfully");
+				this.$toast.success("Updated Successfully");
 			}catch (e) {
 				this.isLoading = false;
-				this.button_text = 'Add';
+				this.button_text = 'Update';
 
 				let errors = e.response.data;
 
@@ -118,6 +118,15 @@ computed:{
 				}
 
 			}
+
+		},
+		mergeEmailCategories(){
+
+			this.selected_email_categories.forEach((email)=>{
+				  this.selected_categories.push(email.id)
+			})
+		let ids = new Set(this.email_categories.map(d => d.id));
+			this.emails = [...this.email_categories, ...this.selected_email_categories.filter(d => !ids.has(d.id))];
 		},
 		async getEmailCategories(){
 				try {
@@ -127,18 +136,19 @@ computed:{
 
 				}
 		},
+
 		handle422Errors(data){
-				let errors = data.errors
+			let errors = data.errors
 			for (let key in errors) {
 				errors[key].forEach(err => {
 					this.$toast.error(err);
 				});
 			}
 		},
+
 		handleOtherErrors(data){
 			this.$toast.error(data.message);
 		}
-
 
 
 	},
