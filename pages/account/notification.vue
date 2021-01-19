@@ -21,7 +21,7 @@
 											<div class="row m-t-60">
 												<div class="col-md-8">
 													<h3> </h3>
-													<p><i class="icon-mail-read"></i> Emails for Notification</p>
+													<p><i class="icon-mail-read"></i> Email Notification</p>
 													<p class="insight">
 														You can add one or more email address to receive system triggered notifications like <br> new invoices, low balance notification, subscription expiry <br> or scheduled application maintenance.
 													</p>
@@ -47,7 +47,7 @@
 															<a @click="showInputField" style="font-weight: bold">+ <span style="margin-left: 3px">Add new</span></a>
 														</div>
 														<div class=" mt-40 hidden-xs" style="display: flex">
-															<span  style="width: 40% ;font-size: 15px"><i class="fa fa-circle m-r-10 m-l-30"></i>Description</span>
+															<span  style="width: 40% ;font-size: 15px"><i class="fa fa-circle m-r-10 m-l-30"></i>Email Address</span>
 															<span  style="width:30%; font-size: 15px; margin-left: 40px">Categories</span>
 															<span style="width:30%; font-size: 15px;margin-left: 20px"><span style="float: right;margin-right: 70px">Action</span></span>
 														</div>
