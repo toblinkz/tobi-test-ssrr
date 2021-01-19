@@ -108,7 +108,15 @@ computed:{
 			}catch (e) {
 				this.isLoading = false;
 				this.button_text = 'Update';
-				this.$toast.error(e.response.data.message);
+
+				let errors = e.response.data;
+
+				if(e.response.status === 422){
+					this.handle422Errors(errors)
+				}else{
+					this.handleOtherErrors(errors)
+				}
+
 			}
 
 		},
@@ -127,6 +135,19 @@ computed:{
 				}catch (e) {
 
 				}
+		},
+
+		handle422Errors(data){
+			let errors = data.errors
+			for (let key in errors) {
+				errors[key].forEach(err => {
+					this.$toast.error(err);
+				});
+			}
+		},
+
+		handleOtherErrors(data){
+			this.$toast.error(data.message);
 		}
 
 
