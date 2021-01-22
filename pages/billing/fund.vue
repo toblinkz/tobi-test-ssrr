@@ -266,6 +266,11 @@
 														window.location.href = response_data.data.url;
 														break;
 													}
+													case('flutterwave_card'):
+													case('flutterwave_ghana_momo'): {
+														window.location.href = response_data.data.link;
+														break;
+													}
 													case('stripe'): {
 														this.$stripe.import().redirectToCheckout({
 															sessionId: response_data.data
