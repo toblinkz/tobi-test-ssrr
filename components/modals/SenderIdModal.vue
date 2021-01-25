@@ -14,7 +14,7 @@
               <div class="modal-body">
                 <div class="form-group">
                   <label>Sender ID For Sms</label>
-                  <input type="text" class="form-control" required v-model="sender_id" placeholder="eg. Termii (Ensure your ID is not more than 11 characters)" name="sender_id" maxlength="11" :class="{'error' : hasSenderIdError}">
+                  <input type="text" class="form-control" required v-model="sender_id" placeholder="eg. Termii (Ensure your ID is not more than 11 characters)" name="sender_id"  :class="{'error' : hasSenderIdError}">
                   <span class=" error_field_message" v-if="error_message.sender_id">{{error_message.sender_id}}</span>
                   <br>
                   <label>Company</label>
@@ -30,7 +30,12 @@
               </div>
               <div class="modal-footer">
                 <a type="button" class="btn btn-danger" @click="close"> Close </a>
-                <button type="submit" class="btn id-btn-primary"   :disabled="isDisabled"> Save </button>
+                <button type="submit" class="btn id-btn-primary"   :disabled="isDisabled">
+																	{{save_button_text}}
+																	<span v-show="isLoading" >
+															<img src="/images/black_spinner.svg" height="20px" width="30px"/>
+													</span>
+																</button>
               </div>
 
             </form>
@@ -55,6 +60,8 @@
         usecase:"",
         error_message:[],
         error: "",
+							 isLoading: false,
+							 save_button_text: 'Save',
         hasSenderIdError: false,
 							 hasCompanyError: false,
 							 hasUseCaseError: false
@@ -86,6 +93,8 @@
         this.$modal.hide('sender-id-modal');
       },
       async requestSenderId(){
+      	 this.isLoading = true;
+      	 this.save_button_text = '';
         try {
          await this.$axios.post('sms/sender-id', {
             sender_id: this.sender_id,
@@ -97,8 +106,11 @@
           this.resetForm();
           this.$modal.hide('sender-id-modal');
           this.$toast.success("Request sent successfully");
+									this.isLoading = false;
+									this.save_button_text = 'Save';
         } catch (e) {
-
+									this.isLoading = false;
+									this.save_button_text = 'Save';
 									let errors = e.response.data.errors;
 									for (let key in errors) {
 										switch (key){
