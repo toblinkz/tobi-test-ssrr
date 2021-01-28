@@ -40,7 +40,6 @@
 														<!-- main inner content -->
 														<main id="wrapper" class="wrapper">
 															<ApiNavbar></ApiNavbar>
-                          <form @submit.prevent="updateProfile" method="POST" >
                             <div class="profile-row">
                               <div class="col-md-2">
                                 <div class="sub_section">
@@ -97,7 +96,7 @@
                                   >
                                 </div>
                                 <label>Email Address</label>
-                                <div class="form-group control-text">
+                                <div class="control-text" style="margin-bottom: 90px">
                                   <input
                                     v-model="email"
                                     type="text"
@@ -105,18 +104,10 @@
                                     class="profile-form-control required email  "
                                   >
                                 </div>
-                                <label>Password</label>
-                                <div class="form-group control-password">
-                                  <input :type="type" v-model="password" name="password" class="profile-form-control " :class="{'error': hasPasswordError}" required>
-																			<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
-																			<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
-																		</div>
-
-                                <hr />
-                                <button class="btn bg-teal pull-right" type="submit"><i class="icon-check"></i> Save</button>
+																				<hr />
+																				<button class="btn bg-teal pull-right" @click="showPasswordModal"><i class="icon-check"></i> Save</button>
 																	</div>
 																</div>
-																										</form>
 														</main>
 													</div>
 												</div>
@@ -128,6 +119,15 @@
 						</div>
 					</div>
 					<VerificationModal></VerificationModal>
+					<AccountPassword
+						:company_sector="selected_sector"
+						:email="email"
+					 :first_name="first_name"
+					 :last_name="last_name"
+					 :phone="phone_number"
+						:image="image_url"
+					 >
+					</AccountPassword>
     </div>
   </div>
 </template>
@@ -142,11 +142,14 @@
     import S3 from 'aws-s3';
     import Swal from 'sweetalert2';
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import AccountPassword from "../../components/modals/AccountPassword";
 
     export default {
         name: "profile",
 					middleware: ['auth', 'inactive_user'],
-        components: {VerificationModal, SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
+        components: {
+									AccountPassword,
+									VerificationModal, SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
 
         data(){
           return{
@@ -264,6 +267,9 @@
 									}
         	return false;
 
+							},
+							showPasswordModal(){
+        	this.$modal.show('account-password-modal');
 							},
         uploadPhoto(fieldName, files){
 									this.upload_button_text = 'Uploading...'
