@@ -64,46 +64,49 @@
                                 </div>
                               </div>
                               <div class="col-md-5">
-                                <label>First Name</label>
-                                <div class="form-group control-text">
-                                  <input
-                                    v-model="first_name"
-                                    type="text"
-                                    name="first_name"
-                                    class="profile-form-control required  "
-                                  >
-                                </div>
-                                <label>Phone Number</label>
-                                <div class="form-group control-text">
-                                  <input
-                                    v-model="phone_number"
-                                    type="text"
-                                    name="phone_number"
-                                    class="profile-form-control required numeric  "
-                                  >
+
+                                <div class="form-group control-text" style="display: flex;">
+																																	<div>
+																																		<label>First Name</label>
+																																		<input
+																																			v-model="first_name"
+																																			type="text"
+																																			name="first_name"
+																																			class="profile-form-control required  "
+																																		>
+																																	</div>
+																																<div>
+																																	<label>Last Name</label>
+																																	<input
+																																		v-model="last_name"
+																																		type="text"
+																																		name="last_name"
+																																		class="profile-form-control required  "
+																																	>
+																																</div>
                                 </div>
                                 <label>Sector</label>
                                    <CustomSelect :options="sectors" :dropdown-style="dropdownStyle" @item-selected="setSectorId($event)"></CustomSelect>
                               </div>
                               <div class="col-md-5">
-                                <label>Last Name</label>
-                                <div class="form-group control-text">
-                                  <input
-                                    v-model="last_name"
-                                    type="text"
-                                    name="last_name"
-                                    class="profile-form-control required  "
-                                  >
-                                </div>
-                                <label>Email Address</label>
-                                <div class="control-text" style="margin-bottom: 90px">
-                                  <input
-                                    v-model="email"
-                                    type="text"
-                                    name="email"
-                                    class="profile-form-control required email  "
-                                  >
-                                </div>
+																															<label>Email Address</label>
+																															<div class="control-text form-group" >
+																																<input
+																																	v-model="email"
+																																	type="text"
+																																	name="email"
+																																	class="profile-form-control required email  "
+																																>
+																															</div>
+																															<label>Phone Number</label>
+																															<div class="form-group control-text">
+																																<input
+																																	v-model="phone_number"
+																																	type="text"
+																																	name="phone_number"
+																																	class="profile-form-control required numeric  "
+																																>
+																															</div>
 																				<hr />
 																				<button class="btn bg-teal pull-right" @click="showPasswordModal"><i class="icon-check"></i> Save</button>
 																	</div>
@@ -485,7 +488,7 @@
   }
   .profile-form-control {
     display: block;
-    width: 100%;
+    width: 90%;
     height: 40px;
     padding: 10px 16px;
     font-size: 13px;
