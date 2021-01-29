@@ -35,7 +35,7 @@ export default ({ app }) => {
 		** Every time the route changes (fired on initialization too)
 		*/
 	app.router.afterEach((to, from) => {
-		/*
+		/*s
 			** We tell Google Analytics to add a `pageview`
 			*/
 		ga('set', 'page', to.fullPath)
