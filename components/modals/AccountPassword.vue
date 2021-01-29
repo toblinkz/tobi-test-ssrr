@@ -19,7 +19,7 @@
 
 				</div>
 				<div class="modal-footer">
-					<button @click="updateProfile" class="btn btn-primary" :disabled="isDisabled">
+					<button @click="update" class="btn btn-primary" :disabled="isDisabled">
 						{{button_text }}
 						<span v-show="isLoading">
 							 <img src="/images/spinner.svg" height="20px" width="30px"/>
@@ -44,7 +44,7 @@ export default {
 			type: "password",
 			error_message:[],
 			isToggled: false,
-			button_text: 'Save',
+			button_text: 'Update',
 			isLoading: false
 	}
 	},
@@ -60,27 +60,25 @@ export default {
 	},
 	props:{
 		company_sector:{
-			required: true
 		},
 		phone:{
-			required: true
 		},
 		email:{
-			required: true
 		},
 		first_name:{
-			required: true
 		},
 		last_name:{
-			required: true
 		},
 		image:{
-			required: true
+		},
+		event_name:{
+			required:true
 		}
 	},
 	methods: {
 		close() {
 			this.$modal.hide('account-password-modal');
+			this.password = '';
 		},
 		showPassword() {
 			if (this.type === "password") {
@@ -100,6 +98,42 @@ export default {
 				this.hasPasswordError = false;
 			}
 		},
+		update(){
+			 switch (this.event_name){
+			 	 case 'profile': {
+							  this.updateProfile();
+							  break;
+						}
+						case 'api_token': {
+							 this.renewApiToken();
+							 break;
+						}
+
+				}
+		},
+		async renewApiToken(){
+			this.button_text = "";
+			this.isLoading = true;
+			try{
+				await this.$axios.$get('user/keys/renew', {params:{password: this.password} });
+				let response = await this.$axios.$get('user');
+				await localStorage.setItem('user_data', JSON.stringify(response.data));
+				this.api_key = 	JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
+				this.$emit('set_api_key', this.api_key);
+				this.$toast.success('Your API token was successfully renewed');
+				this.button_text = 'Update';
+				this.isLoading = false;
+				this.password = '';
+				this.close();
+
+			}catch (e) {
+				this.button_text = "Update";
+				this.isLoading = false;
+				this.error_message['password'] = 'Password Incorrect';
+				this.hasPasswordError = true;
+			}
+
+		},
 		async updateProfile() {
 			this.button_text = "";
 			this.isLoading = true;
@@ -117,12 +151,13 @@ export default {
 					headers: {'Authorization': `Bearer ${localStorage.getItem('local')}`}
 				});
 				await localStorage.setItem('user_data', JSON.stringify(response.data));
-				this.button_text = 'Save';
+				this.button_text = 'Update';
 				this.isLoading = false;
 				this.$toast.success('Profile Updated Successfully');
+				this.password = '';
 				this.close();
 			} catch (e) {
-				this.button_text = "";
+				this.button_text = "Update";
 				this.isLoading = false;
 				let errors = e.response.data.errors;
 				for (let key in errors) {

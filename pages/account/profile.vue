@@ -40,7 +40,7 @@
 														<!-- main inner content -->
 														<main id="wrapper" class="wrapper">
 															<ApiNavbar></ApiNavbar>
-                            <div class="profile-row">
+                            <div class="profile-row mt-30">
                               <div class="col-md-2">
                                 <div class="sub_section">
                                   <div class="media profile-image">
@@ -64,7 +64,6 @@
                                 </div>
                               </div>
                               <div class="col-md-5">
-
                                 <div class="form-group control-text" style="display: flex;">
 																																	<div>
 																																		<label>First Name</label>
@@ -73,6 +72,7 @@
 																																			type="text"
 																																			name="first_name"
 																																			class="profile-form-control required  "
+																																			style="width: 95%"
 																																		>
 																																	</div>
 																																<div>
@@ -82,11 +82,12 @@
 																																		type="text"
 																																		name="last_name"
 																																		class="profile-form-control required  "
+																																		style="width: 95%"
 																																	>
 																																</div>
                                 </div>
                                 <label>Sector</label>
-                                   <CustomSelect :options="sectors" :dropdown-style="dropdownStyle" @item-selected="setSectorId($event)"></CustomSelect>
+                                   <CustomSelect style="width: 95%" :options="sectors" :dropdown-style="dropdownStyle" @item-selected="setSectorId($event)"></CustomSelect>
                               </div>
                               <div class="col-md-5">
 																															<label>Email Address</label>
@@ -96,6 +97,7 @@
 																																	type="text"
 																																	name="email"
 																																	class="profile-form-control required email  "
+																																	style="width: 95%"
 																																>
 																															</div>
 																															<label>Phone Number</label>
@@ -105,6 +107,7 @@
 																																	type="text"
 																																	name="phone_number"
 																																	class="profile-form-control required numeric  "
+																																	style="width: 95%"
 																																>
 																															</div>
 																				<hr />
@@ -129,6 +132,7 @@
 					 :last_name="last_name"
 					 :phone="phone_number"
 						:image="image_url"
+						 event_name="profile"
 					 >
 					</AccountPassword>
     </div>
@@ -488,7 +492,7 @@
   }
   .profile-form-control {
     display: block;
-    width: 90%;
+    width: 100%;
     height: 40px;
     padding: 10px 16px;
     font-size: 13px;
