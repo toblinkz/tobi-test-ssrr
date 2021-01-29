@@ -97,8 +97,7 @@
                                     <div class="col-md-12 alert toke hidden-xs" v-else>
                                       <p><i class="entypo-bookmark" style="color: #bbb !important;"></i> Plan Guide</p><br>
                                       <p class="text-semibold"><strong>Regular Top up</strong>; Minimum amount to recharge is
-																																							{{minimum_top_up}}<br><br> <strong>Bundled Top up</strong>; Get 5% off on all messages sent when you make a bundled topup of
-																																							{{bundled_top_up}}(<strong>NB</strong>: Discounts expires when your units get exhausted but only renews on your next bunlded topup) </p>
+																																							{{minimum_top_up}}<br> </p>
                                     </div>
                                   </div>
                                 </div>
