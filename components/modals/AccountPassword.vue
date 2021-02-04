@@ -71,6 +71,8 @@ export default {
 		},
 		image:{
 		},
+		feedback: {
+		},
 		event_name:{
 			required:true
 		}
@@ -108,8 +110,41 @@ export default {
 							 this.renewApiToken();
 							 break;
 						}
+						case 'deactivate_account': {
+								this.deactivateUserAccount();
+								break;
+						}
+						default: {
+							 return
+						}
 
 				}
+		},
+
+		async deactivateUserAccount(){
+			try{
+				await this.$axios.$post('user/deactivate/account', {
+					feedback: this.user_feedback,
+					password: this.password
+				});
+				await Swal.fire({
+					icon: 'info',
+					title: 'Oops...',
+					text: 'We are sorry to see you leave.',
+				});
+				await this.$axios.$get('auth/logout');
+				localStorage.clear();
+				await this.$router.push({name: 'login'});
+				this.$store.commit('setViewVerificationPage', 'false');
+				location.reload();
+
+			}catch (e) {
+				if (e.response.data.data === 'Incorrect Password Entered'){
+					this.error_message['password'] = 'Incorrect Password Entered';
+					this.hasPasswordError = true;
+				}
+
+			}
 		},
 		async renewApiToken(){
 			this.button_text = "";
