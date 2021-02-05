@@ -1,6 +1,6 @@
 export default async function ({ app ,  redirect, store}) {
 	const {$axios} = app
-if (navigator.onLine){
+if (navigator.onLine) {
 	try {
 		let response = await $axios.get('user', {
 			headers: {

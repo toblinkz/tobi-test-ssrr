@@ -113,7 +113,7 @@
   }
   .page-second-nav li a.level-1 {
     font-weight: 600;
-    font-size: 15px;
+    /*font-size: 15px;*/
   }
   .nav-tabs > li > a {
     margin-right: 0;

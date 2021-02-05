@@ -40,8 +40,7 @@
 														<!-- main inner content -->
 														<main id="wrapper" class="wrapper">
 															<ApiNavbar></ApiNavbar>
-                          <form @submit.prevent="updateProfile" method="POST" >
-                            <div class="profile-row">
+                            <div class="profile-row mt-30">
                               <div class="col-md-2">
                                 <div class="sub_section">
                                   <div class="media profile-image">
@@ -65,58 +64,56 @@
                                 </div>
                               </div>
                               <div class="col-md-5">
-                                <label>First Name</label>
-                                <div class="form-group control-text">
-                                  <input
-                                    v-model="first_name"
-                                    type="text"
-                                    name="first_name"
-                                    class="profile-form-control required  "
-                                  >
-                                </div>
-                                <label>Phone Number</label>
-                                <div class="form-group control-text">
-                                  <input
-                                    v-model="phone_number"
-                                    type="text"
-                                    name="phone_number"
-                                    class="profile-form-control required numeric  "
-                                  >
+                                <div class="form-group control-text" style="display: flex;">
+																																	<div>
+																																		<label>First Name</label>
+																																		<input
+																																			v-model="first_name"
+																																			type="text"
+																																			name="first_name"
+																																			class="profile-form-control required  "
+																																			style="width: 95%"
+																																		>
+																																	</div>
+																																<div>
+																																	<label>Last Name</label>
+																																	<input
+																																		v-model="last_name"
+																																		type="text"
+																																		name="last_name"
+																																		class="profile-form-control required  "
+																																		style="width: 95%"
+																																	>
+																																</div>
                                 </div>
                                 <label>Sector</label>
-                                   <CustomSelect :options="sectors" :dropdown-style="dropdownStyle" @item-selected="setSectorId($event)"></CustomSelect>
+                                   <CustomSelect style="width: 95%" :options="sectors" :dropdown-style="dropdownStyle" @item-selected="setSectorId($event)"></CustomSelect>
                               </div>
                               <div class="col-md-5">
-                                <label>Last Name</label>
-                                <div class="form-group control-text">
-                                  <input
-                                    v-model="last_name"
-                                    type="text"
-                                    name="last_name"
-                                    class="profile-form-control required  "
-                                  >
-                                </div>
-                                <label>Email Address</label>
-                                <div class="form-group control-text">
-                                  <input
-                                    v-model="email"
-                                    type="text"
-                                    name="email"
-                                    class="profile-form-control required email  "
-                                  >
-                                </div>
-                                <label>Password</label>
-                                <div class="form-group control-password">
-                                  <input :type="type" v-model="password" name="password" class="profile-form-control " :class="{'error': hasPasswordError}" required>
-																			<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
-																			<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
-																		</div>
-
-                                <hr />
-                                <button class="btn bg-teal pull-right" type="submit"><i class="icon-check"></i> Save</button>
+																															<label>Email Address</label>
+																															<div class="control-text form-group" >
+																																<input
+																																	v-model="email"
+																																	type="text"
+																																	name="email"
+																																	class="profile-form-control required email  "
+																																	style="width: 95%"
+																																>
+																															</div>
+																															<label>Phone Number</label>
+																															<div class="form-group control-text">
+																																<input
+																																	v-model="phone_number"
+																																	type="text"
+																																	name="phone_number"
+																																	class="profile-form-control required numeric  "
+																																	style="width: 95%"
+																																>
+																															</div>
+																				<hr />
+																				<button class="btn bg-teal pull-right" @click="showPasswordModal"><i class="icon-check"></i> Save</button>
 																	</div>
 																</div>
-																										</form>
 														</main>
 													</div>
 												</div>
@@ -128,6 +125,16 @@
 						</div>
 					</div>
 					<VerificationModal></VerificationModal>
+					<AccountPassword
+						:company_sector="selected_sector"
+						:email="email"
+					 :first_name="first_name"
+					 :last_name="last_name"
+					 :phone="phone_number"
+						:image="image_url"
+						 event_name="profile"
+					 >
+					</AccountPassword>
     </div>
   </div>
 </template>
@@ -142,11 +149,14 @@
     import S3 from 'aws-s3';
     import Swal from 'sweetalert2';
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import AccountPassword from "../../components/modals/AccountPassword";
 
     export default {
         name: "profile",
 					middleware: ['auth', 'inactive_user'],
-        components: {VerificationModal, SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
+        components: {
+									AccountPassword,
+									VerificationModal, SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
 
         data(){
           return{
@@ -264,6 +274,9 @@
 									}
         	return false;
 
+							},
+							showPasswordModal(){
+        	this.$modal.show('account-password-modal');
 							},
         uploadPhoto(fieldName, files){
 									this.upload_button_text = 'Uploading...'
