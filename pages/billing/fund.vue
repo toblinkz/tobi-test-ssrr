@@ -83,6 +83,37 @@
 																																					<!-- END PANEL -->
 																																				</div>
 																																			</div>
+
+																																			<div class="col-md-12 alert toke" v-if="is_nigerian_wallet">
+																																				<p><i class="entypo-info-circled" style="color: #bbb !important;"></i> <b>Notice</b></p><br>
+																																				<p style="text-align:justify">
+																																					Due to directives from the Central Bank of Nigeria [CBN], our dedicated Virtual account numbers for Nigeria have been temporarily disabled and are no longer valid for use.
+																																					We are rolling our new virtual numbers in a few hours. Please for now use our <b>Sterling Bank Account</b> available on your wallet dashboard.
+																																					<br/>
+																																					<br/>
+																																					<b>	NB: After paying notify our support team via your whatsapp support group or send an email to sales@termii.com with details of your payment.
+																																					</b>
+																																				</p>
+																																			</div>
+																																			<div class="col-md-12 alert toke" v-else>
+																																				<p><i class="entypo-info-circled" style="color: #bbb !important;"></i> <b>Bank Transfer Guide:</b></p><br>
+																																				<p style="text-align:justify">
+																																					For US or international customers, please make payment to the bank above and include the following details:
+																																					<br>
+																																					<br>
+																																					<b>ABA Routing Number:</b>
+																																					<br/>
+																																					021000021
+																																					<br>
+																																					<br>
+																																					<b>Company Address:</b>
+																																					<br>
+																																					601 Pennsylvania Avenue, NW South Building Suite 920, Washington D.C. 20004.
+																																					<br>
+																																					<br>
+																																					Additional Wire Instructions For direct deposits and ACH transactions use routing number: 044000037
+																																				</p>
+																																				</div>
 																																			<ContentLoader v-if="!minimum_top_up"
 																																																		:speed="2"
 																																																		:animate="true"
@@ -94,6 +125,7 @@
 																																				<rect x="4" y="140" rx="2" ry="8" width="628" height="16" />
 
 																																			</ContentLoader>
+
                                     <div class="col-md-12 alert toke hidden-xs" v-else>
                                       <p><i class="entypo-bookmark" style="color: #bbb !important;"></i> Plan Guide</p><br>
                                       <p class="text-semibold"><strong>Regular Top up</strong>; Minimum amount to recharge is
@@ -186,6 +218,7 @@
             fund_button_text:'Fund Account',
             selected_payment_method:"",
             amount:'',
+												is_nigerian_wallet:false,
 												page_url: '',
             account_number: '',
             account_balance: '',
@@ -226,9 +259,10 @@
 									showModal(){
           	this.$modal.show('service-pricing-modal');
 									},
-          async getWalletBalance() {
+          async getWallet() {
             try{
               let data = await this.$axios.$get('billing/wallet');
+              this.is_nigerian_wallet = data.data.is_nigerian_wallet
               this.account_balance = data.data.converted_balance;
               this.bank_name  = data.data.bank_name;
               this.account_number = data.data.account_number;
@@ -364,7 +398,7 @@
 								this.$modal.show('verification-id-modal');
 							}else {
 								this.page_url = window.location.href;
-								this.getWalletBalance();
+								this.getWallet();
 								this.getPaymentMethod();
 								this.getTopDetails();
 								this.$modal.show('service-pricing-modal');
