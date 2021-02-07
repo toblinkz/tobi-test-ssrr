@@ -114,23 +114,6 @@
 																																					Additional Wire Instructions For direct deposits and ACH transactions use routing number: 044000037
 																																				</p>
 																																				</div>
-																																			<ContentLoader v-if="!minimum_top_up"
-																																																		:speed="2"
-																																																		:animate="true"
-																																			>
-																																				<rect x="4" y="13" rx="2" ry="2" width="628" height="16" />
-																																				<rect x="4" y="36" rx="2" ry="4" width="628" height="16" />
-																																				<rect x="4" y="86" rx="2" ry="6" width="628" height="16" />
-																																				<rect x="4" y="61" rx="2" ry="8" width="628" height="16" />
-																																				<rect x="4" y="140" rx="2" ry="8" width="628" height="16" />
-
-																																			</ContentLoader>
-
-                                    <div class="col-md-12 alert toke hidden-xs" v-else>
-                                      <p><i class="entypo-bookmark" style="color: #bbb !important;"></i> Plan Guide</p><br>
-                                      <p class="text-semibold"><strong>Regular Top up</strong>; Minimum amount to recharge is
-																																							{{minimum_top_up}}<br> </p>
-                                    </div>
                                   </div>
                                 </div>
                               </div>
