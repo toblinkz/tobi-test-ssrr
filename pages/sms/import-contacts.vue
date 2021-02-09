@@ -66,11 +66,11 @@
 																	<v-select :options="countries" append-to-body :calculate-position="withPopper"   :reduce="country => country.d_code" label="name" placeholder="Select Country Code" v-model="selected_country">
 
 																		<template #option="{name, d_code}">
-																			<p style="">{{ name }} {{`(${d_code})`}}</p>
+																			<p style="">{{ name }} <span v-if=" d_code !== '+null'">{{`(${d_code})`}}</span></p>
 																		</template>
 																		<template #selected-option="{name, d_code }">
 																			<div style="display: flex; align-items: center;">
-																				{{name }} <strong>{{ `(${ d_code})` }}</strong>
+																				{{name }} <span v-if=" d_code !== '+null'"><strong> {{ `(${ d_code})` }}</strong></span>
 																			</div>
 																		</template>
 																	</v-select>
@@ -169,6 +169,8 @@ export default {
 				//get countries
 				let countries_data = await this.$axios.$get('utility/countries');
 				this.countries = countries_data.data;
+			 this.countries.push({code: null, d_code: '+null', name: " Country code exists on contact "})
+				console.log(this.countries)
 
 				//get phonebook list
 				let phone_book_list = await this.$axios.$get('sms/phone-book?filter=unpaginated',);
