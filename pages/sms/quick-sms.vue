@@ -177,8 +177,8 @@
 												} else {
 													totalChar = totalChar - data.segment;
 													this.no_of_messages = data.pages;
-													let test = Math.ceil(totalChar / data.segment);
-													this.max_characters =  test * data.segment - totalChar;
+													let no = Math.ceil(totalChar / data.segment);
+													this.max_characters =  no * data.segment - totalChar;
 												}
 											}catch (e) {
 
