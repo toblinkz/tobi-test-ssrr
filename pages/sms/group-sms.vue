@@ -187,18 +187,29 @@
           }
       },
 					watch:{
-						message(value){
-							let maxChar = 160;
-							let max = 156;
-							let totalChar = value.length;
-							if (totalChar <= maxChar){
-								this.max_characters = maxChar - totalChar;
+						async message(value){
+							if(value){
+								try{
+									let data = 	await this.$axios.$post('utility/sms/count', {
+										body: value
+									});
+									let totalChar = data.character_count;
+									if (totalChar <= data.segment) {
+										this.no_of_messages = data.pages;
+										this.max_characters = data.segment - data.character_count;
+									} else {
+										totalChar = totalChar - data.segment;
+										this.no_of_messages = data.pages;
+										let no = Math.ceil(totalChar / data.segment);
+										this.max_characters =  no * data.segment - totalChar;
+									}
+								}catch (e) {
+
+								}
+							}
+							if (!value){
+								this.max_characters = 160;
 								this.no_of_messages = 1;
-							} else {
-								totalChar = totalChar - maxChar;
-								this.no_of_messages = Math.ceil(totalChar / max);
-								this.max_characters = this.no_of_messages * max - totalChar;
-								this.no_of_messages = this.no_of_messages + 1;
 							}
 						}
 					},
