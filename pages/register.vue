@@ -58,7 +58,7 @@
 									<div class="tooltip">
 										<input id="phone_number"  type="tel" class="form-control" :class="{'error ' : hasPhoneNumberError, 'has-input' : hasPhoneNumberInput}" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
 										<span class="input-field_helper">Phone Number</span>
-										<span class="tooltiptext">Enter valid phone number, you will receive OTP on phone number.</span>
+										<span class="tooltiptext">Enter a valid phone number, you will receive OTP on the phone number provided.</span>
 										<span class=" error_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
 									</div>
 								</div>
