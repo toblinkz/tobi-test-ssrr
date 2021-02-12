@@ -55,9 +55,12 @@
 									</div>
 								</div>
 								<div class="register-form-group has-feedback has-feedback-left ">
-									<input id="phone_number"  type="tel" class="form-control " :class="{'error ' : hasPhoneNumberError, 'has-input' : hasPhoneNumberInput}" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
-									<span class="input-field_helper">Phone Number</span>
-									<span class=" error_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
+									<div class="tooltip">
+										<input id="phone_number"  type="tel" class="form-control" :class="{'error ' : hasPhoneNumberError, 'has-input' : hasPhoneNumberInput}" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
+										<span class="input-field_helper">Phone Number</span>
+										<span class="tooltiptext">Enter valid phone number, you will receive OTP on phone number.</span>
+										<span class=" error_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
+									</div>
 								</div>
 								<div class="select-class">
 									<div class="row-form has-feedback has-feedback-left ">
@@ -422,6 +425,46 @@ export default {
 		background: #FFFFFF ;
 	}
 }
+.tooltip{
+	position: relative;
+}
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 150px;
+	background-color: #555;
+	color: #fff;
+	font-size: 10px;
+	/*text-align: center;*/
+	padding: 5px 5px;
+	border-radius: 6px;
 
+	/* Position the tooltip text */
+	position: absolute;
+	z-index: 1;
+	bottom: 125%;
+	left: 40%;
+	margin-left: -60px;
+
+	/* Fade in tooltip */
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+	opacity: 1;
+}
 
 </style>
