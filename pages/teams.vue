@@ -53,7 +53,8 @@ import Sidebar from "../components/general/Sidebar";
 import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
 import AddTeamMemberModal from "../components/modals/AddTeamMemberModal";
 export default {
-name: "teams",
+ name: "teams",
+	middleware:'auth',
 	components: {AddTeamMemberModal, DashboardNavbar, Sidebar},
 	methods: {
 		showModal(){

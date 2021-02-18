@@ -120,6 +120,11 @@
             <i class="entypo-cog"></i>
             Settings</nuxt-link>
         </li>
+							<li class="padd-x">
+								<nuxt-link to="/teams" class="color-a level-1">
+									<i class="fa fa-users"></i>
+									Teams</nuxt-link>
+							</li>
 
         <div class="clearfix"></div>
 
