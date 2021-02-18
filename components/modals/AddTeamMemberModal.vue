@@ -15,21 +15,21 @@
 						<div class="modal-body">
 							<div class="form-group">
 								<label>Name</label>
-								<input type="text" class="form-control"  placeholder="Name" name="sender_id" >
+								<input type="text" class="form-control"  placeholder="Name" v-model="name" >
 								<span class=" error_field_message" >{{error_message.sender_id}}</span>
 								<br>
 								<label>Email address</label>
-								<input type="text" class="form-control" >
+								<input type="text" class="form-control" v-model="email_address" >
 								<span class=" error_field_message" v-if="error_message.company">{{error_message.company}}</span>
 								<br>
 								<label>Role</label>
-								<input type="text" class="form-control" >
+								<input type="text" class="form-control" v-model="role">
 								<span class=" error_field_message" v-if="error_message.company">{{error_message.company}}</span>
 								<br>
 								<div style="display: flex; justify-content: space-between">
 									 <label style="font-size: 16px">List of permissions</label>
 									 <div style="display: flex">
-											select all	<Switches type-bold="true" class="m-l-5"  color="blue"></Switches>
+											select all	<Switches type-bold="true" v-model="select_all" class="m-l-5"  color="blue"></Switches>
 										</div>
 								</div>
 								<div class="mt-20">
@@ -68,21 +68,19 @@ export default {
 	components: {ButtonSpinner, Switches},
 	data(){
 		return{
-			sender_id:"",
-			company:"",
-			usecase:"",
+			select_all: false,
+			name:'',
+			email_address:'',
+			role:'',
 			error_message:[],
 			error: "",
 			isLoading: false,
 			save_button_text: 'Add teammate',
-			hasSenderIdError: false,
-			hasCompanyError: false,
-			hasUseCaseError: false
 		}
 	},
 	computed:{
 		isDisabled:function () {
-			return (this.hasSenderIdError || this.sender_id === '' || this.company === '' || this.usecase === '');
+			return (!this.name  || !this.email_address || !this.role);
 		},
 
 	},
