@@ -23,21 +23,23 @@
 								<span class=" error_field_message" v-if="error_message.company">{{error_message.company}}</span>
 								<br>
 								<label>Role</label>
-								<input type="text" class="form-control" v-model="role">
-								<span class=" error_field_message" v-if="error_message.company">{{error_message.company}}</span>
+								<select class="form-control">
+									<option>User 1S</option>
+									<option>User 2</option>
+								</select>
 								<br>
 								<div style="display: flex; justify-content: space-between">
-									 <label style="font-size: 16px">List of permissions</label>
+									 <label style="font-size: 16px">Permissions</label>
 									 <div style="display: flex">
 											select all	<Switches type-bold="true" v-model="select_all" class="m-l-5"  color="blue"></Switches>
 										</div>
 								</div>
 								<div class="mt-20">
-									<span class="pill">Billing</span>
-									<span class="pill">Numbers</span>
-									<span class="pill">Contacts</span>
-									<span class="pill">Webhook</span>
-									<span class="pill">Reports</span>
+									<span  :class="{'selected-pill': billing_selected, 'pill': !billing_selected}" @click="toggleBillingPermission">Billing</span>
+									<span :class="{'selected-pill': number_selected, 'pill': !number_selected}" @click="toggleNumberPermission">Numbers</span>
+									<span :class="{'selected-pill': contact_selected, 'pill': !contact_selected}" @click="toggleContactPermission">Contacts</span>
+									<span :class="{'selected-pill': webhook_selected, 'pill': !webhook_selected}" @click="toggleWebhookPermission">Webhook</span>
+									<span :class="{'selected-pill': report_selected, 'pill': !report_selected}" @click="toggleReportPermission">Reports</span>
 								</div>
 							</div>
 						</div>
@@ -76,6 +78,11 @@ export default {
 			error: "",
 			isLoading: false,
 			save_button_text: 'Add teammate',
+			billing_selected: false,
+			number_selected: false,
+			contact_selected: false,
+			webhook_selected: false,
+			report_selected: false
 		}
 	},
 	computed:{
@@ -85,12 +92,42 @@ export default {
 
 	},
 	watch: {
+			select_all(){
+				 if (this.select_all){
+				 	 this.billing_selected = true;
+				 	 this.number_selected = true;
+				 	 this.contact_selected = true;
+				 	 this.webhook_selected = true;
+				 	 this.report_selected = true;
+					} else {
+						this.billing_selected = false;
+						this.number_selected = false;
+						this.contact_selected = false;
+						this.webhook_selected = false;
+						this.report_selected = false;
+					}
+			}
 
 	},
 	methods: {
 		close() {
 			this.$modal.hide('add-team-member-modal');
 		},
+		toggleBillingPermission(){
+			this.billing_selected = !this.billing_selected;
+		},
+		toggleNumberPermission(){
+			this.number_selected = !this.number_selected;
+		},
+		toggleContactPermission(){
+			this.contact_selected = !this.contact_selected;
+		},
+		toggleWebhookPermission(){
+			this.webhook_selected = !this.webhook_selected;
+		},
+		toggleReportPermission(){
+			 this.report_selected = !this.report_selected;
+		}
 
 		},
 }
@@ -104,8 +141,19 @@ export default {
 	margin: 2px 0;
 	border-radius: 20px;
 	font-weight: 500;
-	background: #EAEAEA;;
-	color: #818181;;
+	background: #EAEAEA;
+	color: #818181;
+	cursor: pointer;
+}
+.selected-pill{
+	cursor: pointer;
+	font-size: 13px;
+	padding: 6px 10px;
+	margin: 2px 0;
+	border-radius: 20px;
+	font-weight: 500;
+	background: #EEF8F4;
+	color: #818181;
 }
 textarea.form-control {
 	height: auto;

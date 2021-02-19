@@ -9,7 +9,7 @@
 							<div style="display: flex; flex-direction: row; justify-content: space-between">
 										<div style="display: flex; flex-direction: column">
 											<div style="font-size: 20px; font-weight: bold"> <i class="entypo-users  m-r-5" style="font-size: 20px"></i> Team </div>
-											<p style="font-size: 13.5px!important;">Here are a list of your team mates currently on Termii</p>
+											<p style="font-size: 13.5px!important;">Here is a list of your teammates currently on Termii</p>
 										</div>
 									<div>
 										<button class="add-button" @click="showModal">Add Teammate</button>
@@ -21,12 +21,12 @@
 											 <p>Permissions</p>
 											 <p>Action</p>
 										</div>
-								  <div class="container-item" >
+								  <div class="container-item" v-for="row in team_members" :key="row.id">
               <div style="display: flex; align-items: center; padding: 10px">
 															   <div class="m-r-10" style="display:inline-block; border-radius: 50%; color: #FFFFFF; background: #B8DECD; height: 25px; text-align: center; width: 25px">TB</div>
 															    <div style="display: flex; flex-direction: column;">
- 																					<div style="color:  #818181; font-weight: bold">Taiwo Bakare (taiwo.bakare@termii.com)</div>
-																				<div style="color: #818181;"><span style="font-weight: bold">Role</span>: Customer Success</div>
+ 																					<div style="color:  #818181; font-weight: bold">{{ row.name }} ({{row.email}})</div>
+																				<div style="color: #818181;"><span style="font-weight: bold">Role</span>: {{row.role}}</div>
 																			</div>
 														</div>
 											   <div style="padding: 20px; margin-right: 40px">
@@ -56,6 +56,12 @@ export default {
  name: "teams",
 	middleware:'auth',
 	components: {AddTeamMemberModal, DashboardNavbar, Sidebar},
+	data(){
+ 	 return{
+ 	 	 team_members:[{name: 'Taiwo Bakare', email: 'taiwobakare@temii.com', role: 'Customer success', permissions:['Billing', 'Numbers', 'Contacts','Webhook' ]},
+						{name: 'Tobi Bakare', email: 'taiwobakare@temii.com', role: 'Customer success', permissions:['Billing', 'Numbers', 'Contacts','Webhook' ]}]
+			}
+	},
 	methods: {
 		showModal(){
 			 this.$modal.show('add-team-member-modal');
