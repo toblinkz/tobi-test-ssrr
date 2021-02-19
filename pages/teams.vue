@@ -29,21 +29,17 @@
 																				<div style="color: #818181;"><span style="font-weight: bold">Role</span>: {{row.role}}</div>
 																			</div>
 														</div>
-											   <div style="padding: 20px; margin-right: 40px">
-                 <span class="pill">Billing</span>
-													 		 <span class="pill">Numbers</span>
-																	<span class="pill">Contacts</span>
-																	<span class="pill">Webhook</span>
-															 <span class="pill">Reports</span>
+											   <div style="padding: 20px; margin-right: 40px" >
+                 <span v-for="row in row.permissions" class="pill">{{row}}</span>
 														</div>
 											   <div style="padding: 20px">
 															<button class="btn btn-success"><i class="fa fa-edit m-r-5"></i>Update</button>
-															<button class="btn btn-danger"><i class="icon-bin m-r-5" style="font-size: 12px"></i>Delete</button>
+															<button class="btn btn-danger" @click="deleteTeamMember(row.email)"><i class="icon-bin m-r-5" style="font-size: 12px" ></i>Delete</button>
 														</div>
 										</div>
 							</div>
 						</div>
-					  <AddTeamMemberModal></AddTeamMemberModal>
+					  <AddTeamMemberModal @team-member="addTeamMember($event)"></AddTeamMemberModal>
 				</div>
 		</div>
 </template>
@@ -58,13 +54,20 @@ export default {
 	components: {AddTeamMemberModal, DashboardNavbar, Sidebar},
 	data(){
  	 return{
- 	 	 team_members:[{name: 'Taiwo Bakare', email: 'taiwobakare@temii.com', role: 'Customer success', permissions:['Billing', 'Numbers', 'Contacts','Webhook' ]},
-						{name: 'Tobi Bakare', email: 'taiwobakare@temii.com', role: 'Customer success', permissions:['Billing', 'Numbers', 'Contacts','Webhook' ]}]
+ 	 	 team_members:[{ name: 'Taiwo Bakare', email: 'taiwobakare@temii.com', role: 'Customer success', permissions:['Billing', 'Numbers', 'Contacts','Webhook' ]},
+						{name: 'Tobi Bakare', email: 'taiwobakare@temii.com', role: 'Customer success', permissions:['Billing', 'Numbers' ]}]
 			}
 	},
 	methods: {
 		showModal(){
 			 this.$modal.show('add-team-member-modal');
+		},
+		addTeamMember(event){
+			 this.team_members.push(event);
+		},
+		deleteTeamMember(email){
+   let index = this.team_members.indexOf(email);
+   this.team_members.splice(index, 1);
 		}
 	}
 }
@@ -118,7 +121,7 @@ font-weight: 600;
 .pill {
 	font-size: 13px;
 	padding: 2px 10px;
-	margin: 2px 0;
+	margin: 2px 2px;
 	border-radius: 20px;
 	font-weight: 500;
 	background: #E5E5E5;

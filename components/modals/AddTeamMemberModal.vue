@@ -10,8 +10,6 @@
 						<h4 class="modal-title" style="font-weight: bold">Add Teammate</h4>
 						<p class="mt-10">Add a new team-mate here</p>
 					</div>
-					<form method="post" >
-
 						<div class="modal-body">
 							<div class="form-group">
 								<label>Name</label>
@@ -19,13 +17,13 @@
 								<span class=" error_field_message" >{{error_message.sender_id}}</span>
 								<br>
 								<label>Email address</label>
-								<input type="text" class="form-control" v-model="email_address" >
-								<span class=" error_field_message" v-if="error_message.company">{{error_message.company}}</span>
+								<input type="text" class="form-control" v-model="email" >
+								<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
 								<br>
 								<label>Role</label>
-								<select class="form-control">
-									<option>User 1S</option>
-									<option>User 2</option>
+								<select class="form-control" v-model="role">
+									<option>Developer</option>
+									<option>Customer Success</option>
 								</select>
 								<br>
 								<div style="display: flex; justify-content: space-between">
@@ -44,7 +42,7 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" class="btn id-btn-primary"   :disabled="isDisabled">
+							<button @click="addTeamMember" class="btn id-btn-primary"   :disabled="isDisabled">
 								<i class="fa fa-plus m-r-5"></i>{{save_button_text}}
 								<span v-show="isLoading" >
 															<img src="/images/black_spinner.svg" height="20px" width="30px"/>
@@ -52,7 +50,6 @@
 							</button>
 						</div>
 
-					</form>
 				</div>
 			</div>
 		</div>
@@ -72,8 +69,9 @@ export default {
 		return{
 			select_all: false,
 			name:'',
-			email_address:'',
+			email:'',
 			role:'',
+			permission:[],
 			error_message:[],
 			error: "",
 			isLoading: false,
@@ -82,14 +80,17 @@ export default {
 			number_selected: false,
 			contact_selected: false,
 			webhook_selected: false,
-			report_selected: false
+			report_selected: false,
+			team_member_info: ''
 		}
 	},
 	computed:{
 		isDisabled:function () {
-			return (!this.name  || !this.email_address || !this.role);
+			return (!this.name  || !this.email || !this.role);
 		},
+ billing_selected(){
 
+	}
 	},
 	watch: {
 			select_all(){
@@ -99,14 +100,18 @@ export default {
 				 	 this.contact_selected = true;
 				 	 this.webhook_selected = true;
 				 	 this.report_selected = true;
+				 	 this.permission = [];
+				 	 this.permission.push('Billing', 'Number', 'Contact', 'Webhook', 'Reports');
 					} else {
 						this.billing_selected = false;
 						this.number_selected = false;
 						this.contact_selected = false;
 						this.webhook_selected = false;
 						this.report_selected = false;
+						this.permission = [];
 					}
-			}
+			},
+
 
 	},
 	methods: {
@@ -115,18 +120,44 @@ export default {
 		},
 		toggleBillingPermission(){
 			this.billing_selected = !this.billing_selected;
+			let index = this.permission.indexOf('Billing');
+			this.billing_selected === true ?  this.permission.push('Billing') :this.permission.splice(index, 1);
 		},
 		toggleNumberPermission(){
 			this.number_selected = !this.number_selected;
+			let index = this.permission.indexOf('Number');
+			this.number_selected === true ?  this.permission.push('Number') :this.permission.splice(index, 1);
 		},
 		toggleContactPermission(){
 			this.contact_selected = !this.contact_selected;
+			let index = this.permission.indexOf('Contact');
+			this.contact_selected === true ?  this.permission.push('Contact') :this.permission.splice(index, 1);
 		},
 		toggleWebhookPermission(){
 			this.webhook_selected = !this.webhook_selected;
+			let index = this.permission.indexOf('Webhook');
+			this.webhook_selected === true ?  this.permission.push('Webhook') :this.permission.splice(index, 1);
 		},
 		toggleReportPermission(){
 			 this.report_selected = !this.report_selected;
+			let index = this.permission.indexOf('Reports');
+			this.report_selected === true ?  this.permission.push('Reports') :this.permission.splice(index, 1);
+		},
+		validateEmail(email){
+			if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+				this.error_message['email'] = '';
+				this.hasEmailError = false;
+
+			}else {
+				this.error_message['email'] = 'The email field must be a valid email';
+				this.hasEmailError = true;
+
+			}
+		},
+		addTeamMember(){
+			 this.team_member_info = {name: this.name, email: this.email, role: this.role, permissions: this.permission};
+			 this.$emit('team-member', this.team_member_info);
+			 this.close();
 		}
 
 		},
