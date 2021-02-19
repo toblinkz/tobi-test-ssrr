@@ -34,7 +34,10 @@
                               <p class="insight">Select your preferred payment gateway and top up your <br>account using card or bank transfer</p>
                             </div>
                             <!-- Trigger the modal with a button -->
-                            <button type="button" @click="showModal" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
+																											 <div style="display: flex">
+																													<button type="button" @click="showModal" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn m-r-10 btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
+																													<a class="btn mb-30" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 10px!important;" >Get account number</a>
+																												</div>
                           </div>
                         </div>
                         <div class="fund-row row-md-height">
@@ -173,6 +176,8 @@
     <ServicePriceModal v-if="showModal" @close="closeModal" ></ServicePriceModal>
     <MonnifyModal :account_number="account_number" :amount="total" :bank_name="bank_name"></MonnifyModal>
 			<VerificationModal></VerificationModal>
+			<AccountNumberModal></AccountNumberModal>
+			<SuccessModal></SuccessModal>
   </div>
 </template>
 
@@ -185,10 +190,19 @@
     import MonnifyModal from "../../components/modals/MonnifyModal";
 				import {ContentLoader,} from 'vue-content-loader';
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import ButtonSpinner from "../../components/general/ButtonSpinner";
+				import AccountNumberModal from "../../components/modals/AccountNumberModal";
+				import SuccessfulPayment from "../successful-payment";
+				import SuccessModal from "../../components/modals/SuccessModal";
     export default {
         name: "funding",
 					   middleware: ['auth', 'inactive_user'],
-        components: {VerificationModal, MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
+        components: {
+									SuccessModal,
+									SuccessfulPayment,
+									AccountNumberModal,
+									ButtonSpinner,
+									VerificationModal, MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
        data() {
           return {
             isBundledForm: false,
@@ -241,6 +255,9 @@
           },
 									showModal(){
           	this.$modal.show('service-pricing-modal');
+									},
+							  showAccountNumberModal(){
+          	this.$modal.show('account-number-modal');
 									},
           async getWallet() {
             try{
@@ -553,6 +570,11 @@
     font-weight: 600;
     line-height: 24px;
   }
+		.get-account{
+			 border-radius: 10px;
+			 background-color: #0c7cd5;
+			 text-align: center;
+		}
   .bx-line {
     border: transparent !important;
   }
