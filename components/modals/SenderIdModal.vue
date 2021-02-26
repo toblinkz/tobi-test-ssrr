@@ -16,6 +16,7 @@
                   <label>Sender ID For Sms</label>
                   <input type="text" class="form-control" required v-model="sender_id" placeholder="eg. Termii (Ensure your ID is not more than 11 characters)" name="sender_id"  :class="{'error' : hasSenderIdError}">
                   <span class=" error_field_message" v-if="error_message.sender_id">{{error_message.sender_id}}</span>
+
                   <br>
                   <label>Company</label>
                   <input type="text" class="form-control" v-model="company" required placeholder="eg. Termii" name="company" :class="{'error' : hasCompanyError}">

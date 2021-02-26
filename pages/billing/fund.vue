@@ -36,7 +36,9 @@
                             <!-- Trigger the modal with a button -->
 																											 <div style="display: flex">
 																													<button type="button" @click="showModal" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn m-r-10 btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
-																													<a class="btn mb-30" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 10px!important;" >Get account number</a>
+																													<a class="btn account mb-30" v-show="customer_country === 'Nigeria'" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 8px!important;">
+																														<i class="entypo-light-up"></i>
+																														Get account number</a>
 																												</div>
                           </div>
                         </div>
@@ -195,220 +197,233 @@
 				import SuccessfulPayment from "../successful-payment";
 				import SuccessModal from "../../components/modals/SuccessModal";
     export default {
-        name: "funding",
-					   middleware: ['auth', 'inactive_user'],
-        components: {
-									SuccessModal,
-									SuccessfulPayment,
-									AccountNumberModal,
-									ButtonSpinner,
-									VerificationModal, MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
-       data() {
-          return {
-            isBundledForm: false,
-            isRegularBody: true,
-            isRegularForm: false,
-            isLoading: false,
-            payment_method:'',
-												minimum_top_up:'',
-												minimum_top_up_value:'',
-            fund_button_text:'Fund Account',
-            selected_payment_method:"",
-            amount:'',
-												is_nigerian_wallet:false,
-												page_url: '',
-            account_number: '',
-            account_balance: '',
-            bank_name: '',
-            options: ['Select Top Up Option',{id: '1', name: 'Regular Top Up'},{id: '2', name:'Bundled Top Up'},],
-            payment_gateway:'',
-            hasError: false,
-												total: '',
-										 	bundled_top_up:'',
-            payment_url:'',
-            selectPayment: false,
-											 first_name: JSON.parse(localStorage.getItem('user_data')).fname,
-											 last_name: JSON.parse(localStorage.getItem('user_data')).lname,
-            input_amount:false,
-            showMonnifyModal: false,
-            error_message:'',
-            dropdownStyle:{
-              borderRadius:'8px'
-            }
-
-          }
-      },
-      computed:{
-          isDisabled: function () {
-              return (this.amount === '' || this.hasError)
-          }
-      },
-      watch:{
-        amount(value){
-          this.amount = value;
-          this.validateAmount(value);
-        }
-      },
-      methods: {
-          closeModal() {
-            this.showModal = false;
-          },
-									showModal(){
-          	this.$modal.show('service-pricing-modal');
-									},
-							  showAccountNumberModal(){
-          	this.$modal.show('account-number-modal');
-									},
-          async getWallet() {
-            try{
-              let data = await this.$axios.$get('billing/wallet');
-              this.is_nigerian_wallet = data.data.is_nigerian_wallet
-              this.account_balance = data.data.converted_balance;
-              this.bank_name  = data.data.bank_name;
-              this.account_number = data.data.account_number;
-            } catch(e){
-
-            }
-          },
-        async getPaymentMethod(){
-            try {
-              let response_data = await this.$axios.$get('billing/payment-method');
-             this.payment_method = response_data;
-              this.payment_gateway = response_data.data[0].settings;
-            }catch (e) {
-
-            }
-        },
-
-									async TopUp() {
-										if (this.showMonnifyModal) {
-											this.$modal.show('monnify-modal')
-										}	else {
-
-											try {
-												this.$store.commit('setSuccessfulPaymentUrl', this.page_url);
-												this.isLoading = true;
-												this.fund_button_text = "";
-												let response_data = await this.$axios.$post('billing/fund/wallet', {
-													amount: this.amount,
-													gateway: this.payment_gateway
-												});
-
-												switch (this.payment_gateway) {
-													case('paystack'): {
-														window.location.href = response_data.data.url;
-														break;
-													}
-													case('flutterwave_card'):
-													case('flutterwave_ghana_momo'): {
-														window.location.href = response_data.data.link;
-														break;
-													}
-													case('stripe'): {
-														this.$stripe.import().redirectToCheckout({
-															sessionId: response_data.data
-														}).then(function (result) {
-															this.$toast.error(result.error.message)
-														});
-														break;
-													}
-													case('spektra'):{
-														window.location.href = response_data.data;
-													}
-												}
-
-											} catch (e) {
-												console.log(e)
-												this.isLoading = false;
-												this.fund_button_text = "Fund Account";
-												let errors = e.response;
-
-											}
-										}
-									},
-							async getExchangeRate(){
-								try{
-									let response_data = await this.$axios.$get('billing/exchange-rate', {params: {amount: this.amount,}});
-									this.total = response_data.amount;
-								}catch (e) {
-									let errors = e.response.data.errors;
-									for(let key in errors){
-										errors[key].forEach(err => {
-											this.$toast.error(err);
-										});
-									}
-								}
-
-							},
-							async getTopUp(){
-										try{
-
-											let response = await this.$axios.$get('billing/top-up/plans');
-										 this.amount = 	response.data.bundled_top_up.amount_currency;
-											this.total = response.data.bundled_top_up.amount;
-
-										}catch (e) {
-
-										}
-							},
-							async getTopDetails(){
-         try{
-										let response = await this.$axios.$get('billing/top-up/plans');
-										this.bundled_top_up =  response.data.bundled_top_up.amount;
-										this.minimum_top_up = response.data.minimum_top_up.amount;
-										this.minimum_top_up_value = response.data.minimum_top_up.amount_currency;
-									}catch (e) {
-
-									}
-							},
-
-							validateAmount(value){
-            if (isNaN(value)){
-              this.error_message = 'Please enter a valid amount';
-              this.hasError = true;
-            } else if (value < this.minimum_top_up_value){
-													this.error_message = `minimum amount to recharge is ${this.minimum_top_up}`;
-													this.hasError = true;
-												} else {
-              this.error_message = '';
-              this.hasError = false;
-            }
-        },
-        onChange(event){
-            if (event.target.value === 'monnify'){
-              this.showMonnifyModal = true;
-            }
-          this.payment_gateway = event.target.value;
-        },
-        async itemSelected(value){
-            if (value === "2"){
-              this.selectPayment = true;
-              this.input_amount = false;
-              await this.getTopUp();
-              await this.getExchangeRate()
-            } else if (value === "1"){
-              this.selectPayment = true;
-              this.input_amount = true;
-            }
-
-        }
-      },
-      mounted() {
-							if(this.$store.state.view_verify_page === 'true'){
-								this.$modal.show('verification-id-modal');
-							}else {
-								this.page_url = window.location.href;
-								this.getWallet();
-								this.getPaymentMethod();
-								this.getTopDetails();
-								this.$modal.show('service-pricing-modal');
+					name: "funding",
+					middleware: ['auth', 'inactive_user'],
+					components: {
+						SuccessModal,
+						SuccessfulPayment,
+						AccountNumberModal,
+						ButtonSpinner,
+						VerificationModal, MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader
+					},
+					data() {
+						return {
+							isBundledForm: false,
+							isRegularBody: true,
+							isRegularForm: false,
+							isLoading: false,
+							payment_method: '',
+							minimum_top_up: '',
+							minimum_top_up_value: '',
+							fund_button_text: 'Fund Account',
+							selected_payment_method: "",
+							amount: '',
+							is_nigerian_wallet: false,
+							page_url: '',
+							account_number: '',
+							account_balance: '',
+							bank_name: '',
+							options: ['Select Top Up Option', {id: '1', name: 'Regular Top Up'}, {id: '2', name: 'Bundled Top Up'},],
+							payment_gateway: '',
+							hasError: false,
+							total: '',
+							bundled_top_up: '',
+							payment_url: '',
+							selectPayment: false,
+							first_name: JSON.parse(localStorage.getItem('user_data')).fname,
+							last_name: JSON.parse(localStorage.getItem('user_data')).lname,
+							input_amount: false,
+							showMonnifyModal: false,
+							error_message: '',
+							customer_country: JSON.parse(localStorage.getItem('user_data')).country,
+							nuban_account: [],
+							dropdownStyle: {
+								borderRadius: '8px'
 							}
 
+						}
+					},
+					computed: {
+						isDisabled: function () {
+							return (this.amount === '' || this.hasError)
+						}
+					},
+					watch: {
+						amount(value) {
+							this.amount = value;
+							this.validateAmount(value);
+						}
+					},
+					methods: {
+						closeModal() {
+							this.showModal = false;
+						},
+						showModal() {
+							this.$modal.show('service-pricing-modal');
+						},
+						showAccountNumberModal() {
+							this.$modal.show('account-number-modal');
+						},
+						async getWallet() {
+							try {
+								let data = await this.$axios.$get('billing/wallet');
+								this.is_nigerian_wallet = data.data.is_nigerian_wallet
+								this.account_balance = data.data.converted_balance;
+								this.bank_name = data.data.bank_name;
+								this.account_number = data.data.account_number;
+							} catch (e) {
 
+							}
+						},
+						async getPaymentMethod() {
+							try {
+								let response_data = await this.$axios.$get('billing/payment-method');
+								this.payment_method = response_data;
+								this.payment_gateway = response_data.data[0].settings;
+							} catch (e) {
 
+							}
+						},
 
-      }
-    }
+						async TopUp() {
+							if (this.showMonnifyModal) {
+								this.$modal.show('monnify-modal')
+							} else {
+
+								try {
+									this.$store.commit('setSuccessfulPaymentUrl', this.page_url);
+									this.isLoading = true;
+									this.fund_button_text = "";
+									let response_data = await this.$axios.$post('billing/fund/wallet', {
+										amount: this.amount,
+										gateway: this.payment_gateway
+									});
+
+									switch (this.payment_gateway) {
+										case('paystack'): {
+											window.location.href = response_data.data.url;
+											break;
+										}
+										case('flutterwave_card'):
+										case('flutterwave_ghana_momo'): {
+											window.location.href = response_data.data.link;
+											break;
+										}
+										case('stripe'): {
+											this.$stripe.import().redirectToCheckout({
+												sessionId: response_data.data
+											}).then(function (result) {
+												this.$toast.error(result.error.message)
+											});
+											break;
+										}
+										case('spektra'): {
+											window.location.href = response_data.data;
+										}
+									}
+
+								} catch (e) {
+									console.log(e)
+									this.isLoading = false;
+									this.fund_button_text = "Fund Account";
+									let errors = e.response;
+
+								}
+							}
+						},
+						async getExchangeRate() {
+							try {
+								let response_data = await this.$axios.$get('billing/exchange-rate', {params: {amount: this.amount,}});
+								this.total = response_data.amount;
+							} catch (e) {
+								let errors = e.response.data.errors;
+								for (let key in errors) {
+									errors[key].forEach(err => {
+										this.$toast.error(err);
+									});
+								}
+							}
+
+						},
+						async getNuban() {
+							try {
+								let nuban_data = await this.$axios.$get('billing/dedicated-nuban');
+
+								this.nuban_account = nuban_data.data;
+
+								if (this.nuban_account.length === 0 && localStorage.getItem('SAM') === 'false') {
+									this.$modal.show('account-number-modal');
+								}
+							} catch (e) {
+
+							}
+						},
+						async getTopUp() {
+							try {
+
+								let response = await this.$axios.$get('billing/top-up/plans');
+								this.amount = response.data.bundled_top_up.amount_currency;
+								this.total = response.data.bundled_top_up.amount;
+
+							} catch (e) {
+
+							}
+						},
+						async getTopDetails() {
+							try {
+								let response = await this.$axios.$get('billing/top-up/plans');
+								this.bundled_top_up = response.data.bundled_top_up.amount;
+								this.minimum_top_up = response.data.minimum_top_up.amount;
+								this.minimum_top_up_value = response.data.minimum_top_up.amount_currency;
+							} catch (e) {
+
+							}
+						},
+
+						validateAmount(value) {
+							if (isNaN(value)) {
+								this.error_message = 'Please enter a valid amount';
+								this.hasError = true;
+							} else if (value < this.minimum_top_up_value) {
+								this.error_message = `minimum amount to recharge is ${this.minimum_top_up}`;
+								this.hasError = true;
+							} else {
+								this.error_message = '';
+								this.hasError = false;
+							}
+						},
+						onChange(event) {
+							if (event.target.value === 'monnify') {
+								this.showMonnifyModal = true;
+							}
+							this.payment_gateway = event.target.value;
+						},
+						async itemSelected(value) {
+							if (value === "2") {
+								this.selectPayment = true;
+								this.input_amount = false;
+								await this.getTopUp();
+								await this.getExchangeRate()
+							} else if (value === "1") {
+								this.selectPayment = true;
+								this.input_amount = true;
+							}
+
+						}
+					},
+					mounted() {
+						if (this.$store.state.view_verify_page === 'true') {
+							this.$modal.show('verification-id-modal');
+						} else {
+							this.page_url = window.location.href;
+							this.getWallet();
+							this.getPaymentMethod();
+							this.getTopDetails();
+							this.getNuban();
+
+						}
+					}
+				}
 </script>
 
 <style >
@@ -608,6 +623,7 @@
     box-shadow: none;
     outline: 0;
   }
+
 
 
 </style>

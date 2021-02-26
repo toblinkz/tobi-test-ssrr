@@ -162,6 +162,7 @@
 											this.isLoading = false;
 											this.button_text = "Proceed";
            await this.$router.push('/');
+								await localStorage.setItem('SAM', false);
 
 									this.$store.commit('setViewVerificationPage', 'false');
         } catch (e) {

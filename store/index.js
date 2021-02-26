@@ -12,12 +12,12 @@ export const getters = {
 			getSuccessfulPaymentUrl(state){
 					return state.successful_payment_url;
 			},
-		getViewVerifyPage(state){
-				return state.view_verify_page;
-		},
-	getFirstName(state){
-				return state.first_name;
-	}
+			getViewVerifyPage(state){
+					return state.view_verify_page;
+			},
+			getFirstName(state){
+						return state.first_name;
+			}
 }
 
 	export const state = () => ({
@@ -27,7 +27,8 @@ export const getters = {
 			successful_payment_url: '',
 			view_verify_page: 'false',
 			first_name: '',
-			L_I : false
+			L_I : false,
+
 	});
 
 export const mutations = {
