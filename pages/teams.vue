@@ -9,7 +9,7 @@
 							<div style="display: flex; flex-direction: row; justify-content: space-between">
 										<div style="display: flex; flex-direction: column">
 											<div style="font-size: 20px; font-weight: bold"> <i class="entypo-users  m-r-5" style="font-size: 20px"></i> Team </div>
-											<p style="font-size: 13.5px!important;">Here is a list of your teammates currently on Termii</p>
+											<p style="font-size: 13.5px!important;">Here is a list of your teammates currently on {{first_name}} {{last_name}}</p>
 										</div>
 									<div>
 										<button class="add-button" @click="showModal">Add Teammate</button>
@@ -55,7 +55,10 @@ export default {
 	data(){
  	 return{
  	 	 team_members:[{ name: 'Taiwo Bakare', email: 'taiwobakare@temii.com', role: 'Customer success', permissions:['Billing', 'Numbers', 'Contacts','Webhook' ]},
-						{name: 'Tobi Bakare', email: 'taiwobakare@temii.com', role: 'Customer success', permissions:['Billing', 'Numbers' ]}]
+						{name: 'Tobi Bakare', email: 'taiwobakare@temii.com', role: 'Customer success', permissions:['Billing', 'Numbers' ]}],
+				first_name: JSON.parse(localStorage.getItem('user_data')).fname,
+				last_name: JSON.parse(localStorage.getItem('user_data')).lname,
+
 			}
 	},
 	methods: {
@@ -68,7 +71,18 @@ export default {
 		deleteTeamMember(email){
    let index = this.team_members.indexOf(email);
    this.team_members.splice(index, 1);
+		},
+		async getTeammates(){
+			  try {
+						 let data = await this.$axios.$get('team');
+						 console.log(data);
+					}catch (e) {
+
+					}
 		}
+	},
+	mounted() {
+ 	this.getTeammates();
 	}
 }
 </script>

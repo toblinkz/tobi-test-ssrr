@@ -12,12 +12,24 @@
 					</div>
 						<div class="modal-body">
 							<div class="form-group">
-								<label>Name</label>
-								<input type="text" class="form-control"  placeholder="Name" v-model="name" >
-								<span class=" error_field_message" >{{error_message.sender_id}}</span>
+								<div style="display: flex;">
+									 <div style="width: 45%">
+											<label>First Name</label>
+											<input type="text" class="form-control"  placeholder="first name" v-model="name" >
+											<span class=" error_field_message" >{{error_message.sender_id}}</span>
+										</div>
+									 <div style="width: 5%"></div>
+									<div  style="width: 50%">
+										<label>Last Name</label>
+										<input type="text" class="form-control"  placeholder="last name" v-model="name" >
+										<span class=" error_field_message" >{{error_message.sender_id}}</span>
+									</div>
+
+								</div>
+
 								<br>
 								<label>Email address</label>
-								<input type="text" class="form-control" v-model="email" >
+								<input type="text" class="form-control" v-model="email" placeholder="email address">
 								<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
 								<br>
 								<label>Role</label>
