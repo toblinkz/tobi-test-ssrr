@@ -9,7 +9,7 @@
 							<div style="display: flex; flex-direction: row; justify-content: space-between">
 										<div style="display: flex; flex-direction: column">
 											<div style="font-size: 20px; font-weight: bold"> <i class="entypo-users  m-r-5" style="font-size: 20px"></i> Team </div>
-											<p style="font-size: 13.5px!important;">Here is a list of your teammates currently on {{first_name}} {{last_name}}</p>
+											<p style="font-size: 13.5px!important;">Here is a list of your teammates currently on {{f_name}} {{l_name}}</p>
 										</div>
 									<div>
 										<button class="add-button" @click="showModal">Add Teammate</button>
@@ -21,43 +21,49 @@
 											 <p>Permissions</p>
 											 <p>Action</p>
 										</div>
-								  <div class="container-item" v-for="row in team_members" :key="row.id">
+								  <div class="container-item" v-for="row in team_members.data" :key="row.id">
               <div style="display: flex; align-items: center; padding: 10px">
-															   <div class="m-r-10" style="display:inline-block; border-radius: 50%; color: #FFFFFF; background: #B8DECD; height: 25px; text-align: center; width: 25px">TB</div>
+															   <div class="m-r-10" style="display:inline-block; border-radius: 50%; color: #FFFFFF; background: #B8DECD; height: 25px; text-align: center; width: 25px">{{row.fname.charAt(0)}}{{row.lname.charAt(0)}}</div>
 															    <div style="display: flex; flex-direction: column;">
- 																					<div style="color:  #818181; font-weight: bold">{{ row.name }} ({{row.email}})</div>
+ 																					<div style="color:  #818181; font-weight: 200">{{ row.fname }} {{row.lname}} ({{row.email}})</div>
 																				<div style="color: #818181;"><span style="font-weight: bold">Role</span>: {{row.role}}</div>
 																			</div>
 														</div>
-											   <div style="padding: 20px; margin-right: 40px" >
-                 <span v-for="row in row.permissions" class="pill">{{row}}</span>
+											   <div style="padding: 20px; margin-right: 40px; display: flex; flex-wrap: wrap" >
+                 <span v-for="row in row.permissions" class="pill" >{{row}}</span>
 														</div>
 											   <div style="padding: 20px">
-															<button class="btn btn-success"><i class="fa fa-edit m-r-5"></i>Update</button>
+															<button class="btn btn-success" @click="updateTeamMember(row)"><i class="fa fa-edit m-r-5" ></i>Update</button>
 															<button class="btn btn-danger" @click="deleteTeamMember(row.email)"><i class="icon-bin m-r-5" style="font-size: 12px" ></i>Delete</button>
 														</div>
 										</div>
 							</div>
 						</div>
 					  <AddTeamMemberModal @team-member="addTeamMember($event)"></AddTeamMemberModal>
+					  <UpdateTeamMemberModal @update-team-member="updateTeamMember($event)" :email="email" :first_name="first_name" :last_name="last_name" :role="role"></UpdateTeamMemberModal>
 				</div>
 		</div>
 </template>
 
 <script>
 import Sidebar from "../components/general/Sidebar";
+import Swal from "sweetalert2";
 import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
 import AddTeamMemberModal from "../components/modals/AddTeamMemberModal";
+import UpdateTeamMemberModal from "../components/modals/UpdateTeamMemberModal";
 export default {
  name: "teams",
 	middleware:'auth',
-	components: {AddTeamMemberModal, DashboardNavbar, Sidebar},
+	components: {UpdateTeamMemberModal, AddTeamMemberModal, DashboardNavbar, Sidebar},
 	data(){
  	 return{
- 	 	 team_members:[{ name: 'Taiwo Bakare', email: 'taiwobakare@temii.com', role: 'Customer success', permissions:['Billing', 'Numbers', 'Contacts','Webhook' ]},
-						{name: 'Tobi Bakare', email: 'taiwobakare@temii.com', role: 'Customer success', permissions:['Billing', 'Numbers' ]}],
-				first_name: JSON.parse(localStorage.getItem('user_data')).fname,
-				last_name: JSON.parse(localStorage.getItem('user_data')).lname,
+ 	 	 team_members:[],
+						f_name: JSON.parse(localStorage.getItem('user_data')).fname,
+						l_name: JSON.parse(localStorage.getItem('user_data')).lname,
+						first_name: '',
+						last_name: '',
+						email: '',
+				  role: ''
 
 			}
 	},
@@ -68,17 +74,37 @@ export default {
 		addTeamMember(event){
 			 this.team_members.push(event);
 		},
-		deleteTeamMember(email){
-   let index = this.team_members.indexOf(email);
-   this.team_members.splice(index, 1);
+		async deleteTeamMember(email){
+			let index = this.team_members.indexOf(email);
+			await Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to revert this!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, delete it!'
+			}).then(async (result) => {
+				 if (result.value){
+						this.team_members.splice(index, 1);
+					}
+			})
 		},
 		async getTeammates(){
 			  try {
 						 let data = await this.$axios.$get('team');
 						 console.log(data);
+						 this.team_members = data
 					}catch (e) {
 
 					}
+		},
+		updateTeamMember(row){
+			 this.first_name = row.first_name;
+			 this.last_name = row.last_name;
+			 this.email = row.email;
+			 this.role = row.role;
+			 this.$modal.show('update-team-member-modal');
 		}
 	},
 	mounted() {

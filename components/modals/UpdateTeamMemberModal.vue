@@ -1,7 +1,6 @@
 <template>
-
 	<!-- Modal -->
-	<modal name="add-team-member-modal" height="auto">
+	<modal name="update-team-member-modal" height="auto">
 		<div   style="display: block; padding-left: 9px;">
 			<div>
 				<div>
@@ -10,57 +9,58 @@
 						<h4 class="modal-title" style="font-weight: bold">Add Teammate</h4>
 						<p class="mt-10">Add a new team-mate here</p>
 					</div>
-						<div class="modal-body">
-							<div class="form-group">
-								<div style="display: flex;">
-									 <div style="width: 45%">
-											<label>First Name</label>
-											<input type="text" class="form-control"  placeholder="first name" v-model="first_name" >
-											<span class=" error_field_message" >{{error_message.sender_id}}</span>
-										</div>
-									 <div style="width: 5%"></div>
-									<div  style="width: 50%">
-										<label>Last Name</label>
-										<input type="text" class="form-control"  placeholder="last name" v-model="last_name" >
-										<span class=" error_field_message" >{{error_message.sender_id}}</span>
-									</div>
-
+					<div class="modal-body">
+						<div class="form-group">
+							<div style="display: flex;">
+								<div style="width: 45%">
+									<label>First Name</label>
+									<input type="text" class="form-control"  placeholder="first name" v-model="first_name" >
+									<span class=" error_field_message" >{{error_message.sender_id}}</span>
+								</div>
+								<div style="width: 5%"></div>
+								<div  style="width: 50%">
+									<label>Last Name</label>
+									<input type="text" class="form-control"  placeholder="last name" v-model="last_name" >
+									<span class=" error_field_message" >{{error_message.sender_id}}</span>
 								</div>
 
-								<br>
-								<label>Email address</label>
-								<input type="text" class="form-control" v-model="email" placeholder="email address">
-								<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
-								<br>
-								<label>Role</label>
-								<select  @change="onChange($event)" class="form-control">
-								    <option v-for="role in roles" :value="role.name">{{role.name}}</option>
-								</select>
-								<br>
-								<div style="display: flex; justify-content: space-between">
-									 <label style="font-size: 16px">Permissions</label>
-									 <div style="display: flex">
-											select all	<Switches type-bold="true"  class="m-l-5"  color="blue"></Switches>
-										</div>
-								</div>
-								<div class="mt-20">
-            <div v-for="row in permission">
-													 <h3 class="m-b-5">{{row.name}}</h3>
-													<div class="checkboxes" v-for="member in row.permission">
-														<label><input type="checkbox" :value="member.name" v-model="selected_permission" style="margin-right:10px;"/><span style="font-weight: bold; ">Can</span> {{ member.name }}</label>
-													</div>
-												</div>
+							</div>
+
+							<br>
+							<label>Email address</label>
+							<input type="text" class="form-control" v-model="email" placeholder="email address">
+							<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
+							<br>
+							<label>Role</label>
+							<select  @change="onChange($event)" class="form-control" v-model="role">
+								 <option v-for="role in roles" :value="role.name">{{role.name}}</option>
+							</select>
+							<br>
+							<div style="display: flex; justify-content: space-between">
+								<label style="font-size: 16px">Permissions</label>
+								<div style="display: flex">
+									Select all
+									<Switches type-bold="true"  class="m-l-5"  color="blue"></Switches>
 								</div>
 							</div>
+							<div class="mt-20">
+									<div v-for="row in permissions">
+										<h3 class="m-b-5">{{row.name}}</h3>
+										<div class="checkboxes" v-for="member in row.permission">
+											<label><input type="checkbox" :value="member.name" v-model="selected_permission" style="margin-right:10px;"/><span style="font-weight: bold;">Can</span> {{ member.name }}</label>
+										</div>
+									</div>
+							</div>
 						</div>
-						<div class="modal-footer">
-							<button @click="addTeamMember" class="btn id-btn-primary"   :disabled="isDisabled">
-								<i class="fa fa-plus m-r-5"></i>{{save_button_text}}
-								<span v-show="isLoading" >
+					</div>
+					<div class="modal-footer">
+						<button @click="addTeamMember" class="btn id-btn-primary" :disabled="isDisabled">
+							<i class="fa fa-plus m-r-5"></i>{{save_button_text}}
+							<span v-show="isLoading" >
 															<img src="/images/black_spinner.svg" height="20px" width="30px"/>
 													</span>
-							</button>
-						</div>
+						</button>
+					</div>
 
 				</div>
 			</div>
@@ -72,101 +72,61 @@
 <script>
 import ButtonSpinner from "../general/ButtonSpinner";
 import Switches from 'vue-switches';
-import {mapGetters} from "vuex";
 export default {
-	name: "AddTeamMemberModal",
-	middleware:'auth',
+	name: "UpdateTeamMemberModal",
 	components: {ButtonSpinner, Switches},
 	data(){
-		return{
-			select_all: false,
-			first_name:'',
-			last_name:'',
-			email:'',
-			role:'',
-			roles:[],
-			permission:[],
-			selected_permission:[],
-			error_message:[],
-			error: "",
-			isLoading: false,
-			save_button_text: 'Add teammate',
-			billing_selected: false,
-			number_selected: false,
-			contact_selected: false,
-			webhook_selected: false,
-			report_selected: false,
-			team_member_info: ''
-		}
+		 return{
+		 	 roles: [],
+				 isLoading: false,
+				 permissions:[],
+			 	selected_permission:[],
+				 team_member_info: [],
+				 error_message:[],
+				 save_button_text: 'Update',
+			}
+	},
+ props:{
+		 first_name:{ required: true},
+		 last_name:{ required: true },
+		 email: { required: true },
+		 role: { required: true }
 	},
 	computed:{
 		isDisabled:function () {
 			return (!this.first_name || !this.last_name  || !this.email || !this.role);
 		},
 	},
-	watch: {
-
-
-
-	},
-	methods: {
+	methods:{
 		close() {
-			this.$modal.hide('add-team-member-modal');
+			this.$modal.hide('update-team-member-modal');
 		},
 		async getRoles(){
 			try {
-				 let data = await this.$axios.$get('utility/roles');
-				 this.roles = data.data;
+				let data = await this.$axios.$get('utility/roles');
+				this.roles = data.data;
 			}catch (e) {
 
 			}
-},
+		},
 		async getPermissions(){
-			 try {
-					 let data = await this.$axios.$get('utility/permission');
-					 this.permission = data.data;
+			try {
+				let data = await this.$axios.$get('utility/permission');
+				this.permissions = data.data;
 
-				}catch (e) {
-
-				}
-		},
-		onChange(event){
-		 this.role = event.target.value;
-		},
-		toggleBillingPermission(){
-			this.billing_selected = !this.billing_selected;
-			let index = this.permission.indexOf('Billing');
-			this.billing_selected === true ?  this.permission.push('Billing') :this.permission.splice(index, 1);
-		},
-		validateEmail(email){
-			if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
-				this.error_message['email'] = '';
-				this.hasEmailError = false;
-
-			}else {
-				this.error_message['email'] = 'The email field must be a valid email';
-				this.hasEmailError = true;
+			}catch (e) {
 
 			}
 		},
 		addTeamMember(){
-			 this.team_member_info = {first_name: this.first_name, last_name: this.last_name, email: this.email, role: this.role, permissions: this.selected_permission};
-			 this.$emit('team-member', this.team_member_info);
-			 try {
-					  let data = this.$axios.$post('team', {
-					  	 first_name: this.first_name,
-								 last_name: this.last_name,
-								 email: this.email,
-								 role: 3,
-								 permissions: [3, 4]
-							});
-				}catch (e) {
-
-				}
-			 this.close();
-		}
-
+			this.team_member_info = {first_name: this.first_name, last_name: this.last_name, email: this.email, role: this.role, permissions: this.permission};
+			this.$emit('update-team-member', this.team_member_info);
+			this.close();
 		},
+		onChange(event){
+			this.role = event.target.value;
+		},
+	},
 	mounted() {
 		this.getRoles();
 		this.getPermissions();
@@ -175,7 +135,6 @@ export default {
 </script>
 
 <style scoped>
-
 .pill {
 	font-size: 13px;
 	padding: 6px 10px;
