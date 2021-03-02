@@ -16,13 +16,13 @@
 									 <div style="width: 45%">
 											<label>First Name</label>
 											<input type="text" class="form-control"  placeholder="first name" v-model="first_name" >
-											<span class=" error_field_message" >{{error_message.sender_id}}</span>
+											<span class=" error_field_message" >{{error_message.first_name}}</span>
 										</div>
 									 <div style="width: 5%"></div>
 									<div  style="width: 50%">
 										<label>Last Name</label>
 										<input type="text" class="form-control"  placeholder="last name" v-model="last_name" >
-										<span class=" error_field_message" >{{error_message.sender_id}}</span>
+										<span class=" error_field_message" >{{error_message.last_name}}</span>
 									</div>
 
 								</div>
@@ -33,33 +33,33 @@
 								<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
 								<br>
 								<label>Role</label>
-								<select  @change="onChange($event)" class="form-control">
-								    <option v-for="role in roles" :value="role.name">{{role.name}}</option>
+								<select  @change="onChange($event)" class="form-control" >
+								    <option v-for="role in roles"  :value="role.id" >{{role.name}}</option>
 								</select>
 								<br>
 								<div style="display: flex; justify-content: space-between">
 									 <label style="font-size: 16px">Permissions</label>
 									 <div style="display: flex">
-											select all	<Switches type-bold="true"  class="m-l-5"  color="blue"></Switches>
+											Select all	<input  type="checkbox" />
 										</div>
 								</div>
 								<div class="mt-20">
             <div v-for="row in permission">
 													 <h3 class="m-b-5">{{row.name}}</h3>
 													<div class="checkboxes" v-for="member in row.permission">
-														<label><input type="checkbox" :value="member.name" v-model="selected_permission" style="margin-right:10px;"/><span style="font-weight: bold; ">Can</span> {{ member.name }}</label>
+														<label><input type="checkbox" :value="member.id" v-model="selected_permission" style="margin-right:10px;"/><span style="font-weight: bold; ">Can</span> {{ member.name.replace(/_/g, " ") }}</label>
 													</div>
 												</div>
 								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button @click="addTeamMember" class="btn id-btn-primary"   :disabled="isDisabled">
-								<i class="fa fa-plus m-r-5"></i>{{save_button_text}}
+							<a @click="addTeamMember" class="btn id-btn-primary"   :disabled="isDisabled">
+								<i class="fa fa-plus m-r-5" v-show="show_icon"></i>{{add_button_text}}
 								<span v-show="isLoading" >
 															<img src="/images/black_spinner.svg" height="20px" width="30px"/>
 													</span>
-							</button>
+							</a>
 						</div>
 
 				</div>
@@ -83,14 +83,18 @@ export default {
 			first_name:'',
 			last_name:'',
 			email:'',
-			role:'',
+			role: '',
+			role_selected:'',
 			roles:[],
 			permission:[],
 			selected_permission:[],
+			show_icon: true,
 			error_message:[],
+			hasFirstNameInput: false,
+			hasLastNameInput: false,
 			error: "",
 			isLoading: false,
-			save_button_text: 'Add teammate',
+			add_button_text: 'Add teammate',
 			billing_selected: false,
 			number_selected: false,
 			contact_selected: false,
@@ -101,13 +105,23 @@ export default {
 	},
 	computed:{
 		isDisabled:function () {
-			return (!this.first_name || !this.last_name  || !this.email || !this.role);
+			return (!this.first_name || !this.last_name  || !this.email || !this.role_selected);
 		},
 	},
 	watch: {
-
-
-
+		first_name(value){
+			this.first_name = value;
+			this.hasFirstNameInput = true;
+			this.validateFirstName(value);
+		},
+		last_name(value){
+			this.last_name = value;
+			this.hasLastNameInput = true;
+			this.validateLastName(value);
+		},
+		email(value){
+			this.validateEmail(value);
+		}
 	},
 	methods: {
 		close() {
@@ -131,12 +145,25 @@ export default {
 				}
 		},
 		onChange(event){
-		 this.role = event.target.value;
+		 this.role_selected = event.target.value;
 		},
-		toggleBillingPermission(){
-			this.billing_selected = !this.billing_selected;
-			let index = this.permission.indexOf('Billing');
-			this.billing_selected === true ?  this.permission.push('Billing') :this.permission.splice(index, 1);
+		validateFirstName(value){
+			if ( value === ""){
+				this.error_message['first_name'] = 'The first name field is required';
+				this.hasFirstNameError = true;
+			}else {
+				this.error_message['first_name'] = '';
+				this.hasFirstNameError = false;
+			}
+		},
+		validateLastName(value){
+			if ( value === ""){
+				this.error_message['last_name'] = 'The Last name field is required';
+				this.hasLastNameError = true;
+			}else {
+				this.error_message['last_name'] = '';
+				this.hasLastNameError = false;
+			}
 		},
 		validateEmail(email){
 			if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
@@ -149,21 +176,30 @@ export default {
 
 			}
 		},
-		addTeamMember(){
-			 this.team_member_info = {first_name: this.first_name, last_name: this.last_name, email: this.email, role: this.role, permissions: this.selected_permission};
-			 this.$emit('team-member', this.team_member_info);
+		async addTeamMember(){
+			 this.add_button_text = '';
+			 this.show_icon = false;
+			 this.isLoading = true;
 			 try {
-					  let data = this.$axios.$post('team', {
+					  let data = await this.$axios.$post('team', {
 					  	 first_name: this.first_name,
 								 last_name: this.last_name,
 								 email: this.email,
-								 role: 3,
-								 permissions: [3, 4]
+								 role: this.role_selected,
+								 permissions: this.selected_permission
 							});
+					this.$emit('add-team-member', this.selected_permission);
+					this.add_button_text = 'Add teammate';
+					this.show_icon = true;
+					this.isLoading = false;
+					this.close();
 				}catch (e) {
-
+					this.add_button_text = 'Add teammate';
+					this.show_icon = true;
+					this.isLoading = false;
+					console.log(e.response)
 				}
-			 this.close();
+
 		}
 
 		},

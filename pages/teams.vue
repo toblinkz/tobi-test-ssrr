@@ -22,24 +22,24 @@
 											 <p>Action</p>
 										</div>
 								  <div class="container-item" v-for="row in team_members.data" :key="row.id">
-              <div style="display: flex; align-items: center; padding: 10px">
+              <div style="display: flex; flex: 2; align-items: center; padding: 10px">
 															   <div class="m-r-10" style="display:inline-block; border-radius: 50%; color: #FFFFFF; background: #B8DECD; height: 25px; text-align: center; width: 25px">{{row.fname.charAt(0)}}{{row.lname.charAt(0)}}</div>
 															    <div style="display: flex; flex-direction: column;">
  																					<div style="color:  #818181; font-weight: 200">{{ row.fname }} {{row.lname}} ({{row.email}})</div>
 																				<div style="color: #818181;"><span style="font-weight: bold">Role</span>: {{row.role}}</div>
 																			</div>
 														</div>
-											   <div style="padding: 20px; margin-right: 40px; display: flex; flex-wrap: wrap" >
-                 <span v-for="row in row.permissions" class="pill" >{{row}}</span>
+											   <div style="padding: 20px; flex: 2; margin-right: 40px; display: flex; flex-wrap: wrap" >
+                 <span v-for="row in row.permissions" class="pill" >{{row.replace(/_/g, " ")}}</span>
 														</div>
-											   <div style="padding: 20px">
+											   <div style="padding: 20px;">
 															<button class="btn btn-success" @click="updateTeamMember(row)"><i class="fa fa-edit m-r-5" ></i>Update</button>
-															<button class="btn btn-danger" @click="deleteTeamMember(row.email)"><i class="icon-bin m-r-5" style="font-size: 12px" ></i>Delete</button>
+															<button class="btn btn-danger" @click="deleteTeamMember(row.id)"><i class="icon-bin m-r-5" style="font-size: 12px" ></i>Delete</button>
 														</div>
 										</div>
 							</div>
 						</div>
-					  <AddTeamMemberModal @team-member="addTeamMember($event)"></AddTeamMemberModal>
+					  <AddTeamMemberModal @add-team-member="addTeamMember($event)" ></AddTeamMemberModal>
 					  <UpdateTeamMemberModal @update-team-member="updateTeamMember($event)" :email="email" :first_name="first_name" :last_name="last_name" :role="role"></UpdateTeamMemberModal>
 				</div>
 		</div>
@@ -63,7 +63,8 @@ export default {
 						first_name: '',
 						last_name: '',
 						email: '',
-				  role: ''
+				  role: '',
+				  selected_permission:''
 
 			}
 	},
@@ -72,10 +73,11 @@ export default {
 			 this.$modal.show('add-team-member-modal');
 		},
 		addTeamMember(event){
-			 this.team_members.push(event);
+			console.log('getting teammates')
+			this.getTeammates();
 		},
-		async deleteTeamMember(email){
-			let index = this.team_members.indexOf(email);
+		async deleteTeamMember(id){
+
 			await Swal.fire({
 				title: 'Are you sure?',
 				text: "You won't be able to revert this!",
@@ -86,22 +88,26 @@ export default {
 				confirmButtonText: 'Yes, delete it!'
 			}).then(async (result) => {
 				 if (result.value){
-						this.team_members.splice(index, 1);
+							try {
+								let data = await this.$axios.$delete(`team/${id}`);
+								this.$toast.success(data.message);
+								await this.getTeammates();
+							}catch (e) {
+
+							}
 					}
 			})
 		},
 		async getTeammates(){
 			  try {
-						 let data = await this.$axios.$get('team');
-						 console.log(data);
-						 this.team_members = data
+						this.team_members = await this.$axios.$get('team')
 					}catch (e) {
 
 					}
 		},
 		updateTeamMember(row){
-			 this.first_name = row.first_name;
-			 this.last_name = row.last_name;
+			 this.first_name = row.fname;
+			 this.last_name = row.lname;
 			 this.email = row.email;
 			 this.role = row.role;
 			 this.$modal.show('update-team-member-modal');

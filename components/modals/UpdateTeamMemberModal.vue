@@ -33,6 +33,7 @@
 							<br>
 							<label>Role</label>
 							<select  @change="onChange($event)" class="form-control" v-model="role">
+								<option >{{role}}</option>
 								 <option v-for="role in roles" :value="role.name">{{role.name}}</option>
 							</select>
 							<br>
@@ -47,7 +48,7 @@
 									<div v-for="row in permissions">
 										<h3 class="m-b-5">{{row.name}}</h3>
 										<div class="checkboxes" v-for="member in row.permission">
-											<label><input type="checkbox" :value="member.name" v-model="selected_permission" style="margin-right:10px;"/><span style="font-weight: bold;">Can</span> {{ member.name }}</label>
+											<label><input type="checkbox" :value="member.name" v-model="selected_permission" style="margin-right:10px;"/><span style="font-weight: bold;">Can</span> {{ member.name.replace(/_/g, " ") }}</label>
 										</div>
 									</div>
 							</div>
