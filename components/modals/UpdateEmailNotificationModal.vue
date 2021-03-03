@@ -51,7 +51,7 @@ export default {
 	components: {PricingDropdown},
 	data(){
 		return{
-    emails:'',
+             emails:'',
 			 isLoading: false,
 			 button_text: "Update",
 			 error_message:[],
@@ -153,7 +153,7 @@ computed:{
 
 	},
 	mounted() {
- this.getEmailCategories();
+     this.getEmailCategories();
 	}
 
 }

@@ -197,7 +197,6 @@ export default {
 					this.add_button_text = 'Add teammate';
 					this.show_icon = true;
 					this.isLoading = false;
-					console.log(e.response)
 				}
 
 		}

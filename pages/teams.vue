@@ -21,26 +21,14 @@
 											 <p>Permissions</p>
 											 <p>Action</p>
 										</div>
-								  <div class="container-item" v-for="row in team_members.data" :key="row.id">
-              <div style="display: flex; flex: 2; align-items: center; padding: 10px">
-															   <div class="m-r-10" style="display:inline-block; border-radius: 50%; color: #FFFFFF; background: #B8DECD; height: 25px; text-align: center; width: 25px">{{row.fname.charAt(0)}}{{row.lname.charAt(0)}}</div>
-															    <div style="display: flex; flex-direction: column;">
- 																					<div style="color:  #818181; font-weight: 200">{{ row.fname }} {{row.lname}} ({{row.email}})</div>
-																				<div style="color: #818181;"><span style="font-weight: bold">Role</span>: {{row.role}}</div>
-																			</div>
-														</div>
-											   <div style="padding: 20px; flex: 2; margin-right: 40px; display: flex; flex-wrap: wrap" >
-                 <span v-for="row in row.permissions" class="pill" >{{row.replace(/_/g, " ")}}</span>
-														</div>
-											   <div style="padding: 20px;">
-															<button class="btn btn-success" @click="updateTeamMember(row)"><i class="fa fa-edit m-r-5" ></i>Update</button>
-															<button class="btn btn-danger" @click="deleteTeamMember(row.id)"><i class="icon-bin m-r-5" style="font-size: 12px" ></i>Delete</button>
-														</div>
+								  <div v-for="team_member in team_members.data">
+											<team-card :team_member="team_member" @team-member-permissions="getTeammatePermissions($event)" @update-team-member="updateTeamMember($event)" @delete-team-member="deleteTeamMember($event)"></team-card>
 										</div>
+
 							</div>
 						</div>
 					  <AddTeamMemberModal @add-team-member="addTeamMember($event)" ></AddTeamMemberModal>
-					  <UpdateTeamMemberModal @update-team-member="updateTeamMember($event)" :email="email" :first_name="first_name" :last_name="last_name" :role="role"></UpdateTeamMemberModal>
+					  <UpdateTeamMemberModal @update-team-member="updateTeamMember($event)" :email="email" :first_name="first_name" :selected_teammate_permission="selected_teammate_permission" :last_name="last_name" :role="role" ></UpdateTeamMemberModal>
 				</div>
 		</div>
 </template>
@@ -51,10 +39,11 @@ import Swal from "sweetalert2";
 import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
 import AddTeamMemberModal from "../components/modals/AddTeamMemberModal";
 import UpdateTeamMemberModal from "../components/modals/UpdateTeamMemberModal";
+import TeamCard from "../components/team/TeamCard";
 export default {
  name: "teams",
 	middleware:'auth',
-	components: {UpdateTeamMemberModal, AddTeamMemberModal, DashboardNavbar, Sidebar},
+	components: {TeamCard, UpdateTeamMemberModal, AddTeamMemberModal, DashboardNavbar, Sidebar},
 	data(){
  	 return{
  	 	 team_members:[],
@@ -64,7 +53,8 @@ export default {
 						last_name: '',
 						email: '',
 				  role: '',
-				  selected_permission:''
+				  selected_permission:'',
+			  	selected_teammate_permission:[]
 
 			}
 	},
@@ -73,7 +63,6 @@ export default {
 			 this.$modal.show('add-team-member-modal');
 		},
 		addTeamMember(event){
-			console.log('getting teammates')
 			this.getTeammates();
 		},
 		async deleteTeamMember(id){
@@ -111,6 +100,9 @@ export default {
 			 this.email = row.email;
 			 this.role = row.role;
 			 this.$modal.show('update-team-member-modal');
+		},
+		getTeammatePermissions(event){
+			 this.selected_teammate_permission = event;
 		}
 	},
 	mounted() {
@@ -164,13 +156,5 @@ font-weight: 600;
 	min-height: 63px;
 	background: #F8F8F8;
 }
-.pill {
-	font-size: 13px;
-	padding: 2px 10px;
-	margin: 2px 2px;
-	border-radius: 20px;
-	font-weight: 500;
-	background: #E5E5E5;
-	color: #333333;
-}
+
 </style>
