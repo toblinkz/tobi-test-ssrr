@@ -30,8 +30,8 @@
                           <div class="col-md-6">
                             <!-- START PANEL -->
                             <div class="panel-transparent">
-                        <span id="welcome"><i class="entypo-credit-card"></i>Wallet Name - {{ first_name }} {{last_name}}</span>
-                              <p class="insight">Select your preferred payment gateway and top up your <br>account using card or bank transfer</p>
+																													<span id="welcome" ><i class="entypo-credit-card" style="font-size: 20px"></i><span style="font-size: 13px">Available balance:</span></span>
+																													 <p style="font-size: 30px; font-weight: 700; color:#365899;">{{account_balance}}</p>
                             </div>
                             <!-- Trigger the modal with a button -->
 																											 <div style="display: flex">
@@ -63,30 +63,56 @@
 
 																																			</ContentLoader>
 																																			<div v-else>
-																																				<div class="col-md-4 alert toke">
-																																					<p class="text-semibold"><i class="entypo-credit-card" style="color: #bbb !important;"></i> Balance</p>
-																																					<!-- START PANEL -->
-																																					<p class="alert insight wd">
-																																						<span>{{account_balance}}</span>
-																																					</p>
-																																					<!-- END PANEL -->
-																																				</div>
-																																				<div class="col-md-4 alert toke">
-																																					<p class="text-semibold"><i class="entypo-light-up" style="color: #bbb !important;"></i> Account</p>
-																																					<!-- START PANEL -->
-																																					<p class="alert insight wd">
-																																						<span>{{account_number}}</span>
-																																					</p>
-																																					<!-- END PANEL -->
-																																				</div>
-																																				<div class="col-md-4 alert toke">
-																																					<p class="text-semibold"><i class="entypo-home" style="color: #bbb !important;"></i> Bank</p>
-																																					<!-- START PANEL -->
-																																					<p class="alert insight wd">
-																																						<span>{{bank_name}}</span>
-																																					</p>
-																																					<!-- END PANEL -->
-																																				</div>
+<!--																																						<div class="col-md-4 alert toke">-->
+<!--																																							<p class="text-semibold"><i class="entypo-credit-card" style="color: #bbb !important;"></i> Balance</p>-->
+<!--																																							&lt;!&ndash; START PANEL &ndash;&gt;-->
+<!--																																							<p class="alert insight wd">-->
+<!--																																								<span>{{account_balance}}</span>-->
+<!--																																							</p>-->
+<!--																																							&lt;!&ndash; END PANEL &ndash;&gt;-->
+<!--																																						</div>-->
+<!--																																						<div class="col-md-4 alert toke">-->
+<!--																																							<p class="text-semibold"><i class="entypo-light-up" style="color: #bbb !important;"></i> Account</p>-->
+<!--																																							&lt;!&ndash; START PANEL &ndash;&gt;-->
+<!--																																							<p class="alert insight wd">-->
+<!--																																								<span>{{account_number}}</span>-->
+<!--																																							</p>-->
+<!--																																							&lt;!&ndash; END PANEL &ndash;&gt;-->
+<!--																																						</div>-->
+<!--																																					<div class="col-md-4 alert toke">-->
+<!--																																						<p class="text-semibold"><i class="entypo-home" style="color: #bbb !important;"></i> Bank</p>-->
+<!--																																						&lt;!&ndash; START PANEL &ndash;&gt;-->
+<!--																																						<p class="alert insight wd">-->
+<!--																																							<span>{{bank_name}}</span>-->
+<!--																																						</p>-->
+<!--																																						&lt;!&ndash; END PANEL &ndash;&gt;-->
+<!--																																					</div>-->
+																																				  <div class="col-md-12 alert" style="border: 0.2px solid #ddd;border-radius: 5px;">
+																																							<div class="col-md-4">
+																																								<p class="text-semibold">ACCOUNT NUMBER</p>
+																																								<!-- START PANEL -->
+																																								<p class="alert insight wd">
+																																									<span>{{account_balance}}</span>
+																																								</p>
+																																								<!-- END PANEL -->
+																																							</div>
+																																							<div class="col-md-4">
+																																								<p class="text-semibold">Bank</p>
+																																								<!-- START PANEL -->
+																																								<p class="alert insight wd">
+																																									<span>{{account_balance}}</span>
+																																								</p>
+																																								<!-- END PANEL -->
+																																							</div>
+																																							<div class="col-md-4">
+																																								<p class="text-semibold">Account name</p>
+																																								<!-- START PANEL -->
+																																								<p class="alert insight wd">
+																																									<span>{{account_balance}}</span>
+																																								</p>
+																																								<!-- END PANEL -->
+																																							</div>
+																																						</div>
 																																			</div>
 
 																																			<div class="col-md-12 alert toke" v-if="is_nigerian_wallet">
