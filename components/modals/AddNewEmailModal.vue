@@ -47,10 +47,8 @@
 </template>
 
 <script>
-import PricingDropdown from "@/components/general/dropdown/PricingDropdown";
 export default {
 	name: "AddNewEmail",
-	components: {PricingDropdown},
 	data(){
 		return{
 				email:"",

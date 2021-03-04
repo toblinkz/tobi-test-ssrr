@@ -199,6 +199,17 @@ export default {
 
 			}
 		},
+		handle422Errors(data){
+			let errors = data.errors
+			for (let key in errors) {
+				errors[key].forEach(err => {
+					this.$toast.error(err);
+				});
+			}
+		},
+		handleOtherErrors(data){
+			this.$toast.error(data.message);
+		},
 		async addTeamMember(){
 			 this.add_button_text = '';
 			 this.show_icon = false;
@@ -220,6 +231,13 @@ export default {
 					this.add_button_text = 'Add teammate';
 					this.show_icon = true;
 					this.isLoading = false;
+					let errors = e.response.data;
+
+					if(e.response.status === 422){
+						this.handle422Errors(errors)
+					}else{
+						this.handleOtherErrors(errors)
+					}
 				}
 
 		}
