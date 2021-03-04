@@ -96,7 +96,7 @@
 
     import VerificationModal from "~/components/modals/VerificationModal";
 				export default {
-        name: "_id",
+        name: "print-id",
 					components: {VerificationModal},
 					middleware: ['auth', 'inactive_user'],
 
@@ -137,11 +137,12 @@
            this.total = inv_item.total;
         },
       },
-      mounted() {
+      async mounted() {
 							if(this.$store.state.view_verify_page === 'true') {
 								this.$modal.show('verification-id-modal');
 							}else {
-								this.getBillingInvoiceById();
+								await this.getBillingInvoiceById();
+								await window.print();
 							}
 
       },
