@@ -15,13 +15,13 @@
 								<div style="display: flex;">
 									 <div style="width: 45%">
 											<label>First Name</label>
-											<input type="text" class="form-control"  placeholder="first name" v-model="first_name" >
+											<input type="text" class="form-control"  placeholder="first name" v-model="first_name" :class="{'error ' : hasFirstNameError}" >
 											<span class=" error_field_message" >{{error_message.first_name}}</span>
 										</div>
 									 <div style="width: 5%"></div>
 									<div  style="width: 50%">
 										<label>Last Name</label>
-										<input type="text" class="form-control"  placeholder="last name" v-model="last_name" >
+										<input type="text" class="form-control"  placeholder="last name" v-model="last_name" :class="{'error ' : hasLastNameError}">
 										<span class=" error_field_message" >{{error_message.last_name}}</span>
 									</div>
 
@@ -29,7 +29,7 @@
 
 								<br>
 								<label>Email address</label>
-								<input type="text" class="form-control" v-model="email" placeholder="email address">
+								<input type="text" class="form-control" v-model="email" placeholder="email address" :class="{'error ' : hasEmailError}">
 								<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
 								<br>
 								<label>Role</label>
@@ -40,7 +40,9 @@
 								<div style="display: flex; justify-content: space-between">
 									 <label style="font-size: 16px">Permissions</label>
 									 <div style="display: flex">
-											Select all	<input  type="checkbox" />
+											Select all <label>
+											<input  type="checkbox" v-model="select_all_permission"/>
+										</label>
 										</div>
 								</div>
 								<div class="mt-20">
@@ -54,7 +56,7 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<a @click="addTeamMember" class="btn id-btn-primary"   :disabled="isDisabled">
+							<a @click="addTeamMember" class="btn id-btn-primary"   :aria-disabled="isDisabled">
 								<i class="fa fa-plus m-r-5" v-show="show_icon"></i>{{add_button_text}}
 								<span v-show="isLoading" >
 															<img src="/images/black_spinner.svg" height="20px" width="30px"/>
@@ -84,10 +86,14 @@ export default {
 			last_name:'',
 			email:'',
 			role: '',
-			role_selected:'',
+			role_selected: 1,
+			hasEmailError: false,
+			hasFirstNameError: false,
+			hasLastNameError: false,
 			roles:[],
 			permission:[],
 			selected_permission:[],
+			select_all_permission: false,
 			show_icon: true,
 			error_message:[],
 			hasFirstNameInput: false,
@@ -100,12 +106,13 @@ export default {
 			contact_selected: false,
 			webhook_selected: false,
 			report_selected: false,
-			team_member_info: ''
+			team_member_info: '',
+			all_permissions_id:[]
 		}
 	},
 	computed:{
 		isDisabled:function () {
-			return (!this.first_name || !this.last_name  || !this.email || !this.role_selected);
+			return (!this.first_name || !this.last_name  || !this.email || !this.role_selected || this.selected_permission.length === 0);
 		},
 	},
 	watch: {
@@ -121,6 +128,13 @@ export default {
 		},
 		email(value){
 			this.validateEmail(value);
+		},
+		select_all_permission(){
+			 if (this.select_all_permission){
+			 	 this.selected_permission = this.all_permissions_id;
+				}else {
+			 	this.selected_permission = [];
+				}
 		}
 	},
 	methods: {
@@ -139,6 +153,15 @@ export default {
 			 try {
 					 let data = await this.$axios.$get('utility/permission');
 					 this.permission = data.data;
+
+					 let all_permission = data.data;
+					  this.all_permissions_id = [];
+					 all_permission.forEach((module) =>{
+							  module.permission.forEach((permission) => {
+										this.all_permissions_id.push(permission.id)
+									})
+						});
+
 
 				}catch (e) {
 

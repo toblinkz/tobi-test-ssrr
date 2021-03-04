@@ -9,7 +9,8 @@
 				</div>
 			</div>
 			<div style="padding: 20px; flex: 2; margin-right: 40px; display: flex; flex-wrap: wrap" >
-				<span v-for="row in team_member.permissions" class="pill" >{{row.name.replace(/_/g, " ")}}</span>
+				<span v-for="row in team_member.permissions.slice(0, 5)"  class="pill" >{{row.name.replace(/_/g, " ")}}</span>
+
 			</div>
 			<div style="padding: 20px;">
 				<button class="btn btn-success" @click="updateTeamMember(team_member)"><i class="fa fa-edit m-r-5" ></i>Update</button>

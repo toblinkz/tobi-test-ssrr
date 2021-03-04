@@ -1,7 +1,7 @@
 <template>
 		<div class="container-fluid">
 			 <div id="msb" class="col-md-2">
-					  <Sidebar></Sidebar>
+					  <Sidebar class="hidden-xs"></Sidebar>
 				</div>
 			 <div class="col-md-10">
 					 <DashboardNavbar></DashboardNavbar>
@@ -28,7 +28,7 @@
 							</div>
 						</div>
 					  <AddTeamMemberModal @add-team-member="addTeamMember($event)" ></AddTeamMemberModal>
-					  <UpdateTeamMemberModal @update-team-member="updateTeamMember($event)" :email="email" :first_name="first_name" :selected_teammate_permission="selected_teammate_permission" :last_name="last_name" :role="role" ></UpdateTeamMemberModal>
+					  <UpdateTeamMemberModal @update-team-member="updateTeamMember($event)" @update-teammate-permission="updateTeammatePermission" :teammate_id="teammate_id" :email="email" :first_name="first_name" :selected_teammate_permission="selected_teammate_permission" :last_name="last_name" :role="role" ></UpdateTeamMemberModal>
 				</div>
 		</div>
 </template>
@@ -51,6 +51,7 @@ export default {
 						l_name: JSON.parse(localStorage.getItem('user_data')).lname,
 						first_name: '',
 						last_name: '',
+				  teammate_id: '',
 						email: '',
 				  role: '',
 				  selected_permission:'',
@@ -65,8 +66,16 @@ export default {
 		addTeamMember(event){
 			this.getTeammates();
 		},
-		async deleteTeamMember(id){
+		async updateTeammatePermission(){
+			try {
+				this.team_members = await this.$axios.$get('team');
+				this.$toast.success('updated successfully')
+			}catch (e) {
+      this.$toast.error(e.response.message);
+			}
 
+		},
+		async deleteTeamMember(id){
 			await Swal.fire({
 				title: 'Are you sure?',
 				text: "You won't be able to revert this!",
@@ -97,6 +106,7 @@ export default {
 		updateTeamMember(row){
 			 this.first_name = row.fname;
 			 this.last_name = row.lname;
+			 this.teammate_id = row.id;
 			 this.email = row.email;
 			 this.role = row.role;
 			 this.$modal.show('update-team-member-modal');

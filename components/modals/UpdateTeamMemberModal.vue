@@ -6,42 +6,37 @@
 				<div>
 					<div class="modal-header" >
 						<button type="button" class="close" @click="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" style="font-weight: bold">Add Teammate</h4>
-						<p class="mt-10">Add a new team-mate here</p>
+						<h4 class="modal-title" style="font-weight: bold">Update Teammate Permissions</h4>
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
 							<div style="display: flex;">
 								<div style="width: 45%">
 									<label>First Name</label>
-									<input type="text" class="form-control"  placeholder="first name" v-model="first_name" >
-									<span class=" error_field_message" >{{error_message.sender_id}}</span>
+									<div type="text" class="form-control"  >{{first_name}}</div>
 								</div>
 								<div style="width: 5%"></div>
 								<div  style="width: 50%">
 									<label>Last Name</label>
-									<input type="text" class="form-control"  placeholder="last name" v-model="last_name" >
-									<span class=" error_field_message" >{{error_message.sender_id}}</span>
+									<div class="form-control"  >{{last_name}}</div>
 								</div>
 
 							</div>
 
 							<br>
 							<label>Email address</label>
-							<input type="text" class="form-control" v-model="email" placeholder="email address">
+							<div  class="form-control">{{email}}</div>
 							<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
 							<br>
 							<label>Role</label>
-							<select  @change="onChange($event)" class="form-control" v-model="role">
-								<option >{{role}}</option>
-								 <option v-for="role in roles" :value="role.name">{{role.name}}</option>
-							</select>
+							<div class="form-control">{{role}}</div>
 							<br>
 							<div style="display: flex; justify-content: space-between">
 								<label style="font-size: 16px">Permissions</label>
 								<div style="display: flex">
-									Select all
-									<Switches type-bold="true"  class="m-l-5"  color="blue"></Switches>
+									Select all <label>
+									<input  type="checkbox" v-model="select_all_permission"/>
+								</label>
 								</div>
 							</div>
 							<div class="mt-20">
@@ -55,12 +50,12 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button @click="updateTeamMember" class="btn id-btn-primary" :disabled="isDisabled">
-							<i class="fa fa-plus m-r-5"></i>{{save_button_text}}
+						<a @click="updateTeamMember" class="btn id-btn-primary" :aria-disabled="isDisabled">
+							<i class="fa fa-plus m-r-5" v-show="show_icon"></i>{{update_button_text}}
 							<span v-show="isLoading" >
 															<img src="/images/black_spinner.svg" height="20px" width="30px"/>
 													</span>
-						</button>
+						</a>
 					</div>
 
 				</div>
@@ -82,17 +77,20 @@ export default {
 				 isLoading: false,
 				 permissions:[],
 				 all_permissions:[],
+				 select_all_permission: false,
 				 teammates_permissions:[],
 			 	selected_permission:[],
 				 team_member_info: [],
 				 error_message:[],
 				 show_icon: true,
-				 save_button_text: 'Update',
+				 update_button_text: 'Update',
+				 all_permissions_id:[]
 			}
 	},
  props:{
 		 first_name:{ required: true},
 		 last_name:{ required: true },
+		 teammate_id:{ required: true},
 		 email: { required: true },
 
 		 selected_teammate_permission:{required: true},
@@ -104,11 +102,18 @@ export default {
 		 	  	 this.teammates_permissions = [];
 		 	  	  this.mergeTeammatePermissions();
 						}
+			},
+		select_all_permission(){
+			if (this.select_all_permission){
+				this.teammates_permissions = this.all_permissions_id;
+			}else {
+				this.teammates_permissions = [];
 			}
+		}
 	},
 	computed:{
 		isDisabled:function () {
-			return (!this.first_name || !this.last_name  || !this.email || !this.role);
+			return (this.teammates_permissions.length === 0);
 		},
 	},
 	methods:{
@@ -135,29 +140,33 @@ export default {
 				let data = await this.$axios.$get('utility/permission');
 				this.all_permissions = data.data;
 
+				let all_permission = data.data;
+				this.all_permissions_id = [];
+				all_permission.forEach((module) =>{
+					module.permission.forEach((permission) => {
+						this.all_permissions_id.push(permission.id)
+					})
+				});
+
 			}catch (e) {
 
 			}
 		},
 		async updateTeamMember(){
-			this.add_button_text = '';
+			this.update_button_text = '';
 			this.show_icon = false;
 			this.isLoading = true;
 			try {
-				let data = await this.$axios.$post('team', {
-					first_name: this.first_name,
-					last_name: this.last_name,
-					email: this.email,
-					role: this.role_selected,
+				let data = await this.$axios.$patch(`team/${this.teammate_id}/permissions/update`, {
 					permissions: this.teammates_permissions
 				});
-				this.$emit('add-team-member');
-				this.add_button_text = 'Update';
+				this.$emit('update-teammate-permission');
+				this.update_button_text = 'Update';
 				this.show_icon = true;
 				this.isLoading = false;
 				this.close();
 			}catch (e) {
-				this.add_button_text = 'Update';
+				this.update_button_text = 'Update';
 				this.show_icon = true;
 				this.isLoading = false;
 			}
