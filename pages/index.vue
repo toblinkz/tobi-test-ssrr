@@ -235,7 +235,7 @@
 				script: [{src:"/js/intro.js" }]
 			}
 		},
-		 middleware: ['auth','inactive_user'],
+		 middleware: ['auth','inactive_user', 'permission'],
 		computed: {
 			...mapGetters([ 'getViewVerifyPage', 'getFirstName'])
 		},
