@@ -88,7 +88,7 @@
 																																				<p><i class="entypo-info-circled" style="color: #bbb !important;"></i> <b>Notice</b></p><br>
 																																				<p style="text-align:justify">
 																																					Due to directives from the Central Bank of Nigeria [CBN], our dedicated Virtual account numbers for Nigeria have been temporarily disabled and are no longer valid for use.
-																																					We are rolling our new virtual numbers in a few hours. Please for now use our <b>Sterling Bank Account</b> available on your wallet dashboard.
+																																					We are rolling our new virtual account numbers soon. Please for now use our <b>Sterling Bank Account</b> available on your wallet dashboard.
 																																					<br/>
 																																					<br/>
 																																					<b>	NB: After paying notify our support team via your whatsapp support group or send an email to sales@termii.com with details of your payment.
