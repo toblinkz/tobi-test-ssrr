@@ -64,30 +64,6 @@
 
 																																			</ContentLoader>
 																																			<div v-else>
-<!--																																						<div class="col-md-4 alert toke">-->
-<!--																																							<p class="text-semibold"><i class="entypo-credit-card" style="color: #bbb !important;"></i> Balance</p>-->
-<!--																																							&lt;!&ndash; START PANEL &ndash;&gt;-->
-<!--																																							<p class="alert insight wd">-->
-<!--																																								<span>{{account_balance}}</span>-->
-<!--																																							</p>-->
-<!--																																							&lt;!&ndash; END PANEL &ndash;&gt;-->
-<!--																																						</div>-->
-<!--																																						<div class="col-md-4 alert toke">-->
-<!--																																							<p class="text-semibold"><i class="entypo-light-up" style="color: #bbb !important;"></i> Account</p>-->
-<!--																																							&lt;!&ndash; START PANEL &ndash;&gt;-->
-<!--																																							<p class="alert insight wd">-->
-<!--																																								<span>{{account_number}}</span>-->
-<!--																																							</p>-->
-<!--																																							&lt;!&ndash; END PANEL &ndash;&gt;-->
-<!--																																						</div>-->
-<!--																																					<div class="col-md-4 alert toke">-->
-<!--																																						<p class="text-semibold"><i class="entypo-home" style="color: #bbb !important;"></i> Bank</p>-->
-<!--																																						&lt;!&ndash; START PANEL &ndash;&gt;-->
-<!--																																						<p class="alert insight wd">-->
-<!--																																							<span>{{bank_name}}</span>-->
-<!--																																						</p>-->
-<!--																																						&lt;!&ndash; END PANEL &ndash;&gt;-->
-<!--																																					</div>-->
 																																				  <div class="alert" v-if="!is_nigerian_wallet" style="border: 0.2px solid #ddd;border-radius: 5px; display: flex; justify-content: space-between">
 																																							<div style="display:flex; flex-direction: column">
 																																								<p class="text-semibold" style="color: #595959">ACCOUNT NUMBER</p>
