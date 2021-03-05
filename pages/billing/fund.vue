@@ -36,9 +36,10 @@
                             <!-- Trigger the modal with a button -->
 																											 <div style="display: flex">
 																													<button type="button" @click="showModal" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn m-r-10 btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
-																													<a class="btn account mb-30" v-show="customer_country === 'Nigeria'" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 8px!important;">
+																													<a class="btn account mb-30" v-show="customer_country === 'Nigeria' && nuban_account.length === 0" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 8px!important;">
 																														<i class="entypo-light-up"></i>
-																														Get account number</a>
+																														Get account number
+																													</a>
 																												</div>
                           </div>
                         </div>
@@ -94,7 +95,7 @@
 																																								<p>
 																																									<span style="font-weight: bold; font-size: 20px">{{account_number}}</span>
 																																								</p>
-																																								<p>
+																																								<p v-clipboard:copy="account_number" style="cursor: pointer">
 																																									<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
 																																									<span style="font-size: 12px; color: #365899">Copy to clipboard</span>
 																																								</p>
@@ -112,27 +113,27 @@
 																																								<p class="text-semibold" style="color: #595959">Account name</p>
 																																								<!-- START PANEL -->
 																																								<p>
-																																									<span>{{account_balance}}</span>
+																																									<span>{{account_name}}</span>
 																																								</p>
 																																								<!-- END PANEL -->
 																																							</div>
 																																						</div>
 																																			</div>
 																																			<div v-if="is_nigerian_wallet" style="display: flex">
-																																					<div class="alert" style="display:flex; flex-direction: column; border: 0.2px solid #ddd;border-radius: 5px;">
-																																						<!-- START PANEL -->
-																																						<p>
-																																							<span style="font-weight: bold; font-size: 20px">{{account_number}}</span>
-																																						</p>
-																																						<p>
-																																							<span>{{bank_name}}</span>
-																																						</p>
-																																						<p>
-																																							<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
-																																							<span style="font-size: 12px; color: #365899">Copy to clipboard</span>
-																																						</p>
-																																						<!-- END PANEL -->
-																																					</div>
+																																						<div v-for="row in nuban_account" class="alert m-r-10" style="display:flex; flex-direction: column; border: 0.2px solid #ddd;border-radius: 5px;">
+																																							<!-- START PANEL -->
+																																							<p>
+																																								<span style="font-weight: bold; font-size: 20px">{{row.account_number}}</span>
+																																							</p>
+																																							<p>
+																																								<span>{{row.bank_name}}</span>
+																																							</p>
+																																							<p v-clipboard:copy="row.account_number" style="cursor: pointer">
+																																								<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
+																																								<span style="font-size: 12px; color: #365899">Copy to clipboard</span>
+																																							</p>
+																																							<!-- END PANEL -->
+																																						</div>
 																																			</div>
 
 																																			<div class="col-md-12 alert toke" v-if="is_nigerian_wallet">
@@ -268,6 +269,7 @@
 							page_url: '',
 							account_number: '',
 							account_balance: '',
+							account_name:'',
 							bank_name: '',
 							options: ['Select Top Up Option', {id: '1', name: 'Regular Top Up'}, {id: '2', name: 'Bundled Top Up'},],
 							payment_gateway: '',
@@ -317,6 +319,7 @@
 								this.account_balance = data.data.converted_balance;
 								this.bank_name = data.data.bank_name;
 								this.account_number = data.data.account_number;
+								this.account_name = data.data.account_name;
 							} catch (e) {
 
 							}
@@ -396,9 +399,9 @@
 							if(customer_country  === "Nigeria"){
 									try {
 										let nuban_data = await this.$axios.$get('billing/dedicated-nuban');
-
 										this.nuban_account = nuban_data.data;
 
+										console.log('dd',this.nuban_account);
 										if (this.nuban_account.length === 0 && localStorage.getItem('SAM') === 'false') {
 											this.$modal.show('account-number-modal');
 										}
