@@ -87,32 +87,52 @@
 <!--																																						</p>-->
 <!--																																						&lt;!&ndash; END PANEL &ndash;&gt;-->
 <!--																																					</div>-->
-																																				  <div class="col-md-12 alert" style="border: 0.2px solid #ddd;border-radius: 5px;">
-																																							<div class="col-md-4">
-																																								<p class="text-semibold">ACCOUNT NUMBER</p>
+																																				  <div class="alert" v-if="!is_nigerian_wallet" style="border: 0.2px solid #ddd;border-radius: 5px; display: flex; justify-content: space-between">
+																																							<div style="display:flex; flex-direction: column">
+																																								<p class="text-semibold" style="color: #595959">ACCOUNT NUMBER</p>
 																																								<!-- START PANEL -->
-																																								<p class="alert insight wd">
-																																									<span>{{account_balance}}</span>
+																																								<p>
+																																									<span style="font-weight: bold; font-size: 20px">{{account_number}}</span>
+																																								</p>
+																																								<p>
+																																									<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
+																																									<span style="font-size: 12px; color: #365899">Copy to clipboard</span>
 																																								</p>
 																																								<!-- END PANEL -->
 																																							</div>
-																																							<div class="col-md-4">
-																																								<p class="text-semibold">Bank</p>
+																																							<div style="display:flex; flex-direction: column">
+																																								<p class="text-semibold" style="color: #595959">Bank</p>
 																																								<!-- START PANEL -->
-																																								<p class="alert insight wd">
-																																									<span>{{account_balance}}</span>
+																																								<p >
+																																									<span style="color: #C0C0C0">{{bank_name.toUpperCase()}}</span>
 																																								</p>
 																																								<!-- END PANEL -->
 																																							</div>
-																																							<div class="col-md-4">
-																																								<p class="text-semibold">Account name</p>
+																																							<div style="display:flex; flex-direction: column">
+																																								<p class="text-semibold" style="color: #595959">Account name</p>
 																																								<!-- START PANEL -->
-																																								<p class="alert insight wd">
+																																								<p>
 																																									<span>{{account_balance}}</span>
 																																								</p>
 																																								<!-- END PANEL -->
 																																							</div>
 																																						</div>
+																																			</div>
+																																			<div v-if="is_nigerian_wallet" style="display: flex">
+																																					<div class="alert" style="display:flex; flex-direction: column; border: 0.2px solid #ddd;border-radius: 5px;">
+																																						<!-- START PANEL -->
+																																						<p>
+																																							<span style="font-weight: bold; font-size: 20px">{{account_number}}</span>
+																																						</p>
+																																						<p>
+																																							<span>{{bank_name}}</span>
+																																						</p>
+																																						<p>
+																																							<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
+																																							<span style="font-size: 12px; color: #365899">Copy to clipboard</span>
+																																						</p>
+																																						<!-- END PANEL -->
+																																					</div>
 																																			</div>
 
 																																			<div class="col-md-12 alert toke" v-if="is_nigerian_wallet">
@@ -372,17 +392,21 @@
 
 						},
 						async getNuban() {
-							try {
-								let nuban_data = await this.$axios.$get('billing/dedicated-nuban');
+							let customer_country = JSON.parse(localStorage.getItem('user_data')).country;
+							if(customer_country  === "Nigeria"){
+									try {
+										let nuban_data = await this.$axios.$get('billing/dedicated-nuban');
 
-								this.nuban_account = nuban_data.data;
+										this.nuban_account = nuban_data.data;
 
-								if (this.nuban_account.length === 0 && localStorage.getItem('SAM') === 'false') {
-									this.$modal.show('account-number-modal');
-								}
-							} catch (e) {
+										if (this.nuban_account.length === 0 && localStorage.getItem('SAM') === 'false') {
+											this.$modal.show('account-number-modal');
+										}
+									} catch (e) {
 
+									}
 							}
+
 						},
 						async getTopUp() {
 							try {
