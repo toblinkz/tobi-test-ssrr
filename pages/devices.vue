@@ -133,7 +133,7 @@
             active_status:"",
             device_status:"",
             device_id:"",
-											show_shimmer:false,
+											 show_shimmer:false,
 
           }
       },
