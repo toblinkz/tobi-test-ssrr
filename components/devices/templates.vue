@@ -16,8 +16,8 @@
 									</tr>
 									</thead>
 									<tbody>
-									<tr v-for="row in template_data" :key="row.id">
-										<td data-label="SL" >{{row.id}}</td>
+									<tr v-for="row in template_data.data" :key="row.id">
+										<td data-label="SL" >{{row.uuid}}</td>
 
 										<td style="width: 20%;"><p>{{row.template || 'None'}}</p></td>
 									</tr>
@@ -28,17 +28,39 @@
 					</div>
 				</div>
 			</div>
+			<Pagination
+				:page="template_data.current_page"
+				:total_page="template_data.last_page"
+				v-if="showPagination"
+				:on-page-change="onPageChange">
+
+			</Pagination>
 		</div>
 	</section>
 </template>
 <script>
+import Pagination from "../general/Pagination";
 export default {
 	name: "DeviceTemplate",
+	components: {Pagination},
+	data(){
+		 return{
+				page: 1,
+				total_page: '',
+				showPagination: true,
+			}
+	},
 	props: {
 		template_data: {
 			required: true
 		},
-	}
+	},
+	methods:{
+
+		 onPageChange(page){
+     this.$emit('page', page);
+			}
+	},
 }
 </script>
 

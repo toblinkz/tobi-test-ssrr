@@ -147,7 +147,7 @@
             page: 1,
             total_page: '',
             showPagination: false,
-											showShimmer: false
+										 	showShimmer: false
           }
       },
       computed: {
