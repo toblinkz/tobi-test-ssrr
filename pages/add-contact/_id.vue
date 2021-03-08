@@ -104,7 +104,7 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "add-contact",
-					 middleware: ['auth', 'inactive_user'],
+					 middleware: ['auth', 'inactive_user', 'permission'],
       components: {VerificationModal, SearchDropdown, DashboardNavbar, Sidebar},
       data(){
           return{

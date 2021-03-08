@@ -73,7 +73,7 @@
                                   <span class="error_field_message" v-if="error_message.test_webhook">{{error_message.test_webhook}}</span>
                                 </div>
                                 <hr/>
-                                <button class="btn bg-teal pull-right" type="submit" :disabled="isDisabled"><i class="icon-check"></i> Save</button>
+                                <button v-if="canUpdateWebhookConfig" class="btn bg-teal pull-right" type="submit" :disabled="isDisabled"><i class="icon-check"></i> Save</button>
                               </div>
 
                             </div>
@@ -102,14 +102,15 @@
     export default {
         name: "config",
       components: {VerificationModal, ApiNavbar, DashboardNavbar, Sidebar},
-					 middleware: ['auth', 'inactive_user'],
+					 middleware: ['auth', 'inactive_user', 'permission'],
       data(){
           return {
             live_webhook: '',
             test_webhook: '',
             error_message: [],
             hasLiveWebhookError: false,
-            hasTestWebhookError: false
+            hasTestWebhookError: false,
+											 customer_permissions: localStorage.getItem('permissions'),
           }
       },
 					watch:{
@@ -123,7 +124,10 @@
       computed:{
           isDisabled: function () {
               return(  this.hasLiveWebhookError || this.hasTestWebhookError )
-          }
+          },
+								canUpdateWebhookConfig(){
+									return (this.customer_permissions.includes("update_webhook_config"));
+								},
       },
       methods: {
           async updateWebhook(){

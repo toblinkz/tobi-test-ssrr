@@ -86,7 +86,7 @@
 				import DeviceTemplate from "@/components/devices/templates";
     export default {
 					  name: "subscriptions",
-					  middleware: ['auth', 'inactive_user'],
+					  middleware: ['auth', 'inactive_user', 'permission'],
        components: {
 								DeviceTemplate,
 								DeviceSubscription, VerificationModal,DashboardNavbar, Sidebar, DeviceSubscriptionModal},
@@ -115,6 +115,9 @@
 												isLoading: false,
           }
       },
+					 computed:{
+
+						},
       methods: {
 							templateExists(){
 								return (this.template_data.length !== 0);

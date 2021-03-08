@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                       <br>
-                                      <a class="btn btn-primary" @click="showModal"><i class="fa fa-plus"></i> Make a new request</a>
+                                      <a v-if="canRequestDevice" class="btn btn-primary" @click="showModal"><i class="fa fa-plus"></i> Make a new request</a>
                                     </div>
                                     <div class="col-sm-4 hidden-xs">
                                     </div>
@@ -84,7 +84,7 @@
                                     <button id="qr-code" @click="getQRCode(row.id)"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" :class="barcodeDisabled(row)" v-show="showBarcodeIcon(row)"><i class="fa fa-barcode"   style="color: #fff;"></i></button>
                                     <p v-show="lockBarcode(row)"><i class="entypo-lock" style="color: red;"></i></p>
                                   </td>
-                                  <td data-label="view subscriptions">
+                                  <td v-if="canViewDevice" data-label="view subscriptions">
                                     <nuxt-link class="btn btn-primary" :aria-disabled="isDisabled(row)" :to="{name: 'device-id-subscriptions', params:{name: row.name, id: row.id}}">manage device</nuxt-link>
                                   </td>
                                 </tr>
@@ -122,7 +122,7 @@
 
 	export default {
 		     name: "devices",
-		     middleware: ['auth'],
+		     middleware: ['auth', 'permission'],
 							components: {VerificationModal, InActiveSenderIdModal, TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
 							data(){
           return{
@@ -133,10 +133,19 @@
             active_status:"",
             device_status:"",
             device_id:"",
-											show_shimmer:false,
+										 	customer_permissions: localStorage.getItem('permissions'),
+											 show_shimmer:false,
 
           }
       },
+		    computed:{
+							canRequestDevice(){
+								return (this.customer_permissions.includes("request_device"));
+							},
+							canViewDevice()	{
+								return (this.customer_permissions.includes("view_device"));
+							}
+						},
       methods: {
 
         async fetch(){

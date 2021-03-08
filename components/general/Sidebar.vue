@@ -31,69 +31,70 @@
           </div>
         </li>
         <Dropdown>
-          <template v-slot:dropdown_title>
+          <template v-if="canAccessWallet" v-slot:dropdown_title>
             <a  class="dropdown-toggle color-a btn-primary btn-cons bord" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-cc"></i> Wallet <i class="caret"></i>
-												</span></a>
+												</span>
+												</a>
           </template>
           <template v-slot:dropdown_menu v-if="show_drop_down">
-            <li><nuxt-link to="/billing/fund"><i class="entypo-credit-card"></i> Top Up</nuxt-link></li>
-            <li><nuxt-link to="/billing/transactions/history" ><i class="entypo-flow-tree"></i> History</nuxt-link></li>
-            <li>
+            <li v-if="canTopUp"><nuxt-link to="/billing/fund"><i class="entypo-credit-card"></i> Top Up</nuxt-link></li>
+            <li v-if="canViewWalletHistory"><nuxt-link to="/billing/transactions/history" ><i class="entypo-flow-tree"></i> History</nuxt-link></li>
+            <li v-if="canAccessInvoice">
               <nuxt-link to="/invoices/all">
                 <i class="entypo-basket"></i> Invoice
               </nuxt-link>
             </li>
-            <li><nuxt-link to="/billing/balance-limit"><i class="entypo-key"></i> Alert <span class="badge badge-sm badge-sidebar">New</span></nuxt-link></li>
+            <li v-if="canAccessBalanceLimit"><nuxt-link to="/billing/balance-limit"><i class="entypo-key"></i> Alert <span class="badge badge-sm badge-sidebar">New</span></nuxt-link></li>
           </template>
         </Dropdown>
         <!-- BEGIN SIDEBAR MENU ITEMS-->
         <div class="clearfix mb-30"></div>
 							<Dropdown>
-								<template v-slot:dropdown_title>
+								<template v-slot:dropdown_title v-if="canViewSenderId">
 									<a data-toggle="dropdown" class="dropdown-toggle color-a"><span class="menu-text"><i class="entypo-list"></i> Setup Sender
 									    <i class="caret"></i></span> </a>
 								</template>
-								<template v-slot:dropdown_menu>
+								<template v-slot:dropdown_menu v-if="canViewSenderId">
 									<li><nuxt-link to="/sms/sender-id-management" ><i class="entypo-list-add"></i> Sender ID</nuxt-link></li>
 
 								</template>
 							</Dropdown>
 
-							<li class="padd-x" v-if="show_drop_down">
-								<nuxt-link  to="/devices" class="color-a level-1">
+							<li class="padd-x" v-if="show_drop_down" >
+								<nuxt-link  to="/devices" class="color-a level-1" v-if="canViewDevices">
 									<span> <i class="fa fa-barcode"></i> Manage Device </span>
 									<span class="badge badge-sm badge-sidebar">New</span>
 								</nuxt-link>
 							</li>
 							<li class="padd-x" v-if="show_drop_down">
-								<nuxt-link to="/my-number" class="color-a level-1">
+								<nuxt-link to="/my-number" class="color-a level-1" v-if="canViewNumbers">
 									<span> <i class="fa fa-tty "></i> Rent Numbers </span>
 									 <span class="badge badge-sm badge-sidebar">New</span>
 								</nuxt-link>
 							</li>
 							<Dropdown>
-								<template v-slot:dropdown_title>
+								<template v-slot:dropdown_title v-if="canManageContacts">
 									<a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-users"></i> Manage Contacts
 									    <i class="caret"></i></span></a>
 								</template>
 								<template v-slot:dropdown_menu v-if="show_drop_down">
-									<li><nuxt-link to="/phone-book" ><i class="entypo-user-add"></i> View contacts</nuxt-link></li>
-									<li><nuxt-link to="/sms/import-contacts"><i class="entypo-upload"></i> Upload contacts</nuxt-link></li>
+									<li v-if="canViewContacts"><nuxt-link to="/phone-book" ><i class="entypo-user-add"></i> View contacts</nuxt-link></li>
+									<li v-if="canImportContacts"><nuxt-link to="/sms/import-contacts"><i class="entypo-upload"></i> Upload contacts</nuxt-link></li>
 								</template>
 							</Dropdown>
-        <li class="padd-x" v-if="show_drop_down">
-          <nuxt-link to="/message/select-type" class="color-a level-1">
+        <li class="padd-x" v-if="show_drop_down" >
+          <nuxt-link v-if="canComposeMessage" to="/message/select-type" class="color-a level-1">
             <span> <i class="entypo-paper-plane"></i> Compose message</span>
           </nuxt-link>
         </li>
         <Dropdown>
-          <template v-slot:dropdown_title>
+          <template v-slot:dropdown_title v-if="canViewDeliveryReport">
             <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-chart-line"></i> Delivery Report
 									    <i class="caret"></i></span></a>
           </template>
           <template v-slot:dropdown_menu v-if="show_drop_down">
-            <li><nuxt-link to="/sms/history" ><i class="entypo-chart-area"></i> Direct Insights</nuxt-link></li>
-            <li><nuxt-link to="/sms/campaign-reports"><i class="entypo-chart-pie"></i> Group Insights</nuxt-link></li>
+            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/history" ><i class="entypo-chart-area"></i> Direct Insights</nuxt-link></li>
+            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/campaign-reports"><i class="entypo-chart-pie"></i> Group Insights</nuxt-link></li>
 
           </template>
         </Dropdown>
@@ -102,25 +103,25 @@
           <hr>
         </div>
         <Dropdown>
-          <template v-slot:dropdown_title>
+          <template v-slot:dropdown_title v-if="canViewDevelopersSettings">
             <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-code"></i> Developers
 									    <i class="caret"></i></span></a>
           </template>
           <template v-slot:dropdown_menu v-if="show_drop_down">
-            <li><a href="http://developer.termii.com" ><i class="entypo-code"></i> API Guide</a></li>
-            <li><nuxt-link to="/account/api"><i class="entypo-key"></i> Api console</nuxt-link></li>
+            <li v-if="canViewDevelopersSettings"><a href="http://developer.termii.com" ><i class="entypo-code"></i> API Guide</a></li>
+            <li v-if="canViewApiConsole"><nuxt-link to="/account/api"><i class="entypo-key"></i> Api console</nuxt-link></li>
           </template>
         </Dropdown>
 							<li class="padd-x">
 								<a target="_blank" class="color-a level-1"  href="https://join.slack.com/t/termii-loop/shared_invite/zt-imbqlf68-w4lsPkOzibBXSQohu8_8dQ">
 									<i class="entypo-users"></i> Join Community</a>
 							</li>
-        <li class="padd-x">
+        <li v-if="viewSettings" class="padd-x">
           <nuxt-link to="/account/profile" class="color-a level-1">
             <i class="entypo-cog"></i>
             Settings</nuxt-link>
         </li>
-							<li class="padd-x">
+							<li class="padd-x" v-if="isAdmin">
 								<nuxt-link to="/teams" class="color-a level-1">
 									<i class="fa fa-users"></i>
 									Teams</nuxt-link>
@@ -146,16 +147,76 @@
 				  	data(){
         	return{
 													show_drop_down: true,
-													imageUrl:  'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg'
+													imageUrl:  'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg',
+										   permission_data : [],
+										   customer_permissions:[],
+										   isAdmin: JSON.parse(localStorage.getItem('user_data')).is_main
 									}
 					},
       computed: {
 							isDisabled: function (){
         	return(!this.show_drop_down)
+							},
+							canAccessWallet(){
+								return (this.customer_permissions.includes("top_up _wallet") || this.customer_permissions.includes("view_invoice") ||
+									this.customer_permissions.includes("view_wallet_history")||  this.customer_permissions.includes("view_balance_limit"));
+							},
+							canTopUp(){
+								return (this.customer_permissions.includes("top_up_wallet"));
+							},
+							canAccessBalanceLimit(){
+								return (this.customer_permissions.includes("view_balance_limit"));
+							},
+							canAccessInvoice(){
+								return (this.customer_permissions.includes("view_invoice"));
+							},
+							canViewWalletHistory(){
+								return (this.customer_permissions.includes("view_wallet_history"));
+							},
+							canViewSenderId(){
+								return (this.customer_permissions.includes("view_sender_id"));
+							},
+							canViewDevices(){
+								return (this.customer_permissions.includes("view_devices"));
+							},
+							canViewNumbers(){
+								return (this.customer_permissions.includes("view_numbers"));
+							},
+							canManageContacts(){
+								return (this.customer_permissions.includes("view_phonebooks") || this.customer_permissions.includes("import_contacts"));
+							},
+							canViewContacts(){
+								return (this.customer_permissions.includes("view_phonebooks"));
+							},
+							canImportContacts(){
+								return (this.customer_permissions.includes("import_contacts"));
+							},
+							canComposeMessage(){
+								return (this.customer_permissions.includes("send_message"));
+							},
+							canViewDeliveryReport(){
+								return (this.customer_permissions.includes("view_delivery_report"));
+							},
+							canViewDevelopersSettings(){
+								return (this.customer_permissions.includes("view_developer_settings_section"));
+							},
+							canViewApiConsole(){
+								return (this.customer_permissions.includes("view_api_key"));
+							},
+							viewSettings(){
+								return (this.customer_permissions.includes("view_profile"));
 							}
       },
-
+					methods:{
+						getUserPermissions(){
+							this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
+							this.permissions_data.forEach((permission) => {
+								this.customer_permissions.push(permission.name);
+							});
+						},
+					},
 				async mounted() {
+      this.getUserPermissions();
 					if(this.$store.state.view_verify_page === 'true'){
 						this.imageUrl = 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg';
 					}else{

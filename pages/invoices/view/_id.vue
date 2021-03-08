@@ -143,7 +143,7 @@
     import PayInvoiceComponent from "../../../components/modals/PayInvoiceComponent";
     export default {
         name: "view",
-					  middleware: ['auth', 'inactive_user'],
+					  middleware: ['auth', 'inactive_user', 'permission'],
       components: {PayInvoiceComponent, DashboardNavbar, Sidebar},
       data(){
           return{

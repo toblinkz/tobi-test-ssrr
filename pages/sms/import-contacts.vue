@@ -54,7 +54,7 @@
 															<div class="form-group">
 																<label>Import Numbers</label>
 																<small style="color: red !important;font-size: 13px;">Download Our <a href="https://termii.s3-us-west-1.amazonaws.com/upload/files/termii_list_534_5e3b074ab63fa.csv">Sample File</a> Before uploading your contacts and please do not remove the first row</small><br>
-																<div class="form-group input-group input-group-file" style="margin-top: 20px !important;">
+																<div v-if="canImportContacts" class="form-group input-group input-group-file" style="margin-top: 20px !important;">
                                         <span class="input-group-btn">
                                             <span class="btn btn-primary btn-file">
                                                 Browse <input type="file" class="form-control" @change="uploadFile(fieldName, $event.target.files)" >
@@ -87,7 +87,7 @@
 																	</v-select>
 																</div>
 
-																<button type="submit" id="" class="btn btn-success btn-sm pull-right" :disabled="isDisabled">
+																<button v-if="canImportContacts" type="submit" id="" class="btn btn-success btn-sm pull-right" :disabled="isDisabled">
 																	<i class="fa fa-plus" v-show="showIcon" ></i>
 																	<span v-show="isLoading">
 																			<img src="/images/spinner.svg" height="20px" width="80px"/>
@@ -127,13 +127,14 @@ import VerificationModal from "~/components/modals/VerificationModal";
 
 export default {
 	name: "import-contacts",
-	middleware: ['auth', 'inactive_user'],
+	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {VerificationModal, CustomSelect, DashboardNavbar, Sidebar, vSelect},
 	data(){
 		return{
 			placement: 'top',
 			countries: [],
 			phone_books: [],
+			customer_permissions: localStorage.getItem('permissions'),
 			selected_country: '',
 			selected_phone_book:'',
 			contact_upload_url:'',
@@ -147,6 +148,9 @@ export default {
 		isDisabled:function(){
 			return (this.selected_country === '' || this.selected_phone_book === '' || this.contact_upload_url === '');
 		},
+		canImportContacts(){
+			return (this.customer_permissions.includes("import_contacts"));
+		},
 		config(){
 			return{
 				bucketName: 'termii',
@@ -155,6 +159,7 @@ export default {
 				accessKeyId: 'AKIAIOJI3WN4QX7QPD7Q',
 				secretAccessKey: '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',
 			}
+
 		},
 		S3Client(){
 			return new S3(this.config);

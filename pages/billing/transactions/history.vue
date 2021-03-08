@@ -170,11 +170,11 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "history",
-					   middleware: ['auth', 'inactive_user'],
-       components: {
-								VerificationModal,
-								TransactionHistoryModal,
-								TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar,DatePicker , ContentLoader},
+					   middleware: ['auth', 'inactive_user', 'permission'],
+        components: {
+									VerificationModal,
+									TransactionHistoryModal,
+									TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar,DatePicker , ContentLoader},
       data(){
           return{
             transaction_history: [],
@@ -186,13 +186,15 @@
             amount_spent:'',
             amount_funded:'',
             showPagination: false,
-												show_shimmer: false
+												show_shimmer: false,
+										 	customer_permissions: localStorage.getItem('permissions'),
           }
       },
 					computed: {
 							isDisabled: function () {
 										return (this.date_time === null);
-							}
+							},
+
 					},
       methods:{
 

@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                       <br>
-                                      <a class="btn btn-primary" @click="showModal"><i class="fa fa-plus"></i> Make a new request</a>
+                                      <a v-if="canRequestSenderId" class="btn btn-primary" @click="showModal"><i class="fa fa-plus"></i> Make a new request</a>
                                     </div>
                                     <div class="col-sm-4 hidden-xs">
                                     </div>
@@ -134,7 +134,7 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "sender-id-management",
-					   middleware: ['auth'],
+					   middleware: ['auth', 'permission'],
 								components: {
 									VerificationModal,
 									InActiveSenderIdModal,
@@ -147,11 +147,14 @@
             page: 1,
             total_page: '',
             showPagination: false,
-											showShimmer: false
+										 	showShimmer: false,
+											 customer_permissions: localStorage.getItem('permissions'),
           }
       },
       computed: {
-
+							canRequestSenderId(){
+								return (this.customer_permissions.includes("request_sender_id"));
+							},
       },
       methods: {
 

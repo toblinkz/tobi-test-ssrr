@@ -44,7 +44,7 @@
 													<div>
 														<div  style="display:flex; justify-content: space-between; padding: 0px 25px">
 															<p><b>Added Emails</b></p>
-															<a @click="showInputField" style="font-weight: bold">+ <span style="margin-left: 3px">Add new</span></a>
+															<a v-if="canUpdateEmailNotificationSettings" @click="showInputField" style="font-weight: bold">+ <span style="margin-left: 3px">Add new</span></a>
 														</div>
 														<div class=" mt-40 hidden-xs" style="display: flex">
 															<span  style="width: 40% ;font-size: 15px"><i class="fa fa-circle m-r-10 m-l-30"></i>Email Address</span>
@@ -88,7 +88,7 @@ import AddNewEmailModal from "@/components/modals/AddNewEmailModal";
 import UpdateEmailNotificationModal from "@/components/modals/UpdateEmailNotificationModal";
 export default {
 	name: "notification",
-	middleware: ['auth', 'inactive_user'],
+	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {
 		UpdateEmailNotificationModal,
 		AddNewEmailModal, EmailCard, ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
@@ -116,7 +116,8 @@ export default {
 			old_type: "password",
 			new_type: "password",
 			confirm_type: "password",
-			email_categories:[]
+			email_categories:[],
+			customer_permissions: localStorage.getItem('permissions'),
 
 		}
 	},
@@ -124,7 +125,10 @@ export default {
 		isDisabled: function (){
 			return ( !this.new_password || !this.old_password || !this.confirm_password || this.hasOldPasswordError
 				|| this.hasNewPasswordError || this.hasConfirmPasswordError)
-		}
+		},
+		canUpdateEmailNotificationSettings(){
+			return (this.customer_permissions.includes("update_email_notification_settings"));
+		},
 	},
 	watch: {
 		old_password(value){

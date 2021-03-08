@@ -42,7 +42,7 @@ import UpdateTeamMemberModal from "../components/modals/UpdateTeamMemberModal";
 import TeamCard from "../components/team/TeamCard";
 export default {
  name: "teams",
-	middleware:'auth',
+	middleware:['auth', 'permission'],
 	components: {TeamCard, UpdateTeamMemberModal, AddTeamMemberModal, DashboardNavbar, Sidebar},
 	data(){
  	 return{

@@ -98,7 +98,7 @@
 				export default {
         name: "_id",
 					components: {VerificationModal},
-					middleware: ['auth', 'inactive_user'],
+					middleware: ['auth', 'inactive_user', 'permission'],
 
       data(){
           return{

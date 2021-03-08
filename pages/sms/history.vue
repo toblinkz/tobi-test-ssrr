@@ -79,7 +79,7 @@
 															 </form>
 																	</div>
 																</div>
-																<center class="hidden-xs"> <button @click="showExportModal" class="btn btn-primary wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
+																<center class="hidden-xs"> <button v-if="canDownloadDeliveryReport" @click="showExportModal" class="btn btn-primary wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
 															</div>
 														</div>
 
@@ -160,7 +160,7 @@ import ExportModal from "../../components/modals/SmsHistoryExportModal";
 import VerificationModal from "~/components/modals/VerificationModal";
 export default {
 	name: "history",
-	middleware: ['auth', 'inactive_user'],
+	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {
 		VerificationModal,
 		ExportModal,
@@ -182,6 +182,7 @@ export default {
 			page:'',
 			total_page:'',
 			expand_message: false,
+			customer_permissions: localStorage.getItem('permissions'),
 			sms_history_id:'',
 			show_shimmer: false,
 			all_active: true,
@@ -206,7 +207,10 @@ export default {
 	computed:{
 		isDisabled: function () {
 			return(this.phone_number === '' ||  this.date_time === null)
-		}
+		},
+		canDownloadDeliveryReport(){
+			return (this.customer_permissions.includes("download_delivery_report"));
+		},
 	},
 	methods: {
 

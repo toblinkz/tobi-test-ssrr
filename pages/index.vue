@@ -235,7 +235,7 @@
 				script: [{src:"/js/intro.js" }]
 			}
 		},
-		 middleware: ['auth','inactive_user', 'permission'],
+		 middleware: ['auth','inactive_user'],
 		computed: {
 			...mapGetters([ 'getViewVerifyPage', 'getFirstName'])
 		},
@@ -246,10 +246,20 @@
 				account_balance: '',
 				emptyActivityLog:false,
 				live_api_key:'',
-				first_name: ''
+				first_name: '',
+				permission_data : [],
+				customer_permissions:[],
+
 			}
 		},
 		methods: {
+			getUserPermissions(){
+				this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
+				this.permissions_data.forEach((permission) => {
+					this.customer_permissions.push(permission.name);
+				});
+				localStorage.setItem('permissions', this.customer_permissions);
+			},
 			closeActivateIdModal(){
 				this.showActivateIdModal = false;
 			},
@@ -337,7 +347,7 @@
 		},
 
 	async	mounted () {
-
+   this.getUserPermissions();
 			if(this.$store.state.view_verify_page === 'true'){
 				this.first_name = this.getFirstName;
 				this.$modal.show('verification-id-modal');

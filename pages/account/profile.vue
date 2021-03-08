@@ -54,10 +54,10 @@
                                       <h5 class="media-heading text-semibold">Upload your photo…</h5>
                                       Photo should be at least 300px x 300px
                                       <br /><br />
-                                      <a @click="removeImage" class="btn btn-xs bg-grey-800 "><i class="icon-trash"></i> Remove</a>
+                                      <a v-if="canUpdateProfile" @click="removeImage" class="btn btn-xs bg-grey-800 "><i class="icon-trash"></i> Remove</a>
                                       <br />
                                       <br />
-                                      <a  onclick="$('input[name=image]').trigger('click')"  class="btn btn-xs bg-teal mr-10"><i class="icon-upload4"></i>
+                                      <a v-if="canUpdateProfile" onclick="$('input[name=image]').trigger('click')"  class="btn btn-xs bg-teal mr-10"><i class="icon-upload4"></i>
 																																							{{ upload_button_text }}</a>
                                     </div>
                                   </div>
@@ -111,7 +111,7 @@
 																																>
 																															</div>
 																				<hr />
-																				<button class="btn bg-teal pull-right" @click="showPasswordModal"><i class="icon-check"></i> Save</button>
+																				<button v-if="canUpdateProfile" class="btn bg-teal pull-right" @click="showPasswordModal"><i class="icon-check"></i> Save</button>
 																	</div>
 																</div>
 														</main>
@@ -153,7 +153,7 @@
 
     export default {
         name: "profile",
-					middleware: ['auth', 'inactive_user'],
+					middleware: ['auth', 'inactive_user',  'permission'],
         components: {
 									AccountPassword,
 									VerificationModal, SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
@@ -168,6 +168,7 @@
 												password: '',
 											 upload_button_text:'Upload',
 											 error_message:[],
+										 	customer_permissions: localStorage.getItem('permissions'),
 											 sectors : [],
             selected_country: '',
             selected_sector: '',
@@ -196,6 +197,9 @@
               secretAccessKey: 'DQ7+dh6eXX0oDkbGAg3Ug7wgQ7/Xy5qazAGSQOFL',
             }
           },
+							canUpdateProfile(){
+								return (this.customer_permissions.includes("update_profile"));
+							},
         S3Client(){
           return new S3(this.config);
         },

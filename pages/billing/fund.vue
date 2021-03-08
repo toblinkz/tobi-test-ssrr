@@ -121,7 +121,7 @@
                           </div>
                           <div class="col-lg-5 col-md-5 col-md-height col-middle">
                             <div class="p-30 p-t-none p-b-none">
-                              <div class="panel">
+                              <div class="panel" v-if="canTopUp">
                                 <div class="panel-body">
                                   <form  role="form" method="post" @submit.prevent="TopUp">
                                     <CustomSelect :options="options" @item-selected="itemSelected" :dropdown-style="dropdownStyle"></CustomSelect>
@@ -211,6 +211,7 @@
             hasError: false,
 												total: '',
 										 	bundled_top_up:'',
+											 customer_permissions: localStorage.getItem('permissions'),
             payment_url:'',
             selectPayment: false,
 											 first_name: JSON.parse(localStorage.getItem('user_data')).fname,
@@ -227,7 +228,10 @@
       computed:{
           isDisabled: function () {
               return (this.amount === '' || this.hasError)
-          }
+          },
+									canTopUp(){
+										return (this.customer_permissions.includes("top_up_wallet"));
+									},
       },
       watch:{
         amount(value){
