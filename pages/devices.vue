@@ -150,20 +150,30 @@
           }
         },
 
-        getQRCode(device_id){
+        async getQRCode(device_id){
 
-            $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
-          $('#qr-code').attr("disabled", true);
+									$('#qr-code').html('<span style="color: #fff"> Loading...</span>');
+									$('#qr-code').attr("disabled", true);
 
-           let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${localStorage.getItem('local')}`
-          	 url = url.replace(':slug', device_id);
+									const data = await this.$axios.$get(`devices/${device_id}/barcode`);
 
-          // $.get(url, function (data, status) {
-              Swal.fire({
-                title:"<h2>Scan QR Code</br><p>To use WhatsApp on your phone, tap settings icon and select WhatsApp Web</p></h2>",
-                html: `<img src="${url}" alt="Try again" style="width: 100%">`,
-                confirmButtonText: "Close",
-              });
+									if(data.data_type === 'string' ){
+										if(data.data == 'connected'){
+											Swal.fire({
+												title: 'Connected!',
+												text: 'Your device is connected!',
+												icon: 'success',
+											});
+										}
+									}
+
+									if(data.data_type === "image_hash"){
+										Swal.fire({
+											title:"<h2>Scan QR Code</br><p>To use WhatsApp on your phone, tap settings icon and select WhatsApp Web</p></h2>",
+											html: `<img src="${data.data}" alt="Try again" style="width: 100%">`,
+											confirmButtonText: "Close",
+										});
+									}
 
         },
         showModal(){
