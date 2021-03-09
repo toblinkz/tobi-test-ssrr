@@ -109,9 +109,10 @@
 
 
                     <div class="col-md-12 panel mt-50">
-																					<TableVuePlaceHolder v-if="!show_shimmer" >
 
+																					<TableVuePlaceHolder v-if="!show_shimmer" >
 																					</TableVuePlaceHolder>
+
                       <div class="panel-body p-15 p-t-none p-b-none" v-else>
                         <div class="row" >
                           <div class="pml-table-container"  style="overflow-x:auto;">
@@ -144,13 +145,14 @@
                       :page="page"
                       :total_page="total_page"
                       :on-page-change="onPageChange"
-                      v-show="showPagination === true">
+                      v-show="showPagination">
 
                     </pagination>
                   </section>
                 </main>
               </div>
             </div>
+
 											<TransactionHistoryModal></TransactionHistoryModal>
 											<VerificationModal></VerificationModal>
           </div>
@@ -185,102 +187,90 @@
             total_page:'',
             amount_spent:'',
             amount_funded:'',
-            showPagination: false,
+            showPagination: true,
 												show_shimmer: false
           }
       },
 					computed: {
 							isDisabled: function () {
-										return (this.date_time === null);
+										return this.date_time === null;
 							}
 					},
       methods:{
 
         	async fetch(){
 
-										try {
-											//get wallet transaction
-											let response_data =  await this.$axios.$get('billing/wallet/transactions', {params: {page: this.page}});
-											this.transaction_history = response_data.data;
-											this.show_shimmer = true;
-											if (response_data.meta.last_page > 1 ){
-												this.showPagination = true
-											}else {
-												this.showPagination = false
-											}
-											this.page = response_data.meta.current_page;
-											this.total_page = response_data.meta.last_page;
+										try
+										{
+											let transactions = await this.setTransactionData(null, this.page);
 
-											//get wallet transaction sum
-											let sum_data = await this.$axios.$get('billing/wallet/transactions/sum', {
-											});
-											this.amount_funded = sum_data.credit;
-											this.amount_spent = sum_data.debit;
-										}catch (e) {
+											let transaction_sum = await this.setTransactionSumData(null);
+										}
+										catch (e)
+										{
 													this.$toast.error("Something went wrong");
 										}
 
 									},
 
         async getWalletTransactionByDate(){
-        		this.isLoading = true;
-        		this.filterText = '';
 
-        		try{
-											let response_data = await this.$axios.$get('billing/wallet/transactions',{
-												params:{
-													date_from: this.date_time[0] ,
-													date_to:this.date_time[1],
-													page: this.page
-												}
-											});
-											if (response_data.meta.last_page > 1 ){
-												this.showPagination = true
-											}else {
-												this.showPagination = false
-											}
-											this.transaction_history = response_data.data;
-											this.total_page = response_data.meta.last_page;
-											this.isLoading = false;
-											this.filterText = 'Filter';
+									try
+									{
+											this.setLoadingAndFilterText()
+
+        			let transactions = await this.setTransactionData(this.date_time, this.page);
+
+											let transaction_sum = await this.setTransactionSumData(this.date_time);
+
+											this.setLoadingAndFilterText()
+
 											this.$toast.success('Done');
 
-											let sum_data = await this.$axios.$get('billing/wallet/transactions/sum', {
-												params:{
-													date_from: this.date_time[0],
-													date_to: this.date_time[1],
-												}
-											});
-											this.amount_funded = sum_data.credit;
-											this.amount_spent = sum_data.debit;
+										}
+										catch (e)
+										{
+											this.setLoadingAndFilterText()
 
-										}catch (e) {
-											this.isLoading = false;
-											this.filterText = 'Filter';
 											this.$toast.error("Something went wrong.")
 										}
-
         },
+
+							async setTransactionData(date, page){
+								const { data } = await this.$billing.getTransactionHistory(date, page);
+								this.transaction_history = data.data
+								this.showPagination = data.meta.last_page > 1;
+								this.page = data.meta.current_page;
+								this.total_page = data.meta.last_page;
+							},
+
+							async setTransactionSumData(date) {
+								const {data} = await this.$billing.getTransactionSum(date);
+								this.amount_funded = data.credit;
+								this.amount_spent = data.debit;
+							},
+
+							setLoadingAndFilterText(){
+								this.isLoading = !this.isLoading ;
+								this.filterText = this.isLoading ? '' : 'Filter';
+							},
 
         onPageChange(page) {
           this.page = page;
           this.show_shimmer = false;
           this.fetch();
-
         },
+
 							showExportModal(){
         		this.$modal.show('transaction-history-modal');
 							}
-
       },
 					mounted() {
-						if(this.$store.state.view_verify_page === 'true') {
-							this.$modal.show('verification-id-modal');
-						}else {
+						(this.$store.state.view_verify_page === 'true') ?
+							this.$modal.show('verification-id-modal'):
 							this.fetch();
-						}
+					},
 
-					}
 
 
 				}
