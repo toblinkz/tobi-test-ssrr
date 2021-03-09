@@ -120,7 +120,6 @@ export default {
 					payment_method: this.payment_gateway,
 					auto_renew: this.auto_renew
 				});
-				this.close();
 				if(data.data.url) {
 					window.location.href = data.data.url;
 				}
@@ -131,8 +130,8 @@ export default {
 						this.$toast.error(result.error.message)
 					});
 				}
-
 				this.$toast.success("Subscription renewed successfully");
+				this.close();
 			} catch (e) {
 
 				let errors = e.response.data.errors;
