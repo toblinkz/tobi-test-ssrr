@@ -110,7 +110,7 @@
 
                     <div class="col-md-12 panel mt-50">
 
-																					<TableVuePlaceHolder v-if="!show_shimmer" >
+																					<TableVuePlaceHolder v-if="show_shimmer" >
 																					</TableVuePlaceHolder>
 
                       <div class="panel-body p-15 p-t-none p-b-none" v-else>
@@ -188,7 +188,7 @@
             amount_spent:'',
             amount_funded:'',
             showPagination: true,
-												show_shimmer: false
+												show_shimmer: true
           }
       },
 					computed: {
@@ -198,40 +198,43 @@
 					},
       methods:{
 
-        	async fetch(){
+							async fetch(){
+								try {
 
-										try
-										{
-											let transactions = await this.setTransactionData(null, this.page);
+									this.show_shimmer = true;
 
-											let transaction_sum = await this.setTransactionSumData(null);
-										}
-										catch (e)
-										{
-													this.$toast.error("Something went wrong");
-										}
+									let transactions = await this.setTransactionData(null, this.page);
 
-									},
+									let transaction_sum = await this.setTransactionSumData(null);
+
+									this.show_shimmer = false;
+
+								}catch (e) {
+
+									this.show_shimmer = false;
+									this.$toast.error("Something went wrong");
+
+								}
+							},
 
         async getWalletTransactionByDate(){
 
 									try
 									{
-											this.setLoadingAndFilterText()
+										this.setLoadingAndFilterText()
+										this.show_shimmer = true;
+										let transactions = await this.setTransactionData(this.date_time, this.page);
 
-        			let transactions = await this.setTransactionData(this.date_time, this.page);
+										let transaction_sum = await this.setTransactionSumData(this.date_time);
 
-											let transaction_sum = await this.setTransactionSumData(this.date_time);
-
-											this.setLoadingAndFilterText()
-
-											this.$toast.success('Done');
-
+										this.setLoadingAndFilterText()
+										this.show_shimmer = false;
+										this.$toast.success('Done');
 										}
 										catch (e)
 										{
+											this.show_shimmer = false;
 											this.setLoadingAndFilterText()
-
 											this.$toast.error("Something went wrong.")
 										}
         },
@@ -257,9 +260,12 @@
 
         onPageChange(page) {
           this.page = page;
-          this.show_shimmer = false;
           this.fetch();
         },
+
+							shimer(){
+								this.show_shimmer = !this.show_shimmer;
+							},
 
 							showExportModal(){
         		this.$modal.show('transaction-history-modal');
