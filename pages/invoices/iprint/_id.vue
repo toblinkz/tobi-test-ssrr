@@ -136,12 +136,29 @@
            this.discount = inv_item.discount;
            this.total = inv_item.total;
         },
+							changePrintOrientation(){
+								var css = '@page { size: landscape; }',
+									head = document.head || document.getElementsByTagName('head')[0],
+									style = document.createElement('style');
+
+								style.type = 'text/css';
+								style.media = 'print';
+
+								if (style.styleSheet){
+									style.styleSheet.cssText = css;
+								} else {
+									style.appendChild(document.createTextNode(css));
+								}
+
+								head.appendChild(style);
+							}
       },
       async mounted() {
 							if(this.$store.state.view_verify_page === 'true') {
 								this.$modal.show('verification-id-modal');
 							}else {
 								await this.getBillingInvoiceById();
+								await this.changePrintOrientation();
 								await window.print();
 							}
 
