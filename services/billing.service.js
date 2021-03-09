@@ -1,5 +1,3 @@
-import {ResponseHandlerService} from "@/services/response-handler.service";
-
 export class BillingService {
 
 	constructor(axios) {
