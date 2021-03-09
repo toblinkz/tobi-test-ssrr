@@ -53,7 +53,7 @@
 															</div>
 														</div>
 														<DeviceTemplate v-show="templateExists()" :template_data="template_data" @page="onPageChange($event)"></DeviceTemplate>
-														<DeviceSubscription :subscription_data="response_data"
+														<DeviceSubscription  :subscription_data="response_data"
 																																		:device_name="device_name"
 																																		:monthly_charge="monthly_charge"
 																																		:cost_per_message="cost_per_message"
@@ -69,7 +69,7 @@
             </main>
           </div>
 									<VerificationModal></VerificationModal>
-
+         <SuccessfulPaymentModal></SuccessfulPaymentModal>
         </div>
       </div>
     </div>
@@ -84,10 +84,12 @@
 				import DeviceSubscriptionModal from "~/components/modals/DeviceSubscriptionModal";
 				import DeviceSubscription from "~/components/devices/subscriptions";
 				import DeviceTemplate from "@/components/devices/templates";
+				import SuccessfulPaymentModal from "../../../components/modals/SuccessfulPaymentModal";
     export default {
 					  name: "subscriptions",
 					  middleware: ['auth', 'inactive_user'],
        components: {
+								SuccessfulPaymentModal,
 								DeviceTemplate,
 								DeviceSubscription, VerificationModal,DashboardNavbar, Sidebar, DeviceSubscriptionModal},
        data(){
