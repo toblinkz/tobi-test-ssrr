@@ -53,7 +53,7 @@
 															</div>
 														</div>
 														<DeviceTemplate v-show="templateExists()" :template_data="template_data" @page="onPageChange($event)"></DeviceTemplate>
-														<DeviceSubscription  @show="showSuccessModal"  :subscription_data="response_data"
+														<DeviceSubscription  :subscription_data="response_data"
 																																		:device_name="device_name"
 																																		:monthly_charge="monthly_charge"
 																																		:cost_per_message="cost_per_message"
@@ -165,10 +165,6 @@
         showPaidLabel(row){
             return(row.payment_status === 'PAID')
         },
-							showSuccessModal(ev){
-								console.log(ev)
-								this.$modal.show('successful-payment-modal');
-							},
         async payNow(subscription_id){
 									this.$store.commit('setSuccessfulPaymentUrl', this.page_url);
 									this.button_text = '';
