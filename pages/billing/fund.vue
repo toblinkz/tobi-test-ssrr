@@ -36,7 +36,7 @@
                             <!-- Trigger the modal with a button -->
 																											 <div style="display: flex">
 																													<button type="button" @click="showModal" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn m-r-10 btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
-																													<a class="btn account mb-30" v-show="customer_country === 'Nigeria' && nuban_account.length === 0" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 8px!important;">
+																													<a class="btn account mb-30" v-if="show_get_account_number" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 8px!important;">
 																														<i class="entypo-light-up"></i>
 																														Get account number
 																													</a>
@@ -64,12 +64,12 @@
 
 																																			</ContentLoader>
 																																			<div v-else>
-																																				  <div class="alert" v-if="!is_nigerian_wallet" style="border: 0.2px solid #ddd;border-radius: 5px; display: flex; justify-content: space-between">
+																																				  <div class="alert" v-if="!is_nigerian_wallet" style="border: 0.2px solid #e2e8f0;border-radius: 5px; display: flex; justify-content: space-between">
 																																							<div style="display:flex; flex-direction: column">
-																																								<p class="text-semibold" style="color: #595959">ACCOUNT NUMBER</p>
+																																								<p class="text-semibold" style="color: #595959; font-size: 13px">ACCOUNT NUMBER</p>
 																																								<!-- START PANEL -->
 																																								<p>
-																																									<span style="font-weight: bold; font-size: 20px">{{account_number}}</span>
+																																									<span style="font-weight: bold; color: #1a202c; font-size: 27px">{{account_number}}</span>
 																																								</p>
 																																								<p v-clipboard:copy="account_number" style="cursor: pointer">
 																																									<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
@@ -78,15 +78,15 @@
 																																								<!-- END PANEL -->
 																																							</div>
 																																							<div style="display:flex; flex-direction: column">
-																																								<p class="text-semibold" style="color: #595959">Bank</p>
+																																								<p class="text-semibold"  style="color: #595959; font-size: 13px">BANK</p>
 																																								<!-- START PANEL -->
 																																								<p >
-																																									<span style="color: #C0C0C0">{{bank_name.toUpperCase()}}</span>
+																																									<span style="color:  #718096;">{{bank_name.toUpperCase()}}</span>
 																																								</p>
 																																								<!-- END PANEL -->
 																																							</div>
 																																							<div style="display:flex; flex-direction: column">
-																																								<p class="text-semibold" style="color: #595959">Account name</p>
+																																								<p class="text-semibold"  style="color: #595959; font-size: 13px">ACCOUNT NAME</p>
 																																								<!-- START PANEL -->
 																																								<p>
 																																									<span>{{account_name}}</span>
@@ -96,34 +96,25 @@
 																																						</div>
 																																			</div>
 																																			<div v-if="is_nigerian_wallet" style="display: flex">
-																																						<div v-for="row in nuban_account" class="alert m-r-10" style="display:flex; flex-direction: column; border: 0.2px solid #ddd;border-radius: 5px;">
+																																						<div v-for="row in nuban_account" class="alert m-r-10" style="display:flex; flex-direction: column; border: 0.2px solid #e2e8f0;border-radius: 5px; width: 32%; height: 170px;">
 																																							<!-- START PANEL -->
 																																							<p>
-																																								<span style="font-weight: bold; font-size: 20px">{{row.account_number}}</span>
+																																								<span style="font-weight: bold; font-size: 13px">ACCOUNT NUMBER</span>
 																																							</p>
 																																							<p>
-																																								<span>{{row.bank_name}}</span>
+																																								<span style="font-weight: bold; color: #1a202c; font-size: 27px">{{row.account_number}}</span>
 																																							</p>
-																																							<p v-clipboard:copy="row.account_number" style="cursor: pointer">
+																																							<p>
+																																								<span style="color: #718096;">{{row.bank_name.toUpperCase()}}</span>
+																																							</p>
+																																							<p v-clipboard:copy="row.account_number" v-clipboard:success="onCopy" style="cursor: pointer">
 																																								<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
-																																								<span style="font-size: 12px; color: #365899">Copy to clipboard</span>
+																																								<span style="font-size: 12px; color: #365899">{{clip_board_text}}</span>
 																																							</p>
 																																							<!-- END PANEL -->
 																																						</div>
 																																			</div>
-
-																																			<div class="col-md-12 alert toke" v-if="is_nigerian_wallet">
-																																				<p><i class="entypo-info-circled" style="color: #bbb !important;"></i> <b>Notice</b></p><br>
-																																				<p style="text-align:justify">
-																																					Due to directives from the Central Bank of Nigeria [CBN], our dedicated Virtual account numbers for Nigeria have been temporarily disabled and are no longer valid for use.
-																																					We are rolling our new virtual numbers in a few hours. Please for now use our <b>Sterling Bank Account</b> available on your wallet dashboard.
-																																					<br/>
-																																					<br/>
-																																					<b>	NB: After paying notify our support team via your whatsapp support group or send an email to sales@termii.com with details of your payment.
-																																					</b>
-																																				</p>
-																																			</div>
-																																			<div class="col-md-12 alert toke" v-else>
+																																			<div class="col-md-12 alert toke" v-if="!is_nigerian_wallet">
 																																				<p><i class="entypo-info-circled" style="color: #bbb !important;"></i> <b>Bank Transfer Guide:</b></p><br>
 																																				<p style="text-align:justify">
 																																					For US or international customers, please make payment to the bank above and include the following details:
@@ -235,10 +226,12 @@
 							isRegularBody: true,
 							isRegularForm: false,
 							isLoading: false,
+							show_get_account_number: false,
 							payment_method: '',
 							minimum_top_up: '',
 							minimum_top_up_value: '',
 							fund_button_text: 'Fund Account',
+							clip_board_text:'Copy to clipboard',
 							selected_payment_method: "",
 							amount: '',
 							is_nigerian_wallet: false,
@@ -281,6 +274,10 @@
 					methods: {
 						closeModal() {
 							this.showModal = false;
+						},
+						onCopy: function (e) {
+							// alert('You just copied: ' + e.text)
+							this.clip_board_text = 'Copied!'
 						},
 						showModal() {
 							this.$modal.show('service-pricing-modal');
@@ -440,15 +437,18 @@
 
 						}
 					},
-					mounted() {
+					async mounted() {
 						if (this.$store.state.view_verify_page === 'true') {
 							this.$modal.show('verification-id-modal');
 						} else {
 							this.page_url = window.location.href;
-							this.getWallet();
-							this.getPaymentMethod();
-							this.getTopDetails();
-							this.getNuban();
+							await this.getWallet();
+							await this.getPaymentMethod();
+							await this.getTopDetails();
+							await this.getNuban();
+							if (this.customer_country === 'Nigeria' && this.nuban_account.length === 0){
+								 this.show_get_account_number = true;
+							}
 
 						}
 					}
