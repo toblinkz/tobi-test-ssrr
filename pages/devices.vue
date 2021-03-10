@@ -104,8 +104,11 @@
       </div>
     </div>
     <DeviceModal  @requested="requested"></DeviceModal>
+			 <DeviceConnectedModal></DeviceConnectedModal>
+			<device-barcoded-modal :image_url="barcode_url"></device-barcoded-modal>
 				<VerificationModal></VerificationModal>
 			<InActiveSenderIdModal></InActiveSenderIdModal>
+			<device-info-modal></device-info-modal>
   </div>
 </template>
 
@@ -119,11 +122,18 @@
 	import VerificationModal from "~/components/modals/VerificationModal";
 	import InActiveSenderIdModal from "~/components/modals/InActiveSenderIdModal";
 	import inactive_user from "@/middleware/inactive_user";
+	import DeviceConnectedModal from "../components/modals/DeviceConnectedModal";
+	import DeviceBarcodedModal from "../components/modals/DeviceBarcodeModal";
+	import DeviceInfoModal from "../components/modals/DeviceInfoModal";
 
 	export default {
 		     name: "devices",
 		     middleware: ['auth'],
-							components: {VerificationModal, InActiveSenderIdModal, TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
+							components: {
+								DeviceInfoModal,
+								DeviceBarcodedModal,
+								DeviceConnectedModal,
+								VerificationModal, InActiveSenderIdModal, TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
 							data(){
           return{
             response_data:[],
@@ -134,6 +144,7 @@
             device_status:"",
             device_id:"",
 											 show_shimmer:false,
+											 barcode_url: ''
 
           }
       },
@@ -152,28 +163,28 @@
 
         async getQRCode(device_id){
 
-									$('#qr-code').html('<span style="color: #fff"> Loading...</span>');
-									$('#qr-code').attr("disabled", true);
+									// $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
+									// $('#qr-code').attr("disabled", true);
 
 									const data = await this.$axios.$get(`devices/${device_id}/barcode`);
+								  if (data.data_type){
+								  	switch (data.data_type) {
+              case ('string'):{
+															this.$modal.show('device-connected-modal');
+															break;
+														}
+														case ('image_hash'):{
+                 this.barcode_url = data.data;
+															  this.$modal.show('device-barcode-modal');
+															  break;
+														}
+														default:{
+															this.$modal.show('device-info-modal');
+														}
+											}
 
-									if(data.data_type === 'string' ){
-										if(data.data == 'connected'){
-											Swal.fire({
-												title: 'Connected!',
-												text: 'Your device is connected!',
-												icon: 'success',
-											});
 										}
-									}
 
-									if(data.data_type === "image_hash"){
-										Swal.fire({
-											title:"<h2>Scan QR Code</br><p>To use WhatsApp on your phone, tap settings icon and select WhatsApp Web</p></h2>",
-											html: `<img src="${data.data}" alt="Try again" style="width: 100%">`,
-											confirmButtonText: "Close",
-										});
-									}
 
         },
         showModal(){
