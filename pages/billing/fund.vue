@@ -94,7 +94,7 @@
 																																								<!-- END PANEL -->
 																																							</div>
 																																						</div>
-																																			</div>
+
 																																			<div v-if="is_nigerian_wallet" style="display: flex">
 																																						<div v-for="row in nuban_account" class="alert m-r-10" style="display:flex; flex-direction: column; border: 0.2px solid #e2e8f0;border-radius: 5px; width: 32%; height: 170px;">
 																																							<!-- START PANEL -->
@@ -120,11 +120,12 @@
 																																							<!-- END PANEL -->
 																																						</div>
 																																			</div>
+																																			</div>
 																																			<div v-if="is_nigerian_wallet" class="col-md-12 alert toke hidden-xs">
 																																				<p><i class="entypo-bookmark" style="color: #bbb !important;"></i> Plan Guide</p><br>
 																																				<p class="text-semibold"><strong>Regular Top up</strong>; Minimum amount to recharge is ₦3000</p>
 																																			</div>
-																																			<div  v-if="!is_nigerian_wallet" class="col-md-12 alert toke" >
+																																			<div  v-if="!is_nigerian_wallet" class="col-md-12 alert toke hidden-xs" >
 																																				<p><i class="entypo-info-circled" style="color: #bbb !important;"></i> <b>Bank Transfer Guide:</b></p><br>
 																																				<p style="text-align:justify">
 																																					For US or international customers, please make payment to the bank above and include the following details:
