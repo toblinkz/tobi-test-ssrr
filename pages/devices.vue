@@ -168,11 +168,12 @@
 
 										const data  = await this.$device.getQRCode(device_id);
 
+
         		if (!data.data_type){
 												this.$modal.show('device-info-modal');
 										}
 
-        		this.loadImageModal(data.data_type)
+        		this.loadImageModal(data)
 
 									this.enableQRCodeButton(device_id)
 
@@ -184,8 +185,8 @@
 									}
         },
 
-							loadImageModal(data_type){
-								switch (data_type) {
+							loadImageModal(data){
+								switch (data.data_type) {
 									case ('string'):{
 										this.$modal.show('device-connected-modal');
 										break;
@@ -250,7 +251,6 @@
         if (row.device_type === 'Template') return 'barcode-disabled'
 							},
 							disableQRCodeButton(device_id){
-        	console.log('#qr-code-'+device_id);
 								$('#'+device_id).html('<span style="color: #fff"> Loading...</span>');
 								$('#'+device_id).attr("disabled", true);
 							},
