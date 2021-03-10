@@ -31,7 +31,7 @@
                             <!-- START PANEL -->
                             <div class="panel-transparent">
 																													<span id="welcome" ><i class="entypo-credit-card" style="font-size: 20px"></i><span style="font-size: 13px">Available balance:</span></span>
-																													 <p style="font-size: 45px; font-weight: 500; color:#365899;">{{account_balance}}</p>
+																													 <p style="font-size: 50px; font-weight: 500; color:#365899;">{{account_balance}}</p>
                             </div>
                             <!-- Trigger the modal with a button -->
 																											 <div style="display: flex">
@@ -69,11 +69,10 @@
 																																								<p class="" style="color: #595959; font-size: 13px">ACCOUNT NUMBER</p>
 																																								<!-- START PANEL -->
 																																								<p>
-																																									<span style="font-weight: bold; color: #1a202c; font-size: 27px">{{account_number}}</span>
+																																									<span style="font-weight: bold; color: #1a202c; font-size: 22px">{{account_number}}</span>
 																																								</p>
 																																								<p v-clipboard:copy="account_number" style="cursor: pointer">
 																																									<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
-																																									<span style="font-size: 12px; color: #365899">Copy to clipboard</span>
 																																								</p>
 																																								<!-- END PANEL -->
 																																							</div>
@@ -98,25 +97,33 @@
 																																			<div v-if="is_nigerian_wallet" style="display: flex">
 																																						<div v-for="row in nuban_account" class="alert m-r-10" style="display:flex; flex-direction: column; border: 0.2px solid #e2e8f0;border-radius: 5px; width: 32%; height: 170px;">
 																																							<!-- START PANEL -->
-																																							<p>
-																																								<span style="font-size: 13px">ACCOUNT NUMBER</span>
+																																							<p class="pull-right" v-clipboard:copy="row.account_number" @click="changeCopyText(row)" style="cursor: pointer">
+																																								<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
+																																								<span style="font-size: 12px; color: #365899" v-if="row.account_number !== copy_id"></span>
+																																								<span style="font-size: 12px; color: #365899" v-if="row.account_number === copy_id">Copied!</span>
 																																							</p>
+
+																																									<p>
+																																										<span style="font-size: 13px">ACCOUNT NUMBER</span>
+																																									</p>
+
+
+
+
 																																							<p>
-																																								<span style="font-weight: bold; color: #1a202c; font-size: 27px">{{row.account_number}}</span>
+																																								<span style="font-weight: bold; color: #1a202c; font-size: 22px">{{row.account_number}}</span>
 																																							</p>
 																																							<p>
 																																								<span style="color: #718096;">{{row.bank_name.toUpperCase()}}</span>
 																																							</p>
-																																							<p v-clipboard:copy="row.account_number" @click="changeCopyText(row)" style="cursor: pointer">
-																																								<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
-																																								<span style="font-size: 12px; color: #365899" v-if="row.account_number !== copy_id">Copy to clipboard</span>
-																																								<span style="font-size: 12px; color: #365899" v-if="row.account_number === copy_id">Copied!</span>
-																																							</p>
 																																							<!-- END PANEL -->
 																																						</div>
 																																			</div>
-
-																																			<div class="col-md-12 alert toke" v-if="!is_nigerian_wallet">
+																																			<div v-if="is_nigerian_wallet" class="col-md-12 alert toke hidden-xs">
+																																				<p><i class="entypo-bookmark" style="color: #bbb !important;"></i> Plan Guide</p><br>
+																																				<p class="text-semibold"><strong>Regular Top up</strong>; Minimum amount to recharge is ₦3000</p>
+																																			</div>
+																																			<div  v-if="!is_nigerian_wallet" class="col-md-12 alert toke" >
 																																				<p><i class="entypo-info-circled" style="color: #bbb !important;"></i> <b>Bank Transfer Guide:</b></p><br>
 																																				<p style="text-align:justify">
 																																					For US or international customers, please make payment to the bank above and include the following details:
@@ -135,10 +142,6 @@
 																																					Additional Wire Instructions For direct deposits and ACH transactions use routing number: 044000037
 																																				</p>
 																																				</div>
-																																			<div class="col-md-12 alert toke" v-if="is_nigerian_wallet">
-																																				<p><i class="entypo-info-circled" style="color: #bbb !important;"></i> <b>Minimum Top-up:	</b></p><br>
-																																				<p style="text-align:justify"></p>
-																																			</div>
                                   </div>
                                 </div>
                               </div>
