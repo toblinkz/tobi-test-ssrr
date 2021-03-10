@@ -57,7 +57,7 @@
 
 																																			</ContentLoader>
 																																			<div v-else>
-																																				<div class="alert" v-if="!is_nigerian_wallet" style="border: 0.2px solid #e2e8f0;border-radius: 5px; display: flex; justify-content: space-between">
+																																				<div class="alert foreign-card" v-if="!is_nigerian_wallet">
 																																							<div style="display:flex; flex-direction: column">
 																																								<p class="" style="color: #595959; font-size: 13px">ACCOUNT NUMBER</p>
 																																								<!-- START PANEL -->
@@ -88,14 +88,14 @@
 																																								<!-- END PANEL -->
 																																							</div>
 																																						</div>
-																																				<div v-if="is_nigerian_wallet" style="display: flex">
-																																						<div v-for="row in nuban_account" class="alert m-r-10" style="display:flex; flex-direction: column; border: 0.2px solid #e2e8f0;border-radius: 5px; width: 32%; height: 140px;">
+																																				<div v-if="is_nigerian_wallet" class="nuban-card-container">
+																																						<div v-for="row in nuban_account" class="alert m-r-10 nuban-card">
 																																							<!-- START PANEL -->
-																																							<p class="copy-clipboard" v-clipboard:copy="row.account_number" @click="changeCopyText(row)" style="cursor: pointer">
-																																								<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
+																																							<div  v-clipboard:copy="row.account_number" @click="changeCopyText(row)" class="copy-clipboard">
+																																								<img class="m-r-5"  src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
 																																								<span style="font-size: 12px; color: #365899" v-if="row.account_number !== copy_id"></span>
 																																								<span style="font-size: 12px; color: #365899" v-if="row.account_number === copy_id">Copied!</span>
-																																							</p>
+																																							</div>
 
 																																									<p>
 																																										<span style="font-size: 13px">ACCOUNT NUMBER</span>
@@ -670,7 +670,41 @@
     outline: 0;
   }
 		.copy-clipboard{
-			margin-left: 100%;
+			cursor: pointer;
+			display: flex;
+			justify-content: flex-end
+		}
+		.foreign-card{
+			border: 0.2px solid #e2e8f0 !important;
+			border-radius: 5px;
+			display: flex;
+			justify-content: space-between
+		}
+		@media (max-width: 769px){
+			.foreign-card {
+				 flex-direction: column;
+			}
+		}
+		.nuban-card{
+			display:flex;
+			flex-direction: column;
+			border: 0.2px solid #e2e8f0 !important;
+			border-radius: 5px;
+			width: 32%;
+			height: 140px;
+		}
+		@media (max-width: 769px){
+			.nuban-card {
+				width: 100%;
+			}
+		}
+		.nuban-card-container{
+			display: flex;
+		}
+		@media (max-width: 769px){
+			.nuban-card-container {
+				 flex-direction: column;
+			}
 		}
 
 
