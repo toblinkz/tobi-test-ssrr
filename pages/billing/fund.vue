@@ -107,9 +107,10 @@
 																																							<p>
 																																								<span style="color: #718096;">{{row.bank_name.toUpperCase()}}</span>
 																																							</p>
-																																							<p v-clipboard:copy="row.account_number" v-clipboard:success="onCopy" style="cursor: pointer">
+																																							<p v-clipboard:copy="row.account_number" @click="changeCopyText(row)" style="cursor: pointer">
 																																								<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
-																																								<span style="font-size: 12px; color: #365899">{{clip_board_text}}</span>
+																																								<span style="font-size: 12px; color: #365899" v-if="row.account_number !== copy_id">Copy to clipboard</span>
+																																								<span style="font-size: 12px; color: #365899" v-if="row.account_number === copy_id">Copied</span>
 																																							</p>
 																																							<!-- END PANEL -->
 																																						</div>
@@ -231,7 +232,7 @@
 							minimum_top_up: '',
 							minimum_top_up_value: '',
 							fund_button_text: 'Fund Account',
-							clip_board_text:'Copy to clipboard',
+							copy_id:'',
 							selected_payment_method: "",
 							amount: '',
 							is_nigerian_wallet: false,
@@ -275,9 +276,14 @@
 						closeModal() {
 							this.showModal = false;
 						},
-						onCopy: function (e) {
-							// alert('You just copied: ' + e.text)
-							this.clip_board_text = 'Copied!'
+						changeCopyText(row){
+								this.copy_id = row.account_number;
+
+								setTimeout( () => {
+									this.copy_id = '';
+								}, 2000)
+
+
 						},
 						showModal() {
 							this.$modal.show('service-pricing-modal');
@@ -345,7 +351,6 @@
 									}
 
 								} catch (e) {
-									console.log(e)
 									this.isLoading = false;
 									this.fund_button_text = "Fund Account";
 									let errors = e.response;
@@ -374,7 +379,6 @@
 										let nuban_data = await this.$axios.$get('billing/dedicated-nuban');
 										this.nuban_account = nuban_data.data;
 
-										console.log('dd',this.nuban_account);
 										if (this.nuban_account.length === 0 && localStorage.getItem('SAM') === 'false') {
 											this.$modal.show('account-number-modal');
 										}
