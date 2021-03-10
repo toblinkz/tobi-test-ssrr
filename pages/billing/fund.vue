@@ -71,8 +71,9 @@
 																																								<p>
 																																									<span style="font-weight: bold; color: #1a202c; font-size: 22px">{{account_number}}</span>
 																																								</p>
-																																								<p v-clipboard:copy="account_number" style="cursor: pointer">
+																																								<p v-clipboard:copy="account_number" @click="showCopied" style="cursor: pointer">
 																																									<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
+																																									<span style="font-size: 12px; color: #365899" v-if="show_copied">Copied!</span>
 																																								</p>
 																																								<!-- END PANEL -->
 																																							</div>
@@ -241,6 +242,7 @@
 							minimum_top_up_value: '',
 							fund_button_text: 'Fund Account',
 							copy_id:'',
+							show_copied: false,
 							selected_payment_method: "",
 							amount: '',
 							is_nigerian_wallet: false,
@@ -290,8 +292,13 @@
 								setTimeout( () => {
 									this.copy_id = '';
 								}, 2000)
+						},
+						showCopied(){
+							this.show_copied = true;
 
-
+							setTimeout( () => {
+								this.show_copied = false;
+							}, 2000)
 						},
 						showModal() {
 							this.$modal.show('service-pricing-modal');
