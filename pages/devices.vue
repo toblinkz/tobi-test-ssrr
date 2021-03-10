@@ -81,7 +81,7 @@
                                   <td data-label="Status"><p class="label"  :class="rowClassName(row,index)">{{row.device_status}}</p>
                                   <td ><p  class="label"  :class="rowClassType(row,index)">{{row.device_type}}</p></td>
                                   <td data-label="Status">
-                                    <button id="qr-code" @click="getQRCode(row.id)"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" :class="barcodeDisabled(row)" v-show="showBarcodeIcon(row)"><i class="fa fa-barcode"   style="color: #fff;"></i></button>
+                                    <button :id="row.id" @click="getQRCode(row.id)"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" :class="barcodeDisabled(row)" v-show="showBarcodeIcon(row)"><i class="fa fa-barcode"   style="color: #fff;"></i></button>
                                     <p v-show="lockBarcode(row)"><i class="entypo-lock" style="color: red;"></i></p>
                                   </td>
                                   <td data-label="view subscriptions">
@@ -162,31 +162,45 @@
         },
 
         async getQRCode(device_id){
+        	try{
 
-									// $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
-									// $('#qr-code').attr("disabled", true);
+        		this.disableQRCodeButton(device_id)
 
-									const data = await this.$axios.$get(`devices/${device_id}/barcode`);
-								  if (data.data_type){
-								  	switch (data.data_type) {
-              case ('string'):{
-															this.$modal.show('device-connected-modal');
-															break;
-														}
-														case ('image_hash'):{
-                 this.barcode_url = data.data;
-															  this.$modal.show('device-barcode-modal');
-															  break;
-														}
-														default:{
-															this.$modal.show('device-info-modal');
-														}
-											}
+										const data  = await this.$device.getQRCode(device_id);
 
+        		if (!data.data_type){
+												this.$modal.show('device-info-modal');
 										}
 
+        		this.loadImageModal(data.data_type)
 
+									this.enableQRCodeButton(device_id)
+
+        	}
+        	catch (e) {
+										this.disableQRCodeButton(device_id)
+										this.$modal.show('device-info-modal');
+										this.enableQRCodeButton(device_id)
+									}
         },
+
+							loadImageModal(data_type){
+								switch (data_type) {
+									case ('string'):{
+										this.$modal.show('device-connected-modal');
+										break;
+									}
+									case ('image_hash'):{
+										this.barcode_url = data.data;
+										this.$modal.show('device-barcode-modal');
+										break;
+									}
+									default:{
+										this.$modal.show('device-info-modal');
+									}
+								}
+							},
+
         showModal(){
         	if (JSON.parse(localStorage.getItem('user_data')).active_status_id.id ===  6){
 										this.$modal.show('in-active-user-modal');
@@ -234,7 +248,17 @@
         },
 							barcodeDisabled(row){
         if (row.device_type === 'Template') return 'barcode-disabled'
+							},
+							disableQRCodeButton(device_id){
+        	console.log('#qr-code-'+device_id);
+								$('#'+device_id).html('<span style="color: #fff"> Loading...</span>');
+								$('#'+device_id).attr("disabled", true);
+							},
+							enableQRCodeButton(device_id){
+								$('#'+device_id).html('<i class="fa fa-barcode" style="color: #fff;"></i>');
+								$('#'+device_id).attr("disabled", false);
 							}
+
       },
       mounted() {
 							if(this.$store.state.view_verify_page === 'true'){
