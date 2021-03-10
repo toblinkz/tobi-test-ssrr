@@ -13,7 +13,7 @@
 						<center>
 							<div class="mt-20 mb-10">
 								<img src="/images/check.svg" />
-								<p class="" style="font-weight: bolder;">Connected!</p>
+								<p class="m-t-5" style="font-weight: bolder;">Connected!</p>
 								<div>Your device is connected!</div>
 								<a  @click="close"  class="btn bg-blue mt-20">
 									OK
