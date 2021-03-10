@@ -34,13 +34,6 @@
 																													 <p style="font-size: 50px; font-weight: 500; color:#365899;">{{account_balance}}</p>
                             </div>
                             <!-- Trigger the modal with a button -->
-																											 <div style="display: flex">
-																													<button type="button" @click="showModal" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn m-r-10 btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
-																													<a class="btn account mb-30" v-if="show_get_account_number" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 8px!important;">
-																														<i class="entypo-light-up"></i>
-																														Get account number
-																													</a>
-																												</div>
                           </div>
                         </div>
                         <div class="fund-row row-md-height">
@@ -64,16 +57,17 @@
 
 																																			</ContentLoader>
 																																			<div v-else>
-																																				  <div class="alert" v-if="!is_nigerian_wallet" style="border: 0.2px solid #e2e8f0;border-radius: 5px; display: flex; justify-content: space-between">
+																																				<div class="alert" v-if="!is_nigerian_wallet" style="border: 0.2px solid #e2e8f0;border-radius: 5px; display: flex; justify-content: space-between">
 																																							<div style="display:flex; flex-direction: column">
 																																								<p class="" style="color: #595959; font-size: 13px">ACCOUNT NUMBER</p>
 																																								<!-- START PANEL -->
+
 																																								<p>
 																																									<span style="font-weight: bold; color: #1a202c; font-size: 22px">{{account_number}}</span>
-																																								</p>
-																																								<p v-clipboard:copy="account_number" @click="showCopied" style="cursor: pointer">
-																																									<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
-																																									<span style="font-size: 12px; color: #365899" v-if="show_copied">Copied!</span>
+																																									<span class="" v-clipboard:copy="account_number" @click="showCopied" style="cursor: pointer">
+																																								<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
+																																								<span style="font-size: 12px; color: #365899" v-if="show_copied">Copied!</span>
+																																							</span>
 																																								</p>
 																																								<!-- END PANEL -->
 																																							</div>
@@ -94,11 +88,10 @@
 																																								<!-- END PANEL -->
 																																							</div>
 																																						</div>
-
-																																			<div v-if="is_nigerian_wallet" style="display: flex">
-																																						<div v-for="row in nuban_account" class="alert m-r-10" style="display:flex; flex-direction: column; border: 0.2px solid #e2e8f0;border-radius: 5px; width: 32%; height: 170px;">
+																																				<div v-if="is_nigerian_wallet" style="display: flex">
+																																						<div v-for="row in nuban_account" class="alert m-r-10" style="display:flex; flex-direction: column; border: 0.2px solid #e2e8f0;border-radius: 5px; width: 32%; height: 140px;">
 																																							<!-- START PANEL -->
-																																							<p class="pull-right" v-clipboard:copy="row.account_number" @click="changeCopyText(row)" style="cursor: pointer">
+																																							<p class="copy-clipboard" v-clipboard:copy="row.account_number" @click="changeCopyText(row)" style="cursor: pointer">
 																																								<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
 																																								<span style="font-size: 12px; color: #365899" v-if="row.account_number !== copy_id"></span>
 																																								<span style="font-size: 12px; color: #365899" v-if="row.account_number === copy_id">Copied!</span>
@@ -107,10 +100,6 @@
 																																									<p>
 																																										<span style="font-size: 13px">ACCOUNT NUMBER</span>
 																																									</p>
-
-
-
-
 																																							<p>
 																																								<span style="font-weight: bold; color: #1a202c; font-size: 22px">{{row.account_number}}</span>
 																																							</p>
@@ -120,12 +109,18 @@
 																																							<!-- END PANEL -->
 																																						</div>
 																																			</div>
-																																			</div>
-																																			<div v-if="is_nigerian_wallet" class="col-md-12 alert toke hidden-xs">
-																																				<p><i class="entypo-bookmark" style="color: #bbb !important;"></i> Plan Guide</p><br>
-																																				<p class="text-semibold"><strong>Regular Top up</strong>; Minimum amount to recharge is ₦3000</p>
-																																			</div>
-																																			<div  v-if="!is_nigerian_wallet" class="col-md-12 alert toke hidden-xs" >
+																																				<div style="display: flex">
+																																					<button type="button" @click="showModal" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn m-r-10 btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
+																																					<a class="btn account mb-30" v-if="show_get_account_number" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 8px!important;">
+																																						<i class="entypo-light-up"></i>
+																																						Get account number
+																																					</a>
+																																				</div>
+																																				<div v-if="is_nigerian_wallet" class="col-md-12 alert toke hidden-xs">
+																																						<p><i class="entypo-bookmark" style="color: #bbb !important;"></i> Plan Guide</p><br>
+																																						<p class="text-semibold"><strong>Regular Top up</strong>; Minimum amount to recharge is ₦3000</p>
+																																					</div>
+																																				<div  v-if="!is_nigerian_wallet" class="col-md-12 alert toke hidden-xs" >
 																																				<p><i class="entypo-info-circled" style="color: #bbb !important;"></i> <b>Bank Transfer Guide:</b></p><br>
 																																				<p style="text-align:justify">
 																																					For US or international customers, please make payment to the bank above and include the following details:
@@ -144,7 +139,8 @@
 																																					Additional Wire Instructions For direct deposits and ACH transactions use routing number: 044000037
 																																				</p>
 																																				</div>
-                                  </div>
+																																			</div>
+																																		</div>
                                 </div>
                               </div>
                             </div>
@@ -173,7 +169,7 @@
                                       <div class="form-group">
                                         <p ><b>Notice:</b> <br>Also all payments would be remitted in Naira, but your accounts would be credited in your local currency. </p>
                                       </div>
-                                      <button type="submit" class="btn bx-line btn-success btn-sm pull-right purchase_button" :disabled="isDisabled">
+                                      <button type="submit" class="btn bx-line btn-success btn-sm  purchase_button" :disabled="isDisabled">
                                         {{fund_button_text}}
                                         <span v-show="isLoading">
                                          <img src="/images/spinner.svg" height="20px" width="80px"/>
@@ -186,6 +182,7 @@
                             </div>
                           </div>
                         </div>
+
                       </div>
                     </div>
                   </div>
@@ -581,7 +578,7 @@
     padding-right: 20px;
   }
   .alert > p + p {
-    margin-top: 5px;
+    margin-top: -1px;
   }
   .alert > p, .alert > ul {
     margin-bottom: 0;
@@ -672,6 +669,9 @@
     box-shadow: none;
     outline: 0;
   }
+		.copy-clipboard{
+			margin-left: 100%;
+		}
 
 
 
