@@ -31,7 +31,7 @@
                             <!-- START PANEL -->
                             <div class="panel-transparent">
 																													<span id="welcome" ><i class="entypo-credit-card" style="font-size: 20px"></i><span style="font-size: 13px">Available balance:</span></span>
-																													 <p style="font-size: 30px; font-weight: 700; color:#365899;">{{account_balance}}</p>
+																													 <p style="font-size: 45px; font-weight: 500; color:#365899;">{{account_balance}}</p>
                             </div>
                             <!-- Trigger the modal with a button -->
 																											 <div style="display: flex">
@@ -66,7 +66,7 @@
 																																			<div v-else>
 																																				  <div class="alert" v-if="!is_nigerian_wallet" style="border: 0.2px solid #e2e8f0;border-radius: 5px; display: flex; justify-content: space-between">
 																																							<div style="display:flex; flex-direction: column">
-																																								<p class="text-semibold" style="color: #595959; font-size: 13px">ACCOUNT NUMBER</p>
+																																								<p class="" style="color: #595959; font-size: 13px">ACCOUNT NUMBER</p>
 																																								<!-- START PANEL -->
 																																								<p>
 																																									<span style="font-weight: bold; color: #1a202c; font-size: 27px">{{account_number}}</span>
@@ -99,7 +99,7 @@
 																																						<div v-for="row in nuban_account" class="alert m-r-10" style="display:flex; flex-direction: column; border: 0.2px solid #e2e8f0;border-radius: 5px; width: 32%; height: 170px;">
 																																							<!-- START PANEL -->
 																																							<p>
-																																								<span style="font-weight: bold; font-size: 13px">ACCOUNT NUMBER</span>
+																																								<span style="font-size: 13px">ACCOUNT NUMBER</span>
 																																							</p>
 																																							<p>
 																																								<span style="font-weight: bold; color: #1a202c; font-size: 27px">{{row.account_number}}</span>
@@ -110,11 +110,12 @@
 																																							<p v-clipboard:copy="row.account_number" @click="changeCopyText(row)" style="cursor: pointer">
 																																								<img src="https://res.cloudinary.com/termii-inc/image/upload/v1614952698/billingpage/feather_copy_lqsu0a.svg"/>
 																																								<span style="font-size: 12px; color: #365899" v-if="row.account_number !== copy_id">Copy to clipboard</span>
-																																								<span style="font-size: 12px; color: #365899" v-if="row.account_number === copy_id">Copied</span>
+																																								<span style="font-size: 12px; color: #365899" v-if="row.account_number === copy_id">Copied!</span>
 																																							</p>
 																																							<!-- END PANEL -->
 																																						</div>
 																																			</div>
+
 																																			<div class="col-md-12 alert toke" v-if="!is_nigerian_wallet">
 																																				<p><i class="entypo-info-circled" style="color: #bbb !important;"></i> <b>Bank Transfer Guide:</b></p><br>
 																																				<p style="text-align:justify">
@@ -134,6 +135,10 @@
 																																					Additional Wire Instructions For direct deposits and ACH transactions use routing number: 044000037
 																																				</p>
 																																				</div>
+																																			<div class="col-md-12 alert toke" v-if="is_nigerian_wallet">
+																																				<p><i class="entypo-info-circled" style="color: #bbb !important;"></i> <b>Minimum Top-up:	</b></p><br>
+																																				<p style="text-align:justify"></p>
+																																			</div>
                                   </div>
                                 </div>
                               </div>
