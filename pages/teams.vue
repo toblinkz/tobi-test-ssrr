@@ -27,6 +27,7 @@
 
 							</div>
 						</div>
+					  <AddedTeammateSuccessfullyModal></AddedTeammateSuccessfullyModal>
 					  <AddTeamMemberModal @add-team-member="addTeamMember($event)" ></AddTeamMemberModal>
 					  <UpdateTeamMemberModal @update-team-member="updateTeamMember($event)" @update-teammate-permission="updateTeammatePermission" :teammate_id="teammate_id" :email="email" :first_name="first_name" :selected_teammate_permission="selected_teammate_permission" :last_name="last_name" :role="role" ></UpdateTeamMemberModal>
 				</div>
@@ -40,10 +41,13 @@ import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
 import AddTeamMemberModal from "../components/modals/AddTeamMemberModal";
 import UpdateTeamMemberModal from "../components/modals/UpdateTeamMemberModal";
 import TeamCard from "../components/team/TeamCard";
+import AddedTeammateSuccessfullyModal from "../components/modals/AddedTeammateSuccessfullyModal";
 export default {
  name: "teams",
 	middleware:['auth', 'permission'],
-	components: {TeamCard, UpdateTeamMemberModal, AddTeamMemberModal, DashboardNavbar, Sidebar},
+	components: {
+		AddedTeammateSuccessfullyModal,
+		TeamCard, UpdateTeamMemberModal, AddTeamMemberModal, DashboardNavbar, Sidebar},
 	data(){
  	 return{
  	 	 team_members:[],
@@ -65,6 +69,7 @@ export default {
 		},
 		addTeamMember(event){
 			this.getTeammates();
+			this.$modal.show('added-team-successfully-modal');
 		},
 		async updateTeammatePermission(){
 			try {
