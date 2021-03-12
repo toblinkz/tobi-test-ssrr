@@ -5,7 +5,7 @@
 				<div>
 					<div class="modal-header" >
 						<button type="button" class="close" @click="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" style="font-weight: bold" >Generate New Account Number</h4>
+						<h4 class="modal-title" style="font-weight: bold" >Generate a Dedicated Account Number</h4>
 					</div>
 						<div class="modal-body">
 							<p class="alert insight toke" style="border-radius: 10px;">
