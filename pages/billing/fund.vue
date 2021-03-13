@@ -30,11 +30,10 @@
                           <div class="col-md-6">
                             <!-- START PANEL -->
                             <div class="panel-transparent">
-                        <span id="welcome"><i class="entypo-credit-card"></i>Wallet Name - {{ first_name }} {{last_name}}</span>
-                              <p class="insight">Select your preferred payment gateway and top up your <br>account using card or bank transfer</p>
+																													<span id="welcome" ><i class="entypo-credit-card" style="font-size: 20px"></i><span style="font-size: 13px">Available balance:</span></span>
+																													 <p style="font-size: 50px; font-weight: 500; color:#365899;">{{account_balance}}</p>
                             </div>
                             <!-- Trigger the modal with a button -->
-                            <button type="button" @click="showModal" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
                           </div>
                         </div>
                         <div class="fund-row row-md-height">
@@ -58,67 +57,59 @@
 
 																																			</ContentLoader>
 																																			<div v-else>
-																																				<div class="col-md-4 alert toke">
-																																					<p class="text-semibold"><i class="entypo-credit-card" style="color: #bbb !important;"></i> Balance</p>
-																																					<!-- START PANEL -->
-																																					<p class="alert insight wd">
-																																						<span>{{account_balance}}</span>
-																																					</p>
-																																					<!-- END PANEL -->
+
+																																			<GenericAccountNumberComponent v-if="!has_nuban"
+																																																																		:account_number="account_number"
+																																																																		:bank_name="bank_name"
+																																																																		:account_name="account_name">
+																																			</GenericAccountNumberComponent>
+
+																																				<NubanAccountNumberComponent v-if="has_nuban"
+																																																																	 :nuban_account="nuban_account">
+																																				</NubanAccountNumberComponent>
+
+																																				<!--Get Account Number Button-->
+																																				<div style="display: flex">
+																																					<button type="button" @click="showModal" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn m-r-10 btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
+																																					<a class="btn account mb-30" v-if="show_get_account_number" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 8px!important;  margin-left: 11px;">
+																																						<i class="entypo-light-up"></i>
+																																						Get account number
+																																					</a>
 																																				</div>
-																																				<div class="col-md-4 alert toke">
-																																					<p class="text-semibold"><i class="entypo-light-up" style="color: #bbb !important;"></i> Account</p>
-																																					<!-- START PANEL -->
-																																					<p class="alert insight wd">
-																																						<span>{{account_number}}</span>
-																																					</p>
-																																					<!-- END PANEL -->
+																																				<!--End Get Account Number Button-->
+
+																																				<div v-if="is_nigerian_wallet" class="col-md-12 alert toke hidden-xs">
+																																						<p><i class="entypo-bookmark" style="color: #bbb !important;"></i> Plan Guide</p><br>
+																																						<p class="text-semibold"><strong>Regular Top up</strong>; Minimum amount to recharge is ₦3000</p>
 																																				</div>
-																																				<div class="col-md-4 alert toke">
-																																					<p class="text-semibold"><i class="entypo-home" style="color: #bbb !important;"></i> Bank</p>
-																																					<!-- START PANEL -->
-																																					<p class="alert insight wd">
-																																						<span>{{bank_name}}</span>
+
+																																				<div  v-if="!is_nigerian_wallet" class="col-md-12 alert toke hidden-xs" >
+																																					<p><i class="entypo-info-circled" style="color: #bbb !important;"></i> <b>Bank Transfer Guide:</b></p><br>
+																																					<p style="text-align:justify">
+																																						For US or international customers, please make payment to the bank above and include the following details:
+																																						<br>
+																																						<br>
+																																						<b>ABA Routing Number:</b>
+																																						<br/>
+																																						021000021
+																																						<br>
+																																						<br>
+																																						<b>Company Address:</b>
+																																						<br>
+																																						601 Pennsylvania Avenue, NW South Building Suite 920, Washington D.C. 20004.
+																																						<br>
+																																						<br>
+																																						Additional Wire Instructions For direct deposits and ACH transactions use routing number: 044000037
 																																					</p>
-																																					<!-- END PANEL -->
 																																				</div>
 																																			</div>
 
-																																			<div class="col-md-12 alert toke" v-if="is_nigerian_wallet">
-																																				<p><i class="entypo-info-circled" style="color: #bbb !important;"></i> <b>Notice</b></p><br>
-																																				<p style="text-align:justify">
-																																					Due to directives from the Central Bank of Nigeria [CBN], our dedicated Virtual account numbers for Nigeria have been temporarily disabled and are no longer valid for use.
-																																					We are rolling our new virtual account numbers soon. Please for now use our <b>Sterling Bank Account</b> available on your wallet dashboard.
-																																					<br/>
-																																					<br/>
-																																					<b>	NB: After paying notify our support team via your whatsapp support group or send an email to sales@termii.com with details of your payment.
-																																					</b>
-																																				</p>
-																																			</div>
-																																			<div class="col-md-12 alert toke" v-else>
-																																				<p><i class="entypo-info-circled" style="color: #bbb !important;"></i> <b>Bank Transfer Guide:</b></p><br>
-																																				<p style="text-align:justify">
-																																					For US or international customers, please make payment to the bank above and include the following details:
-																																					<br>
-																																					<br>
-																																					<b>ABA Routing Number:</b>
-																																					<br/>
-																																					021000021
-																																					<br>
-																																					<br>
-																																					<b>Company Address:</b>
-																																					<br>
-																																					601 Pennsylvania Avenue, NW South Building Suite 920, Washington D.C. 20004.
-																																					<br>
-																																					<br>
-																																					Additional Wire Instructions For direct deposits and ACH transactions use routing number: 044000037
-																																				</p>
-																																				</div>
-                                  </div>
+																																		</div>
                                 </div>
                               </div>
                             </div>
                           </div>
+
                           <div class="col-lg-5 col-md-5 col-md-height col-middle">
                             <div class="p-30 p-t-none p-b-none">
                               <div class="panel">
@@ -143,7 +134,7 @@
                                       <div class="form-group">
                                         <p ><b>Notice:</b> <br>Also all payments would be remitted in Naira, but your accounts would be credited in your local currency. </p>
                                       </div>
-                                      <button type="submit" class="btn bx-line btn-success btn-sm pull-right purchase_button" :disabled="isDisabled">
+                                      <button type="submit" class="btn bx-line btn-success btn-sm  purchase_button" :disabled="isDisabled">
                                         {{fund_button_text}}
                                         <span v-show="isLoading">
                                          <img src="/images/spinner.svg" height="20px" width="80px"/>
@@ -156,6 +147,7 @@
                             </div>
                           </div>
                         </div>
+
                       </div>
                     </div>
                   </div>
@@ -173,6 +165,8 @@
     <ServicePriceModal v-if="showModal" @close="closeModal" ></ServicePriceModal>
     <MonnifyModal :account_number="account_number" :amount="total" :bank_name="bank_name"></MonnifyModal>
 			<VerificationModal></VerificationModal>
+			<AccountNumberModal></AccountNumberModal>
+			<SuccessModal></SuccessModal>
   </div>
 </template>
 
@@ -185,407 +179,257 @@
     import MonnifyModal from "../../components/modals/MonnifyModal";
 				import {ContentLoader,} from 'vue-content-loader';
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import ButtonSpinner from "../../components/general/ButtonSpinner";
+				import AccountNumberModal from "../../components/modals/AccountNumberModal";
+				import SuccessfulPayment from "../successful-payment";
+				import SuccessModal from "../../components/modals/SuccessModal";
+				import GenericAccountNumberComponent from "@/components/billing/GenericAccountNumberComponent";
+				import NubanAccountNumberComponent from "@/components/billing/NubanAccountNumberComponent";
+
     export default {
-        name: "funding",
-					   middleware: ['auth', 'inactive_user'],
-        components: {VerificationModal, MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader},
-       data() {
-          return {
-            isBundledForm: false,
-            isRegularBody: true,
-            isRegularForm: false,
-            isLoading: false,
-            payment_method:'',
-												minimum_top_up:'',
-												minimum_top_up_value:'',
-            fund_button_text:'Fund Account',
-            selected_payment_method:"",
-            amount:'',
-												is_nigerian_wallet:false,
-												page_url: '',
-            account_number: '',
-            account_balance: '',
-            bank_name: '',
-            options: ['Select Top Up Option',{id: '1', name: 'Regular Top Up'},{id: '2', name:'Bundled Top Up'},],
-            payment_gateway:'',
-            hasError: false,
-												total: '',
-										 	bundled_top_up:'',
-            payment_url:'',
-            selectPayment: false,
-											 first_name: JSON.parse(localStorage.getItem('user_data')).fname,
-											 last_name: JSON.parse(localStorage.getItem('user_data')).lname,
-            input_amount:false,
-            showMonnifyModal: false,
-            error_message:'',
-            dropdownStyle:{
-              borderRadius:'8px'
-            }
-
-          }
-      },
-      computed:{
-          isDisabled: function () {
-              return (this.amount === '' || this.hasError)
-          }
-      },
-      watch:{
-        amount(value){
-          this.amount = value;
-          this.validateAmount(value);
-        }
-      },
-      methods: {
-          closeModal() {
-            this.showModal = false;
-          },
-									showModal(){
-          	this.$modal.show('service-pricing-modal');
-									},
-          async getWallet() {
-            try{
-              let data = await this.$axios.$get('billing/wallet');
-              this.is_nigerian_wallet = data.data.is_nigerian_wallet
-              this.account_balance = data.data.converted_balance;
-              this.bank_name  = data.data.bank_name;
-              this.account_number = data.data.account_number;
-            } catch(e){
-
-            }
-          },
-        async getPaymentMethod(){
-            try {
-              let response_data = await this.$axios.$get('billing/payment-method');
-             this.payment_method = response_data;
-              this.payment_gateway = response_data.data[0].settings;
-            }catch (e) {
-
-            }
-        },
-
-									async TopUp() {
-										if (this.showMonnifyModal) {
-											this.$modal.show('monnify-modal')
-										}	else {
-
-											try {
-												this.$store.commit('setSuccessfulPaymentUrl', this.page_url);
-												this.isLoading = true;
-												this.fund_button_text = "";
-												let response_data = await this.$axios.$post('billing/fund/wallet', {
-													amount: this.amount,
-													gateway: this.payment_gateway
-												});
-
-												switch (this.payment_gateway) {
-													case('paystack'): {
-														window.location.href = response_data.data.url;
-														break;
-													}
-													case('flutterwave_card'):
-													case('flutterwave_ghana_momo'): {
-														window.location.href = response_data.data.link;
-														break;
-													}
-													case('stripe'): {
-														this.$stripe.import().redirectToCheckout({
-															sessionId: response_data.data
-														}).then(function (result) {
-															this.$toast.error(result.error.message)
-														});
-														break;
-													}
-													case('spektra'):{
-														window.location.href = response_data.data;
-													}
-												}
-
-											} catch (e) {
-												console.log(e)
-												this.isLoading = false;
-												this.fund_button_text = "Fund Account";
-												let errors = e.response;
-
-											}
-										}
-									},
-							async getExchangeRate(){
-								try{
-									let response_data = await this.$axios.$get('billing/exchange-rate', {params: {amount: this.amount,}});
-									this.total = response_data.amount;
-								}catch (e) {
-									let errors = e.response.data.errors;
-									for(let key in errors){
-										errors[key].forEach(err => {
-											this.$toast.error(err);
-										});
-									}
-								}
-
-							},
-							async getTopUp(){
-										try{
-
-											let response = await this.$axios.$get('billing/top-up/plans');
-										 this.amount = 	response.data.bundled_top_up.amount_currency;
-											this.total = response.data.bundled_top_up.amount;
-
-										}catch (e) {
-
-										}
-							},
-							async getTopDetails(){
-         try{
-										let response = await this.$axios.$get('billing/top-up/plans');
-										this.bundled_top_up =  response.data.bundled_top_up.amount;
-										this.minimum_top_up = response.data.minimum_top_up.amount;
-										this.minimum_top_up_value = response.data.minimum_top_up.amount_currency;
-									}catch (e) {
-
-									}
-							},
-
-							validateAmount(value){
-            if (isNaN(value)){
-              this.error_message = 'Please enter a valid amount';
-              this.hasError = true;
-            } else if (value < this.minimum_top_up_value){
-													this.error_message = `minimum amount to recharge is ${this.minimum_top_up}`;
-													this.hasError = true;
-												} else {
-              this.error_message = '';
-              this.hasError = false;
-            }
-        },
-        onChange(event){
-            if (event.target.value === 'monnify'){
-              this.showMonnifyModal = true;
-            }
-          this.payment_gateway = event.target.value;
-        },
-        async itemSelected(value){
-            if (value === "2"){
-              this.selectPayment = true;
-              this.input_amount = false;
-              await this.getTopUp();
-              await this.getExchangeRate()
-            } else if (value === "1"){
-              this.selectPayment = true;
-              this.input_amount = true;
-            }
-
-        }
-      },
-      mounted() {
-							if(this.$store.state.view_verify_page === 'true'){
-								this.$modal.show('verification-id-modal');
-							}else {
-								this.page_url = window.location.href;
-								this.getWallet();
-								this.getPaymentMethod();
-								this.getTopDetails();
-								this.$modal.show('service-pricing-modal');
+					name: "funding",
+					middleware: ['auth', 'inactive_user'],
+					components: {
+						NubanAccountNumberComponent,
+						GenericAccountNumberComponent,
+						SuccessModal,
+						SuccessfulPayment,
+						AccountNumberModal,
+						ButtonSpinner,
+						VerificationModal, MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader
+					},
+					data() {
+						return {
+							isBundledForm: false,
+							isRegularBody: true,
+							isRegularForm: false,
+							isLoading: false,
+							show_get_account_number: false,
+							payment_method: '',
+							minimum_top_up: '',
+							minimum_top_up_value: '',
+							fund_button_text: 'Fund Account',
+							copy_id:'',
+							show_copied: false,
+							selected_payment_method: "",
+							amount: '',
+							has_nuban: false,
+							is_nigerian_wallet: false,
+							page_url: '',
+							account_number: '',
+							account_balance: '',
+							account_name:'',
+							bank_name: '',
+							options: ['Select Top Up Option', {id: '1', name: 'Regular Top Up'}, {id: '2', name: 'Bundled Top Up'},],
+							payment_gateway: '',
+							hasError: false,
+							total: '',
+							bundled_top_up: '',
+							payment_url: '',
+							selectPayment: false,
+							first_name: JSON.parse(localStorage.getItem('user_data')).fname,
+							last_name: JSON.parse(localStorage.getItem('user_data')).lname,
+							input_amount: false,
+							showMonnifyModal: false,
+							error_message: '',
+							customer_country: JSON.parse(localStorage.getItem('user_data')).country,
+							nuban_account: [],
+							dropdownStyle: {
+								borderRadius: '8px'
 							}
 
+						}
+					},
+					computed: {
+						isDisabled: function () {
+							return (this.amount === '' || this.hasError)
+						}
+					},
+					watch: {
+						amount(value) {
+							this.amount = value;
+							this.validateAmount(value);
+						}
+					},
+					methods: {
+						closeModal() {
+							this.showModal = false;
+						},
+						showModal() {
+							this.$modal.show('service-pricing-modal');
+						},
+						showAccountNumberModal() {
+							this.$modal.show('account-number-modal');
+						},
+						async getWallet() {
+							try {
+								let data = await this.$axios.$get('billing/wallet');
 
+								this.is_nigerian_wallet = data.data.is_nigerian_wallet
+									this.account_balance = data.data.converted_balance;
+									this.bank_name = data.data.bank_name;
+									this.account_number = data.data.account_number;
+									this.account_name = data.data.account_name;
 
+							} catch (e) {
 
-      }
-    }
+							}
+						},
+						async getPaymentMethod() {
+							try {
+								let response_data = await this.$axios.$get('billing/payment-method');
+								this.payment_method = response_data;
+								this.payment_gateway = response_data.data[0].settings;
+							} catch (e) {
+
+							}
+						},
+
+						async TopUp() {
+							if (this.showMonnifyModal) {
+								this.$modal.show('monnify-modal')
+							} else {
+
+								try {
+									this.$store.commit('setSuccessfulPaymentUrl', this.page_url);
+									this.isLoading = true;
+									this.fund_button_text = "";
+									let response_data = await this.$axios.$post('billing/fund/wallet', {
+										amount: this.amount,
+										gateway: this.payment_gateway
+									});
+
+									switch (this.payment_gateway) {
+										case('paystack'): {
+											window.location.href = response_data.data.url;
+											break;
+										}
+										case('flutterwave_card'):
+										case('flutterwave_ghana_momo'): {
+											window.location.href = response_data.data.link;
+											break;
+										}
+										case('stripe'): {
+											this.$stripe.import().redirectToCheckout({
+												sessionId: response_data.data
+											}).then(function (result) {
+												this.$toast.error(result.error.message)
+											});
+											break;
+										}
+										case('spektra'): {
+											window.location.href = response_data.data;
+										}
+									}
+
+								} catch (e) {
+									this.isLoading = false;
+									this.fund_button_text = "Fund Account";
+									let errors = e.response;
+
+								}
+							}
+						},
+						async getExchangeRate() {
+							try {
+								let response_data = await this.$axios.$get('billing/exchange-rate', {params: {amount: this.amount,}});
+								this.total = response_data.amount;
+							} catch (e) {
+								let errors = e.response.data.errors;
+								for (let key in errors) {
+									errors[key].forEach(err => {
+										this.$toast.error(err);
+									});
+								}
+							}
+
+						},
+						async getNuban() {
+							let customer_country = JSON.parse(localStorage.getItem('user_data')).country;
+							if(customer_country  === "Nigeria"){
+									try {
+										let nuban_data = await this.$axios.$get('billing/dedicated-nuban');
+										this.nuban_account = nuban_data.data;
+
+										if (this.nuban_account.length === 0 && localStorage.getItem('SAM') === 'false') {
+												this.has_nuban = false;
+											this.$modal.show('account-number-modal');
+										}
+									} catch (e) {
+
+									}
+							}
+
+						},
+						async getTopUp() {
+							try {
+
+								let response = await this.$axios.$get('billing/top-up/plans');
+								this.amount = response.data.bundled_top_up.amount_currency;
+								this.total = response.data.bundled_top_up.amount;
+
+							} catch (e) {
+
+							}
+						},
+						async getTopDetails() {
+							try {
+								let response = await this.$axios.$get('billing/top-up/plans');
+								this.bundled_top_up = response.data.bundled_top_up.amount;
+								this.minimum_top_up = response.data.minimum_top_up.amount;
+								this.minimum_top_up_value = response.data.minimum_top_up.amount_currency;
+							} catch (e) {
+
+							}
+						},
+
+						validateAmount(value) {
+							if (isNaN(value)) {
+								this.error_message = 'Please enter a valid amount';
+								this.hasError = true;
+							} else if (value < this.minimum_top_up_value) {
+								this.error_message = `minimum amount to recharge is ${this.minimum_top_up}`;
+								this.hasError = true;
+							} else {
+								this.error_message = '';
+								this.hasError = false;
+							}
+						},
+						onChange(event) {
+							if (event.target.value === 'monnify') {
+								this.showMonnifyModal = true;
+							}
+							this.payment_gateway = event.target.value;
+						},
+						async itemSelected(value) {
+							if (value === "2") {
+								this.selectPayment = true;
+								this.input_amount = false;
+								await this.getTopUp();
+								await this.getExchangeRate()
+							} else if (value === "1") {
+								this.selectPayment = true;
+								this.input_amount = true;
+							}
+
+						}
+					},
+					async mounted() {
+						if (this.$store.state.view_verify_page === 'true') {
+							this.$modal.show('verification-id-modal');
+						} else {
+							this.page_url = window.location.href;
+							await this.getWallet();
+							await this.getPaymentMethod();
+							await this.getTopDetails();
+							await this.getNuban();
+							if (this.customer_country === 'Nigeria' && this.nuban_account.length === 0){
+								 this.show_get_account_number = true;
+							}
+
+						}
+					}
+				}
 </script>
 
-<style >
-  .fund-row {
-    margin-left: 0px;
-    margin-right: 0px;
-  }
-  .page-header {
-    margin: 0;
-    padding: 0;
-    border-bottom-width: 0;
-  }
-  .page-header-content {
-    margin: auto;
-    max-width: 1280px;
-  }
-  .page-header-content {
-    position: relative;
-    background-color: inherit;
-    padding: 0 20px;
-  }
-  .page-header:not(.page-header-filled) + .fund-page-container {
-    padding-top: 35px;
-  }
-  .fund-page-container {
-    margin: auto;
-    padding-bottom: 10px;
-  }
-  @media (min-width: 769px){
-    .fund-page-container {
-      width: 100%;
-      display: table;
-      table-layout: fixed;
-    }
-  }
-  @media (min-width: 769px){
-    .fund-page-content {
-      display: table-row;
-    }
-  }
-  @media (min-width: 769px){
-    .fund-content-wrapper {
-      display: table-cell;
-      vertical-align: top;
-    }
-  }
-  .fund-content-wrapper {
-    width: 100%;
-  }
-  #welcome {
-    margin-bottom: 15px;
-    font-weight: 300;
-    letter-spacing: normal;
-    font-size: 18px;
-    -webkit-font-smoothing: antialiased;
-    color: #2c2c2c;
-    display: block;
-    font-style: normal;
-    -webkit-margin-before: 1em;
-  }
-  .insight {
-    font-size: 13.5px !important;
-    letter-spacing: normal !important;
-    font-weight: 400 !important;
-    line-height: 20px !important;
-    margin: 0px 0px 10px 0px;
-    font-style: normal;
-    white-space: normal;
-    color: #333333;
-    -webkit-margin-before: 1em;
-    -webkit-margin-after: 1em;
-    -webkit-margin-start: 0px;
-    -webkit-margin-end: 0px;
-    display: block;
-  }
-  .btn {
-    font-size: 14px;
-  }
-  button {
-    color: inherit;
-    font: inherit;
-    margin: 0;
-  }
-
-  .toke {
-    background-color: #f5f5f5;
-    border-color: #efefef;
-    color: #595959 !important;
-  }
-  .mb-30 {
-    margin-bottom: 30px !important;
-  }
-  .alert > p, .alert > ul {
-    margin-bottom: 0;
-  }
-  .alert {
-    position: relative;
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 3px;
-  }
-  .alert {
-    position: relative;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  .alert > p + p {
-    margin-top: 5px;
-  }
-  .alert > p, .alert > ul {
-    margin-bottom: 0;
-  }
-  .wd {
-    border-radius: 2px;
-    word-wrap: break-word;
-  }
-  .panel {
-    box-shadow: 0 10px 45px 0 rgba(0,0,0,.1);
-    border: transparent;
-    border-radius: 6px;
-  }
-  .panel-body {
-    padding: 20px;
-  }
-  .form-group {
-    margin-bottom: 20px;
-    position: relative;
-  }
-  .form-control, .select2 {
-    font-size: 13px;
-    border-color: #bbb;
-    border-radius: 5px;
-    border: solid 1px rgba(204, 204, 204, 0.34);
-    font-weight: 500;
-  }
-  .form-control {
-    display: block;
-    width: 100%;
-    height: 36px;
-    padding: 7px 12px;
-    font-size: 13px;
-    line-height: 1.5384616;
-    color: #333333;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-  }
-  .form-control:focus {
-    border-color: #4DB6AC;
-  }
-  .form-group label {
-    margin-bottom: 5px;
-    display: block;
-    font-weight: 600;
-    line-height: 24px;
-  }
-  .bx-line {
-    border: transparent !important;
-  }
-  .btn-sm, .btn-group-sm > .btn {
-    line-height: 1.5384616;
-    padding: 6px 11px;
-    /* font-size: 13px; */
-  }
-  .btn-success {
-    color: #fff;
-    background: linear-gradient(-48deg, #70ddad -30%, #226a4a 60%) !important;
-    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
-  }
-
-  .bootstrap-select > .btn.btn-default, .bootstrap-select > .btn.btn-default.disabled {
-    background-color: #fff;
-    border: 1px solid transparent !important;
-    border-color: #ddd !important;
-  }
-
-  .btn:active, .btn.active {
-    -webkit-box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.1) inset;
-    box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.1) inset;
-  }
-  .btn:focus, .btn.focus {
-    box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.05) inset;
-    outline: 0;
-  }
-  .form-control:focus {
-    border-color: #4DB6AC;
-    box-shadow: none;
-    outline: 0;
-  }
-
-
-</style>
+<style scoped src="@/assets/css/billing/fund_page.css";></style>
