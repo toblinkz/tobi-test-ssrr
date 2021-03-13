@@ -355,6 +355,7 @@
 												this.has_nuban = false;
 											this.$modal.show('account-number-modal');
 										}
+										this.has_nuban = true;
 									} catch (e) {
 
 									}
