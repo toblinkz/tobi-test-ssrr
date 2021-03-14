@@ -12,7 +12,7 @@
 											<p style="font-size: 13.5px!important;">Here is a list of your teammates currently on {{f_name}} {{l_name}}</p>
 										</div>
 									<div>
-										<button class="add-button" @click="showModal">Add Teammate</button>
+										<a class="btn bg-blue" @click="showModal">Add Teammate</a>
 									</div>
 							</div>
 							<div class="mt-20">
@@ -27,6 +27,7 @@
 
 							</div>
 						</div>
+					  <DeleteTeammateModal @get-teammates="getTeammates" :teammate_id="teammate_id" :teammate_email="email"></DeleteTeammateModal>
 					  <AddedTeammateSuccessfullyModal></AddedTeammateSuccessfullyModal>
 					  <AddTeamMemberModal @add-team-member="addTeamMember($event)" ></AddTeamMemberModal>
 					  <UpdateTeamMemberModal @update-team-member="updateTeamMember($event)" @update-teammate-permission="updateTeammatePermission" :teammate_id="teammate_id" :email="email" :first_name="first_name" :selected_teammate_permission="selected_teammate_permission" :last_name="last_name" :role="role" ></UpdateTeamMemberModal>
@@ -42,10 +43,12 @@ import AddTeamMemberModal from "../components/modals/AddTeamMemberModal";
 import UpdateTeamMemberModal from "../components/modals/UpdateTeamMemberModal";
 import TeamCard from "../components/team/TeamCard";
 import AddedTeammateSuccessfullyModal from "../components/modals/AddedTeammateSuccessfullyModal";
+import DeleteTeammateModal from "../components/modals/DeleteTeammateModal";
 export default {
  name: "teams",
 	middleware:['auth', 'permission'],
 	components: {
+		DeleteTeammateModal,
 		AddedTeammateSuccessfullyModal,
 		TeamCard, UpdateTeamMemberModal, AddTeamMemberModal, DashboardNavbar, Sidebar},
 	data(){
@@ -80,26 +83,10 @@ export default {
 			}
 
 		},
-		async deleteTeamMember(id){
-			await Swal.fire({
-				title: 'Are you sure?',
-				text: "You won't be able to revert this!",
-				icon: 'warning',
-				showCancelButton: true,
-				confirmButtonColor: '#3085d6',
-				cancelButtonColor: '#d33',
-				confirmButtonText: 'Yes, delete it!'
-			}).then(async (result) => {
-				 if (result.value){
-							try {
-								let data = await this.$axios.$delete(`team/${id}`);
-								this.$toast.success(data.message);
-								await this.getTeammates();
-							}catch (e) {
-
-							}
-					}
-			})
+		async deleteTeamMember(team_member){
+			this.teammate_id = team_member.id;
+			this.email = team_member.email;
+   this.$modal.show('delete-teammate-modal')
 		},
 		async getTeammates(){
 			  try {

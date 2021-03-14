@@ -17,7 +17,7 @@
 			</div>
 			<div style="padding: 20px;">
 				<button class="btn btn-success" @click="updateTeamMember(team_member)"><i class="fa fa-edit m-r-5" ></i>Update</button>
-				<button class="btn btn-danger" @click="deleteTeamMember(team_member.id)"><i class="icon-bin m-r-5" style="font-size: 12px" ></i>Delete</button>
+				<button class="btn btn-danger" @click="deleteTeamMember(team_member)"><i class="icon-bin m-r-5" style="font-size: 12px" ></i>Delete</button>
 			</div>
 		</div>
 </template>
