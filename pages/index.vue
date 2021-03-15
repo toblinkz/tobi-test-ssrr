@@ -204,6 +204,7 @@
 		<ActivateIdModal v-if="showActivateIdModal" @close="closeActivateIdModal"></ActivateIdModal>
 		<YourWalletModal v-if="showYourWalletModal" @close="closeYourWalletModal"></YourWalletModal>
 		<VerificationModal></VerificationModal>
+	 <PageDeniedModal></PageDeniedModal>
 	</div>
 </template>
 
@@ -224,8 +225,11 @@
 		ListLoader
 	} from 'vue-content-loader'
 	import VerificationModal from "~/components/modals/VerificationModal";
+	import AddedTeammateSuccessfullyModal from "../components/modals/AddedTeammateSuccessfullyModal";
+	import PageDeniedModal from "../components/modals/PageDeniedModal";
 	export default {
 		components: {
+			PageDeniedModal,
 			VerificationModal,
 			ActivityLog,
 			ActivateIdModal, YourWalletModal, SmsHistoryModal, DashboardNavbar, Sidebar, ContentLoader, FacebookLoader, ListLoader, BulletListLoader},
@@ -358,6 +362,7 @@
 				this.first_name = JSON.parse(localStorage.getItem('user_data')).fname;
 				this.live_api_key = JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
 				setInterval(this.getBalance, 60000);
+
 			}
 
 		}

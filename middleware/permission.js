@@ -1,8 +1,9 @@
-export default function ({ app}) {
+export default function ({ app,}) {
 
 	app.router.afterEach((to, from, next) => {
 		 if (!hasAccess(to.name)){
-				$nuxt.$router.push({ name: 'permission-denied', });
+				$nuxt.$router.push({ name: 'index', });
+				$nuxt.$modal.show('page-denied-modal')
 			}
 	});
 

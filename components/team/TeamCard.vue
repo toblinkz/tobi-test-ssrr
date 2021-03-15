@@ -9,15 +9,16 @@
 				</div>
 			</div>
 			<div style="padding: 20px; flex: 2; margin-right: 40px; display: flex; flex-wrap: wrap" >
-				<span v-for="row in team_member.permissions.slice(0,5) "  class="pill" >{{row.name.replace(/_/g, " ")}}</span>
+				<span  v-if="!team_member.is_main" v-for="row in team_member.permissions.slice(0,5)"  class="pill" >{{row.name.replace(/_/g, " ")}}</span>
+				<span class="pill" v-if="team_member.is_main">All Permissions</span>
 				<div class="m-l-5 m-t-5">
-					<a v-show="team_member.permissions.length > 5" @click="updateTeamMember(team_member)">View more</a>
+					<a v-show="team_member.permissions.length > 5 && !team_member.is_main" @click="updateTeamMember(team_member)">View more</a>
 				</div>
 
 			</div>
-			<div style="padding: 20px;">
+			<div style="padding: 20px;" v-if="!team_member.is_main">
 				<button class="btn btn-success" @click="updateTeamMember(team_member)"><i class="fa fa-edit m-r-5" ></i>Update</button>
-				<button class="btn btn-danger" @click="deleteTeamMember(team_member)"><i class="icon-bin m-r-5" style="font-size: 12px" ></i>Delete</button>
+				<button class="btn btn-danger" @click="deleteTeamMember(team_member)"><i class="icon-bin m-r-5" style="font-size: 12px" ></i>Remove</button>
 			</div>
 		</div>
 </template>
@@ -25,6 +26,7 @@
 <script>
 export default {
 name: "TeamCard",
+
 	props:{
 	  team_member:{
 			},

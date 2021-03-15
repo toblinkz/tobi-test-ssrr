@@ -1,5 +1,7 @@
 <template>
-	<modal name="delete-teammate-modal" height="auto" width="500" >
+
+	<!-- Modal -->
+	<modal name="page-denied-modal" height="auto" width="500" >
 		<div  style="display: block;
     padding-left: 9px;">
 			<div>
@@ -10,74 +12,48 @@
 					<div  class="success-card-position main-card" >
 						<center>
 							<div class="mt-20 mb-10">
-								<img src="/images/info.svg" width="150px" height="150px" />
+								<img src="/images/info.svg" width="150px" height="150px"/>
+
+								<div style="font-size: 25px; font-weight: bold">Hi, {{first_name}}</div>
+								<div>
+									You current role as <b>{{ role}}</b> does <br>
+									not have  permissions to access this page.<br>
+									Please contact your administrator to grant you access
+								</div>
+								<a  @click="close"  class="btn bg-blue mt-20">
+									OK
+								</a>
 							</div>
 						</center>
-						<div style="text-align: center;">
-							<p class="m-t-5"><b>{{teammate_email}}</b> will no longer be able to<br> access your dashboard.</p>
-							<div class="mb-20" >
-								<a  @click="close"  class="btn btn-danger mt-20 m-r-20">
-									Cancel
-								</a>
-								<a  @click="deleteTeamMember"  class="btn btn-primary mt-20">
-									{{ button_text }}
-									<span v-show="isLoading">
-														<img src="/images/spinner.svg" height="20px" width="30px"/>
-												</span>
-								</a>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</modal>
+
 </template>
 
 <script>
+
 export default {
-	name: "DeleteTeammateModal",
+	name: "PageDeniedModal",
 	data(){
-		 return{
-		 	button_text: "Yes, Delete",
-				isLoading: false
-			}
-	},
-	props: {
-   teammate_id:{
-   	 required:true
-			},
-		 teammate_email:{
-   	 required: true
-			}
+		return{
+			first_name:JSON.parse(localStorage.getItem('user_data')).fname,
+			role:JSON.parse(localStorage.getItem('user_data')).role,
+		}
 	},
 	methods: {
 		close() {
-			this.$modal.hide('delete-teammate-modal');
+			this.$modal.hide('page-denied-modal');
 		},
-		async deleteTeamMember(){
-			this.button_text = "";
-			this.isLoading = true;
-			  try {
-						let data = await this.$axios.$delete(`team/${this.teammate_id}`);
-						this.$toast.success(data.message);
-						await this.$emit('get-teammates');
-						await this.close()
-						this.button_text = "Yes, Delete";
-						this.isLoading = false;
-					} catch (e) {
-						this.$toast.error(e.response.data.message);
-						this.button_text = "Yes, Delete";
-						console.log(e.response)
-						this.isLoading = false;
-
-					}
-		}
 	}
 }
 </script>
 
 <style scoped>
+
+
 textarea.form-control {
 	height: auto;
 }
