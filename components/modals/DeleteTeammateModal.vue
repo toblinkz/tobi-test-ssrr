@@ -39,7 +39,7 @@ export default {
 	name: "DeleteTeammateModal",
 	data(){
 		 return{
-		 	button_text: "Yes, Delete",
+		 	button_text: "Yes, Remove",
 				isLoading: false
 			}
 	},
@@ -63,11 +63,11 @@ export default {
 						this.$toast.success(data.message);
 						await this.$emit('get-teammates');
 						await this.close()
-						this.button_text = "Yes, Delete";
+						this.button_text = "Yes, Remove";
 						this.isLoading = false;
 					} catch (e) {
 						this.$toast.error(e.response.data.message);
-						this.button_text = "Yes, Delete";
+						this.button_text = "Yes, Remove";
 						console.log(e.response)
 						this.isLoading = false;
 

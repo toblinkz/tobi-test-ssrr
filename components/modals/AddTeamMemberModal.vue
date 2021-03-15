@@ -210,6 +210,13 @@ export default {
 		handleOtherErrors(data){
 			this.$toast.error(data.message);
 		},
+		clearForm(){
+			this.first_name = '';
+			this.last_name = '';
+			this.email = '';
+			this.selected_permission = [];
+
+		},
 		async addTeamMember(){
 			 this.add_button_text = '';
 			 this.show_icon = false;
@@ -224,6 +231,7 @@ export default {
 							});
 					this.$emit('add-team-member', this.selected_permission);
 					this.add_button_text = 'Add teammate';
+					this.clearForm();
 					this.show_icon = true;
 					this.isLoading = false;
 					this.close();
