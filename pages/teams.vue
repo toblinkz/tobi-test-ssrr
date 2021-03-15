@@ -68,6 +68,14 @@ export default {
 
 			}
 	},
+	async asyncData({$axios}){
+		try {
+			const team_members = await $axios.$get('team');
+			return {team_members: team_members}
+		}catch (e) {
+
+		}
+	},
 	methods: {
 		showModal(){
 			 this.$modal.show('add-team-member-modal');
@@ -109,9 +117,7 @@ export default {
 			 this.selected_teammate_permission = event;
 		}
 	},
-	mounted() {
- 	this.getTeammates();
-	}
+
 }
 </script>
 

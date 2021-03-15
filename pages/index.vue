@@ -132,7 +132,7 @@
 																	</div>
 																</div>
 																<div class="row">
-																	<div class="container-fluid container-fixed-lg" style="background: white;">
+																	<div v-if="is_main" class="container-fluid container-fixed-lg" style="background: white;">
 																		<!-- START PANEL -->
 																		<div class="panel panel-transparent">
 																			<div class="panel-body">
@@ -251,6 +251,7 @@
 				emptyActivityLog:false,
 				live_api_key:'',
 				first_name: '',
+				is_main: JSON.parse(localStorage.getItem('user_data')).is_main,
 				permission_data : [],
 				customer_permissions:[],
 
