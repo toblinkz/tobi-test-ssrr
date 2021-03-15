@@ -17,9 +17,11 @@
 							</div>
 							<div class="mt-20">
 								  <div class="header-style">
-											 <p>Name</p>
-											 <p>Permissions</p>
-											 <p>Action</p>
+
+												<p class="header-title">Name</p>
+												<p class="header-title">Permissions</p>
+												<p class="header-title">Action</p>
+
 										</div>
 								  <div v-for="team_member in team_members.data">
 											<team-card :team_member="team_member" @team-member-permissions="getTeammatePermissions($event)" @update-team-member="updateTeamMember($event)" @delete-team-member="deleteTeamMember($event)"></team-card>
@@ -158,5 +160,17 @@ font-weight: 600;
 	min-height: 63px;
 	background: #F8F8F8;
 }
+@media (max-width: 768px){
+	.container-item {
+	flex-direction: column;
+	}
+}
+@media (max-width: 768px){
+	.header-title {
+		display: none;
+	}
+}
+
+
 
 </style>
