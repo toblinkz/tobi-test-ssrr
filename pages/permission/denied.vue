@@ -29,9 +29,11 @@
 													<div class="row ">
 														<center>
 															<!-- START PANEL -->
-															<div class="panel-transparent">
-																<img src="/images/payment.svg" />
-																<p class="" style="font-weight: bolder;">PAGE DENIED</p>
+															 <div style="font-size: 25px; font-weight: bold">Hi, {{first_name}}</div>
+															<div>
+																You current role as <b>{{ role}}</b> does <br>
+																not have  permissions to access this page.<br>
+																Please contact your administrator to grant you access
 															</div>
 														</center>
 													</div>
@@ -64,7 +66,8 @@ export default {
 	data(){
 		return{
 			name:"denied",
-
+			first_name:JSON.parse(localStorage.getItem('user_data')).fname,
+			role:JSON.parse(localStorage.getItem('user_data')).role,
 		}
 	},
 	computed: {
