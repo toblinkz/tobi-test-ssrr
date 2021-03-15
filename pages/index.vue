@@ -281,11 +281,11 @@
 					});
 					this.account_balance = data.data.converted_balance;
 					//get user data
-					// let response_data = await this.$axios.$get('user',{
-					// 	headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
-					// });
+					let response_data = await this.$axios.$get('user',{
+						headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
+					});
 
-						// localStorage.setItem('user_data', JSON.stringify(response_data.data));
+						localStorage.setItem('user_data', JSON.stringify(response_data.data));
 
 				} catch(e){
 

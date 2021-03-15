@@ -80,7 +80,7 @@ function hasAccess(route_name){
 		case "account-webhook-config":
 			return customer_permissions.includes('view_webhook_config');
 		case "teams":
-			return (JSON.parse(localStorage.getItem('user_data')).is_main === true) ;
+			return (JSON.parse(localStorage.getItem('user_data')).is_main) ;
 		default:
 			break;
 
