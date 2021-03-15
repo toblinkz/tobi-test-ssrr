@@ -1,9 +1,11 @@
 export default function ({ app,}) {
 
-	app.router.afterEach((to, from, next) => {
+	app.router.beforeEach((to, from, next) => {
 		 if (!hasAccess(to.name)){
 				$nuxt.$router.push({ name: 'index', });
 				$nuxt.$modal.show('page-denied-modal')
+			}else {
+		 	 next();
 			}
 	});
 
