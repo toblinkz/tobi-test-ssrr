@@ -54,7 +54,7 @@
                                  <p class="insight" style="color: #595959 !important;">{{api_key}}</p> </div>
 																																<form>
 																																	<br>
-																																	<button class="btn btn-primary btn-cons" @click="showModal">
+																																	<button v-if="canRenewApiKey" class="btn btn-primary btn-cons" @click="showModal">
 																																		<i class="fa fa-certificate" v-show="showIcon"></i>
 																																		 Renew API key
 																																	</button>
@@ -98,15 +98,16 @@
     export default {
 					 name: "api",
       components: {AccountPassword, VerificationModal, ApiNavbar, Main, DashboardNavbar, Sidebar, VueClipboard },
-					 middleware: ['auth', 'inactive_user'],
+					 middleware: ['auth', 'inactive_user', 'permission'],
       data(){
         return{
         	password:'',
 									button_text:' Renew API key',
 									isLoading: false,
 									showIcon: true,
-          api_key: '',
-									 error_message:[],
+									api_key: '',
+									error_message:[],
+									customer_permissions: localStorage.getItem('permissions'),
 									hasPasswordError: false,
 									type: "password",
 									isToggled: false,
@@ -115,6 +116,9 @@
       computed: {
 							isDisabled: function () {
 								return (this.hasPasswordError || this.password === '');
+							},
+							canRenewApiKey(){
+								return (this.customer_permissions.includes("renew_api_key"));
 							},
       },
 					watch:{

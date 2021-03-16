@@ -120,7 +120,7 @@ import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 import VerificationModal from "~/components/modals/VerificationModal";
 export default {
 	name: "campaign-reports",
-	middleware: ['auth', 'inactive_user'],
+	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {VerificationModal, TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar, DatePicker},
 	data(){
 		return{
@@ -129,6 +129,7 @@ export default {
 			showIcon: true,
 			searchText: 'Search',
 			campaign_report:[],
+			customer_permissions: localStorage.getItem('permissions'),
 			date_time: null,
 			page: 1,
 			total_page:'',

@@ -152,7 +152,7 @@
 
     export default {
         name: "group-sms",
-					middleware: ['auth', 'inactive_user'],
+					middleware: ['auth', 'inactive_user', 'permission'],
       components: {VerificationModal, CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, DatePicker, vSelect},
       data(){
           return{

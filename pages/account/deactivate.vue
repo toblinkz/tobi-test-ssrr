@@ -40,11 +40,11 @@
                           <ApiNavbar></ApiNavbar>
 
                           <div>
-                            <div class="col-md-9">
+                            <div v-if="canDeactivateAccount" class="col-md-9">
                               <b class="mb-20 mt-10">*Help us understand why you want to leave. We will use your feedback to get better.</b>
                               <textarea rows="8" cols="100" v-model="user_feedback" name="feedback" ></textarea>
 																													<div class="mt-30">
-																														<button  @click="showModal" class="btn btn-primary" :disabled="isDisabled">Deactivate Account</button>
+																														<button v-if="canDeactivateAccount"  @click="showModal" class="btn btn-primary" :disabled="isDisabled">Deactivate Account</button>
 																													</div>
                             </div>
                           </div>
@@ -74,18 +74,22 @@
     export default {
         name: "deactivate",
       components: {AccountPassword, VerificationModal, ApiNavbar, DashboardNavbar, Sidebar},
-					middleware: ['auth'],
+					middleware: ['auth', 'permission'],
       data(){
           return{
             user_feedback: '',
             hasFeedbackError: false,
             error_message:[],
+											 customer_permissions: localStorage.getItem('permissions'),
           }
       },
       computed:{
         isDisabled: function () {
           return(this.user_feedback === '' || this.hasFeedbackError);
-        }
+        },
+								canDeactivateAccount(){
+									return (this.customer_permissions.includes("deactivate_account"));
+								},
       },
       watch:{
         user_feedback(value){

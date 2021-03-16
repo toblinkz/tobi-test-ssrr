@@ -86,7 +86,7 @@ export default {
 		return {
 			countries:[],
 			country_code:'',
-			middleware: ['auth', 'inactive_user'],
+			middleware: ['auth', 'inactive_user', 'permission'],
 			placement: 'top',
 			phone_number:'',
 			price:'',

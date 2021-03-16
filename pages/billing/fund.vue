@@ -116,7 +116,7 @@
 
                           <div class="col-lg-5 col-md-5 col-md-height col-middle">
                             <div class="p-30 p-t-none p-b-none">
-                              <div class="panel">
+                              <div class="panel" v-if="canTopUp">
                                 <div class="panel-body">
                                   <form  role="form" method="post" @submit.prevent="TopUp">
                                     <CustomSelect :options="options" @item-selected="itemSelected" :dropdown-style="dropdownStyle"></CustomSelect>
@@ -192,7 +192,7 @@
 
     export default {
 					name: "funding",
-					middleware: ['auth', 'inactive_user'],
+					middleware: ['auth', 'inactive_user', 'permission'],
 					components: {
 						NubanAccountNumberComponent,
 						GenericAccountNumberComponent,

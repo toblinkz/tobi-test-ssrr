@@ -35,7 +35,7 @@
 
         <ul class="nav navbar-nav navbar-right">
 
-          <li class="m-left hidden-xs">
+          <li class="m-left hidden-xs" v-if="canComposeMessage">
             <nuxt-link to="/message/select-type" type="button" class="btn stretch-a" style="height: 30px !important;margin-top: 8px !important;padding-bottom: 26px;
                color: #fff !important;padding-top: 7px !important;background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);font-weight: 100 !important;">
               <i class="entypo-paper-plane " style="font-size: 14px;"></i> Compose message
@@ -49,20 +49,20 @@
               </a>
             </template>
             <template v-slot:dropdown_menu>
-              <li><nuxt-link to="/billing/fund"><i class="entypo-credit-card"></i> Top Up</nuxt-link></li>
-              <li>
+              <li v-if="canTopUp"><nuxt-link to="/billing/fund"><i class="entypo-credit-card"></i> Top Up</nuxt-link></li>
+              <li v-if="canComposeMessage">
                 <nuxt-link to="/message/select-type">
                   <i class="entypo-paper-plane"></i><span> Message</span>
                 </nuxt-link>
               </li>
 
-              <li>
+              <li v-if="canViewDeliveryReport">
                 <nuxt-link to="/sms/history">
                   <i class="entypo-chart-line"></i><span> Reports</span>
                 </nuxt-link>
               </li>
 
-              <li>
+              <li  v-if="canViewProfile">
                 <nuxt-link to="/account/profile"><i class="entypo-vcard"></i> Account</nuxt-link>
               </li>
 
@@ -96,29 +96,36 @@
       return{
         isOpen:'false',
         email:"",
+								permission_data : [],
+								customer_permissions:[],
 							 imageUrl: 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg'
       }
     },
+			 computed:{
+					canTopUp(){
+						return (this.customer_permissions.includes("top_up_wallet"));
+					},
+					canComposeMessage(){
+						return (this.customer_permissions.includes("send_message"));
+					},
+					canViewDeliveryReport(){
+						return (this.customer_permissions.includes("view_delivery_report"));
+					},
+					canViewProfile(){
+						return (this.customer_permissions.includes("view_profile"));
+					}
+				},
     methods: {
+					getUserPermissions(){
+						this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
+						this.permissions_data.forEach((permission) => {
+							this.customer_permissions.push(permission.name);
+						});
+					},
       toggle: function () {
         this.isOpen = !this.isOpen
       },
 					decode(){
-
-						 // let token = localStorage.getItem('local');
-						 // let decoded = jwt_decode(token);
-							// let exp_time = decoded.exp;
-							// let current_time = Date();
-							// const d = new Date(0);
-					  // 	d.setUTCSeconds(exp_time);
-							// let log_out_time = moment(d).subtract(5, 'minutes').toDate();
-
-						// console.log("check", moment(localStorage.getItem('LGIT')).add(55, 'minutes'))
-						// let logged_in_time = localStorage.getItem('LGIT')
-						// 	// const d = new Date(0);
-						// 	// d.setUTCSeconds(logged_in_time);
-						// console.log(logged_in_time.getTime());
-						// console.log(localStorage.getItem('LGIT'))
 
 						let timeout = localStorage.getItem('ET')
 							setTimeout(  async function () {
@@ -154,6 +161,7 @@
       }
     },
 			async mounted() {
+    	this.getUserPermissions();
 				if(this.$store.state.view_verify_page === 'true'){
 						this.imageUrl = 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg';
 				}else{

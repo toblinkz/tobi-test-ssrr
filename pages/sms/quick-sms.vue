@@ -127,7 +127,7 @@
     export default {
         name: "quick-sms",
       components: {VerificationModal, CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, vSelect},
-				 	middleware: ['auth', 'inactive_user'],
+				 	middleware: ['auth', 'inactive_user', 'permission'],
       data(){
           return{
             sms_channels: [],

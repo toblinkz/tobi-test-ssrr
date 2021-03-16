@@ -132,7 +132,7 @@
 																	</div>
 																</div>
 																<div class="row">
-																	<div class="container-fluid container-fixed-lg" style="background: white;">
+																	<div v-if="is_main" class="container-fluid container-fixed-lg" style="background: white;">
 																		<!-- START PANEL -->
 																		<div class="panel panel-transparent">
 																			<div class="panel-body">
@@ -204,6 +204,7 @@
 		<ActivateIdModal v-if="showActivateIdModal" @close="closeActivateIdModal"></ActivateIdModal>
 		<YourWalletModal v-if="showYourWalletModal" @close="closeYourWalletModal"></YourWalletModal>
 		<VerificationModal></VerificationModal>
+	 <PageDeniedModal></PageDeniedModal>
 	</div>
 </template>
 
@@ -224,8 +225,11 @@
 		ListLoader
 	} from 'vue-content-loader'
 	import VerificationModal from "~/components/modals/VerificationModal";
+	import AddedTeammateSuccessfullyModal from "../components/modals/AddedTeammateSuccessfullyModal";
+	import PageDeniedModal from "../components/modals/PageDeniedModal";
 	export default {
 		components: {
+			PageDeniedModal,
 			VerificationModal,
 			ActivityLog,
 			ActivateIdModal, YourWalletModal, SmsHistoryModal, DashboardNavbar, Sidebar, ContentLoader, FacebookLoader, ListLoader, BulletListLoader},
@@ -246,10 +250,21 @@
 				account_balance: '',
 				emptyActivityLog:false,
 				live_api_key:'',
-				first_name: ''
+				first_name: '',
+				is_main: JSON.parse(localStorage.getItem('user_data')).is_main,
+				permission_data : [],
+				customer_permissions:[],
+
 			}
 		},
 		methods: {
+			getUserPermissions(){
+				this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
+				this.permissions_data.forEach((permission) => {
+					this.customer_permissions.push(permission.name);
+				});
+				localStorage.setItem('permissions', this.customer_permissions);
+			},
 			closeActivateIdModal(){
 				this.showActivateIdModal = false;
 			},
@@ -266,11 +281,11 @@
 					});
 					this.account_balance = data.data.converted_balance;
 					//get user data
-					// let response_data = await this.$axios.$get('user',{
-					// 	headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
-					// });
+					let response_data = await this.$axios.$get('user',{
+						headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
+					});
 
-						// localStorage.setItem('user_data', JSON.stringify(response_data.data));
+						localStorage.setItem('user_data', JSON.stringify(response_data.data));
 
 				} catch(e){
 
@@ -337,7 +352,7 @@
 		},
 
 	async	mounted () {
-
+   this.getUserPermissions();
 			if(this.$store.state.view_verify_page === 'true'){
 				this.first_name = this.getFirstName;
 				this.$modal.show('verification-id-modal');
@@ -348,6 +363,7 @@
 				this.first_name = JSON.parse(localStorage.getItem('user_data')).fname;
 				this.live_api_key = JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
 				setInterval(this.getBalance, 60000);
+
 			}
 
 		}

@@ -72,7 +72,7 @@
 																</div>
 															</div>
 														</div>
-														<div class="form-group">
+														<div class="form-group" v-if="canSetBalanceLimit">
 															<button type="submit" class="btn btn-primary" :disabled="isDisabled">
 																																		<span v-show="isLoading">
 																																			<img src="/static/images/spinner.svg" height="20px" width="30px"/>
@@ -109,12 +109,13 @@ import CryptoJs from 'crypto-js';
 import Switches from 'vue-switches';
 export default {
 	name: "balance-limit",
-	middleware: 'auth',
+	middleware: ['auth','permission'],
 	components: {DashboardNavbar, Sidebar, Switches},
 	data(){
 		return{
 			balance_limit: '',
 			balance_limit_data: '',
+			customer_permissions: localStorage.getItem('permissions'),
 			isLoading: false,
 			button_text:'Save',
 			hasLimitError: false,
@@ -166,6 +167,9 @@ export default {
 					|| !this.balance_limit || !this.auto_recharge_amount){
 					return true
 				}
+		},
+		canSetBalanceLimit(){
+			return (this.customer_permissions.includes("set_balance_limit"));
 		}
 	},
 	methods: {

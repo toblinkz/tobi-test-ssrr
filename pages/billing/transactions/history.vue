@@ -109,6 +109,7 @@
 
 
                     <div class="col-md-12 panel mt-50">
+																					<TableVuePlaceHolder v-if="!show_shimmer" >
 
 																					<TableVuePlaceHolder v-if="show_shimmer" >
 																					</TableVuePlaceHolder>
@@ -172,11 +173,11 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "history",
-					   middleware: ['auth', 'inactive_user'],
-       components: {
-								VerificationModal,
-								TransactionHistoryModal,
-								TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar,DatePicker , ContentLoader},
+					   middleware: ['auth', 'inactive_user', 'permission'],
+        components: {
+									VerificationModal,
+									TransactionHistoryModal,
+									TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar,DatePicker , ContentLoader},
       data(){
           return{
             transaction_history: [],
@@ -188,7 +189,8 @@
             amount_spent:'',
             amount_funded:'',
             showPagination: true,
-												show_shimmer: true
+												show_shimmer: true,
+											customer_permissions: localStorage.getItem('permissions'),
           }
       },
 					computed: {

@@ -17,7 +17,7 @@
 				<div class="panel mt-50" >
 					<div class="panel-body p-none scrollme">
 						<div style="display: flex; flex-direction: row; width: 100%">
-							<div style="width: 20%">
+							<div v-if="canRentANumber" style="width: 20%">
 								<button @click="showBuyNumberModal" class="btnl bg-blue" style="justify-content: flex-end" >
 									# Rent a Number</button>
 							</div>
@@ -46,9 +46,9 @@
 								<td>{{row.date_rented}}</td>
 								<td>{{ row.expiry_date }}</td>
 								<td> <p class="label"  :class="statusClass(row.status)">{{row.status.toUpperCase()}}</p></td>
-								<td v-show="row.status === 'active'" ><a class="btn btn-danger btn-xs"  :aria-disabled="isDisabled(row.status)"  @click="unRentNumber(row)" >Unrent</a></td>
-								<td  v-show="row.status === 'expired'"><a class="btn btn-success btn-xs"  :aria-disabled="isDisabled(row.status)"  @click="renewNumber(row)" >Renew</a></td>
-								<td><nuxt-link :to="{name: 'number-id-subscriptions', params:{id: row.uuid, phone_number: row.phone_number}}" class="btn btn-primary btn-xs"  :aria-disabled="isDisabled(row.status)" > Manage Number</nuxt-link></td>
+								<td v-show="row.status === 'active'" ><a v-if="canUnrentNumber" class="btn btn-danger btn-xs"  :aria-disabled="isDisabled(row.status)"  @click="unRentNumber(row)" >Unrent</a></td>
+								<td  v-show="row.status === 'expired'"><a  class="btn btn-success btn-xs"  :aria-disabled="isDisabled(row.status)"  @click="renewNumber(row)" >Renew</a></td>
+								<td v-if="canManageNumber"><nuxt-link :to="{name: 'number-id-subscriptions', params:{id: row.uuid, phone_number: row.phone_number}}" class="btn btn-primary btn-xs"  :aria-disabled="isDisabled(row.status)" > Manage Number</nuxt-link></td>
 							</tr>
 							<tr>
 								<td  colspan="7" style="text-align: center; cursor: pointer" v-show="!rented_numbers">No data available in table</td>
@@ -74,17 +74,29 @@ import {createPopper} from "@popperjs/core";
 
 export default {
  name: "number",
-	middleware: ['auth', 'inactive_user'],
+	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {DashboardNavbar, Sidebar, BuyNumberModal, vSelect},
 		data(){
 			return{
 					rented_numbers: [],
 			 	error_message:'',
+				 customer_permissions: localStorage.getItem('permissions'),
 					current_date: moment(Date.now()).format('YYYY/MM/DD'),
 					number_action_button_text:'',
 				data:[{"uuid":"7747747", "phone_number":"02022214836","number_type":"Local","country":"","monthly_charge":0,"service_charge":0,"alias":"","status":"active","date_rented":"2020-12-08","expiry_date":"2020-12-11", },{"phone_number":"+13252034406","number_type":"Local", "uid":"7747747","country":"","monthly_charge":0,"service_charge":0,"alias":"","status":"pending","date_rented":"2020-12-08","expiry_date":"2021-09-08"},{"phone_number":"17657051520","number_type":"Local","country":"US","monthly_charge":0,"uid":"7747747","service_charge":0,"alias":"Termii number637","status":"active","date_rented":"2020-12-13","expiry_date":"2002-01-13"},{"phone_number":"13254005451","number_type":"Local","country":"US","uuid":"7747747","monthly_charge":1.1868,"service_charge":0,"alias":"Termii number335","status":"active","date_rented":"2020-12-13","expiry_date":"2021-01-13"},{"phone_number":"13254006498","number_type":"Local","country":"US","monthly_charge":1.1868,"service_charge":0,"alias":"Termii number063","status":"active","date_rented":"2020-12-13","expiry_date":"2021-01-13"}]
 			}
 		},
+	computed:{
+ 	 canRentANumber(){
+				return (this.customer_permissions.includes("rent_a_number"));
+			},
+		canUnrentNumber(){
+			return (this.customer_permissions.includes("unrent_a_number"));
+		},
+		canManageNumber(){
+			return (this.customer_permissions.includes("manage_a_number"));
+		}
+	},
 		methods: {
 				async getRentedNumbers(){
 					try{

@@ -75,7 +75,7 @@
 																															<form>
 
 																															</form>
-																															<a class="btn btn-primary pull-right" @click="showDownloadContactModal"  style="float: right; color: #fff">
+																															<a v-if="canDownloadContacts" class="btn btn-primary pull-right" @click="showDownloadContactModal"  style="float: right; color: #fff">
 																																<i v-show="!isLoading" class="entypo-download"></i>
 																																{{button_text}}
 																																<span v-show="isLoading">
@@ -146,13 +146,14 @@
     export default {
 					 name: "_id",
       components: {DownloadPhoneBookContact, VerificationModal,Pagination, TableVuePlaceHolder, DashboardNavbar, Sidebar},
-					 middleware: ['auth', 'inactive_user'],
+					 middleware: ['auth', 'inactive_user', 'permission'],
       data(){
           return{
               phone_book_contacts:[],
 														page: 1,
 														first_name: JSON.parse(localStorage.getItem('user_data')).fname,
 														last_name: JSON.parse(localStorage.getItem('user_data')).lname,
+											   customer_permissions: localStorage.getItem('permissions'),
 														total_page: '',
 														showPagination: false,
 														show_shimmer: false,
@@ -174,6 +175,9 @@
       	isDisabled:function () {
 										return (this.phone_book_contacts.data < 1)
 							},
+						canDownloadContacts(){
+							return (this.customer_permissions.includes("download_contacts"));
+						},
 					},
       methods: {
 

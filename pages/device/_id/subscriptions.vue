@@ -87,7 +87,7 @@
 				import SuccessfulPaymentModal from "../../../components/modals/SuccessfulPaymentModal";
     export default {
 					  name: "subscriptions",
-					  middleware: ['auth', 'inactive_user'],
+					  middleware: ['auth', 'inactive_user', 'permission'],
        components: {
 								SuccessfulPaymentModal,
 								DeviceTemplate,
@@ -117,6 +117,9 @@
 												isLoading: false,
           }
       },
+					 computed:{
+
+						},
       methods: {
 							templateExists(){
 								return (this.template_data.length !== 0);
