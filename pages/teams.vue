@@ -32,6 +32,7 @@
 						</div>
 					  <DeleteTeammateModal @get-teammates="getTeammates" :teammate_id="teammate_id" :teammate_email="email"></DeleteTeammateModal>
 					  <AddedTeammateSuccessfullyModal></AddedTeammateSuccessfullyModal>
+					  <UpdatedTeammatePermissionModal></UpdatedTeammatePermissionModal>
 					  <AddTeamMemberModal @add-team-member="addTeamMember($event)" ></AddTeamMemberModal>
 					  <UpdateTeamMemberModal @update-team-member="updateTeamMember($event)" @update-teammate-permission="updateTeammatePermission" :teammate_id="teammate_id" :email="email" :first_name="first_name" :selected_teammate_permission="selected_teammate_permission" :last_name="last_name" :role="role" ></UpdateTeamMemberModal>
 				</div>
@@ -47,10 +48,12 @@ import UpdateTeamMemberModal from "../components/modals/UpdateTeamMemberModal";
 import TeamCard from "../components/team/TeamCard";
 import AddedTeammateSuccessfullyModal from "../components/modals/AddedTeammateSuccessfullyModal";
 import DeleteTeammateModal from "../components/modals/DeleteTeammateModal";
+import UpdatedTeammatePermissionModal from "../components/modals/UpdatedTeammatePermissionModal";
 export default {
  name: "teams",
 	middleware:['auth', 'permission'],
 	components: {
+		UpdatedTeammatePermissionModal,
 		DeleteTeammateModal,
 		AddedTeammateSuccessfullyModal,
 		TeamCard, UpdateTeamMemberModal, AddTeamMemberModal, DashboardNavbar, Sidebar},
@@ -88,7 +91,7 @@ export default {
 		async updateTeammatePermission(){
 			try {
 				this.team_members = await this.$axios.$get('team');
-				this.$toast.success('updated successfully')
+				this.$modal.show('updated-teammate-permission-modal');
 			}catch (e) {
       this.$toast.error(e.response.message);
 			}
@@ -158,12 +161,11 @@ font-weight: 600;
 	.container-item {
 	flex-direction: column;
 	}
-}
-@media (max-width: 768px){
 	.header-title {
 		display: none;
 	}
 }
+
 
 
 

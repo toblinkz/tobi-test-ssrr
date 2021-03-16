@@ -10,7 +10,7 @@
 			</div>
 			<div style="padding: 20px; flex: 2; margin-right: 40px; display: flex; flex-wrap: wrap" >
 				<span  v-if="!team_member.is_main" v-for="row in team_member.permissions.slice(0,5)"  class="pill" >{{row.name.replace(/_/g, " ")}}</span>
-				<span class="pill " style="margin-left: -50px!important;" v-if="team_member.is_main">All Permissions</span>
+				<span class="pill all_permission" v-if="team_member.is_main">All Permissions</span>
 				<div class="m-l-5 m-t-5">
 					<a v-show="team_member.permissions.length > 5 && !team_member.is_main" @click="updateTeamMember(team_member)">View more</a>
 				</div>
@@ -52,6 +52,14 @@ name: "TeamCard",
 	font-weight: 500;
 	background: #E5E5E5;
 	color: #333333;
+}
+.all_permission{
+	margin-left: -50px!important;
+}
+@media (max-width: 768px){
+	.all_permission{
+		margin-left: 0px!important;
+	}
 }
 .container-item{
 	display: flex;
