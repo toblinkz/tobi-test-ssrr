@@ -44,38 +44,21 @@
                           <form @submit.prevent="updateWebhook" method="POST" >
                             <div class="row">
                               <div class="col-md-5">
-                                <label>Live Webhook URL</label>
+                                <label>Webhook URL</label>
                                 <div class="form-group control-text">
 
                                   <input
-                                    id="live_webhook" placeholder="Live webhook URL"
-                                    v-model="live_webhook"
+                                    id="live_webhook" placeholder="Webhook URL"
+                                    v-model="webhook"
                                     type="text"
                                     name="live_webhook"
                                     class="form-control "
-                                    :class="{'error': hasLiveWebhookError}"
+                                    :class="{'error': hasWebhookError}"
                                   >
-                                  <span class=" error_field_message" v-if="error_message.live_webhook">{{error_message.live_webhook}}</span>
+                                  <span class=" error_field_message" v-if="error_message.webhook">{{error_message.webhook}}</span>
                                 </div>
-
+																															<button class="btn bg-teal pull-right" type="submit" :disabled="isDisabled"><i class="icon-check"></i> Save</button>
                               </div>
-                              <div class="col-md-5">
-                                <label>Test Webhook URL</label>
-                                <div class="form-group control-text">
-                                  <input
-                                    id="test_webhook" placeholder="Test webhook URL"
-                                    v-model="test_webhook"
-                                    type="text"
-                                    name="test_webhook"
-                                    class="form-control "
-                                    :class="{'error': hasTestWebhookError}"
-                                  >
-                                  <span class="error_field_message" v-if="error_message.test_webhook">{{error_message.test_webhook}}</span>
-                                </div>
-                                <hr/>
-                                <button class="btn bg-teal pull-right" type="submit" :disabled="isDisabled"><i class="icon-check"></i> Save</button>
-                              </div>
-
                             </div>
                           </form>
                         </main>
@@ -105,32 +88,27 @@
 					 middleware: ['auth', 'inactive_user'],
       data(){
           return {
-            live_webhook: '',
-            test_webhook: '',
+            webhook: '',
             error_message: [],
-            hasLiveWebhookError: false,
-            hasTestWebhookError: false
+            hasWebhookError: false,
+
           }
       },
 					watch:{
-       live_webhook(value){
+       webhook(value){
        	this.validateWebUrl(value);
-							},
-						test_webhook(value){
-       	this.	validateTestUrl(value);
-						}
+							}
 					},
       computed:{
           isDisabled: function () {
-              return(  this.hasLiveWebhookError || this.hasTestWebhookError )
+              return( this.hasWebhookError )
           }
       },
       methods: {
           async updateWebhook(){
             try {
               await this.$axios.$patch('user/webhook', {
-                live_webhook: this.live_webhook,
-                test_webhook: this.test_webhook
+                live_webhook: this.webhook,
               });
               await Swal.fire({
                 icon: 'success',
@@ -138,26 +116,17 @@
 
               });
             }catch (e) {
-														this.$toast.error("Something went wrong. Try again!");
+														this.$toast.error(e.response.data.message);
             }
           },
 							validateWebUrl(value){
           	if (/^(ftp|http|https):\/\/[^ "]+$/.test(value) || !value){
-												this.hasLiveWebhookError = false;
-												this.error_message['live_webhook'] = '';
+												this.hasWebhookError = false;
+												this.error_message['webhook'] = '';
 											}else{
-												this.hasLiveWebhookError = true;
-												this.error_message['live_webhook'] = 'The live webhook format is invalid.';
+												this.hasWebhookError = true;
+												this.error_message['webhook'] = 'The webhook format is invalid.';
 											}
-							},
-							validateTestUrl(value){
-								if (/^(ftp|http|https):\/\/[^ "]+$/.test(value) || !value){
-									this.hasTestWebhookError = false;
-									this.error_message['test_webhook'] = '';
-								}else {
-									this.hasTestWebhookError = true;
-									this.error_message['test_webhook'] = 'The test webhook format is invalid.';
-								}
 							}
       },
 					mounted() {
@@ -165,7 +134,7 @@
 							this.$modal.show('verification-id-modal');
 						}else {
 							let user_data = JSON.parse(localStorage.getItem('user_data'));
-							 this.live_webhook = user_data.customer.live_webhook_url;
+							 this.webhook = user_data.customer.live_webhook_url;
 						}
 					}
 				}
