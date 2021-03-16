@@ -23,6 +23,7 @@
 												<p class="header-title">Action</p>
 
 										</div>
+								<div class="m-l-10 " style="border-bottom: dotted #ddd!important;"></div>
 								  <div v-for="team_member in team_members.data">
 											<team-card :team_member="team_member" @team-member-permissions="getTeammatePermissions($event)" @update-team-member="updateTeamMember($event)" @delete-team-member="deleteTeamMember($event)"></team-card>
 										</div>
@@ -149,22 +150,9 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	padding: 20px 50px 10px 50px;
-	border: 0.5px solid #D3D3D3;
-	border-top-right-radius: 8px;
-	border-top-left-radius: 8px;
-	background: rgb(255, 255, 255);
 	min-height: 63px;
 	color: #727272;
 font-weight: 600;
-}
-.container-item{
-	display: flex;
-	justify-content: space-between;
-	border: 0.5px solid #D3D3D3;
-	border-top: 0;
-	line-height: 24px;
-	min-height: 63px;
-	background: #F8F8F8;
 }
 @media (max-width: 768px){
 	.container-item {

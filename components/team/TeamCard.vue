@@ -1,6 +1,6 @@
 <template>
 
-		<div class="container-item">
+		<div class="container-item mt-20">
 			<div style="display: flex; flex: 2; align-items: center; padding: 10px">
 				<div class="m-r-10" style="display:inline-block; border-radius: 50%; color: #FFFFFF; background: #B8DECD; height: 25px; text-align: center; width: 25px">{{team_member.fname.charAt(0)}}{{team_member.lname.charAt(0)}}</div>
 				<div style="display: flex; flex-direction: column;">
@@ -10,7 +10,7 @@
 			</div>
 			<div style="padding: 20px; flex: 2; margin-right: 40px; display: flex; flex-wrap: wrap" >
 				<span  v-if="!team_member.is_main" v-for="row in team_member.permissions.slice(0,5)"  class="pill" >{{row.name.replace(/_/g, " ")}}</span>
-				<span class="pill " v-if="team_member.is_main">All Permissions</span>
+				<span class="pill " style="margin-left: -50px!important;" v-if="team_member.is_main">All Permissions</span>
 				<div class="m-l-5 m-t-5">
 					<a v-show="team_member.permissions.length > 5 && !team_member.is_main" @click="updateTeamMember(team_member)">View more</a>
 				</div>
@@ -53,4 +53,16 @@ name: "TeamCard",
 	background: #E5E5E5;
 	color: #333333;
 }
+.container-item{
+	display: flex;
+	justify-content: space-between;
+	border-width: 1px;
+	border-radius: 8px;
+	margin-bottom: 10px;
+	*background-color: white;
+	line-height: 24px;
+	min-height: 63px;
+	box-shadow: 0 10px 45px 0 rgba(0,0,0,.1);
+}
+
 </style>
