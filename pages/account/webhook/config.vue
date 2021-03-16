@@ -96,7 +96,7 @@
       },
 					watch:{
        webhook(value){
-       	this.validateWebUrl(value);
+       	this.validateWebhookUrl(value);
 							}
 					},
       computed:{
@@ -119,7 +119,7 @@
 														this.$toast.error(e.response.data.message);
             }
           },
-							validateWebUrl(value){
+							validateWebhookUrl(value){
           	if (/^(ftp|http|https):\/\/[^ "]+$/.test(value) || !value){
 												this.hasWebhookError = false;
 												this.error_message['webhook'] = '';
