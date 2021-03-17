@@ -88,10 +88,10 @@
 										Would you like to receive notifications and newsletters from us ?
 									</label>
 								</div>
-							<div>
-								<ButtonSpinner :is-disabled="isDisabled"  :button_text="button_text" :is-loading="isLoading"></ButtonSpinner>
-								<nuxt-link  to="/login" class="pull-right mt-20 m-r-10" style="color: black">Got an account? <span class="text-info2 bold">Log In</span></nuxt-link>
-							</div>
+								<div>
+									<ButtonSpinner :is-disabled="isDisabled"  :button_text="button_text" :is-loading="isLoading"></ButtonSpinner>
+									<nuxt-link  to="/login" class="pull-right mt-20 m-r-10" style="color: black">Got an account? <span class="text-info2 bold">Log In</span></nuxt-link>
+								</div>
 
 							</div>
 						</div>
@@ -185,7 +185,7 @@ export default {
 			return (this.email === '' || this.password === '' || this.hasEmailError || this.hasPasswordError
 				|| this.first_name === '' || this.hasFirstNameError || this.selected_country === '' || this.company === '' || this.role_id === ''
 				|| this.sectors_id === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError
-			 || this.selected_country === 'Select Country');
+				|| this.selected_country === 'Select Country');
 		},
 
 	},
@@ -274,10 +274,10 @@ export default {
 			}
 		},
 		validateCompany(value){
-			 if (value === ""){
-			 	 this.error_message['company'] = 'The company field is required';
-			 	 this.hasCompanyError = true;
-				} else {
+			if (value === ""){
+				this.error_message['company'] = 'The company field is required';
+				this.hasCompanyError = true;
+			} else {
 				this.error_message['company'] = '';
 				this.hasCompanyError = false;
 			}
@@ -316,7 +316,7 @@ export default {
 			this.sectors_id = event;
 		},
 		setRoleId(event){
-			 this.role_id = event;
+			this.role_id = event;
 		},
 		//call registration endpoint
 		async register(){
@@ -325,7 +325,7 @@ export default {
 			this.button_text = "Creating..."
 
 			try{
-			 	await this.$axios.post('auth/register', {
+				await this.$axios.post('auth/register', {
 					first_name: this.first_name,
 					last_name: this.last_name,
 					email: this.email,
@@ -337,20 +337,28 @@ export default {
 					role: this.role_id,
 					notification_opt_in: this.notification_opt_in
 				},);
-			 	//call login endpoint
+				//call login endpoint
 				let response_data =   await this.$axios.post('auth/login', {
 					email: this.email,
 					password: this.password
 				});
 				localStorage.setItem('local', response_data.data.access_token); //set user token in local storage
-			  // call user endpoint
-				await this.$axios.$get('user', {
+				// call user endpoint
+				let response = await this.$axios.$get('user', {
 					headers: {
 						'Authorization': `Bearer ${localStorage.getItem('local')}`
 					}
 				});
-				this.isLoading = false;
-				this.button_text = "Create My Account";
+				await localStorage.setItem('user_data', JSON.stringify(response.data));
+				console.log(response.status);
+				if (JSON.parse(localStorage.getItem('user_data')).active_status_id.name === "Pending"){
+					this.$store.commit('setFirstName', JSON.parse(localStorage.getItem('user_data')).fname);
+					this.$store.commit('setViewVerificationPage', 'true');
+					this.isLoading = false;
+					this.button_text = "Create My Account";
+					await this.$router.push('/');
+				}
+
 			} catch (e) {
 				this.isLoading = false;
 				this.button_text = "Create My Account"
