@@ -109,7 +109,7 @@
 
 
                     <div class="col-md-12 panel mt-50">
-																					<TableVuePlaceHolder v-if="!show_shimmer" >
+
 
 																					<TableVuePlaceHolder v-if="show_shimmer" >
 																					</TableVuePlaceHolder>
