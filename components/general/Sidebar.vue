@@ -133,7 +133,7 @@
       </ul>
 
     </div>
-    <a class="sidebar-help-button" href="http://help.termii.com/en/" ><i class="entypo-help-circled"></i> Help Center</a>
+    <a class="sidebar-help-button"  id="CHATID"><i class="entypo-help-circled"></i> Help Center</a>
   </nav>
 </template>
 
