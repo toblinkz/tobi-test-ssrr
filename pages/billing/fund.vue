@@ -230,6 +230,7 @@
 							total: '',
 							bundled_top_up: '',
 							payment_url: '',
+							customer_permissions:[],
 							selectPayment: false,
 							first_name: JSON.parse(localStorage.getItem('user_data')).fname,
 							last_name: JSON.parse(localStorage.getItem('user_data')).lname,
@@ -247,6 +248,9 @@
 					computed: {
 						isDisabled: function () {
 							return (this.amount === '' || this.hasError)
+						},
+						canTopUp(){
+							return (this.customer_permissions.includes("top_up_wallet"));
 						}
 					},
 					watch: {
@@ -258,6 +262,12 @@
 					methods: {
 						closeModal() {
 							this.showModal = false;
+						},
+						getUserPermissions(){
+							this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
+							this.permissions_data.forEach((permission) => {
+								this.customer_permissions.push(permission.name);
+							});
 						},
 						showModal() {
 							this.$modal.show('service-pricing-modal');
@@ -424,6 +434,7 @@
 							this.$modal.show('verification-id-modal');
 						} else {
 							this.page_url = window.location.href;
+							this.getUserPermissions();
 							await this.getWallet();
 							await this.getPaymentMethod();
 							await this.getTopDetails();
