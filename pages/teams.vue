@@ -8,7 +8,7 @@
 					 <div class="main-content">
 							<div style="display: flex; flex-direction: row; justify-content: space-between">
 										<div style="display: flex; flex-direction: column">
-											<div style="font-size: 20px; font-weight: bold"> <i class="entypo-users  m-r-5" style="font-size: 20px"></i> Team </div>
+											<div style="font-size: 20px; font-weight: bold"> <i class="entypo-user-add  m-r-5" style="font-size: 20px"></i> Team </div>
 											<p style="font-size: 13.5px!important;">Here is a list of your teammates currently on {{f_name}} {{l_name}}</p>
 										</div>
 									<div>
