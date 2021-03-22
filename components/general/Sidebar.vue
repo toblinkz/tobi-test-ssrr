@@ -1,6 +1,6 @@
 <template>
   <!-- BEGIN SIDEBPANEL-->
-  <nav class="page-sidebar" data-pages="sidebar">
+  <nav class="page-sidebar" data-pages="sidebar" >
     <!-- BEGIN SIDEBAR MENU HEADER-->
     <div id="user-side-bar" class="sidebar-header">
       <center>
@@ -123,7 +123,7 @@
         </li>
 							<li class="padd-x" v-if="isAdmin">
 								<nuxt-link to="/teams" class="color-a level-1">
-									<i class="fa fa-users"></i>
+									<i class="entypo-user-add"></i>
 									Teams</nuxt-link>
 							</li>
 
@@ -133,7 +133,7 @@
       </ul>
 
     </div>
-    <a class="sidebar-help-button"  id="CHATID"><i class="entypo-help-circled"></i> Help Center</a>
+			<a class="sidebar-help-button "  id="CHATID"><i class="entypo-help-circled"></i> Help Center</a>
   </nav>
 </template>
 
