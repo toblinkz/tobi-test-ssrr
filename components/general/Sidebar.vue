@@ -16,7 +16,7 @@
                         <span>
            <center>
 
-             <img preview-for="image"  src="https://termii.s3-us-west-1.amazonaws.com/upload/images/customer_dp_Termii_5e41fef209ff7.jpeg" class="circular" alt="">
+             <img preview-for="image"  :src="imageUrl" class="circular" alt="">
 
             </center>
 
@@ -227,7 +227,7 @@
 						if (JSON.parse(localStorage.getItem('user_data')).active_status_id.id ===  6){
 							this.show_drop_down = false;
 						}
-						this.imageUrl = JSON.parse(localStorage.getItem('user_data')).image;
+						this.imageUrl = JSON.parse(localStorage.getItem('user_data')).image || 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg';
 
 					}
 				 }
