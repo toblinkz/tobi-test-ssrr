@@ -1,6 +1,6 @@
 <template>
   <!-- BEGIN SIDEBPANEL-->
-  <nav class="page-sidebar" data-pages="sidebar" >
+  <nav class="page-sidebar" data-pages="sidebar" style="overflow-y: auto">
     <!-- BEGIN SIDEBAR MENU HEADER-->
     <div id="user-side-bar" class="sidebar-header">
       <center>
