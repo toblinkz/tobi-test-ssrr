@@ -1,6 +1,6 @@
 <template>
   <!-- BEGIN SIDEBPANEL-->
-  <nav class="page-sidebar" data-pages="sidebar" style="overflow-y: auto">
+  <nav class="page-sidebar" data-pages="sidebar" >
     <!-- BEGIN SIDEBAR MENU HEADER-->
     <div id="user-side-bar" class="sidebar-header">
       <center>
@@ -16,7 +16,7 @@
                         <span>
            <center>
 
-             <img preview-for="image"  :src="imageUrl" class="circular" alt="">
+             <img preview-for="image"  src="https://termii.s3-us-west-1.amazonaws.com/upload/images/customer_dp_Termii_5e41fef209ff7.jpeg" class="circular" alt="">
 
             </center>
 
@@ -121,10 +121,14 @@
             <i class="entypo-cog"></i>
             Settings</nuxt-link>
         </li>
+
 							<li class="padd-x" v-if="isAdmin">
 								<nuxt-link to="/teams" class="color-a level-1">
 									<i class="entypo-user-add"></i>
 									Teams</nuxt-link>
+							</li>
+							<li class="padd-x" v-if="isAdmin">
+								<a  style="color:#FFFFFF " id="CHATID"><i class="entypo-help-circled"></i> Help Center</a>
 							</li>
 
         <div class="clearfix"></div>
@@ -133,7 +137,7 @@
       </ul>
 
     </div>
-			<a class="sidebar-help-button "  id="CHATID"><i class="entypo-help-circled"></i> Help Center</a>
+
   </nav>
 </template>
 
