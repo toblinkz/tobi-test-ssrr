@@ -218,9 +218,7 @@ export default {
 
 <style scoped>
 @import "../assets/css/general_style/authentication_pages.css";
-.login-page-height{
-	height: 100vh;
-}
+
 .has-feedback-left .form-control {
 	padding-right: 12px;
 	padding-left: 36px;

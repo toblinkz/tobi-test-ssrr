@@ -1,5 +1,5 @@
 <template>
-		<div style="height: 100vh">
+		<div class="login-page-height">
 			<div class="login-wrapper ">
 				<!-- START Login Background Pic Wrapper-->
 				<div class="bg-pic ">

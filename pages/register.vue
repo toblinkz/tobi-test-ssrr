@@ -399,7 +399,7 @@ export default {
 @import "assets/css/general_style/authentication_pages.css";
 
 .page-height{
-	height: 125vh;
+	height: 160vh;
 }
 
 @media (max-width: 1400px){
