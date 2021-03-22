@@ -1,6 +1,6 @@
 <template>
   <!-- BEGIN SIDEBPANEL-->
-  <nav class="page-sidebar" data-pages="sidebar" style="overflow-y: auto">
+  <nav class="page-sidebar" data-pages="sidebar" >
     <!-- BEGIN SIDEBAR MENU HEADER-->
     <div id="user-side-bar" class="sidebar-header">
       <center>
@@ -121,10 +121,14 @@
             <i class="entypo-cog"></i>
             Settings</nuxt-link>
         </li>
+
 							<li class="padd-x" v-if="isAdmin">
 								<nuxt-link to="/teams" class="color-a level-1">
 									<i class="entypo-user-add"></i>
 									Team</nuxt-link>
+							</li>
+							<li class="padd-x" v-if="isAdmin">
+								<a  style="color:#FFFFFF " id="CHATID"><i class="entypo-help-circled"></i> Help Center</a>
 							</li>
 
         <div class="clearfix"></div>
@@ -133,7 +137,7 @@
       </ul>
 
     </div>
-			<a class="sidebar-help-button "  id="CHATID"><i class="entypo-help-circled"></i> Help Center</a>
+
   </nav>
 </template>
 
@@ -150,6 +154,7 @@
 													imageUrl:  'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg',
 										   permission_data : [],
 										   customer_permissions:[],
+										   customer_data: [],
 										   isAdmin: JSON.parse(localStorage.getItem('user_data')).is_main
 									}
 					},
@@ -209,21 +214,22 @@
       },
 					methods:{
 						getUserPermissions(){
-							this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
+							this.permissions_data = this.customer_data.permissions;
 							this.permissions_data.forEach((permission) => {
 								this.customer_permissions.push(permission.name);
 							});
 						},
 					},
 				async mounted() {
+					this.customer_data = JSON.parse(localStorage.getItem('user_data'));
 					if(this.$store.state.view_verify_page === 'true'){
 						this.imageUrl = 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg';
 					}else{
 						this.getUserPermissions();
-						if (JSON.parse(localStorage.getItem('user_data')).active_status_id.id ===  6){
+						if (this.customer_data.active_status_id.id ===  6){
 							this.show_drop_down = false;
 						}
-						this.imageUrl = JSON.parse(localStorage.getItem('user_data')).image;
+						this.imageUrl = this.customer_data.image || 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg';
 
 					}
 				 }
