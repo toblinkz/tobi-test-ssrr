@@ -147,8 +147,9 @@ computed:{
 }
 </script>
 
-<style scoped>
+<style scoped >
 @import "assets/css/general_style/authentication_pages.css";
+@import "../../assets/css/modal/modal.css";
 .error{
 	border-color: red !important;
 }

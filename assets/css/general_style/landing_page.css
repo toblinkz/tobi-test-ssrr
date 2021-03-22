@@ -20,6 +20,12 @@
 .login-page-height{
 	height: 111vh;
 }
+.vm--overlay {
+	height: 200vh !important;
+}
+.vm--modal {
+	left: 30%!important;
+}
 .id-btn-primary {
   color: #fff;
   background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;

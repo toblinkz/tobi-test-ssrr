@@ -45,6 +45,7 @@ export default {
 </script>
 
 <style scoped>
+@import "../../assets/css/modal/modal.css";
 
 
 textarea.form-control {

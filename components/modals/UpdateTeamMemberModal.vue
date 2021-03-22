@@ -201,7 +201,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped >
+@import "../../assets/css/modal/modal.css";
 .pill {
 	font-size: 13px;
 	padding: 6px 10px;

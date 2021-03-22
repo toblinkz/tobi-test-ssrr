@@ -91,7 +91,8 @@ export default {
     }
 </script>
 
-<style scoped>
+<style scoped >
+@import "../../assets/css/modal/modal.css";
   .vm--container{
     display: block;
     overflow-y: auto;

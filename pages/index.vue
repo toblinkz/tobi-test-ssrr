@@ -204,6 +204,7 @@
 		<ActivateIdModal v-if="showActivateIdModal" @close="closeActivateIdModal"></ActivateIdModal>
 		<YourWalletModal v-if="showYourWalletModal" @close="closeYourWalletModal"></YourWalletModal>
 		<VerificationModal></VerificationModal>
+		<AccountNumberModal></AccountNumberModal>
 		<PageDeniedModal></PageDeniedModal>
 	</div>
 </template>
@@ -227,8 +228,10 @@ import {
 import VerificationModal from "~/components/modals/VerificationModal";
 import AddedTeammateSuccessfullyModal from "../components/modals/AddedTeammateSuccessfullyModal";
 import PageDeniedModal from "../components/modals/PageDeniedModal";
+import AccountNumberModal from "../components/modals/AccountNumberModal";
 export default {
 	components: {
+		AccountNumberModal,
 		PageDeniedModal,
 		VerificationModal,
 		ActivityLog,
@@ -359,7 +362,9 @@ export default {
 		} else if (localStorage.getItem('local')) {
 			this.$axios.setHeader('Authorization',  `Bearer ${localStorage.getItem('local')}`);
 			await this.fetch();
+			this.$modal.show('account-number-modal');
 			this.startIntro();
+
 			this.first_name = JSON.parse(localStorage.getItem('user_data')).fname;
 			this.live_api_key = JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
 			setInterval(this.getBalance, 60000);

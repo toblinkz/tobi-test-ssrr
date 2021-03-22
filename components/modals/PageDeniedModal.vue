@@ -51,8 +51,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped >
+@import "../../assets/css/modal/modal.css";
 
 textarea.form-control {
 	height: auto;
