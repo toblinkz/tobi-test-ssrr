@@ -101,7 +101,7 @@
 																				</ContentLoader>
 																				<div class="col-md-11 alert toke insight wd" v-else>
 																					<!-- START PANEL -->
-																					<p class="alert toke insight wd">
+																					<p v-if="canViewApi" class="alert toke insight wd">
 																						{{live_api_key}}
 																					</p>
 																					<!-- END PANEL -->
@@ -247,7 +247,10 @@ export default {
 	},
 	middleware: ['auth','inactive_user'],
 	computed: {
-		...mapGetters([ 'getViewVerifyPage', 'getFirstName'])
+		...mapGetters([ 'getViewVerifyPage', 'getFirstName']),
+		canViewApi(){
+			return (this.customer_permissions.includes("view_api_key"));
+		},
 	},
 	data(){
 		return{
@@ -272,6 +275,7 @@ export default {
 			});
 			localStorage.setItem('permissions', this.customer_permissions);
 		},
+
 		closeActivateIdModal(){
 			this.showActivateIdModal = false;
 		},
