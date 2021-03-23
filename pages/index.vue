@@ -206,6 +206,7 @@
 		<VerificationModal></VerificationModal>
 		<AccountNumberModal></AccountNumberModal>
 		<PageDeniedModal></PageDeniedModal>
+		<SuccessModal></SuccessModal>
 	</div>
 </template>
 
@@ -229,8 +230,10 @@ import VerificationModal from "~/components/modals/VerificationModal";
 import AddedTeammateSuccessfullyModal from "../components/modals/AddedTeammateSuccessfullyModal";
 import PageDeniedModal from "../components/modals/PageDeniedModal";
 import AccountNumberModal from "../components/modals/AccountNumberModal";
+import SuccessModal from "../components/modals/SuccessModal";
 export default {
 	components: {
+		SuccessModal,
 		AccountNumberModal,
 		PageDeniedModal,
 		VerificationModal,

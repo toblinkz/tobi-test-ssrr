@@ -169,7 +169,7 @@
     <ServicePriceModal v-if="showModal" @close="closeModal" ></ServicePriceModal>
     <MonnifyModal :account_number="account_number" :amount="total" :bank_name="bank_name"></MonnifyModal>
 			<VerificationModal></VerificationModal>
-			<AccountNumberModal></AccountNumberModal>
+			<AccountNumberModal @nuban_account="setNubanAccount()"></AccountNumberModal>
 			<SuccessModal></SuccessModal>
   </div>
 </template>
@@ -257,6 +257,12 @@
 						amount(value) {
 							this.amount = value;
 							this.validateAmount(value);
+						},
+						nuban_account(account_data){
+							 if(account_data.length === 0){
+							 	 this.has_nuban = false;
+								}
+							 this.has_nuban = true;
 						}
 					},
 					methods: {
@@ -268,6 +274,9 @@
 							this.permissions_data.forEach((permission) => {
 								this.customer_permissions.push(permission.name);
 							});
+						},
+						setNubanAccount(){
+							this.getNuban();
 						},
 						showModal() {
 							this.$modal.show('service-pricing-modal');
@@ -358,16 +367,15 @@
 							}
 
 						},
-						async getNuban() {
-										this.nuban_account =  JSON.parse(localStorage.getItem('nuban_account'));
-										if(this.nuban_account.length !== 0){
-											this.has_nuban = true;
-										}
+						getNuban: async function () {
+							if (this.nuban_account.length === 0) {
+								const {data} = await this.$billing.getNubanAccount();
+								this.nuban_account = data.data;
+							}
 
 						},
 						async getTopUp() {
 							try {
-
 								let response = await this.$axios.$get('billing/top-up/plans');
 								this.amount = response.data.bundled_top_up.amount_currency;
 								this.total = response.data.bundled_top_up.amount;
