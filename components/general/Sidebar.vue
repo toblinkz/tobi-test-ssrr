@@ -125,7 +125,7 @@
 							<li class="padd-x" v-if="isAdmin">
 								<nuxt-link to="/teams" class="color-a level-1">
 									<i class="entypo-user-add"></i>
-									Team</nuxt-link>
+									Teams</nuxt-link>
 							</li>
 							<li class="padd-x" v-if="isAdmin">
 								<a  style="color:#FFFFFF " id="CHATID"><i class="entypo-help-circled"></i> Help Center</a>
