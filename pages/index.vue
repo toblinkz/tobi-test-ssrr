@@ -252,6 +252,7 @@ export default {
 			showYourWalletModal: false,
 			account_balance: '',
 			emptyActivityLog:false,
+			nuban_account:[],
 			live_api_key:'',
 			first_name: '',
 			is_main: JSON.parse(localStorage.getItem('user_data')).is_main,
@@ -303,9 +304,24 @@ export default {
 
 			}
 		},
+		async getNuban() {
+				try {
+					const { data } = await this.$billing.getNubanAccount();
+					localStorage.setItem('nuban_account', JSON.stringify(data.data));
+					this.nuban_account = data.data;
+					if (this.nuban_account.length === 0  ) {
+						this.$modal.show('account-number-modal');
+						localStorage.setItem('doneShowingBvnModal', 'true');
+					}
+
+				} catch (e) {
+
+				}
+
+
+		},
 
 		startIntro() {
-
 			let intro = introJs();
 			// add a flag when we're done
 			intro.oncomplete(function() {
@@ -354,17 +370,20 @@ export default {
 
 	},
 
-	async	mounted () {
+	mounted: async function () {
+
 		this.getUserPermissions();
-		if(this.$store.state.view_verify_page === 'true'){
+		if (this.$store.state.view_verify_page === 'true') {
 			this.first_name = this.getFirstName;
 			this.$modal.show('verification-id-modal');
 		} else if (localStorage.getItem('local')) {
-			this.$axios.setHeader('Authorization',  `Bearer ${localStorage.getItem('local')}`);
+			this.$axios.setHeader('Authorization', `Bearer ${localStorage.getItem('local')}`);
 			await this.fetch();
-			this.$modal.show('account-number-modal');
-			this.startIntro();
-
+			const doneShowingBvnModal = localStorage.getItem('doneShowingBvnModal');
+			if (doneShowingBvnModal) {
+				return;
+			}
+			await this.getNuban();
 			this.first_name = JSON.parse(localStorage.getItem('user_data')).fname;
 			this.live_api_key = JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
 			setInterval(this.getBalance, 60000);

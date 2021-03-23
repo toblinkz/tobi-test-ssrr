@@ -37,4 +37,14 @@ export class BillingService {
 		}
 	}
 
+	async getNubanAccount(){
+		let customer_country = JSON.parse(localStorage.getItem('user_data')).country;
+		if (customer_country  === "Nigeria"){
+			return  this.$axios.get('billing/dedicated-nuban');
+		}
+
+	}
+
+
+
 }

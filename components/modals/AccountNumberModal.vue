@@ -1,5 +1,5 @@
 <template>
-	<modal name="account-number-modal" height="auto" width="500" :resizable="true">
+	<modal name="account-number-modal" height="auto" width="500" :resizable="true" :clickToClose="false">
 		<div  style="display: block; padding-left: 9px;">
 			<div>
 				<div>
@@ -8,7 +8,7 @@
 						<h4 class="modal-title" style="font-weight: bold" >Generate a Dedicated Account Number</h4>
 					</div>
 						<div class="modal-body">
-							<p class="alert insight toke" style="border-radius: 10px;">
+							<p class="alert insight toke" style="border-radius: 10px; padding: 5px">
 							<span>Kindly generate your dedicated account number. New CBN regulations
 													mandates that you input your BVN to generate a new account number.
 						</span>
@@ -102,7 +102,6 @@ export default {
 		},
 		doThisLater(){
 			this.close();
-			localStorage.setItem('SAM', true);
 		},
 		validateBvn(value){
 			 if(value.length < 11 || isNaN(value) || value.length > 11){
