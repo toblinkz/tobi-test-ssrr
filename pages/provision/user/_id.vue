@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 export default {
 	name: "_id",
 	data(){
@@ -93,7 +94,23 @@ export default {
 			this.validateConfirmPassword(value);
 		}
 	},
+
 	methods: {
+		async verifyUserPasswordToken(){
+			let verifyToken = await this.$axios.$get('auth/provision/user/password/verify/'+ this.$route.params.id);
+			if (verifyToken.data === false){
+				await Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: 'Token is invalid',
+					confirmButtonText: '<a href="/#/login" style="color: #ffffff">LOGIN</a>'
+				}).then(async (result)=> {
+					if (result.value){
+						window.location.href = "/#/login"
+					}
+				})
+			}
+		},
 		validatePassword(value) {
 			if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#@$%^&*])(?=.{8,})/.test(value)) {
 				this.error_message['password'] = '';
@@ -168,6 +185,9 @@ export default {
 				}
 			}
 		},
+	},
+	mounted() {
+		this.verifyUserPasswordToken()
 	}
 }
 </script>
