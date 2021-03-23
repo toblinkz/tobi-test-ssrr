@@ -114,7 +114,6 @@ export default {
 			this.hasConfirmPasswordError = false;
 		},
 		showPassword() {
-			console.log('speaker')
 			if (this.password_type === "password") {
 				this.password_type = 'text';
 				this.isPasswordToggled = true;

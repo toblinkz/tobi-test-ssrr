@@ -99,8 +99,8 @@
           </template>
         </Dropdown>
 
-        <div class="m-t-30 padd-x">
-          <hr>
+        <div class="padd-x">
+          <hr class="mb-10 mt-10">
         </div>
         <Dropdown>
           <template v-slot:dropdown_title v-if="canViewDevelopersSettings">
@@ -256,6 +256,9 @@
   .color-a {
     color: #fff !important;
   }
+		.hr-style{
+
+		}
   .btn-primary {
     color: #fff;
     background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
