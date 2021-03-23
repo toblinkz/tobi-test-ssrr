@@ -10,8 +10,7 @@
 						 <center>
 								<img src="https://res.cloudinary.com/termii-inc/image/upload/v1613753684/billingpage/check_u0geeg.svg"/>
 								 <div class="mt-20">
-										<p style="font-weight: bold">Your account number has been created successfully</p>
-										 <p>Your account number is being generated</p>
+										<p style="font-weight: bold">Your account number is being generated.</p>
 										  <a class="btn bg-blue" @click="close">Close</a>
 									</div>
 							</center>

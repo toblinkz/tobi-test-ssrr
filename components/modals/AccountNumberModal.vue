@@ -90,6 +90,7 @@ export default {
 						identification_number: this.bvn,
 						phone_number: this.phone_number
 					});
+					await this.getNubanAccount();
 					this.$modal.hide('account-number-modal');
 					this.$modal.show('success-modal');
 					this.isLoading = false;
@@ -103,6 +104,7 @@ export default {
 		doThisLater(){
 			this.close();
 		},
+
 		validateBvn(value){
 			 if(value.length < 11 || isNaN(value) || value.length > 11){
          this.error_message['bvn'] = 'BVN must contain 11 digits';
@@ -121,7 +123,9 @@ export default {
 				this.hasPhoneNumberError = false;
 			}
 		},
-
+  async getNubanAccount(){
+			 this.$emit('nuban_account');
+		}
 	}
 }
 </script>
