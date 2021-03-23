@@ -128,6 +128,7 @@
 </script>
 
 <style scoped>
+@import "../../assets/css/modal/modal.css";
   .modal-open .modal {
     overflow-x: hidden;
     overflow-y: auto;

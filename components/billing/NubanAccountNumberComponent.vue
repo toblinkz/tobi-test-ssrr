@@ -41,7 +41,7 @@ export default {
 
 			setTimeout( () => {
 				this.copy_id = '';
-			}, 2000)
+			}, 1000)
 		},
 	}
 }

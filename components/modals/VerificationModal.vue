@@ -131,6 +131,7 @@ name: "VerificationModal",
 </script>
 
 <style scoped>
+@import "../../assets/css/modal/modal.css";
 @import "../../assets/css/general_style/authentication_pages.css";
 
 .vm--container{

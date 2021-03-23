@@ -359,22 +359,8 @@
 
 						},
 						async getNuban() {
-							let customer_country = JSON.parse(localStorage.getItem('user_data')).country;
-							if(customer_country  === "Nigeria"){
-									try {
-										let nuban_data = await this.$axios.$get('billing/dedicated-nuban');
-										this.nuban_account = nuban_data.data;
-
-										if (this.nuban_account.length === 0 && localStorage.getItem('SAM') === 'false') {
-												this.has_nuban = false;
-											this.$modal.show('account-number-modal');
-										}
+										this.nuban_account =  JSON.parse(localStorage.getItem('nuban_account'));
 										this.has_nuban = true;
-									} catch (e) {
-
-									}
-							}
-
 						},
 						async getTopUp() {
 							try {

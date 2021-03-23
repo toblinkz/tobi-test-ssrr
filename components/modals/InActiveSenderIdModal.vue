@@ -23,7 +23,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped >
+@import "../../assets/css/modal/modal.css";
 .modal-body {
 	padding: 20px 20px 60px 20px;
 	position: relative;
