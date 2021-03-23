@@ -94,7 +94,6 @@ export default {
 		AddNewEmailModal, EmailCard, ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
 	data(){
 		return{
-
 			emails: [],
 			email_address:'',
 			selected_categories: [],

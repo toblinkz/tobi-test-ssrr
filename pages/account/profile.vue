@@ -193,8 +193,8 @@
               bucketName: 'termii',
               dirName: 'upload/images',
               region: 'us-west-1',
-              accessKeyId: 'AKIAIOJI3WN4QX7QPD7Q',
-              secretAccessKey: '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',
+              accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+              secretAccessKey:  process.env.SECRET_ACCESS_KEY,
             }
           },
 							canUpdateProfile(){
