@@ -56,7 +56,7 @@ export default {
 			this.show_copied = true;
 			setTimeout( () => {
 				this.show_copied = false;
-			}, 2000)
+			}, 1000)
 		},
 	}
 
