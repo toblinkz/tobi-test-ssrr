@@ -87,7 +87,7 @@
 																		<!-- START PANEL -->
 																		<div class="panel panel-transparent">
 																			<div class="panel-body no-padding">
-																				<div class="col-md-11">
+																				<div class="col-md-11" v-if="canViewApiKey">
 																					<p class="text-semibold"><i class="entypo-light-up" style="color: #079805 !important;"></i>API Key</p>
 																				</div>
 																				<ContentLoader v-if="!account_balance"
@@ -99,13 +99,16 @@
 																					<rect x="16" y="86" rx="2" ry="6" width="296" height="16" />
 																					<rect x="16" y="61" rx="2" ry="8" width="296" height="16" />
 																				</ContentLoader>
-																				<div class="col-md-11 alert toke insight wd" v-else>
-																					<!-- START PANEL -->
-																					<p v-if="canViewApi" class="alert toke insight wd">
-																						{{live_api_key}}
-																					</p>
-																					<!-- END PANEL -->
+																				<div v-else>
+																					<div class="col-md-11 alert toke insight wd"  v-if="canViewApiKey">
+																						<!-- START PANEL -->
+																						<p class="alert toke insight wd">
+																							{{live_api_key}}
+																						</p>
+																						<!-- END PANEL -->
+																					</div>
 																				</div>
+
 																			</div>
 																		</div>
 																		<!-- END PANEL -->
@@ -248,7 +251,7 @@ export default {
 	middleware: ['auth','inactive_user'],
 	computed: {
 		...mapGetters([ 'getViewVerifyPage', 'getFirstName']),
-		canViewApi(){
+		canViewApiKey(){
 			return (this.customer_permissions.includes("view_api_key"));
 		},
 	},
