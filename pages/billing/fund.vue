@@ -360,7 +360,10 @@
 						},
 						async getNuban() {
 										this.nuban_account =  JSON.parse(localStorage.getItem('nuban_account'));
-										this.has_nuban = true;
+										if(this.nuban_account.length !== 0){
+											this.has_nuban = true;
+										}
+
 						},
 						async getTopUp() {
 							try {
