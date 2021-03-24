@@ -52,7 +52,7 @@
 																<!-- END PANEL -->
 															</div>
 														</div>
-														<DeviceTemplate v-show="templateExists()" :template_data="template_data" @page="onPageChange($event)"></DeviceTemplate>
+														<DeviceTemplate v-show="templateExists()" :device_id="device_id"  :template_data="template_data" @page="onPageChange($event)"></DeviceTemplate>
 														<DeviceSubscription  :subscription_data="response_data"
 																																		:device_name="device_name"
 																																		:monthly_charge="monthly_charge"
@@ -85,10 +85,12 @@
 				import DeviceSubscription from "~/components/devices/subscriptions";
 				import DeviceTemplate from "@/components/devices/templates";
 				import SuccessfulPaymentModal from "../../../components/modals/SuccessfulPaymentModal";
+				import SendTemplateSampleModal from "../../../components/modals/SendTemplateSampleModal";
     export default {
 					  name: "subscriptions",
 					  middleware: ['auth', 'inactive_user', 'permission'],
        components: {
+								SendTemplateSampleModal,
 								SuccessfulPaymentModal,
 								DeviceTemplate,
 								DeviceSubscription, VerificationModal,DashboardNavbar, Sidebar, DeviceSubscriptionModal},

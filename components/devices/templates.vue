@@ -7,7 +7,7 @@
 						<h3 class="panel-title">Templates</h3>
 						<div class="panel" style="overflow-x:auto;">
 							<div class="panel-body ">
-
+								<button  class="btn btn-primary btn-sm mb-20" @click="openSendTemplateModal">Send Template Sample</button>
 								<table class="table data-table table-hover">
 									<thead>
 									<tr>
@@ -33,16 +33,17 @@
 				:total_page="template_data.last_page"
 				v-if="showPagination"
 				:on-page-change="onPageChange">
-
 			</Pagination>
+			<SendTemplateSampleModal :device_id="device_id"></SendTemplateSampleModal>
 		</div>
 	</section>
 </template>
 <script>
 import Pagination from "../general/Pagination";
+import SendTemplateSampleModal from "../modals/SendTemplateSampleModal";
 export default {
 	name: "DeviceTemplate",
-	components: {Pagination},
+	components: {SendTemplateSampleModal, Pagination},
 	data(){
 		 return{
 				page: 1,
@@ -54,12 +55,18 @@ export default {
 		template_data: {
 			required: true
 		},
+		device_id:{
+			required: true
+		}
 	},
 	methods:{
-
 		 onPageChange(page){
      this.$emit('page', page);
-			}
+			},
+		 openSendTemplateModal(){
+		 	this.$modal.show('send-template-sample-modal')
+		},
+
 	},
 }
 </script>
