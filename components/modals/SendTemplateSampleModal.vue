@@ -23,9 +23,12 @@
 								<option v-for="language in templates_languages" :value="language.code">{{language.language}}</option>
 							</select>
 						</div>
-						<div class="mt-20">
+						<div class=" mt-20">
 							<label>Template Sample</label>
-							 <input type="text" v-model="template_sample" placeholder="Your <%product_name%> verification code is <%otp%>. Expires in <%time_in_minutes%>" class="form-control"/>
+							<div class="tooltip">
+								<input type="text" v-model="template_sample" placeholder="Your <%product_name%> verification code is <%otp%>. Expires in <%time_in_minutes%>" class="form-control"/>
+								<span class="tooltiptext">Ensure to wrap variables around <% and %> like the sample template</span>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -109,5 +112,46 @@ methods:{
 
 <style scoped>
 @import "../../assets/css/modal/modal.css";
+.tooltip{
+	position: relative;
+}
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 150px;
+	background-color: #555;
+	color: #fff;
+	font-size: 10px;
+	/*text-align: center;*/
+	padding: 5px 5px;
+	border-radius: 6px;
+
+	/* Position the tooltip text */
+	position: absolute;
+	z-index: 1;
+	bottom: 125%;
+	left: 40%;
+	margin-left: -60px;
+
+	/* Fade in tooltip */
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+	opacity: 1;
+}
 
 </style>
