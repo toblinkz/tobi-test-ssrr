@@ -52,7 +52,7 @@
 																<!-- END PANEL -->
 															</div>
 														</div>
-														<DeviceTemplate v-show="templateExists()" :device_id="device_id"  :template_data="template_data" @page="onPageChange($event)"></DeviceTemplate>
+														<DeviceTemplate v-show="templateExists()" :device_id="device_id"  :template_data="template_data" @update-templates-table="getTemplateData" @page="onPageChange($event)"></DeviceTemplate>
 														<DeviceSubscription  :subscription_data="response_data"
 																																		:device_name="device_name"
 																																		:monthly_charge="monthly_charge"
