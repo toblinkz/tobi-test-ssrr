@@ -11,15 +11,18 @@
 								<table class="table data-table table-hover">
 									<thead>
 									<tr>
-										<th style="width: 10%;">ID#</th>
-										<th style="width: 20%;">Template</th>
+										<th style="width: 20%;">ID#</th>
+										<th style="width: 35%;">Template</th>
+										<th style="width: 10%;">Status</th>
+										<th style="width: 35%;">Rejected Reason</th>
 									</tr>
 									</thead>
 									<tbody>
 									<tr v-for="row in template_data.data" :key="row.id">
 										<td data-label="SL" >{{row.uuid}}</td>
-
 										<td style="width: 20%;"><p>{{row.template || 'None'}}</p></td>
+										<td style="width: 20%;" ><p class="label" :class="setStatusClass(row)">{{row.status}}</p></td>
+										<td style="width: 20%;" ><p>{{row.rejected_reason || '-'}}</p></td>
 									</tr>
 									</tbody>
 								</table>
@@ -34,7 +37,7 @@
 				v-if="showPagination"
 				:on-page-change="onPageChange">
 			</Pagination>
-			<SendTemplateSampleModal :device_id="device_id"></SendTemplateSampleModal>
+			<SendTemplateSampleModal @sent-template-sample="sentTemplateSample" :device_id="device_id"></SendTemplateSampleModal>
 		</div>
 	</section>
 </template>
@@ -66,7 +69,22 @@ export default {
 		 openSendTemplateModal(){
 		 	this.$modal.show('send-template-sample-modal')
 		},
-
+		sentTemplateSample(){
+		 	this.$emit('update-templates-table');
+		},
+		setStatusClass(row){
+			switch (row.status){
+				case('approved'):{
+					return 'label-approved'
+				}
+				case ('pending'):{
+					return 'label-pending'
+				}
+				case('rejected'):{
+					return 'label-rejected'
+				}
+			}
+		}
 	},
 }
 </script>
@@ -181,6 +199,21 @@ h3 {
 	border-color: #4CAF50;
 	color: #fff;
 	background-color: #4CAF50;
+}
+.label-pending {
+	border-color:#ffc107;
+	color: #fff;
+	background-color: #ffc107;
+}
+.label-rejected {
+	border-color:#FF0000;
+	color: #fff;
+	background-color:#FF0000;
+}
+.label-approved{
+	border-color:#226a4a;
+	color: #fff;
+	background-color:#226a4a;
 }
 .btn-primary {
 	color: #fff;
