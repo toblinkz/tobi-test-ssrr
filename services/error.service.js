@@ -13,6 +13,7 @@ export class ErrorService {
 				this.$toast.error(err);
 			});
 		}
+
 	}
 
 	handleOtherErrors(data){
