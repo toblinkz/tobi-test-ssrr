@@ -30,7 +30,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<a   @click="sendTemplateSample" class="btn btn-primary">
+					<a   @click="sendTemplateSample" class="btn btn-primary" :aria-disabled="isDisabled">
 						  {{send_button_text}}
 						<span v-show="isLoading" >
 								<img src="/images/black_spinner.svg" height="20px" width="30px"/>
@@ -61,6 +61,11 @@ data(){
 		template_name:''
 	}
 },
+	computed:{
+		isDisabled:function () {
+			return (!this.template_name || !this.template_sample);
+		},
+	},
 methods:{
 	close(){
 		 this.$modal.hide('send-template-sample-modal');
@@ -82,6 +87,7 @@ methods:{
 					this.send_button_text = 'Send';
 					this.isLoading = false;
 					this.close();
+					this.$emit('sent-template-sample');
 				}catch (e) {
 					let errors = e.response.data;
 					(e.response.status === 422) ? this.$error.handle422Errors(errors) : this.$error.handleOtherErrors(errors);
@@ -103,4 +109,5 @@ methods:{
 
 <style scoped>
 @import "../../assets/css/modal/modal.css";
+
 </style>
