@@ -11,18 +11,18 @@
 								<table class="table data-table table-hover">
 									<thead>
 									<tr>
-										<th style="width: 20%;">ID#</th>
-										<th style="width: 35%;">Template</th>
-										<th style="width: 10%;">Status</th>
-										<th style="width: 35%;">Rejected Reason</th>
+										<th style="width: 20%;text-align: center">ID#</th>
+										<th style="width: 35%;text-align: center">Template</th>
+										<th style="width: 10%; text-align: center">Status</th>
+										<th style="width: 35%; text-align: center">Rejected Reason</th>
 									</tr>
 									</thead>
 									<tbody>
 									<tr v-for="row in template_data.data" :key="row.id">
 										<td data-label="SL" >{{row.uuid}}</td>
-										<td style="width: 20%;"><p>{{row.template || 'None'}}</p></td>
-										<td style="width: 20%;" ><p class="label" :class="setStatusClass(row)">{{row.status}}</p></td>
-										<td style="width: 20%;" ><p>{{row.rejected_reason || '-'}}</p></td>
+										<td style="width: 20%;text-align: center"><p>{{row.template || 'None'}}</p></td>
+										<td style="width: 20%;text-align: center" ><p class="label" :class="setStatusClass(row)">{{row.status}}</p></td>
+										<td style="width: 20%;text-align: center" ><p>{{row.rejected_reason || '-'}}</p></td>
 									</tr>
 									</tbody>
 								</table>
