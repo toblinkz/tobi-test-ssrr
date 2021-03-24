@@ -209,7 +209,7 @@
 		<VerificationModal></VerificationModal>
 		<AccountNumberModal></AccountNumberModal>
 		<PageDeniedModal></PageDeniedModal>
-		<SuccessModal></SuccessModal>
+		<SuccessModal :modal_information="modal_information"></SuccessModal>
 	</div>
 </template>
 
@@ -260,6 +260,7 @@ export default {
 			showActivateIdModal: false,
 			showYourWalletModal: false,
 			account_balance: '',
+			modal_information: 'Your account number is being generated.',
 			emptyActivityLog:false,
 			nuban_account:[],
 			live_api_key:'',
