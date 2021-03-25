@@ -146,9 +146,9 @@ export default {
 		}
 	},
 	computed:{
-		// isDisabled:function(){
-		// 	return (this.selected_country === '' || this.selected_phone_book === '' || this.contact_upload_url === '');
-		// },
+		isDisabled:function(){
+			return (this.selected_country === '' || this.selected_phone_book === '' || this.contact_upload_url === '');
+		},
 		canImportContacts(){
 			return (this.customer_permissions.includes("import_contacts"));
 		},
@@ -183,33 +183,27 @@ export default {
 			}
 
 		},
-		handleFileUpload(files){
+		async handleFileUpload(files){
 				this.file = files[0];
+				const file_type = this.file.name.split('.').pop().toLowerCase();
 				if (this.validateFile(this.file)){
-					  this.$toast.success('Uploaded successfully');
-					  return;
+        const uploadS3Url = await this.$uploadFileTos3.uploadFileToS3(this.file, file_type).catch((e)=> {this.$toast.error(e)});
+        this.contact_upload_url = uploadS3Url.data;
+								this.$toast.success('Uploaded successfully');
+								return;
 				}
 					this.$toast.error("Please upload a valid file(CSV, XLSX)");
 
-		},
-		getFormData(){
-			let formData = new FormData();
-			formData.append('contact_upload_url', this.file);
-			formData.append('id', this.selected_phone_book);
-			formData.append('country_code', this.selected_country.substring(1));
-			return formData;
 		},
 		async addContact(){
 			try {
 				this.isLoading = true;
 				this.showIcon = false;
 				this.button_text = '';
-				const formData = this.getFormData();
-				console.log(formData);
-				let data = await this.$axios.$post('sms/phone-book/contact/add', formData, {
-					headers: {
-						'Content-Type': 'multipart/form-data'
-					}
+				let data = await this.$axios.$post('sms/phone-book/contact/add',{
+					contact_upload_url : this.contact_upload_url,
+					id: this.selected_phone_book,
+					country_code: this.selected_country.substring(1)
 				});
 				this.isLoading = false;
 				this.showIcon = true;
