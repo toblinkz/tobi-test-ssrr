@@ -124,7 +124,7 @@
 																					<div class="col-md-11 alert toke insight wd">
 																						<!-- START PANEL -->
 																						<p class="alert toke insight wd">
-																							To send otps and alerts, you have to use our sender IDs; OTPAlert and N-Alert. <a class="blue-t text-bold" id="CHATID"> Click here to request</a>
+																							To send otps and alerts, you have to use our sender IDs; BCToken and N-Alert. <a class="blue-t text-bold" id="CHATID"> Click here to request</a>
 																						</p>
 																						<!-- END PANEL -->
 																					</div>
