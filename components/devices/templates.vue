@@ -7,8 +7,8 @@
 						<h3 class="panel-title">Templates</h3>
 						<div class="panel" style="overflow-x:auto;">
 							<div class="panel-body ">
-								<button  class="btn btn-primary btn-sm mb-20" @click="openSendTemplateModal">Send Template Sample</button>
-								<table class="table data-table table-hover">
+								<button  class="btn btn-primary btn-sm mb-30" @click="openSendTemplateModal"><i class="fa fa-plus m-r-5"></i>Request Template</button>
+								<table class="table data-table table-hover mt-20">
 									<thead>
 									<tr>
 										<th style="width: 20%;text-align: center">ID#</th>
