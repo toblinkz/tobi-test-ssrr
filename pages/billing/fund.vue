@@ -170,7 +170,7 @@
     <MonnifyModal :account_number="account_number" :amount="total" :bank_name="bank_name"></MonnifyModal>
 			<VerificationModal></VerificationModal>
 			<AccountNumberModal @nuban_account="setNubanAccount()"></AccountNumberModal>
-			<SuccessModal></SuccessModal>
+			<SuccessModal :modal_information="modal_information"></SuccessModal>
   </div>
 </template>
 
@@ -205,6 +205,7 @@
 					data() {
 						return {
 							isBundledForm: false,
+							modal_information: 'Your account number is being generated.',
 							isRegularBody: true,
 							isRegularForm: false,
 							isLoading: false,
