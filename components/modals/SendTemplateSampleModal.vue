@@ -3,7 +3,7 @@
 			<div   style="display: block; padding-left: 9px;">
 				<div class="modal-header">
 					<button type="button" class="close" @click="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" style="font-weight: bold">Send Template Sample</h4>
+					<h4 class="modal-title" style="font-weight: bold">Request Template</h4>
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
