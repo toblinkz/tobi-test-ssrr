@@ -34,6 +34,8 @@
 <script>
 import ButtonSpinner from "~/components/general/ButtonSpinner";
 import {mapGetters} from "vuex";
+import app from "~/plugins/ga"
+
 export default {
 name: "VerificationModal",
  	components: {ButtonSpinner},

@@ -52,7 +52,7 @@
 																<!-- END PANEL -->
 															</div>
 														</div>
-														<DeviceTemplate v-show="templateExists()" :template_data="template_data" @page="onPageChange($event)"></DeviceTemplate>
+														<DeviceTemplate v-show="templateExists()" :device_id="device_id"  :template_data="template_data" @update-templates-table="updateTemplatesTable" @page="onPageChange($event)"></DeviceTemplate>
 														<DeviceSubscription  :subscription_data="response_data"
 																																		:device_name="device_name"
 																																		:monthly_charge="monthly_charge"
@@ -70,6 +70,7 @@
           </div>
 									<VerificationModal></VerificationModal>
          <SuccessfulPaymentModal></SuccessfulPaymentModal>
+									<SuccessModal :modal_information="modal_information"></SuccessModal>
         </div>
       </div>
     </div>
@@ -85,10 +86,14 @@
 				import DeviceSubscription from "~/components/devices/subscriptions";
 				import DeviceTemplate from "@/components/devices/templates";
 				import SuccessfulPaymentModal from "../../../components/modals/SuccessfulPaymentModal";
+				import SendTemplateSampleModal from "../../../components/modals/SendTemplateSampleModal";
+				import SuccessModal from "../../../components/modals/SuccessModal";
     export default {
 					  name: "subscriptions",
 					  middleware: ['auth', 'inactive_user', 'permission'],
        components: {
+								SuccessModal,
+								SendTemplateSampleModal,
 								SuccessfulPaymentModal,
 								DeviceTemplate,
 								DeviceSubscription, VerificationModal,DashboardNavbar, Sidebar, DeviceSubscriptionModal},
@@ -115,6 +120,7 @@
 												button_text: 'Pay Now',
 											 showIcon: true,
 												isLoading: false,
+											 modal_information:'Template has been added successfully. Check template for update on status.'
           }
       },
 					 computed:{
@@ -186,7 +192,11 @@
 													this.isLoading = false;
 													this.showIcon = false;
             }
-        }
+        },
+							updateTemplatesTable(){
+								 this.getTemplateData();
+								 this.$modal.show('success-modal')
+							}
       },
       mounted() {
 							if(this.$store.state.view_verify_page === 'true') {

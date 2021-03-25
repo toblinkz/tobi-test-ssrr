@@ -7,19 +7,22 @@
 						<h3 class="panel-title">Templates</h3>
 						<div class="panel" style="overflow-x:auto;">
 							<div class="panel-body ">
-
-								<table class="table data-table table-hover">
+								<button  class="btn btn-primary btn-sm mb-30" @click="openSendTemplateModal"><i class="fa fa-plus m-r-5"></i>Request Template</button>
+								<table class="table data-table table-hover mt-20">
 									<thead>
 									<tr>
-										<th style="width: 10%;">ID#</th>
-										<th style="width: 20%;">Template</th>
+										<th style="width: 20%;text-align: center">ID#</th>
+										<th style="width: 35%;text-align: center">Template</th>
+										<th style="width: 10%; text-align: center">Status</th>
+										<th style="width: 35%; text-align: center">Rejected Reason</th>
 									</tr>
 									</thead>
 									<tbody>
 									<tr v-for="row in template_data.data" :key="row.id">
 										<td data-label="SL" >{{row.uuid}}</td>
-
-										<td style="width: 20%;"><p>{{row.template || 'None'}}</p></td>
+										<td style="width: 20%;text-align: center"><p>{{row.template || 'None'}}</p></td>
+										<td style="width: 20%;text-align: center" ><p class="label" :class="setStatusClass(row)">{{row.status}}</p></td>
+										<td style="width: 20%;text-align: center" ><p>{{row.rejected_reason || '-'}}</p></td>
 									</tr>
 									</tbody>
 								</table>
@@ -33,16 +36,17 @@
 				:total_page="template_data.last_page"
 				v-if="showPagination"
 				:on-page-change="onPageChange">
-
 			</Pagination>
+			<SendTemplateSampleModal @sent-template-sample="sentTemplateSample" :device_id="device_id"></SendTemplateSampleModal>
 		</div>
 	</section>
 </template>
 <script>
 import Pagination from "../general/Pagination";
+import SendTemplateSampleModal from "../modals/SendTemplateSampleModal";
 export default {
 	name: "DeviceTemplate",
-	components: {Pagination},
+	components: {SendTemplateSampleModal, Pagination},
 	data(){
 		 return{
 				page: 1,
@@ -54,12 +58,33 @@ export default {
 		template_data: {
 			required: true
 		},
+		device_id:{
+			required: true
+		}
 	},
 	methods:{
-
 		 onPageChange(page){
      this.$emit('page', page);
+			},
+		 openSendTemplateModal(){
+		 	this.$modal.show('send-template-sample-modal')
+		},
+		sentTemplateSample(){
+		 	this.$emit('update-templates-table');
+		},
+		setStatusClass(row){
+			switch (row.status){
+				case('approved'):{
+					return 'label-approved'
+				}
+				case ('pending'):{
+					return 'label-pending'
+				}
+				case('rejected'):{
+					return 'label-rejected'
+				}
 			}
+		}
 	},
 }
 </script>
@@ -174,6 +199,21 @@ h3 {
 	border-color: #4CAF50;
 	color: #fff;
 	background-color: #4CAF50;
+}
+.label-pending {
+	border-color:#ffc107;
+	color: #fff;
+	background-color: #ffc107;
+}
+.label-rejected {
+	border-color:#FF0000;
+	color: #fff;
+	background-color:#FF0000;
+}
+.label-approved{
+	border-color:#226a4a;
+	color: #fff;
+	background-color:#226a4a;
 }
 .btn-primary {
 	color: #fff;

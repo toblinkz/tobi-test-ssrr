@@ -124,7 +124,7 @@
 																					<div class="col-md-11 alert toke insight wd">
 																						<!-- START PANEL -->
 																						<p class="alert toke insight wd">
-																							To send otps and alerts, you have to use our sender IDs; OTPAlert and N-Alert. <a class="blue-t text-bold" id="CHATID"> Click here to request</a>
+																							To send otps and alerts, you have to use our sender IDs; BCToken and N-Alert. <a class="blue-t text-bold" id="CHATID"> Click here to request</a>
 																						</p>
 																						<!-- END PANEL -->
 																					</div>
@@ -209,7 +209,7 @@
 		<VerificationModal></VerificationModal>
 		<AccountNumberModal></AccountNumberModal>
 		<PageDeniedModal></PageDeniedModal>
-		<SuccessModal></SuccessModal>
+		<SuccessModal :modal_information="modal_information"></SuccessModal>
 	</div>
 </template>
 
@@ -260,6 +260,7 @@ export default {
 			showActivateIdModal: false,
 			showYourWalletModal: false,
 			account_balance: '',
+			modal_information: 'Your account number is being generated.',
 			emptyActivityLog:false,
 			nuban_account:[],
 			live_api_key:'',

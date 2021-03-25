@@ -8,9 +8,9 @@
 					</div>
 					<div class="modal-body">
 						 <center>
-								<img src="https://res.cloudinary.com/termii-inc/image/upload/v1613753684/billingpage/check_u0geeg.svg"/>
+								<img src="/images/check.svg"/>
 								 <div class="mt-20">
-										<p style="font-weight: bold">Your account number is being generated.</p>
+										<p style="font-weight: bold">{{modal_information}}</p>
 										  <a class="btn bg-blue" @click="close">Close</a>
 									</div>
 							</center>
@@ -25,6 +25,11 @@
 <script>
 export default {
 	name: "SuccessModal",
+	props:{
+		modal_information:{
+			 required: true
+		}
+	},
 	methods: {
 		close(){
 			 this.$modal.hide('success-modal');
