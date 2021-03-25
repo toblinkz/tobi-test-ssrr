@@ -89,7 +89,7 @@ import DeviceTemplate from "@/components/devices/templates";
 import NumberSubscriptions from "@/components/number/Subscriptions";
 export default {
 	name: "subscriptions",
-	middleware: ['auth', 'inactive_user'],
+	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {
 		NumberSubscriptions,
 		DeviceTemplate,

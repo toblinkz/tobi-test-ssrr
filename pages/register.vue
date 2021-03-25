@@ -55,9 +55,23 @@
 									</div>
 								</div>
 								<div class="register-form-group has-feedback has-feedback-left ">
-									<input id="phone_number"  type="tel" class="form-control " :class="{'error ' : hasPhoneNumberError, 'has-input' : hasPhoneNumberInput}" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
-									<span class="input-field_helper">Phone Number</span>
-									<span class=" error_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
+									<div class="tooltip">
+										<input id="phone_number"  type="tel" class="form-control" :class="{'error ' : hasPhoneNumberError, 'has-input' : hasPhoneNumberInput}" v-model="phone_number"  name="phone_number" placeholder="Phone Number">
+										<span class="input-field_helper">Phone Number</span>
+										<span class="tooltiptext">Enter a valid phone number, you will receive OTP on the phone number provided.</span>
+										<span class=" error_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
+									</div>
+								</div>
+								<div class="select-class">
+									<div class="row-form has-feedback has-feedback-left ">
+										<input   type="text" class="form-control round-form-input"  :class="{'error ' : hasCompanyError, 'has-input' : hasCompanyInput}" v-model="company" placeholder="Company">
+										<span class="input-field_helper">Company</span>
+										<span class=" error_field_message" v-if="error_message.company">{{error_message.company}}</span>
+									</div>
+
+									<div class="row-form has-feedback has-feedback-left" >
+										<CustomSelect :options="roles"  :dropdown-style="dropdownStyle" :dropdown-selected="dropdownSelected" @item-selected="setRoleId($event)"></CustomSelect>
+									</div>
 								</div>
 								<div class="select-class">
 									<div class="row-form has-feedback has-feedback-left ">
@@ -68,16 +82,16 @@
 										<CustomSelect :options="sectors"  :dropdown-style="dropdownStyle" :dropdown-selected="dropdownSelected" @item-selected="setSectorId($event)"></CustomSelect>
 									</div>
 								</div>
-								<div class="mb-10">
+								<div class="checkboxes mb-10">
 									<label class="checkbox-inline">
 										<input type="checkbox"  v-model="notification_opt_in">
 										Would you like to receive notifications and newsletters from us ?
 									</label>
 								</div>
-							<div>
-								<ButtonSpinner :is-disabled="isDisabled"  :button_text="button_text" :is-loading="isLoading"></ButtonSpinner>
-								<nuxt-link  to="/login" class="pull-right mt-20 m-r-10" style="color: black">Got an account? <span class="text-info2 bold">Log In</span></nuxt-link>
-							</div>
+								<div>
+									<ButtonSpinner :is-disabled="isDisabled"  :button_text="button_text" :is-loading="isLoading"></ButtonSpinner>
+									<nuxt-link  to="/login" class="pull-right mt-20 m-r-10" style="color: black">Got an account? <span class="text-info2 bold">Log In</span></nuxt-link>
+								</div>
 
 							</div>
 						</div>
@@ -117,6 +131,7 @@ export default {
 			first_name: "",
 			last_name:"",
 			phone_number: "",
+			company:'',
 			access_token:"",
 			error: null,
 			error_message:[],
@@ -126,6 +141,8 @@ export default {
 			hasFirstNameError: false,
 			hasLastNameError: false,
 			hasPhoneNumberError: false,
+			hasCompanyError: false,
+			hasCompanyInput: false,
 			hasFirstNameInput: false,
 			hasLastNameInput: false,
 			hasEmailInput: false,
@@ -137,8 +154,10 @@ export default {
 			type: "password",
 			countries: ['Select Country'],
 			sectors: ['Select Sectors'],
+			roles:['Select Roles'],
 			selected_captcha: false,
 			sectors_id:'',
+			role_id:'',
 			dropdownSelectedBackground:{
 				backgroundColor: '#ffffff',
 				backgroundImage: 'none',
@@ -164,9 +183,9 @@ export default {
 	computed: {
 		isDisabled: function () {
 			return (this.email === '' || this.password === '' || this.hasEmailError || this.hasPasswordError
-				|| this.first_name === '' || this.hasFirstNameError || this.selected_country === ''
+				|| this.first_name === '' || this.hasFirstNameError || this.selected_country === '' || this.company === '' || this.role_id === ''
 				|| this.sectors_id === ''  || this.hasPhoneNumberError || this.phone_number === '' || this.last_name === ''|| this.hasLastNameError
-			 || this.selected_country === 'Select Country');
+				|| this.selected_country === 'Select Country');
 		},
 
 	},
@@ -196,6 +215,11 @@ export default {
 			this.last_name = value;
 			this.hasLastNameInput = true;
 			this.validateLastName(value);
+		},
+		company(value){
+			this.company = value;
+			this.hasCompanyInput = true;
+			this.validateCompany(value)
 		}
 	},
 	methods: {
@@ -249,6 +273,15 @@ export default {
 				this.hasLastNameError = false;
 			}
 		},
+		validateCompany(value){
+			if (value === ""){
+				this.error_message['company'] = 'The company field is required';
+				this.hasCompanyError = true;
+			} else {
+				this.error_message['company'] = '';
+				this.hasCompanyError = false;
+			}
+		},
 		showPassword(){
 			if (this.type === "password") {
 				this.type = 'text';
@@ -267,9 +300,12 @@ export default {
 			}
 
 			//fetch sector data
-			let sector_data =await this.$axios.$get('/utility/sectors');
+			let sector_data = await this.$axios.$get('/utility/sectors');
 			this.sectors = sector_data.data;
 
+			//fetch roles
+			let roles_data = await this.$axios.$get('utility/roles')
+			this.roles = roles_data.data;
 
 			//fetch no of registered business
 			let registered_business_data = await this.$axios.$get('/utility/total/registered-businesses',);
@@ -279,6 +315,9 @@ export default {
 		setSectorId(event){
 			this.sectors_id = event;
 		},
+		setRoleId(event){
+			this.role_id = event;
+		},
 		//call registration endpoint
 		async register(){
 			var access_token;
@@ -286,7 +325,7 @@ export default {
 			this.button_text = "Creating..."
 
 			try{
-			 	await this.$axios.post('auth/register', {
+				await this.$axios.post('auth/register', {
 					first_name: this.first_name,
 					last_name: this.last_name,
 					email: this.email,
@@ -294,22 +333,32 @@ export default {
 					phone_number: this.phone_number,
 					country: this.selected_country,
 					sector: this.sectors_id,
+					company: this.company,
+					role: this.role_id,
 					notification_opt_in: this.notification_opt_in
 				},);
-			 	//call login endpoint
+				//call login endpoint
 				let response_data =   await this.$axios.post('auth/login', {
 					email: this.email,
 					password: this.password
 				});
 				localStorage.setItem('local', response_data.data.access_token); //set user token in local storage
-			  // call user endpoint
-				await this.$axios.$get('user', {
+				// call user endpoint
+				let response = await this.$axios.$get('user', {
 					headers: {
 						'Authorization': `Bearer ${localStorage.getItem('local')}`
 					}
 				});
-				this.isLoading = false;
-				this.button_text = "Create My Account";
+				await localStorage.setItem('user_data', JSON.stringify(response.data));
+				console.log(response.status);
+				if (JSON.parse(localStorage.getItem('user_data')).active_status_id.name === "Pending"){
+					this.$store.commit('setFirstName', JSON.parse(localStorage.getItem('user_data')).fname);
+					this.$store.commit('setViewVerificationPage', 'true');
+					this.isLoading = false;
+					this.button_text = "Create My Account";
+					await this.$router.push('/');
+				}
+
 			} catch (e) {
 				this.isLoading = false;
 				this.button_text = "Create My Account"
@@ -336,9 +385,6 @@ export default {
 
 			}
 		},
-		check(event){
-			console.log(event.target)
-		}
 
 	},
 	mounted() {
@@ -353,7 +399,7 @@ export default {
 @import "assets/css/general_style/authentication_pages.css";
 
 .page-height{
-	height: 125vh;
+	height: 160vh;
 }
 
 @media (max-width: 1400px){
@@ -422,6 +468,58 @@ export default {
 		background: #FFFFFF ;
 	}
 }
+.tooltip{
+	position: relative;
+}
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 150px;
+	background-color: #555;
+	color: #fff;
+	font-size: 10px;
+	/*text-align: center;*/
+	padding: 5px 5px;
+	border-radius: 6px;
 
+	/* Position the tooltip text */
+	position: absolute;
+	z-index: 1;
+	bottom: 125%;
+	left: 40%;
+	margin-left: -60px;
+
+	/* Fade in tooltip */
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+	opacity: 1;
+}
+.checkboxes label {
+	display: inline-block;
+	padding-right: 10px;
+	white-space: nowrap;
+	font-weight: bold !important;
+}
+.checkboxes input {
+	vertical-align: middle;
+}
+.checkboxes label span {
+	vertical-align: middle;
+}
 
 </style>

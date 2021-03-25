@@ -10,8 +10,8 @@
 		</div>
 		<div class="" style="width: 30%;">
 			  <div style="float: right">
-						<button class="btn btn-success" @click="updateEmail"><i class="fa fa-edit m-r-5"></i>Update</button>
-						<button class="btn btn-danger" @click="deleteEmail"><i class="icon-bin m-r-5" style="font-size: 12px"></i>Delete</button>
+						<button v-if="canUpdateEmailNotificationSettings" class="btn btn-success" @click="updateEmail"><i class="fa fa-edit m-r-5"></i>Update</button>
+						<button v-if="canUpdateEmailNotificationSettings" class="btn btn-danger" @click="deleteEmail"><i class="icon-bin m-r-5" style="font-size: 12px"></i>Delete</button>
 					</div>
 		</div>
 	</div>
@@ -27,6 +27,16 @@ name: "EmailCard",
 		categories: {
 
 		}
+	},
+	data(){
+	 return{
+			customer_permissions: localStorage.getItem('permissions'),
+		}
+	},
+	computed:{
+		canUpdateEmailNotificationSettings(){
+			return (this.customer_permissions.includes("update_email_notification_settings"));
+		},
 	},
 	methods: {
 		async	deleteEmail(){

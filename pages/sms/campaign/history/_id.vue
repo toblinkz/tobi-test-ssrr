@@ -43,7 +43,7 @@
                                 <button type="submit" :disabled="disabled"  class="btn btn-success wd-100 bx-line" style="border: 1px solid transparent;"><i class="fa fa-search"></i> Search</button>
                               </form>
                               <br />
-                              <form  @submit.prevent="getReportDownloadUrl" method="get" role="form">
+                              <form v-if="canDownloadDeliveryReport"   @submit.prevent="getReportDownloadUrl" method="get" role="form">
                                 <button type="submit" class="btn btn-primary wd-100 bx-line" style="border: 1px solid transparent;" ><i class="fa fa-level-down" v-show="!isLoading"></i> 	<span v-show="isLoading">
 																																	<img src="/images/spinner.svg" height="20px" width="20px"/>
 																															</span> {{download_report_button_text}}</button>
@@ -143,7 +143,7 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
     export default {
         name: "manage-campaign",
-					   middleware: ['auth', 'inactive_user'],
+					   middleware: ['auth', 'inactive_user', 'permission'],
 								components: {VerificationModal, Pagination, PieChartPlaceHolder, TableVuePlaceHolder, ManageCampaignChart, DashboardNavbar, Sidebar},
       data() {
           return{
@@ -151,6 +151,7 @@
 												download_report_button_text: 'Download Campaign Report',
             campaign_id: this.$route.params.id,
 												exportUrlReady: false,
+										 	customer_permissions: localStorage.getItem('permissions'),
             phone_number: '',
 												isLoading:false,
 												isDisabled:false,
@@ -167,7 +168,10 @@
 						...mapGetters(['getCampaignCreatedDate']),
 						disabled: function () {
 							return (this.phone_number === '');
-						}
+						},
+						canDownloadDeliveryReport(){
+							return (this.customer_permissions.includes("download_delivery_report"));
+						},
 					},
       methods:{
           async fetch(){

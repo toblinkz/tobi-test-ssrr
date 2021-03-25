@@ -88,10 +88,13 @@
           this.hasDeviceIdError = false;
         },
         validateDeviceId(value){
-          if (value.length < 3 || value.length > 9){
-            this.error_message['device_id'] = 'The sender id must be at least 3 characters.';
+          if (value.length < 3 ){
+            this.error_message['device_id'] = 'The device id must be at least 3 characters.';
             this.hasDeviceIdError = true;
-          } else {
+          } else if (value.length > 11) {
+												this.error_message['device_id'] = 'The device id may not be greater than 11 characters.';
+												this.hasSenderIdError = true;
+										}else {
             this.error_message['device_id'] = '';
             this.hasDeviceIdError = false;
           }
@@ -101,8 +104,8 @@
     }
 </script>
 
-<style scoped>
-
+<style scoped >
+@import "../../assets/css/modal/modal.css";
   .vm--container{
     display: block;
     overflow-y: auto;

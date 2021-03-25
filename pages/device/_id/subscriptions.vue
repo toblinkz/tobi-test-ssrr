@@ -52,8 +52,8 @@
 																<!-- END PANEL -->
 															</div>
 														</div>
-														<DeviceTemplate v-show="templateExists()" :template_data="template_data"></DeviceTemplate>
-														<DeviceSubscription :subscription_data="response_data"
+														<DeviceTemplate v-show="templateExists()" :template_data="template_data" @page="onPageChange($event)"></DeviceTemplate>
+														<DeviceSubscription  :subscription_data="response_data"
 																																		:device_name="device_name"
 																																		:monthly_charge="monthly_charge"
 																																		:cost_per_message="cost_per_message"
@@ -69,7 +69,7 @@
             </main>
           </div>
 									<VerificationModal></VerificationModal>
-
+         <SuccessfulPaymentModal></SuccessfulPaymentModal>
         </div>
       </div>
     </div>
@@ -84,10 +84,12 @@
 				import DeviceSubscriptionModal from "~/components/modals/DeviceSubscriptionModal";
 				import DeviceSubscription from "~/components/devices/subscriptions";
 				import DeviceTemplate from "@/components/devices/templates";
+				import SuccessfulPaymentModal from "../../../components/modals/SuccessfulPaymentModal";
     export default {
 					  name: "subscriptions",
-					  middleware: ['auth', 'inactive_user'],
+					  middleware: ['auth', 'inactive_user', 'permission'],
        components: {
+								SuccessfulPaymentModal,
 								DeviceTemplate,
 								DeviceSubscription, VerificationModal,DashboardNavbar, Sidebar, DeviceSubscriptionModal},
        data(){
@@ -115,9 +117,15 @@
 												isLoading: false,
           }
       },
+					 computed:{
+
+						},
       methods: {
 							templateExists(){
 								return (this.template_data.length !== 0);
+							},
+							onPageChange(page){
+								this.getTemplateData(page);
 							},
           async fetch(){
             try {
@@ -127,7 +135,6 @@
 														this.total_messages_sent_this_month = data.device_stats.total_messages_sent_this_month;
 														this.total_messages_sent_today = data.device_stats.total_messages_sent_today;
 														this.response_data = data;
-														this.template_data = data.device.template
              	this.device_name = data.device.name;
 														this.monthly_charge = data.device.monthly_charge;
 														this.device_daily_limit = (data.device.daily_limit) ? data.device.daily_limit:'unlimited';
@@ -143,6 +150,18 @@
             }
           },
 
+							async getTemplateData(page){
+								 try {
+										let data = await this.$axios.$get('devices/'+ this.device_id +'/templates',{
+											params:{
+												 page: page
+											}
+										})
+										this.template_data = data;
+									}catch (e) {
+
+									}
+							},
         showPayNowButton(row){
             return (row.payment_status === 'PENDING')
         },
@@ -175,6 +194,7 @@
 							}else {
 								this.page_url = window.location.href
 								this.fetch();
+								this.getTemplateData();
 							}
 
       },

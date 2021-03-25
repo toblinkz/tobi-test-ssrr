@@ -9,7 +9,7 @@
 				<div class="flex-item-right modal-body">
 					<div class="p-x-y">
 						<p  class="m-t-80 text-bold">Verify it's you</p>
-						<p>Welcome to your Dashboard. We sent a verification code to your email address. Please enter the code into the text field below</p>
+						<p>Welcome to your Dashboard. We sent a verification code to your email address and phone number. Please enter the code into the text field below</p>
 						<form  method="post"  @submit.prevent="verifyCode" >
 							<div class="mt-20">
 								<div class="form-group">
@@ -133,6 +133,7 @@ name: "VerificationModal",
 </script>
 
 <style scoped>
+@import "../../assets/css/modal/modal.css";
 @import "../../assets/css/general_style/authentication_pages.css";
 
 .vm--container{

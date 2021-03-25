@@ -51,7 +51,7 @@ export default {
 	components: {PricingDropdown},
 	data(){
 		return{
-    emails:'',
+             emails:'',
 			 isLoading: false,
 			 button_text: "Update",
 			 error_message:[],
@@ -153,13 +153,14 @@ computed:{
 
 	},
 	mounted() {
- this.getEmailCategories();
+     this.getEmailCategories();
 	}
 
 }
 </script>
 
-<style scoped>
+<style scoped >
+@import "../../assets/css/modal/modal.css";
 @import "assets/css/general_style/authentication_pages.css";
 .error{
 	border-color: red !important;

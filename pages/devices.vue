@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                       <br>
-                                      <a class="btn btn-primary" @click="showModal"><i class="fa fa-plus"></i> Make a new request</a>
+                                      <a v-if="canRequestDevice" class="btn btn-primary" @click="showModal"><i class="fa fa-plus"></i> Make a new request</a>
                                     </div>
                                     <div class="col-sm-4 hidden-xs">
                                     </div>
@@ -81,10 +81,10 @@
                                   <td data-label="Status"><p class="label"  :class="rowClassName(row,index)">{{row.device_status}}</p>
                                   <td ><p  class="label"  :class="rowClassType(row,index)">{{row.device_type}}</p></td>
                                   <td data-label="Status">
-                                    <button id="qr-code" @click="getQRCode(row.id)"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" :class="barcodeDisabled(row)" v-show="showBarcodeIcon(row)"><i class="fa fa-barcode"   style="color: #fff;"></i></button>
+                                    <button :id="row.id" @click="getQRCode(row.id)"  style="background: #4caf50; border: 1px solid #4caf50; border-radius: 3px;" :class="barcodeDisabled(row)" v-show="showBarcodeIcon(row)"><i class="fa fa-barcode"   style="color: #fff;"></i></button>
                                     <p v-show="lockBarcode(row)"><i class="entypo-lock" style="color: red;"></i></p>
                                   </td>
-                                  <td data-label="view subscriptions">
+                                  <td v-if="canViewDevice" data-label="view subscriptions">
                                     <nuxt-link class="btn btn-primary" :aria-disabled="isDisabled(row)" :to="{name: 'device-id-subscriptions', params:{name: row.name, id: row.id}}">manage device</nuxt-link>
                                   </td>
                                 </tr>
@@ -104,8 +104,11 @@
       </div>
     </div>
     <DeviceModal  @requested="requested"></DeviceModal>
+			 <DeviceConnectedModal></DeviceConnectedModal>
+			<device-barcoded-modal :image_url="barcode_url"></device-barcoded-modal>
 				<VerificationModal></VerificationModal>
 			<InActiveSenderIdModal></InActiveSenderIdModal>
+			<device-info-modal></device-info-modal>
   </div>
 </template>
 
@@ -119,12 +122,19 @@
 	import VerificationModal from "~/components/modals/VerificationModal";
 	import InActiveSenderIdModal from "~/components/modals/InActiveSenderIdModal";
 	import inactive_user from "@/middleware/inactive_user";
+	import DeviceConnectedModal from "../components/modals/DeviceConnectedModal";
+	import DeviceBarcodedModal from "../components/modals/DeviceBarcodeModal";
+	import DeviceInfoModal from "../components/modals/DeviceInfoModal";
 
 	export default {
 		     name: "devices",
-		     middleware: ['auth'],
-							components: {VerificationModal, InActiveSenderIdModal, TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
-							data(){
+		     middleware:['auth', 'permission'],
+							components: {
+								DeviceInfoModal,
+								DeviceBarcodedModal,
+								DeviceConnectedModal,
+								VerificationModal, InActiveSenderIdModal, TableVuePlaceHolder, DeviceModal, DashboardNavbar, Sidebar},
+		     data(){
           return{
             response_data:[],
             name:"",
@@ -133,10 +143,20 @@
             active_status:"",
             device_status:"",
             device_id:"",
-											show_shimmer:false,
+											 barcode_url: '',
+										 	customer_permissions: localStorage.getItem('permissions'),
+											 show_shimmer:false,
 
           }
       },
+		    computed:{
+							canRequestDevice(){
+								return (this.customer_permissions.includes("request_device"));
+							},
+							canViewDevice()	{
+								return (this.customer_permissions.includes("view_device"));
+							}
+						},
       methods: {
 
         async fetch(){
@@ -150,22 +170,47 @@
           }
         },
 
-        getQRCode(device_id){
+        async getQRCode(device_id){
+        	try{
 
-            $('#qr-code').html('<span style="color: #fff"> Loading...</span>');
-          $('#qr-code').attr("disabled", true);
+        		this.disableQRCodeButton(device_id)
 
-           let url = `${this.$axios.defaults.baseURL}devices/:slug/barcode?token=${localStorage.getItem('local')}`
-          	 url = url.replace(':slug', device_id);
+										const data  = await this.$device.getQRCode(device_id);
 
-          // $.get(url, function (data, status) {
-              Swal.fire({
-                title:"<h2>Scan QR Code</br><p>To use WhatsApp on your phone, tap settings icon and select WhatsApp Web</p></h2>",
-                html: `<img src="${url}" alt="Try again" style="width: 100%">`,
-                confirmButtonText: "Close",
-              });
 
+        		if (!data.data_type){
+												this.$modal.show('device-info-modal');
+										}
+
+        		this.loadImageModal(data)
+
+									this.enableQRCodeButton(device_id)
+
+        	}
+        	catch (e) {
+										this.disableQRCodeButton(device_id)
+										this.$modal.show('device-info-modal');
+										this.enableQRCodeButton(device_id)
+									}
         },
+
+							loadImageModal(data){
+								switch (data.data_type) {
+									case ('string'):{
+										this.$modal.show('device-connected-modal');
+										break;
+									}
+									case ('image_hash'):{
+										this.barcode_url = data.data;
+										this.$modal.show('device-barcode-modal');
+										break;
+									}
+									default:{
+										this.$modal.show('device-info-modal');
+									}
+								}
+							},
+
         showModal(){
         	if (JSON.parse(localStorage.getItem('user_data')).active_status_id.id ===  6){
 										this.$modal.show('in-active-user-modal');
@@ -213,7 +258,16 @@
         },
 							barcodeDisabled(row){
         if (row.device_type === 'Template') return 'barcode-disabled'
+							},
+							disableQRCodeButton(device_id){
+								$('#'+device_id).html('<span style="color: #fff"> Loading...</span>');
+								$('#'+device_id).attr("disabled", true);
+							},
+							enableQRCodeButton(device_id){
+								$('#'+device_id).html('<i class="fa fa-barcode" style="color: #fff;"></i>');
+								$('#'+device_id).attr("disabled", false);
 							}
+
       },
       mounted() {
 							if(this.$store.state.view_verify_page === 'true'){

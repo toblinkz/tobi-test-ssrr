@@ -66,7 +66,7 @@
 																<i class="password-visibility" :class="[isConfirmPasswordToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showConfirmPassword"></i>
 																<span class=" error_field_message" v-if="error_message.confirm_password">{{error_message.confirm_password}}</span>
 															</div>
-														<button type="submit" class="btn btn-primary btn-cons mt-20" :disabled="isDisabled">
+														<button v-if="canChangePassword" type="submit" class="btn btn-primary btn-cons mt-20" :disabled="isDisabled">
 															<i class="fa fa-certificate" v-show="showIcon"></i>
 															{{button_text}}
 															<span v-show="isLoading">
@@ -98,7 +98,7 @@ import VerificationModal from "@/components/modals/VerificationModal";
 import ApiNavbar from "@/components/general/navbar/ApiNavbar";
 export default {
  name: "change-password",
-	middleware: ['auth', 'inactive_user'],
+	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
 	data(){
 			return{
@@ -118,6 +118,7 @@ export default {
 				old_type: "password",
 				new_type: "password",
 				confirm_type: "password",
+				customer_permissions: localStorage.getItem('permissions'),
 
 
 			}
@@ -126,7 +127,10 @@ export default {
  		isDisabled: function (){
  			return ( !this.new_password || !this.old_password || !this.confirm_password || this.hasOldPasswordError
 								|| this.hasNewPasswordError || this.hasConfirmPasswordError)
-			}
+			},
+		canChangePassword(){
+			return (this.customer_permissions.includes("change password"));
+		},
 	},
 	watch: {
  	old_password(value){

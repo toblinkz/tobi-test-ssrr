@@ -54,7 +54,7 @@
 															<div class="form-group">
 																<label>Import Numbers</label>
 																<small style="color: red !important;font-size: 13px;">Download Our <a href="https://termii.s3-us-west-1.amazonaws.com/upload/files/termii_list_534_5e3b074ab63fa.csv">Sample File</a> Before uploading your contacts and please do not remove the first row</small><br>
-																<div class="form-group input-group input-group-file" style="margin-top: 20px !important;">
+																<div v-if="canImportContacts" class="form-group input-group input-group-file" style="margin-top: 20px !important;">
                                         <span class="input-group-btn">
                                             <span class="btn btn-primary btn-file">
                                                 Browse <input type="file" class="form-control" @change="uploadFile(fieldName, $event.target.files)" >
@@ -66,11 +66,11 @@
 																	<v-select :options="countries" append-to-body :calculate-position="withPopper"   :reduce="country => country.d_code" label="name" placeholder="Select Country Code" v-model="selected_country">
 
 																		<template #option="{name, d_code}">
-																			<p style="">{{ name }} {{`(${d_code})`}}</p>
+																			<p style="">{{ name }} <span v-if=" d_code !== '+null'">{{`(${d_code})`}}</span></p>
 																		</template>
 																		<template #selected-option="{name, d_code }">
 																			<div style="display: flex; align-items: center;">
-																				{{name }} <strong>{{ `(${ d_code})` }}</strong>
+																				{{name }} <span v-if=" d_code !== '+null'"><strong> {{ `(${ d_code})` }}</strong></span>
 																			</div>
 																		</template>
 																	</v-select>
@@ -87,7 +87,7 @@
 																	</v-select>
 																</div>
 
-																<button type="submit" id="" class="btn btn-success btn-sm pull-right" :disabled="isDisabled">
+																<button v-if="canImportContacts" type="submit" id="" class="btn btn-success btn-sm pull-right" :disabled="isDisabled">
 																	<i class="fa fa-plus" v-show="showIcon" ></i>
 																	<span v-show="isLoading">
 																			<img src="/images/spinner.svg" height="20px" width="80px"/>
@@ -127,13 +127,14 @@ import VerificationModal from "~/components/modals/VerificationModal";
 
 export default {
 	name: "import-contacts",
-	middleware: ['auth', 'inactive_user'],
+	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {VerificationModal, CustomSelect, DashboardNavbar, Sidebar, vSelect},
 	data(){
 		return{
 			placement: 'top',
 			countries: [],
 			phone_books: [],
+			customer_permissions: localStorage.getItem('permissions'),
 			selected_country: '',
 			selected_phone_book:'',
 			contact_upload_url:'',
@@ -147,14 +148,18 @@ export default {
 		isDisabled:function(){
 			return (this.selected_country === '' || this.selected_phone_book === '' || this.contact_upload_url === '');
 		},
+		canImportContacts(){
+			return (this.customer_permissions.includes("import_contacts"));
+		},
 		config(){
 			return{
 				bucketName: 'termii',
 				dirName: 'upload/files',
 				region: 'us-west-1',
-				accessKeyId: 'AKIAIOJI3WN4QX7QPD7Q',
-				secretAccessKey: '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',
+				accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+				secretAccessKey:  process.env.SECRET_ACCESS_KEY,
 			}
+
 		},
 		S3Client(){
 			return new S3(this.config);
@@ -169,6 +174,8 @@ export default {
 				//get countries
 				let countries_data = await this.$axios.$get('utility/countries');
 				this.countries = countries_data.data;
+			 this.countries.push({code: null, d_code: '+null', name: " Country code exists on contact "})
+				console.log(this.countries)
 
 				//get phonebook list
 				let phone_book_list = await this.$axios.$get('sms/phone-book?filter=unpaginated',);

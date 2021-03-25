@@ -9,10 +9,10 @@
 							<div class="panel-body ">
 								<div class="mb-20">
 									<div >
-										<button class="btn btn-primary btn-sm " @click="showModal"  ><i class="fa fa-plus"></i> New Subscription</button>
+										<button v-if="canAddNewSubscription" class="btn btn-primary btn-sm " @click="showModal"  ><i class="fa fa-plus"></i> New Subscription</button>
 										<div v-show="device_type === 'Capped'" style="" class="switch-button-container">
 											<span :class="{'switch-color': enabled_offline_notification}" style="font-size: 16px; padding: 3px" >Device Offline Notification</span>
-											<div class="tooltip">
+											<div v-if="canSetDeviceOfflineNotification" class="tooltip">
 												<Switches class="tooltip btn-sm" v-model="enabled_offline_notification" type-bold="true" :emit-on-mount="false"  color="blue"></Switches>
 												<span class="tooltiptext">Notification would be received via email and over your webhook if it is set on your account.</span>
 											</div>
@@ -77,8 +77,17 @@ name: "DeviceSubscription",
 	data(){
 		return{
 			enabled_offline_notification: localStorage.getItem('notify-offline'),
-			send_offline_notification: ''
+			send_offline_notification: '',
+			customer_permissions: localStorage.getItem('permissions'),
 		}
+	},
+	computed:{
+		canAddNewSubscription(){
+			return (this.customer_permissions.includes("add_new_subscription"));
+		},
+		canSetDeviceOfflineNotification(){
+			return (this.customer_permissions.includes("set_device_offline_notification"));
+		},
 	},
 	watch: {
 		async enabled_offline_notification(value){

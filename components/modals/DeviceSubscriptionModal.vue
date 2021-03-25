@@ -56,7 +56,12 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" @click="close"> Close </button>
-									<button class="btn id-btn-primary" type="submit"> Proceed </button>
+									<button class="btn id-btn-primary" type="submit" >
+										{{button_text}}
+										<span v-show="isLoading">
+														<img src="/images/spinner.svg" height="20px" width="30px"/>
+												</span>
+									</button>
 								</div>
 							</div>
 						</div>
@@ -64,6 +69,7 @@
 					</form>
 				</div>
 			</div>
+			<successful-payment-modal></successful-payment-modal>
 		</div>
 	</modal>
 
@@ -72,9 +78,10 @@
 <script>
 import ButtonSpinner from "../general/ButtonSpinner";
 import {mapGetters} from "vuex";
+import SuccessfulPaymentModal from "./SuccessfulPaymentModal";
 export default {
 	name: "DeviceSubscriptionModal",
-
+	components: {SuccessfulPaymentModal},
 	props: {
 		device_name: {
 			required: true
@@ -104,6 +111,8 @@ export default {
 	data(){
 		return{
 			payment_gateway: 'wallet',
+			button_text: 'Proceed',
+			isLoading: false,
 			auto_renew:false,
 		}
 	},
@@ -114,27 +123,23 @@ export default {
 		},
 
 		async deviceSubscribe() {
+    this.button_text = '';
+    this.isLoading  = true;
 
 			try {
 			let data =	await this.$axios.post(`devices/${this.device_id}/subscribe`, {
 					payment_method: this.payment_gateway,
 					auto_renew: this.auto_renew
 				});
-				this.close();
-				if(data.data.url) {
-					window.location.href = data.data.url;
-				}
-				if(data.data) {
-					this.$stripe.import().redirectToCheckout({
-						sessionId: data.data
-					}).then(function (result) {
-						this.$toast.error(result.error.message)
-					});
-				}
 
-				this.$toast.success("Subscription renewed successfully");
+				await this.$modal.show('successful-payment-modal');
+				await this.$modal.hide('device-subscription-modal');
+				this.button_text = 'Proceed';
+			 this.isLoading  = false;
+
 			} catch (e) {
-
+				this.button_text = 'Proceed';
+				this.isLoading  = false;
 				let errors = e.response.data.errors;
 				for (let key in errors) {
 						this.$toast.error(errors[key]);
@@ -144,13 +149,13 @@ export default {
 		},
 		onChange(event){
 			this.payment_gateway = event.target.value;
-			console.log(event.target.value)
 		}
 	}
 }
 </script>
 
-<style scoped>
+<style scoped >
+@import "../../assets/css/modal/modal.css";
 
 
 textarea.form-control {

@@ -52,22 +52,13 @@
 																																			<img src="/images/copy.svg"/>
                                   </button>
                                  <p class="insight" style="color: #595959 !important;">{{api_key}}</p> </div>
-																																<form @submit.prevent="renewApiToken">
-																																	<div class="form-group mt-20">
-																																		<input id="password" v-model="password" :type="type"  class="profile-form-control" :class="{'error': hasPasswordError}" placeholder="Enter Password">
-																																		<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
-																																		<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showPassword"></i>
-																																	</div>
+																																<form>
 																																	<br>
-																																	<button class="btn btn-primary btn-cons" @click="renewApiToken" :disabled="isDisabled">
+																																	<button v-if="canRenewApiKey" class="btn btn-primary btn-cons" @click="showModal">
 																																		<i class="fa fa-certificate" v-show="showIcon"></i>
-																																		{{button_text}}
-																																		<span v-show="isLoading">
-																																			<img src="/images/spinner.svg" height="20px" width="80px"/>
-																																		</span>
+																																		 Renew API key
 																																	</button>
 																																</form>
-
                                 <!-- END PANEL -->
                               </div>
                             </div>
@@ -83,6 +74,10 @@
           </div>
         </div>
 							<VerificationModal></VerificationModal>
+							<AccountPassword
+								event_name="api_token"
+								@set_api_key="setApiKey($event)"
+							></AccountPassword>
       </div>
       <!-- /page header -->
     </div>
@@ -98,19 +93,21 @@
     import Swal from 'sweetalert2';
     import {mapGetters} from "vuex";
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import AccountPassword from "../../components/modals/AccountPassword";
 
     export default {
-        name: "api",
-      components: {VerificationModal, ApiNavbar, Main, DashboardNavbar, Sidebar, VueClipboard },
-					 middleware: ['auth', 'inactive_user'],
+					 name: "api",
+      components: {AccountPassword, VerificationModal, ApiNavbar, Main, DashboardNavbar, Sidebar, VueClipboard },
+					 middleware: ['auth', 'inactive_user', 'permission'],
       data(){
         return{
         	password:'',
 									button_text:' Renew API key',
 									isLoading: false,
 									showIcon: true,
-          api_key: '',
-									 error_message:[],
+									api_key: '',
+									error_message:[],
+									customer_permissions: localStorage.getItem('permissions'),
 									hasPasswordError: false,
 									type: "password",
 									isToggled: false,
@@ -120,6 +117,9 @@
 							isDisabled: function () {
 								return (this.hasPasswordError || this.password === '');
 							},
+							canRenewApiKey(){
+								return (this.customer_permissions.includes("renew_api_key"));
+							},
       },
 					watch:{
        password(value){
@@ -127,33 +127,9 @@
 							}
 					},
       methods: {
-          async renewApiToken(){
-          	this.isLoading = true;
-          	this.button_text = '';
-          	this.showIcon = false;
-            try{
-              await this.$axios.$get('user/keys/renew', {params:{password: this.password} });
-													this.isLoading = false;
-													this.button_text = 'Renew API key';
-													this.showIcon = true;
-													let response = await this.$axios.$get('user');
-													await localStorage.setItem('user_data', JSON.stringify(response.data));
-													this.api_key = 	JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
-													this.password = '';
-
-              await Swal.fire({
-                icon: 'success',
-                text: 'Your API token was successfully renewed',
-              });
-
-            }catch (e) {
-													this.isLoading = false;
-													this.button_text = 'Renew API key';
-													this.error_message['password'] = 'Password Incorrect';
-													this.hasPasswordError = true;
-            }
-
-          },
+							showModal(){
+								this.$modal.show('account-password-modal');
+							},
 							validatePassword(value){
 								if (value.length < 6) {
 									this.error_message['password'] = 'The password field must be at least 5 characters';
@@ -173,6 +149,9 @@
 									this.isToggled = false;
 								}
 							},
+							setApiKey(api_key){
+								this.api_key = api_key;
+							}
       },
 					mounted() {
 						this.api_key = 	JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
