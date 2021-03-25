@@ -57,7 +57,7 @@
 																<div v-if="canImportContacts" class="form-group input-group input-group-file" style="margin-top: 20px !important;">
                                         <span class="input-group-btn">
                                             <span class="btn btn-primary btn-file">
-                                                Browse <input type="file" class="form-control" @change="uploadFile(fieldName, $event.target.files)" >
+                                                Browse <input type="file" class="form-control" @change="handleFileUpload($event.target.files)" >
                                             </span>
                                         </span>
 																</div>
@@ -141,7 +141,8 @@ export default {
 			fieldName:'',
 			showIcon: true,
 			button_text:'Add',
-			isLoading: false
+			isLoading: false,
+			file:''
 		}
 	},
 	computed:{
@@ -151,22 +152,7 @@ export default {
 		canImportContacts(){
 			return (this.customer_permissions.includes("import_contacts"));
 		},
-		config(){
-			return{
-				bucketName: 'termii',
-				dirName: 'upload/files',
-				region: 'us-west-1',
-				accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-				secretAccessKey:  process.env.SECRET_ACCESS_KEY,
-			}
 
-		},
-		S3Client(){
-			return new S3(this.config);
-		},
-		newFileName(){
-			return `termii_list_${this.selected_phone_book}_${JSON.parse(localStorage.getItem('user_data')).customer.uid}`
-		},
 	},
 	methods: {
 		async fetch(){
@@ -175,7 +161,6 @@ export default {
 				let countries_data = await this.$axios.$get('utility/countries');
 				this.countries = countries_data.data;
 			 this.countries.push({code: null, d_code: '+null', name: " Country code exists on contact "})
-				console.log(this.countries)
 
 				//get phonebook list
 				let phone_book_list = await this.$axios.$get('sms/phone-book?filter=unpaginated',);
@@ -198,24 +183,16 @@ export default {
 			}
 
 		},
-		uploadFile(fieldName, files){
-			try{
-				let file = files[0];
-				if (this.validateFile(file)){
-					this.S3Client
-						.uploadFile(file, this.newFileName)
-						.then(data => { this.contact_upload_url = data.location, this.$toast.success('Uploaded successfully') })
-						.catch(err => {Swal.fire({
-							icon: 'error',
-							title: 'Oops...',
-							text: 'Something went wrong! Please try again.',
-						})})
-				}else {
-					this.$toast.error("Please upload a valid file(CSV, XLSX)");
+		async handleFileUpload(files){
+				this.file = files[0];
+				const file_type = this.file.name.split('.').pop().toLowerCase();
+				if (this.validateFile(this.file)){
+        const uploadS3Url = await this.$uploadFileTos3.uploadFileToS3(this.file, file_type).catch((e)=> {this.$toast.error(e)});
+        this.contact_upload_url = uploadS3Url.data;
+								this.$toast.success('Uploaded successfully');
+								return;
 				}
-			}catch (e) {
-
-			}
+					this.$toast.error("Please upload a valid file(CSV, XLSX)");
 
 		},
 		async addContact(){
@@ -223,16 +200,14 @@ export default {
 				this.isLoading = true;
 				this.showIcon = false;
 				this.button_text = '';
-
-				let data = await this.$axios.$post('sms/phone-book/contact/add', {
-					contact_upload_url : this.contact_upload_url.split('files').pop().substring(1),
+				let data = await this.$axios.$post('sms/phone-book/contact/add',{
+					contact_upload_url : this.contact_upload_url,
 					id: this.selected_phone_book,
 					country_code: this.selected_country.substring(1)
 				});
 				this.isLoading = false;
 				this.showIcon = true;
 				this.button_text = 'Add';
-
 				await Swal.fire({
 					icon: 'success',
 					title: `${data.data}`,
