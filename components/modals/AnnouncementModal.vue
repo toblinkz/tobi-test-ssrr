@@ -16,12 +16,12 @@
 							</div>
 						</center>
 						<div style="text-align: right; padding: 20px">
-							<a class="btn btn-danger">Close</a>
+							<a class="btn btn-danger"  @click="close">Close</a>
 							<a class="btn btn-primary" @click="()=>{this.show_home_page = false}">Continue</a>
 						</div>
 					</div>
 					<div class="modal-body" v-if="!show_home_page">
-							<div class="padding-20">
+							<div class="padding-10">
 								<p style="font-weight: 700; font-size: 18px; color: #365899;">What you can do on Teams?</p>
 								<div class="mt-20 announcement_item">
             <div class="padding-10" style="display: flex" v-for="items in announcement_information.items">
@@ -29,8 +29,8 @@
 													   {{items}}
 												</div>
 								</div>
-								<div style="text-align: right; padding: 10px 20px ">
-									<a class="btn btn-danger">Close</a>
+								<div class="mt-20" style="text-align: right; padding: 10px 20px ">
+									<a class="btn btn-danger" @click="close">Close</a>
 								</div>
 
 							</div>
@@ -56,18 +56,7 @@ name: "AnnouncementModal",
 		}
 	},
 methods:{
-  async getAnnouncement(){
-			  try{
-			  	 const announcement_information = await this.$axios.$get('announcements');
-			  	 console.log(announcement_information.data)
-			  	 this.announcement_title = announcement_information.data.title;
-			  	 this.announcement_image_url = announcement_information.data.image_url;
-						 this.announcement_description = announcement_information.data.body;
-						 this.announcement_items = announcement_information.data.items;
-					}catch (e) {
 
-					}
-		},
 	close(){
 		this.$modal.hide('announcement-modal');
 	}
