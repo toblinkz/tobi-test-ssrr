@@ -1,6 +1,6 @@
 <template>
 	<modal name="announcement-modal" height="auto" >
-		<div  style="display: block; padding-left: 9px;">
+		<div  style="display: block; padding-left: 9px;" v-if="announcement_information.length !== 0">
 			<div>
 				<div>
 					<div class="modal-header" >
@@ -28,6 +28,11 @@
 													   {{items}}
 												</div>
 								</div>
+								<center>
+									<div style="padding: 20px" >
+										<a class="btn btn-primary" @click="()=>{this.show_home_page = false}">Continue</a>
+									</div>
+								</center>
 							</div>
 
 					</div>
