@@ -438,7 +438,6 @@ export default {
 			if (doneShowingBvnModal) {
 				return;
 			}
-			console.log(this.announcement_information)
 			await this.getNuban();
 			this.first_name = JSON.parse(localStorage.getItem('user_data')).fname;
 			this.live_api_key = JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
