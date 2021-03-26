@@ -4,35 +4,30 @@
 			<div>
 				<div>
 					<div class="modal-header" >
-						<button type="button" class="close" @click="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<button type="button" class="close"  aria-label="Close"><span style="cursor:pointer;" @click="close">&times;</span></button>
 					</div>
 
 					<div class="modal-body" v-if="show_home_page">
 						<center>
-							<img :src="announcement_information.image_url"/>
+							<img :src="announcement_information.data.image_url"/>
 							<div class="mt-20">
-								<p style="font-weight: 700; font-size: 32px; color: #365899;">{{announcement_information.title}}</p>
-								<p style="font-size: 13px">{{announcement_information.body}}</p>
+								<p style="font-weight: 700; font-size: 32px; color: #365899;">{{announcement_information.data.title}}</p>
+								<p style="font-size: 13px; padding-left: 50px; padding-right: 50px">{{announcement_information.data.body}}</p>
+							</div>
+							<div style="padding: 20px" v-if="announcement_information.data.items.length !==0 ">
+								<a class="btn btn-primary" @click="()=>{this.show_home_page = false}">Continue</a>
 							</div>
 						</center>
-						<div style="text-align: right; padding: 20px">
-							<a class="btn btn-danger"  @click="close">Close</a>
-							<a class="btn btn-primary" @click="()=>{this.show_home_page = false}">Continue</a>
-						</div>
 					</div>
-					<div class="modal-body" v-if="!show_home_page">
+					<div class="modal-body" v-if="!show_home_page ">
 							<div class="padding-10">
 								<p style="font-weight: 700; font-size: 18px; color: #365899;">What you can do on Teams?</p>
 								<div class="mt-20 announcement_item">
-            <div class="padding-10" style="display: flex" v-for="items in announcement_information.items">
+            <div class="padding-10" style="display: flex" v-for="items in announcement_information.data.items">
 													  <img src="/images/check-all.svg" class="m-r-5"/>
 													   {{items}}
 												</div>
 								</div>
-								<div class="mt-20" style="text-align: right; padding: 10px 20px ">
-									<a class="btn btn-danger" @click="close">Close</a>
-								</div>
-
 							</div>
 
 					</div>
