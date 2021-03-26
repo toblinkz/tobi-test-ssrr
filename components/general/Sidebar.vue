@@ -63,13 +63,11 @@
 							<li class="padd-x" v-if="show_drop_down" >
 								<nuxt-link  to="/devices" class="color-a level-1" v-if="canViewDevices">
 									<span> <i class="fa fa-barcode"></i> Manage Device </span>
-									<span class="badge badge-sm badge-sidebar">New</span>
 								</nuxt-link>
 							</li>
 							<li class="padd-x" v-if="show_drop_down">
 								<nuxt-link to="/my-number" class="color-a level-1" v-if="canViewNumbers">
 									<span> <i class="fa fa-tty "></i> Rent Numbers </span>
-									 <span class="badge badge-sm badge-sidebar">New</span>
 								</nuxt-link>
 							</li>
 							<Dropdown>
@@ -125,7 +123,7 @@
 							<li class="padd-x" v-if="isAdmin">
 								<nuxt-link to="/teams" class="color-a level-1">
 									<i class="entypo-user-add"></i>
-									Teams</nuxt-link>
+									Teams <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
 							</li>
 							<li class="padd-x" v-if="isAdmin">
 								<a  style="color:#FFFFFF " id="CHATID"><i class="entypo-help-circled"></i> Help Center</a>
