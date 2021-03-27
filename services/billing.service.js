@@ -4,7 +4,9 @@ export class BillingService {
 
 		this.$axios = axios
 	}
-
+	async getBalance(){
+		return await this.$axios.$get('billing/wallet');
+	}
 	async getTransactionHistory (transaction_date, page) {
 
 		const date = this.getDate(transaction_date)

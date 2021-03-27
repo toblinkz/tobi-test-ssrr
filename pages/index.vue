@@ -276,14 +276,8 @@ export default {
 
 		}
 	},
-	async asyncData({ $axios }){
-		try{
-			const announcement_information = await $axios.$get('announcements');
-			return{announcement_information:announcement_information}
-		}catch (e) {}
-
-	},
 	methods: {
+
 		getUserPermissions(){
 			this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
 			this.permissions_data.forEach((permission) => {
@@ -295,54 +289,40 @@ export default {
 		closeActivateIdModal(){
 			this.showActivateIdModal = false;
 		},
+
 		closeYourWalletModal(){
 			this.showYourWalletModal = false;
 		},
-		async fetch() {
-			try{
-				// get account balance
-				let data = await this.$axios.$get('billing/wallet', {
-					headers: {
-						'Authorization': `Bearer ${localStorage.getItem('local')}`
-					}
-				});
-				this.account_balance = data.data.converted_balance;
-				//get user data
-				let response_data = await this.$axios.$get('user',{
-					headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
-				});
 
-				localStorage.setItem('user_data', JSON.stringify(response_data.data));
-
-			} catch(e){
-
-			}
+		async fetchAndSoreLoggedInData(){
+			let data = await this.$user.getLoggedInUserData()
+				localStorage.setItem('user_data', JSON.stringify(data.data));
 		},
-		async getBalance(){
-			try{
-				// get account balance
-				let data = await this.$axios.$get('billing/wallet' );
-				this.account_balance = data.data.converted_balance;
-			}catch (e) {
 
-			}
+		async getAndSetAnnouncements(){
+			this.announcement_information = await this.$utility.getAnnouncements();
 		},
+
+		async fetchAndSetBalance(){
+			let data = await this.$billing.getBalance();
+				this.account_balance = data.data.converted_balance;
+		},
+
 		displayAnnouncementModal(){
 			if(this.announcement_information.length === 0){
 				return;
 			}
-			this.checkIfCookieExists();
+			this.checkIfAnnouncementCookieExists();
 		},
 
-		// check if cookie exists
-		checkIfCookieExists(){
+		checkIfAnnouncementCookieExists(){
 			const cookie_name  = this.getCookie('announcement_title');
-			if (!cookie_name || cookie_name !== this.announcement_information.data.title){
-				this.setCookie('announcement_title', this.announcement_information.data.title, 30);
-				this.$modal.show('announcement-modal');
-			}
+				if (!cookie_name || cookie_name !== this.announcement_information.data.title){
+					this.setCookie('announcement_title', this.announcement_information.data.title, 30);
+					this.$modal.show('announcement-modal');
+				}
+			},
 
-		},
 		getCookie(cookie_name) {
 			const name = cookie_name + "=";
 			const cookie_decoded = decodeURIComponent(document.cookie);
@@ -353,13 +333,14 @@ export default {
 			})
 			return res;
 		},
-		// Set a Cookie
+
 		setCookie(cName, cValue, expDays) {
 			let date = new Date();
 			date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
 			const expires = "expires=" + date.toUTCString();
 			document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
 		},
+
 		async getNuban() {
 			try {
 				const { data } = await this.$billing.getNubanAccount();
@@ -369,13 +350,29 @@ export default {
 					this.$modal.show('account-number-modal');
 					localStorage.setItem('doneShowingBvnModal', 'true');
 				}
-
 			} catch (e) {
 
 			}
-
-
 		},
+
+		checkUserIsVerifiedAndProcess(){
+			if (this.$store.state.view_verify_page === 'true') {
+				this.first_name = this.getFirstName;
+				this.$modal.show('verification-id-modal');
+			}
+			else if (localStorage.getItem('local')) {
+				this.$axios.setHeader('Authorization', `Bearer ${localStorage.getItem('local')}`);
+				const doneShowingBvnModal = localStorage.getItem('doneShowingBvnModal');
+				if (doneShowingBvnModal) {
+					return;
+				}
+		}
+		},
+		setNameAndKey(){
+			this.first_name = JSON.parse(localStorage.getItem('user_data')).fname;
+			this.live_api_key = JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
+		},
+
 
 		startIntro() {
 			let intro = introJs();
@@ -427,23 +424,24 @@ export default {
 	},
 
 	mounted: async function () {
+
+		this.displayAnnouncementModal();
+
 		this.getUserPermissions();
-		if (this.$store.state.view_verify_page === 'true') {
-			this.first_name = this.getFirstName;
-			this.$modal.show('verification-id-modal');
-		} else if (localStorage.getItem('local')) {
-			this.$axios.setHeader('Authorization', `Bearer ${localStorage.getItem('local')}`);
-			await this.fetch();
-			const doneShowingBvnModal = localStorage.getItem('doneShowingBvnModal');
-			if (doneShowingBvnModal) {
-				return;
-			}
-			await this.getNuban();
-			this.first_name = JSON.parse(localStorage.getItem('user_data')).fname;
-			this.live_api_key = JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
-			setInterval(this.getBalance, 60000);
-			this.displayAnnouncementModal();
-		}
+
+		this.checkUserIsVerifiedAndProcess();
+
+		this.setNameAndKey();
+
+		await this.fetchAndSetBalance();
+
+		await this.fetchAndSoreLoggedInData()
+
+		await this.getAndSetAnnouncements()
+
+		await this.getNuban();
+
+		setInterval(this.getBalance, 60000);
 
 	}
 
