@@ -276,6 +276,28 @@ export default {
 
 		}
 	},
+	mounted: async function () {
+
+		this.displayAnnouncementModal();
+
+		this.getUserPermissions();
+
+		this.checkUserIsVerifiedAndProcess();
+
+		this.setNameAndKey();
+
+		await this.fetchAndSetBalance();
+
+		await this.fetchAndSoreLoggedInData()
+
+		await this.getAndSetAnnouncements()
+
+		await this.getNuban();
+
+		setInterval(this.getBalance, 60000);
+
+	},
+
 	methods: {
 
 		getUserPermissions(){
@@ -422,29 +444,6 @@ export default {
 		}
 
 	},
-
-	mounted: async function () {
-
-		this.displayAnnouncementModal();
-
-		this.getUserPermissions();
-
-		this.checkUserIsVerifiedAndProcess();
-
-		this.setNameAndKey();
-
-		await this.fetchAndSetBalance();
-
-		await this.fetchAndSoreLoggedInData()
-
-		await this.getAndSetAnnouncements()
-
-		await this.getNuban();
-
-		setInterval(this.getBalance, 60000);
-
-	}
-
 
 }
 
