@@ -15,7 +15,7 @@
 								<p style="font-size: 13px; padding-left: 50px; padding-right: 50px">{{announcement_information.data.body}}</p>
 							</div>
 							<div style="padding: 20px" v-if="announcement_information.data.items.length !==0 ">
-								<a class="btn btn-primary" @click="()=>{this.show_home_page = false}">Continue</a>
+								<a class="btn btn-primary" @click="()=>{this.show_home_page = false}">Continue  <i class="entypo-right-thin"></i> </a>
 							</div>
 						</center>
 					</div>
@@ -30,7 +30,7 @@
 								</div>
 								<center>
 									<div style="padding: 20px" >
-										<a class="btn btn-primary" @click="()=>{this.show_home_page = false}">Continue</a>
+										<a class="btn btn-primary" @click="close()">Done</a>
 									</div>
 								</center>
 							</div>
