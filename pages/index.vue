@@ -277,10 +277,10 @@ export default {
 		}
 	},
 	async asyncData({ $axios }){
-		 try{
-				const announcement_information = await $axios.$get('announcements');
-				return{announcement_information:announcement_information.data}
-			}catch (e) {}
+		try{
+			const announcement_information = await $axios.$get('announcements');
+			return{announcement_information:announcement_information}
+		}catch (e) {}
 
 	},
 	methods: {
@@ -328,51 +328,51 @@ export default {
 			}
 		},
 		displayAnnouncementModal(){
-			if(Object.keys(this.announcement_information).length === 0 && this.announcement_information.constructor === Object){
-				 return;
+			if(this.announcement_information.length === 0){
+				return;
 			}
 			this.checkIfCookieExists();
 		},
 
 		// check if cookie exists
-		 checkIfCookieExists(){
-				 const cookie_name  = this.getCookie('announcement_title');
-				 if (!cookie_name){
-						this.setCookie('announcement_title', this.announcement_information.title, 30);
-						this.$modal.show('announcement-modal');
-					}
+		checkIfCookieExists(){
+			const cookie_name  = this.getCookie('announcement_title');
+			if (!cookie_name || cookie_name !== this.announcement_information.data.title){
+				this.setCookie('announcement_title', this.announcement_information.data.title, 30);
+				this.$modal.show('announcement-modal');
+			}
 
-			},
+		},
 		getCookie(cookie_name) {
-				const name = cookie_name + "=";
-				const cookie_decoded = decodeURIComponent(document.cookie);
-				const cArr = cookie_decoded .split('; ');
-				let res;
-				cArr.forEach(val => {
-					if (val.indexOf(name) === 0) res = val.substring(name.length);
-				})
-				return res;
-},
+			const name = cookie_name + "=";
+			const cookie_decoded = decodeURIComponent(document.cookie);
+			const cArr = cookie_decoded .split('; ');
+			let res;
+			cArr.forEach(val => {
+				if (val.indexOf(name) === 0) res = val.substring(name.length);
+			})
+			return res;
+		},
 		// Set a Cookie
 		setCookie(cName, cValue, expDays) {
 			let date = new Date();
 			date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
 			const expires = "expires=" + date.toUTCString();
 			document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
-},
+		},
 		async getNuban() {
-				try {
-					const { data } = await this.$billing.getNubanAccount();
-					localStorage.setItem('nuban_account', JSON.stringify(data.data));
-					this.nuban_account = data.data;
-					if (this.nuban_account.length === 0  ) {
-						this.$modal.show('account-number-modal');
-						localStorage.setItem('doneShowingBvnModal', 'true');
-					}
-
-				} catch (e) {
-
+			try {
+				const { data } = await this.$billing.getNubanAccount();
+				localStorage.setItem('nuban_account', JSON.stringify(data.data));
+				this.nuban_account = data.data;
+				if (this.nuban_account.length === 0  ) {
+					this.$modal.show('account-number-modal');
+					localStorage.setItem('doneShowingBvnModal', 'true');
 				}
+
+			} catch (e) {
+
+			}
 
 
 		},
@@ -446,6 +446,7 @@ export default {
 		}
 
 	}
+
 
 }
 
