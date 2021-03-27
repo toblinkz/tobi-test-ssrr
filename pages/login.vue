@@ -160,7 +160,6 @@ export default {
 					headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
 				});
 				await localStorage.setItem('user_data', JSON.stringify(response.data));
-				console.log(response.status);
 
 				if (JSON.parse(localStorage.getItem('user_data')).active_status_id.name === "Pending"){
 					this.$store.commit('setFirstName', JSON.parse(localStorage.getItem('user_data')).fname);

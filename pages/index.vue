@@ -211,6 +211,7 @@
 		<PageDeniedModal></PageDeniedModal>
 		<SuccessModal :modal_information="modal_information"></SuccessModal>
 		<AnnouncementModal :announcement_information="announcement_information"></AnnouncementModal>
+
 	</div>
 </template>
 
@@ -278,7 +279,7 @@ export default {
 	async asyncData({ $axios }){
 		 try{
 				const announcement_information = await $axios.$get('announcements');
-				return{announcement_information:announcement_information.data}
+				return{announcement_information:announcement_information}
 			}catch (e) {}
 
 	},
@@ -327,7 +328,7 @@ export default {
 			}
 		},
 		displayAnnouncementModal(){
-			if(Object.keys(this.announcement_information).length === 0 && this.announcement_information.constructor === Object){
+			if(this.announcement_information.length === 0){
 				 return;
 			}
 			this.checkIfCookieExists();
@@ -336,8 +337,8 @@ export default {
 		// check if cookie exists
 		 checkIfCookieExists(){
 				 const cookie_name  = this.getCookie('announcement_title');
-				 if (!cookie_name){
-						this.setCookie('announcement_title', this.announcement_information.title, 30);
+				 if (!cookie_name || cookie_name !== this.announcement_information.data.title){
+						this.setCookie('announcement_title', this.announcement_information.data.title, 30);
 						this.$modal.show('announcement-modal');
 					}
 
