@@ -100,6 +100,11 @@
         <div class="padd-x">
           <hr class="mb-10 mt-10">
         </div>
+							<li class="padd-x" v-if="isAdmin">
+								<nuxt-link to="/teams" class="color-a level-1">
+									<i class="entypo-user-add"></i>
+									Teams <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
+							</li>
         <Dropdown>
           <template v-slot:dropdown_title v-if="canViewDevelopersSettings">
             <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-code"></i> Developers
@@ -110,24 +115,19 @@
             <li v-if="canViewApiConsole"><nuxt-link to="/account/api"><i class="entypo-key"></i> Api console</nuxt-link></li>
           </template>
         </Dropdown>
-							<li class="padd-x">
-								<a target="_blank" class="color-a level-1"  href="https://join.slack.com/t/termii-loop/shared_invite/zt-imbqlf68-w4lsPkOzibBXSQohu8_8dQ">
-									<i class="entypo-users"></i> Join Community</a>
-							</li>
         <li v-if="viewSettings" class="padd-x">
           <nuxt-link to="/account/profile" class="color-a level-1">
             <i class="entypo-cog"></i>
             Settings</nuxt-link>
         </li>
-
-							<li class="padd-x" v-if="isAdmin">
-								<nuxt-link to="/teams" class="color-a level-1">
-									<i class="entypo-user-add"></i>
-									Teams <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
-							</li>
 							<li class="padd-x" v-if="isAdmin">
 								<a  style="color:#FFFFFF " id="CHATID"><i class="entypo-help-circled"></i> Help Center</a>
 							</li>
+							<li class="padd-x">
+								<a target="_blank" class="color-a level-1"  href="https://join.slack.com/t/termii-loop/shared_invite/zt-imbqlf68-w4lsPkOzibBXSQohu8_8dQ">
+									<i class="entypo-users"></i> Community</a>
+							</li>
+
 
         <div class="clearfix"></div>
 

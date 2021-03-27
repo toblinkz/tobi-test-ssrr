@@ -15,27 +15,27 @@
 					<a v-show="team_member.permissions.length > 5 && !team_member.is_main" @click="updateTeamMember(team_member)">View more</a>
 				</div>
 
-			</div>
-			<div style="padding: 20px;" v-if="!team_member.is_main">
-				<button class="btn btn-success" @click="updateTeamMember(team_member)"><i class="fa fa-edit m-r-5" ></i>Update</button>
-				<button class="btn btn-danger" @click="deleteTeamMember(team_member)"><i class="icon-bin m-r-5" style="font-size: 12px" ></i>Remove</button>
-			</div>
 		</div>
+		<div style="padding: 20px;" v-if="!team_member.is_main">
+			<button class="btn btn-success" @click="updateTeamMember(team_member)"><i class="fa fa-edit m-r-5" ></i>Update</button>
+			<button class="btn btn-danger" @click="deleteTeamMember(team_member)"><i class="icon-bin m-r-5" style="font-size: 12px" ></i>Remove</button>
+		</div>
+	</div>
 </template>
 
 <script>
 export default {
-name: "TeamCard",
+	name: "TeamCard",
 
 	props:{
-	  team_member:{
-			},
+		team_member:{
+		},
 	},
 	methods:{
-	  updateTeamMember(row)	{
-	  	 this.$emit('update-team-member', row);
-	  	 this.$emit('team-member-permissions', this.team_member.permissions)
-			},
+		updateTeamMember(row)	{
+			this.$emit('update-team-member', row);
+			this.$emit('team-member-permissions', this.team_member.permissions)
+		},
 		deleteTeamMember(id)	{
 			this.$emit('delete-team-member', id)
 		}

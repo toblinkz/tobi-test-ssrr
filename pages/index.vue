@@ -210,6 +210,7 @@
 		<AccountNumberModal></AccountNumberModal>
 		<PageDeniedModal></PageDeniedModal>
 		<SuccessModal :modal_information="modal_information"></SuccessModal>
+		<AnnouncementModal :announcement_information="announcement_information"></AnnouncementModal>
 	</div>
 </template>
 
@@ -234,8 +235,10 @@ import AddedTeammateSuccessfullyModal from "../components/modals/AddedTeammateSu
 import PageDeniedModal from "../components/modals/PageDeniedModal";
 import AccountNumberModal from "../components/modals/AccountNumberModal";
 import SuccessModal from "../components/modals/SuccessModal";
+import AnnouncementModal from "../components/modals/AnnouncementModal";
 export default {
 	components: {
+		AnnouncementModal,
 		SuccessModal,
 		AccountNumberModal,
 		PageDeniedModal,
@@ -268,8 +271,16 @@ export default {
 			is_main: JSON.parse(localStorage.getItem('user_data')).is_main,
 			permission_data : [],
 			customer_permissions:[],
+			announcement_information:[]
 
 		}
+	},
+	async asyncData({ $axios }){
+		 try{
+				const announcement_information = await $axios.$get('announcements');
+				return{announcement_information:announcement_information.data}
+			}catch (e) {}
+
 	},
 	methods: {
 		getUserPermissions(){
@@ -315,6 +326,39 @@ export default {
 
 			}
 		},
+		displayAnnouncementModal(){
+			if(Object.keys(this.announcement_information).length === 0 && this.announcement_information.constructor === Object){
+				 return;
+			}
+			this.checkIfCookieExists();
+		},
+
+		// check if cookie exists
+		 checkIfCookieExists(){
+				 const cookie_name  = this.getCookie('announcement_title');
+				 if (!cookie_name){
+						this.setCookie('announcement_title', this.announcement_information.title, 30);
+						this.$modal.show('announcement-modal');
+					}
+
+			},
+		getCookie(cookie_name) {
+				const name = cookie_name + "=";
+				const cookie_decoded = decodeURIComponent(document.cookie);
+				const cArr = cookie_decoded .split('; ');
+				let res;
+				cArr.forEach(val => {
+					if (val.indexOf(name) === 0) res = val.substring(name.length);
+				})
+				return res;
+},
+		// Set a Cookie
+		setCookie(cName, cValue, expDays) {
+			let date = new Date();
+			date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
+			const expires = "expires=" + date.toUTCString();
+			document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
+},
 		async getNuban() {
 				try {
 					const { data } = await this.$billing.getNubanAccount();
@@ -382,7 +426,6 @@ export default {
 	},
 
 	mounted: async function () {
-
 		this.getUserPermissions();
 		if (this.$store.state.view_verify_page === 'true') {
 			this.first_name = this.getFirstName;
@@ -398,7 +441,7 @@ export default {
 			this.first_name = JSON.parse(localStorage.getItem('user_data')).fname;
 			this.live_api_key = JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
 			setInterval(this.getBalance, 60000);
-
+			this.displayAnnouncementModal();
 		}
 
 	}
