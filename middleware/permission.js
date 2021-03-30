@@ -44,7 +44,7 @@ function hasAccess(route_name){
 		case "my-number":
 			return customer_permissions.includes('view_numbers');
 		case "number-id-subscriptions":
-			return customer_permissions.includes('manage_numbers');
+			return customer_permissions.includes('manage_a_number');
 		case "phone-book":
 			return customer_permissions.includes('view_phonebooks');
 		case "view-contact-id":
