@@ -98,7 +98,7 @@
 					</form>
 					<div class="mb-20">
 						<br class="mt-10">
-						<span class="hidden-xs">By clicking the "Create My Account" button, you agree to Termii’s <a href="https://termii.com/terms" class="text-info2">terms of acceptable use</a> and <a href="https://termii.com/privacy" class="text-info2"> privacy policies</a></span>
+						<span class="hidden-xs">By clicking the "Create My Account" button, you agree to Termii’s <a href="https://termii.com/terms" target="_blank" class="text-info2">terms of acceptable use</a> and <a href="https://termii.com/privacy" target="_blank" class="text-info2"> privacy policies</a></span>
 					</div>
 					<!-- /register form -->
 				</div>
