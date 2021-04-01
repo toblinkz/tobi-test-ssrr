@@ -129,7 +129,7 @@ export default {
 								|| this.hasNewPasswordError || this.hasConfirmPasswordError)
 			},
 		canChangePassword(){
-			return (this.customer_permissions.includes("change password"));
+			return (this.customer_permissions.includes("change_password"));
 		},
 	},
 	watch: {
