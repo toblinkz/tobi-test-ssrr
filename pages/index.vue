@@ -368,7 +368,7 @@ export default {
 				const { data } = await this.$billing.getNubanAccount();
 				localStorage.setItem('nuban_account', JSON.stringify(data.data));
 				this.nuban_account = data.data;
-				if (this.nuban_account.length === 0  ) {
+				if (this.nuban_account.length === 0 && this.is_main ) {
 					this.$modal.show('account-number-modal');
 					localStorage.setItem('doneShowingBvnModal', 'true');
 				}
