@@ -12,11 +12,6 @@
             <i class="icon-key position-left"></i> API token
           </nuxt-link>
         </li>
-							<li rel0="AccountController/api">
-								<nuxt-link to="/account/secret-key" class="level-1  ">
-									<i class="icon-key position-left"></i> Secret key
-								</nuxt-link>
-							</li>
         <li>
           <nuxt-link to="/account/webhook/config" class="level-1  ">
             <i class="entypo-tools position-left"></i> Webhook Config

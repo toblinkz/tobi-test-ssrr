@@ -69,8 +69,6 @@ function hasAccess(route_name){
 			return customer_permissions.includes('view_delivery_report');
 		case "account-api":
 			return customer_permissions.includes('view_api_key');
-		case "account-secret-key":
-			return customer_permissions.includes('view_api_key');
 		case "account-profile":
 			return customer_permissions.includes('view_profile');
 		case "account-deactivate":
