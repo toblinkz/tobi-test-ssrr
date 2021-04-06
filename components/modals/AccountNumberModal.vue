@@ -82,10 +82,7 @@ export default {
 			this.isLoading = true;
 			this.button_text = 'Creating';
 			 try {
-					await  this.$axios.$post('utility/generate/nuban', {
-						identification_number: this.bvn,
-						dob: this.date_of_birth
-					});
+					await this.$utility.generateNubanAccount(this.bvn, this.date_of_birth);
 					await this.getNubanAccount();
 					this.$modal.hide('account-number-modal');
 					this.$modal.show('success-modal');
