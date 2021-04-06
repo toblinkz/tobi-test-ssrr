@@ -10,7 +10,8 @@
 						<div class="modal-body">
 							<p class="alert insight toke" style="border-radius: 10px; padding: 5px">
 							<span>Kindly generate your dedicated account number. New CBN regulations
-													mandates that you input your BVN to generate a new account number.
+													mandates that you input your BVN to generate a new account number.<br>
+								<b>NB:</b> ₦10 would be debited for this action
 						</span>
 							</p>
 							<div class="form-group">
@@ -19,9 +20,8 @@
 								<span class=" error_field_message" v-if="error_message.bvn">{{error_message.bvn}}</span>
 
 								<br>
-								<label>Phone Number</label>
-								<input type="text" class="form-control" :class="{'error ' : hasPhoneNumberError}" v-model="phone_number" placeholder="enter phone number associated with your bvn" >
-								<span class=" error_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
+								 <label>Date of Birth</label>
+								 <date-picker v-model="date_of_birth" value-type="YYYY-MM-DD " type="date" style="width: 100%" placeholder="Select date of birth"  confirm></date-picker>
 
 								<br>
 							</div>
@@ -47,38 +47,34 @@
 
 <script>
 import ButtonSpinner from "../general/ButtonSpinner";
+import DatePicker from "vue2-datepicker";
+import 'vue2-datepicker/index.css';
 export default {
 	name: "AccountNumberModal",
-	components: {ButtonSpinner},
+	components: {ButtonSpinner, DatePicker},
 	data() {
 		return{
 			 bvn: '',
-			 phone_number: '',
+			 date_of_birth: null,
 			 isLoading: false,
 			 error_message:[],
 			 hasBvnError:false,
 			 button_text: 'Create new account',
-			 hasPhoneNumberError: false
 		}
 	},
 	computed: {
 		isDisabled: function () {
-			return (this.hasPhoneNumberError || this.hasBvnError || this.bvn === '' || this.phone_number === '');
+			return ( this.hasBvnError || this.bvn === '' || this.date_of_birth === null );
 		},
 	},
 	watch: {
 		 bvn(value){
 		 	 this.validateBvn(value);
 			},
-		phone_number(value){
-		 	this.validatePhoneNumber(value);
-		}
 	},
 	methods: {
 		close(){
 			this.bvn = '';
-			this.phone_number = '';
-			this.hasPhoneNumberError = false;
 			this.hasBvnError = false;
 			this.$modal.hide('account-number-modal');
 		},
@@ -88,7 +84,7 @@ export default {
 			 try {
 					await  this.$axios.$post('utility/generate/nuban', {
 						identification_number: this.bvn,
-						phone_number: this.phone_number
+						dob: this.date_of_birth
 					});
 					await this.getNubanAccount();
 					this.$modal.hide('account-number-modal');
@@ -113,15 +109,6 @@ export default {
 					this.error_message['bvn'] = '';
 					this.hasBvnError = false;
 				}
-		},
-		validatePhoneNumber(value){
-			if ( isNaN(value) || value.length < 10 || value.length > 14) {
-				this.error_message['phone_number'] = 'Phone number must be between 10 and 14 digits';
-				this.hasPhoneNumberError = true;
-			}else {
-				this.error_message['phone_number'] = '';
-				this.hasPhoneNumberError = false;
-			}
 		},
   async getNubanAccount(){
 			 this.$emit('nuban_account');
