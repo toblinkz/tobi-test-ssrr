@@ -110,6 +110,11 @@ export default {
 			all_permissions_id:[]
 		}
 	},
+	props:{
+		teammates_email:{
+			 required: true
+		}
+	},
 	computed:{
 		isDisabled:function () {
 			return (!this.first_name || !this.last_name  || !this.email || !this.role_selected || this.selected_permission.length === 0);
@@ -189,26 +194,23 @@ export default {
 			}
 		},
 		validateEmail(email){
-			if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+			if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))){
+				this.error_message['email'] = 'The email field must be a valid email';
+				this.hasEmailError = true;
+				return
+			}
+		  if (this.teammates_email.includes(email)){
+				this.error_message['email'] = 'The email address already exist on team';
+				this.hasEmailError = true;
+				return;
+			}
 				this.error_message['email'] = '';
 				this.hasEmailError = false;
 
-			}else {
-				this.error_message['email'] = 'The email field must be a valid email';
-				this.hasEmailError = true;
 
-			}
-		},
-		handle422Errors(data){
-			let errors = data.errors
-			for (let key in errors) {
-				errors[key].forEach(err => {
-					this.$toast.error(err);
-				});
-			}
-		},
-		handleOtherErrors(data){
-			this.$toast.error(data.message);
+
+
+
 		},
 		clearForm(){
 			this.first_name = '';
@@ -221,34 +223,47 @@ export default {
 			 this.add_button_text = '';
 			 this.show_icon = false;
 			 this.isLoading = true;
-			 try {
-					  let data = await this.$axios.$post('team', {
-					  	 first_name: this.first_name,
-								 last_name: this.last_name,
-								 email: this.email,
-								 role: this.role_selected,
-								 permissions: this.selected_permission
-							});
-					this.$emit('add-team-member', this.selected_permission);
-					this.add_button_text = 'Add teammate';
-					this.clearForm();
-					this.show_icon = true;
-					this.isLoading = false;
-					this.close();
-				}catch (e) {
-					this.add_button_text = 'Add teammate';
-					this.show_icon = true;
-					this.isLoading = false;
-					let errors = e.response.data;
-
-					if(e.response.status === 422){
-						this.handle422Errors(errors)
-					}else{
-						this.handleOtherErrors(errors)
-					}
+				const user_exist = await this.$teams.checkIfUserEmailExist(this.email);
+			 if (!user_exist.message){
+					await this.callAddTeammateEndpoint();
+					return;
 				}
+				this.add_button_text = 'Add teammate';
+				this.show_icon = true;
+				this.isLoading = false;
+				const teammate_info = {
+					 email: this.email,
+						first_name: this.first_name,
+						last_name: this.last_name,
+						role: this.role_selected,
+						permission: this.selected_permission
+				}
+				this.$emit('user-email-exist', teammate_info);
+		},
 
+		async callAddTeammateEndpoint(){
+			try {
+				await this.$teams.addTeammate(this.first_name, this.last_name, this.email, this.role_selected, this.selected_permission);
+				this.$emit('add-team-member', this.selected_permission);
+				this.add_button_text = 'Add teammate';
+				this.clearForm();
+				this.show_icon = true;
+				this.isLoading = false;
+				this.close();
+			}catch (e) {
+				this.add_button_text = 'Add teammate';
+				this.show_icon = true;
+				this.isLoading = false;
+				let errors = e.response.data;
+
+				if(e.response.status === 422){
+					this.$error.handle422Errors(errors);
+				}else{
+					this.$error.handleOtherErrors(errors);
+				}
+			}
 		}
+
 
 		},
 	mounted() {
