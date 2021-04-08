@@ -190,7 +190,7 @@
             amount_funded:'',
             showPagination: true,
 												show_shimmer: true,
-											customer_permissions: localStorage.getItem('permissions'),
+											 customer_permissions: localStorage.getItem('permissions'),
           }
       },
 					computed: {

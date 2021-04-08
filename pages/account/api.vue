@@ -61,6 +61,19 @@
 																																</form>
                                 <!-- END PANEL -->
                               </div>
+																													<div class="col-md-6">
+																														<!-- START PANEL -->
+																														<p class="text-semibold"><i class="fa fa-certificate" style="color: #079805 !important;"></i> Secret Key</p>
+																														<div class="alert toke wd">
+																															<button class="clipboard-style"  v-clipboard:copy="secret_key">
+																																<img src="/images/copy.svg"/>
+																															</button>
+																															<p class="insight" style="color: #595959 !important;">{{secret_key}}</p> </div>
+																														<form>
+																															<br>
+																														</form>
+																														<!-- END PANEL -->
+																													</div>
                             </div>
 
                           </div>
@@ -106,6 +119,7 @@
 									isLoading: false,
 									showIcon: true,
 									api_key: '',
+									secret_key:'',
 									error_message:[],
 									customer_permissions: localStorage.getItem('permissions'),
 									hasPasswordError: false,
@@ -155,6 +169,7 @@
       },
 					mounted() {
 						this.api_key = 	JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
+						this.secret_key = 	JSON.parse(localStorage.getItem('user_data')).customer.secret_key;
 					}
 
     }
