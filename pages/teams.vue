@@ -33,7 +33,8 @@
 					  <DeleteTeammateModal @get-teammates="getTeammates" :teammate_id="teammate_id" :teammate_email="email"></DeleteTeammateModal>
 					  <AddedTeammateSuccessfullyModal></AddedTeammateSuccessfullyModal>
 					  <UpdatedTeammatePermissionModal></UpdatedTeammatePermissionModal>
-					  <AddTeamMemberModal @add-team-member="addTeamMember($event)" ></AddTeamMemberModal>
+					  <AddTeamMemberModal @add-team-member="addTeamMember($event)" :teammates_email="teammates_email" @user-email-exist="showUserEmailNotificationModal($event)"></AddTeamMemberModal>
+					  <UserEmailExistNotificationModal @add-teammate="addTeamMember" :existing_user_data="existing_user_data"></UserEmailExistNotificationModal>
 					  <UpdateTeamMemberModal @update-team-member="updateTeamMember($event)" @update-teammate-permission="updateTeammatePermission" :teammate_id="teammate_id" :email="email" :first_name="first_name" :selected_teammate_permission="selected_teammate_permission" :last_name="last_name" :role="role" ></UpdateTeamMemberModal>
 				</div>
 		</div>
@@ -49,10 +50,12 @@ import TeamCard from "../components/team/TeamCard";
 import AddedTeammateSuccessfullyModal from "../components/modals/AddedTeammateSuccessfullyModal";
 import DeleteTeammateModal from "../components/modals/DeleteTeammateModal";
 import UpdatedTeammatePermissionModal from "../components/modals/UpdatedTeammatePermissionModal";
+import UserEmailExistNotificationModal from "../components/team/modals/UserEmailExistNotificationModal";
 export default {
  name: "teams",
 	middleware:['auth', 'permission'],
 	components: {
+		UserEmailExistNotificationModal,
 		UpdatedTeammatePermissionModal,
 		DeleteTeammateModal,
 		AddedTeammateSuccessfullyModal,
@@ -67,25 +70,21 @@ export default {
 				  teammate_id: '',
 						email: '',
 				  role: '',
+				  teammates_email:[],
+				  existing_user_data:'',
 				  selected_permission:'',
 			  	selected_teammate_permission:[]
 
 			}
 	},
-	async asyncData({$axios}){
-		try {
-			const team_members = await $axios.$get('team');
-			return {team_members: team_members}
-		}catch (e) {
-
-		}
-	},
 	methods: {
 		showModal(){
 			 this.$modal.show('add-team-member-modal');
 		},
+
 		addTeamMember(event){
 			this.getTeammates();
+			this.pushTeammateEmailToTeammateEmailArray();
 			this.$modal.show('added-team-successfully-modal');
 		},
 		async updateTeammatePermission(){
@@ -97,10 +96,21 @@ export default {
 			}
 
 		},
+		pushTeammateEmailToTeammateEmailArray(){
+				this.team_members.data.forEach((teammate)=>{
+					this.teammates_email.push(teammate.email)
+				})
+		},
 		async deleteTeamMember(team_member){
 			this.teammate_id = team_member.id;
 			this.email = team_member.email;
    this.$modal.show('delete-teammate-modal')
+		},
+		showUserEmailNotificationModal(existing_user_data){
+			this.email = existing_user_data.email;
+			this.existing_user_data = existing_user_data;
+			this.$modal.hide('add-team-member-modal');
+			this.$modal.show('user-email-exist-notification-modal');
 		},
 		async getTeammates(){
 			  try {
@@ -121,6 +131,11 @@ export default {
 			 this.selected_teammate_permission = event;
 		}
 	},
+	async mounted() {
+		 await this.getTeammates();
+ 	 await this.pushTeammateEmailToTeammateEmailArray();
+
+	}
 
 }
 </script>
