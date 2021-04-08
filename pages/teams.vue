@@ -77,18 +77,11 @@ export default {
 
 			}
 	},
-	async asyncData({$axios}){
-		try {
-			const team_members = await $axios.$get('team');
-			return {team_members: team_members}
-		}catch (e) {
-
-		}
-	},
 	methods: {
 		showModal(){
 			 this.$modal.show('add-team-member-modal');
 		},
+
 		addTeamMember(event){
 			this.getTeammates();
 			this.pushTeammateEmailToTeammateEmailArray();
@@ -138,8 +131,10 @@ export default {
 			 this.selected_teammate_permission = event;
 		}
 	},
-	mounted() {
- 	 this.pushTeammateEmailToTeammateEmailArray();
+	async mounted() {
+		 await this.getTeammates();
+ 	 await this.pushTeammateEmailToTeammateEmailArray();
+
 	}
 
 }
