@@ -68,7 +68,6 @@ export default {
 					} catch (e) {
 						this.$toast.error(e.response.data.message);
 						this.button_text = "Yes, Remove";
-						console.log(e.response)
 						this.isLoading = false;
 
 					}
