@@ -6,6 +6,7 @@ import {UploadFileToS3Service} from "@/services/uploadFileTos3.service";
 import {UserService} from "@/services/user.service";
 import {UtilityService} from "@/services/utility.service";
 import {TeamService} from "../services/team.service";
+import {SmsService} from "../services/sms.service";
 
 export default ({ app: { $axios, $toast } }, inject) => {
 	// pass $axios as a dependency to the BillingService constructor
@@ -16,6 +17,7 @@ export default ({ app: { $axios, $toast } }, inject) => {
 	const error = new ErrorService($axios, $toast)
 	const uploadFileTos3 = new UploadFileToS3Service($axios)
 	const teams = new TeamService($axios)
+	const sms = new SmsService($axios)
 
 	// inject the service, making it available in the context, component, store, etc.
 	inject('billing', billing)
@@ -25,4 +27,5 @@ export default ({ app: { $axios, $toast } }, inject) => {
 	inject('error', error)
 	inject('uploadFileTos3', uploadFileTos3)
 	inject('teams', teams)
+	inject('sms', sms)
 }
