@@ -105,6 +105,11 @@
 									<i class="entypo-user-add"></i>
 									Teams <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
 							</li>
+							<li class="padd-x" v-if="isAdmin">
+								<nuxt-link to="/sms/countries" class="color-a level-1">
+									<i class="entypo-globe"></i>
+									Countries <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
+							</li>
         <Dropdown>
           <template v-slot:dropdown_title v-if="canViewDevelopersSettings">
             <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-code"></i> Developers
