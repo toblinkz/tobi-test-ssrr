@@ -15,18 +15,15 @@
     <div class="sidebar-menu">
                         <span>
            <center>
-
              <img preview-for="image"  :src="imageUrl" class="circular" alt="">
-
             </center>
-
             </span>
-
       <ul class="nav">
         <li>
           <div class="m-t-10 padd-x">
             <center>
-              <p class="text-center mt-10" style="color: #d3d3d3;">Per-Billing Account</p>
+              <p v-if="!show_company_name" class="text-center mt-10" style="color: #d3d3d3;">{{company_name}}</p>
+													<p v-if="isAdmin && show_company_name" class="text-center mt-10 " style="color: #d3d3d3; cursor:pointer" @click="showUpdateCompanyNameModal"><i class="entypo-plus"></i>Update Company Name</p>
             </center>
           </div>
         </li>
@@ -157,6 +154,8 @@
 													imageUrl:  'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg',
 										   permission_data : [],
 										   customer_permissions:[],
+										   company_name:JSON.parse(localStorage.getItem('user_data')).company.name,
+										   show_company_name: true,
 										   customer_data: [],
 										   isAdmin: JSON.parse(localStorage.getItem('user_data')).is_main
 									}
@@ -222,6 +221,15 @@
 								this.customer_permissions.push(permission.name);
 							});
 						},
+
+						checkIfCompanyNameIsAnEmailAddress(){
+							let email_address = JSON.parse(localStorage.getItem('user_data')).company.name;
+							return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_address));
+						},
+						showUpdateCompanyNameModal(){
+							this.$modal.show('update-company-name-modal');
+						}
+
 					},
 				async mounted() {
 					this.customer_data = JSON.parse(localStorage.getItem('user_data'));
@@ -233,7 +241,7 @@
 							this.show_drop_down = false;
 						}
 						this.imageUrl = this.customer_data.image || 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg';
-
+      this.show_company_name = this.checkIfCompanyNameIsAnEmailAddress();
 					}
 				 }
 

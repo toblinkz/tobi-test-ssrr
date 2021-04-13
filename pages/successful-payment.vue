@@ -52,6 +52,7 @@
 				</div>
 			</div>
 			<verification-modal></verification-modal>
+			<UpdateCompanyNameModal></UpdateCompanyNameModal>
 		</div>
 	</div>
 </template>
@@ -61,11 +62,12 @@ import Sidebar from "../components/general/Sidebar";
 import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
 import {mapGetters} from "vuex";
 import VerificationModal from "~/components/modals/VerificationModal";
+import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
 
 export default {
 	name: "successful-payment",
 	middleware: ['auth','inactive_user'],
-	components: {VerificationModal, DashboardNavbar, Sidebar},
+	components: {UpdateCompanyNameModal, VerificationModal, DashboardNavbar, Sidebar},
 	data(){
 		return{
 			name:"successful-payment",

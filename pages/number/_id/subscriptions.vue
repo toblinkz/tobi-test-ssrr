@@ -71,7 +71,7 @@
 						</main>
 					</div>
 					<VerificationModal></VerificationModal>
-
+      <UpdateCompanyNameModal></UpdateCompanyNameModal>
 				</div>
 			</div>
 		</div>
@@ -87,10 +87,12 @@ import DeviceSubscriptionModal from "~/components/modals/DeviceSubscriptionModal
 import DeviceSubscription from "~/components/devices/subscriptions";
 import DeviceTemplate from "@/components/devices/templates";
 import NumberSubscriptions from "@/components/number/Subscriptions";
+import UpdateCompanyNameModal from "../../../components/index/modals/UpdateCompanyNameModal";
 export default {
 	name: "subscriptions",
 	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {
+		UpdateCompanyNameModal,
 		NumberSubscriptions,
 		DeviceTemplate,
 		DeviceSubscription, VerificationModal,DashboardNavbar, Sidebar, DeviceSubscriptionModal},

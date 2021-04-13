@@ -131,6 +131,7 @@
       </div>
     </div>
 			<verification-modal></verification-modal>
+			<UpdateCompanyNameModal></UpdateCompanyNameModal>
 			<download-phone-book-contact :phone_book_id="phone_book_id" :get_url="get_url"></download-phone-book-contact>
   </div>
 </template>
@@ -143,9 +144,12 @@
 				import Pagination from "../../components/general/Pagination";
 				import VerificationModal from "~/components/modals/VerificationModal";
 				import DownloadPhoneBookContact from "@/components/modals/DownloadPhoneBookContactModal";
+				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
     export default {
 					 name: "_id",
-      components: {DownloadPhoneBookContact, VerificationModal,Pagination, TableVuePlaceHolder, DashboardNavbar, Sidebar},
+      components: {
+							UpdateCompanyNameModal,
+							DownloadPhoneBookContact, VerificationModal,Pagination, TableVuePlaceHolder, DashboardNavbar, Sidebar},
 					 middleware: ['auth', 'inactive_user', 'permission'],
       data(){
           return{

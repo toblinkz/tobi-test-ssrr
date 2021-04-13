@@ -92,6 +92,7 @@
         </div>
       </div>
 					<VerificationModal></VerificationModal>
+					<UpdateCompanyNameModal></UpdateCompanyNameModal>
     </div>
   </div>
 </template>
@@ -102,10 +103,11 @@
   import {mapGetters} from "vuex";
   import ButtonSpinner from "../../components/general/ButtonSpinner";
 		import VerificationModal from "~/components/modals/VerificationModal";
+		import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
   export default {
     name: "_id",
 			 middleware: ['auth', 'inactive_user', 'permission'],
-    components: {VerificationModal, ButtonSpinner, DashboardNavbar, Sidebar},
+    components: {UpdateCompanyNameModal, VerificationModal, ButtonSpinner, DashboardNavbar, Sidebar},
     data(){
       return{
         phone_number: '',

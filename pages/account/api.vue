@@ -87,6 +87,7 @@
           </div>
         </div>
 							<VerificationModal></VerificationModal>
+							<UpdateCompanyNameModal></UpdateCompanyNameModal>
 							<AccountPassword
 								event_name="api_token"
 								@set_api_key="setApiKey($event)"
@@ -107,10 +108,13 @@
     import {mapGetters} from "vuex";
 				import VerificationModal from "~/components/modals/VerificationModal";
 				import AccountPassword from "../../components/modals/AccountPassword";
+				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
 
     export default {
 					 name: "api",
-      components: {AccountPassword, VerificationModal, ApiNavbar, Main, DashboardNavbar, Sidebar, VueClipboard },
+      components: {
+							UpdateCompanyNameModal,
+							AccountPassword, VerificationModal, ApiNavbar, Main, DashboardNavbar, Sidebar, VueClipboard },
 					 middleware: ['auth', 'inactive_user', 'permission'],
       data(){
         return{

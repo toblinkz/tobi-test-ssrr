@@ -143,6 +143,7 @@
 		<ExportModal></ExportModal>
 		<SmsHistoryModal v-if="showSmsModal" @close="closeModal" :sms_id="sms_history_id"></SmsHistoryModal>
 		<VerificationModal></VerificationModal>
+		<UpdateCompanyNameModal></UpdateCompanyNameModal>
 	</div>
 </template>
 
@@ -158,10 +159,12 @@ import SmsHistoryChart from "../../components/general/charts/SmsHistoryChart";
 import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 import ExportModal from "../../components/modals/SmsHistoryExportModal";
 import VerificationModal from "~/components/modals/VerificationModal";
+import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
 export default {
 	name: "history",
 	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {
+		UpdateCompanyNameModal,
 		VerificationModal,
 		ExportModal,
 		TableVuePlaceHolder,
