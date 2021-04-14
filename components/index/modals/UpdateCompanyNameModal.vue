@@ -14,17 +14,16 @@
 						</p>
 						<div class="form-group">
 							<label>Company Name</label>
-							<input type="text" class="form-control"  >
-
+							<input type="text" class="form-control" v-model="company_name" :class="{'error ' : hasCompanyNameError}" placeholder="Company name">
+							<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
 							<br>
 
 							<br>
 						</div>
 						<div class="mt-20 mb-20">
 							<center>
-
-								<a  class="btn id-btn-primary" >
-									 Update
+								<a  class="btn id-btn-primary" :aria-disabled="isDisabled" @click="updateCompanyName">
+									{{button_text }}
 									<span v-show="isLoading" >
 															<img src="/images/black_spinner.svg" height="25px" width="35px"/>
 													</span>
@@ -41,9 +40,56 @@
 <script>
 export default {
 name: "UpdateCompanyNameModal",
+data(){
+	 return{
+	 	  company_name: '',
+			  button_text: 'Update',
+			  isLoading: false,
+			  error_message: '',
+			  hasCompanyNameError: false
+
+		}
+},
+watch:{
+	 company_name(value){
+	 	 this.validateCompanyName(value);
+		}
+},
+computed:{
+	isDisabled: function () {
+		return ( this.hasCompanyNameError || this.company_name === '');
+	},
+},
 methods:{
 	 close(){
 	 	 this.$modal.hide('update-company-name-modal');
+		},
+	 validateCompanyName(company_name)	{
+			if (company_name === ""){
+				this.error_message = 'The company name field is required';
+				this.hasCompanyNameError = true;
+			} else {
+				this.error_message = '';
+				this.hasCompanyNameError = false;
+			}
+		},
+	async updateCompanyName(){
+     try {
+     	   this.button_text = '';
+									this.isLoading = true;
+						   await this.$user.updateCompanyName(this.company_name);
+						   this.$toast.success('Updated successfully');
+						   location.reload();
+					}catch (e) {
+						this.button_text = 'Update';
+						this.isLoading = false;
+						let errors = e.response.data;
+						if(e.response.status === 422){
+							this.$error.handle422Errors(errors)
+						}else{
+							this.$error.handleOtherErrors(errors)
+						}
+					}
 		}
 }
 }
