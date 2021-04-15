@@ -12,24 +12,26 @@
 							<span >Kindly Update your company name.<br>
 						</span>
 						</p>
-						<div class="form-group">
-							<label>Company Name</label>
-							<input type="text" class="form-control" v-model="company_name" :class="{'error ' : hasCompanyNameError}" placeholder="Company name">
-							<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
-							<br>
+						<form @submit.prevent="updateCompanyName">
+							<div class="form-group">
+								<label>Company Name</label>
+								<input type="text" class="form-control" v-model="company_name" :class="{'error ' : hasCompanyNameError}" placeholder="Company name">
+								<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
+								<br>
 
-							<br>
-						</div>
-						<div class="mt-20 mb-20">
-							<center>
-								<a  class="btn id-btn-primary" :aria-disabled="isDisabled" @click="updateCompanyName">
-									{{button_text }}
-									<span v-show="isLoading" >
+								<br>
+							</div>
+							<div class="mt-20 mb-20">
+								<center>
+									<a  class="btn id-btn-primary" :aria-disabled="isDisabled" type="submit">
+										{{button_text }}
+										<span v-show="isLoading" >
 															<img src="/images/black_spinner.svg" height="25px" width="35px"/>
 													</span>
-								</a>
-							</center>
-						</div>
+									</a>
+								</center>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -78,7 +80,11 @@ methods:{
      	   this.button_text = '';
 									this.isLoading = true;
 						   await this.$user.updateCompanyName(this.company_name);
+						   await this.fetchAndSoreLoggedInData();
 						   this.$toast.success('Updated successfully');
+									this.button_text = 'Update';
+									this.isLoading = false;
+									this.close();
 						   location.reload();
 					}catch (e) {
 						this.button_text = 'Update';
@@ -90,7 +96,11 @@ methods:{
 							this.$error.handleOtherErrors(errors)
 						}
 					}
-		}
+		},
+	async fetchAndSoreLoggedInData(){
+		let data = await this.$user.getLoggedInUserData()
+		localStorage.setItem('user_data', JSON.stringify(data.data));
+	},
 }
 }
 </script>

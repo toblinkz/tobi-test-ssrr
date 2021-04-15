@@ -23,7 +23,8 @@
           <div class="m-t-10 padd-x">
             <center>
               <p v-if="!show_company_name" class="text-center mt-10" style="color: #d3d3d3;">{{company_name}}</p>
-													<p v-if="isAdmin && show_company_name" class="text-center mt-10 " style="color: #d3d3d3; cursor:pointer" @click="showUpdateCompanyNameModal"><i class="entypo-plus"></i>Update Company Name</p>
+													 <p v-if="isAdmin && show_company_name" class="text-center mt-10 " style="color: #d3d3d3; cursor:pointer" @click="showUpdateCompanyNameModal"><i class="entypo-plus"></i>Update Company Name</p>
+													<p v-else></p>
             </center>
           </div>
         </li>
