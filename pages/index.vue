@@ -209,6 +209,7 @@
 		<VerificationModal></VerificationModal>
 		<AccountNumberModal></AccountNumberModal>
 		<PageDeniedModal></PageDeniedModal>
+		<SignUpWizardComponent></SignUpWizardComponent>
 		<SuccessModal :modal_information="modal_information"></SuccessModal>
 		<AnnouncementModal :announcement_information="announcement_information"></AnnouncementModal>
 
@@ -237,8 +238,10 @@ import PageDeniedModal from "../components/modals/PageDeniedModal";
 import AccountNumberModal from "../components/modals/AccountNumberModal";
 import SuccessModal from "../components/modals/SuccessModal";
 import AnnouncementModal from "../components/modals/AnnouncementModal";
+import SignUpWizardComponent from "../components/index/modals/SignUpWizardComponent";
 export default {
 	components: {
+		SignUpWizardComponent,
 		AnnouncementModal,
 		SuccessModal,
 		AccountNumberModal,
@@ -278,6 +281,7 @@ export default {
 	},
 	mounted: async function () {
 
+		 this.$modal.show('signup-wizard-modal');
 		this.displayAnnouncementModal();
 
 		this.getUserPermissions();
