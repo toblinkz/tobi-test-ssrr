@@ -60,6 +60,7 @@ export default {
     { src: '~plugins/vue-paginate.js'},
     { src: '~plugins/vue-notification.js'},
 			 { src: '~plugins/vue-select.js'},
+	   { src: '~plugins/vue-chart.js'},
 				{ src: '~plugins/axios.js'},
 				{ src: '~plugins/services.plugin.js'},
     { src: '~plugins/local-storage.js', ssr: false},

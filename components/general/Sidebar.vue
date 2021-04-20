@@ -91,10 +91,10 @@
 									    <i class="caret"></i></span></a>
           </template>
           <template v-slot:dropdown_menu v-if="show_drop_down">
-            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/history" ><i class="entypo-chart-area"></i> Direct Insights</nuxt-link></li>
-            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/campaign-reports"><i class="entypo-chart-pie"></i> Group Insights</nuxt-link></li>
-
-          </template>
+            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/history" ><i class="entypo-chart-area"></i> Sms Report</nuxt-link></li>
+            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/campaign-reports"><i class="entypo-chart-pie"></i> Campaign Report</nuxt-link></li>
+											<li v-if="canViewDeliveryReport"><nuxt-link to="/sms/insights"><i class="entypo-chart-pie"></i> Insights </nuxt-link></li>
+										</template>
         </Dropdown>
 
         <div class="padd-x">
