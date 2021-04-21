@@ -107,6 +107,7 @@
 					</div>
 				</div>
 				<VerificationModal></VerificationModal>
+				<UpdateCompanyNameModal></UpdateCompanyNameModal>
 			</div>
 		</div>
 	</div>
@@ -124,11 +125,12 @@ import {mapGetters} from "vuex";
 import Fuse from 'fuse.js'
 import { createPopper } from '@popperjs/core';
 import VerificationModal from "~/components/modals/VerificationModal";
+import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
 
 export default {
 	name: "import-contacts",
 	middleware: ['auth', 'inactive_user', 'permission'],
-	components: {VerificationModal, CustomSelect, DashboardNavbar, Sidebar, vSelect},
+	components: {UpdateCompanyNameModal, VerificationModal, CustomSelect, DashboardNavbar, Sidebar, vSelect},
 	data(){
 		return{
 			placement: 'top',

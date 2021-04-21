@@ -111,6 +111,7 @@
     <SenderIdModal  @requested="requested"></SenderIdModal>
 				<VerificationModal></VerificationModal>
 			<InActiveSenderIdModal></InActiveSenderIdModal>
+			<UpdateCompanyNameModal></UpdateCompanyNameModal>
   </div>
 </template>
 
@@ -132,10 +133,12 @@
 				import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 				import InActiveSenderIdModal from "~/components/modals/InActiveSenderIdModal";
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
     export default {
         name: "sender-id-management",
 					   middleware: ['auth', 'permission'],
 								components: {
+									UpdateCompanyNameModal,
 									VerificationModal,
 									InActiveSenderIdModal,
 									TableVuePlaceHolder,

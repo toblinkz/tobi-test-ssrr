@@ -93,6 +93,7 @@
       </div>
     </div>
 			<VerificationModal></VerificationModal>
+			<UpdateCompanyNameModal></UpdateCompanyNameModal>
   </div>
 </template>
 
@@ -102,10 +103,11 @@
     import SearchDropdown from "../../components/general/dropdown/SearchDropdown";
 				import {mapGetters} from "vuex";
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
     export default {
         name: "add-contact",
 					 middleware: ['auth', 'inactive_user', 'permission'],
-      components: {VerificationModal, SearchDropdown, DashboardNavbar, Sidebar},
+      components: {UpdateCompanyNameModal, VerificationModal, SearchDropdown, DashboardNavbar, Sidebar},
       data(){
           return{
             selected_country_code:'',

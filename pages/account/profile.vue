@@ -125,6 +125,7 @@
 						</div>
 					</div>
 					<VerificationModal></VerificationModal>
+					<UpdateCompanyNameModal></UpdateCompanyNameModal>
 					<AccountPassword
 						:company_sector="selected_sector"
 						:email="email"
@@ -150,11 +151,13 @@
     import Swal from 'sweetalert2';
 				import VerificationModal from "~/components/modals/VerificationModal";
 				import AccountPassword from "../../components/modals/AccountPassword";
+				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
 
     export default {
         name: "profile",
 					middleware: ['auth', 'inactive_user',  'permission'],
         components: {
+									UpdateCompanyNameModal,
 									AccountPassword,
 									VerificationModal, SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
 
