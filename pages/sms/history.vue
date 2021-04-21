@@ -28,12 +28,15 @@
 													<!--													<div class="col-lg-4 mb-20">-->
 													<!-- START PANEL -->
 													<div class="col-md-12">
-														<div class="panel-transparent mt-30">
-															<p class="insight text-center"  id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-chart-pie"></i> Messaging Insight</p>
+														<div class="panel-transparent mt-50">
+															<p class="insight text-center"  id="welcome" style="margin-top: 10px;margin-bottom: 10px; font-size: 18px"><i class="entypo-chart-pie"></i> Messaging Insight</p>
 															<p class="insight text-center" >View all your messaging insights. <br>Insights captured here include all sent messages.</p>
+
 														</div>
+              <center>
+															<nuxt-link to="/sms/insights" class="btn btn-primary mt-20"><i class="entypo-chart-bar"></i> View Insight graph</nuxt-link>
+														</center>
 														<div class="panel-body ">
-															<SmsHistoryChart class="hidden-xs"></SmsHistoryChart>
 														</div>
 													</div>
 
@@ -154,7 +157,7 @@ import Pagination from "../../components/general/Pagination";
 import DatePicker from "vue2-datepicker";
 import ClickOutside from "vue-click-outside";
 import 'vue2-datepicker/index.css';
-import SmsHistoryChart from "../../components/general/charts/SmsHistoryChart";
+import SmsHistoryChart from "../../components/general/charts/SmsHistoryLineChart";
 import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 import ExportModal from "../../components/modals/SmsHistoryExportModal";
 import VerificationModal from "~/components/modals/VerificationModal";

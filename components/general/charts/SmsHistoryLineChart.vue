@@ -16,7 +16,7 @@
 
 		<div class="graph-card panel-body">
 
-			<canvas id="smsHistoryChart" width="400" height="150">
+			<canvas id="smsHistoryChart" width="100%" height="100%">
 			</canvas>
 		</div>
 	</div>
@@ -85,7 +85,7 @@ export default {
 			try {
 				let	 data = await this.$axios.$get('sms/history/analytics', {params: {duration: duration}});
 				this.lineChartData = {
-					labels: data.data.time_range,
+					labels: ['Delivered', 'Sent', 'Failed', 'Rejected'],
 					datasets: [
 						{
 							label: 'Delivered',
