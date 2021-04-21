@@ -60,7 +60,7 @@
 																</div>
 															</div>
                <div class="col-md-6">
-																<ManageCampaignChart campaign_id="C604246dd05257"></ManageCampaignChart>
+																<PieChart :chart-data="pie_chart_data" :options="pie_chart_options"></PieChart>
 															</div>
 														</div>
 													</div>
@@ -102,8 +102,21 @@ export default {
 
 	data(){
 		return{
+			all_active: true,
+			number_api_active: false,
+			whatsapp_active: false,
+			dnd_active: false,
+			generic_active: false,
 			line_chart_data: null,
+			pie_chart_data: {
+				labels: ["Delivered","Sent","Failed","Rejected"],
+				datasets: [{"backgroundColor":["#226a4a","#365899","#ffc107","#FF0000"],"hoverBackgroundColor":["#226a4a","#365899","#ffc107","#FF0000"],"data":[30,30,35,5]}]
+			},
+			loaded_pie_chart: false,
 			loaded_line_chart: false,
+			pie_chart_options:{
+		       "legend":{"display":true}
+			},
 			line_chart_options: {
 				responsive: true,
 				// hoverMode: 'index',
@@ -146,13 +159,17 @@ export default {
 	methods: {
 
 	async setLineChartData(){
-		 let data = await this.$insight.getLineChartData();
+		try {
+			let data = await this.$insight.getLineChartData();
 			this.line_chart_data = {
 				labels: ['Delivered', 'Sent', 'Failed', 'Rejected'],
 				datasets: [
 					{
 						label: 'Delivered',
+						hoverBackgroundColor: '#3B82EC',
+						hoverBorderColor: '#3B82EC',
 						borderColor: '#226a4a',
+						pointHoverBackgroundColor:'#226a4a',
 						backgroundColor: '#226a4a',
 						fill: false,
 						data: data.data.data.message_delivered,
@@ -160,6 +177,8 @@ export default {
 					}, {
 						label: 'Sent',
 						borderColor: '#365899',
+						hoverBackgroundColor: '#3B82EC',
+						hoverBorderColor: '#3B82EC',
 						backgroundColor: '#365899',
 						fill: false,
 						data: data.data.data.message_sent,
@@ -168,6 +187,8 @@ export default {
 						label: 'Failed',
 						borderColor: '#ffc107',
 						backgroundColor: '#ffc107',
+						hoverBackgroundColor: '#3B82EC',
+						hoverBorderColor: '#3B82EC',
 						fill: false,
 						data: data.data.data.message_failed,
 						yAxisID: 'y-axis-1'
@@ -175,13 +196,19 @@ export default {
 						label: 'Rejected',
 						borderColor: '#FF0000',
 						backgroundColor: '#FF0000',
+						hoverBackgroundColor: '#3B82EC',
+						hoverBorderColor: '#3B82EC',
 						fill: false,
 						data: data.data.data.message_dnd_active,
 						yAxisID: 'y-axis-1'
 					}]
 
+			}
+			this.loaded_line_chart = true;
+
+		}catch (e) {
+
 		}
-		this.loaded_line_chart = true;
 
 	},
 
@@ -204,9 +231,9 @@ export default {
 
 		},
 		async display_all(){
-			this.channel = '';
-			this.page = 1;
-			await this.filterByChannel();
+			// this.channel = '';
+			// this.page = 1;
+			// await this.filterByChannel();
 			this.all_active = true;
 			this.whatsapp_active = false;
 			this.generic_active = false;
@@ -217,9 +244,9 @@ export default {
 			this.filter_active = true;
 		},
 		async display_dnd(){
-			this.channel = 'Dnd';
-			this.page = 1;
-			await this.filterByChannel();
+			// this.channel = 'Dnd';
+			// this.page = 1;
+			// await this.filterByChannel();
 			this.all_active = false;
 			this.whatsapp_active = false;
 			this.generic_active = false;
@@ -228,9 +255,9 @@ export default {
 
 		},
 		async display_generic(){
-			this.channel = 'Sms';
-			this.page = 1;
-			await this.filterByChannel();
+			// this.channel = 'Sms';
+			// this.page = 1;
+			// await this.filterByChannel();
 			this.all_active = false;
 			this.whatsapp_active = false;
 			this.generic_active = true;
@@ -238,9 +265,9 @@ export default {
 			this.number_api_active = false;
 		},
 		async display_number_api(){
-			this.channel = 'Number';
-			this.page = 1;
-			await this.filterByChannel();
+			// this.channel = 'Number';
+			// this.page = 1;
+			// await this.filterByChannel();
 			this.all_active = false;
 			this.whatsapp_active = false;
 			this.generic_active = false;
@@ -248,9 +275,9 @@ export default {
 			this.number_api_active = true;
 		},
 		async display_whatsapp(){
-			this.channel = 'Whatsapp';
-			this.page = 1;
-			await this.filterByChannel();
+			// this.channel = 'Whatsapp';
+			// this.page = 1;
+			// await this.filterByChannel();
 			this.all_active = false;
 			this.whatsapp_active = true;
 			this.generic_active = false;

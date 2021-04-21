@@ -93,10 +93,12 @@
           <template v-slot:dropdown_menu v-if="show_drop_down">
             <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/history" ><i class="entypo-chart-area"></i> Sms Report</nuxt-link></li>
             <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/campaign-reports"><i class="entypo-chart-pie"></i> Campaign Report</nuxt-link></li>
-											<li v-if="canViewDeliveryReport"><nuxt-link to="/sms/insights"><i class="entypo-chart-pie"></i> Insights </nuxt-link></li>
 										</template>
         </Dropdown>
-
+							<li class="padd-x" v-if="canViewDeliveryReport">
+								<nuxt-link to="/sms/insights" class="color-a level-1">
+									<i class="entypo-chart-pie"></i> Insights</nuxt-link>
+							</li>
         <div class="padd-x">
           <hr class="mb-10 mt-10">
         </div>
@@ -125,9 +127,6 @@
             <i class="entypo-cog"></i>
             Settings</nuxt-link>
         </li>
-							<li class="padd-x" v-if="isAdmin">
-								<a  style="color:#FFFFFF " id="CHATID"><i class="entypo-help-circled"></i> Help Center</a>
-							</li>
 							<li class="padd-x">
 								<a target="_blank" class="color-a level-1"  href="https://join.slack.com/t/termii-loop/shared_invite/zt-imbqlf68-w4lsPkOzibBXSQohu8_8dQ">
 									<i class="entypo-users"></i> Community</a>
