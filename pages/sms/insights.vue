@@ -29,12 +29,13 @@
 													<!-- START PANEL -->
 													<div class="col-md-12">
 														<div class="panel-transparent mt-30">
-															<p class="insight text-center"  id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-chart-pie"></i> Messaging Insight</p>
-															<p class="insight text-center" >View all your messaging insights. <br>Insights captured here include all sent messages.</p>
+															<p class="insight text-center"  id="welcome" style="margin-top: 10px;margin-bottom: 10px; font-size: 18px!important;"><i class="entypo-chart-pie"></i> Messaging Insight</p>
+															<p class="insight text-center " >View all your messaging insights. <br>Insights captured here include all sent messages.</p>
 														</div>
 														<div class="panel-body ">
 															<div style="display: flex; justify-content: center">
-																<select id="date_range" class="select-style mb-30 text-center">
+																<select id="date_range" class="select-style mb-30 text-center" @change="getChartDataForADuration($event.target.value)">
+																	<option value="today">Today</option>
 																	<option value="15 Minutes">Last 15 Minutes</option>
 																	<option value="6 Hours">Last 6 Hours</option>
 																	<option value="24 Hours">Last 24 Hours</option>
@@ -54,13 +55,16 @@
 															</div>
 
 															<div class="col-md-6">
-																   <LineChartPlaceHolder  v-if="!loaded_line_chart"></LineChartPlaceHolder>
+																   <LineChartPlaceHolder  v-if="!loaded_bar_chart"></LineChartPlaceHolder>
 																<div v-else class="graph-card panel-body">
-																	<LineChart :chart-data="line_chart_data" :options="line_chart_options"></LineChart>
+																	<BarChart :chart-data="bar_chart_data" :options="bar_chart_options"></BarChart>
 																</div>
 															</div>
                <div class="col-md-6">
-																<PieChart :chart-data="pie_chart_data" :options="pie_chart_options"></PieChart>
+																<PieChartPlaceHolder v-if="!loaded_bar_chart"></PieChartPlaceHolder>
+																<div v-else>
+																	<PieChart :chart-data="pie_chart_data" :options="pie_chart_options"></PieChart>
+																</div>
 															</div>
 														</div>
 													</div>
@@ -90,10 +94,14 @@ import LineChart from "../../components/general/charts/LineChart";
 import PieChart from "../../components/general/charts/PieChart";
 import ManageCampaignChart from "../../components/general/charts/ManageCampaignChart";
 import LineChartPlaceHolder from "../../components/general/LineChartPlaceHolder";
+import BarChart from "../../components/general/charts/BarChart";
+import PieChartPlaceHolder from "../../components/general/PieChartPlaceHolder";
 export default {
 	name: "insights",
 	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {
+		PieChartPlaceHolder,
+		BarChart,
 		LineChartPlaceHolder,
 		ManageCampaignChart,
 		PieChart,
@@ -107,49 +115,34 @@ export default {
 			whatsapp_active: false,
 			dnd_active: false,
 			generic_active: false,
+			channel:'',
+			duration:'',
 			line_chart_data: null,
-			pie_chart_data: {
-				labels: ["Delivered","Sent","Failed","Rejected"],
-				datasets: [{"backgroundColor":["#226a4a","#365899","#ffc107","#FF0000"],"hoverBackgroundColor":["#226a4a","#365899","#ffc107","#FF0000"],"data":[30,30,35,5]}]
-			},
+			array_of_bar_chart_count:'',
+			array_of_count_percentages:[20, 40, 40, 0],
+			pie_chart_data: null,
 			loaded_pie_chart: false,
-			loaded_line_chart: false,
+			loaded_bar_chart: false,
+
 			pie_chart_options:{
-		       "legend":{"display":true}
+		       "legend":{"display":true},
+			     	responsive: true, maintainAspectRatio: false
 			},
-			line_chart_options: {
-				responsive: true,
-				// hoverMode: 'index',
-				stacked: false,
-				title: {
-					display: true,
-					text: 'Performance of Messages'
-				},
-				scales: {
-					yAxes: [{
-						type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-						display: true,
-						position: 'left',
-						id: 'y-axis-1',
-						ticks: {
-							beginAtZero: true
-						},
-						gridLines: {
-							drawOnChartArea: false, // only want the grid lines for one axis to show up
-						},
-					}],
-				}
-			}
+			bar_chart_data:'',
+
 		}
 	},
 	async mounted() {
 		if(this.$store.state.view_verify_page === 'true'){
 			this.$modal.show('verification-id-modal');
 		}else {
-    await this.setLineChartData();
+			let data = await this.$insight.getChartData();
+			this.array_of_count_percentages = this.$insight.calculatePercentageOfPieChart(data.data.data.total_count,  data.data.data.count_data)
+			this.array_of_bar_chart_count = data.data.data.total_count;
+			await this.setChartData();
+
 
 		}
-
 	},
 	computed:{
 		canDownloadDeliveryReport(){
@@ -158,59 +151,45 @@ export default {
 	},
 	methods: {
 
-	async setLineChartData(){
-		try {
-			let data = await this.$insight.getLineChartData();
-			this.line_chart_data = {
+	async setChartData(){
+			this.bar_chart_data ={
 				labels: ['Delivered', 'Sent', 'Failed', 'Rejected'],
-				datasets: [
-					{
-						label: 'Delivered',
-						hoverBackgroundColor: '#3B82EC',
-						hoverBorderColor: '#3B82EC',
-						borderColor: '#226a4a',
-						pointHoverBackgroundColor:'#226a4a',
-						backgroundColor: '#226a4a',
-						fill: false,
-						data: data.data.data.message_delivered,
-						yAxisID: 'y-axis-1',
-					}, {
-						label: 'Sent',
-						borderColor: '#365899',
-						hoverBackgroundColor: '#3B82EC',
-						hoverBorderColor: '#3B82EC',
-						backgroundColor: '#365899',
-						fill: false,
-						data: data.data.data.message_sent,
-						yAxisID: 'y-axis-1'
-					}, {
-						label: 'Failed',
-						borderColor: '#ffc107',
-						backgroundColor: '#ffc107',
-						hoverBackgroundColor: '#3B82EC',
-						hoverBorderColor: '#3B82EC',
-						fill: false,
-						data: data.data.data.message_failed,
-						yAxisID: 'y-axis-1'
-					}, {
-						label: 'Rejected',
-						borderColor: '#FF0000',
-						backgroundColor: '#FF0000',
-						hoverBackgroundColor: '#3B82EC',
-						hoverBorderColor: '#3B82EC',
-						fill: false,
-						data: data.data.data.message_dnd_active,
-						yAxisID: 'y-axis-1'
-					}]
+					datasets: [{
+					label:  'Performance of Messages',
+					data:  this.array_of_bar_chart_count,
+					backgroundColor: [
+						'#226a4a',
+						'#365899',
+						'#ffc107',
+						'#FF0000',
+					],
+					borderColor: [
+						'#226a4a',
+						'#365899',
+						'#ffc107',
+						'#FF0000',
+					],
 
+				}]
 			}
-			this.loaded_line_chart = true;
-
-		}catch (e) {
-
+		this.pie_chart_data = {
+			labels: ["Delivered","Sent","Failed","Rejected"],
+			datasets: [{"backgroundColor":["#226a4a","#365899","#ffc107","#FF0000"],"hoverBackgroundColor":["#226a4a","#365899","#ffc107","#FF0000"],"data":this.array_of_count_percentages}]
 		}
+			this.loaded_bar_chart = true;
+		},
+		async getChartDataForADuration(duration){
+		  this.duration = duration;
+		   try {
+		   	this.loaded_bar_chart = false;
+						let data = await this.$insight.getFilteredChartData(duration, this.channel);
+						this.loaded_bar_chart = true;
+						this.updateChartData(data);
+						await this.setChartData();
+					}catch (e) {
 
-	},
+					}
+		},
 
 		rowStatusClass(row){
 			switch (row.status) {
@@ -231,60 +210,77 @@ export default {
 
 		},
 		async display_all(){
-			// this.channel = '';
-			// this.page = 1;
-			// await this.filterByChannel();
+		 this.channel = '';
 			this.all_active = true;
 			this.whatsapp_active = false;
 			this.generic_active = false;
 			this.dnd_active = false;
 			this.number_api_active = false;
+			this.loaded_bar_chart = false;
+			let data =await this.$insight.getFilteredChartData();
+			this.loaded_bar_chart = true;
+			this.updateChartData(data);
+			await this.setChartData();
 		},
-		display_filter(){
-			this.filter_active = true;
-		},
+
 		async display_dnd(){
-			// this.channel = 'Dnd';
-			// this.page = 1;
-			// await this.filterByChannel();
+			this.channel = 'dnd';
 			this.all_active = false;
 			this.whatsapp_active = false;
 			this.generic_active = false;
 			this.dnd_active = true;
 			this.number_api_active = false;
-
+			this.loaded_bar_chart = false;
+			let data = await this.$insight.getFilteredChartData(this.duration, this.channel);
+			this.loaded_bar_chart = true;
+   this.updateChartData(data);
+			await this.setChartData();
 		},
 		async display_generic(){
-			// this.channel = 'Sms';
-			// this.page = 1;
-			// await this.filterByChannel();
+			this.channel = 'generic';
 			this.all_active = false;
 			this.whatsapp_active = false;
 			this.generic_active = true;
 			this.dnd_active = false;
 			this.number_api_active = false;
+			this.loaded_bar_chart = false;
+			let data = await this.$insight.getFilteredChartData(this.duration, this.channel);
+			this.loaded_bar_chart = true;
+			this.updateChartData(data);
+			await this.setChartData();
 		},
 		async display_number_api(){
-			// this.channel = 'Number';
-			// this.page = 1;
-			// await this.filterByChannel();
+			this.channel = 'number_api';
 			this.all_active = false;
 			this.whatsapp_active = false;
 			this.generic_active = false;
 			this.dnd_active = false;
 			this.number_api_active = true;
+			this.loaded_bar_chart = false;
+			let data = await this.$insight.getFilteredChartData(this.duration, this.channel);
+			this.loaded_bar_chart = true;
+			this.updateChartData(data);
+			await this.setChartData();
 		},
 		async display_whatsapp(){
-			// this.channel = 'Whatsapp';
-			// this.page = 1;
-			// await this.filterByChannel();
+			this.channel = 'whatsapp';
 			this.all_active = false;
 			this.whatsapp_active = true;
 			this.generic_active = false;
 			this.dnd_active = false;
 			this.number_api_active = false;
-		}
+			this.loaded_bar_chart = false;
+			let data = await this.$insight.getFilteredChartData(this.duration, this.channel);
+			this.loaded_bar_chart = true;
+		this.updateChartData(data);
+			await this.setChartData();
+		},
+		updateChartData(data){
+			this.array_of_count_percentages = this.$insight.calculatePercentageOfPieChart(data.data.data.total_count,  data.data.data.count_data)
+			this.array_of_bar_chart_count = data.data.data.total_count;
+		},
 	},
+
 	directives: {
 		ClickOutside
 	},

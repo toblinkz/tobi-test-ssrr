@@ -1,9 +1,16 @@
 <script>
 
-import { Line } from 'vue-chartjs'
+import { Bar } from 'vue-chartjs'
+import {mixins} from "vue-chartjs"
+const { reactiveProp } = mixins
 export default {
-	extends: Line,
-
+	extends: Bar,
+	mixins: [reactiveProp],
+	watch: {
+		chartData() {
+			this.$data._chart.update()
+		},
+	},
 	props: {
 		chartData: {
 			type: Object,
