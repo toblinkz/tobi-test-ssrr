@@ -86,6 +86,7 @@
 					</div>
 				</div>
 			<VerificationModal></VerificationModal>
+				<UpdateCompanyNameModal></UpdateCompanyNameModal>
 			</div>
 		</div>
 	</div>
@@ -96,10 +97,11 @@ import Sidebar from "@/components/general/Sidebar";
 import DashboardNavbar from "@/components/general/navbar/DashboardNavbar";
 import VerificationModal from "@/components/modals/VerificationModal";
 import ApiNavbar from "@/components/general/navbar/ApiNavbar";
+import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
 export default {
  name: "change-password",
 	middleware: ['auth', 'inactive_user', 'permission'],
-	components: {ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
+	components: {UpdateCompanyNameModal, ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
 	data(){
 			return{
 				old_password:'',

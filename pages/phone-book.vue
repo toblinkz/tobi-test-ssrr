@@ -150,6 +150,7 @@
 				</div>
 				<EditPhoneBookModal @updated="getPhoneBook" :phone_book_name="phone_book_name" :phone_book_id="phone_book_id"></EditPhoneBookModal>
 				<VerificationModal></VerificationModal>
+				<UpdateCompanyNameModal></UpdateCompanyNameModal>
 			</div>
 		</div>
 	</div>
@@ -163,11 +164,14 @@
 	import Pagination from "../components/general/Pagination";
 	import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
 	import VerificationModal from "~/components/modals/VerificationModal";
+	import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
 
 	export default {
 		name: "phone-book",
 		middleware:  ['auth', 'inactive_user', 'permission'],
-		components: {VerificationModal, TableVuePlaceHolder, Pagination, EditPhoneBookModal, DashboardNavbar, Sidebar},
+		components: {
+			UpdateCompanyNameModal,
+			VerificationModal, TableVuePlaceHolder, Pagination, EditPhoneBookModal, DashboardNavbar, Sidebar},
 		data(){
 			return{
 				phone_book:[],

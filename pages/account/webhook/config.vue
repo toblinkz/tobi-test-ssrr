@@ -72,6 +72,7 @@
         </div>
       </div>
 					<VerificationModal></VerificationModal>
+					<UpdateCompanyNameModal></UpdateCompanyNameModal>
     </div>
   </div>
 </template>
@@ -82,9 +83,10 @@
     import ApiNavbar from "../../../components/general/navbar/ApiNavbar";
     import Swal from "sweetalert2";
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import UpdateCompanyNameModal from "../../../components/index/modals/UpdateCompanyNameModal";
     export default {
         name: "config",
-      components: {VerificationModal, ApiNavbar, DashboardNavbar, Sidebar},
+      components: {UpdateCompanyNameModal, VerificationModal, ApiNavbar, DashboardNavbar, Sidebar},
 					 middleware: ['auth', 'inactive_user'],
       data(){
           return {

@@ -131,6 +131,7 @@
              </div>
            </div>
 					<VerificationModal></VerificationModal>
+					<UpdateCompanyNameModal></UpdateCompanyNameModal>
     </div>
   </div>
 </template>
@@ -149,11 +150,14 @@
 				import Fuse from "fuse.js";
 				import {mapGetters} from "vuex";
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
 
     export default {
         name: "group-sms",
-					middleware: ['auth', 'inactive_user', 'permission'],
-      components: {VerificationModal, CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, DatePicker, vSelect},
+			   		middleware: ['auth', 'inactive_user', 'permission'],
+      components: {
+							UpdateCompanyNameModal,
+							VerificationModal, CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, DatePicker, vSelect},
       data(){
           return{
 

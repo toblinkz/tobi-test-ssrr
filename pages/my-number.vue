@@ -59,6 +59,7 @@
 				</div>
 			</div>
 			<BuyNumberModal></BuyNumberModal>
+			<UpdateCompanyNameModal></UpdateCompanyNameModal>
 		</div>
 	</div>
 </template>
@@ -71,11 +72,12 @@ import 'vue-select/dist/vue-select.css';
 import vSelect from 'vue-select';
 import Fuse from "fuse.js";
 import {createPopper} from "@popperjs/core";
+import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
 
 export default {
  name: "number",
 	middleware: ['auth', 'inactive_user', 'permission'],
-	components: {DashboardNavbar, Sidebar, BuyNumberModal, vSelect},
+	components: {UpdateCompanyNameModal, DashboardNavbar, Sidebar, BuyNumberModal, vSelect},
 		data(){
 			return{
 					rented_numbers: [],

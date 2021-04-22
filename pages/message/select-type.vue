@@ -88,6 +88,7 @@
         <!-- /page container -->
       </div>
 					<VerificationModal></VerificationModal>
+					<UpdateCompanyNameModal></UpdateCompanyNameModal>
     </div>
   </div>
 </template>
@@ -96,10 +97,11 @@
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
     export default {
         name: "select-type",
 					   middleware: ['auth', 'inactive_user', 'permission'],
-      components: {VerificationModal, DashboardNavbar, Sidebar},
+      components: {UpdateCompanyNameModal, VerificationModal, DashboardNavbar, Sidebar},
 					mounted() {
 						if(this.$store.state.view_verify_page === 'true'){
 							this.$modal.show('verification-id-modal');

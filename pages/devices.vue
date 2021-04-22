@@ -109,6 +109,7 @@
 				<VerificationModal></VerificationModal>
 			<InActiveSenderIdModal></InActiveSenderIdModal>
 			<device-info-modal></device-info-modal>
+			<UpdateCompanyNameModal></UpdateCompanyNameModal>
   </div>
 </template>
 
@@ -125,11 +126,13 @@
 	import DeviceConnectedModal from "../components/modals/DeviceConnectedModal";
 	import DeviceBarcodedModal from "../components/modals/DeviceBarcodeModal";
 	import DeviceInfoModal from "../components/modals/DeviceInfoModal";
+	import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
 
 	export default {
 		     name: "devices",
 		     middleware:['auth', 'permission'],
 							components: {
+								UpdateCompanyNameModal,
 								DeviceInfoModal,
 								DeviceBarcodedModal,
 								DeviceConnectedModal,

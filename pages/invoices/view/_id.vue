@@ -126,6 +126,7 @@
                         </div>
                       </div>
                       <PayInvoiceComponent :invoice_id="invoice_no" :page_url="page_url"></PayInvoiceComponent>
+																					 <UpdateCompanyNameModal></UpdateCompanyNameModal>
                     </div>
                   </div>
                 </div>
@@ -141,10 +142,11 @@
     import Sidebar from "../../../components/general/Sidebar";
     import DashboardNavbar from "../../../components/general/navbar/DashboardNavbar";
     import PayInvoiceComponent from "../../../components/modals/PayInvoiceComponent";
+				import UpdateCompanyNameModal from "../../../components/index/modals/UpdateCompanyNameModal";
     export default {
         name: "view",
 					  middleware: ['auth', 'inactive_user', 'permission'],
-      components: {PayInvoiceComponent, DashboardNavbar, Sidebar},
+      components: {UpdateCompanyNameModal, PayInvoiceComponent, DashboardNavbar, Sidebar},
       data(){
           return{
             id: this.$route.params.id,

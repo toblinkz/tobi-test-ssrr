@@ -211,6 +211,7 @@
 		<PageDeniedModal></PageDeniedModal>
 		<SuccessModal :modal_information="modal_information"></SuccessModal>
 		<AnnouncementModal :announcement_information="announcement_information"></AnnouncementModal>
+		<UpdateCompanyNameModal></UpdateCompanyNameModal>
 
 	</div>
 </template>
@@ -237,8 +238,10 @@ import PageDeniedModal from "../components/modals/PageDeniedModal";
 import AccountNumberModal from "../components/modals/AccountNumberModal";
 import SuccessModal from "../components/modals/SuccessModal";
 import AnnouncementModal from "../components/modals/AnnouncementModal";
+import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
 export default {
 	components: {
+		UpdateCompanyNameModal,
 		AnnouncementModal,
 		SuccessModal,
 		AccountNumberModal,
