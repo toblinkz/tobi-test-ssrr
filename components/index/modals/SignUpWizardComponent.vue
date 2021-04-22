@@ -6,7 +6,13 @@
 					<p  style="font-size:18px; padding:0 15px; color: #FFFFFF">Setting up your account </p>
 					<p  style="font-size: 12px; padding: 0 15px; color: #FFFFFF" >Here’s a quick guide to helping you set up your account</p>
 				</div>
-
+     <nav class="nav-menu">
+						 <ul>
+								 <li><a href="#">Request ID </a></li>
+								<li><a href="#">Fund Wallet </a></li>
+								<li><a href="#">Send Message </a></li>
+							</ul>
+					</nav>
 			</div>
 			<div class="flex-item-right" style="padding: 0 30px">
 					<!-- Step 1			-->
@@ -274,5 +280,47 @@ strong {
 
 .flex-item-right {
 	flex: 70%;
+}
+ul{
+	list-style: none;
+}
+.nav-menu{
+	 position: absolute;
+	 top: 20%;
+
+}
+.nav-menu ul {
+	padding-left: 50px;
+	position: relative;
+}
+.nav-menu ul::after{
+	content: "";
+	position: absolute;
+	width: 2px;
+	height: calc(100% - 50px);
+	left: 40px;
+	top: 0;
+	background: #0DCBE5;
+	margin-top: 30px;
+}
+.nav-menu ul li {
+	padding: 40px 0 40px 20px;
+}
+.nav-menu ul li a{
+	text-decoration: none;
+	position: relative;
+	color: #FFFFFF;
+}
+.nav-menu ul li a::before{
+	content: "";
+	position: absolute;
+	background: #365899;
+	width: 30px;
+	height: 30px;
+	left: -30px;
+	/*top: 50%;*/
+	transform: translate(-50%);
+	border-radius: 50px;
+	border: 1px solid #0DCBE5;
 }
 </style>

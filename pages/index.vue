@@ -19,7 +19,7 @@
 						<!-- Main content -->
 						<div class="dashboard-content-wrapper">
 							<!-- main inner content -->
-							<main id="wrapper" class="wrapper">
+							<main id="wrapper" class="wrapper mt-50">
 								<div id="pages" class="fixed-header dashboard menu-pin">
 									<div id="sb">
 										<div class="jumbotron" data-pages="parallax">
@@ -28,110 +28,25 @@
 													<!-- END BREADCRUMB -->
 													<div class="container-md-height mt-30">
 														<div class="row">
-															<div class="col-md-4">
-																<!-- START PANEL -->
-																<div class="">
-																	<div class="row mt-20">
-                                                <span id="welcome"><span
-																																																	class="text-bold">Hi, {{first_name}}</span> </span>
-																		<ContentLoader v-if="!account_balance"
-																																	:speed="5"
-																																	:animate="true"
-																		>
-																			<rect x="33" y="11" rx="5" ry="5" width="313" height="14" />
-																			<rect x="35" y="31" rx="0" ry="0" width="313" height="17" />
-																		</ContentLoader>
-																		<span id="welcome-intro" v-else>Welcome back to your Dashboard. Check out resources and docs tailored to your account.</span>
-																		<div class="row mt-30">
-																			<div class="row">
-																				<div class="col-md-6 mb-5">
-																					<p><i class="entypo-credit-card" style="color: #bbb !important;"></i> Balance</p>
-																				</div>
-																				<div class="col-md-6 hidden-xs mb-5">
-																					<p><i class="entypo-comment" style="color: #bbb !important;"></i> Whatsapp</p>
-																				</div>
-																			</div>
-																			<ContentLoader v-if="!account_balance"
-																																		:speed="5"
-																																		:animate="true"
-																			>
-																				<rect x="33" y="11" rx="5" ry="5" width="313" height="14" />
-																				<rect x="35" y="31" rx="0" ry="0" width="313" height="17" />
-																			</ContentLoader>
-																			<div v-else>
-																				<div class="col-md-6 alert toke" >
-																					<!-- START PANEL -->
-																					<div class="col-md-11">
-																						{{account_balance}}
-																					</div>
-																					<!-- END PANEL -->
-																				</div>
-																				<div class="col-md-6 alert toke hidden-xs">
-																					<!-- START PANEL -->
-																					<div class="col-md-11">
-																						Active
-																					</div>
-																					<!-- END PANEL -->
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-
-																<ActivityLog @emptyActivityLog="emptyActivityLog = $event"></ActivityLog>
-																<!-- END JUMBOTRON -->
-															</div>
-															<div class="col-md-8 m-t-40">
-																<div class="row mt-100 mb-20x">
+															<div class="col-md-8">
+																<div class="row  mb-20x">
 																	<div class="col-md-6 mt-20">
 																		<!-- START PANEL -->
 																		<div class="panel panel-transparent">
 																			<div class="panel-body no-padding">
-																				<div class="col-md-11" v-if="canViewApiKey">
-																					<p class="text-semibold"><i class="entypo-light-up" style="color: #079805 !important;"></i>API Key</p>
-																				</div>
+																				  <span id="welcome" style="margin-bottom: 5px!important;"><span
+																							class="text-bold" >Hi, {{first_name}}</span> </span>
 																				<ContentLoader v-if="!account_balance"
-																																			:speed="2"
+																																			:speed="5"
 																																			:animate="true"
 																				>
-																					<rect x="16" y="13" rx="2" ry="2" width="296" height="16" />
-																					<rect x="16" y="37" rx="2" ry="4" width="296" height="16" />
-																					<rect x="16" y="86" rx="2" ry="6" width="296" height="16" />
-																					<rect x="16" y="61" rx="2" ry="8" width="296" height="16" />
+																					<rect x="33" y="11" rx="5" ry="5" width="313" height="14" />
+																					<rect x="35" y="31" rx="0" ry="0" width="313" height="17" />
 																				</ContentLoader>
-																				<div v-else>
-																					<div class="col-md-11 alert toke insight wd"  v-if="canViewApiKey">
-																						<!-- START PANEL -->
-																						<p class="alert toke insight wd">
-																							{{live_api_key}}
-																						</p>
-																						<!-- END PANEL -->
-																					</div>
-																				</div>
-
+																				<span id="welcome-intro" v-else>Welcome back to your Dashboard.</span>
 																			</div>
 																		</div>
 																		<!-- END PANEL -->
-																	</div>
-																	<div class="col-md-6 mt-20">
-																		<!-- START PANEL -->
-																		<div class="panel panel-transparent">
-																			<div class="panel-body no-padding">
-																				<div class="panel-body no-padding">
-																					<div class="col-md-11">
-																						<p class="text-semibold"><i class="entypo-light-up" style="color: #c10202 !important;"></i> Guide for OTPs & Alerts </p>
-																					</div>
-																					<div class="col-md-11 alert toke insight wd">
-																						<!-- START PANEL -->
-																						<p class="alert toke insight wd">
-																							To send otps and alerts, you have to use our sender IDs; BCToken and N-Alert. <a class="blue-t text-bold" id="CHATID"> Click here to request</a>
-																						</p>
-																						<!-- END PANEL -->
-																					</div>
-																				</div>
-																			</div>
-																			<!-- END PANEL -->
-																		</div>
 																	</div>
 																</div>
 																<div class="row">
@@ -140,52 +55,57 @@
 																		<div class="panel panel-transparent">
 																			<div class="panel-body">
 																				<div class="row pad-100">
-																					<div class="col-md-2 cards" id="step2">
-																						<!-- START PANEL -->
-																						<div class="panel panel-transparent">
-																							<div class="panel-body no-padding">
-																								<img src="/images/products/check_mark.png" class="wd-50">
-																								<br>
-																								<small class="blue-t">Step 1</small>
-																								<h5 class="mb-10"><strong>Activate ID</strong></h5>
-																								<p class="insight mb-10">
-																									Activate your <br>sender or device ID</p>
-																								<button type="button" class="btn btn-blue btn-cons" @click="showActivateIdModal = true" ><i class="fa fa-angle-double-right"></i> Start</button>
-																							</div>
-																						</div>
-																						<!-- END PANEL -->
+																					<p><i class="entypo-credit-card"></i>Wallet Balance</p>
+																					<div style="display: flex">
+																							<p style="font-size: 40px; color: #365899; font-weight: 700; letter-spacing: 2px; line-height: 53.2px">{{account_balance}}</p>
+																							<a class="bg-blue mt-10 m-l-50"><i class="entypo-credit-card"></i> Fund Wallet <i class="m-l-10 fa fa-angle-right"></i> </a>
 																					</div>
-																					<div class="col-md-2 cards" id="step3">
-																						<!-- START PANEL -->
-																						<div class="panel panel-transparent">
-																							<div class="panel-body no-padding">
-																								<img src="/images/products/card.png" class="wd-50">
-																								<br>
-																								<small class="blue-t">Step 2</small>
-																								<h5 class="mb-10"><strong>Wallet</strong></h5>
-																								<p class="insight mb-10">Top-up your account <br>with messaging credit</p>
-																								<!-- Trigger the modal with a button -->
-																								<button type="button" class="btn btn-blue btn-cons" @click="showYourWalletModal = true"><i class="fa fa-angle-double-right"></i> Start</button>
+                      <div class="mt-50">
+																							 <div>
+																									<span style="font-weight: 700; "><i class="entypo-chart-bar" style="color: #365899"></i>All Channels Performance</span>
+																									<span style="margin-left: 300px; color: #365899; cursor: pointer">VIEW DELIVERY REPORT</span>
+																								</div>
+																							<div class="m-l-10 " style="border-bottom: dotted #ddd!important;width: 85%"></div>
+																							<div class="col-md-8">
+																								<DoughnutChart></DoughnutChart>
 																							</div>
+																						  <div class="mt-50 col-md-4">
+																									  <p style="color:#365899; font-weight: 700; font-size: 14px">Total Messages</p>
+																									  <p  style="color:#365899; font-size: 20px">10.5k</p>
+																									  <div class="mt-20">
+																												<p  style="color:#365899; font-weight: 700; font-size: 14px">Delivery Rate</p>
+																												<p  style="color:#365899; font-size: 20px">80.93%</p>
+																											</div>
+
+																								</div>
 																						</div>
-																						<!-- END PANEL -->
-																					</div>
-																					<div class="col-md-2 cards" id="step4">
-																						<!-- START PANEL -->
-																						<div class="panel panel-transparent">
-																							<div class="panel-body no-padding">
-																								<img src="/images/products/speech.png" class="wd-50">
-																								<br>
-																								<small class="blue-t">Step 3</small>
-																								<h5 class="mb-10"><strong>Message</strong></h5>
-																								<p class="insight mb-10">View guide on <br>sending messages</p>
-																								<nuxt-link to="/message/select-type" class="btn btn-blue btn-cons"><i class="fa fa-angle-double-right"></i> Start</nuxt-link>
-																							</div>
-																						</div>
-																						<!-- END PANEL -->
-																					</div>
 																				</div>
 																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-md-4">
+																<!-- START PANEL -->
+																<div class="">
+																	<div class="row mt-20">
+																		<div class="row mt-30">
+																			<div class="row">
+																				<div class="col-md-11" v-if="canViewApiKey">
+																					<p class="text-semibold"><i class="entypo-light-up" style="color: #079805 !important;"></i>API Key</p>
+																				</div>
+																				<div class="col-md-11 alert toke insight wd"  v-if="canViewApiKey">
+																					<p class="alert toke insight wd">
+																						{{live_api_key}}
+																					</p>
+																				</div>
+																				<div class="mt-20 col-md-11">
+																					<p class=" text-semibold" style="margin-bottom: 0"><i class="entypo-light-up" style="color: #079805 !important;"></i>Transaction History</p>
+																					<ActivityLog @emptyActivityLog="emptyActivityLog = $event"></ActivityLog>
+																				</div>
+																			</div>
+
+
 																		</div>
 																	</div>
 																</div>
@@ -222,6 +142,7 @@ import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
 import SmsHistoryModal from "../components/modals/SmsHistoryModal";
 import YourWalletModal from "../components/modals/YourWalletModal";
 import ActivateIdModal from "../components/modals/ActivateIdModal";
+import Chart from "chart.js";
 import { mapGetters } from 'vuex';
 import ActivityLog from "../components/general/ActivityLog";
 import {
@@ -239,8 +160,10 @@ import AccountNumberModal from "../components/modals/AccountNumberModal";
 import SuccessModal from "../components/modals/SuccessModal";
 import AnnouncementModal from "../components/modals/AnnouncementModal";
 import SignUpWizardComponent from "../components/index/modals/SignUpWizardComponent";
+import DoughnutChart from "../components/general/charts/DoughnutChart";
 export default {
 	components: {
+		DoughnutChart,
 		SignUpWizardComponent,
 		AnnouncementModal,
 		SuccessModal,
