@@ -21,7 +21,7 @@ export class InsightService {
 	return 	await this.$axios.$get('sms/history/analytics', {params:
 			{
 				duration: duration,
-				channels:channels
+				channel:channels
 			}});
 	}
 }
