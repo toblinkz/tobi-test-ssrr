@@ -23,7 +23,7 @@
           <div class="m-t-10 padd-x">
             <center>
               <p v-if="!show_company_name" class="text-center mt-10" style="color: #d3d3d3;">{{company_name}}</p>
-													 <p v-if="isAdmin && show_company_name" class="text-center mt-10 " style="color: #d3d3d3; cursor:pointer" @click="showUpdateCompanyNameModal"><i class="entypo-plus"></i>Update Company Name</p>
+													 <p v-if="isAdmin && show_company_name" class="text-center mt-10 " style="color: #d3d3d3; cursor:pointer" @click="showUpdateCompanyNameModal"><i class="entypo-plus"></i>Company Name <span class="badge badge-sm badge-sidebar">New</span></p>
 													<p v-else></p>
             </center>
           </div>
@@ -89,13 +89,13 @@
 									    <i class="caret"></i></span></a>
           </template>
           <template v-slot:dropdown_menu v-if="show_drop_down">
-            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/history" ><i class="entypo-chart-area"></i> Sms Report</nuxt-link></li>
+            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/history" ><i class="entypo-chart-area"></i> Message Report</nuxt-link></li>
             <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/campaign-reports"><i class="entypo-chart-pie"></i> Campaign Report</nuxt-link></li>
 										</template>
         </Dropdown>
 							<li class="padd-x" v-if="canViewDeliveryReport">
 								<nuxt-link to="/sms/insights" class="color-a level-1">
-									<i class="entypo-chart-pie"></i> Insights</nuxt-link>
+									<i class="entypo-chart-pie"></i> Insights <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
 							</li>
         <div class="padd-x">
           <hr class="mb-10 mt-10">

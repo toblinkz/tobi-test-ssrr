@@ -29,8 +29,8 @@
 													<!-- START PANEL -->
 													<div class="col-md-12">
 														<div class="panel-transparent mt-50">
-															<p class="insight text-center"  id="welcome" style="margin-top: 10px;margin-bottom: 10px; font-size: 18px"><i class="entypo-chart-pie"></i> Messaging Insight</p>
-															<p class="insight text-center" >View all your messaging insights. <br>Insights captured here include all sent messages.</p>
+															<p class="insight text-center"  id="welcome" style="margin-top: 10px;margin-bottom: 10px; font-size: 18px!important;"><i class="entypo-chart-pie"></i> Message Report</p>
+															<p class="insight text-center" >View all your message reports. <br>Report captured here include all sent, failed and delivered messages.</p>
 
 														</div>
               <center>
