@@ -38,27 +38,13 @@
 </script>
 
 <style scoped>
-  @media (max-width: 769px) {
-    .dropdown-menu, .navbar .input-group .dropdown-menu {
-      width: 100%;
-      border-width: 0 0 1px 0;
-      border-radius: 0;
-    }
 
-    .nav > li > a:hover, .nav > li > a:focus {
-      text-decoration: none;
-      background-color: #f5f5f5;
-      color: #777 !important;
-    }
-  }
   .menu-t {
     border-top: 2px solid #1990bb !important;
   }
   .dropdown-menu {
     position: absolute;
-    top: 100%;
     left: 0;
-
     z-index: 1000;
     float: left;
     min-width: 160px;
@@ -111,4 +97,18 @@
     background: #c8e9e6;
     color: #000 !important;
   }
+		@media (max-width: 769px) {
+			.dropdown-menu, .navbar .input-group .dropdown-menu {
+				width: 100%;
+				border-width: 0 0 1px 0;
+				border-radius: 0;
+			}
+
+			.nav > li > a:hover, .nav > li > a:focus {
+				text-decoration: none;
+				background-color: #f5f5f5;
+				color: #777 !important;
+			}
+
+		}
 </style>

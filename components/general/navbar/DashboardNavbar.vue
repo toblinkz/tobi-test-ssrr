@@ -6,7 +6,8 @@
       </nuxt-link>
       <ul  class="nav navbar-nav pull-right visible-menu-icon" >
         <li>
-          <a class="mobile-menu-button" data-toggle="collapse" ><i  class="icon-menu7 " style="color: #000;" @click.stop="menu = !menu"></i></a></li>
+          <a class="mobile-menu-button" data-toggle="collapse" ><i  class="icon-menu7 " style="color: #000;" @click.stop="menu = !menu"></i></a>
+								</li>
       </ul>
     </div>
     <div class="navbar-header hidden-xs" style="margin-left: 30px; margin-top: 18px">
