@@ -1,6 +1,6 @@
 <template>
   <!-- BEGIN SIDEBPANEL-->
-  <nav class="page-sidebar" data-pages="sidebar" >
+  <nav class="page-sidebar sidebar-overflow-y  nav-block" data-pages="sidebar" :class="{'block' : menu, 'hidden': !menu}">
     <!-- BEGIN SIDEBAR MENU HEADER-->
     <div id="user-side-bar" class="sidebar-header">
       <center>
@@ -161,6 +161,14 @@
 									}
 					},
       computed: {
+        	menu:{
+        		 get(){
+        		 	 return this.$store.state.menu.open
+											},
+										set (val) {
+											this.$store.commit('menu/toggle', val)
+										}
+									},
 							isDisabled: function (){
         	return(!this.show_drop_down)
 							},
@@ -408,7 +416,17 @@
       position: relative;
       display: block;
     }
+			.nav-block{
+				display: block !important;
+			}
   }
+		@media (max-width: 768px){
+
+			.sidebar-overflow-y{
+				overflow-y: auto !important;
+			}
+		}
+
 
 
 

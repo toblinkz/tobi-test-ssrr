@@ -2,8 +2,8 @@
   <div>
   <div class="container-fluid body">
     <div class="fund-row">
-      <div id="msb" class="col-md-2 hidden-xs">
-        <Sidebar class="hidden-xs"></Sidebar>
+      <div id="msb" class="col-md-2">
+        <Sidebar></Sidebar>
       </div>
       <div class="col-md-10">
         <DashboardNavbar></DashboardNavbar>
