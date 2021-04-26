@@ -19,7 +19,7 @@ methods:{
 							labels: ["Delivered","Sent","Failed","Rejected"],
 							datasets: [{
 								label: 'My First Dataset',
-								data: [300, 50, 100, 20],
+								data: [50, 20, 20, 10],
 								backgroundColor:["#226a4a","#365899","#ffc107","#FF0000"],
 								hoverOffset: 4
 							}]

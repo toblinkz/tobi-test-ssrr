@@ -1,53 +1,68 @@
 <template>
 	<modal name="signup-wizard-modal"   width="800px" height="auto">
 		<div class="flex-container">
-			<div class="flex-item-left hidden-xs" style="background: linear-gradient(-48deg,#0DCBE5 -30%, #365899 60%) !important;" >
+			<!-- Step 1			-->
+				<div v-if="showStepOne" class="flex-item-left hidden-xs" style="background: linear-gradient(-48deg,#0DCBE5 -30%, #365899 60%) !important;" >
+					<div class="mt-50">
+						<p  style="font-size:18px; padding:0 15px; color: #FFFFFF">Setting up your account </p>
+						<p  style="font-size: 12px; padding: 0 15px; color: #FFFFFF" >Here’s a quick guide to helping you set up your account</p>
+
+						<div class="m-l-20 mt-50">
+							<img src="/images/stepper/stepper_one.svg" />
+						</div>
+
+					</div>
+				</div>
+				<div  v-if="showStepOne" class="flex-item-right" style="padding: 0 30px">
+					<div>
+						<div class="mt-50" style="background-color:rgba(13, 203, 229, 0.3); padding: 15px; border-radius: 5px">
+							<p style="font-weight: bold; color: #365899">Step 1 of 3: Request Sender ID</p>
+						</div>
+						<p class="mt-30" style="color: #365899; font-weight: bold">Use Default ID</p>
+						<form  method="post"   >
+							<div class="mt-20">
+								<div class="form-group">
+									<div class="mt-20">
+										<label>Sender ID For Sms</label>
+										<input type="text" class="form-control" placeholder="e.g. Termii (Ensure your ID is not more than 9 characters)"  >
+									</div>
+									<div class="mt-20">
+										<label>Company</label>
+										<input type="text" class="form-control"  placeholder="e.g. Termii"  >
+									</div>
+									<div class="mt-20">
+										<label>Use Case</label>
+										<textarea type="text" class="form-control" rows="3"  placeholder="e.g. Hello dear is a sample of the message you will be sending with Termii"  ></textarea>
+									</div>
+									<div class="mt-30">
+										<p><b>NB:</b> Sender ID registration are approved only on weekdays and takes 24 hours to activate across all telcos in your country. If you need to try out the sms feature during weekends without an approved ID, please</p>
+									</div>
+									<div class="mt-30">
+										<a class="bg-blue">Send</a>
+									</div>
+								</div>
+							</div>
+						</form>
+						<div class="mt-30 mb-30">
+							<span style="font-weight: 700; cursor: pointer; color: #F44336" class="text-left" @click="close">Close</span>
+							<span style="font-weight: 700; cursor: pointer; color: #365899" class="pull-right" @click="moveToStepTwo">Next</span>
+						</div>
+					</div>
+				</div>
+			<!--end of  Step 1 -->
+
+			<!-- Step 2 -->
+			<div v-if="showStepTwo"  class="flex-item-left hidden-xs" style="background: linear-gradient(-48deg,#0DCBE5 -30%, #365899 60%) !important;" >
 				<div class="mt-50">
 					<p  style="font-size:18px; padding:0 15px; color: #FFFFFF">Setting up your account </p>
 					<p  style="font-size: 12px; padding: 0 15px; color: #FFFFFF" >Here’s a quick guide to helping you set up your account</p>
 				</div>
-     <nav class="nav-menu">
-						 <ul>
-								 <li><a href="#">Request ID </a></li>
-								<li><a href="#">Fund Wallet </a></li>
-								<li><a href="#">Send Message </a></li>
-							</ul>
-					</nav>
+				<div class="m-l-20 mt-50">
+					<img src="/images/stepper/stepper_two.svg" />
+				</div>
 			</div>
-			<div class="flex-item-right" style="padding: 0 30px">
-					<!-- Step 1			-->
-				<div>
-				<div class="mt-50" style="background-color:rgba(13, 203, 229, 0.3); padding: 15px; border-radius: 5px">
-					<p style="font-weight: bold; color: #365899">Step 1 of 3: Request Sender ID</p>
-				</div>
-				<p class="mt-30" style="color: #365899; font-weight: bold">Use Default ID</p>
-					<form  method="post"   >
-						<div class="mt-20">
-							<div class="form-group">
-								<div class="mt-20">
-									<label>Sender ID For Sms</label>
-									<input type="text" class="form-control" placeholder="e.g. Termii (Ensure your ID is not more than 9 characters)"  >
-								</div>
-								<div class="mt-20">
-									<label>Company</label>
-									<input type="text" class="form-control"  placeholder="e.g. Termii"  >
-								</div>
-								<div class="mt-20">
-									<label>Use Case</label>
-									<textarea type="text" class="form-control" rows="3"  placeholder="e.g. Hello dear is a sample of the message you will be sending with Termii"  ></textarea>
-								</div>
-								<div class="mt-30">
-									<p><b>NB:</b> Sender ID registration are approved only on weekdays and takes 24 hours to activate across all telcos in your country. If you need to try out the sms feature during weekends without an approved ID, please</p>
-								</div>
-        <div class="mt-30">
-									<a class="bg-blue">Send</a>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-				<!-- Step 2 -->
-				<div v-if="showStepTwo">
+			<div v-if="showStepTwo" class="flex-item-right" style="padding: 0 30px">
+				<div >
 					<div class="mt-50" style="background-color:rgba(13, 203, 229, 0.3); padding: 15px; border-radius: 5px">
 						<p style="font-weight: bold; color: #365899">Step 2 of 3: Fund Your Wallet</p>
 					</div>
@@ -85,8 +100,25 @@
 						</div>
 					</form>
 				</div>
-				<!--Step 3 -->
-				<div v-if="showStepThree">
+				<div class="mt-30 mb-30">
+					<span style="font-weight: 700; cursor: pointer; color: #F44336" class="text-left" @click="close">Close</span>
+					<span style="font-weight: 700; cursor: pointer; color: #365899" class="pull-right" @click="moveToStepThree">Next</span>
+				</div>
+				<!-- end of Step 2 -->
+
+			</div>
+			<!--Step 3 -->
+			<div v-if="showStepThree"  class="flex-item-left hidden-xs " style="background: linear-gradient(-48deg,#0DCBE5 -30%, #365899 60%) !important;" >
+				<div class="mt-50">
+					<p  style="font-size:18px; padding:0 15px; color: #FFFFFF">Setting up your account </p>
+					<p  style="font-size: 12px; padding: 0 15px; color: #FFFFFF" >Here’s a quick guide to helping you set up your account</p>
+				</div>
+				<div class="m-l-20 mt-50 mb-150">
+					<img src="/images/stepper/stepper_three.svg" />
+				</div>
+			</div>
+			<div v-if="showStepThree" class="flex-item-right " style="padding: 0 30px">
+				<div>
 					<div class="mt-50" style="background-color:rgba(13, 203, 229, 0.3); padding: 15px; border-radius: 5px">
 						<p style="font-weight: bold; color: #365899">Step 3 of 3: Start Sending Messages</p>
 					</div>
@@ -106,10 +138,6 @@
 						</div>
 					</form>
 				</div>
-				<div class="mt-30 mb-30">
-					<span style="font-weight: 700; color: #F44336" class="text-left">Close</span>
-					<span style="font-weight: 700; color: #365899" class="pull-right">Next</span>
-				</div>
 			</div>
 		</div>
 	</modal>
@@ -117,7 +145,29 @@
 
 <script>
 export default {
-name: "SignUpWizardComponent"
+name: "SignUpWizardComponent",
+	data(){
+	  return{
+	  	 showStepOne: true,
+				 showStepTwo: false,
+				 showStepThree: false
+			}
+	},
+	methods:{
+	  close(){
+	  	 this.$modal.hide('signup-wizard-modal');
+			},
+		  moveToStepTwo(){
+	  	  this.showStepOne = false;
+					 this.showStepTwo = true;
+					 this.showStepThree = false;
+				},
+		moveToStepThree(){
+			this.showStepOne = false;
+			this.showStepTwo = false;
+			this.showStepThree = true;
+		}
+	}
 }
 </script>
 
