@@ -1,6 +1,6 @@
 <template>
 	<div class="container-fluid body">
-		<div id="msb" class="col-md-2 hidden-xs">
+		<div id="msb" class="col-md-2">
 			<Sidebar></Sidebar>
 		</div>
 		<div class="col-md-10">

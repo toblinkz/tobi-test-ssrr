@@ -6,7 +6,8 @@
       </nuxt-link>
       <ul  class="nav navbar-nav pull-right visible-menu-icon" >
         <li>
-          <a class="mobile-menu-button" data-toggle="collapse" ><i  class="icon-menu7 " style="color: #000;" @click.stop="menu = !menu"></i></a>
+          <a class="mobile-menu-button" v-if="!menu" data-toggle="collapse" ><i  class="icon-menu7 " style="color: #000;" @click.stop="menu = !menu"></i></a>
+									<a class="mobile-menu-button" v-else data-toggle="collapse" ><i  class="entypo-cancel " style="color: #000;" @click.stop="menu = !menu"></i></a>
 								</li>
       </ul>
     </div>
@@ -88,10 +89,10 @@
     name: "DashboardNavbar",
 		 	middleware: 'auth',
     components: {Dropdown},
-			head: {
-				script: [
-					 // {src:"/js/auto-logout.js" },
-				],
+			watch:{
+				'$route' (){
+					this.$store.commit('menu/close')
+				}
 			},
     data(){
       return{
