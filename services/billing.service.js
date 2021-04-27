@@ -47,6 +47,16 @@ export class BillingService {
 
 	}
 
+	async getPaymentMethod(){
+		return this.$axios.$get('billing/payment-method');
+	}
+
+	async getExchangeRate(amount){
+		 return this.$axios.$get('billing/exchange-rate', {params: {
+		 	  amount: amount
+			 }});
+	}
+
 
 
 }

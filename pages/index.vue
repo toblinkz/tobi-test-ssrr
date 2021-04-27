@@ -56,9 +56,18 @@
 																			<div class="panel-body">
 																				<div class="row pad-100">
 																					<p><i class="entypo-credit-card"></i>Wallet Balance</p>
-																					<div style="display: flex">
+																					<ContentLoader v-if="!account_balance"
+																																				:speed="5"
+																																				:animate="true"
+																					>
+																						<rect x="33" y="31" rx="5" ry="5" width="313" height="12" />
+																						<rect x="35" y="32" rx="0" ry="0" width="313" height="12" />
+																						<rect x="37" y="33" rx="0" ry="0" width="313" height="12" />
+																						<rect x="39" y="33" rx="0" ry="0" width="313" height="12" />
+																					</ContentLoader>
+																					<div style="display: flex" v-else>
 																							<p style="font-size: 40px; color: #365899; font-weight: 700; letter-spacing: 2px; line-height: 53.2px">{{account_balance}}</p>
-																							<a class="bg-blue mt-10 m-l-50"><i class="entypo-credit-card"></i> Fund Wallet <i class="m-l-10 fa fa-angle-right"></i> </a>
+																							<nuxt-link to="/billing/fund" class="bg-blue mt-10 m-l-50"><i class="entypo-credit-card"></i> Fund Wallet <i class="m-l-10 fa fa-angle-right"></i> </nuxt-link>
 																					</div>
                       <div class="mt-50">
 																							 <div>
@@ -204,7 +213,7 @@ export default {
 	},
 	mounted: async function () {
 
-		 this.$modal.show('signup-wizard-modal');
+		this.$modal.show('signup-wizard-modal');
 		this.displayAnnouncementModal();
 
 		this.getUserPermissions();

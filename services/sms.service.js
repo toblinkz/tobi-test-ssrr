@@ -10,4 +10,13 @@ export class SmsService {
 			}});
 	}
 
+	async requestSenderId(sender_id, country, usecase, company){
+		  return await this.$axios.$post('sms/sender-id', {
+		  	 sender_id: sender_id,
+				  country: country,
+				  usecase: usecase,
+				  company: company
+		  });
+	}
+
 }

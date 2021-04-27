@@ -13,8 +13,24 @@
 
 					</div>
 				</div>
-				<div  v-if="showStepOne" class="flex-item-right" style="padding: 0 30px">
-					<div>
+				<div  v-if="showSenderIdRequestSuccessfulMessage" class="flex-item-right" style="padding: 0 30px">
+					<div class="mt-100 mb-150">
+						<center>
+							<img src="/images/check.svg" width="250"/>
+							<div class="mt-20">
+								<p style="font-weight: bold">Request Successful</p>
+								<div class="mb-20" >
+									<a  @click="close"  class="btn btn-danger mt-20 m-r-20">
+										Skip
+									</a>
+									<a class="btn btn-primary mt-20">Continue</a>
+								</div>
+							</div>
+						</center>
+					</div>
+				</div>
+			<div  v-if="showStepOne" class="flex-item-right" style="padding: 0 30px">
+										<div>
 						<div class="mt-50" style="background-color:rgba(13, 203, 229, 0.3); padding: 15px; border-radius: 5px">
 							<p style="font-weight: bold; color: #365899">Step 1 of 3: Request Sender ID</p>
 						</div>
@@ -24,28 +40,36 @@
 								<div class="form-group">
 									<div class="mt-20">
 										<label>Sender ID For Sms</label>
-										<input type="text" class="form-control" placeholder="e.g. Termii (Ensure your ID is not more than 9 characters)"  >
+										<input type="text" v-model="sender_id" class="form-control" placeholder="e.g. Termii (Ensure your ID is not more than 9 characters)"  >
+										<span class=" error_field_message" v-if="error_message.sender_id">{{error_message.sender_id}}</span>
 									</div>
 									<div class="mt-20">
 										<label>Company</label>
-										<input type="text" class="form-control"  placeholder="e.g. Termii"  >
+										<input type="text" v-model="company" class="form-control"  placeholder="e.g. Termii" >
+										<span class=" error_field_message" v-if="error_message.company">{{error_message.company}}</span>
 									</div>
 									<div class="mt-20">
 										<label>Use Case</label>
-										<textarea type="text" class="form-control" rows="3"  placeholder="e.g. Hello dear is a sample of the message you will be sending with Termii"  ></textarea>
+										<textarea type="text" v-model="usecase" class="form-control" rows="3"  placeholder="e.g. Hello dear is a sample of the message you will be sending with Termii"  ></textarea>
+										<span class=" error_field_message" v-if="error_message.usecase">{{error_message.usecase}}</span>
 									</div>
 									<div class="mt-30">
 										<p><b>NB:</b> Sender ID registration are approved only on weekdays and takes 24 hours to activate across all telcos in your country. If you need to try out the sms feature during weekends without an approved ID, please</p>
 									</div>
 									<div class="mt-30">
-										<a class="bg-blue">Send</a>
+										<a class="bg-blue"  @click="requestSenderId">
+											{{request_button_text}}
+											<span v-show="isLoading" >
+															<img src="/images/black_spinner.svg" height="20px" width="30px"/>
+													</span>
+										</a>
 									</div>
 								</div>
 							</div>
 						</form>
-						<div class="mt-30 mb-30">
-							<span style="font-weight: 700; cursor: pointer; color: #F44336" class="text-left" @click="close">Close</span>
-							<span style="font-weight: 700; cursor: pointer; color: #365899" class="pull-right" @click="moveToStepTwo">Next</span>
+						<div class="mt-30 ">
+<!--							<span style="font-weight: 700; cursor: pointer; color: #F44336" class="text-left" @click="moveToStepTwo"></span>-->
+							<span style="font-weight: 700; cursor: pointer; color: #365899; margin-bottom: 30px " class="pull-right" @click="moveToStepTwo">Skip</span>
 						</div>
 					</div>
 				</div>
@@ -72,18 +96,19 @@
 								<div class="mt-20">
 									<label>Choose Funding Option</label>
 									<Select class="form-control" >
-										 <option>Select</option>
+										 <option>Regular Top Up</option>
+									 	<option>Bundled Top Up</option>
 									</Select>
 								</div>
 								<div class="mt-20">
 									<label>Enter Amount</label>
-									<input type="text" class="form-control" placeholder="Amount">
+									<input type="text" v-model="amount" class="form-control" placeholder="Amount" @focusout="getExchangeRate($event)">
 								</div>
 								<div class="mt-20">
 									<label>Payment Options</label>
-									<Select class="form-control" >
-										<option>Select</option>
-									</Select>
+									<select @change="onPaymentMethodChange($event)" class="form-control">
+										<option v-for="item in payment_method.data" :value="item.settings">{{item.name}}</option>
+									</select>
 								</div>
 								<div class="mt-20 alert toke" style="padding: 10px; border-radius: 5px">
 									<p class="text-semibold"><i class="entypo-cc" style="color: #079805 !important;"></i> Total:</p>
@@ -101,8 +126,8 @@
 					</form>
 				</div>
 				<div class="mt-30 mb-30">
-					<span style="font-weight: 700; cursor: pointer; color: #F44336" class="text-left" @click="close">Close</span>
-					<span style="font-weight: 700; cursor: pointer; color: #365899" class="pull-right" @click="moveToStepThree">Next</span>
+<!--					<span style="font-weight: 700; cursor: pointer; color: #F44336" class="text-left" @click="close">Close</span>-->
+					<span style="font-weight: 700; cursor: pointer; color: #365899; margin-bottom: 30px" class="pull-right" @click="moveToStepThree">Skip</span>
 				</div>
 				<!-- end of Step 2 -->
 
@@ -146,14 +171,49 @@
 <script>
 export default {
 name: "SignUpWizardComponent",
+	watch: {
+		sender_id(value){
+			this.sender_id = value;
+			this.validateSenderId(value);
+		},
+	},
 	data(){
 	  return{
 	  	 showStepOne: true,
 				 showStepTwo: false,
-				 showStepThree: false
+				 showStepThree: false,
+			 	showSenderIdRequestSuccessfulMessage: false,
+				 request_button_text: 'Request',
+				 isLoading: false,
+				 sender_id: '',
+				 usecase:'',
+				 company:'',
+				 hasSenderIdError: false,
+				 hasCompanyError: false,
+				 hasUseCaseError: false,
+				 error_message: [],
+				 payment_method:'',
+				 payment_gateway:'',
+				 amount: '',
+				 total:''
 			}
 	},
+
 	methods:{
+		validateSenderId(value) {
+			if (value.length < 3){
+				this.error_message['sender_id'] = 'The sender id must be at least 3 characters.';
+				this.hasSenderIdError = true;
+			}else if (value.length > 11) {
+				this.error_message['sender_id'] = 'The sender id may not be greater than 11 characters.';
+				this.hasSenderIdError = true;
+			}
+			else {
+				this.error_message['sender_id'] = '';
+				this.hasSenderIdError = false;
+
+			}
+		},
 	  close(){
 	  	 this.$modal.hide('signup-wizard-modal');
 			},
@@ -166,7 +226,75 @@ name: "SignUpWizardComponent",
 			this.showStepOne = false;
 			this.showStepTwo = false;
 			this.showStepThree = true;
+		},
+	async	requestSenderId()	{
+	  	try {
+	  		this.request_button_text = '';
+					this.isLoading = true;
+					await this.$sms.requestSenderId(this.sender_id, JSON.parse(localStorage.getItem('user_data')).country, this.usecase, this.company);
+				}catch (e) {
+					this.request_button_text = 'Request';
+					this.isLoading = false;
+					let errors = e.response.data.errors;
+					for (let key in errors) {
+						switch (key){
+							case('name'):{
+								errors[key].forEach(err => {
+									this.error_message['sender_id'] = err;
+									this.hasSenderIdError = true;
+
+								});
+								break;
+							}
+							case ('company'):{
+								errors[key].forEach(err => {
+									this.error_message['company'] = err;
+									this.hasCompanyError = true;
+
+								});
+								break;
+							}
+							case ('usecase'):{
+								errors[key].forEach(err => {
+									this.error_message['usecase'] = err;
+									this.hasUseCaseError = true;
+
+								});
+								break;
+							}
+						}
+
+					}
+				}
+	  },
+		async setPaymentMethod(){
+			 try {
+					 let payment_data = await this.$billing.getPaymentMethod();
+					 this.payment_method = payment_data;
+					 this.payment_gateway = payment_data.data[0].settings;
+				}catch (e) {
+
+				}
+		},
+		onPaymentMethodChange(){
+
+		},
+		async getExchangeRate(){
+			 try{
+			 	let exchange_data = await this.$billing.getExchangeRate(this.amount);
+			 	this.total = exchange_data.amount;
+				}catch (e) {
+					let errors = e.response.data.errors;
+					for (let key in errors) {
+						errors[key].forEach(err => {
+							this.$toast.error(err);
+						});
+					}
+				}
 		}
+	},
+	mounted() {
+	this.setPaymentMethod();
 	}
 }
 </script>

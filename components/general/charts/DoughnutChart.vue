@@ -9,6 +9,11 @@
 <script>
 export default {
 name: "DoughnutChart",
+	data(){
+	 return{
+	 	 message_data:''
+		}
+	},
 methods:{
   mountPieChart(){
     // Pie chart
@@ -44,6 +49,7 @@ methods:{
 },
 mounted() {
   this.mountPieChart();
+
 }
 }
 </script>
