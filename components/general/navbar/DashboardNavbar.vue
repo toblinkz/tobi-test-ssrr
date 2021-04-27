@@ -1,15 +1,44 @@
 <template>
   <div class="body navbar-fixed-top navbar navbar-inverse" style="z-index: 800;background-color: #ffffff;">
     <div class="navbar-header">
-      <nuxt-link class="visible-menu-icon navbar-brand " to="/">
+      <nuxt-link class=" navbar-brand " to="/">
         <img src="/images/logo.png" alt="">
       </nuxt-link>
-      <ul  class="nav navbar-nav pull-right visible-menu-icon" >
-        <li>
-          <a class="mobile-menu-button" v-if="!menu" data-toggle="collapse" ><i  class="icon-menu7 " style="color: #000;" @click.stop="menu = !menu"></i></a>
-									<a class="mobile-menu-button" v-else data-toggle="collapse" ><i  class="entypo-cancel " style="color: #000;" @click.stop="menu = !menu"></i></a>
-								</li>
-      </ul>
+					<ul  class="nav navbar-nav pull-right visible-menu-icon"  style="margin-left: -20px">
+						<li>
+							<a class="mobile-menu-button" v-if="!menu" data-toggle="collapse" ><i  class="icon-menu7 " style="color: #000;" @click.stop="menu = !menu"></i></a>
+							<a class="mobile-menu-button" v-else data-toggle="collapse" ><i  class="entypo-cancel " style="color: #000;" @click.stop="menu = !menu"></i></a>
+						</li>
+					</ul>
+					<Dropdown id="mobile-menu2" class="visible-menu-icon" style="margin-right: 10px; list-style: none">
+						<template v-slot:dropdown_title>
+							<a class="dropdown-toggle " data-toggle="dropdown" style="color: #2c2c2c !important; margin-left: 22px">
+								<img preview-for="image" :src="imageUrl" style="border-radius: 50%; margin-top: 10px; margin-right: 0px" height="40"  alt="">
+								<i class="caret"></i>
+							</a>
+						</template>
+						<template v-slot:dropdown_menu>
+							<li v-if="canTopUp"><nuxt-link to="/billing/fund"><i class="entypo-credit-card"></i> Top Up</nuxt-link></li>
+							<li v-if="canComposeMessage">
+								<nuxt-link to="/message/select-type">
+									<i class="entypo-paper-plane"></i><span> Message</span>
+								</nuxt-link>
+							</li>
+
+							<li v-if="canViewDeliveryReport">
+								<nuxt-link to="/sms/history">
+									<i class="entypo-chart-line"></i><span> Reports</span>
+								</nuxt-link>
+							</li>
+
+							<li  v-if="canViewProfile">
+								<nuxt-link to="/account/profile"><i class="entypo-vcard"></i> Account</nuxt-link>
+							</li>
+
+							<li><a @click="logout"><i class="icon-switch2" ></i> logout</a></li>
+						</template>
+					</Dropdown>
+
     </div>
     <div class="navbar-header hidden-xs" style="margin-left: 30px; margin-top: 18px">
       <div id="google_translate_element" style="margin-left: 20px "></div>
