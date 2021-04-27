@@ -116,7 +116,7 @@
 									    <i class="caret"></i></span></a>
           </template>
           <template v-slot:dropdown_menu v-if="show_drop_down">
-            <li v-if="canViewDevelopersSettings"><a href="http://developer.termii.com" ><i class="entypo-code"></i> API Guide</a></li>
+            <li v-if="canViewDevelopersSettings"><a href="https://developers.termii.com" target="_blank" ><i class="entypo-code"></i> API Guide</a></li>
             <li v-if="canViewApiConsole"><nuxt-link to="/account/api"><i class="entypo-key"></i> Api console</nuxt-link></li>
           </template>
         </Dropdown>

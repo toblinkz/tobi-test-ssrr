@@ -61,13 +61,13 @@
                         </p>
                       </li>
                       <li>
-                        <a href="http://developer.termii.com/docs/send-token/" class="btn btn-primary">Choose</a>
-                        <a href="http://developer.termii.com/docs/send-token/">
+                        <a href="https://developers.termii.com/token" target="_blank" class="btn btn-primary">Choose</a>
+                        <a href="https://developers.termii.com/token" target="_blank">
                         <span class="">
                             <i class="entypo-key blue-i"></i>
                         </span>
                         </a>
-                        <h4><a href="http://developer.termii.com/docs/send-token" class="blue-t"><small>OTP (Tokens)</small></a></h4>
+                        <h4><a href="https://developers.termii.com/token" target="_blank" class="blue-t"><small>OTP (Tokens)</small></a></h4>
                         <p>
                           Send and verify one time passwords (soft tokens) across multiple channels
                         </p>
