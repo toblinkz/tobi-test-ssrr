@@ -148,17 +148,20 @@
 						<p style="font-weight: bold; color: #365899">Step 3 of 3: Start Sending Messages</p>
 					</div>
 					<form  method="post"   >
-						<div class="mt-20">
+						<div>
 							<div class="form-group">
-								<div class="mt-50">
-									<label>Choose Your Job Role</label>
-									<Select class="form-control" >
-										<option>Select</option>
-									</Select>
-								</div>
-								<div class="mt-40">
-									<a class="bg-blue">Go to Dashboard</a>
-								</div>
+								<center>
+									<div>
+										<img src="/images/step3_art.png" />
+									</div>
+
+									<p>Start sending messages to your customers faster, and with a better accuracy.</p>
+									<div class="mt-40">
+										<a class="bg-blue m-r-10">Send on Dashboard</a>
+										<a class="bg-green">Send via API</a>
+									</div>
+								</center>
+
 							</div>
 						</div>
 					</form>
