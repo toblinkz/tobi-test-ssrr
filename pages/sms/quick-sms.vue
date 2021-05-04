@@ -110,6 +110,7 @@
             </div>
           </div>
 							<VerificationModal></VerificationModal>
+					  <UpdateCompanyNameModal></UpdateCompanyNameModal>
     </div>
   </div>
 </template>
@@ -124,9 +125,12 @@
     import CustomSelect from "../../components/general/dropdown/CustomSelect";
 				import Fuse from 'fuse.js';
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
     export default {
         name: "quick-sms",
-      components: {VerificationModal, CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, vSelect},
+      components: {
+							UpdateCompanyNameModal,
+							VerificationModal, CustomSelect, SearchDropdown, DashboardNavbar, Sidebar, vSelect},
 				 	middleware: ['auth', 'inactive_user', 'permission'],
       data(){
           return{

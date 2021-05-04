@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2 ">
-      <Sidebar class="hidden-xs"></Sidebar>
+      <Sidebar></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -156,6 +156,7 @@
 
 											<TransactionHistoryModal></TransactionHistoryModal>
 											<VerificationModal></VerificationModal>
+											<UpdateCompanyNameModal></UpdateCompanyNameModal>
           </div>
     </div>
   </div>
@@ -171,10 +172,12 @@
 				import {ContentLoader,} from 'vue-content-loader';
 				import TransactionHistoryModal from "../../../components/modals/TransactionHistoryExportModal";
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import UpdateCompanyNameModal from "../../../components/index/modals/UpdateCompanyNameModal";
     export default {
         name: "history",
 					   middleware: ['auth', 'inactive_user', 'permission'],
         components: {
+									UpdateCompanyNameModal,
 									VerificationModal,
 									TransactionHistoryModal,
 									TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar,DatePicker , ContentLoader},

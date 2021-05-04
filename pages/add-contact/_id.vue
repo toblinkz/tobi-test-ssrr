@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2 ">
-      <Sidebar class="hidden-xs"></Sidebar>
+      <Sidebar></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -93,6 +93,7 @@
       </div>
     </div>
 			<VerificationModal></VerificationModal>
+			<UpdateCompanyNameModal></UpdateCompanyNameModal>
   </div>
 </template>
 
@@ -102,10 +103,11 @@
     import SearchDropdown from "../../components/general/dropdown/SearchDropdown";
 				import {mapGetters} from "vuex";
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
     export default {
         name: "add-contact",
 					 middleware: ['auth', 'inactive_user', 'permission'],
-      components: {VerificationModal, SearchDropdown, DashboardNavbar, Sidebar},
+      components: {UpdateCompanyNameModal, VerificationModal, SearchDropdown, DashboardNavbar, Sidebar},
       data(){
           return{
             selected_country_code:'',

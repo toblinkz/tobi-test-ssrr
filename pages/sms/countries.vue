@@ -1,7 +1,7 @@
 <template>
 	<div class="container-fluid body">
-		<div id="msb" class="col-md-2 hidden-xs">
-			<Sidebar class="hidden-xs"></Sidebar>
+		<div id="msb" class="col-md-2">
+			<Sidebar></Sidebar>
 		</div>
 		<div class="col-md-10">
 			<DashboardNavbar></DashboardNavbar>
@@ -97,6 +97,8 @@
 
 										</Pagination>
 									</div>
+									<VerificationModal></VerificationModal>
+									<UpdateCompanyNameModal></UpdateCompanyNameModal>
 								</div>
 							</section>
 						</main>
@@ -114,11 +116,13 @@ import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
 import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 import VerificationModal from "~/components/modals/VerificationModal";
 import Pagination from "../../components/general/Pagination";
+import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
 
 export default {
 	name: "countries",
 	middleware:['auth', 'permission'],
 	components: {
+		UpdateCompanyNameModal,
 		Pagination,
 		VerificationModal,  TableVuePlaceHolder,  DashboardNavbar, Sidebar},
 	data(){

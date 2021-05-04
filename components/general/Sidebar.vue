@@ -1,6 +1,6 @@
 <template>
   <!-- BEGIN SIDEBPANEL-->
-  <nav class="page-sidebar" data-pages="sidebar" >
+  <nav class="page-sidebar sidebar-overflow-y  nav-block" data-pages="sidebar" :class="{'block' : menu, 'hidden': !menu}">
     <!-- BEGIN SIDEBAR MENU HEADER-->
     <div id="user-side-bar" class="sidebar-header">
       <center>
@@ -15,18 +15,16 @@
     <div class="sidebar-menu">
                         <span>
            <center>
-
              <img preview-for="image"  :src="imageUrl" class="circular" alt="">
-
             </center>
-
             </span>
-
       <ul class="nav">
         <li>
           <div class="m-t-10 padd-x">
             <center>
-              <p class="text-center mt-10" style="color: #d3d3d3;">Per-Billing Account</p>
+              <p v-if="!show_company_name" class="text-center mt-10" style="color: #d3d3d3;">{{company_name}}</p>
+													 <p v-if="isAdmin && show_company_name" class="text-center mt-10 " style="color: #d3d3d3; cursor:pointer" @click="showUpdateCompanyNameModal"><i class="entypo-plus"></i>Company Name <span class="badge badge-sm badge-sidebar">New</span></p>
+													<p v-else></p>
             </center>
           </div>
         </li>
@@ -91,12 +89,14 @@
 									    <i class="caret"></i></span></a>
           </template>
           <template v-slot:dropdown_menu v-if="show_drop_down">
-            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/history" ><i class="entypo-chart-area"></i> Direct Insights</nuxt-link></li>
-            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/campaign-reports"><i class="entypo-chart-pie"></i> Group Insights</nuxt-link></li>
-
-          </template>
+            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/history" ><i class="entypo-chart-area"></i> Message Report</nuxt-link></li>
+            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/campaign-reports"><i class="entypo-chart-pie"></i> Campaign Report</nuxt-link></li>
+										</template>
         </Dropdown>
-
+							<li class="padd-x" v-if="canViewDeliveryReport">
+								<nuxt-link to="/sms/insights" class="color-a level-1">
+									<i class="entypo-chart-pie"></i> Insights <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
+							</li>
         <div class="padd-x">
           <hr class="mb-10 mt-10">
         </div>
@@ -116,7 +116,7 @@
 									    <i class="caret"></i></span></a>
           </template>
           <template v-slot:dropdown_menu v-if="show_drop_down">
-            <li v-if="canViewDevelopersSettings"><a href="http://developer.termii.com" ><i class="entypo-code"></i> API Guide</a></li>
+            <li v-if="canViewDevelopersSettings"><a href="https://developers.termii.com" target="_blank" ><i class="entypo-code"></i> API Guide</a></li>
             <li v-if="canViewApiConsole"><nuxt-link to="/account/api"><i class="entypo-key"></i> Api console</nuxt-link></li>
           </template>
         </Dropdown>
@@ -125,9 +125,6 @@
             <i class="entypo-cog"></i>
             Settings</nuxt-link>
         </li>
-							<li class="padd-x" v-if="isAdmin">
-								<a  style="color:#FFFFFF " id="CHATID"><i class="entypo-help-circled"></i> Help Center</a>
-							</li>
 							<li class="padd-x">
 								<a target="_blank" class="color-a level-1"  href="https://join.slack.com/t/termii-loop/shared_invite/zt-imbqlf68-w4lsPkOzibBXSQohu8_8dQ">
 									<i class="entypo-users"></i> Community</a>
@@ -157,11 +154,21 @@
 													imageUrl:  'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg',
 										   permission_data : [],
 										   customer_permissions:[],
+										   company_name:JSON.parse(localStorage.getItem('user_data')).company.name,
+										   show_company_name: true,
 										   customer_data: [],
 										   isAdmin: JSON.parse(localStorage.getItem('user_data')).is_main
 									}
 					},
       computed: {
+        	menu:{
+        		 get(){
+        		 	 return this.$store.state.menu.open
+											},
+										set (val) {
+											this.$store.commit('menu/toggle', val)
+										}
+									},
 							isDisabled: function (){
         	return(!this.show_drop_down)
 							},
@@ -222,6 +229,15 @@
 								this.customer_permissions.push(permission.name);
 							});
 						},
+
+						checkIfCompanyNameIsAnEmailAddress(){
+							let email_address = JSON.parse(localStorage.getItem('user_data')).company.name;
+							return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_address));
+						},
+						showUpdateCompanyNameModal(){
+							this.$modal.show('update-company-name-modal');
+						}
+
 					},
 				async mounted() {
 					this.customer_data = JSON.parse(localStorage.getItem('user_data'));
@@ -233,7 +249,7 @@
 							this.show_drop_down = false;
 						}
 						this.imageUrl = this.customer_data.image || 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg';
-
+      this.show_company_name = this.checkIfCompanyNameIsAnEmailAddress();
 					}
 				 }
 
@@ -400,7 +416,17 @@
       position: relative;
       display: block;
     }
+			.nav-block{
+				display: block !important;
+			}
   }
+		@media (max-width: 768px){
+
+			.sidebar-overflow-y{
+				overflow-y: auto !important;
+			}
+		}
+
 
 
 

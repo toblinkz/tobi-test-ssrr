@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2">
-      <Sidebar class="hidden-xs"></Sidebar>
+      <Sidebar></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -58,6 +58,7 @@
         </div>
 									<VerificationModal></VerificationModal>
 									<AccountPassword event_name="deactivate_account" :feedback="user_feedback"></AccountPassword>
+									<UpdateCompanyNameModal></UpdateCompanyNameModal>
       </div>
     </div>
   </div>
@@ -71,9 +72,10 @@
     import Swal from "sweetalert2";
 				import VerificationModal from "~/components/modals/VerificationModal";
 				import AccountPassword from "../../components/modals/AccountPassword";
+				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
     export default {
         name: "deactivate",
-      components: {AccountPassword, VerificationModal, ApiNavbar, DashboardNavbar, Sidebar},
+      components: {UpdateCompanyNameModal, AccountPassword, VerificationModal, ApiNavbar, DashboardNavbar, Sidebar},
 					middleware: ['auth', 'permission'],
       data(){
           return{

@@ -1,7 +1,7 @@
 <template>
 	<div class="container-fluid body">
 		<div id="msb" class="col-md-2">
-			<Sidebar class="hidden-xs"></Sidebar>
+			<Sidebar></Sidebar>
 		</div>
 		<div class="col-md-10">
 			<DashboardNavbar></DashboardNavbar>
@@ -71,6 +71,7 @@
 					</div>
 				</div>
 				<VerificationModal></VerificationModal>
+				<UpdateCompanyNameModal></UpdateCompanyNameModal>
 				<AddNewEmailModal @addedEmail="addNewEmail($event)"></AddNewEmailModal>
 				<update-email-notification-modal  @addedEmail="addNewEmail($event)"  :email_address="email_address" :selected_email_categories="email_categories" ></update-email-notification-modal>
 			</div>
@@ -86,10 +87,12 @@ import ApiNavbar from "@/components/general/navbar/ApiNavbar";
 import EmailCard from "@/components/general/EmailCard";
 import AddNewEmailModal from "@/components/modals/AddNewEmailModal";
 import UpdateEmailNotificationModal from "@/components/modals/UpdateEmailNotificationModal";
+import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
 export default {
 	name: "notification",
 	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {
+		UpdateCompanyNameModal,
 		UpdateEmailNotificationModal,
 		AddNewEmailModal, EmailCard, ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
 	data(){

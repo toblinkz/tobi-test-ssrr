@@ -1,7 +1,7 @@
 <template>
 	<div class="container-fluid body">
 		<div id="msb" class="col-md-2">
-			<Sidebar class="hidden-xs"></Sidebar>
+			<Sidebar></Sidebar>
 		</div>
 		<div class="col-md-10">
 			<DashboardNavbar></DashboardNavbar>
@@ -104,6 +104,7 @@
 						</main>
 					</div>
 					<VerificationModal></VerificationModal>
+					<UpdateCompanyNameModal></UpdateCompanyNameModal>
 				</div>
 			</div>
 		</div>
@@ -118,10 +119,13 @@ import DatePicker from "vue2-datepicker";
 import 'vue2-datepicker/index.css';
 import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 import VerificationModal from "~/components/modals/VerificationModal";
+import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
 export default {
 	name: "campaign-reports",
 	middleware: ['auth', 'inactive_user', 'permission'],
-	components: {VerificationModal, TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar, DatePicker},
+	components: {
+		UpdateCompanyNameModal,
+		VerificationModal, TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar, DatePicker},
 	data(){
 		return{
 

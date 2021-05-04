@@ -65,6 +65,8 @@ function hasAccess(route_name){
 			return customer_permissions.includes('view_delivery_report');
 		case "sms-campaign-reports":
 			return customer_permissions.includes('view_delivery_report');
+		case "sms-insights":
+			return customer_permissions.includes('view_delivery_report');
 		case "sms-campaign-history-id":
 			return customer_permissions.includes('view_delivery_report');
 		case "account-api":

@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid body">
     <div id="msb" class="col-md-2">
-      <Sidebar class="hidden-xs"></Sidebar>
+      <Sidebar></Sidebar>
     </div>
     <div class="col-md-10">
       <DashboardNavbar></DashboardNavbar>
@@ -71,6 +71,7 @@
 									<VerificationModal></VerificationModal>
          <SuccessfulPaymentModal></SuccessfulPaymentModal>
 									<SuccessModal :modal_information="modal_information"></SuccessModal>
+									<UpdateCompanyNameModal></UpdateCompanyNameModal>
         </div>
       </div>
     </div>
@@ -88,10 +89,12 @@
 				import SuccessfulPaymentModal from "../../../components/modals/SuccessfulPaymentModal";
 				import SendTemplateSampleModal from "../../../components/modals/SendTemplateSampleModal";
 				import SuccessModal from "../../../components/modals/SuccessModal";
+				import UpdateCompanyNameModal from "../../../components/index/modals/UpdateCompanyNameModal";
     export default {
 					  name: "subscriptions",
 					  middleware: ['auth', 'inactive_user', 'permission'],
        components: {
+								UpdateCompanyNameModal,
 								SuccessModal,
 								SendTemplateSampleModal,
 								SuccessfulPaymentModal,

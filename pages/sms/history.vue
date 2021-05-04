@@ -1,7 +1,7 @@
 <template>
 	<div class="container-fluid body">
 		<div id="msb" class="col-md-2">
-			<Sidebar class="hidden-xs"></Sidebar>
+			<Sidebar></Sidebar>
 		</div>
 		<div class="col-md-10">
 			<DashboardNavbar></DashboardNavbar>
@@ -28,12 +28,15 @@
 													<!--													<div class="col-lg-4 mb-20">-->
 													<!-- START PANEL -->
 													<div class="col-md-12">
-														<div class="panel-transparent mt-30">
-															<p class="insight text-center"  id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-chart-pie"></i> Messaging Insight</p>
-															<p class="insight text-center" >View all your messaging insights. <br>Insights captured here include all sent messages.</p>
+														<div class="panel-transparent mt-50">
+															<p class="insight text-center"  id="welcome" style="margin-top: 10px;margin-bottom: 10px; font-size: 18px!important;"><i class="entypo-chart-pie"></i> Message Report</p>
+															<p class="insight text-center" >View all your message reports. <br>Report captured here include all sent, failed and delivered messages.</p>
+
 														</div>
+              <center>
+															<nuxt-link to="/sms/insights" class="btn btn-primary mt-20"><i class="entypo-chart-bar"></i> View Insight graph</nuxt-link>
+														</center>
 														<div class="panel-body ">
-															<SmsHistoryChart class="hidden-xs"></SmsHistoryChart>
 														</div>
 													</div>
 
@@ -143,6 +146,7 @@
 		<ExportModal></ExportModal>
 		<SmsHistoryModal v-if="showSmsModal" @close="closeModal" :sms_id="sms_history_id"></SmsHistoryModal>
 		<VerificationModal></VerificationModal>
+		<UpdateCompanyNameModal></UpdateCompanyNameModal>
 	</div>
 </template>
 
@@ -154,18 +158,19 @@ import Pagination from "../../components/general/Pagination";
 import DatePicker from "vue2-datepicker";
 import ClickOutside from "vue-click-outside";
 import 'vue2-datepicker/index.css';
-import SmsHistoryChart from "../../components/general/charts/SmsHistoryChart";
 import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 import ExportModal from "../../components/modals/SmsHistoryExportModal";
 import VerificationModal from "~/components/modals/VerificationModal";
+import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
 export default {
 	name: "history",
 	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {
+		UpdateCompanyNameModal,
 		VerificationModal,
 		ExportModal,
 		TableVuePlaceHolder,
-		Pagination, SmsHistoryModal, DashboardNavbar, Sidebar, DatePicker,  SmsHistoryChart},
+		Pagination, SmsHistoryModal, DashboardNavbar, Sidebar, DatePicker},
 
 	data(){
 		return{

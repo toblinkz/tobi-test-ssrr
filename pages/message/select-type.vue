@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid body">
     <div class="row">
-      <div id="msb" class="col-md-2 hidden-xs">
-        <sidebar class="hidden-xs"></sidebar>
+      <div id="msb" class="col-md-2">
+        <sidebar></sidebar>
       </div>
       <div class="col-md-10">
         <DashboardNavbar></DashboardNavbar>
@@ -61,13 +61,13 @@
                         </p>
                       </li>
                       <li>
-                        <a href="http://developer.termii.com/docs/send-token/" class="btn btn-primary">Choose</a>
-                        <a href="http://developer.termii.com/docs/send-token/">
+                        <a href="https://developers.termii.com/token" target="_blank" class="btn btn-primary">Choose</a>
+                        <a href="https://developers.termii.com/token" target="_blank">
                         <span class="">
                             <i class="entypo-key blue-i"></i>
                         </span>
                         </a>
-                        <h4><a href="http://developer.termii.com/docs/send-token" class="blue-t"><small>OTP (Tokens)</small></a></h4>
+                        <h4><a href="https://developers.termii.com/token" target="_blank" class="blue-t"><small>OTP (Tokens)</small></a></h4>
                         <p>
                           Send and verify one time passwords (soft tokens) across multiple channels
                         </p>
@@ -88,6 +88,7 @@
         <!-- /page container -->
       </div>
 					<VerificationModal></VerificationModal>
+					<UpdateCompanyNameModal></UpdateCompanyNameModal>
     </div>
   </div>
 </template>
@@ -96,10 +97,11 @@
     import Sidebar from "../../components/general/Sidebar";
     import DashboardNavbar from "../../components/general/navbar/DashboardNavbar";
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
     export default {
         name: "select-type",
 					   middleware: ['auth', 'inactive_user', 'permission'],
-      components: {VerificationModal, DashboardNavbar, Sidebar},
+      components: {UpdateCompanyNameModal, VerificationModal, DashboardNavbar, Sidebar},
 					mounted() {
 						if(this.$store.state.view_verify_page === 'true'){
 							this.$modal.show('verification-id-modal');

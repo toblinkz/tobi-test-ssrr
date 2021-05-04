@@ -1,7 +1,7 @@
 <template>
 		<div class="container-fluid">
 			 <div id="msb" class="col-md-2">
-					  <Sidebar class="hidden-xs"></Sidebar>
+					  <Sidebar></Sidebar>
 				</div>
 			 <div class="col-md-10">
 					 <DashboardNavbar></DashboardNavbar>
@@ -33,6 +33,7 @@
 					  <DeleteTeammateModal @get-teammates="getTeammates" :teammate_id="teammate_id" :teammate_email="email"></DeleteTeammateModal>
 					  <AddedTeammateSuccessfullyModal></AddedTeammateSuccessfullyModal>
 					  <UpdatedTeammatePermissionModal></UpdatedTeammatePermissionModal>
+					  <UpdateCompanyNameModal></UpdateCompanyNameModal>
 					  <AddTeamMemberModal @add-team-member="addTeamMember($event)" :teammates_email="teammates_email" @user-email-exist="showUserEmailNotificationModal($event)"></AddTeamMemberModal>
 					  <UserEmailExistNotificationModal @add-teammate="addTeamMember" :existing_user_data="existing_user_data"></UserEmailExistNotificationModal>
 					  <UpdateTeamMemberModal @update-team-member="updateTeamMember($event)" @update-teammate-permission="updateTeammatePermission" :teammate_id="teammate_id" :email="email" :first_name="first_name" :selected_teammate_permission="selected_teammate_permission" :last_name="last_name" :role="role" ></UpdateTeamMemberModal>
@@ -51,10 +52,12 @@ import AddedTeammateSuccessfullyModal from "../components/modals/AddedTeammateSu
 import DeleteTeammateModal from "../components/modals/DeleteTeammateModal";
 import UpdatedTeammatePermissionModal from "../components/modals/UpdatedTeammatePermissionModal";
 import UserEmailExistNotificationModal from "../components/team/modals/UserEmailExistNotificationModal";
+import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
 export default {
  name: "teams",
 	middleware:['auth', 'permission'],
 	components: {
+		UpdateCompanyNameModal,
 		UserEmailExistNotificationModal,
 		UpdatedTeammatePermissionModal,
 		DeleteTeammateModal,

@@ -2,8 +2,8 @@
   <div>
   <div class="container-fluid body">
     <div class="fund-row">
-      <div id="msb" class="col-md-2 hidden-xs">
-        <Sidebar class="hidden-xs"></Sidebar>
+      <div id="msb" class="col-md-2">
+        <Sidebar></Sidebar>
       </div>
       <div class="col-md-10">
         <DashboardNavbar></DashboardNavbar>
@@ -171,6 +171,7 @@
 			<VerificationModal></VerificationModal>
 			<AccountNumberModal @nuban_account="setNubanAccount()"></AccountNumberModal>
 			<SuccessModal :modal_information="modal_information"></SuccessModal>
+			<UpdateCompanyNameModal></UpdateCompanyNameModal>
   </div>
 </template>
 
@@ -189,11 +190,13 @@
 				import SuccessModal from "../../components/modals/SuccessModal";
 				import GenericAccountNumberComponent from "@/components/billing/GenericAccountNumberComponent";
 				import NubanAccountNumberComponent from "@/components/billing/NubanAccountNumberComponent";
+				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
 
     export default {
 					name: "funding",
 					middleware: ['auth', 'inactive_user', 'permission'],
 					components: {
+						UpdateCompanyNameModal,
 						NubanAccountNumberComponent,
 						GenericAccountNumberComponent,
 						SuccessModal,
