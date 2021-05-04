@@ -95,12 +95,12 @@
 							<div class="form-group">
 								<div class="mt-20">
 									<label>Choose Funding Option</label>
-									<Select class="form-control" >
-										 <option>Regular Top Up</option>
-									 	<option>Bundled Top Up</option>
+									<Select class="form-control" @change="onFundingOptionChange($event)">
+										 <option value="1">Regular Top Up</option>
+									 	<option value="2">Bundled Top Up</option>
 									</Select>
 								</div>
-								<div class="mt-20">
+								<div class="mt-20" v-if="input_amount">
 									<label>Enter Amount</label>
 									<input type="text" v-model="amount" class="form-control" placeholder="Amount" @focusout="getExchangeRate($event)">
 								</div>
@@ -142,7 +142,7 @@
 					<img src="/images/stepper/stepper_three.svg" />
 				</div>
 			</div>
-			<div v-if="showStepThree" class="flex-item-right " style="padding: 0 30px">
+			<div v-if="showStepThree" class="flex-item-right " style="padding: 0 30px; height: 80vh">
 				<div>
 					<div class="mt-50" style="background-color:rgba(13, 203, 229, 0.3); padding: 15px; border-radius: 5px">
 						<p style="font-weight: bold; color: #365899">Step 3 of 3: Start Sending Messages</p>
@@ -195,7 +195,8 @@ name: "SignUpWizardComponent",
 				 payment_method:'',
 				 payment_gateway:'',
 				 amount: '',
-				 total:''
+				 total:'',
+				 input_amount: true
 			}
 	},
 
@@ -272,12 +273,33 @@ name: "SignUpWizardComponent",
 					 let payment_data = await this.$billing.getPaymentMethod();
 					 this.payment_method = payment_data;
 					 this.payment_gateway = payment_data.data[0].settings;
+					 console.log('lop', this.payment_gateway)
 				}catch (e) {
 
 				}
 		},
-		onPaymentMethodChange(){
+		async onFundingOptionChange(event){
+    if (event.target.value === "1"){
+    	 this.input_amount = true;
+    	 return;
+				}
+    this.input_amount = false;
+			let top_up_data = await this.$billing.getBundledTopUpData();
+			this.amount = top_up_data.data.bundled_top_up.amount_currency;
+			this.total = top_up_data.data.bundled_top_up.amount;
+		},
+		onPaymentMethodChange(event){
 
+		},
+		async getBundledTopUpData(){
+			 try {
+					 let top_up_data = await this.$billing.getBundledTopUpData();
+					 this.total = top_up_data.data.bundled_top_up.amount;
+					 console.log('hghu', top_up_data);
+
+				}catch (e) {
+
+				}
 		},
 		async getExchangeRate(){
 			 try{

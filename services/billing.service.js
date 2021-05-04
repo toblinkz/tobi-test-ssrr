@@ -48,13 +48,17 @@ export class BillingService {
 	}
 
 	async getPaymentMethod(){
-		return this.$axios.$get('billing/payment-method');
+		return this.$axios.$get('billing/payment-method', {headers: {'Authorization':  `Bearer ${localStorage.getItem('local')}`}});
 	}
 
 	async getExchangeRate(amount){
 		 return this.$axios.$get('billing/exchange-rate', {params: {
 		 	  amount: amount
 			 }});
+	}
+
+	async getBundledTopUpData(){
+		 return this.$axios.$get('billing/top-up/plans');
 	}
 
 
