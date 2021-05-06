@@ -157,8 +157,8 @@
 
 									<p>Start sending messages to your customers faster, and with a better accuracy.</p>
 									<div class="mt-40">
-										<a class="bg-blue m-r-10">Send on Dashboard</a>
-										<a class="bg-green">Send via API</a>
+										<nuxt-link to="/message/select-type" class="bg-blue m-r-10">Send on Dashboard</nuxt-link>
+										<a href="https://developers.termii.com" target="_blank" class="bg-green">Send via API</a>
 									</div>
 								</center>
 

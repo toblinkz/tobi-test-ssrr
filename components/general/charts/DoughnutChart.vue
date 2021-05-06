@@ -11,10 +11,16 @@ export default {
 name: "DoughnutChart",
 	data(){
 	 return{
-	 	 message_data:''
+	 	 message_data:'',
+			 array_of_doughnut_chart_count:'',
 		}
 	},
 methods:{
+	async getChartData(){
+		let data = await this.$insight.getChartData();
+		this.array_of_doughnut_chart_count = data.data.data.total_count;
+
+	},
   mountPieChart(){
     // Pie chart
 			Chart.defaults.global.legend.labels.usePointStyle = true;
@@ -23,8 +29,7 @@ methods:{
       data: {
 							labels: ["Delivered","Sent","Failed","Rejected"],
 							datasets: [{
-								label: 'My First Dataset',
-								data: [50, 20, 20, 10],
+								data: this.array_of_doughnut_chart_count,
 								backgroundColor:["#226a4a","#365899","#ffc107","#FF0000"],
 								hoverOffset: 4
 							}]
@@ -47,8 +52,9 @@ methods:{
     });
   }
 },
-mounted() {
-  this.mountPieChart();
+async mounted() {
+	 await this.getChartData();
+  await this.mountPieChart();
 
 }
 }

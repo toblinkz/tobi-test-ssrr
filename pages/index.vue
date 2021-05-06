@@ -71,22 +71,30 @@
 																					</div>
                       <div class="mt-50">
 																							 <div>
-																									<span style="font-weight: 700; "><i class="entypo-chart-bar" style="color: #365899"></i>All Channels Performance</span>
-																									<span style="margin-left: 300px; color: #365899; cursor: pointer">VIEW DELIVERY REPORT</span>
+																									<span style="font-weight: 700; "><i class="entypo-chart-bar" style="color: #365899"></i>All Channels Performance Today</span>
+																									<nuxt-link to="/sms/insights"><span style="margin-left: 300px; font-weight: 700; color: #365899; cursor: pointer">VIEW DELIVERY REPORTS</span></nuxt-link>
 																								</div>
-																							<div class="m-l-10 " style="border-bottom: dotted #ddd!important;width: 85%"></div>
-																							<div class="col-md-8">
-																								<DoughnutChart></DoughnutChart>
-																							</div>
-																						  <div class="mt-50 col-md-4">
-																									  <p style="color:#365899; font-weight: 700; font-size: 14px">Total Messages</p>
-																									  <p  style="color:#365899; font-size: 20px">10.5k</p>
-																									  <div class="mt-20">
-																												<p  style="color:#365899; font-weight: 700; font-size: 14px">Delivery Rate</p>
-																												<p  style="color:#365899; font-size: 20px">80.93%</p>
-																											</div>
+																							<div class="m-l-10 " style="border-bottom: dotted #ddd!important;width: 95%"></div>
+																							<div>
 
+																							</div>
+																							<div v-if="total_messages_sent">
+																									<div  class="col-md-8">
+																										<DoughnutChart></DoughnutChart>
+																									</div>
+																									<div class="mt-50 col-md-4">
+																										<p style="color:#365899; font-weight: 700; font-size: 14px">Total Messages Sent Today</p>
+																										<p  style="color:#365899; font-size: 20px">{{total_messages_sent}}</p>
+																										<div class="mt-20">
+																											<p  style="color:#365899; font-weight: 700; font-size: 14px">Delivery Rate</p>
+																											<p  style="color:#365899; font-size: 20px">80.93%</p>
+																										</div>
+																									</div>
+																							</div>
+																							 <div v-else class="mt-50" style="text-align:center">
+																									  No data
 																								</div>
+
 																						</div>
 																				</div>
 																			</div>
@@ -101,7 +109,11 @@
 																		<div class="row mt-30">
 																			<div class="row">
 																				<div class="col-md-11" v-if="canViewApiKey">
-																					<p class="text-semibold"><i class="entypo-light-up" style="color: #079805 !important;"></i>API Key</p>
+																					<div style="display: flex;" >
+																						<p class="text-semibold"><i class="entypo-key" style="color: #079805 !important;"></i>API Key</p>
+																						<a href="https://developers.termii.com" target="_blank" style="margin-left: auto; color: #365899">view documentation</a>
+																					</div>
+
 																				</div>
 																				<div class="col-md-11 alert toke insight wd"  v-if="canViewApiKey">
 																					<p class="alert toke insight wd">
@@ -109,7 +121,10 @@
 																					</p>
 																				</div>
 																				<div class="mt-20 col-md-11">
-																					<p class=" text-semibold" style="margin-bottom: 0"><i class="entypo-light-up" style="color: #079805 !important;"></i>Transaction History</p>
+																					<div style="display:flex;">
+																						<p class=" text-semibold" style="margin-bottom: 0"><i class="entypo-light-up" style="color: #079805 !important;"></i>Transaction History</p>
+																						<nuxt-link to="/billing/transactions/history" style="margin-left: auto; color: #365899">view transaction</nuxt-link>
+																					</div>
 																					<ActivityLog @emptyActivityLog="emptyActivityLog = $event"></ActivityLog>
 																				</div>
 																			</div>
@@ -208,7 +223,8 @@ export default {
 			is_main: JSON.parse(localStorage.getItem('user_data')).is_main,
 			permission_data : [],
 			customer_permissions:[],
-			announcement_information:[]
+			announcement_information:[],
+			total_messages_sent:'',
 
 		}
 	},
@@ -222,6 +238,8 @@ export default {
 		this.checkUserIsVerifiedAndProcess();
 
 		this.setNameAndKey();
+
+		await this.getTotalMessagesSent();
 
 		await this.fetchAndSetBalance();
 
@@ -244,7 +262,10 @@ export default {
 			});
 			localStorage.setItem('permissions', this.customer_permissions);
 		},
-
+		 async getTotalMessagesSent(){
+				let data = await this.$insight.getChartData();
+				this.total_messages_sent = data.data.data.count_data;
+			},
 		closeActivateIdModal(){
 			this.showActivateIdModal = false;
 		},
