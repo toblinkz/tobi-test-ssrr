@@ -235,7 +235,7 @@ import {
 import VerificationModal from "~/components/modals/VerificationModal";
 import AddedTeammateSuccessfullyModal from "../components/modals/AddedTeammateSuccessfullyModal";
 import PageDeniedModal from "../components/modals/PageDeniedModal";
-import AccountNumberModal from "../components/modals/AccountNumberModal";
+import AccountNumberModal from "../components/modals/GenerateNubanAccountNumberModal";
 import SuccessModal from "../components/modals/SuccessModal";
 import AnnouncementModal from "../components/modals/AnnouncementModal";
 import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
