@@ -265,12 +265,11 @@
 						async getWallet() {
 							try {
 								let data = await this.$axios.$get('billing/wallet');
-
-								this.is_nigerian_wallet = data.data.is_nigerian_wallet
+								 this.is_nigerian_wallet = data.data.account.is_nigerian_wallet
 									this.account_balance = data.data.converted_balance;
-									this.bank_name = data.data.bank_name;
-									this.account_number = data.data.account_number;
-									this.account_name = data.data.account_name;
+									this.bank_name = data.data.account.bank_name;
+									this.account_number = data.data.account.account_number;
+									this.account_name = data.data.account.account_name;
 
 							} catch (e) {
 
@@ -346,7 +345,7 @@
 
 						},
 						getNuban: async function () {
-							if (this.nuban_account.length === 0) {
+							if (this.customer_country === 'Nigeria' && this.nuban_account.length === 0) {
 								const {data} = await this.$billing.getNubanAccount();
 								this.nuban_account = data.data;
 							}
