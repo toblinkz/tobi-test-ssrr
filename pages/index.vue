@@ -72,7 +72,7 @@
                       <div class="mt-50">
 																							 <div>
 																									<span style="font-weight: 700; "><i class="entypo-chart-bar" style="color: #365899"></i>All Channels Performance Today</span>
-																									<nuxt-link to="/sms/insights"><span style="margin-left: 300px; font-weight: 700; color: #365899; cursor: pointer">VIEW DELIVERY REPORTS</span></nuxt-link>
+																									<nuxt-link to="/sms/insights"><span style="margin-left: 300px; font-weight: 700; color: #365899; cursor: pointer">view delivery reports</span></nuxt-link>
 																								</div>
 																							<div class="m-l-10 " style="border-bottom: dotted #ddd!important;width: 95%"></div>
 																							<div>
@@ -111,7 +111,7 @@
 																				<div class="col-md-11" v-if="canViewApiKey">
 																					<div style="display: flex;" >
 																						<p class="text-semibold"><i class="entypo-key" style="color: #079805 !important;"></i>API Key</p>
-																						<a href="https://developers.termii.com" target="_blank" style="margin-left: auto; color: #365899">view documentation</a>
+																						<a href="https://developers.termii.com" target="_blank" style="margin-left: auto; color: #365899">explore documentation</a>
 																					</div>
 
 																				</div>
