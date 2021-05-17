@@ -77,7 +77,7 @@ computed:{
 				this.hasEmailError = false;
 		},
 		validateEmail(value){
-			if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)){
+			if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)){
 				this.error_message['email'] = '';
 				this.hasEmailError = false;
 
