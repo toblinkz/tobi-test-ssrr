@@ -194,7 +194,7 @@ export default {
 			}
 		},
 		validateEmail(email){
-			if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))){
+			if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)){
 				this.error_message['email'] = 'The email field must be a valid email';
 				this.hasEmailError = true;
 				return
