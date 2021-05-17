@@ -193,12 +193,14 @@ export default {
 				this.hasLastNameError = false;
 			}
 		},
+
 		validateEmail(email){
-			if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)){
-				this.error_message['email'] = 'The email field must be a valid email';
-				this.hasEmailError = true;
-				return
-			}
+				if (!(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email))){
+					this.error_message['email'] = 'The email field must be a valid email';
+					this.hasEmailError = true;
+					return
+
+				}
 		  if (this.teammates_email.includes(email)){
 				this.error_message['email'] = 'The email address already exist on team';
 				this.hasEmailError = true;
