@@ -17,7 +17,7 @@
 			<p class="text-semibold"  style="color: #595959; font-size: 13px">BANK</p>
 			<!-- START PANEL -->
 			<p >
-				<span style="color:  #718096;">{{bank_name.toUpperCase()}}</span>
+				<span style="color:  #718096;">{{bank_name}}</span>
 			</p>
 			<!-- END PANEL -->
 		</div>
