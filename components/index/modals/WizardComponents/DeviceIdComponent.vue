@@ -49,9 +49,9 @@
 				</span>
 			</a>
 		</div>
-				<div class="mt-100">
+				<div style="position: absolute; bottom: 10px;">
 					<span style="font-weight: 700; cursor: pointer; color: #365899;" class="text-left" @click="showSelectService">Back</span>
-					<span style="font-weight: 700; cursor: pointer; color: #365899; margin-bottom: 30px " class="pull-right" @click="showFundWalletForm">Skip</span>
+					<span style="position: absolute; left: 450px; font-weight: 700; cursor: pointer; color: #365899; margin-bottom: 30px " class="pull-right" @click="showFundWalletForm">Skip</span>
 				</div>
 			</div>
 		</div>

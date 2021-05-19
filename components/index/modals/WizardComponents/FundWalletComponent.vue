@@ -55,7 +55,7 @@
 					</div>
 				</form>
 			</div>
-			<div class="mt-50 mb-30">
+			<div class="mt-70">
 				<span style="font-weight: 700; cursor: pointer; color: #365899;" class="text-left" @click="showSenderIdForm">Back</span>
 				<span style="font-weight: 700; cursor: pointer; color: #365899; margin-bottom: 30px" class="pull-right" @click="close">Skip</span>
 			</div>
