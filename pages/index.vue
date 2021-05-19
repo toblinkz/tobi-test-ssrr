@@ -71,12 +71,12 @@
 																							<p style="font-size: 40px; color: #365899; font-weight: 700; letter-spacing: 2px; line-height: 53.2px">{{account_balance}}</p>
 																							<nuxt-link to="/billing/fund" class="bg-blue mt-10 m-l-50"><i class="entypo-credit-card"></i> Fund Wallet <i class="m-l-10 fa fa-angle-right"></i> </nuxt-link>
 																					</div>
-                      <div class="mt-50">
+                      <div class="card mt-50">
 																							 <div>
 																									<span style="font-weight: 700; "><i class="entypo-chart-bar" style="color: #365899"></i>All Channels Performance Today</span>
 																									<nuxt-link to="/sms/insights"><span style="margin-left: 300px; font-weight: 700; color: #365899; cursor: pointer">view delivery reports</span></nuxt-link>
 																								</div>
-																							<div class="m-l-10 " style="border-bottom: dotted #ddd!important;width: 95%"></div>
+																							<div class="m-l-10 " style="border-bottom: dotted #ddd!important;width: 100%"></div>
 																							<div>
 
 																							</div>

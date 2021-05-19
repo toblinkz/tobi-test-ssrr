@@ -2,10 +2,10 @@
 	<div class="flex-container">
 		<div class="flex-item-left hidden-xs" style="background: linear-gradient(-48deg,#0DCBE5 -30%, #365899 60%) !important;" >
 			<div class="mt-50">
-				<p  style="font-size:18px; padding:0 15px; color: #FFFFFF">Setting up your account </p>
-				<p  style="font-size: 12px; padding: 0 15px; color: #FFFFFF" >Here’s a quick guide to helping you set up your account</p>
+				<p  style="font-size:18px; padding:0 15px; color: #FFFFFF">Set Up Your account </p>
+				<p  style="font-size: 12px; padding: 0 15px; color: #FFFFFF" >Here's a quick guide to setting up your account</p>
 				<div class="m-l-20 mt-50">
-					<img src="/images/stepper/stepper_one.svg" />
+					<img src="/images/stepper/stepper_two.svg" />
 				</div>
 			</div>
 		</div>
@@ -29,7 +29,7 @@
 		<div v-if="!showSenderIdRequestSuccessfulMessage"  class="flex-item-right" style="padding: 0 30px">
 			<div>
 				<div class="mt-50" style="background-color:rgba(13, 203, 229, 0.3); padding: 15px; border-radius: 5px">
-					<p style="font-weight: bold; color: #365899">Step 1 of 3: Request Sender ID</p>
+					<p style="font-weight: bold; color: #365899">Step 2 of 3: Request Sender ID</p>
 				</div>
 				<p class="mt-30" style="color: #365899; font-weight: bold">Use Default ID</p>
 				<form  method="post"   >
@@ -64,8 +64,8 @@
 						</div>
 					</div>
 				</form>
-				<div class="mt-20 mb-10">
-					<!--							<span style="font-weight: 700; cursor: pointer; color: #F44336" class="text-left" @click="moveToStepTwo"></span>-->
+				<div class="mt-30 mb-10">
+					<span style="font-weight: 700; cursor: pointer; color: #365899;" class="text-left" @click="showSelectService">Back</span>
 					<span style="font-weight: 700; cursor: pointer; color: #365899; margin-bottom: 30px " class="pull-right" @click="showFundWalletForm">Skip</span>
 				</div>
 			</div>
@@ -117,6 +117,9 @@ export default {
 		},
 		showFundWalletForm(){
 			 this.$emit('showFundWalletForm');
+		},
+		showSelectService(){
+			this.$emit('showSelectService');
 		},
 		moveToStepThree(){
 			this.showStepOne = false;

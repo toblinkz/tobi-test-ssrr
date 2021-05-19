@@ -2,10 +2,10 @@
 	<div class="flex-container">
 		<div class="flex-item-left hidden-xs" style="background: linear-gradient(-48deg,#0DCBE5 -30%, #365899 60%) !important;" >
 			<div class="mt-50">
-				<p  style="font-size:18px; padding:0 15px; color: #FFFFFF">Setting up your account </p>
-				<p  style="font-size: 12px; padding: 0 15px; color: #FFFFFF" >Here’s a quick guide to helping you set up your account</p>
+				<p  style="font-size:18px; padding:0 15px; color: #FFFFFF">Set Up Your account </p>
+				<p  style="font-size: 12px; padding: 0 15px; color: #FFFFFF" >Here's a quick guide to setting up your account</p>
 				<div class="m-l-20 mt-50">
-					<img src="/images/stepper/stepper_two.svg" />
+					<img src="/images/stepper/stepper_three.svg" />
 				</div>
 			</div>
 		</div>
@@ -13,7 +13,7 @@
 		<div  class="flex-item-right" style="padding: 0 30px">
 			<div >
 				<div class="mt-50" style="background-color:rgba(13, 203, 229, 0.3); padding: 15px; border-radius: 5px">
-					<p style="font-weight: bold; color: #365899">Step 2 of 3: Fund Your Wallet</p>
+					<p style="font-weight: bold; color: #365899">Step 3 of 3: Get Started</p>
 				</div>
 				<form  method="post"   >
 					<div class="mt-20">
@@ -44,14 +44,20 @@
 								<p>All payments would be remitted in Naira, but your balance would be displayed in your local currency.</p>
 							</div>
 							<div class="mt-30">
-								<a class="bg-blue">Fund Wallet</a>
+								<a class="bg-blue" @click="TopUp" :aria-disabled="isDisabled">
+									{{fund_button_text}}
+									<span v-show="isLoading">
+										<img src="/images/spinner.svg" height="20px" width="80px"/>
+							</span>
+								</a>
 							</div>
 						</div>
 					</div>
 				</form>
 			</div>
-			<div class="mt-30 mb-30">
-				<span style="font-weight: 700; cursor: pointer; color: #365899; margin-bottom: 30px" class="pull-right" @click="moveToLastForm">Skip</span>
+			<div class="mt-50 mb-30">
+				<span style="font-weight: 700; cursor: pointer; color: #365899;" class="text-left" @click="showSenderIdForm">Back</span>
+				<span style="font-weight: 700; cursor: pointer; color: #365899; margin-bottom: 30px" class="pull-right" @click="close">Skip</span>
 			</div>
 			<!-- end of Step 2 -->
 
@@ -62,14 +68,20 @@
 <script>
 export default {
 	name: "FundWalletComponent",
+	computed:{
+		isDisabled: function () {
+			return (this.amount === '')
+		},
+	},
 	data(){
 		return{
 
-			request_button_text: 'Request',
+			fund_button_text: 'Fund Account',
 			isLoading: false,
 			error_message: [],
 			payment_method:'',
 			payment_gateway:'',
+			showMonnifyModal: false,
 			amount: '',
 			total:'',
 			input_amount: true
@@ -77,9 +89,57 @@ export default {
 	},
 
 	methods:{
+		close(){
+			this.$modal.hide('signup-wizard-modal');
+		},
+		showSenderIdForm(){
+			this.$emit('showSenderIdForm');
+		},
+		async TopUp() {
+			if (this.showMonnifyModal) {
+				this.$modal.show('monnify-modal')
+			} else {
 
-		moveToLastForm(){
-			 this.$emit('showSendMessage')
+				try {
+					this.$store.commit('setSuccessfulPaymentUrl', this.page_url);
+					this.isLoading = true;
+					this.fund_button_text = "";
+					let response_data = await this.$axios.$post('billing/fund/wallet', {
+						amount: this.amount,
+						gateway: this.payment_gateway
+					});
+
+					switch (this.payment_gateway) {
+						case('paystack'): {
+							window.location.href = response_data.data.url;
+							break;
+						}
+						case('flutterwave_card'):
+						case('flutterwave_ghana_momo'): {
+							window.location.href = response_data.data.link;
+							break;
+						}
+						case('stripe'): {
+							this.$stripe.import().redirectToCheckout({
+								sessionId: response_data.data
+							}).then(function (result) {
+								this.$toast.error(result.error.message)
+							});
+							break;
+						}
+						case('spektra'): {
+							window.location.href = response_data.data;
+						}
+					}
+
+				} catch (e) {
+					this.isLoading = false;
+					this.fund_button_text = "Fund Account";
+					let errors = e.response;
+					this.$toast.error(errors);
+
+				}
+			}
 		},
 		async setPaymentMethod(){
 			try {
@@ -126,6 +186,9 @@ export default {
 			}
 		}
 	},
+	mounted() {
+		this.setPaymentMethod();
+	}
 
 
 }

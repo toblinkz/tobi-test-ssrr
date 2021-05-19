@@ -1,13 +1,10 @@
 <template>
-	<modal name="signup-wizard-modal"   width="800px" height="650px" @before-close="beforeClose">
+	<modal name="signup-wizard-modal"   width="800px" height="700px" @before-close="beforeClose">
      <WelcomeComponent v-if="showStepOne" @showServicePage="moveToStepTwo"></WelcomeComponent>
      <SelectServiceComponent v-if="showStepTwo" @showSenderIdForm="moveToStepThreeA" @showDeviceIdForm = moveToStepThreeB></SelectServiceComponent>
-     <SenderIdComponent v-if="showStepThreeA" @showFundWalletForm="moveToStepFour"></SenderIdComponent>
-		    <DeviceIdComponent v-if="showStepThreeB"  @showFundWalletForm="moveToStepFour"></DeviceIdComponent>
-     <FundWalletComponent v-if="showStepFour" @showSendMessage="moveToStepFive"></FundWalletComponent>
-     <SendMessageComponent v-if="showStepFive"></SendMessageComponent>
-
-
+     <SenderIdComponent v-if="showStepThreeA" @showSelectService="moveToStepTwo" @showFundWalletForm="moveToStepFour"></SenderIdComponent>
+		    <DeviceIdComponent v-if="showStepThreeB" @showSelectService="moveToStepTwo"  @showFundWalletForm="moveToStepFour"></DeviceIdComponent>
+     <FundWalletComponent v-if="showStepFour" @showSenderIdForm="moveToStepThreeA" @showSendMessage="moveToStepFive"></FundWalletComponent>
 
 
 	</modal>

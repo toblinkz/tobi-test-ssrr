@@ -37,6 +37,7 @@ methods:{
 		let data = await this.$insight.getChartData();
 		this.array_of_doughnut_chart_count = data.data.data.total_count;
 
+
 	},
   mountPieChart(){
     // Pie chart
