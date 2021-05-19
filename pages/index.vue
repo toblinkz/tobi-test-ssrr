@@ -26,6 +26,7 @@
 											<div class="container-fluid container-fixed-lg">
 												<div class="inner">
 													<!-- END BREADCRUMB -->
+
 													<div class="container-md-height mt-30">
 														<div class="row">
 															<div class="col-md-8">
@@ -36,36 +37,37 @@
 																			<div class="panel-body no-padding">
 																				  <span id="welcome" style="margin-bottom: 5px!important;"><span
 																							class="text-bold" >Hi, {{first_name}}</span> </span>
-																				<ContentLoader v-if="!account_balance"
-																																			:speed="5"
-																																			:animate="true"
-																				>
-																					<rect x="33" y="11" rx="5" ry="5" width="313" height="14" />
-																					<rect x="35" y="31" rx="0" ry="0" width="313" height="17" />
-																				</ContentLoader>
-																				<span id="welcome-intro" v-else>Welcome back to your Dashboard.</span>
+
+																				<span id="welcome-intro">Welcome back to your Dashboard.</span>
 																			</div>
 																		</div>
 																		<!-- END PANEL -->
 																	</div>
 																</div>
-																<div class="row">
+																<ContentLoader v-if="!account_balance"
+
+																>
+																	<rect x="15" y="15" rx="4" ry="4" width="130" height="5" />
+																	<rect x="155" y="15" rx="3" ry="3" width="130" height="5" />
+																	<rect x="295" y="15" rx="3" ry="3" width="90" height="5" />
+																	<rect x="15" y="50" rx="3" ry="3" width="90" height="5" />
+																	<rect x="115" y="50" rx="3" ry="3" width="60" height="5" />
+																	<rect x="185" y="50" rx="3" ry="3" width="200" height="5" />
+																	<rect x="15" y="90" rx="3" ry="3" width="130" height="5" />
+																	<rect x="160" y="90" rx="3" ry="3" width="120" height="5" />
+																	<rect x="290" y="90" rx="3" ry="3" width="95" height="5" />
+																	<rect x="15" y="130" rx="3" ry="3" width="130" height="5" />
+																	<rect x="160" y="130" rx="3" ry="3" width="225" height="5" />
+																</ContentLoader>
+																<div v-else class="row">
 																	<div v-if="is_main" class="container-fluid container-fixed-lg" style="background: white;">
 																		<!-- START PANEL -->
 																		<div class="panel panel-transparent">
 																			<div class="panel-body">
 																				<div class="row pad-100">
 																					<p><i class="entypo-credit-card"></i>Wallet Balance</p>
-																					<ContentLoader v-if="!account_balance"
-																																				:speed="5"
-																																				:animate="true"
-																					>
-																						<rect x="33" y="31" rx="5" ry="5" width="313" height="12" />
-																						<rect x="35" y="32" rx="0" ry="0" width="313" height="12" />
-																						<rect x="37" y="33" rx="0" ry="0" width="313" height="12" />
-																						<rect x="39" y="33" rx="0" ry="0" width="313" height="12" />
-																					</ContentLoader>
-																					<div style="display: flex" v-else>
+
+																					<div style="display: flex" >
 																							<p style="font-size: 40px; color: #365899; font-weight: 700; letter-spacing: 2px; line-height: 53.2px">{{account_balance}}</p>
 																							<nuxt-link to="/billing/fund" class="bg-blue mt-10 m-l-50"><i class="entypo-credit-card"></i> Fund Wallet <i class="m-l-10 fa fa-angle-right"></i> </nuxt-link>
 																					</div>
@@ -128,8 +130,6 @@
 																					<ActivityLog @emptyActivityLog="emptyActivityLog = $event"></ActivityLog>
 																				</div>
 																			</div>
-
-
 																		</div>
 																	</div>
 																</div>
@@ -231,6 +231,9 @@ export default {
 	mounted: async function () {
 
 		this.$modal.show('signup-wizard-modal');
+
+		// this.startUserWizard();
+
 		this.displayAnnouncementModal();
 
 		this.getUserPermissions();
@@ -353,51 +356,12 @@ export default {
 			this.live_api_key = JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
 		},
 
-
-		startIntro() {
-			let intro = introJs();
-			// add a flag when we're done
-			intro.oncomplete(function() {
-				localStorage.setItem('doneWithTour', 'yeah');
-			});
-
-			// add a flag when we exit
-			intro.onexit(function() {
-				localStorage.setItem('doneWithTour', 'yeah');
-			});
-
-			intro.setOptions({
-				steps: [
-					{
-						element: '#step1',
-						intro: "<center><span>Hi, <b>Welcome to Termii</b></span></center><br><br>Do you know that messaging platforms are unique and have features that make them different? <br><br>To navigate your account properly and use Termii's unique features effectively, please follow these few steps!"
-					},
-					{
-						element: document.querySelector('#step2'),
-						intro: "<span>1. Verify <b>Unique ID</b></span><br><br>Before sending any message on Termii, It is very important that you verify your Sender or Device ID. <br><br> <b>Sender ID</b>: This is your unique sms ID (Must be 9 characters and gets approved between 1-24 hours)<br><br> <b>Device ID</b>: This is your unique WhatsApp ID.<br><br><b>Domain DNS</b>: These codes allow email providers like gmail mark your email and messages as authentic.",
-						position: 'right'
-					},
-					{
-						element: document.querySelector('#step3'),
-						intro: "<span>2. <b>Subscribe</b></span><br><br>Once your sender, device or domain ID's are active, proceed to purchase units based on the volume of messages you would like to send to your customers!",
-						position: 'left'
-					},
-					{
-						element:document.querySelector('#step4'),
-						intro: "<span>4. Message <b>Guide</b></span><br><br>Now, click start to select the type of message you would like to send and personalize your content. <br><br> <b>Note</b>: Always ensure you read our text hints when sending messages, Don't ingnore them!",
-					},
-					{
-						element: document.querySelector('#step5'),
-						intro: 'Thats all from us for now. If you have further questions, please use the <b>support link</b> on the sidebar or click on our chat box to talk to a support agent.'
-					}
-				]
-			});
-
+		startUserWizard(){
 			let doneWithTour = localStorage.getItem('doneWithTour') === 'yeah';
 			if (doneWithTour) {
 				return;
 			} else {
-				intro.start();
+				this.$modal.show('signup-wizard-modal');
 			}
 		}
 
