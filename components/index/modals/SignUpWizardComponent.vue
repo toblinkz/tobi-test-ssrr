@@ -2,9 +2,9 @@
 	<modal name="signup-wizard-modal"   width="800px" height="700px" @before-close="beforeClose">
      <WelcomeComponent v-if="showStepOne" @showServicePage="moveToStepTwo"></WelcomeComponent>
      <SelectServiceComponent v-if="showStepTwo" @showSenderIdForm="moveToStepThreeA" @showDeviceIdForm = moveToStepThreeB></SelectServiceComponent>
-     <SenderIdComponent v-if="showStepThreeA" @showSelectService="moveToStepTwo" @showFundWalletForm="moveToStepFour"></SenderIdComponent>
-		    <DeviceIdComponent v-if="showStepThreeB" @showSelectService="moveToStepTwo"  @showFundWalletForm="moveToStepFour"></DeviceIdComponent>
-     <FundWalletComponent v-if="showStepFour" @showSenderIdForm="moveToStepThreeA" @showSendMessage="moveToStepFive"></FundWalletComponent>
+     <SenderIdComponent v-if="showStepThreeA" @showSelectService="moveToStepTwo" @showSuccessModal="moveToStepFour"></SenderIdComponent>
+		    <DeviceIdComponent v-if="showStepThreeB" @showSelectService="moveToStepTwo"  @showSuccessModal="moveToStepFour"></DeviceIdComponent>
+		    <SuccessModal v-if="showStepFour"></SuccessModal>
 
 
 	</modal>
@@ -15,13 +15,13 @@ import WelcomeComponent from "./WizardComponents/WelcomeComponent";
 import SelectServiceComponent from "./WizardComponents/SelectServiceComponent";
 import SenderIdComponent from "./WizardComponents/SenderIdComponent";
 import FundWalletComponent from "./WizardComponents/FundWalletComponent";
-import SendMessageComponent from "./WizardComponents/SendMessageComponent";
+import SuccessModal from "./WizardComponents/SuccessModal";
 import DeviceIdComponent from "./WizardComponents/DeviceIdComponent";
 export default {
 name: "SignUpWizardComponent",
   components: {
-			DeviceIdComponent,
-			SendMessageComponent, FundWalletComponent, SenderIdComponent, SelectServiceComponent, WelcomeComponent},
+			SuccessModal,
+			DeviceIdComponent, FundWalletComponent, SenderIdComponent, SelectServiceComponent, WelcomeComponent},
   watch: {
 		sender_id(value){
 			this.sender_id = value;

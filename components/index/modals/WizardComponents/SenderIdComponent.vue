@@ -10,28 +10,12 @@
 			</div>
 		</div>
 
-		<div  v-if="showSenderIdRequestSuccessfulMessage" class="flex-item-right" style="padding: 0 30px">
-			<div class="mt-100 mb-150">
-				<center>
-					<img src="/images/check.svg" width="250"/>
-					<div class="mt-20">
-						<p style="font-weight: bold">Request Successful</p>
-						<div class="mb-20" >
-							<a  @click="close"  class="btn btn-danger mt-20 m-r-20">
-								Skip
-							</a>
-							<a class="btn btn-primary mt-20">Continue</a>
-						</div>
-					</div>
-				</center>
-			</div>
-		</div>
-		<div v-if="!showSenderIdRequestSuccessfulMessage"  class="flex-item-right" style="padding: 0 30px">
+		<div  class="flex-item-right" style="padding: 0 30px">
 			<div>
-				<div class="mt-50" style="background-color:rgba(13, 203, 229, 0.3); padding: 15px; border-radius: 5px">
-					<p style="font-weight: bold; color: #365899">Step 2 of 3: Request Sender ID</p>
+				<div class="mt-50" style="background-color: #f5f5f5;border-color: #efefef; padding: 15px; border-radius: 5px">
+					<p style="font-weight: 700;">Step 2 of 3: Request Sender ID</p>
 				</div>
-				<p class="mt-30" style="color: #365899; font-weight: bold">Use Default ID</p>
+
 				<form  method="post"   >
 					<div class="mt-20">
 						<div class="form-group">
@@ -51,7 +35,7 @@
 								<span class=" error_field_message" v-if="error_message.usecase">{{error_message.usecase}}</span>
 							</div>
 							<div class="mt-30">
-								<p><b>NB:</b> Sender ID registration are approved only on weekdays and takes 24 hours to activate across all telcos in your country. If you need to try out the sms feature during weekends without an approved ID, please</p>
+								<p><b>NB:</b> Sender ID registration are approved only on weekdays and takes 24 - 48 hours to activate across all telcos in your country.</p>
 							</div>
 							<div class="mt-30">
 								<a class="bg-blue"  @click="requestSenderId">
@@ -64,9 +48,8 @@
 						</div>
 					</div>
 				</form>
-				<div class="mt-30 mb-10">
+				<div class="mt-100">
 					<span style="font-weight: 700; cursor: pointer; color: #365899;" class="text-left" @click="showSelectService">Back</span>
-					<span style="font-weight: 700; cursor: pointer; color: #365899; margin-bottom: 30px " class="pull-right" @click="showFundWalletForm">Skip</span>
 				</div>
 			</div>
 		</div>
@@ -84,8 +67,7 @@ export default {
 	},
 	data(){
 		return{
-			showSenderIdRequestSuccessfulMessage: false,
-			request_button_text: 'Request',
+			request_button_text: 'request',
 			isLoading: false,
 			sender_id: '',
 			usecase:'',
@@ -115,25 +97,19 @@ export default {
 		close(){
 			this.$modal.hide('signup-wizard-modal');
 		},
-		showFundWalletForm(){
-			 this.$emit('showFundWalletForm');
-		},
+
 		showSelectService(){
 			this.$emit('showSelectService');
 		},
-		moveToStepThree(){
-			this.showStepOne = false;
-			this.showStepTwo = false;
-			this.showStepThree = true;
-		},
+
 		async	requestSenderId()	{
 			try {
 				this.request_button_text = '';
 				this.isLoading = true;
 				await this.$sms.requestSenderId(this.sender_id, JSON.parse(localStorage.getItem('user_data')).country, this.usecase, this.company);
-				this.showSenderIdRequestSuccessfulMessage = true;
+				this.$emit('showSuccessModal');
 			}catch (e) {
-				this.request_button_text = 'Request';
+				this.request_button_text = 'request';
 				this.isLoading = false;
 				let errors = e.response.data.errors;
 				for (let key in errors) {

@@ -20,6 +20,10 @@
 	padding-bottom: 0;
 }
 
+.fa{
+	font-size: 15px;
+}
+
 .modal-header .close[type=button] {
 	background: rgba(255,255,255,0.3);
 	width: 25px;
@@ -200,11 +204,15 @@ ul{
 	border: 1px solid #0DCBE5;
 }
 .service-card{
-	border: 1px solid #02B7D0;
+	border: 1px solid #365899;
 	border-radius: 5px;
 	cursor: pointer;
+	color: #A9A9A9!important;
 	padding: 25px;
 }
 .service-card:hover{
-	 background: #ddf3f5;
+	 background: #9cb6e1;
+	 color: #333333!important;
 }
+
+

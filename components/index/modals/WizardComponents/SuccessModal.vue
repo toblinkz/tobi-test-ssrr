@@ -12,30 +12,29 @@
 
 		<div class="flex-item-right " style="padding: 0 30px; height: 80vh">
 			<div>
-				<div class="mt-50" style="background-color:rgba(13, 203, 229, 0.3); padding: 15px; border-radius: 5px">
-					<p style="font-weight: bold; color: #365899">Step 3 of 3: Start Sending Messages</p>
+				<div class="mt-50" style="background-color: #f5f5f5;border-color: #efefef;  padding: 15px; border-radius: 5px">
+					<p style="font-weight: bold; ">Step 3 of 3: Get Started</p>
 				</div>
 				<form  method="post"   >
 					<div>
 						<div class="form-group">
 							<center>
-								<div>
-									<img src="/images/step3_art.png" />
+								<div class="mt-100">
+									<img src="/images/request_succesfully_art.svg" />
+								</div>
+								<div class="mt-30">
+									<p style="color: #333333; font-weight: 700; font-size: 15px">Your ID request has been sent successfully, you will get a response in the next 24 - 48 hours.</p>
+								</div>
+								<div class="mt-50">
+									<a  class="bg-blue m-r-10" @click="close">Go to Dashboard</a>
 								</div>
 
-								<p>Start sending messages to your customers faster, and with a better accuracy.</p>
-								<div class="mt-40">
-									<nuxt-link to="/message/select-type" class="bg-blue m-r-10">Send on Dashboard</nuxt-link>
-									<a href="https://developers.termii.com" target="_blank" class="bg-green">Send via API</a>
-								</div>
 							</center>
 
 						</div>
 					</div>
 				</form>
-				<div class="m-t-80 mb-30">
-					<span style="font-weight: 700; cursor: pointer; color: #365899; margin-bottom: 30px" class="pull-right" @click="close">Skip</span>
-				</div>
+
 			</div>
 		</div>
 	</div>
@@ -43,7 +42,7 @@
 
 <script>
 export default {
-name: "SendMessageComponent",
+name: "SuccessModal",
 	methods:{
 		close(){
 			localStorage.setItem('doneWithTour', 'yeah');

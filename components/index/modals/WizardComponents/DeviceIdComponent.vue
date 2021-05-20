@@ -10,29 +10,10 @@
 			</div>
 		</div>
 
-
-		<div  v-if="showDeviceIdRequestSuccessfulMessage" class="flex-item-right" style="padding: 0 30px">
-			<div class="mt-100 mb-150">
-				<center>
-					<img src="/images/check.svg" width="250"/>
-					<div class="mt-20">
-						<p style="font-weight: bold">Request Successful</p>
-						<div class="mb-20" >
-							<a  @click="showFundWalletForm"  class="btn btn-danger mt-20 m-r-20">
-								Skip
-							</a>
-							<a class="btn btn-primary mt-20" @click="showFundWalletForm">Continue</a>
-						</div>
-					</div>
-				</center>
-			</div>
-		</div>
-
-
-		<div  v-if="!showDeviceIdRequestSuccessfulMessage" class="flex-item-right" style="padding: 0 30px">
+		<div  class="flex-item-right" style="padding: 0 30px">
 			<div>
-				<div class="mt-50" style="background-color:rgba(13, 203, 229, 0.3); padding: 15px; border-radius: 5px">
-					<p style="font-weight: bold; color: #365899">Step 2 of 3: Request Device ID</p>
+				<div class="mt-50" style="background-color: #f5f5f5;border-color: #efefef; padding: 15px; border-radius: 5px">
+					<p style="font-weight: 700;">Step 2 of 3: Request Device ID</p>
 				</div>
 		<div class="form-group mt-50">
 			<label>ID (For WhatsApp)</label>
@@ -51,7 +32,6 @@
 		</div>
 				<div style="position: absolute; bottom: 10px;">
 					<span style="font-weight: 700; cursor: pointer; color: #365899;" class="text-left" @click="showSelectService">Back</span>
-					<span style="position: absolute; left: 450px; font-weight: 700; cursor: pointer; color: #365899; margin-bottom: 30px " class="pull-right" @click="showFundWalletForm">Skip</span>
 				</div>
 			</div>
 		</div>
@@ -64,10 +44,9 @@ name: "DeviceIdComponent",
 	data(){
 		return{
 			device_id:"",
-			request_button_text: 'Request',
+			request_button_text: 'request',
 			isLoading: false,
 			error_message:[],
-			showDeviceIdRequestSuccessfulMessage: false,
 			hasDeviceIdError: false
 		}
 	},
@@ -86,19 +65,18 @@ name: "DeviceIdComponent",
 		showSelectService(){
 			this.$emit('showSelectService');
 		},
-		showFundWalletForm(){
-			this.$emit('showFundWalletForm');
-		},
+
 		async requestDeviceId(){
+			this.request_button_text = '';
+			this.isLoading = true;
 			try {
 				await this.$axios.post('devices', {
 					name: this.device_id
 				}, )
-				this.$emit('requested');
-				this.resetForm();
-				this.$modal.hide('device-id-modal');
-				this.showDeviceIdRequestSuccessfulMessage = true;
+				this.$emit('showSuccessModal');
 			} catch (e) {
+				this.request_button_text = 'request';
+				this.isLoading = false;
 				let errors = e.response.data.errors;
 				for (let key in errors) {
 					errors[key].forEach(err => {

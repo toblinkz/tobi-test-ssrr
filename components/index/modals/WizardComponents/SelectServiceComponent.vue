@@ -12,29 +12,23 @@
 
 		<div class="flex-item-right" style="padding: 0 30px">
 			<div>
-				<div class="mt-50" style="background-color:rgba(13, 203, 229, 0.3); padding: 15px; border-radius: 5px">
-					<p style="font-weight: bold; color: #365899">Step 1 of 3: Select a Channel to Engage your Customers</p>
+				<div class="mt-50" style="background-color: #f5f5f5;border-color: #efefef; padding: 15px; border-radius: 5px">
+					<p style="font-weight: 700;">Step 1 of 3: Select a channel to engage your customers</p>
 				</div>
-				<p class="mt-30" style="color: #365899; font-weight: bold"></p>
-				<div class="mt-50" style="display: flex;">
+
+				<div class="mt-150" style="display: flex; justify-content: center">
 					<div class="service-card" style="margin-right: 50px" @click="showSenderIdForm">
 						<img src="/images/chat_sms.svg"/>
-						<p class="text-center mt-10" style="color: #A9A9A9">SMS</p>
+						<p class="text-center mt-10">SMS</p>
 					</div>
 					<div class="service-card" style="margin-right: 50px" @click="showSenderIdForm">
 						<img src="/images/microphone.svg" width="70"/>
-						<p class="text-center mt-10" style="color: #A9A9A9">Voice</p>
+						<p class="text-center mt-10" >Voice</p>
 					</div>
 					<div class="service-card" @click="showDeviceIdForm">
 						<img src="/images/whatsapp.svg" width="70"/>
-						<p class="text-center mt-10" style="color: #A9A9A9">WhatsApp</p>
+						<p class="text-center mt-10" >WhatsApp</p>
 					</div>
-				</div>
-				<div class="mt-50 toke" style="border-radius: 10px; padding: 25px">
-				 <b>NB:</b>	Sender ID and Device ID requests takes up to 24-48 hours before registration with telcos.
-				</div>
-				<div class="mt-50 toke" style="border-radius: 10px; padding: 25px">
-					<b>NB:</b> Your wallet balance must be funded to proceed with sending messages.
 				</div>
 			</div>
 		</div>

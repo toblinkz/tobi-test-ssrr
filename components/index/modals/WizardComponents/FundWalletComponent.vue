@@ -76,7 +76,7 @@ export default {
 	data(){
 		return{
 
-			fund_button_text: 'Fund Account',
+			fund_button_text: 'fund account',
 			isLoading: false,
 			error_message: [],
 			payment_method:'',
@@ -134,7 +134,7 @@ export default {
 
 				} catch (e) {
 					this.isLoading = false;
-					this.fund_button_text = "Fund Account";
+					this.fund_button_text = "fund account";
 					let errors = e.response;
 					this.$toast.error(errors);
 
