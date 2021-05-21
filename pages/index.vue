@@ -234,7 +234,6 @@ export default {
 	mounted: async function () {
 
 		this.$modal.show('signup-wizard-modal');
-		// this.$modal.show('on-boarding-modal');
 
 		// this.startUserWizard();
 

@@ -12,7 +12,7 @@
 										<img src="/images/products/server.png" class="wd-50">
 										<h5 class="mb-10"><strong>Upload Contacts</strong></h5>
 										<p class="insight mb-10">
-											Upload customers<br> contacts  to a phonebook
+											Upload customers'<br> contacts  to a phonebook
 										</p>
 									</div>
 								</div>
@@ -21,8 +21,8 @@
         <a  href="https://developers.termii.com" target="_blank">
 									<div class="onboarding-card">
 										<div class="panel-body no-padding">
-											<img src="/images/products/download.png" class="wd-50">
-											<h5 class="mb-10"><strong>Integrate Our API</strong></h5>
+											<img src="/images/products/app.png" class="wd-50">
+											<h5 class="mb-10"><strong>Integrate Our APIs</strong></h5>
 											<p class="insight mb-10">
 												Explore our documentation<br> for a quick start
 											</p>
