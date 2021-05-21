@@ -154,6 +154,7 @@
 		<AccountNumberModal></AccountNumberModal>
 		<PageDeniedModal></PageDeniedModal>
 		<SignUpWizardComponent></SignUpWizardComponent>
+		<OnBoardingModal></OnBoardingModal>
 		<SuccessModal :modal_information="modal_information"></SuccessModal>
 		<AnnouncementModal :announcement_information="announcement_information"></AnnouncementModal>
 		<UpdateCompanyNameModal></UpdateCompanyNameModal>
@@ -186,8 +187,10 @@ import SuccessModal from "../components/modals/SuccessModal";
 import AnnouncementModal from "../components/modals/AnnouncementModal";
 import SignUpWizardComponent from "../components/index/modals/SignUpWizardComponent";
 import DoughnutChart from "../components/general/charts/DoughnutChart";
+import OnBoardingModal from "../components/index/modals/OnBoardingModal";
 export default {
 	components: {
+		OnBoardingModal,
 		DoughnutChart,
 		SignUpWizardComponent,
 		AnnouncementModal,
@@ -231,6 +234,7 @@ export default {
 	mounted: async function () {
 
 		this.$modal.show('signup-wizard-modal');
+		// this.$modal.show('on-boarding-modal');
 
 		// this.startUserWizard();
 

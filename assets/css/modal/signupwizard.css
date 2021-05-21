@@ -215,4 +215,11 @@ ul{
 	 color: #333333!important;
 }
 
-
+.onboarding-card {
+	margin-bottom: 25px;
+	box-shadow: 0 0 .975rem 0 rgb(41 48 66/8%)!important;
+	color: #333333;
+	text-align: center;
+	cursor: pointer;
+	width: 182px;
+}

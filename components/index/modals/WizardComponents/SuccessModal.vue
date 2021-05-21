@@ -26,7 +26,7 @@
 									<p style="color: #333333; font-weight: 700; font-size: 15px">Your ID request has been sent successfully, you will get a response in the next 24 - 48 hours.</p>
 								</div>
 								<div class="mt-50">
-									<a  class="bg-blue m-r-10" @click="close">Go to Dashboard</a>
+									<a  class="bg-blue m-r-10" @click="close">Go to dashboard</a>
 								</div>
 
 							</center>
@@ -45,8 +45,10 @@ export default {
 name: "SuccessModal",
 	methods:{
 		close(){
-			localStorage.setItem('doneWithTour', 'yeah');
+			// localStorage.setItem('doneWithTour', 'yeah');
+
 			this.$modal.hide('signup-wizard-modal');
+			this.$modal.show('on-boarding-modal');
 		},
 	}
 }
