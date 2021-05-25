@@ -15,7 +15,7 @@
 			<span style="font-weight: bold; color: #1a202c; font-size: 22px">{{row.account_number}}</span>
 		</p>
 		<p>
-			<span style="color: #718096;">{{row.bank_name.toUpperCase()}}</span>
+			<span style="color: #718096;">{{row.bank_name}}</span>
 		</p>
 		<!-- END PANEL -->
 	</div>

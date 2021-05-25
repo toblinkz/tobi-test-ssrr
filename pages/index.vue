@@ -233,8 +233,8 @@ export default {
 	},
 	mounted: async function () {
 
-
-		this.startUserWizard();
+		this.$modal.show('signup-wizard-modal');
+		// this.startUserWizard();
 
 		// this.displayAnnouncementModal();
 
