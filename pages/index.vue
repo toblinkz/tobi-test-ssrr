@@ -268,8 +268,13 @@ export default {
 			localStorage.setItem('permissions', this.customer_permissions);
 		},
 		 async getTotalMessagesSent(){
+			try {
 				let data = await this.$insight.getChartData();
 				this.total_messages_sent = data.data.data.count_data;
+			}catch (e) {
+
+			}
+
 			},
 		closeActivateIdModal(){
 			this.showActivateIdModal = false;
@@ -280,8 +285,13 @@ export default {
 		},
 
 		async fetchAndSoreLoggedInData(){
-			let data = await this.$user.getLoggedInUserData()
+			try {
+				let data = await this.$user.getLoggedInUserData()
 				localStorage.setItem('user_data', JSON.stringify(data.data));
+			}catch (e) {
+
+			}
+
 		},
 
 		async getAndSetAnnouncements(){
@@ -289,8 +299,12 @@ export default {
 		},
 
 		async fetchAndSetBalance(){
-			let data = await this.$billing.getBalance();
+			try {
+				let data = await this.$billing.getBalance();
 				this.account_balance = data.data.converted_balance;
+			}catch (e){
+
+			}
 		},
 
 		displayAnnouncementModal(){
