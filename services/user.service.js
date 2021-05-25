@@ -14,5 +14,10 @@ export class UserService {
 		 	 company_name: company_name
 		 });
 	}
+	async updateIsWizardCompleted(){
+		 return await this.$axios.$patch('user/wizard', {
+		 	 is_wizard_completed: 1
+		 })
+	}
 
 }

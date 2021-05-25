@@ -67,9 +67,9 @@
 																				<div class="row pad-100">
 																					<p><i class="entypo-credit-card"></i>Wallet Balance</p>
 
-																					<div style="display: flex" >
+																					<div style="display: flex" class="flex-direction">
 																							<p style="font-size: 40px; color: #365899; font-weight: 700; letter-spacing: 2px; line-height: 53.2px">{{account_balance}}</p>
-																							<nuxt-link to="/billing/fund" class="bg-blue mt-10 m-l-50"><i class="entypo-credit-card"></i> Fund Wallet <i class="m-l-10 fa fa-angle-right"></i> </nuxt-link>
+																							<nuxt-link to="/billing/fund" class="bg-blue mt-10 m-l-50 no-margin-left"><i class="entypo-credit-card"></i> Fund Wallet <i class="m-l-10 fa fa-angle-right"></i> </nuxt-link>
 																					</div>
                       <div class="card mt-50" style="height: 320px; width: 90%">
 																							 <div style="display: flex; justify-content: space-between">
@@ -104,7 +104,7 @@
 																	</div>
 																</div>
 															</div>
-															<div class="col-md-4">
+															<div class="col-md-4 panel-margin-top">
 																<!-- START PANEL -->
 																<div class="">
 																	<div class="row mt-20">
@@ -233,11 +233,10 @@ export default {
 	},
 	mounted: async function () {
 
-		this.$modal.show('signup-wizard-modal');
 
-		// this.startUserWizard();
+		this.startUserWizard();
 
-		this.displayAnnouncementModal();
+		// this.displayAnnouncementModal();
 
 		this.getUserPermissions();
 
@@ -251,9 +250,9 @@ export default {
 
 		await this.fetchAndSoreLoggedInData()
 
-		await this.getAndSetAnnouncements()
+		// await this.getAndSetAnnouncements()
 
-		await this.getNuban();
+		// await this.getNuban();
 
 		setInterval(this.getBalance, 60000);
 
@@ -350,7 +349,7 @@ export default {
 				this.$axios.setHeader('Authorization', `Bearer ${localStorage.getItem('local')}`);
 				const doneShowingBvnModal = localStorage.getItem('doneShowingBvnModal');
 				if (doneShowingBvnModal) {
-					return;
+
 				}
 		}
 		},
@@ -360,12 +359,11 @@ export default {
 		},
 
 		startUserWizard(){
-			let doneWithTour = localStorage.getItem('doneWithTour') === 'yeah';
-			if (doneWithTour) {
-				return;
-			} else {
-				this.$modal.show('signup-wizard-modal');
-			}
+			let is_wizard_completed = JSON.parse(localStorage.getItem('user_data')).customer.is_wizard_completed;
+			 if (!(is_wizard_completed === 0 && (this.$store.state.view_verify_page === 'false'))){
+			 	  return;
+				}
+			 this.$modal.show('signup-wizard-modal');
 		}
 
 	},
@@ -406,6 +404,17 @@ export default {
 @media (min-width: 769px){
 	.dashboard-page-content {
 		display: table-row;
+	}
+}
+@media (max-width: 769px) {
+	 .panel-margin-top{
+			 margin-top: 130px;
+		}
+	.flex-direction{
+		flex-direction: column;
+	}
+	.no-margin-left{
+		margin-left: 0px!important;
 	}
 }
 @media (min-width: 769px){

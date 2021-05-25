@@ -69,11 +69,15 @@ name: "SignUpWizardComponent",
 
 			}
 		},
-		beforeClose(){
-			localStorage.setItem('doneWithTour', 'yeah');
+		async beforeClose(){
+			await this.$user.updateIsWizardCompleted();
+			await this.fetchAndSoreLoggedInData();
+		},
+		async fetchAndSoreLoggedInData(){
+			let data = await this.$user.getLoggedInUserData()
+			localStorage.setItem('user_data', JSON.stringify(data.data));
 		},
 	  close(){
-				 localStorage.setItem('doneWithTour', 'yeah');
 	  	 this.$modal.hide('signup-wizard-modal');
 			},
 		  moveToStepTwo(){
@@ -156,54 +160,11 @@ name: "SignUpWizardComponent",
 					}
 				}
 	  },
-		async setPaymentMethod(){
-			 try {
-					 let payment_data = await this.$billing.getPaymentMethod();
-					 this.payment_method = payment_data;
-					 this.payment_gateway = payment_data.data[0].settings;
-					 console.log('lop', this.payment_gateway)
-				}catch (e) {
 
-				}
-		},
-		async onFundingOptionChange(event){
-    if (event.target.value === "1"){
-    	 this.input_amount = true;
-    	 return;
-				}
-    this.input_amount = false;
-			let top_up_data = await this.$billing.getBundledTopUpData();
-			this.amount = top_up_data.data.bundled_top_up.amount_currency;
-			this.total = top_up_data.data.bundled_top_up.amount;
-		},
-		onPaymentMethodChange(event){
 
-		},
-		async getBundledTopUpData(){
-			 try {
-					 let top_up_data = await this.$billing.getBundledTopUpData();
-					 this.total = top_up_data.data.bundled_top_up.amount;
-				}catch (e) {
 
-				}
-		},
-		async getExchangeRate(){
-			 try{
-			 	let exchange_data = await this.$billing.getExchangeRate(this.amount);
-			 	this.total = exchange_data.amount;
-				}catch (e) {
-					let errors = e.response.data.errors;
-					for (let key in errors) {
-						errors[key].forEach(err => {
-							this.$toast.error(err);
-						});
-					}
-				}
-		}
 	},
-	mounted() {
-	this.setPaymentMethod();
-	}
+
 }
 </script>
 

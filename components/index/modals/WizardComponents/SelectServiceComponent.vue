@@ -9,14 +9,17 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="flex-item-right" style="padding: 0 30px">
 			<div>
 				<div class="mt-50" style="background-color: #f5f5f5;border-color: #efefef; padding: 15px; border-radius: 5px">
 					<p style="font-weight: 700;">Step 1 of 3: Select a channel to engage your customers</p>
 				</div>
-
-				<div class="mt-150" style="display: flex; justify-content: center">
+				<div class="mt-50" style="margin-left: 15px">
+					<p style="color: #676767;font-weight: 600;margin-bottom: 5px!important;">Select SMS to send OTPs and notification</p>
+					<p style="color:#676767;font-weight: 600;margin-bottom: 5px!important;">Select Voice to send text to speech OTPs </p>
+					<p style="color: #676767;font-weight: 600;    margin-bottom: 5px!important;">Select WhatsApp to send OTPs and Notification </p>
+				</div>
+				<div class="mt-50" style="display: flex; justify-content: center">
 					<div class="service-card" style="margin-right: 50px" @click="showSenderIdForm">
 						<img src="/images/chat_sms.svg"/>
 						<p class="text-center mt-10">SMS</p>

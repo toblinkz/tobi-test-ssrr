@@ -1,6 +1,6 @@
 <template>
 	<div class="flex-container">
-		<div class="flex-item-left hidden-xs" style="background: url(/images/wizard_banner.svg); background-size: cover" >
+		<div class="flex-item-left hidden-xs" style="background: url(/images/wizard.svg); background-size: cover" >
 
 		</div>
 
