@@ -74,7 +74,7 @@
                       <div class="card mt-50" style="height: 320px; width: 90%">
 																							 <div style="display: flex; justify-content: space-between">
 																									<span style="font-weight: 700; "><i class="entypo-chart-bar" style="color: #365899"></i>All Channels Performance Today</span>
-																									<span><nuxt-link to="/sms/insights"  style=" font-weight: 700; color: #365899!important; cursor: pointer">view delivery reports</nuxt-link></span>
+																									<span><nuxt-link to="/sms/history"  style=" font-weight: 700; color: #365899!important; cursor: pointer">view delivery reports</nuxt-link></span>
 																								</div>
 																							<div class="m-l-10 " style="border-bottom: dotted #ddd!important;width: 100%"></div>
 																							<div>
