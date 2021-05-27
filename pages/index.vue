@@ -80,11 +80,11 @@
 																								<div class="col-md-5">
 																										<div class="panel-body">
 																											<h3 class="blue-t" style="font-size: 25px; font-weight: 700;"><strong>{{total_messages_sent}}</strong></h3>
-																											<h5><strong>Messages Sent Today</strong></h5>
+																											<h5><strong>Messages Sent in {{month}}</strong></h5>
 																										</div>
 																									<div class="panel-body" style="padding: 0px 20px 20px 20px !important;">
 																										<h3 class="blue-t" style="font-size: 25px; font-weight: 700;"><strong>{{total_amount_spent}}</strong></h3>
-																										<h5 class="mb-10"><strong>Cash Spent Today</strong></h5>
+																										<h5 class="mb-10"><strong>Cash Spent in {{month}}</strong></h5>
 																									</div>
 																								</div>
 
@@ -245,6 +245,7 @@ export default {
 			announcement_information:[],
 			total_messages_sent:0,
 			total_amount_spent:0,
+			month:'',
 
 		}
 	},
@@ -260,6 +261,8 @@ export default {
 		this.checkUserIsVerifiedAndProcess();
 
 		this.setNameAndKey();
+
+		this.getMonthAndYear();
 
 		await this.getTotalMessagesSent();
 
@@ -304,6 +307,24 @@ export default {
 
 			}
 
+		},
+		getMonthAndYear(){
+			let date = new Date();
+			let month = [];
+			month[0] = "January";
+			month[1] = "February";
+			month[2] = "March";
+			month[3] = "April";
+			month[4] = "May";
+			month[5] = "June";
+			month[6] = "July";
+			month[7] = "August";
+			month[8] = "September";
+			month[9] = "October";
+			month[10] = "November";
+			month[11] = "December";
+
+			this.month = month[date.getMonth()];
 		},
 		closeActivateIdModal(){
 			this.showActivateIdModal = false;

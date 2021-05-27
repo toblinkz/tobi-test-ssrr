@@ -6,7 +6,9 @@ export class InsightService {
 	}
 
 	async getChartData () {
-		return await this.$axios.$get('sms/history/analytics');
+		return await this.$axios.$get('sms/history/analytics', { params:{
+			 duration: 'this month'
+			}});
 	}
 
 	calculatePercentageOfPieChart( array_of_message_count, total_message_count){
