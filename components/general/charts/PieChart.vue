@@ -1,5 +1,3 @@
-
-
 <script>
 import { Pie } from 'vue-chartjs'
 import {mixins} from "vue-chartjs"

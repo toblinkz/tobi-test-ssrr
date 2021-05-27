@@ -19,171 +19,131 @@
 						<!-- Main content -->
 						<div class="dashboard-content-wrapper">
 							<!-- main inner content -->
-							<main id="wrapper" class="wrapper">
+							<main id="wrapper" class="wrapper mt-50">
 								<div id="pages" class="fixed-header dashboard menu-pin">
 									<div id="sb">
 										<div class="jumbotron" data-pages="parallax">
 											<div class="container-fluid container-fixed-lg">
 												<div class="inner">
 													<!-- END BREADCRUMB -->
+
 													<div class="container-md-height mt-30">
 														<div class="row">
-															<div class="col-md-4">
-																<!-- START PANEL -->
-																<div class="">
-																	<div class="row mt-20">
-                                                <span id="welcome"><span
-																																																	class="text-bold">Hi, {{first_name}}</span> </span>
-																		<ContentLoader v-if="!account_balance"
-																																	:speed="5"
-																																	:animate="true"
-																		>
-																			<rect x="33" y="11" rx="5" ry="5" width="313" height="14" />
-																			<rect x="35" y="31" rx="0" ry="0" width="313" height="17" />
-																		</ContentLoader>
-																		<span id="welcome-intro" v-else>Welcome back to your Dashboard. Check out resources and docs tailored to your account.</span>
-																		<div class="row mt-30">
-																			<div class="row">
-																				<div class="col-md-6 mb-5">
-																					<p><i class="entypo-credit-card" style="color: #bbb !important;"></i> Balance</p>
-																				</div>
-																				<div class="col-md-6 hidden-xs mb-5">
-																					<p><i class="entypo-comment" style="color: #bbb !important;"></i> Whatsapp</p>
-																				</div>
-																			</div>
-																			<ContentLoader v-if="!account_balance"
-																																		:speed="5"
-																																		:animate="true"
-																			>
-																				<rect x="33" y="11" rx="5" ry="5" width="313" height="14" />
-																				<rect x="35" y="31" rx="0" ry="0" width="313" height="17" />
-																			</ContentLoader>
-																			<div v-else>
-																				<div class="col-md-6 alert toke" >
-																					<!-- START PANEL -->
-																					<div class="col-md-11">
-																						{{account_balance}}
-																					</div>
-																					<!-- END PANEL -->
-																				</div>
-																				<div class="col-md-6 alert toke hidden-xs">
-																					<!-- START PANEL -->
-																					<div class="col-md-11">
-																						Active
-																					</div>
-																					<!-- END PANEL -->
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
+															<div class="col-md-7">
+																<ContentLoader v-if="!account_balance"
 
-																<ActivityLog @emptyActivityLog="emptyActivityLog = $event"></ActivityLog>
-																<!-- END JUMBOTRON -->
-															</div>
-															<div class="col-md-8 m-t-40">
-																<div class="row mt-100 mb-20x">
-																	<div class="col-md-6 mt-20">
-																		<!-- START PANEL -->
-																		<div class="panel panel-transparent">
-																			<div class="panel-body no-padding">
-																				<div class="col-md-11" v-if="canViewApiKey">
-																					<p class="text-semibold"><i class="entypo-light-up" style="color: #079805 !important;"></i>API Key</p>
-																				</div>
-																				<ContentLoader v-if="!account_balance"
-																																			:speed="2"
-																																			:animate="true"
-																				>
-																					<rect x="16" y="13" rx="2" ry="2" width="296" height="16" />
-																					<rect x="16" y="37" rx="2" ry="4" width="296" height="16" />
-																					<rect x="16" y="86" rx="2" ry="6" width="296" height="16" />
-																					<rect x="16" y="61" rx="2" ry="8" width="296" height="16" />
-																				</ContentLoader>
-																				<div v-else>
-																					<div class="col-md-11 alert toke insight wd"  v-if="canViewApiKey">
-																						<!-- START PANEL -->
-																						<p class="alert toke insight wd">
-																							{{live_api_key}}
-																						</p>
-																						<!-- END PANEL -->
-																					</div>
-																				</div>
-
-																			</div>
-																		</div>
-																		<!-- END PANEL -->
-																	</div>
-																	<div class="col-md-6 mt-20">
-																		<!-- START PANEL -->
-																		<div class="panel panel-transparent">
-																			<div class="panel-body no-padding">
-																				<div class="panel-body no-padding">
-																					<div class="col-md-11">
-																						<p class="text-semibold"><i class="entypo-light-up" style="color: #c10202 !important;"></i> Guide for OTPs & Alerts </p>
-																					</div>
-																					<div class="col-md-11 alert toke insight wd">
-																						<!-- START PANEL -->
-																						<p class="alert toke insight wd">
-																							To send otps and alerts, you have to use our sender IDs; BCToken and N-Alert. <a class="blue-t text-bold" id="CHATID"> Click here to request</a>
-																						</p>
-																						<!-- END PANEL -->
-																					</div>
-																				</div>
-																			</div>
-																			<!-- END PANEL -->
-																		</div>
-																	</div>
-																</div>
-																<div class="row">
+																>
+																	<rect x="15" y="15" rx="4" ry="4" width="130" height="5" />
+																	<rect x="155" y="15" rx="3" ry="3" width="130" height="5" />
+																	<rect x="295" y="15" rx="3" ry="3" width="90" height="5" />
+																	<rect x="15" y="50" rx="3" ry="3" width="90" height="5" />
+																	<rect x="115" y="50" rx="3" ry="3" width="60" height="5" />
+																	<rect x="185" y="50" rx="3" ry="3" width="200" height="5" />
+																	<rect x="15" y="90" rx="3" ry="3" width="130" height="5" />
+																	<rect x="160" y="90" rx="3" ry="3" width="120" height="5" />
+																	<rect x="290" y="90" rx="3" ry="3" width="95" height="5" />
+																	<rect x="15" y="130" rx="3" ry="3" width="130" height="5" />
+																	<rect x="160" y="130" rx="3" ry="3" width="225" height="5" />
+																</ContentLoader>
+																<div v-else class="row">
 																	<div v-if="is_main" class="container-fluid container-fixed-lg" style="background: white;">
 																		<!-- START PANEL -->
 																		<div class="panel panel-transparent">
 																			<div class="panel-body">
 																				<div class="row pad-100">
-																					<div class="col-md-2 cards" id="step2">
-																						<!-- START PANEL -->
-																						<div class="panel panel-transparent">
-																							<div class="panel-body no-padding">
-																								<img src="/images/products/check_mark.png" class="wd-50">
-																								<br>
-																								<small class="blue-t">Step 1</small>
-																								<h5 class="mb-10"><strong>Activate ID</strong></h5>
-																								<p class="insight mb-10">
-																									Activate your <br>sender or device ID</p>
-																								<button type="button" class="btn btn-blue btn-cons" @click="showActivateIdModal = true" ><i class="fa fa-angle-double-right"></i> Start</button>
-																							</div>
-																						</div>
-																						<!-- END PANEL -->
+																					<p style="font-size: 15px;"><i class="entypo-credit-card"></i>Hi {{first_name}}, Welcome to Your Dashboard</p>
+
+																					<div style="display: flex" class="flex-direction">
+																							<p style="font-size: 40px; color: #365899; font-weight: 700; letter-spacing: 2px; line-height: 53.2px">{{account_balance}}</p>
+																							<nuxt-link to="/billing/fund" class="bg-blue mt-10 m-l-50 no-margin-left"><i class="entypo-credit-card"></i> Fund Wallet <i class="m-l-10 fa fa-angle-right"></i> </nuxt-link>
 																					</div>
-																					<div class="col-md-2 cards" id="step3">
-																						<!-- START PANEL -->
-																						<div class="panel panel-transparent">
-																							<div class="panel-body no-padding">
-																								<img src="/images/products/card.png" class="wd-50">
-																								<br>
-																								<small class="blue-t">Step 2</small>
-																								<h5 class="mb-10"><strong>Wallet</strong></h5>
-																								<p class="insight mb-10">Top-up your account <br>with messaging credit</p>
-																								<!-- Trigger the modal with a button -->
-																								<button type="button" class="btn btn-blue btn-cons" @click="showYourWalletModal = true"><i class="fa fa-angle-double-right"></i> Start</button>
+                      <div class="mt-50" style="height: 320px; width: 90%; border: 0 !important">
+																							 <div style="display: flex; justify-content: space-between">
+																									<span style="font-weight: 700; "><i class="entypo-chart-bar" style="color: #365899"></i>All Channels Performance Today</span>
+																								</div>
+																							<div class="m-l-10 " style="border-bottom: dotted #ddd!important;width: 100%"></div>
+																							<div>
+
 																							</div>
-																						</div>
-																						<!-- END PANEL -->
-																					</div>
-																					<div class="col-md-2 cards" id="step4">
-																						<!-- START PANEL -->
-																						<div class="panel panel-transparent">
-																							<div class="panel-body no-padding">
-																								<img src="/images/products/speech.png" class="wd-50">
-																								<br>
-																								<small class="blue-t">Step 3</small>
-																								<h5 class="mb-10"><strong>Message</strong></h5>
-																								<p class="insight mb-10">View guide on <br>sending messages</p>
-																								<nuxt-link to="/message/select-type" class="btn btn-blue btn-cons"><i class="fa fa-angle-double-right"></i> Start</nuxt-link>
+																							<div v-if="total_messages_sent">
+																									<div class="col-md-7">
+																									<DoughnutChart></DoughnutChart>
+																									</div>
 																							</div>
+
+																							<div v-else class="mt-100" style="text-align:center">
+																								No data to display
+																							</div>
+
+																							<div class="row">
+																								<div class="col-md-5">
+																										<div class="panel-body">
+																											<h3 class="blue-t" style="font-size: 25px; font-weight: 700;"><strong>{{total_messages_sent}}<small>+</small></strong></h3>
+																											<h5><strong>Messages Sent Today</strong></h5>
+																										</div>
+
+																									<div class="panel-body" style="padding: 0px 20px 20px 20px !important;">
+																										<h3 class="blue-t" style="font-size: 25px; font-weight: 700;"><strong>$1000</strong></h3>
+																										<h5 class="mb-10"><strong>Cash Spent Today</strong></h5>
+																									</div>
+																								</div>
+
+
+
+																								<div class="row">
+
+																									<hr style="border: 0;
+																													height: 15px;
+																													margin-top: 50px !important;
+																													margin-bottom: 50px !important;
+																													position: relative;
+																													background: radial-gradient(ellipse at bottom, rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 70%);
+																													width: 50% !important;">
+
+																								<div class="col-md-6"  v-if="canViewApiKey">
+																									<div style="display: flex;" >
+																										<p class="text-semibold"><i class="entypo-key" style="color: #079805 !important;"></i>API Key</p>
+																									</div>
+																									<div class="row alert toke insight wd">
+																									<p class="alert toke insight wd">
+																										{{live_api_key}}
+																									</p>
+																										</div>
+																								</div>
+
+																									<div class="col-md-6"  v-if="canViewApiKey">
+																										<div style="display: flex;" >
+																											<p class="text-semibold"><i class="entypo-light-up" style="color: rgb(193, 2, 2) !important;"></i> Guide for IDs </p>
+																										</div>
+																										<div class="row alert toke insight wd">
+																											<p class="alert toke insight wd">
+																												To send otps and alerts, you have to use our default IDs. <a id="CHATID" class="blue-t text-bold"> Click here to request</a>
+																											</p>
+																										</div>
+																									</div>
+																								</div>
+
+																							</div>
+
 																						</div>
-																						<!-- END PANEL -->
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-md-4 panel-margin-top">
+																<!-- START PANEL -->
+																<div class="">
+																	<div class="row mt-20">
+																		<div class="row mt-30">
+																			<div class="row">
+																				<div class="mt-20 col-md-11">
+																					<div style="display:flex;">
+																						<p class=" text-semibold" style="margin-bottom: 0"><i class="entypo-light-up" style="color: #079805 !important;"></i>Transaction History</p>
+																						<nuxt-link to="/billing/transactions/history" style="margin-left: auto; color: #365899">view transaction</nuxt-link>
 																					</div>
+																					<ActivityLog @emptyActivityLog="emptyActivityLog = $event"></ActivityLog>
 																				</div>
 																			</div>
 																		</div>
@@ -209,6 +169,8 @@
 		<VerificationModal></VerificationModal>
 		<AccountNumberModal></AccountNumberModal>
 		<PageDeniedModal></PageDeniedModal>
+		<SignUpWizardComponent></SignUpWizardComponent>
+		<OnBoardingModal></OnBoardingModal>
 		<SuccessModal :modal_information="modal_information"></SuccessModal>
 		<AnnouncementModal :announcement_information="announcement_information"></AnnouncementModal>
 		<UpdateCompanyNameModal></UpdateCompanyNameModal>
@@ -222,6 +184,8 @@ import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
 import SmsHistoryModal from "../components/modals/SmsHistoryModal";
 import YourWalletModal from "../components/modals/YourWalletModal";
 import ActivateIdModal from "../components/modals/ActivateIdModal";
+import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
+import Chart from "chart.js";
 import { mapGetters } from 'vuex';
 import ActivityLog from "../components/general/ActivityLog";
 import {
@@ -238,16 +202,21 @@ import PageDeniedModal from "../components/modals/PageDeniedModal";
 import AccountNumberModal from "../components/modals/GenerateNubanAccountNumberModal";
 import SuccessModal from "../components/modals/SuccessModal";
 import AnnouncementModal from "../components/modals/AnnouncementModal";
-import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
+import SignUpWizardComponent from "../components/index/modals/SignUpWizardComponent";
+import DoughnutChart from "../components/general/charts/DoughnutChart";
+import OnBoardingModal from "../components/index/modals/OnBoardingModal";
 export default {
 	components: {
-		UpdateCompanyNameModal,
+		OnBoardingModal,
+		DoughnutChart,
+		SignUpWizardComponent,
 		AnnouncementModal,
 		SuccessModal,
 		AccountNumberModal,
 		PageDeniedModal,
 		VerificationModal,
 		ActivityLog,
+		UpdateCompanyNameModal,
 		ActivateIdModal, YourWalletModal, SmsHistoryModal, DashboardNavbar, Sidebar, ContentLoader, FacebookLoader, ListLoader, BulletListLoader},
 
 	head(){
@@ -275,13 +244,17 @@ export default {
 			is_main: JSON.parse(localStorage.getItem('user_data')).is_main,
 			permission_data : [],
 			customer_permissions:[],
-			announcement_information:[]
+			announcement_information:[],
+			total_messages_sent:'',
 
 		}
 	},
 	mounted: async function () {
 
-		this.displayAnnouncementModal();
+
+		this.startUserWizard();
+
+		// this.displayAnnouncementModal();
 
 		this.getUserPermissions();
 
@@ -289,13 +262,15 @@ export default {
 
 		this.setNameAndKey();
 
+		await this.getTotalMessagesSent();
+
 		await this.fetchAndSetBalance();
 
 		await this.fetchAndSoreLoggedInData()
 
-		await this.getAndSetAnnouncements()
+		// await this.getAndSetAnnouncements()
 
-		await this.getNuban();
+		// await this.getNuban();
 
 		setInterval(this.getBalance, 60000);
 
@@ -310,7 +285,15 @@ export default {
 			});
 			localStorage.setItem('permissions', this.customer_permissions);
 		},
+		 async getTotalMessagesSent(){
+			try {
+				let data = await this.$insight.getChartData();
+				this.total_messages_sent = data.data.data.count_data;
+			}catch (e) {
 
+			}
+
+			},
 		closeActivateIdModal(){
 			this.showActivateIdModal = false;
 		},
@@ -320,8 +303,13 @@ export default {
 		},
 
 		async fetchAndSoreLoggedInData(){
-			let data = await this.$user.getLoggedInUserData()
+			try {
+				let data = await this.$user.getLoggedInUserData()
 				localStorage.setItem('user_data', JSON.stringify(data.data));
+			}catch (e) {
+
+			}
+
 		},
 
 		async getAndSetAnnouncements(){
@@ -329,8 +317,12 @@ export default {
 		},
 
 		async fetchAndSetBalance(){
-			let data = await this.$billing.getBalance();
+			try {
+				let data = await this.$billing.getBalance();
 				this.account_balance = data.data.converted_balance;
+			}catch (e){
+
+			}
 		},
 
 		displayAnnouncementModal(){
@@ -389,7 +381,7 @@ export default {
 				this.$axios.setHeader('Authorization', `Bearer ${localStorage.getItem('local')}`);
 				const doneShowingBvnModal = localStorage.getItem('doneShowingBvnModal');
 				if (doneShowingBvnModal) {
-					return;
+
 				}
 		}
 		},
@@ -398,52 +390,13 @@ export default {
 			this.live_api_key = JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
 		},
 
-
-		startIntro() {
-			let intro = introJs();
-			// add a flag when we're done
-			intro.oncomplete(function() {
-				localStorage.setItem('doneWithTour', 'yeah');
-			});
-
-			// add a flag when we exit
-			intro.onexit(function() {
-				localStorage.setItem('doneWithTour', 'yeah');
-			});
-
-			intro.setOptions({
-				steps: [
-					{
-						element: '#step1',
-						intro: "<center><span>Hi, <b>Welcome to Termii</b></span></center><br><br>Do you know that messaging platforms are unique and have features that make them different? <br><br>To navigate your account properly and use Termii's unique features effectively, please follow these few steps!"
-					},
-					{
-						element: document.querySelector('#step2'),
-						intro: "<span>1. Verify <b>Unique ID</b></span><br><br>Before sending any message on Termii, It is very important that you verify your Sender or Device ID. <br><br> <b>Sender ID</b>: This is your unique sms ID (Must be 9 characters and gets approved between 1-24 hours)<br><br> <b>Device ID</b>: This is your unique WhatsApp ID.<br><br><b>Domain DNS</b>: These codes allow email providers like gmail mark your email and messages as authentic.",
-						position: 'right'
-					},
-					{
-						element: document.querySelector('#step3'),
-						intro: "<span>2. <b>Subscribe</b></span><br><br>Once your sender, device or domain ID's are active, proceed to purchase units based on the volume of messages you would like to send to your customers!",
-						position: 'left'
-					},
-					{
-						element:document.querySelector('#step4'),
-						intro: "<span>4. Message <b>Guide</b></span><br><br>Now, click start to select the type of message you would like to send and personalize your content. <br><br> <b>Note</b>: Always ensure you read our text hints when sending messages, Don't ingnore them!",
-					},
-					{
-						element: document.querySelector('#step5'),
-						intro: 'Thats all from us for now. If you have further questions, please use the <b>support link</b> on the sidebar or click on our chat box to talk to a support agent.'
-					}
-				]
-			});
-
-			let doneWithTour = localStorage.getItem('doneWithTour') === 'yeah';
-			if (doneWithTour) {
-				return;
-			} else {
-				intro.start();
-			}
+		startUserWizard(){
+			let is_wizard_completed = JSON.parse(localStorage.getItem('user_data')).customer.is_wizard_completed;
+			 if (!(is_wizard_completed === 0 && (this.$store.state.view_verify_page === 'false'))){
+			 	console.log(is_wizard_completed);
+			 	  return;
+				}
+			 this.$modal.show('signup-wizard-modal');
 		}
 
 	},
@@ -484,6 +437,17 @@ export default {
 @media (min-width: 769px){
 	.dashboard-page-content {
 		display: table-row;
+	}
+}
+@media (max-width: 769px) {
+	 .panel-margin-top{
+			 margin-top: 130px;
+		}
+	.flex-direction{
+		flex-direction: column;
+	}
+	.no-margin-left{
+		margin-left: 0px!important;
 	}
 }
 @media (min-width: 769px){

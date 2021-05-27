@@ -97,16 +97,11 @@
       	 this.isLoading = true;
       	 this.save_button_text = '';
         try {
-         await this.$axios.post('sms/sender-id', {
-            sender_id: this.sender_id,
-            country: JSON.parse(localStorage.getItem('user_data')).country,
-            usecase: this.usecase,
-            company: this.company
-          }, );
-          this.$emit('requested');
-          this.resetForm();
-          this.$modal.hide('sender-id-modal');
-          this.$toast.success("Request sent successfully");
+         await this.$sms.requestSenderId(this.sender_id,JSON.parse(localStorage.getItem('user_data')).country, this.usecase, this.company );
+									this.$emit('requested');
+									this.resetForm();
+									this.$modal.hide('sender-id-modal');
+									this.$toast.success("Request sent successfully");
 									this.isLoading = false;
 									this.save_button_text = 'Save';
         } catch (e) {

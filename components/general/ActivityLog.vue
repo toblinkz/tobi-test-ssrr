@@ -98,7 +98,7 @@
     height: auto;
   }
   .action-log-box {
-    height: 315px;
+    height: 540px;
     border: dashed 2px #ddd;
     padding: 12px 5px 15px 5px;
     background: #f5f5f5;

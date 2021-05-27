@@ -158,7 +158,6 @@ import Pagination from "../../components/general/Pagination";
 import DatePicker from "vue2-datepicker";
 import ClickOutside from "vue-click-outside";
 import 'vue2-datepicker/index.css';
-import SmsHistoryChart from "../../components/general/charts/SmsHistoryLineChart";
 import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 import ExportModal from "../../components/modals/SmsHistoryExportModal";
 import VerificationModal from "~/components/modals/VerificationModal";
@@ -171,7 +170,7 @@ export default {
 		VerificationModal,
 		ExportModal,
 		TableVuePlaceHolder,
-		Pagination, SmsHistoryModal, DashboardNavbar, Sidebar, DatePicker,  SmsHistoryChart},
+		Pagination, SmsHistoryModal, DashboardNavbar, Sidebar, DatePicker},
 
 	data(){
 		return{

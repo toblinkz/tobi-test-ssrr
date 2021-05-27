@@ -49,7 +49,7 @@
         <div class="clearfix mb-30"></div>
 							<Dropdown>
 								<template v-slot:dropdown_title v-if="canViewSenderId">
-									<a data-toggle="dropdown" class="dropdown-toggle color-a"><span class="menu-text"><i class="entypo-list"></i> Setup Sender
+									<a data-toggle="dropdown" class="dropdown-toggle color-a"><span class="menu-text"><i class="entypo-list"></i> Setup Sender IDs
 									    <i class="caret"></i></span> </a>
 								</template>
 								<template v-slot:dropdown_menu v-if="canViewSenderId">
@@ -60,7 +60,7 @@
 
 							<li class="padd-x" v-if="show_drop_down" >
 								<nuxt-link  to="/devices" class="color-a level-1" v-if="canViewDevices">
-									<span> <i class="fa fa-barcode"></i> Manage Device </span>
+									<span> <i class="fa fa-barcode"></i> Manage Devices </span>
 								</nuxt-link>
 							</li>
 							<li class="padd-x" v-if="show_drop_down">
@@ -85,7 +85,7 @@
         </li>
         <Dropdown>
           <template v-slot:dropdown_title v-if="canViewDeliveryReport">
-            <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-chart-line"></i> Delivery Report
+            <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-chart-line"></i> Delivery Reports
 									    <i class="caret"></i></span></a>
           </template>
           <template v-slot:dropdown_menu v-if="show_drop_down">
