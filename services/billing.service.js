@@ -9,7 +9,9 @@ export class BillingService {
 	}
 
 	async getTotalAmountSpent(){
-		return this.$axios.get('billing/total/spent');
+		return this.$axios.get('billing/total/spent', {params:{
+			 duration: 'this month'
+			}});
 	}
 	async getTransactionHistory (transaction_date, page) {
 
