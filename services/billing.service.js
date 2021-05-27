@@ -7,6 +7,10 @@ export class BillingService {
 	async getBalance(){
 		return await this.$axios.$get('billing/wallet');
 	}
+
+	async getTotalAmountSpent(){
+		return this.$axios.get('billing/total/spent');
+	}
 	async getTransactionHistory (transaction_date, page) {
 
 		const date = this.getDate(transaction_date)

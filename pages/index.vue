@@ -71,24 +71,22 @@
 																									</div>
 																							</div>
 
-																							<div v-else class="mt-100" style="text-align:center">
-																								No data to display
+																							<div v-else class="mt-150" style="text-align:center">
+																								<div class="col-md-7">
+																									No data to display
+																								</div>
 																							</div>
 
-																							<div class="row">
 																								<div class="col-md-5">
 																										<div class="panel-body">
-																											<h3 class="blue-t" style="font-size: 25px; font-weight: 700;"><strong>{{total_messages_sent}}<small>+</small></strong></h3>
+																											<h3 class="blue-t" style="font-size: 25px; font-weight: 700;"><strong>{{total_messages_sent}}</strong></h3>
 																											<h5><strong>Messages Sent Today</strong></h5>
 																										</div>
-
 																									<div class="panel-body" style="padding: 0px 20px 20px 20px !important;">
-																										<h3 class="blue-t" style="font-size: 25px; font-weight: 700;"><strong>$1000</strong></h3>
+																										<h3 class="blue-t" style="font-size: 25px; font-weight: 700;"><strong>{{total_amount_spent}}</strong></h3>
 																										<h5 class="mb-10"><strong>Cash Spent Today</strong></h5>
 																									</div>
 																								</div>
-
-
 
 																								<div class="row">
 
@@ -123,7 +121,7 @@
 																									</div>
 																								</div>
 
-																							</div>
+
 
 																						</div>
 																				</div>
@@ -245,7 +243,8 @@ export default {
 			permission_data : [],
 			customer_permissions:[],
 			announcement_information:[],
-			total_messages_sent:'',
+			total_messages_sent:0,
+			total_amount_spent:0,
 
 		}
 	},
@@ -263,6 +262,8 @@ export default {
 		this.setNameAndKey();
 
 		await this.getTotalMessagesSent();
+
+		await this.getTotalAmountSpent();
 
 		await this.fetchAndSetBalance();
 
@@ -294,6 +295,16 @@ export default {
 			}
 
 			},
+
+		async getTotalAmountSpent(){
+			try {
+				let data = await this.$billing.getTotalAmountSpent();
+				this.total_amount_spent = data.data;
+			}catch (e) {
+
+			}
+
+		},
 		closeActivateIdModal(){
 			this.showActivateIdModal = false;
 		},
