@@ -30,36 +30,29 @@
 													<div class="container-md-height mt-30">
 														<div class="row">
 															<div class="col-md-7">
-																<ContentLoader v-if="!account_balance"
 
-																>
-																	<rect x="15" y="15" rx="4" ry="4" width="130" height="5" />
-																	<rect x="155" y="15" rx="3" ry="3" width="130" height="5" />
-																	<rect x="295" y="15" rx="3" ry="3" width="90" height="5" />
-																	<rect x="15" y="50" rx="3" ry="3" width="90" height="5" />
-																	<rect x="115" y="50" rx="3" ry="3" width="60" height="5" />
-																	<rect x="185" y="50" rx="3" ry="3" width="200" height="5" />
-																	<rect x="15" y="90" rx="3" ry="3" width="130" height="5" />
-																	<rect x="160" y="90" rx="3" ry="3" width="120" height="5" />
-																	<rect x="290" y="90" rx="3" ry="3" width="95" height="5" />
-																	<rect x="15" y="130" rx="3" ry="3" width="130" height="5" />
-																	<rect x="160" y="130" rx="3" ry="3" width="225" height="5" />
-																</ContentLoader>
-																<div v-else class="row">
+																<div class="row">
 																	<div v-if="is_main" class="container-fluid container-fixed-lg" style="background: white;">
 																		<!-- START PANEL -->
 																		<div class="panel panel-transparent">
 																			<div class="panel-body">
 																				<div class="row pad-100">
 																					<p style="font-size: 15px;"><i class="entypo-credit-card"></i>Hi {{first_name}}, Welcome to Your Dashboard</p>
-
-																					<div style="display: flex" class="flex-direction">
+																					<ContentLoader v-if="!account_balance">
+																						<rect x="15" y="15" rx="4" ry="4" width="130" height="5" />
+																						<rect x="155" y="15" rx="3" ry="3" width="130" height="5" />
+																						<rect x="295" y="15" rx="3" ry="3" width="90" height="5" />
+																						<rect x="15" y="50" rx="3" ry="3" width="90" height="5" />
+																						<rect x="115" y="50" rx="3" ry="3" width="60" height="5" />
+																						<rect x="185" y="50" rx="3" ry="3" width="200" height="5" />
+																					</ContentLoader>
+																					<div v-else style="display: flex" class="flex-direction">
 																							<p style="font-size: 40px; color: #365899; font-weight: 700; letter-spacing: 2px; line-height: 53.2px">{{account_balance}}</p>
 																							<nuxt-link to="/billing/fund" class="bg-blue mt-10 m-l-50 no-margin-left"><i class="entypo-credit-card"></i> Fund Wallet <i class="m-l-10 fa fa-angle-right"></i> </nuxt-link>
 																					</div>
                       <div class="mt-50" style="height: 320px; width: 90%; border: 0 !important">
 																							 <div style="display: flex; justify-content: space-between">
-																									<span style="font-weight: 700; "><i class="entypo-chart-bar" style="color: #365899"></i>All Channels Performance Today</span>
+																									<span style="font-weight: 700; "><i class="entypo-chart-bar" style="color: #365899"></i>All Channels Performance in {{month}}</span>
 																								</div>
 																							<div class="m-l-10 " style="border-bottom: dotted #ddd!important;width: 100%"></div>
 																							<div>
@@ -71,8 +64,8 @@
 																									</div>
 																							</div>
 
-																							<div v-else class="mt-150" style="text-align:center">
-																								<div class="col-md-7">
+																							<div v-else  style="text-align:center">
+																								<div class="col-md-7 mt-150">
 																									No data to display
 																								</div>
 																							</div>
@@ -98,7 +91,7 @@
 																													background: radial-gradient(ellipse at bottom, rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 70%);
 																													width: 50% !important;">
 
-																								<div class="col-md-6"  v-if="canViewApiKey">
+																								<div class="col-md-6"  >
 																									<div style="display: flex;" >
 																										<p class="text-semibold"><i class="entypo-key" style="color: #079805 !important;"></i>API Key</p>
 																									</div>
@@ -109,7 +102,7 @@
 																										</div>
 																								</div>
 
-																									<div class="col-md-6"  v-if="canViewApiKey">
+																									<div class="col-md-6" >
 																										<div style="display: flex;" >
 																											<p class="text-semibold"><i class="entypo-light-up" style="color: rgb(193, 2, 2) !important;"></i> Guide for IDs </p>
 																										</div>
