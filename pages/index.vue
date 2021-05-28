@@ -285,7 +285,7 @@ export default {
 		 async getTotalMessagesSent(){
 			try {
 				let data = await this.$insight.getChartData();
-				this.total_messages_sent = data.data.data.count_data;
+				this.total_messages_sent =data.data.message_data.count_data;
 			}catch (e) {
 
 			}

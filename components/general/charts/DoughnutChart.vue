@@ -35,8 +35,12 @@ name: "DoughnutChart",
 methods:{
 	async getChartData(){
 		let data = await this.$insight.getChartData();
-		this.array_of_doughnut_chart_count = data.data.data.total_count;
-
+		let status_data = data.data.message_data.status_data;
+		let status_array=[];
+		for (status in status_data){
+			status_array.push(status_data[status])
+		}
+		this.array_of_doughnut_chart_count = status_array
 
 	},
   mountPieChart(){
@@ -45,10 +49,10 @@ methods:{
     new Chart(document.getElementById("chartjs-dashboard-pie"), {
       type: "pie",
       data: {
-							labels: ["Delivered","Sent","Failed","Rejected"],
+							labels: ["Sent","Delivered","Failed","Rejected"],
 							datasets: [{
 								data: this.array_of_doughnut_chart_count,
-								backgroundColor:["#226a4a","#365899","#ffc107","#FF0000"],
+								backgroundColor:["#365899","#226a4a","#ffc107","#FF0000"],
 								hoverOffset: 4
 							}]
       },
