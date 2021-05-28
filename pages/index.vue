@@ -73,7 +73,7 @@
 																								<div class="col-md-5">
 																										<div class="panel-body">
 																											<h3 class="blue-t" style="font-size: 25px; font-weight: 700;"><strong>{{total_messages_sent}}</strong></h3>
-																											<h5><strong>Messages Sent in {{month}}</strong></h5>
+																											<h5><strong>Messages  in {{month}}</strong></h5>
 																										</div>
 																									<div class="panel-body" style="padding: 0px 20px 20px 20px !important;">
 																										<h3 class="blue-t" style="font-size: 25px; font-weight: 700;"><strong>{{total_amount_spent}}</strong></h3>
