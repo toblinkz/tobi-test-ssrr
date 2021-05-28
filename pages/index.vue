@@ -38,7 +38,7 @@
 																			<div class="panel-body">
 																				<div class="row pad-100">
 																					<p style="font-size: 15px;"><i class="entypo-credit-card"></i>Hi {{first_name}}, Welcome to Your Dashboard</p>
-																					<ContentLoader v-if="!account_balance">
+																					<ContentLoader v-if="!account_balance" height="20">
 																						<rect x="15" y="15" rx="4" ry="4" width="130" height="5" />
 																						<rect x="155" y="15" rx="3" ry="3" width="130" height="5" />
 																						<rect x="295" y="15" rx="3" ry="3" width="90" height="5" />
