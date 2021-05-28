@@ -136,10 +136,7 @@ export default {
 		if(this.$store.state.view_verify_page === 'true'){
 			this.$modal.show('verification-id-modal');
 		}else {
-			let data = await this.$insight.getChartData();
-			this.array_of_count_percentages = this.$insight.calculatePercentageOfPieChart(data.data.data.total_count,  data.data.data.count_data)
-			this.array_of_bar_chart_count = data.data.data.total_count;
-			await this.setChartData();
+		await this.getChartDataArray();
 
 
 		}
@@ -151,21 +148,34 @@ export default {
 	},
 	methods: {
 
+async getChartDataArray(){
+
+	let data = await this.$insight.getChartData();
+	let status_data = data.data.message_data.status_data;
+	let status_array=[];
+	for (status in status_data){
+		status_array.push(status_data[status])
+	}
+	this.array_of_count_percentages = this.$insight.calculatePercentageOfPieChart(status_array,  data.data.message_data.count_data)
+	this.array_of_bar_chart_count = status_array
+	await this.setChartData();
+
+},
 	async setChartData(){
 			this.bar_chart_data ={
-				labels: ['Delivered', 'Sent', 'Failed', 'Rejected'],
+				labels: ['Sent','Delivered', 'Failed', 'Rejected'],
 					datasets: [{
 					label:  'Performance of Messages',
 					data:  this.array_of_bar_chart_count,
 					backgroundColor: [
-						'#226a4a',
 						'#365899',
+						'#226a4a',
 						'#ffc107',
 						'#FF0000',
 					],
 					borderColor: [
-						'#226a4a',
 						'#365899',
+						'#226a4a',
 						'#ffc107',
 						'#FF0000',
 					],
@@ -174,7 +184,7 @@ export default {
 			}
 		this.pie_chart_data = {
 			labels: ["Delivered","Sent","Failed","Rejected"],
-			datasets: [{"backgroundColor":["#226a4a","#365899","#ffc107","#FF0000"],"hoverBackgroundColor":["#226a4a","#365899","#ffc107","#FF0000"],"data":this.array_of_count_percentages}]
+			datasets: [{"backgroundColor":["#365899","#226a4a","#ffc107","#FF0000"],"hoverBackgroundColor":["#365899","#226a4a","#ffc107","#FF0000"],"data":this.array_of_count_percentages}]
 		}
 			this.loaded_bar_chart = true;
 		},
