@@ -179,8 +179,9 @@ export default {
 					email: this.email,
 					password: this.password,
 					company_sector: this.company_sector,
+					phone: this.phone,
 					image: this.image_url,
-					phone: this.phone_number
+
 				});
 				let response = await this.$axios.$get('user', {
 					headers: {'Authorization': `Bearer ${localStorage.getItem('local')}`}
