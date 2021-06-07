@@ -114,8 +114,6 @@
 																									</div>
 																								</div>
 
-
-
 																						</div>
 																				</div>
 																			</div>
@@ -242,8 +240,7 @@ export default {
 
 		}
 	},
-	mounted: async function () {
-
+	mounted:  function () {
 
 		this.startUserWizard();
 
@@ -257,13 +254,14 @@ export default {
 
 		this.getMonthAndYear();
 
-		await this.getTotalMessagesSent();
+		 this.fetchAndSoreLoggedInData();
 
-		await this.getTotalAmountSpent();
+		 this.fetchAndSetBalance();
 
-		await this.fetchAndSetBalance();
+		 this.getTotalAmountSpent();
 
-		await this.fetchAndSoreLoggedInData()
+		 this.getTotalMessagesSent();
+
 
 		// await this.getAndSetAnnouncements()
 
