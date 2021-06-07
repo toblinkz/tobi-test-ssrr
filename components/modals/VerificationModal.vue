@@ -89,7 +89,7 @@ name: "VerificationModal",
 					this.button_text = "Verify Code";
 					this.$toast.show("Successfully verified");
 					this.$store.commit('setViewVerificationPage', 'false');
-					await location.reload();
+					await this.$router.push('/');
 				}catch (error) {
 					if (navigator.onLine) {
 						this.isLoading = false;

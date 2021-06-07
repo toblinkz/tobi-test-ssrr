@@ -166,20 +166,20 @@
       },
 					decode(){
 
-						let timeout = localStorage.getItem('ET')
-							setTimeout(  async function () {
-								try {
-									await $nuxt.$axios.$get('auth/logout');
-									$nuxt.$store.commit('setLIState', false);
-									localStorage.clear();
-									await $nuxt.$router.push({name: 'login'});
-									$nuxt.$store.commit('setViewVerificationPage', 'false');
-									$nuxt.$toast.error("Token has Expired")
-
-								}catch (e) {
-
-								}
-										}, timeout);
+						// let timeout = localStorage.getItem('ET')
+						// 	setTimeout(  async function () {
+						// 		try {
+						// 			await $nuxt.$axios.$get('auth/logout');
+						// 			$nuxt.$store.commit('setLIState', false);
+						// 			localStorage.clear();
+						// 			await $nuxt.$router.push({name: 'login'});
+						// 			$nuxt.$store.commit('setViewVerificationPage', 'false');
+						// 			$nuxt.$toast.error("Token has Expired")
+						//
+						// 		}catch (e) {
+						//
+						// 		}
+						// 				}, timeout);
 
 					},
 
