@@ -355,7 +355,7 @@ export default {
 					this.$store.commit('setViewVerificationPage', 'true');
 					this.isLoading = false;
 					this.button_text = "Create My Account";
-					await this.$router.push('/verify-page');
+					await this.$router.push('/verify');
 				}
 
 			} catch (e) {

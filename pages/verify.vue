@@ -5,7 +5,6 @@
 				<sidebar></sidebar>
 			</div>
 			<div class="col-md-10">
-				<DashboardNavbar></DashboardNavbar>
 				<!-- Page header -->
 				<div class="page-header">
 					<div class="page-header-content">
