@@ -121,14 +121,14 @@
 																	</div>
 																</div>
 															</div>
-															<div class="col-md-4 panel-margin-top">
+															<div class="col-md-4 panel-margin-top"  v-if="canViewWalletHistory">
 																<!-- START PANEL -->
 																<div class="">
 																	<div class="row mt-20">
 																		<div class="row mt-30">
 																			<div class="row">
 																				<div class="mt-20 col-md-11">
-																					<div style="display:flex;" v-if="canViewWalletHistory">
+																					<div style="display:flex;">
 																						<p class=" text-semibold" style="margin-bottom: 0"><i class="entypo-light-up" style="color: #079805 !important;"></i>Transaction History</p>
 																						<nuxt-link to="/billing/transactions/history" style="margin-left: auto; color: #365899">view transaction</nuxt-link>
 																					</div>
