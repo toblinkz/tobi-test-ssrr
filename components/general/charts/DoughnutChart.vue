@@ -1,6 +1,6 @@
 <template>
   <div class="mt-30">
-			<ContentLoader  v-if="!array_of_doughnut_chart_count">
+			<ContentLoader  v-if="array_of_doughnut_chart_count.length < 1">
 				<rect x="100" y="5" rx="0" ry="0" width="200" height="15" />
 				<circle cx="140" cy="110" r="70" />
 				<rect x="230" y="50" rx="0" ry="0" width="7" height="7" />
@@ -29,19 +29,20 @@ name: "DoughnutChart",
 	data(){
 	 return{
 	 	 message_data:'',
-			 array_of_doughnut_chart_count:'',
+			 labels: [],
+			 array_of_doughnut_chart_count:[],
+			 colors:[]
 		}
 	},
 methods:{
 	async getChartData(){
 		let data = await this.$insight.getChartData();
 		let status_data = data.data.message_data.status_data;
-		let status_array=[];
 		for (status in status_data){
-			status_array.push(status_data[status])
+			 this.labels.push(status_data[status].key);
+    this.array_of_doughnut_chart_count.push(status_data[status].count)
+			 this.colors.push(status_data[status].color)
 		}
-		this.array_of_doughnut_chart_count = status_array
-
 	},
   mountPieChart(){
     // Pie chart
@@ -49,10 +50,10 @@ methods:{
     new Chart(document.getElementById("chartjs-dashboard-pie"), {
       type: "pie",
       data: {
-							labels: ["Sent","Delivered","Failed","Rejected"],
+							labels: this.labels,
 							datasets: [{
 								data: this.array_of_doughnut_chart_count,
-								backgroundColor:["#365899","#226a4a","#ffc107","#FF0000"],
+								backgroundColor: this.colors,
 								hoverOffset: 4
 							}]
       },

@@ -118,12 +118,13 @@ export default {
 			channel:'',
 			duration:'',
 			line_chart_data: null,
-			array_of_bar_chart_count:'',
+			array_of_bar_chart_count:[],
 			array_of_count_percentages:[20, 40, 40, 0],
 			pie_chart_data: null,
 			loaded_pie_chart: false,
 			loaded_bar_chart: false,
-
+   labels: [],
+			colors:[],
 			pie_chart_options:{
 		       "legend":{"display":true},
 			     	responsive: true, maintainAspectRatio: false
@@ -148,43 +149,42 @@ export default {
 	},
 	methods: {
 
-async getChartDataArray(){
+		async getChartData(){
+			let data = await this.$insight.getChartData();
+			let status_data = data.data.message_data.status_data;
+			for (status in status_data){
+				this.labels.push(status_data[status].key);
+				this.array_of_doughnut_chart_count.push(status_data[status].count)
+				this.colors.push(status_data[status].color)
+			}
+		},
 
+async getChartDataArray(){
 	let data = await this.$insight.getChartData();
 	let status_data = data.data.message_data.status_data;
-	let status_array=[];
 	for (status in status_data){
-		status_array.push(status_data[status])
+		this.labels.push(status_data[status].key);
+		this.array_of_bar_chart_count.push(status_data[status].count)
+		this.colors.push(status_data[status].color)
 	}
-	this.array_of_count_percentages = this.$insight.calculatePercentageOfPieChart(status_array,  data.data.message_data.count_data)
-	this.array_of_bar_chart_count = status_array
+	this.array_of_count_percentages = this.$insight.calculatePercentageOfPieChart(this.array_of_bar_chart_count,  data.data.message_data.count_data)
 	await this.setChartData();
 
 },
 	async setChartData(){
 			this.bar_chart_data ={
-				labels: ['Sent','Delivered', 'Failed', 'Rejected'],
+				labels: this.labels,
 					datasets: [{
 					label:  'Performance of Messages',
 					data:  this.array_of_bar_chart_count,
-					backgroundColor: [
-						'#365899',
-						'#226a4a',
-						'#ffc107',
-						'#FF0000',
-					],
-					borderColor: [
-						'#365899',
-						'#226a4a',
-						'#ffc107',
-						'#FF0000',
-					],
+					backgroundColor: this.colors,
+					borderColor: this.colors,
 
 				}]
 			}
 		this.pie_chart_data = {
-			labels: ["Delivered","Sent","Failed","Rejected"],
-			datasets: [{"backgroundColor":["#365899","#226a4a","#ffc107","#FF0000"],"hoverBackgroundColor":["#365899","#226a4a","#ffc107","#FF0000"],"data":this.array_of_count_percentages}]
+			labels: this.labels,
+			datasets: [{"backgroundColor":this.colors,"hoverBackgroundColor":this.colors,"data":this.array_of_count_percentages}]
 		}
 			this.loaded_bar_chart = true;
 		},
