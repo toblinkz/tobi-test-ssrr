@@ -32,7 +32,7 @@
 															<div class="col-md-7">
 
 																<div class="row">
-																	<div v-if="is_main" class="container-fluid container-fixed-lg" style="background: white;">
+																	<div  class="container-fluid container-fixed-lg" style="background: white;">
 																		<!-- START PANEL -->
 																		<div class="panel panel-transparent">
 																			<div class="panel-body">
@@ -48,7 +48,7 @@
 																					</ContentLoader>
 																					<div v-else style="display: flex" class="flex-direction">
 																							<p style="font-size: 40px; color: #365899; font-weight: 700; letter-spacing: 2px; line-height: 53.2px">{{account_balance}}</p>
-																							<nuxt-link to="/billing/fund" class="bg-blue mt-10 m-l-50 no-margin-left"><i class="entypo-credit-card"></i> Fund Wallet <i class="m-l-10 fa fa-angle-right"></i> </nuxt-link>
+																							<nuxt-link to="/billing/fund" v-if="canTopUp" class="bg-blue mt-10 m-l-50 no-margin-left"><i class="entypo-credit-card"></i> Fund Wallet <i class="m-l-10 fa fa-angle-right"></i> </nuxt-link>
 																					</div>
                       <div class="mt-50" style="height: 320px; width: 90%; border: 0 !important">
 																							 <div style="display: flex; justify-content: space-between">
@@ -91,7 +91,7 @@
 																													background: radial-gradient(ellipse at bottom, rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 70%);
 																													width: 50% !important;">
 
-																								<div class="col-md-6"  >
+																								<div class="col-md-6"  v-if="canViewApiKey">
 																									<div style="display: flex;" >
 																										<p class="text-semibold"><i class="entypo-key" style="color: #079805 !important;"></i>API Key</p>
 																									</div>
@@ -102,7 +102,7 @@
 																										</div>
 																								</div>
 
-																									<div class="col-md-6" >
+																									<div class="col-md-6" v-if="canRequestSenderId">
 																										<div style="display: flex;" >
 																											<p class="text-semibold"><i class="entypo-light-up" style="color: rgb(193, 2, 2) !important;"></i> Guide for IDs </p>
 																										</div>
@@ -121,7 +121,7 @@
 																	</div>
 																</div>
 															</div>
-															<div class="col-md-4 panel-margin-top">
+															<div class="col-md-4 panel-margin-top"  v-if="canViewWalletHistory">
 																<!-- START PANEL -->
 																<div class="">
 																	<div class="row mt-20">
@@ -218,6 +218,15 @@ export default {
 		...mapGetters([ 'getViewVerifyPage', 'getFirstName']),
 		canViewApiKey(){
 			return (this.customer_permissions.includes("view_api_key"));
+		},
+		canTopUp(){
+			return (this.customer_permissions.includes("top_up_wallet"));
+		},
+		canViewWalletHistory(){
+			return (this.customer_permissions.includes("view_wallet_history"));
+		},
+		canRequestSenderId(){
+			return (this.customer_permissions.includes("request_sender_id"));
 		},
 	},
 	data(){
