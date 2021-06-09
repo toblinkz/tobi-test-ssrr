@@ -60,7 +60,11 @@
 																							</div>
 																							<div v-if="total_messages_sent">
 																									<div class="col-md-7">
-																									<DoughnutChart></DoughnutChart>
+																									<DoughnutChart
+																										:array_of_doughnut_chart_count="array_of_doughnut_chart_count"
+																									 :labels="labels"
+																										:colors="colors"
+																									></DoughnutChart>
 																									</div>
 																							</div>
 
@@ -232,6 +236,9 @@ export default {
 			total_messages_sent:0,
 			total_amount_spent:0,
 			month:'',
+			labels: [],
+			array_of_doughnut_chart_count:[],
+			colors:[]
 
 		}
 	},
@@ -257,6 +264,7 @@ export default {
 		// this.displayAnnouncementModal();
 
 		this.getUserPermissions();
+		this.getChartData();
 
 		this.checkUserIsVerifiedAndProcess();
 
@@ -282,6 +290,15 @@ export default {
 	},
 
 	methods: {
+		async getChartData(){
+			let data = await this.$insight.getChartData();
+			let status_data = data.data.message_data.status_data;
+			for (status in status_data){
+				this.labels.push(status_data[status].key);
+				this.array_of_doughnut_chart_count.push(status_data[status].count)
+				this.colors.push(status_data[status].color)
+			}
+		},
 
 		getUserPermissions(){
 			this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
