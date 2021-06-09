@@ -320,7 +320,7 @@ export default {
 		},
 		//call registration endpoint
 		async register(){
-			var access_token;
+
 			this.isLoading = true;
 			this.button_text = "Creating..."
 
