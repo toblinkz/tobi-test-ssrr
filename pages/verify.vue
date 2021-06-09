@@ -254,10 +254,10 @@ export default {
 
 		}
 	},
-	mounted: async function () {
+	mounted: function () {
 
-
-		this.startUserWizard();
+		this.fetchAndSoreLoggedInData();
+		// this.startUserWizard();
 
 		// this.displayAnnouncementModal();
 
@@ -269,13 +269,13 @@ export default {
 
 		this.getMonthAndYear();
 
-		await this.getTotalMessagesSent();
+		// await this.getTotalMessagesSent();
+		//
+		// await this.getTotalAmountSpent();
+		//
+		// await this.fetchAndSetBalance();
 
-		await this.getTotalAmountSpent();
 
-		await this.fetchAndSetBalance();
-
-		await this.fetchAndSoreLoggedInData()
 
 		// await this.getAndSetAnnouncements()
 

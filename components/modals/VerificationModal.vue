@@ -109,8 +109,9 @@ name: "VerificationModal",
 					let data = await this.$axios.$get('auth/account/token/resend', {
 						params:{
 							verification_code: '000000'
-						}
-					});
+						},
+					headers: {'Authorization':  `Bearer ${localStorage.getItem('local')}`}}
+					);
 					this.$toast.success("Verification code has been resent")
 				}catch (e) {
 
@@ -118,7 +119,7 @@ name: "VerificationModal",
 			},
 			async logOut(){
 				try {
-					await this.$axios.$get('auth/logout');
+					await this.$axios.$get('auth/logout', {headers: {'Authorization':  `Bearer ${localStorage.getItem('local')}`}});
 					localStorage.clear();
 					await this.$router.push({name: 'login'});
 					this.$store.commit('setViewVerificationPage', 'false');
