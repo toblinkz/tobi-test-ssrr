@@ -239,13 +239,14 @@
 						nuban_account(account_data){
 							 if(account_data.length === 0){
 							 	 this.has_nuban = false;
+							 	 return;
 								}
 							 this.has_nuban = true;
 						}
 					},
 					methods: {
 						closeModal() {
-							this.showModal = false;
+							this.shgowModal = false;
 						},
 						getUserPermissions(){
 							this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
@@ -403,16 +404,16 @@
 
 						}
 					},
-					async mounted() {
+					 mounted() {
 						if (this.$store.state.view_verify_page === 'true') {
 							this.$modal.show('verification-id-modal');
 						} else {
 							this.page_url = window.location.href;
 							this.getUserPermissions();
-							await this.getWallet();
-							await this.getPaymentMethod();
-							await this.getTopDetails();
-							await this.getNuban();
+							this.getWallet();
+							this.getPaymentMethod();
+							this.getTopDetails();
+							this.getNuban();
 							if (this.customer_country === 'Nigeria' && this.nuban_account.length === 0){
 								 this.show_get_account_number = true;
 							}
