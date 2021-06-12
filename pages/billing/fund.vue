@@ -404,16 +404,16 @@
 
 						}
 					},
-					async mounted() {
+					 mounted() {
 						if (this.$store.state.view_verify_page === 'true') {
 							this.$modal.show('verification-id-modal');
 						} else {
 							this.page_url = window.location.href;
 							this.getUserPermissions();
-							await this.getWallet();
-							await this.getPaymentMethod();
-							await this.getTopDetails();
-							await this.getNuban();
+							this.getWallet();
+							this.getPaymentMethod();
+							this.getTopDetails();
+							this.getNuban();
 							if (this.customer_country === 'Nigeria' && this.nuban_account.length === 0){
 								 this.show_get_account_number = true;
 							}
