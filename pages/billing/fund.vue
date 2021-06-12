@@ -239,13 +239,14 @@
 						nuban_account(account_data){
 							 if(account_data.length === 0){
 							 	 this.has_nuban = false;
+							 	 return;
 								}
 							 this.has_nuban = true;
 						}
 					},
 					methods: {
 						closeModal() {
-							this.showModal = false;
+							this.shgowModal = false;
 						},
 						getUserPermissions(){
 							this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
