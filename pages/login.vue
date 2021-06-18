@@ -140,6 +140,9 @@ export default {
 		setExpiryTime(){
 			let loggedInTime = Date.now();
 			let expiryTime =  moment(loggedInTime).add(56, 'minutes').toDate();
+			console.log('et',expiryTime)
+			console.log('loggedintime', loggedInTime)
+			console.log('timeleft', )
 			localStorage.setItem('LGIT', loggedInTime);
 			localStorage.setItem('ET', expiryTime - Date.now() );
 		},
