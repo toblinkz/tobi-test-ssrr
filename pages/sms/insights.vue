@@ -115,8 +115,8 @@ export default {
 			whatsapp_active: false,
 			dnd_active: false,
 			generic_active: false,
-			channel:'',
-			duration:'',
+			channel:'all',
+			duration:'today',
 			line_chart_data: null,
 			array_of_bar_chart_count:[],
 			array_of_count_percentages:[20, 40, 40, 0],
@@ -149,28 +149,30 @@ export default {
 	},
 	methods: {
 
-		async getChartData(){
-			let data = await this.$insight.getChartData();
-			let status_data = data.data.message_data.status_data;
-			for (status in status_data){
-				this.labels.push(status_data[status].key);
-				this.array_of_doughnut_chart_count.push(status_data[status].count)
-				this.colors.push(status_data[status].color)
-			}
-		},
+			async getChartData(){
+				let data = await this.$insight.getFilteredChartData(this.duration, this.channel);
 
-async getChartDataArray(){
-	let data = await this.$insight.getChartData();
-	let status_data = data.data.message_data.status_data;
-	for (status in status_data){
-		this.labels.push(status_data[status].key);
-		this.array_of_bar_chart_count.push(status_data[status].count)
-		this.colors.push(status_data[status].color)
-	}
-	this.array_of_count_percentages = this.$insight.calculatePercentageOfPieChart(this.array_of_bar_chart_count,  data.data.message_data.count_data)
-	await this.setChartData();
+				let status_data = data.data.message_data.status_data;
+				for (status in status_data){
+					this.labels.push(status_data[status].key);
+					this.array_of_doughnut_chart_count.push(status_data[status].count)
+					this.colors.push(status_data[status].color)
+				}
+			},
 
-},
+			async getChartDataArray(){
+				let data = await this.$insight.getFilteredChartData(this.duration, this.channel);
+				console.log('sss', data)
+				let status_data = data.data.message_data.status_data;
+				for (status in status_data){
+					this.labels.push(status_data[status].key);
+					this.array_of_bar_chart_count.push(status_data[status].count)
+					this.colors.push(status_data[status].color)
+				}
+				this.array_of_count_percentages = this.$insight.calculatePercentageOfPieChart(this.array_of_bar_chart_count,  data.data.message_data.count_data)
+				await this.setChartData();
+
+			},
 	async setChartData(){
 			this.bar_chart_data ={
 				labels: this.labels,
@@ -188,6 +190,19 @@ async getChartDataArray(){
 		}
 			this.loaded_bar_chart = true;
 		},
+		updateChartData(data){
+			this.array_of_bar_chart_count = [];
+			this.labels = [];
+			this.colors = [];
+			let status_data = data.data.message_data.status_data;
+			for (status in status_data){
+				this.labels.push(status_data[status].key);
+				this.array_of_bar_chart_count.push(status_data[status].count)
+				this.colors.push(status_data[status].color)
+			}
+			this.array_of_count_percentages = this.$insight.calculatePercentageOfPieChart(this.array_of_bar_chart_count,  data.data.message_data.count_data)
+			// this.array_of_bar_chart_count = data.data.data.total_count;
+		},
 		async getChartDataForADuration(duration){
 		  this.duration = duration;
 		   try {
@@ -200,6 +215,7 @@ async getChartDataArray(){
 
 					}
 		},
+
 
 		rowStatusClass(row){
 			switch (row.status) {
@@ -285,10 +301,7 @@ async getChartDataArray(){
 		this.updateChartData(data);
 			await this.setChartData();
 		},
-		updateChartData(data){
-			this.array_of_count_percentages = this.$insight.calculatePercentageOfPieChart(data.data.data.total_count,  data.data.data.count_data)
-			this.array_of_bar_chart_count = data.data.data.total_count;
-		},
+
 	},
 
 	directives: {
