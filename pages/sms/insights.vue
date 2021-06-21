@@ -228,14 +228,14 @@ export default {
 
 		},
 		async display_all(){
-		 this.channel = '';
+		 this.channel = 'all';
 			this.all_active = true;
 			this.whatsapp_active = false;
 			this.generic_active = false;
 			this.dnd_active = false;
 			this.number_api_active = false;
 			this.loaded_bar_chart = false;
-			let data =await this.$insight.getFilteredChartData();
+			let data =await this.$insight.getFilteredChartData(this.duration, this.channel);
 			this.loaded_bar_chart = true;
 			this.updateChartData(data);
 			await this.setChartData();
