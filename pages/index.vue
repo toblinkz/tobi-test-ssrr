@@ -291,7 +291,7 @@ export default {
 
 	methods: {
 		async getChartData(){
-			let data = await this.$insight.getChartData();
+			let data = await this.$insight.getFilteredChartData('this month');
 			let status_data = data.data.message_data.status_data;
 			for (status in status_data){
 				this.labels.push(status_data[status].key);
@@ -309,7 +309,7 @@ export default {
 		},
 		 async getTotalMessagesSent(){
 			try {
-				let data = await this.$insight.getChartData();
+				let data = await this.$insight.getFilteredChartData('this month');
 				this.total_messages_sent = data.data.message_data.count_data;
 			}catch (e) {
 

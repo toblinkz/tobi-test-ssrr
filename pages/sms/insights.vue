@@ -125,20 +125,24 @@ export default {
 			loaded_bar_chart: false,
    labels: [],
 			colors:[],
+			bar_chart_options:{
+				legend:
+					{
+						display: false
+					}
+			},
 			pie_chart_options:{
 		       "legend":{"display":true},
-			     	responsive: true, maintainAspectRatio: false
+			     	responsive: true, maintainAspectRatio: false,
+									tooltips: {
+										callbacks: {
+											label: function(tooltipItem, data) {
+												return data['labels'][tooltipItem['index']] + ': ' + data['datasets'][0]['data'][tooltipItem['index']] + '%';
+											}
+										}
+									}
 			},
 			bar_chart_data:'',
-
-		}
-	},
-	async mounted() {
-		if(this.$store.state.view_verify_page === 'true'){
-			this.$modal.show('verification-id-modal');
-		}else {
-		await this.getChartDataArray();
-
 
 		}
 	},
@@ -149,26 +153,18 @@ export default {
 	},
 	methods: {
 
-			async getChartData(){
-				let data = await this.$insight.getFilteredChartData(this.duration, this.channel);
-
-				let status_data = data.data.message_data.status_data;
-				for (status in status_data){
-					this.labels.push(status_data[status].key);
-					this.array_of_doughnut_chart_count.push(status_data[status].count)
-					this.colors.push(status_data[status].color)
-				}
-			},
-
-			async getChartDataArray(){
-				let data = await this.$insight.getFilteredChartData(this.duration, this.channel);
-				console.log('sss', data)
+		 extractChartData(data){
 				let status_data = data.data.message_data.status_data;
 				for (status in status_data){
 					this.labels.push(status_data[status].key);
 					this.array_of_bar_chart_count.push(status_data[status].count)
 					this.colors.push(status_data[status].color)
 				}
+			},
+
+			async getChartDataArray(){
+				let data = await this.$insight.getFilteredChartData(this.duration, this.channel);
+				this.extractChartData(data);
 				this.array_of_count_percentages = this.$insight.calculatePercentageOfPieChart(this.array_of_bar_chart_count,  data.data.message_data.count_data)
 				await this.setChartData();
 
@@ -186,23 +182,20 @@ export default {
 			}
 		this.pie_chart_data = {
 			labels: this.labels,
-			datasets: [{"backgroundColor":this.colors,"hoverBackgroundColor":this.colors,"data":this.array_of_count_percentages}]
+			datasets: [{"backgroundColor":this.colors,"hoverBackgroundColor":this.colors,"data":this.array_of_count_percentages}],
+
 		}
 			this.loaded_bar_chart = true;
 		},
+
 		updateChartData(data){
 			this.array_of_bar_chart_count = [];
 			this.labels = [];
 			this.colors = [];
-			let status_data = data.data.message_data.status_data;
-			for (status in status_data){
-				this.labels.push(status_data[status].key);
-				this.array_of_bar_chart_count.push(status_data[status].count)
-				this.colors.push(status_data[status].color)
-			}
+			this.extractChartData(data);
 			this.array_of_count_percentages = this.$insight.calculatePercentageOfPieChart(this.array_of_bar_chart_count,  data.data.message_data.count_data)
-			// this.array_of_bar_chart_count = data.data.data.total_count;
 		},
+
 		async getChartDataForADuration(duration){
 		  this.duration = duration;
 		   try {
@@ -215,7 +208,6 @@ export default {
 
 					}
 		},
-
 
 		rowStatusClass(row){
 			switch (row.status) {
@@ -302,6 +294,15 @@ export default {
 			await this.setChartData();
 		},
 
+	},
+	async mounted() {
+		if(this.$store.state.view_verify_page === 'true'){
+			this.$modal.show('verification-id-modal');
+		}else {
+			await this.getChartDataArray();
+
+
+		}
 	},
 
 	directives: {

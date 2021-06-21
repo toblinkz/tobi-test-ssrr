@@ -5,12 +5,6 @@ export class InsightService {
 		this.$axios = axios
 	}
 
-	async getChartData () {
-		return await this.$axios.$get('sms/history/analytics', { params:{
-			 duration: 'this month'
-			}});
-	}
-
 	calculatePercentageOfPieChart( array_of_message_count, total_message_count){
 		let array_of_percentages = [];
 		  array_of_message_count.forEach( (count) => {
