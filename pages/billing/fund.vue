@@ -1,17 +1,10 @@
 <template>
   <div>
-  <div class="container-fluid body">
-    <div class="fund-row">
-      <div id="msb" class="col-md-2">
-        <Sidebar></Sidebar>
-      </div>
-      <div class="col-md-10">
-        <DashboardNavbar></DashboardNavbar>
-        <!-- Page header -->
-        <div class="page-header">
-          <div class="page-header-content">
-          </div>
-        </div>
+						<!-- Page header -->
+				<div class="page-header">
+						<div class="page-header-content">
+						</div>
+				</div>
         <!-- /page header -->
         <!-- Page container -->
         <div class="fund-page-container">
@@ -136,9 +129,6 @@
           <!-- /page content -->
         </div>
         <!-- /page container -->
-      </div>
-    </div>
-  </div>
     <ServicePriceModal v-if="showModal" @close="closeModal" ></ServicePriceModal>
     <MonnifyModal :account_number="account_number" :amount="total" :bank_name="bank_name"></MonnifyModal>
 			<VerificationModal></VerificationModal>

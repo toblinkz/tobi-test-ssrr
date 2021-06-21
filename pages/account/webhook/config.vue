@@ -1,10 +1,5 @@
 <template>
-  <div class="container-fluid body">
-    <div id="msb" class="col-md-2">
-      <Sidebar></Sidebar>
-    </div>
-    <div class="col-md-10">
-      <DashboardNavbar></DashboardNavbar>
+  <div>
       <!-- Page header -->
       <div class="page-header">
         <div class="page-header-content">
@@ -70,7 +65,6 @@
             </div>
           </div>
         </div>
-      </div>
 					<VerificationModal></VerificationModal>
 					<UpdateCompanyNameModal></UpdateCompanyNameModal>
     </div>

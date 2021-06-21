@@ -1,10 +1,5 @@
 <template>
-  <div class="container-fluid body">
-    <div id="msb" class="col-md-2 ">
-      <Sidebar></Sidebar>
-    </div>
-    <div class="col-md-10">
-      <DashboardNavbar></DashboardNavbar>
+  <div>
       <!--Page header-->
       <div class="page-header">
         <div class="page-header-content">
@@ -129,7 +124,6 @@
           </div>
         </div>
       </div>
-    </div>
 			<verification-modal></verification-modal>
 			<UpdateCompanyNameModal></UpdateCompanyNameModal>
 			<download-phone-book-contact :phone_book_id="phone_book_id" :get_url="get_url"></download-phone-book-contact>

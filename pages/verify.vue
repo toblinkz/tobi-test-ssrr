@@ -228,6 +228,7 @@ export default {
 		}
 	},
 	middleware: ['auth','inactive_user'],
+	layout: 'auth',
 	computed: {
 		...mapGetters([ 'getViewVerifyPage', 'getFirstName']),
 		canViewApiKey(){

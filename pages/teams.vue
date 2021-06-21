@@ -1,10 +1,5 @@
 <template>
-		<div class="container-fluid">
-			 <div id="msb" class="col-md-2">
-					  <Sidebar></Sidebar>
-				</div>
-			 <div class="col-md-10">
-					 <DashboardNavbar></DashboardNavbar>
+		<div>
 					 <div class="main-content">
 							<div style="display: flex; flex-direction: row; justify-content: space-between">
 										<div style="display: flex; flex-direction: column">
@@ -37,7 +32,6 @@
 					  <AddTeamMemberModal @add-team-member="addTeamMember($event)" :teammates_email="teammates_email" @user-email-exist="showUserEmailNotificationModal($event)"></AddTeamMemberModal>
 					  <UserEmailExistNotificationModal @add-teammate="addTeamMember" :existing_user_data="existing_user_data"></UserEmailExistNotificationModal>
 					  <UpdateTeamMemberModal @update-team-member="updateTeamMember($event)" @update-teammate-permission="updateTeammatePermission" :teammate_id="teammate_id" :email="email" :first_name="first_name" :selected_teammate_permission="selected_teammate_permission" :last_name="last_name" :role="role" ></UpdateTeamMemberModal>
-				</div>
 		</div>
 </template>
 

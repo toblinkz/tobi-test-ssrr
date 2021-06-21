@@ -72,6 +72,7 @@ export default {
 	name: "login",
 	components: {ButtonSpinner},
 	middleware: "guest",
+	layout: 'auth',
 	data(){
 		return{
 			email:"",

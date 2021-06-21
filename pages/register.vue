@@ -121,6 +121,7 @@ export default {
 	name: "register",
 	components: {ButtonSpinner, CustomSelect, SearchDropdown},
 	middleware:['guest', ],
+	layout: 'auth',
 	data(){
 		return{
 			registered_business:"",

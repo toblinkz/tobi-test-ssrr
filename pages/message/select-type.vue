@@ -1,11 +1,5 @@
 <template>
-  <div class="container-fluid body">
-    <div class="row">
-      <div id="msb" class="col-md-2">
-        <sidebar></sidebar>
-      </div>
-      <div class="col-md-10">
-        <DashboardNavbar></DashboardNavbar>
+  <div>
         <!-- Page header -->
         <div class="page-header">
           <div class="page-header-content">
@@ -21,16 +15,12 @@
           </div>
         </div>
         <!-- /page header -->
-
         <!-- Page container -->
         <div class="page-container">
-
           <!-- Page content -->
           <div class="page-content">
-
             <!-- Main content -->
             <div class="content-wrapper">
-
               <!-- main inner content -->
               <main id="wrapper" class="wrapper">
                 <div class="row">
@@ -86,10 +76,8 @@
 
         </div>
         <!-- /page container -->
-      </div>
 					<VerificationModal></VerificationModal>
 					<UpdateCompanyNameModal></UpdateCompanyNameModal>
-    </div>
   </div>
 </template>
 

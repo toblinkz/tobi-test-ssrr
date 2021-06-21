@@ -108,6 +108,7 @@
 
         </ul>
       </div>
+<!--			   <v-idle @idle="onidle" :duration="60"/>-->
     </div>
 </template>
 
@@ -155,6 +156,9 @@
 					}
 				},
     methods: {
+    	onidle(){
+    		alert('hello')
+					},
 					getUserPermissions(){
 						this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
 						this.permissions_data.forEach((permission) => {

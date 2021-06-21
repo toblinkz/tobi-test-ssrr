@@ -62,6 +62,7 @@ export default {
 			 { src: '~plugins/vue-select.js'},
 	   { src: '~plugins/vue-chart.js'},
 				{ src: '~plugins/axios.js'},
+	   { src: '~plugins/vidle.js'},
 				{ src: '~plugins/services.plugin.js'},
     { src: '~plugins/local-storage.js', ssr: false},
 
