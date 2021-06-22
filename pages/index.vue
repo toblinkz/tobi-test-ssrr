@@ -264,6 +264,7 @@ export default {
 		// this.displayAnnouncementModal();
 
 		this.getUserPermissions();
+
 		this.getChartData();
 
 		this.checkUserIsVerifiedAndProcess();
@@ -291,13 +292,18 @@ export default {
 
 	methods: {
 		async getChartData(){
-			let data = await this.$insight.getFilteredChartData('this month');
-			let status_data = data.data.message_data.status_data;
-			for (status in status_data){
-				this.labels.push(status_data[status].key);
-				this.array_of_doughnut_chart_count.push(status_data[status].count)
-				this.colors.push(status_data[status].color)
+			try {
+				let data = await this.$insight.getFilteredChartData('this month');
+				let status_data = data.data.message_data.status_data;
+				for (status in status_data){
+					this.labels.push(status_data[status].key);
+					this.array_of_doughnut_chart_count.push(status_data[status].count)
+					this.colors.push(status_data[status].color)
+				}
+			}catch (e) {
+
 			}
+
 		},
 
 		getUserPermissions(){

@@ -66,9 +66,10 @@
       },
       methods: {
         async getActivityLog(){
-       this.activity_logs = await this.$axios.$get('logs/activity', {
-								headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
-							});
+        	// if ()
+									this.activity_logs = await this.$axios.$get('logs/activity', {
+										headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
+									});
           if (this.activity_logs.data.length !== 0){this.emptyActivityLog = true}
           this.$emit('emptyActivityLog', this.emptyActivityLog);
 
