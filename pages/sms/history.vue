@@ -227,11 +227,11 @@ export default {
 				//get sms history
 				let data = await this.$axios.$get('sms/history', {params:{page: this.page}});
 				this.messages_sent = data;
-				if (data.meta.last_page > 1 ){
+				if (data.meta.to > 1 ){
 					this.showPagination = true
 				}else {this.showPagination = false}
 				this.page = this.messages_sent.meta.current_page;
-				this.total_page = this.messages_sent.meta.last_page;
+				this.total_page = this.messages_sent.meta.to;
 				this.show_shimmer = true;
 			}catch (e) {
 
@@ -279,11 +279,11 @@ export default {
 				//get sms history
 				let data = await this.$axios.$get('sms/history', {params:{page: this.page, channel_filter: this.channel}});
 				this.messages_sent = data;
-				if (data.meta.last_page > 1 ){
+				if (data.meta.to > 1 ){
 					this.showPagination = true
 				}else {this.showPagination = false}
 				this.page = this.messages_sent.meta.current_page;
-				this.total_page = this.messages_sent.meta.last_page;
+				this.total_page = this.messages_sent.meta.to;
 				this.show_shimmer = false;
 				this.isLoading = false;
 				this.searchText = 'Search';
@@ -309,11 +309,11 @@ export default {
 				});
 
 				this.messages_sent = data;
-				if (data.meta.last_page > 1 ){
+				if (data.meta.to > 1 ){
 					this.showPagination = true
 				}else {this.showPagination = false}
 				this.page = this.messages_sent.meta.current_page;
-				this.total_page = this.messages_sent.meta.last_page;
+				this.total_page = this.messages_sent.meta.to;
 				this.show_shimmer = true;
 
 				this.isLoading = false;
@@ -337,11 +337,11 @@ export default {
 
 				this.messages_sent = data;
 				this.show_shimmer = true;
-				if (data.meta.last_page > 1 ){
+				if (data.meta.to > 1 ){
 					this.showPagination = true
 				}else {this.showPagination = false}
 				this.page = this.messages_sent.meta.current_page;
-				this.total_page = this.messages_sent.meta.last_page;
+				this.total_page = this.messages_sent.meta.to;
 				this.show_shimmer = true;
 			}catch (e) {
 
