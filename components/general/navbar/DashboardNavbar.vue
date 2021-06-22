@@ -108,7 +108,7 @@
 
         </ul>
       </div>
-<!--			   <v-idle @idle="onidle" :duration="60"/>-->
+			   <v-idle @idle="onIdle" @remind="onRemind"  :duration="50"/>
     </div>
 </template>
 
@@ -130,7 +130,8 @@
         email:"",
 								permission_data : [],
 								customer_permissions:[],
-							 imageUrl: 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg'
+							 imageUrl: 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg',
+							 user_is_active: true
       }
     },
 			 computed:{
@@ -156,9 +157,22 @@
 					}
 				},
     methods: {
-    	onidle(){
-    		alert('hello')
+
+    	async onIdle(){
+    		 this.user_is_active = false;
+      	await this.$axios.$get('auth/logout');
+				 		await this.$store.commit('setLIState', false);
+							localStorage.clear();
+							await this.$router.push({name: 'login'});
+							this.$store.commit('setViewVerificationPage', 'false');
 					},
+
+					async onRemind(){
+         if (this.user_is_active){
+          let data = await this.$axios.$post('auth/refresh');
+									}
+					},
+
 					getUserPermissions(){
 						this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
 						this.permissions_data.forEach((permission) => {
@@ -170,20 +184,25 @@
       },
 					decode(){
 
-						// let timeout = localStorage.getItem('ET')
-						// 	setTimeout(  async function () {
-						// 		try {
-						// 			await $nuxt.$axios.$get('auth/logout');
-						// 			$nuxt.$store.commit('setLIState', false);
-						// 			localStorage.clear();
-						// 			await $nuxt.$router.push({name: 'login'});
-						// 			$nuxt.$store.commit('setViewVerificationPage', 'false');
-						// 			$nuxt.$toast.error("Token has Expired")
-						//
-						// 		}catch (e) {
-						//
-						// 		}
-						// 				}, timeout);
+						let timeout = localStorage.getItem('ET')
+							setTimeout(  async function () {
+								try {
+
+									if (this.user_is_active){
+										await $nuxt.$axios.$post('auth/refresh');
+										location.reload();
+										return;
+									}
+									await $nuxt.$axios.$get('auth/logout');
+									$nuxt.$store.commit('setLIState', false);
+									localStorage.clear();
+									await $nuxt.$router.push({name: 'login'});
+									nuxt.$store.commit('setViewVerificationPage', 'false');
+								}catch (e) {
+
+								}
+
+										}, timeout);
 
 					},
 
