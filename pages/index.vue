@@ -158,6 +158,7 @@
 			<SuccessModal :modal_information="modal_information"></SuccessModal>
 			<AnnouncementModal :announcement_information="announcement_information"></AnnouncementModal>
 			<UpdateCompanyNameModal></UpdateCompanyNameModal>
+			<TokenReminderModal></TokenReminderModal>
 
 		</div>
 	</div>
@@ -171,6 +172,7 @@ import SmsHistoryModal from "../components/modals/SmsHistoryModal";
 import YourWalletModal from "../components/modals/YourWalletModal";
 import ActivateIdModal from "../components/modals/ActivateIdModal";
 import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
+import TokenReminderModal from "../components/modals/TokenReminderModal"
 import Chart from "chart.js";
 import { mapGetters } from 'vuex';
 import ActivityLog from "../components/general/ActivityLog";
@@ -191,8 +193,10 @@ import AnnouncementModal from "../components/modals/AnnouncementModal";
 import SignUpWizardComponent from "../components/index/modals/SignUpWizardComponent";
 import DoughnutChart from "../components/general/charts/DoughnutChart";
 import OnBoardingModal from "../components/index/modals/OnBoardingModal";
+
 export default {
 	components: {
+		TokenReminderModal,
 		OnBoardingModal,
 		DoughnutChart,
 		SignUpWizardComponent,
@@ -284,7 +288,7 @@ export default {
 
 	methods: {
 		async getChartData(){
-			let data = await this.$insight.getChartData();
+			let data = await this.$insight.getFilteredChartData('this month');
 			let status_data = data.data.message_data.status_data;
 			for (status in status_data){
 				this.labels.push(status_data[status].key);

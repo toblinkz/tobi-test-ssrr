@@ -108,7 +108,7 @@
 
         </ul>
       </div>
-			   <v-idle @idle="onIdle" @remind="onRemind"  :duration="50"/>
+			   <v-idle @idle="onIdle" @remind="onRemind" :reminders="[10]" :duration="50"/>
     </div>
 </template>
 
@@ -117,7 +117,6 @@
 		import jwt_decode from "jwt-decode";
   export default {
     name: "DashboardNavbar",
-		 	middleware: 'auth',
     components: {Dropdown},
 			watch:{
 				'$route' (){
@@ -162,15 +161,16 @@
     		 this.user_is_active = false;
       	await this.$axios.$get('auth/logout');
 				 		await this.$store.commit('setLIState', false);
+					 	await this.$router.push({name: 'login'});
 							localStorage.clear();
-							await this.$router.push({name: 'login'});
 							this.$store.commit('setViewVerificationPage', 'false');
 					},
 
 					async onRemind(){
-         if (this.user_is_active){
-          let data = await this.$axios.$post('auth/refresh');
-									}
+						  this.$modal.show('token-reminder-modal');
+         // if (this.user_is_active){
+									//
+									// }
 					},
 
 					getUserPermissions(){
@@ -189,7 +189,7 @@
 								try {
 
 									if (this.user_is_active){
-										await $nuxt.$axios.$post('auth/refresh');
+										await $nuxt.$axios.$post('auth/refresh/token');
 										location.reload();
 										return;
 									}

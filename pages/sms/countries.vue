@@ -136,7 +136,6 @@ export default {
 	methods: {
 		 async getActiveCountryRoutes(){
 		 	 this.active_country_routes = await this.$sms.getActiveCountryRoutes(this.page);
-		 	 console.log(this.active_country_routes);
 		 	 this.show_shimmer = true
 		 	 this.page = this.active_country_routes.meta.current_page;
 		 	 this.total_page = this.active_country_routes.meta.last_page;

@@ -10,6 +10,9 @@
 										<a class="btn bg-blue" @click="showModal">Add Teammate</a>
 									</div>
 							</div>
+							<TableVuePlaceHolder v-if="!show_shimmer">
+
+							</TableVuePlaceHolder>
 							<div class="mt-20">
 								  <div class="header-style">
 
@@ -47,10 +50,12 @@ import DeleteTeammateModal from "../components/modals/DeleteTeammateModal";
 import UpdatedTeammatePermissionModal from "../components/modals/UpdatedTeammatePermissionModal";
 import UserEmailExistNotificationModal from "../components/team/modals/UserEmailExistNotificationModal";
 import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
+import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
 export default {
  name: "teams",
-	middleware:['auth', 'permission'],
+	middleware:['auth','permission'],
 	components: {
+		TableVuePlaceHolder,
 		UpdateCompanyNameModal,
 		UserEmailExistNotificationModal,
 		UpdatedTeammatePermissionModal,
@@ -70,7 +75,8 @@ export default {
 				  teammates_email:[],
 				  existing_user_data:'',
 				  selected_permission:'',
-			  	selected_teammate_permission:[]
+			  	selected_teammate_permission:[],
+				  show_shimmer : false
 
 			}
 	},
@@ -110,8 +116,10 @@ export default {
 			this.$modal.show('user-email-exist-notification-modal');
 		},
 		async getTeammates(){
+			   this.show_shimmer = true
 			  try {
-						this.team_members = await this.$axios.$get('team')
+						this.team_members = await this.$axios.$get('team');
+						this.show_shimmer = false;
 					}catch (e) {
 
 					}

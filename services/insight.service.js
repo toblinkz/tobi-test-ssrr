@@ -24,6 +24,6 @@ export class InsightService {
 			{
 				duration: duration,
 				channel:channels
-			}});
+			}, headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}});
 	}
 }

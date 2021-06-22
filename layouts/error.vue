@@ -27,6 +27,7 @@
 				import TheFooter from "../components/general/TheFooter";
 				export default {
         name: "error",
+					   layout: 'auth',
 					   components: {TheFooter, TrustedBySection, ButtonSpinner, PrimaryNavbar}
 				}
 </script>
