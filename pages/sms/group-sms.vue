@@ -89,7 +89,7 @@
                                  </div>
                                  <div class="form-group" v-show="send_later">
                                    <label>Schedule Time</label>
-                                   <date-picker v-model="date_time" value-type="YYYY/MM/DD HH:MM:SS" type="datetime" confirm style="width: 100%" placeholder="Select date"></date-picker>
+                                   <date-picker v-model="date_time"  type="datetime" confirm style="width: 100%" placeholder="Select date"></date-picker>
                                  </div>
                              </div>
                              <div class="col-md-6">
