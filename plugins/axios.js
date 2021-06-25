@@ -5,8 +5,10 @@ export default ({  $axios, redirect, store  }) => {
 
 	$axios.onError(error => {
 		console.log(error.response.status)
-		if(error.response.status === 401) {
+		console.log(localStorage.getItem('activity_log_error'))
+		if(error.response.status === 401 && localStorage.getItem('activity_log_error') === 'false') {
 			store.commit('setLIState', false);
+			localStorage.clear();
 			  redirect('/login')
 		}
 	})

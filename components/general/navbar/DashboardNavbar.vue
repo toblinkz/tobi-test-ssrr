@@ -185,14 +185,21 @@
 						let timeout = localStorage.getItem('ET');
 
 							setTimeout(  async  () => {
+
 								try {
 
 									if (this.user_is_active){
 
+										localStorage.setItem('activity_log_error', true);
+
 							  	let data =		await this.$axios.$get('auth/refresh/token');
 
-										localStorage.setItem('local', data.access_token);
-										location.reload();
+										await localStorage.setItem('local', data.access_token);
+
+
+										await location.reload();
+
+
 										return;
 									}
 
@@ -207,7 +214,7 @@
 								}
 
 										}, timeout);
-
+						 localStorage.setItem('activity_log_error', false);
 					},
 
       toggleMenu(){

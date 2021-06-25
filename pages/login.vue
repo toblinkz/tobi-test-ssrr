@@ -140,11 +140,12 @@ export default {
 		},
 		setExpiryTime(){
 			let loggedInTime = Date.now();
-			let expiryTime =  moment(loggedInTime).add(56, 'minutes').toDate();
-			localStorage.setItem('ET', Date.parse(expiryTime));
+			let expiryTime =  moment(loggedInTime).add(54, 'minutes').toDate();
+			localStorage.setItem('ET', expiryTime - Date.now() );
 			localStorage.setItem('LGIT', loggedInTime);
 
 		},
+
 		async loginUser() {
 			try{
 				this.isLoading = true;
@@ -154,6 +155,7 @@ export default {
 					password: this.password
 				});
 				await 	localStorage.setItem('local', response_data.data.access_token);
+				localStorage.setItem('activity_log_error', false);
 
 				//set expiry time
 				this.setExpiryTime();
