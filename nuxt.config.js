@@ -44,11 +44,13 @@ export default {
   ** Global CSS
   */
   css: [
+
     '@assets/css/general_style/landing_page.css',
     '@assets/font/karla/css/karla.css',
     '@assets/icons/entypo/css/entypo.css',
     '@assets/icons/fontawesome/styles.min.css',
     '@assets/icons/icomoon/styles.css'
+
   ],
   /*
   ** Plugins to load before mounting the App
@@ -64,6 +66,7 @@ export default {
 				{ src: '~plugins/axios.js'},
 	   { src: '~plugins/vidle.js'},
 				{ src: '~plugins/services.plugin.js'},
+	  { src: '~plugins/idle-vue.js'},
     { src: '~plugins/local-storage.js', ssr: false},
 
   ],

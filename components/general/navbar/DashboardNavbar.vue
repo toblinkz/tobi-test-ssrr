@@ -108,16 +108,17 @@
 
         </ul>
       </div>
-			   <v-idle @idle="onIdle" @remind="onRemind" :reminders="[10]" :duration="50"/>
+
     </div>
 </template>
 
 <script>
   import Dropdown from "../dropdown/Dropdown";
 		import jwt_decode from "jwt-decode";
-  export default {
+
+		export default {
     name: "DashboardNavbar",
-    components: {Dropdown},
+    components: {Dropdown },
 			watch:{
 				'$route' (){
 					this.$store.commit('menu/close')
@@ -133,7 +134,18 @@
 							 user_is_active: true
       }
     },
+			onIdle() {
+
+				this.user_is_active = false;
+
+			},
+			onActive(){
+
+    	this.user_is_active = true;
+
+			},
 			 computed:{
+
 					menu:{
 						get(){
 							return this.$store.state.menu.open
@@ -157,21 +169,6 @@
 				},
     methods: {
 
-    	async onIdle(){
-    		 this.user_is_active = false;
-      	await this.$axios.$get('auth/logout');
-				 		await this.$store.commit('setLIState', false);
-					 	await this.$router.push({name: 'login'});
-							localStorage.clear();
-							this.$store.commit('setViewVerificationPage', 'false');
-					},
-
-					async onRemind(){
-						  this.$modal.show('token-reminder-modal');
-         // if (this.user_is_active){
-									//
-									// }
-					},
 
 					getUserPermissions(){
 						this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
@@ -179,25 +176,32 @@
 							this.customer_permissions.push(permission.name);
 						});
 					},
+
       toggle: function () {
         this.isOpen = !this.isOpen
       },
-					decode(){
 
-						let timeout = localStorage.getItem('ET')
-							setTimeout(  async function () {
+					decode(){
+						let timeout = localStorage.getItem('ET');
+
+							setTimeout(  async  () => {
 								try {
 
 									if (this.user_is_active){
-										await $nuxt.$axios.$post('auth/refresh/token');
+
+							  	let data =		await this.$axios.$get('auth/refresh/token');
+
+										localStorage.setItem('local', data.access_token);
 										location.reload();
 										return;
 									}
-									await $nuxt.$axios.$get('auth/logout');
-									$nuxt.$store.commit('setLIState', false);
+
+									await this.$axios.$get('auth/logout');
+									this.$store.commit('setLIState', false);
 									localStorage.clear();
-									await $nuxt.$router.push({name: 'login'});
-									nuxt.$store.commit('setViewVerificationPage', 'false');
+									await this.$router.push({name: 'login'});
+									this.$store.commit('setViewVerificationPage', 'false');
+
 								}catch (e) {
 
 								}
@@ -210,6 +214,7 @@
         $("#mobile-menu").toggleClass("hide-menu");
       },
       async logout(){
+
       	try {
       		await this.$axios.$get('auth/logout');
 							 this.$store.commit('setLIState', false);

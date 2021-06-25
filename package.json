@@ -9,11 +9,7 @@
     "build": "nuxt build --spa",
     "start": "nuxt start",
     "deploy": "NODE_ENV=production npm run build && node deploy dist",
-    "generate": "nuxt generate",
-    "preinstall": "npx npm-force-resolutions"
-  },
-  "resolutions": {
-    "graceful-fs": "4.2.3"
+    "generate": "nuxt generate"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
@@ -34,7 +30,6 @@
     "nuxt-stripe-module": "^2.1.0",
     "sweetalert2": "^9.17.1",
     "v-click-outside": "^3.1.2",
-    "v-idle": "^0.2.1",
     "vue": "^2.6.12",
     "vue-chartjs": "^3.5.1",
     "vue-click-outside": "^1.1.0",
