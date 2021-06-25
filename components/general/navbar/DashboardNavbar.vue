@@ -196,9 +196,7 @@
 
 										await localStorage.setItem('local', data.access_token);
 
-
-										await location.reload();
-
+										this.$axios.setHeader('Authorization',  `Bearer ${localStorage.getItem('local')}`);
 
 										return;
 									}

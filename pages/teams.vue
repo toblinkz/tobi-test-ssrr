@@ -10,10 +10,10 @@
 										<a class="btn bg-blue" @click="showModal">Add Teammate</a>
 									</div>
 							</div>
-							<TableVuePlaceHolder v-if="!show_shimmer">
+							<TableVuePlaceHolder v-if="show_shimmer">
 
 							</TableVuePlaceHolder>
-							<div class="mt-20">
+							<div v-else class="mt-20">
 								  <div class="header-style">
 
 												<p class="header-title">Name</p>
