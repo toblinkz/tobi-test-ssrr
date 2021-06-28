@@ -140,9 +140,7 @@ export default {
 
 						try{
 							await this.$axios.$patch('/number/unrent', {
-								params:{
 									phone_number: row.phone_number
-								}
 							});
 							this.$toast.success('Done successfully');
 						}catch (e) {
