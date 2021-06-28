@@ -1,10 +1,5 @@
 <template>
-		<div class="container-fluid">
-			 <div id="msb" class="col-md-2">
-					  <Sidebar></Sidebar>
-				</div>
-			 <div class="col-md-10">
-					 <DashboardNavbar></DashboardNavbar>
+		<div>
 					 <div class="main-content">
 							<div style="display: flex; flex-direction: row; justify-content: space-between">
 										<div style="display: flex; flex-direction: column">
@@ -15,7 +10,10 @@
 										<a class="btn bg-blue" @click="showModal">Add Teammate</a>
 									</div>
 							</div>
-							<div class="mt-20">
+							<TableVuePlaceHolder v-if="show_shimmer">
+
+							</TableVuePlaceHolder>
+							<div v-else class="mt-20">
 								  <div class="header-style">
 
 												<p class="header-title">Name</p>
@@ -37,7 +35,6 @@
 					  <AddTeamMemberModal @add-team-member="addTeamMember($event)" :teammates_email="teammates_email" @user-email-exist="showUserEmailNotificationModal($event)"></AddTeamMemberModal>
 					  <UserEmailExistNotificationModal @add-teammate="addTeamMember" :existing_user_data="existing_user_data"></UserEmailExistNotificationModal>
 					  <UpdateTeamMemberModal @update-team-member="updateTeamMember($event)" @update-teammate-permission="updateTeammatePermission" :teammate_id="teammate_id" :email="email" :first_name="first_name" :selected_teammate_permission="selected_teammate_permission" :last_name="last_name" :role="role" ></UpdateTeamMemberModal>
-				</div>
 		</div>
 </template>
 
@@ -53,10 +50,12 @@ import DeleteTeammateModal from "../components/modals/DeleteTeammateModal";
 import UpdatedTeammatePermissionModal from "../components/modals/UpdatedTeammatePermissionModal";
 import UserEmailExistNotificationModal from "../components/team/modals/UserEmailExistNotificationModal";
 import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
+import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
 export default {
  name: "teams",
-	middleware:['auth', 'permission'],
+	middleware:['auth','permission'],
 	components: {
+		TableVuePlaceHolder,
 		UpdateCompanyNameModal,
 		UserEmailExistNotificationModal,
 		UpdatedTeammatePermissionModal,
@@ -76,7 +75,8 @@ export default {
 				  teammates_email:[],
 				  existing_user_data:'',
 				  selected_permission:'',
-			  	selected_teammate_permission:[]
+			  	selected_teammate_permission:[],
+				  show_shimmer : false
 
 			}
 	},
@@ -116,8 +116,10 @@ export default {
 			this.$modal.show('user-email-exist-notification-modal');
 		},
 		async getTeammates(){
+			   this.show_shimmer = true
 			  try {
-						this.team_members = await this.$axios.$get('team')
+						this.team_members = await this.$axios.$get('team');
+						this.show_shimmer = false;
 					}catch (e) {
 
 					}

@@ -14,11 +14,10 @@ export class InsightService {
 	}
 
 	async getFilteredChartData(duration, channels){
-	return 	await this.$axios.$get('sms/history/analytics', {headers: {'Authorization':  `Bearer ${localStorage.getItem('local')}`},
-		params:
+	return 	await this.$axios.$get('sms/history/analytics', {params:
 			{
 				duration: duration,
 				channel:channels
-			}});
+			}, headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}});
 	}
 }

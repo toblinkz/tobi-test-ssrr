@@ -146,7 +146,6 @@
     import {mapGetters} from "vuex";
     export default {
         name: "sidebar",
-					   middleware: 'auth',
         components: { Dropdown},
 				  	data(){
         	return{

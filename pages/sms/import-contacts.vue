@@ -1,10 +1,5 @@
 <template>
-	<div class="container-fluid body">
-		<div id="msb" class="col-md-2">
-			<Sidebar></Sidebar>
-		</div>
-		<div class="col-md-10">
-			<DashboardNavbar></DashboardNavbar>
+	<div>
 			<!-- Page header -->
 			<div class="page-header">
 				<div class="page-header-content">
@@ -109,7 +104,6 @@
 				<VerificationModal></VerificationModal>
 				<UpdateCompanyNameModal></UpdateCompanyNameModal>
 			</div>
-		</div>
 	</div>
 </template>
 
@@ -191,6 +185,7 @@ export default {
 				if (this.validateFile(this.file)){
         const uploadS3Url = await this.$uploadFileTos3.uploadFileToS3(this.file, file_type).catch((e)=> {this.$toast.error(e)});
         this.contact_upload_url = uploadS3Url.data;
+        console.log(this.contact_upload_url);
 								this.$toast.success('Uploaded successfully');
 								return;
 				}

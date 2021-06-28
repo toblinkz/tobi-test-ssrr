@@ -1,10 +1,5 @@
 <template>
-	<div class="container-fluid body">
-		<div id="msb" class="col-md-2">
-			<Sidebar></Sidebar>
-		</div>
-		<div class="col-md-10">
-			<DashboardNavbar></DashboardNavbar>
+	<div>
 			<div class="col-md-10">
 				<div class="mt-150">
 					<span style="font-size: 20px; font-weight: bold"> <i class="fa fa-tty m-r-5" style="font-size: 15px"></i> Numbers </span>
@@ -60,7 +55,6 @@
 			</div>
 			<BuyNumberModal></BuyNumberModal>
 			<UpdateCompanyNameModal></UpdateCompanyNameModal>
-		</div>
 	</div>
 </template>
 

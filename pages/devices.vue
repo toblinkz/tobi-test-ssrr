@@ -1,10 +1,5 @@
 <template>
-  <div class="container-fluid body">
-    <div id="msb" class="col-md-2">
-      <Sidebar></Sidebar>
-    </div>
-    <div class="col-md-10">
-      <DashboardNavbar></DashboardNavbar>
+  <div>
       <!--Page header-->
       <div class="page-header">
         <div class="page-header-content">
@@ -102,7 +97,6 @@
           </div>
         </div>
       </div>
-    </div>
     <DeviceModal  @requested="requested"></DeviceModal>
 			 <DeviceConnectedModal></DeviceConnectedModal>
 			<device-barcoded-modal :image_url="barcode_url"></device-barcoded-modal>

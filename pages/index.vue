@@ -1,11 +1,5 @@
-<template>
-	<div class="container-fluid body" >
-		<div class="row">
-			<div id="msb" class="col-md-2">
-				<sidebar></sidebar>
-			</div>
-			<div class="col-md-10">
-				<DashboardNavbar></DashboardNavbar>
+<template xmlns="http://www.w3.org/1999/html">
+	<div>
 				<!-- Page header -->
 				<div class="page-header">
 					<div class="page-header-content">
@@ -154,9 +148,6 @@
 							</main>
 						</div>
 					</div>
-				</div>
-			</div>
-		</div>
 		<ActivateIdModal v-if="showActivateIdModal" @close="closeActivateIdModal"></ActivateIdModal>
 		<YourWalletModal v-if="showYourWalletModal" @close="closeYourWalletModal"></YourWalletModal>
 		<VerificationModal></VerificationModal>
@@ -168,6 +159,8 @@
 		<AnnouncementModal :announcement_information="announcement_information"></AnnouncementModal>
 		<UpdateCompanyNameModal></UpdateCompanyNameModal>
 
+
+	</div>
 	</div>
 </template>
 

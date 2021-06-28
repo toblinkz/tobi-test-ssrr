@@ -72,6 +72,7 @@ export default {
 	name: "login",
 	components: {ButtonSpinner},
 	middleware: "guest",
+	layout: 'auth',
 	data(){
 		return{
 			email:"",
@@ -139,10 +140,12 @@ export default {
 		},
 		setExpiryTime(){
 			let loggedInTime = Date.now();
-			let expiryTime =  moment(loggedInTime).add(56, 'minutes').toDate();
-			localStorage.setItem('LGIT', loggedInTime);
+			let expiryTime =  moment(loggedInTime).add(54, 'minutes').toDate();
 			localStorage.setItem('ET', expiryTime - Date.now() );
+			localStorage.setItem('LGIT', loggedInTime);
+
 		},
+
 		async loginUser() {
 			try{
 				this.isLoading = true;
@@ -152,6 +155,7 @@ export default {
 					password: this.password
 				});
 				await 	localStorage.setItem('local', response_data.data.access_token);
+				localStorage.setItem('activity_log_error', false);
 
 				//set expiry time
 				this.setExpiryTime();
@@ -160,6 +164,7 @@ export default {
 					headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
 				});
 				await localStorage.setItem('user_data', JSON.stringify(response.data));
+
 
 				if (JSON.parse(localStorage.getItem('user_data')).active_status_id.name === "Pending"){
 					this.$store.commit('setFirstName', JSON.parse(localStorage.getItem('user_data')).fname);

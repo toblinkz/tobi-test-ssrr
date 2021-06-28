@@ -48,6 +48,7 @@
   export default {
     name: "forgot-password",
 			 middleware: "guest",
+			 layout: 'auth',
     data(){
       return{
         email: "",

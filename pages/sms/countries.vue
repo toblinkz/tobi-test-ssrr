@@ -1,10 +1,5 @@
 <template>
-	<div class="container-fluid body">
-		<div id="msb" class="col-md-2">
-			<Sidebar></Sidebar>
-		</div>
-		<div class="col-md-10">
-			<DashboardNavbar></DashboardNavbar>
+	<div>
 			<!--Page header-->
 			<div class="page-header">
 				<div class="page-header-content">
@@ -105,8 +100,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
-
 	</div>
 </template>
 
@@ -143,7 +136,6 @@ export default {
 	methods: {
 		 async getActiveCountryRoutes(){
 		 	 this.active_country_routes = await this.$sms.getActiveCountryRoutes(this.page);
-		 	 console.log(this.active_country_routes);
 		 	 this.show_shimmer = true
 		 	 this.page = this.active_country_routes.meta.current_page;
 		 	 this.total_page = this.active_country_routes.meta.last_page;

@@ -61,6 +61,7 @@
 import Swal from 'sweetalert2';
 export default {
 	name: "_id",
+	layout: 'auth',
 	data(){
 		return{
 			password: "",

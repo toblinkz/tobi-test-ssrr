@@ -1,10 +1,5 @@
 <template>
-	<div class="container-fluid body">
-		<div id="msb" class="col-md-2">
-			<Sidebar></Sidebar>
-		</div>
-		<div class="col-md-10">
-			<DashboardNavbar></DashboardNavbar>
+	<div>
 			<!-- Page header -->
 			<div class="page-header">
 				<div class="page-header-content">
@@ -75,7 +70,6 @@
 				<AddNewEmailModal @addedEmail="addNewEmail($event)"></AddNewEmailModal>
 				<update-email-notification-modal  @addedEmail="addNewEmail($event)"  :email_address="email_address" :selected_email_categories="email_categories" ></update-email-notification-modal>
 			</div>
-		</div>
 	</div>
 </template>
 

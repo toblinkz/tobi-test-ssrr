@@ -108,16 +108,17 @@
 
         </ul>
       </div>
+
     </div>
 </template>
 
 <script>
   import Dropdown from "../dropdown/Dropdown";
 		import jwt_decode from "jwt-decode";
-  export default {
+
+		export default {
     name: "DashboardNavbar",
-		 	middleware: 'auth',
-    components: {Dropdown},
+    components: {Dropdown },
 			watch:{
 				'$route' (){
 					this.$store.commit('menu/close')
@@ -129,10 +130,22 @@
         email:"",
 								permission_data : [],
 								customer_permissions:[],
-							 imageUrl: 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg'
+							 imageUrl: 'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg',
+							 user_is_active: true
       }
     },
+			onIdle() {
+
+				this.user_is_active = false;
+
+			},
+			onActive(){
+
+    	this.user_is_active = true;
+
+			},
 			 computed:{
+
 					menu:{
 						get(){
 							return this.$store.state.menu.open
@@ -155,38 +168,58 @@
 					}
 				},
     methods: {
+
+
 					getUserPermissions(){
 						this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
 						this.permissions_data.forEach((permission) => {
 							this.customer_permissions.push(permission.name);
 						});
 					},
+
       toggle: function () {
         this.isOpen = !this.isOpen
       },
+
 					decode(){
+						let timeout = localStorage.getItem('ET');
 
-						// let timeout = localStorage.getItem('ET')
-						// 	setTimeout(  async function () {
-						// 		try {
-						// 			await $nuxt.$axios.$get('auth/logout');
-						// 			$nuxt.$store.commit('setLIState', false);
-						// 			localStorage.clear();
-						// 			await $nuxt.$router.push({name: 'login'});
-						// 			$nuxt.$store.commit('setViewVerificationPage', 'false');
-						// 			$nuxt.$toast.error("Token has Expired")
-						//
-						// 		}catch (e) {
-						//
-						// 		}
-						// 				}, timeout);
+							setTimeout(  async  () => {
 
+								try {
+
+									if (this.user_is_active){
+
+										localStorage.setItem('activity_log_error', true);
+
+							  	let data =		await this.$axios.$get('auth/refresh/token');
+
+										await localStorage.setItem('local', data.access_token);
+
+										this.$axios.setHeader('Authorization',  `Bearer ${localStorage.getItem('local')}`);
+
+										return;
+									}
+
+									await this.$axios.$get('auth/logout');
+									this.$store.commit('setLIState', false);
+									localStorage.clear();
+									await this.$router.push({name: 'login'});
+									this.$store.commit('setViewVerificationPage', 'false');
+
+								}catch (e) {
+
+								}
+
+										}, timeout);
+						 localStorage.setItem('activity_log_error', false);
 					},
 
       toggleMenu(){
         $("#mobile-menu").toggleClass("hide-menu");
       },
       async logout(){
+
       	try {
       		await this.$axios.$get('auth/logout');
 							 this.$store.commit('setLIState', false);
