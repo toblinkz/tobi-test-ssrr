@@ -139,7 +139,7 @@ export default {
 			async unRentNumber(row){
 
 						try{
-							await this.$axios.$delete('/number/unrent', {
+							await this.$axios.$patch('/number/unrent', {
 								params:{
 									phone_number: row.phone_number
 								}
