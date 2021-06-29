@@ -202,9 +202,13 @@
 									}
 
 									await this.$axios.$get('auth/logout');
+
 									this.$store.commit('setLIState', false);
+
 									localStorage.clear();
+
 									await this.$router.push({name: 'login'});
+
 									this.$store.commit('setViewVerificationPage', 'false');
 
 								}catch (e) {
