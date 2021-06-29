@@ -237,18 +237,23 @@ export default {
 	},
 	computed: {
 		...mapGetters([ 'getViewVerifyPage', 'getFirstName']),
+
 		canViewApiKey(){
 			return (this.customer_permissions.includes("view_api_key"));
 		},
+
 		canTopUp(){
 			return (this.customer_permissions.includes("top_up_wallet"));
 		},
+
 		canViewWalletHistory(){
 			return (this.customer_permissions.includes("view_wallet_history"));
 		},
+
 		canRequestSenderId(){
 			return (this.customer_permissions.includes("request_sender_id"));
 		},
+
 	},
 	mounted:  function () {
 

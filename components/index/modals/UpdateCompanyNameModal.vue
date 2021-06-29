@@ -12,9 +12,9 @@
 							<span >Kindly Update your company name.<br>
 						</span>
 						</p>
-						<form @submit.prevent="updateCompanyName">
+						<form>
 							<div class="form-group">
-								<label>Company Name</label>
+								<label>Company Name</label>g
 								<input type="text" class="form-control" v-model="company_name" :class="{'error ' : hasCompanyNameError}" placeholder="Company name">
 								<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
 								<br>
@@ -23,7 +23,7 @@
 							</div>
 							<div class="mt-20 mb-20">
 								<center>
-									<a  class="btn id-btn-primary" :aria-disabled="isDisabled" type="submit">
+									<a @click="updateCompanyName" class="btn id-btn-primary" :aria-disabled="isDisabled">
 										{{button_text }}
 										<span v-show="isLoading" >
 															<img src="/images/black_spinner.svg" height="25px" width="35px"/>
