@@ -122,6 +122,7 @@ name: "VerificationModal",
 					await this.$axios.$get('auth/logout', {headers: {'Authorization':  `Bearer ${localStorage.getItem('local')}`}});
 					localStorage.clear();
 					await this.$router.push({name: 'login'});
+					this.$store.commit('setLIState', true);
 					this.$store.commit('setViewVerificationPage', 'false');
 					location.reload();
 				} catch (e) {

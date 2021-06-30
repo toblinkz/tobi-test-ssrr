@@ -162,11 +162,6 @@
 
 									</script>
 
-									<script>
-
-										gtag('event', 'conversion', {'send_to': 'AW-989861671/azXrCMupzaUBEKeugNgD'});
-
-									</script>
 
 									<!-- END PAGE CONTAINER -->
 								</div>
@@ -233,10 +228,10 @@ export default {
 
 	head(){
 		return{
-			script: [{src:"/js/intro.js" }]
+			script: [{src:"/js/intro.js" }, {src: "/js/googleAds.js"}]
 		}
 	},
-	middleware: ['auth','inactive_user'],
+	middleware: ['inactive_user'],
 	layout: 'auth',
 	computed: {
 		...mapGetters([ 'getViewVerifyPage', 'getFirstName']),
@@ -266,18 +261,18 @@ export default {
 	},
 	mounted: function () {
 
-		this.fetchAndSoreLoggedInData();
+		// this.fetchAndSoreLoggedInData();
 		// this.startUserWizard();
 
 		// this.displayAnnouncementModal();
 
-		this.getUserPermissions();
-
+		// this.getUserPermissions();
+		//
 		this.checkUserIsVerifiedAndProcess();
-
-		this.setNameAndKey();
-
-		this.getMonthAndYear();
+		//
+		// this.setNameAndKey();
+		//
+		// this.getMonthAndYear();
 
 		// await this.getTotalMessagesSent();
 		//
@@ -291,7 +286,7 @@ export default {
 
 		// await this.getNuban();
 
-		setInterval(this.getBalance, 60000);
+		// setInterval(this.getBalance, 60000);
 
 	},
 

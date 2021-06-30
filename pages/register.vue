@@ -354,6 +354,7 @@ export default {
 				if (JSON.parse(localStorage.getItem('user_data')).active_status_id.name === "Pending"){
 					this.$store.commit('setFirstName', JSON.parse(localStorage.getItem('user_data')).fname);
 					this.$store.commit('setViewVerificationPage', 'true');
+					this.$store.commit('setLIState', true);
 					this.isLoading = false;
 					this.button_text = "Create My Account";
 					await this.$router.push('/verify');
