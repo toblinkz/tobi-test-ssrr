@@ -169,7 +169,7 @@ export default {
 				if (JSON.parse(localStorage.getItem('user_data')).active_status_id.name === "Pending"){
 					this.$store.commit('setFirstName', JSON.parse(localStorage.getItem('user_data')).fname);
 					this.$store.commit('setViewVerificationPage', 'true');
-					await this.$router.push('/');
+					await this.$router.push('/verify');
 				}else {
 					this.isLoading = false;
 					this.button_text = "Proceed";
