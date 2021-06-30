@@ -261,32 +261,7 @@ export default {
 	},
 	mounted: function () {
 
-		// this.fetchAndSoreLoggedInData();
-		// this.startUserWizard();
-
-		// this.displayAnnouncementModal();
-
-		// this.getUserPermissions();
-		//
 		this.checkUserIsVerifiedAndProcess();
-		//
-		// this.setNameAndKey();
-		//
-		// this.getMonthAndYear();
-
-		// await this.getTotalMessagesSent();
-		//
-		// await this.getTotalAmountSpent();
-		//
-		// await this.fetchAndSetBalance();
-
-
-
-		// await this.getAndSetAnnouncements()
-
-		// await this.getNuban();
-
-		// setInterval(this.getBalance, 60000);
 
 	},
 
