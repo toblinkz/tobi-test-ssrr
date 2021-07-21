@@ -61,7 +61,7 @@
                               <table class="table table-responsive  table-hover">
                                 <thead>
 																																	<tr>
-																																			<th style="width: 20%;" class="hidden-xs">Device ID</th>
+																																			<th style="width: 20%;" >Device ID</th>
 																																			<th style="width: 20%;">Device Name</th>
 																																			<th style="width: 20%;">Status</th>
 																																			<th style="width: 20%;">Device Type</th>
