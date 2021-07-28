@@ -14,7 +14,7 @@
 						</p>
 						<form>
 							<div class="form-group">
-								<label>Company Name</label>g
+								<label>Company Name</label>
 								<input type="text" class="form-control" v-model="company_name" :class="{'error ' : hasCompanyNameError}" placeholder="Company name">
 								<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
 								<br>
