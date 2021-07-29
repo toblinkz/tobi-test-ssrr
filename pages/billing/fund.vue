@@ -64,7 +64,7 @@
 																																				<!--Get Account Number Button-->
 																																				<div style="display: flex">
 																																					<button type="button" @click="showModal" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn m-r-10 btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
-																																					<a class="btn account mb-30" v-if="show_get_account_number" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 8px!important;  margin-left: 11px;">
+																																					<a class="btn account mb-30" v-if="!has_nuban" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 8px!important;  margin-left: 11px;">
 																																						<i class="entypo-light-up"></i>
 																																						Get account number
 																																					</a>
