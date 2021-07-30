@@ -9,6 +9,7 @@ export class DeviceService {
 	}
 
 	async getTemplatesCategories(device_id){
+
 		return await this.$axios.$get(`devices/${device_id}/templates/categories`);
 	}
 

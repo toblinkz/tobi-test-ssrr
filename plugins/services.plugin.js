@@ -8,6 +8,7 @@ import {UtilityService} from "@/services/utility.service";
 import {TeamService} from "../services/team.service";
 import {SmsService} from "../services/sms.service";
 import {InsightService} from "../services/insight.service";
+import {CouponService} from "../services/coupon.service";
 
 export default ({ app: { $axios, $toast } }, inject) => {
 	// pass $axios as a dependency to the BillingService constructor
@@ -20,6 +21,7 @@ export default ({ app: { $axios, $toast } }, inject) => {
 	const teams = new TeamService($axios)
 	const sms = new SmsService($axios)
 	const insight = new InsightService($axios)
+	const coupon = new CouponService($axios)
 
 	// inject the service, making it available in the context, component, store, etc.
 	inject('billing', billing)
@@ -31,4 +33,5 @@ export default ({ app: { $axios, $toast } }, inject) => {
 	inject('teams', teams)
 	inject('sms', sms)
 	inject('insight', insight)
+	inject('coupon', coupon)
 }
