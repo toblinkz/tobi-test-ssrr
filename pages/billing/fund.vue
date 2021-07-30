@@ -91,6 +91,19 @@
                                         <input type="text" class="form-control" placeholder="Amount" v-model="amount" :class="{'error': hasError}" @focusout="getExchangeRate($event)">
                                         <span class="error_field_message" v-if="error_message">{{error_message}}</span>
 																																						</div>
+																																						<div class="mb-20"  v-show="show_coupon_input_field">
+																																							<div class="form-group" :style="{marginBottom: '10px'}">
+																																								<input type="text" class="form-control mb-20" v-model="coupon_code"  placeholder="input coupon code"  :class="{'error': hasValidationError}" >
+																																								<span class="error_field_message" v-if="hasValidationError">{{validation_error_message}}</span>
+																																							</div>
+																																							<a @click="validateCoupon" class="btn bx-line btn-success btn-sm  purchase_button" :aria-disabled="validateDisabled">
+																																								{{ validate_button_text }}
+																																								<span v-show="isValidatingCoupon">
+                                         <img src="/images/spinner.svg" height="20px" width="80px"/>
+                                      </span>
+																																							</a>
+																																						</div>
+
                                       <div class="form-group" v-show="selectPayment">
                                         <label>Select Payment Method</label>
                                         <select @change="onChange($event)" class="form-control">
@@ -169,6 +182,7 @@
 						ButtonSpinner,
 						VerificationModal, MonnifyModal, CustomSelect, ServicePriceModal, DashboardNavbar, Sidebar, ContentLoader
 					},
+
 					data() {
 						return {
 							isBundledForm: false,
@@ -181,18 +195,24 @@
 							minimum_top_up: '',
 							minimum_top_up_value: '',
 							fund_button_text: 'Fund Account',
+							validate_button_text: 'Validate coupon',
 							copy_id:'',
 							show_copied: false,
 							selected_payment_method: "",
+							isValidatingCoupon: false,
 							amount: '',
+							coupon_code: '',
 							has_nuban: false,
 							is_nigerian_wallet: false,
+							show_coupon_input_field: false,
+							hasValidationError: false,
+							validation_error_message: '',
 							page_url: '',
 							account_number: '',
 							account_balance: '',
 							account_name:'',
 							bank_name: '',
-							options: ['Select Top Up Option', {id: '1', name: 'Regular Top Up'}, {id: '2', name: 'Bundled Top Up'},],
+							options: ['Select Top Up Option', {id: '1', name: 'Regular Top Up'}, {id: '2', name: 'Bundled Top Up'}, {id: '3', name: 'Apply Coupon'}],
 							payment_gateway: '',
 							hasError: false,
 							total: '',
@@ -217,42 +237,76 @@
 						isDisabled: function () {
 							return (this.amount === '' || this.hasError)
 						},
+						validateDisabled: function () {
+							return (this.coupon_code === '')
+						},
 						canTopUp(){
 							return (this.customer_permissions.includes("top_up_wallet"));
 						}
 					},
 					watch: {
+
 						amount(value) {
 							this.amount = value;
 							this.validateAmount(value);
 						},
+
 						nuban_account(account_data){
 							 if(account_data.length === 0){
 							 	 this.has_nuban = false;
 							 	 return;
 								}
 							 this.has_nuban = true;
-						}
+						},
 					},
 					methods: {
+
 						closeModal() {
-							this.shgowModal = false;
+							this.showModal = false;
 						},
+
 						getUserPermissions(){
 							this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
 							this.permissions_data.forEach((permission) => {
 								this.customer_permissions.push(permission.name);
 							});
 						},
+
 						setNubanAccount(){
 							this.getNuban();
 						},
+
 						showModal() {
 							this.$modal.show('service-pricing-modal');
 						},
+
+						async validateCoupon(){
+
+							try {
+							 	this.isValidatingCoupon = true;
+         this.validate_button_text = '';
+
+								 let data = await this.$coupon.validateCoupon(this.coupon_code);
+
+								 this.isValidatingCoupon = false;
+							 	this.validate_button_text = 'Validate coupon';
+								 console.log(data)
+
+							}catch (e) {
+
+								console.log(e.response.data.message);
+								this.isValidatingCoupon = false;
+								this.validate_button_text = 'Validate coupon';
+        this.validation_error_message = e.response.data.message;
+        this.hasValidationError = true;
+							}
+
+						},
+
 						showAccountNumberModal() {
 							this.$modal.show('account-number-modal');
 						},
+
 						async getWallet() {
 							try {
 								let data = await this.$axios.$get('billing/wallet');
@@ -382,14 +436,35 @@
 							this.payment_gateway = event.target.value;
 						},
 						async itemSelected(value) {
-							if (value === "2") {
-								this.selectPayment = true;
-								this.input_amount = false;
-								await this.getTopUp();
-								await this.getExchangeRate()
-							} else if (value === "1") {
-								this.selectPayment = true;
-								this.input_amount = true;
+							switch (value) {
+
+								case '1' : {
+									this.selectPayment = true;
+									this.input_amount = true;
+									this.show_coupon_input_field = false;
+									this.total = '';
+									break;
+								}
+
+								case '2' : {
+									this.selectPayment = true;
+									this.input_amount = false;
+									this.show_coupon_input_field = false;
+									await this.getTopUp();
+									await this.getExchangeRate();
+									break;
+								}
+
+								case '3' : {
+									this.selectPayment = false;
+									this.input_amount = false;
+									this.total = '';
+									this.hasValidationError = false;
+									this.show_coupon_input_field = true;
+
+									break;
+								}
+
 							}
 
 						}
