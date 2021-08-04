@@ -447,7 +447,6 @@ export default {
 		startUserWizard(){
 			let is_wizard_completed = JSON.parse(localStorage.getItem('user_data')).customer.is_wizard_completed;
 			 if (!(is_wizard_completed === 0 && (this.$store.state.view_verify_page === 'false'))){
-			 	console.log(is_wizard_completed);
 			 	  return;
 				}
 			 this.$modal.show('signup-wizard-modal');

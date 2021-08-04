@@ -184,13 +184,15 @@
 					decode(){
 						let timeout = localStorage.getItem('ET');
 
+						localStorage.setItem('activity_log_error', 'false');
+
 							setTimeout(  async  () => {
 
 								try {
 
 									if (this.user_is_active){
 
-										localStorage.setItem('activity_log_error', true);
+										localStorage.setItem('activity_log_error', 'true');
 
 							  	let data =		await this.$axios.$get('auth/refresh/token');
 
@@ -198,25 +200,29 @@
 
 										this.$axios.setHeader('Authorization',  `Bearer ${localStorage.getItem('local')}`);
 
+										location.reload();
+
 										return;
+
 									}
 
 									await this.$axios.$get('auth/logout');
 
 									this.$store.commit('setLIState', false);
 
-									localStorage.clear();
+									this.$store.commit('setViewVerificationPage', 'false');
 
 									await this.$router.push({name: 'login'});
 
-									this.$store.commit('setViewVerificationPage', 'false');
+									localStorage.clear();
+
 
 								}catch (e) {
 
 								}
 
 										}, timeout);
-						 localStorage.setItem('activity_log_error', false);
+
 					},
 
       toggleMenu(){
