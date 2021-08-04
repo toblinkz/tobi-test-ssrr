@@ -155,7 +155,7 @@ export default {
 					password: this.password
 				});
 				await 	localStorage.setItem('local', response_data.data.access_token);
-				localStorage.setItem('activity_log_error', false);
+				localStorage.setItem('activity_log_error', 'false');
 
 				//set expiry time
 				this.setExpiryTime();
