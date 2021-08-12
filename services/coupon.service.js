@@ -8,7 +8,7 @@ export class CouponService {
 
 		return await this.$axios.$post('/billing/coupon/validate', {
 
-			coupon: coupon
+			code: coupon
 
 		});
 
