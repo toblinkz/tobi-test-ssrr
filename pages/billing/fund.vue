@@ -91,12 +91,12 @@
                                         <input type="text" class="form-control" placeholder="Amount" v-model="amount" :class="{'error': hasError}" @focusout="getExchangeRate($event)">
                                         <span class="error_field_message" v-if="error_message">{{error_message}}</span>
 																																						</div>
-																																						<div class="mb-20"  v-show="show_coupon_input_field">
+																																						<div class="mb-20" v-show="show_coupon_input_field">
 																																							<div class="form-group" :style="{marginBottom: '10px'}">
 																																								<input type="text" class="form-control mb-20" v-model="coupon_code"  placeholder="input coupon code"  :class="{'error': hasValidationError}" >
 																																								<span class="error_field_message" v-if="hasValidationError">{{validation_error_message}}</span>
 																																							</div>
-																																							<a @click="validateCoupon" class="btn bx-line btn-success btn-sm  purchase_button" :aria-disabled="validateDisabled">
+																																							<a v-if="show_validate_button" @click="validateCoupon" class="btn bx-line btn-success btn-sm  purchase_button" :aria-disabled="validateDisabled">
 																																								{{ validate_button_text }}
 																																								<span v-show="isValidatingCoupon">
                                          <img src="/images/spinner.svg" height="20px" width="80px"/>
@@ -117,7 +117,7 @@
                                       <div class="form-group">
                                         <p ><b>Notice:</b> <br>Also all payments would be remitted in Naira, but your accounts would be credited in your local currency. </p>
                                       </div>
-                                      <button type="submit" class="btn bx-line btn-success btn-sm  purchase_button" :disabled="isDisabled">
+                                      <button v-if="!show_validate_button" type="submit" class="btn bx-line btn-success btn-sm  purchase_button" :disabled="isDisabled">
                                         {{fund_button_text}}
                                         <span v-show="isLoading">
                                          <img src="/images/spinner.svg" height="20px" width="80px"/>
@@ -203,6 +203,7 @@
 							amount: '',
 							coupon_code: '',
 							has_nuban: false,
+							show_validate_button: false,
 							is_nigerian_wallet: false,
 							show_coupon_input_field: false,
 							hasValidationError: false,
@@ -289,8 +290,10 @@
 								 let data = await this.$coupon.validateCoupon(this.coupon_code);
 
 								 this.isValidatingCoupon = false;
+
 							 	this.validate_button_text = 'Validate coupon';
-								 console.log(data)
+
+								 this.show_validate_button = false;
 
 							}catch (e) {
 
@@ -460,6 +463,7 @@
 									this.input_amount = false;
 									this.total = '';
 									this.hasValidationError = false;
+									this.show_validate_button = true;
 									this.show_coupon_input_field = true;
 
 									break;
