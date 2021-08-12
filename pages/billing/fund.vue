@@ -295,6 +295,13 @@
 
 								 this.show_validate_button = false;
 
+								this.amount = data.worth
+								this.total = data.worth_formatted;
+
+
+
+								this.payment_gateway = 'coupon';
+
 							}catch (e) {
 
 								console.log(e.response.data.message);
@@ -342,7 +349,9 @@
 									this.$store.commit('setSuccessfulPaymentUrl', this.page_url);
 									this.isLoading = true;
 									this.fund_button_text = "";
+
 									let response_data = await this.$axios.$post('billing/fund/wallet', {
+										coupon:this.coupon_code,
 										amount: this.amount,
 										gateway: this.payment_gateway
 									});
@@ -363,6 +372,10 @@
 											}).then(function (result) {
 												this.$toast.error(result.error.message)
 											});
+											break;
+										}
+										case('coupon'):{
+											this.$toast.success(response_data.message);
 											break;
 										}
 										case('spektra'): {
