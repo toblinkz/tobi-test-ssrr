@@ -27,14 +27,32 @@
 										<p>* This test service is currently only available to Nigerian phone numbers.</p>
 										 <div class="row mt-50">
 												 <div class="col-md-6">
-														  <input class="form-control" placeholder="Input your phone number here">
-													  	<input class="form-control mt-50" placeholder="Input number of attempts">
-														  <p class="mt-10" style="font-weight: 300;font-size: 12px;line-height: 17px;">* This is the amount of times a user can input<br>a wrong code</p>
+														 <div style="position: relative">
+																<input class="form-control has-input" type="tel" placeholder="Input your phone number here">
+																<span class="input-field_helper">Phone number</span>
+															</div>
+														 <div style="position: relative">
+																<input class="form-control has-input mt-50" type="number" placeholder="Input number of attempts">
+																<span class="input-field_helper">Pin attempt</span>
+															</div>
+														<p class="mt-10" style="font-weight: 300;font-size: 12px;line-height: 17px;">* This is the amount of times a user can input<br>a wrong code</p>
 													</div>
 													<div class="col-md-6">
-														  <input class="form-control" placeholder="Select number of digits">
-													  	<input class="form-control mt-50" placeholder="Input code expiry time">
-														  <p  class="mt-10" style="font-weight: 300;font-size: 12px;line-height: 17px; color: #E50300">* This is in minutes not seconds.</p>
+														  <div style="position: relative">
+																	<select class="form-control has-input">
+																	 	<option>Select number of digits</option>
+																		 <option>4</option>
+																			<option>5</option>
+																			<option>6</option>
+																	 	<option>7</option>
+																	</select>
+																	<span class="input-field_helper">Length of OTP</span>
+																</div>
+														  <div style="position: relative">
+																	<input class="form-control has-input mt-50" type="number" placeholder="Input code expiry time">
+																	<span class="input-field_helper">Code expiry time</span>
+																	<p  class="mt-10" style="font-weight: 300;font-size: 12px;line-height: 17px; color: #E50300">* This is in minutes not seconds.</p>
+																</div>
 													</div>
 											</div>
 										 <div class="mt-30" style="background: #f5f5f5; border-radius: 3px; padding: 15px">
@@ -46,6 +64,14 @@
 											</div>
 									</div>
 										<div class="col-md-6">
+											 <div>
+													<p>Request</p>
+													<VoiceOtpCodeBlock></VoiceOtpCodeBlock>
+												</div>
+											  <div>
+														<p>Response</p>
+														<CodeBlockResponse></CodeBlockResponse>
+													</div>
 
 										</div>
 						</div>
@@ -57,12 +83,16 @@
 </template>
 
 <script>
+import VoiceOtpCodeBlock from "../../components/sandbox/voice-otp/VoiceOtpCodeBlock";
+import CodeBlockResponse from "../../components/general/CodeBlockResponse";
 export default {
-	name: "voice-otp"
+	name: "voice-otp",
+	components: {CodeBlockResponse, VoiceOtpCodeBlock}
 }
 </script>
 
 <style scoped>
+/*@import "../../assets/css/general_style/authentication_pages.css";*/
 @media (min-width: 769px){
 	.nav-pills {
 		font-size: 0;
@@ -166,10 +196,47 @@ ul.campaign-steps > li.active > a{
 	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-.form-control:focus {
-	border-color: #4DB6AC;
-	box-shadow: none;
-	outline: 0;
+/*.form-control:focus {*/
+/*	border-color: #4DB6AC;*/
+/*	box-shadow: none;*/
+/*	outline: 0;*/
+/*}*/
+
+.input-field_helper {
+	font-size: 1rem;
+	position: absolute;
+	opacity: 0;
+	background-color: #fff;
+	padding-left: 8px;
+	padding-right: 8px;
+	top: -7px;
+	font-weight: 600;
+	color: rgba(10,46,101,.5);
+	-webkit-transition: color .3s ease;
+	transition: color .3s ease;
+	left: 20px;
 }
+select:focus+.input-field_helper, input[type=number]:focus+.input-field_helper, input[type=password]:focus+.input-field_helper, input[type=tel]:focus+.input-field_helper, input[type=text]:focus+.input-field_helper {
+	color: #2D74AC;
+	opacity: 1!important;
+}
+
+select:focus, input[type=number]:focus, input[type=password]:focus, input[type=tel]:focus, input[type=text]:focus {
+	border-color: #2D74AC;
+	outline: none;
+	background-color: transparent;
+	-webkit-transition: border .3s ease-in;
+	transition: border .3s ease-in;
+	box-shadow: none;
+}
+input:focus::placeholder{
+	color: transparent;
+}
+select.has-input+.input-field_helper, input[type=number].has-input+.input-field_helper, input[type=password].has-input+.input-field_helper, input[type=tel].has-input+.input-field_helper, input[type=text].has-input+.input-field_helper {
+	opacity: 1;
+}
+
+
+
 
 </style>

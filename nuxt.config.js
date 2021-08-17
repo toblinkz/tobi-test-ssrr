@@ -66,6 +66,7 @@ export default {
 				{ src: '~plugins/axios.js'},
 				{ src: '~plugins/services.plugin.js'},
 	  { src: '~plugins/idle-vue.js'},
+			{ src: '~plugins/vue-code-highlight.js'},
     { src: '~plugins/local-storage.js', ssr: false},
 
   ],
