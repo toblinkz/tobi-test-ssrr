@@ -94,6 +94,7 @@ import VerificationSuccessfulModal from "../../components/sandbox/voice-otp/moda
 import VerificationUnsuccessfulModal from "../../components/sandbox/voice-otp/modal/VerificationUnsuccessfulModal";
 export default {
 	name: "voice-otp",
+	middleware:['auth'],
 	components: {
 		VerificationUnsuccessfulModal,
 		VerificationSuccessfulModal,

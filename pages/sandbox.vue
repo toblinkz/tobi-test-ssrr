@@ -20,13 +20,13 @@
 																						<p>You can view and test all our available Sandbox applications here.</p>
 																						  <ul class="modern-listing big-icon no-top-border-list mt-10">
 																											<li>
-																													<nuxt-link to="/sandboxes/voice-otp" class="btn btn-primary">Try now</nuxt-link>
-																													<nuxt-link to="/sandboxes/voice-otp">
+																													<nuxt-link to="/sand-box/voice-otp" class="btn btn-primary">Try now</nuxt-link>
+																													<nuxt-link to="/sand-box/voice-otp">
 																													<span class="">
 																																	<img src="/images/call.svg">
 																													</span>
 																													</nuxt-link>
-																													<h4><nuxt-link to="/sandboxes/voice-otp" class="blue-t">Voice OTP</nuxt-link></h4>
+																													<h4><nuxt-link to="/sand-box/voice-otp" class="blue-t">Voice OTP</nuxt-link></h4>
 																													<p>
 																														Verify your customers by triggering a phone call that reads their code to them.
 																													</p>
@@ -46,7 +46,8 @@
 
 <script>
 export default {
-	name: "sandbox"
+	name: "sandbox",
+	middleware:['auth'],
 }
 </script>
 
