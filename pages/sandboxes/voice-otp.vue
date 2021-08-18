@@ -24,58 +24,58 @@
 				   	<main id="wrapper" class="wrapper">
 				 		<div class="row">
 									<div class="col-md-6">
-										<p>* This test service is currently only available to Nigerian phone numbers.</p>
-										 <div class="row mt-50">
-												 <div class="col-md-6">
-														 <div style="position: relative">
-																<input class="form-control has-input" type="tel" placeholder="Input your phone number here">
-																<span class="input-field_helper">Phone number</span>
-															</div>
-														 <div style="position: relative">
-																<input class="form-control has-input mt-50" type="number" placeholder="Input number of attempts">
-																<span class="input-field_helper">Pin attempt</span>
-															</div>
-														<p class="mt-10" style="font-weight: 300;font-size: 12px;line-height: 17px;">* This is the amount of times a user can input<br>a wrong code</p>
-													</div>
-													<div class="col-md-6">
-														  <div style="position: relative">
-																	<select class="form-control has-input">
-																	 	<option>Select number of digits</option>
-																		 <option>4</option>
-																			<option>5</option>
-																			<option>6</option>
-																	 	<option>7</option>
-																	</select>
-																	<span class="input-field_helper">Length of OTP</span>
-																</div>
-														  <div style="position: relative">
-																	<input class="form-control has-input mt-50" type="number" placeholder="Input code expiry time">
-																	<span class="input-field_helper">Code expiry time</span>
-																	<p  class="mt-10" style="font-weight: 300;font-size: 12px;line-height: 17px; color: #E50300">* This is in minutes not seconds.</p>
-																</div>
-													</div>
-											</div>
-										 <div class="mt-30" style="background: #f5f5f5; border-radius: 3px; padding: 15px">
-											<p class="text-center"><i class="entypo-cc" style="color: #079805 !important;"></i>
-												You will be charged from your wallet per test (N1.37 naira)</p>
-											</div>
-										 <div class="mt-30 btn bg-blue " style="width: 100%; padding-top: 15px; padding-bottom: 18px; font-size: 15px">
-												  Dial number
-											</div>
+												<FirstStep v-if="!show_next_step_button && !show_verify_token" @requestPayload="setVoiceTokenRequestPayload($event)"  @voiceOtpResponse="setVoiceOtpResponse($event)"></FirstStep>
+											 <SecondStep v-if="show_next_step_button" @showVerifyToken="showVerifyToken"></SecondStep>
+										  <VerifyToken :pin_id="voice_otp_response.pin_id" :pin_length="request_payload.pin_length" v-if="show_verify_token"  @verificationSuccessful="showVerificationSuccessfulModal" @verificationUnsuccessful="showVerificationUnsuccessfulModal" @verifyTokenResponse="setVerifyTokenResponse($event)" @otp="setOtp($event)"></VerifyToken>
 									</div>
 										<div class="col-md-6">
-											 <div>
-													<p>Request</p>
-													<VoiceOtpCodeBlock></VoiceOtpCodeBlock>
-												</div>
-											  <div>
+											 <div v-if="!show_verify_token">
+														<div>
+															<p>Request</p>
+															<VoiceOtpCodeBlock :request_payload="request_payload"></VoiceOtpCodeBlock>
+														</div>
+													<div>
 														<p>Response</p>
-														<CodeBlockResponse></CodeBlockResponse>
+														<CodeBlockResponse :show_default_text="show_default_text">
+															<template v-slot:json_code>
+																	{
+																			"code": "{{ voice_otp_response.code }}",
+																			"message_id": "{{ voice_otp_response.message_id }}",
+																			"pin_id": "{{ voice_otp_response.pin_id }}",
+																			"message": "{{ voice_otp_response.message }}",
+																			"balance": {{ voice_otp_response.balance }},
+																			"user": "{{voice_otp_response.user}}"
+																	}
+															</template>
+														</CodeBlockResponse>
 													</div>
+												</div>
+											 <div v-if="show_verify_token">
+													<div>
+														<p>Request</p>
+														<VerifyOtpCodeBlock :pin_id="voice_otp_response.pin_id" :pin="otp"></VerifyOtpCodeBlock>
+													</div>
+													<div>
+														<p>Response</p>
+														<VerifyTokenResponseBlock :show_verify_default_text="show_verify_default_text">
+															<template v-slot:json_code>
+																{
+																			"pinId":"{{ verify_token_response.pinId }}",
+																			"verified":{{ verify_token_response.verified }},
+																			"msisdn":"{{verify_token_response.msisdn}}",
+																			"attemptsRemaining":{{verify_token_response.attemptsRemaining}}
+																}
+															</template>
+
+														</VerifyTokenResponseBlock>
+													</div>
+												</div>
 
 										</div>
 						</div>
 					</main>
+						<VerificationSuccessfulModal @closeModal="closeVerificationSuccessfulModal"></VerificationSuccessfulModal>
+						<VerificationUnsuccessfulModal></VerificationUnsuccessfulModal>
 				</div>
 			</div>
 		</div>
@@ -85,9 +85,78 @@
 <script>
 import VoiceOtpCodeBlock from "../../components/sandbox/voice-otp/VoiceOtpCodeBlock";
 import CodeBlockResponse from "../../components/general/CodeBlockResponse";
+import FirstStep from "../../components/sandbox/voice-otp/FirstStep";
+import SecondStep from "../../components/sandbox/voice-otp/SecondStep";
+import VerifyToken from "../../components/sandbox/voice-otp/VerifyToken";
+import VerifyOtpCodeBlock from "../../components/sandbox/voice-otp/VerifyOtpCodeBlock";
+import VerifyTokenResponseBlock from "../../components/sandbox/voice-otp/VerifyTokenResponseBlock";
+import VerificationSuccessfulModal from "../../components/sandbox/voice-otp/modal/VerificationSuccessfulModal";
+import VerificationUnsuccessfulModal from "../../components/sandbox/voice-otp/modal/VerificationUnsuccessfulModal";
 export default {
 	name: "voice-otp",
-	components: {CodeBlockResponse, VoiceOtpCodeBlock}
+	components: {
+		VerificationUnsuccessfulModal,
+		VerificationSuccessfulModal,
+		VerifyTokenResponseBlock,
+		VerifyOtpCodeBlock, VerifyToken, SecondStep, FirstStep, CodeBlockResponse, VoiceOtpCodeBlock},
+	data(){
+		 return{
+		 	  request_payload: {},
+				  otp:'',
+						error_message:[],
+						hasPhoneNumberError: false,
+				  hasPinAttemptError: false,
+			  	hasPinTimeToLiveError: false,
+				  hasOtpError: false,
+				  show_default_text: true,
+				  show_verify_default_text: true,
+				  voice_otp_response: '',
+				  verify_token_response:'',
+				  dial_button_text: 'Dial number',
+				  isLoading: false,
+				  show_next_step_button: false,
+				  show_verify_token: false
+				}
+	},
+
+	methods:{
+
+		setVoiceOtpResponse(response){
+			  this.voice_otp_response = response;
+			  this.show_default_text = false;
+			  this.show_next_step_button = true;
+		},
+
+		setVerifyTokenResponse(response){
+     this.verify_token_response = response;
+			  this.show_verify_default_text = false;
+     this.$modal.show('verification-successful-modal');
+		},
+		showVerifyToken(){
+			 this.show_next_step_button = false;
+			 this.show_verify_token = true;
+		},
+		setOtp(otp){
+			this.otp = otp;
+		},
+		setVoiceTokenRequestPayload(payload){
+			this.request_payload = payload;
+		},
+		showVerificationUnsuccessfulModal(){
+			this.$modal.show('verification-unsuccessful-modal');
+		},
+		showVerificationSuccessfulModal(){
+			this.$modal.show('verification-successful-modal');
+		},
+		closeVerificationSuccessfulModal(){
+			this.$modal.hide('verification-successful-modal');
+			 // this.show_next_step_button = false;
+			 // this.show_verify_token = false;
+			 // this.request_payload = {};
+			 // this.show_default_text = true;
+		}
+
+	}
 }
 </script>
 
@@ -108,7 +177,7 @@ ul.campaign-steps {
 	text-align: left;
 	border-bottom: dashed 2px #aaa;
 	margin-top: 30px;
-	width: 83%;
+	width: 97%;
 }
 .campaign-steps > li {
 	margin-right: 50px;
@@ -180,63 +249,5 @@ ul.campaign-steps > li.active > a{
 .content-wrapper {
 	width: 100%;
 }
-.form-control {
-	display: block;
-	width: 100%;
-	height: 50px;
-	padding: 7px 12px;
-	/* font-size: 13px; */
-	line-height: 1.5384616;
-	color: #333333;
-	background-color: #fff;
-	background-image: none;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	-webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-}
-/*.form-control:focus {*/
-/*	border-color: #4DB6AC;*/
-/*	box-shadow: none;*/
-/*	outline: 0;*/
-/*}*/
-
-.input-field_helper {
-	font-size: 1rem;
-	position: absolute;
-	opacity: 0;
-	background-color: #fff;
-	padding-left: 8px;
-	padding-right: 8px;
-	top: -7px;
-	font-weight: 600;
-	color: rgba(10,46,101,.5);
-	-webkit-transition: color .3s ease;
-	transition: color .3s ease;
-	left: 20px;
-}
-select:focus+.input-field_helper, input[type=number]:focus+.input-field_helper, input[type=password]:focus+.input-field_helper, input[type=tel]:focus+.input-field_helper, input[type=text]:focus+.input-field_helper {
-	color: #2D74AC;
-	opacity: 1!important;
-}
-
-select:focus, input[type=number]:focus, input[type=password]:focus, input[type=tel]:focus, input[type=text]:focus {
-	border-color: #2D74AC;
-	outline: none;
-	background-color: transparent;
-	-webkit-transition: border .3s ease-in;
-	transition: border .3s ease-in;
-	box-shadow: none;
-}
-input:focus::placeholder{
-	color: transparent;
-}
-select.has-input+.input-field_helper, input[type=number].has-input+.input-field_helper, input[type=password].has-input+.input-field_helper, input[type=tel].has-input+.input-field_helper, input[type=text].has-input+.input-field_helper {
-	opacity: 1;
-}
-
-
-
 
 </style>

@@ -6,7 +6,7 @@
 				{
 							"api_key" : "Your API key",
 							"phone_number" : "{{request_payload.phone_number}}",
-							"pin_attempts" : {{request_payload.pin_attempt}},
+							"pin_attempts" : {{request_payload.pin_attempts}},
 							"pin_time_to_live" :  {{request_payload.pin_time_to_live}},
 							"pin_length" : {{request_payload.pin_length}},
 				}
@@ -16,7 +16,7 @@
 					var data = {
 					"api_key" : "Your API key",
 					"phone_number" : "{{request_payload.phone_number}}",
-					"pin_attempts" : {{request_payload.pin_attempt}},
+					"pin_attempts" : {{request_payload.pin_attempts}},
 					"pin_time_to_live" :  {{request_payload.pin_time_to_live}},
 					"pin_length" : {{request_payload.pin_length}},
 					};
@@ -44,7 +44,7 @@
 					var data = {
 					"api_key" : "Your API key",
 					"phone_number" : "{{request_payload.phone_number}}",
-					"pin_attempts" : {{request_payload.pin_attempt}},
+					"pin_attempts" : {{request_payload.pin_attempts}},
 					"pin_time_to_live" : {{request_payload.pin_time_to_live}},
 					"pin_length" :{{request_payload.pin_length}},
 					};
@@ -69,7 +69,7 @@
 					payload = {
 					"api_key" : "Your API key",
 					"phone_number" : "{{request_payload.phone_number}}",
-					"pin_attempts" :{{request_payload.pin_attempt}},
+					"pin_attempts" :{{request_payload.pin_attempts}},
 					"pin_time_to_live" : {{request_payload.pin_time_to_live}},
 					"pin_length" : {{request_payload.pin_length}},
 					}
@@ -87,7 +87,7 @@
 				JObject objectBody = new JObject();
 				objectBody.Add("api_key","Your API Key");
 				objectBody.Add("phone_number","{{request_payload.phone_number}}");
-				objectBody.Add("pin_attempts", {{request_payload.pin_attempt}});
+				objectBody.Add("pin_attempts", {{request_payload.pin_attempts}});
 				objectBody.Add("pin_time_to_live", {{request_payload.pin_time_to_live}});
 				objectBody.Add("pin_length", {{request_payload.pin_length}});
 
@@ -105,7 +105,7 @@
 				.header("Content-Type", "application/json")
 				.body("{\n\n  \"api_key\" : \"Your API key\",\n
 				\"phone_number\" : \"{{request_payload.phone_number}}\",\n
-				\"pin_attempts\" : {{request_payload.pin_attempt}}\n  \"pin_time_to_live\" : {{request_payload.pin_time_to_live}},\n
+				\"pin_attempts\" : {{request_payload.pin_attempts}}\n  \"pin_time_to_live\" : {{request_payload.pin_time_to_live}},\n
 				\"pin_length\" : {{request_payload.pin_length}}\n\n}")
 				.asString();
 			</template>
@@ -126,7 +126,7 @@
 
 				"api_key" : "Your API key",
 				"phone_number" : "{{request_payload.phone_number}}",
-				"pin_attempts" : {{request_payload.pin_attempt}},
+				"pin_attempts" : {{request_payload.pin_attempts}},
 				"pin_time_to_live" :{{request_payload.pin_time_to_live}},
 				"pin_length" : {{request_payload.pin_length}}
 
