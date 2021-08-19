@@ -151,10 +151,10 @@ export default {
 		},
 		closeVerificationSuccessfulModal(){
 			this.$modal.hide('verification-successful-modal');
-			 // this.show_next_step_button = false;
-			 // this.show_verify_token = false;
-			 // this.request_payload = {};
-			 // this.show_default_text = true;
+			 this.show_next_step_button = false;
+			 this.show_verify_token = false;
+			 this.request_payload = {};
+			 this.show_default_text = true;
 		}
 
 	}
