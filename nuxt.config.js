@@ -1,3 +1,4 @@
+require('dotenv').config();
 export default {
   mode: 'spa',
 	router: {
@@ -26,7 +27,9 @@ export default {
     ]
   },
 		publicRuntimeConfig: {
-			baseURL: 'https://termii.com'
+			baseURL: 'https://termii.com',
+			TERMII_API_KEY: process.env.TERMII_API_KEY,
+			PUBLIC_API_BASE_URL: process.env.PUBLIC_API_BASE_URL
 		},
   /*
   ** Customize the progress-bar color
@@ -103,7 +106,8 @@ export default {
 
 	//added env object in other to access API_BASE_URL variable in .env file
 	env: {
-			apiBaseUrl: process.env.API_BASE_URL
+			apiBaseUrl: process.env.API_BASE_URL,
+		 termiiApiKey: process.env.TERMII_API_KEY
 	},
 
   /*

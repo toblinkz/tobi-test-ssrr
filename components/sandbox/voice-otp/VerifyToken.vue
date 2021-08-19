@@ -47,15 +47,14 @@ export default {
 		 	  try {
 										this.verify_button_text= '';
 										this.isLoading = true;
-							   this.verify_token_response = await this.$axios.$post('https://termii.com/api/sms/otp/verify', {
-									 api_key: "TLtX05PKXcuIpj0nqpD8qOIKezptPlEAQJntJdcz2omiPwtQ6g2YypJEO570jg",
+							   this.verify_token_response = await this.$axios.$post(`${this.$config.PUBLIC_API_BASE_URL}/sms/otp/verify`, {
+									 api_key: this.$config.TERMII_API_KEY,
 							 	 pin_id: this.pin_id,
 									 pin: this.otp
 								});
 								this.verify_button_text = 'Verify my OTP';
 								this.isLoading = false;
-								this.$emit('verifyTokenResponse', this.verify_token_response);
-
+							 this.checkVerifiedValue(this.verify_token_response);
 						}catch (e) {
 							this.verify_button_text= 'Verify my OTP';
 							this.isLoading = false;
@@ -74,10 +73,10 @@ export default {
 		},
 		checkVerifiedValue(verify_token_response){
 		 	 if (verify_token_response.verified === true){
-						this.$emit('verificationUnsuccessful');
+						this.$emit('verificationSuccessful');
 						return;
 					}
-		 	this.$emit('verificationSuccessful');
+		 	this.$emit('verificationUnsuccessful');
 		},
 	},
 	props:{

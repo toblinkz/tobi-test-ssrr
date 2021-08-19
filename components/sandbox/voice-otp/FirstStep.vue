@@ -13,7 +13,7 @@
 								<span class="input-field_helper">Pin attempt</span>
 								<span class=" error_field_message" v-if="error_message.pin_attempts">{{error_message.pin_attempts}}</span>
 							</div>
-							<p class="mt-10" style="font-weight: 300;font-size: 12px;line-height: 17px;">* This is the amount of times a user can input<br>a wrong code</p>
+							<p class="mt-10" style="font-weight: 300;font-size: 12px;line-height: 17px;">* This {{$config.termiiApiKey}} is the amount of times a user can input<br>a wrong code</p>
 						</div>
 						<div class="col-md-6">
 							<div style="position: relative">
@@ -141,8 +141,8 @@ export default {
 			try {
 				this.isLoading = true;
 				this.dial_button_text = '';
-				this.voice_otp_response = await this.$axios.$post('https://termii.com/api/sms/otp/voice', {
-					api_key: "TLtX05PKXcuIpj0nqpD8qOIKezptPlEAQJntJdcz2omiPwtQ6g2YypJEO570jg",
+				this.voice_otp_response = await this.$axios.$post(`${this.$config.PUBLIC_API_BASE_URL}/sms/otp/voice`, {
+					api_key: this.$config.TERMII_API_KEY,
 					phone_number: this.request_payload.phone_number,
 					pin_attempts: this.request_payload.pin_attempts,
 					pin_time_to_live: this.request_payload.pin_time_to_live,
@@ -182,12 +182,6 @@ export default {
 	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-/*.form-control:focus {*/
-/*	border-color: #4DB6AC;*/
-/*	box-shadow: none;*/
-/*	outline: 0;*/
-/*}*/
-
 .input-field_helper {
 	font-size: 1rem;
 	position: absolute;
