@@ -33,15 +33,16 @@
 																								</ul>
 																						<ul class="modern-listing big-icon no-top-border-list mt-10">
 																							<li>
-																								<nuxt-link to="/sand-box/voice-otp" class="btn btn-primary">Coming soon</nuxt-link>
-																								<nuxt-link to="/sand-box/voice-otp">
+																								<a class="btn btn-primary">Coming soon</a>
+																								<a >
 																													<span class="">
-																																	<img src="/images/call.svg">
+																																	<img src="/images/sandbox_whatsapp.svg">
 																													</span>
-																								</nuxt-link>
-																								<h4><nuxt-link to="/sand-box/voice-otp" class="blue-t">WhatsApp Sandbox </nuxt-link></h4>
+																								</a>
+																								<h4><a  class="blue-t">WhatsApp Sandbox </a></h4>
 																								<p>
-																									Verify your customers by triggering a phone call that reads their code to them.
+																									Engage your users by having two-way conversation and send templated messages
+																									via Whatsapp
 																								</p>
 																							</li>
 																						</ul>
