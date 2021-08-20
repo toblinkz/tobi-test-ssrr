@@ -16,7 +16,7 @@
 
 								<div style="font-size: 25px; font-weight: bold">Hi, {{first_name}}</div>
 								<div>
-									You current role as <b>{{ role}}</b> does <br>
+									Your current role as <b>{{ role}}</b> does <br>
 									not have  permissions to access this page.<br>
 									Please contact your administrator to grant you access
 								</div>
