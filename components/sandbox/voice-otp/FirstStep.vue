@@ -110,7 +110,7 @@ export default {
 
 		},
 		validatePinAttempts(value){
-			if(isNaN(value) || value === '0'){
+			if(isNaN(value) || value === '0' || value < 1){
 				this.error_message['pin_attempts'] = 'Pin attempt must be a digit greater than 0.';
 				this.hasPinAttemptError = true;
 				return;
