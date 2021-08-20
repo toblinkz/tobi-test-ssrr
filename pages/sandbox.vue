@@ -17,7 +17,6 @@
 													  <main id="wrapper">
 																  <div class="row">
                      <div class="col-md-10">
-																						<p>You can view and test all our available Sandbox applications here.</p>
 																						  <ul class="modern-listing big-icon no-top-border-list mt-10">
 																											<li>
 																													<nuxt-link to="/sand-box/voice-otp" class="btn btn-primary">Try now</nuxt-link>
@@ -32,9 +31,20 @@
 																													</p>
 																											</li>
 																								</ul>
-																						 <div class="mt-150">
-																								 <h5><span>We are working towards building more solutions to help verify your customers</span></h5>
-																							</div>
+																						<ul class="modern-listing big-icon no-top-border-list mt-10">
+																							<li>
+																								<nuxt-link to="/sand-box/voice-otp" class="btn btn-primary">Coming soon</nuxt-link>
+																								<nuxt-link to="/sand-box/voice-otp">
+																													<span class="">
+																																	<img src="/images/call.svg">
+																													</span>
+																								</nuxt-link>
+																								<h4><nuxt-link to="/sand-box/voice-otp" class="blue-t">WhatsApp Sandbox </nuxt-link></h4>
+																								<p>
+																									Verify your customers by triggering a phone call that reads their code to them.
+																								</p>
+																							</li>
+																						</ul>
 																					</div>
 																		</div>
 															</main>
@@ -163,7 +173,7 @@ ul.modern-listing li:first-child {
 ul.modern-listing li {
 	list-style: none;
 	clear: both;
-	/*border-bottom: solid 1px #ddd;*/
+	border-bottom: solid 1px #ddd;
 	margin-bottom: 20px;
 }
 ul.modern-listing li img, .table-row-icon {
