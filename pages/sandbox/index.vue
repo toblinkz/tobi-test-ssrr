@@ -19,13 +19,13 @@
                      <div class="col-md-10">
 																						  <ul class="modern-listing big-icon no-top-border-list mt-10">
 																											<li>
-																													<nuxt-link to="/sand-box/voice-otp" class="btn btn-primary">Try now</nuxt-link>
-																													<nuxt-link to="/sand-box/voice-otp">
+																													<nuxt-link to="/sandbox/voice-otp" class="btn btn-primary">Try now</nuxt-link>
+																													<nuxt-link to="/sandbox/voice-otp">
 																													<span class="">
 																																	<img src="/images/call.svg">
 																													</span>
 																													</nuxt-link>
-																													<h4><nuxt-link to="/sand-box/voice-otp" class="blue-t">Voice OTP</nuxt-link></h4>
+																													<h4><nuxt-link to="/sandbox/voice-otp" class="blue-t">Voice OTP</nuxt-link></h4>
 																													<p>
 																														Verify your customers by triggering a phone call that reads their code to them.
 																													</p>
