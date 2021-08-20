@@ -47,7 +47,7 @@
 <script>
 export default {
 	name: "sandbox",
-	middleware:['auth'],
+	middleware: ['auth','inactive_user'],
 }
 </script>
 

@@ -1,6 +1,7 @@
 export default function ({ app,}) {
 
 	app.router.beforeEach((to, from, next) => {
+		console.log('page', to.name)
 		 if (!hasAccess(to.name)){
 				$nuxt.$router.push({ name: 'index', });
 				$nuxt.$modal.show('page-denied-modal')
@@ -83,6 +84,10 @@ function hasAccess(route_name){
 			return customer_permissions.includes('view_webhook_config');
 		case "sms-countries":
 			return customer_permissions.includes('view_active_country_route');
+		case "sandbox":
+			return customer_permissions.includes('view_sandbox');
+		case "sand-box-voice-otp":
+			return customer_permissions.includes('view_sandbox');
 		case "teams":
 			return (JSON.parse(localStorage.getItem('user_data')).is_main) ;
 		default:
