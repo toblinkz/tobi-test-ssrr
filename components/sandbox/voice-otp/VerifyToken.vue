@@ -47,11 +47,7 @@ export default {
 		 	  try {
 										this.verify_button_text= '';
 										this.isLoading = true;
-							   this.verify_token_response = await this.$axios.$post(`${this.$config.PUBLIC_API_BASE_URL}/sms/otp/verify`, {
-									 api_key: this.$config.TERMII_API_KEY,
-							 	 pin_id: this.pin_id,
-									 pin: this.otp
-								});
+							   this.verify_token_response = await this.$voiceOTP.verifyOTP( this.otp, this.pin_id);
 								this.verify_button_text = 'Verify my OTP';
 								this.isLoading = false;
 							 this.checkVerifiedValue(this.verify_token_response);

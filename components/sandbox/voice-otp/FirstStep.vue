@@ -13,7 +13,7 @@
 								<span class="input-field_helper">Pin attempt</span>
 								<span class=" error_field_message" v-if="error_message.pin_attempts">{{error_message.pin_attempts}}</span>
 							</div>
-							<p class="mt-10" style="font-weight: 300;font-size: 12px;line-height: 17px;">* This {{$config.termiiApiKey}} is the amount of times a user can input<br>a wrong code</p>
+							<p class="mt-10" style="font-weight: 300;font-size: 12px;line-height: 17px;">* This is the amount of times a user can input<br>a wrong code</p>
 						</div>
 						<div class="col-md-6">
 							<div style="position: relative">
@@ -36,7 +36,7 @@
 					</div>
 					<div class="mt-30" style="background: #f5f5f5; border-radius: 3px; padding: 15px">
 						<p class="text-center"><i class="entypo-cc" style="color: #079805 !important;"></i>
-							You will be charged from your wallet per test (N1.37 naira)</p>
+							You will be charged from your wallet per test</p>
 					</div>
 					<a class="mt-30 btn bg-blue" @click="dialNumber" :aria-disabled="isDisabled"  style="width: 100%; padding-top: 15px; padding-bottom: 18px; font-size: 15px">
 						{{ dial_button_text }}
@@ -139,24 +139,19 @@ export default {
 		},
 		async dialNumber(){
 			try {
+
 				this.isLoading = true;
 				this.dial_button_text = '';
-				this.voice_otp_response = await this.$axios.$post(`${this.$config.PUBLIC_API_BASE_URL}/sms/otp/voice`, {
-					api_key: this.$config.TERMII_API_KEY,
-					phone_number: this.request_payload.phone_number,
-					pin_attempts: this.request_payload.pin_attempts,
-					pin_time_to_live: this.request_payload.pin_time_to_live,
-					pin_length: this.request_payload.pin_length
-				});
+				this.voice_otp_response =  await this.$voiceOTP.otpRequest(this.request_payload);
 
 				this.isLoading = false;
 				this.dial_button_text = 'Dial number';
 				this.$emit('voiceOtpResponse', this.voice_otp_response);
 
-
 			}catch (e) {
 				this.isLoading = false;
 				this.dial_button_text = 'Dial number';
+				this.$emit('voiceOtpResponse', this.voice_otp_response);
 			}
 		},
 

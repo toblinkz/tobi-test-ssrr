@@ -103,7 +103,7 @@
 							<li class="padd-x" v-if="isAdmin">
 								<nuxt-link to="/sandbox" class="color-a level-1">
 									<i class="icon-gift"></i>
-									Sandbox <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
+									Sandbox <span class="badge badge-sm badge-sidebar">Beta</span></nuxt-link>
 							</li>
 							<li class="padd-x" v-if="isAdmin">
 								<nuxt-link to="/teams" class="color-a level-1">
