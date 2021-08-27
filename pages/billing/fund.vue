@@ -148,6 +148,7 @@
 			<AccountNumberModal @nuban_account="setNubanAccount()"></AccountNumberModal>
 			<SuccessModal :modal_information="modal_information"></SuccessModal>
 			<UpdateCompanyNameModal></UpdateCompanyNameModal>
+			<CouponSuccessfulPaymentModal></CouponSuccessfulPaymentModal>
   </div>
 </template>
 
@@ -168,10 +169,12 @@
 				import NubanAccountNumberComponent from "@/components/billing/account/NubanAccountNumberComponent";
 				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
 				import TransactionGuide from "../../components/billing/account_guide/TransactionGuide";
+				import CouponSuccessfulPaymentModal from "../../components/billing/modal/CouponSuccessfulPaymentModal";
     export default {
 					name: "funding",
 					middleware: ['auth', 'inactive_user', 'permission'],
 					components: {
+						CouponSuccessfulPaymentModal,
 						TransactionGuide,
 						UpdateCompanyNameModal,
 						NubanAccountNumberComponent,
@@ -288,23 +291,18 @@
          this.validate_button_text = '';
 
 								 let data = await this.$coupon.validateCoupon(this.coupon_code);
-
 								 this.isValidatingCoupon = false;
-
 							 	this.validate_button_text = 'Validate coupon';
-
 								 this.show_validate_button = false;
+									this.amount = data.worth
+									this.total = data.worth_formatted;
 
-								this.amount = data.worth
-								this.total = data.worth_formatted;
-
-
-
+								this.hasValidationError = false;
 								this.payment_gateway = 'coupon';
 
 							}catch (e) {
 
-								console.log(e.response.data.message);
+
 								this.isValidatingCoupon = false;
 								this.validate_button_text = 'Validate coupon';
         this.validation_error_message = e.response.data.message;
@@ -375,19 +373,24 @@
 											break;
 										}
 										case('coupon'):{
-											this.$toast.success(response_data.message);
+											this.$modal.show('coupon-success-payment-modal');
+											this.coupon_code = '';
+											this.amount = '';
+
 											break;
 										}
 										case('spektra'): {
 											window.location.href = response_data.data;
 										}
 									}
-
+									this.isLoading = false;
+									this.fund_button_text = "Fund Account";
 								} catch (e) {
 									this.isLoading = false;
 									this.fund_button_text = "Fund Account";
 									let errors = e.response;
-
+									this.$error.handle422Errors(errors.data);
+									this.$error.handleOtherErrors(errors.data);
 								}
 							}
 						},

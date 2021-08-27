@@ -222,7 +222,6 @@ export default {
 
 <style scoped>
 @import "../assets/css/general_style/authentication_pages.css";
-
 .has-feedback-left .form-control {
 	padding-right: 12px;
 	padding-left: 36px;
