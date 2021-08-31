@@ -38,14 +38,14 @@
 														<p>Response</p>
 														<CodeBlockResponse :show_default_text="show_default_text">
 															<template v-slot:json_code>
-																	{
-																			"code": "{{ voice_otp_response.code }}",
-																			"message_id": "{{ voice_otp_response.message_id }}",
-																			"pin_id": "{{ voice_otp_response.pin_id }}",
-																			"message": "{{ voice_otp_response.message }}",
-																			"balance": {{ voice_otp_response.balance }},
-																			"user": "{{voice_otp_response.user}}"
-																	}
+															{
+																	"code": "{{ voice_otp_response.code }}",
+																	"message_id": "{{ voice_otp_response.message_id }}",
+																	"pin_id": "{{ voice_otp_response.pin_id }}",
+																	"message": "{{ voice_otp_response.message }}",
+																	"balance": {{ voice_otp_response.balance }},
+																	"user": "{{voice_otp_response.user}}"
+															}
 															</template>
 														</CodeBlockResponse>
 													</div>
