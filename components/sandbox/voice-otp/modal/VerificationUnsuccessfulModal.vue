@@ -13,7 +13,7 @@
 								<p style="font-weight: bold; font-size: 23px; color: #365899">Your otp verification <br> was unsuccessful!</p>
 								<p>Try inputting the OTP and verifying it again or read<br>our documentation to know what went wrong </p>
 								 <a @click="close" class="mt-20 block" style="text-decoration: underline; color: #333333; font-size: 15px">Retry OTP sent</a>
-								<a href="https://developers.termii.com/verify-token" target="_blank" class="mt-20 btn bg-blue" >Read full documentation</a>
+								<a href="https://developers.termii.com/voice-token" target="_blank" class="mt-20 btn bg-blue" >Read full documentation</a>
 							</div>
 						</center>
 
