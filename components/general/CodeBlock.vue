@@ -138,9 +138,10 @@ export default {
 	justify-content: space-around;
 	position: sticky;
 	top: 0px;
-	margin-bottom: -10px;
-	background: rgba(32, 74, 113, 1);
+	margin-bottom: -8px;
+	background: #263238;
 	padding-top: 24px;
+	border-bottom: 2px solid #4a5568; ;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 }
@@ -151,22 +152,23 @@ pre[class*="language-"] {
 	border-radius: 0.3em;
 	min-height: 160px;
 	max-height: 215px;
-	background: rgba(32, 74, 113, 1);
+	background: #263238;
+
 }
 code[class*="language-"], pre[class*="language-"] {
 	tab-size: 1;
+	font-family: Roboto Mono,monospace !important;
 }
 .button-tab {
-	border-radius: 4px;
 	border: none;
 	padding: 8px;
 	font-size: 14px;
 	font-weight: 600;
 	line-height: 16px;
 	cursor: pointer;
-	outline: 0;
-	color: rgb(255, 255, 255);
-	background-color: rgba(255, 255, 255, 0.1);
+	color: #cbd5e0;
+	background-color: rgba(255, 255, 255, 0);
+	border-bottom: 3px solid #406dad;
 }
 .button-tab:focus{
 	outline: 0;
@@ -179,7 +181,7 @@ code[class*="language-"], pre[class*="language-"] {
 	font-weight: 600;
 	line-height: 16px;
 	cursor: pointer;
-	color: rgb(154, 168, 189);
+	color: #cbd5e0;
 	background-color: rgba(255, 255, 255, 0);
 }
 </style>

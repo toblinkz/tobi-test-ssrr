@@ -22,7 +22,7 @@
 																													<nuxt-link to="/sandbox/voice-otp" class="btn btn-primary">Try now</nuxt-link>
 																													<nuxt-link to="/sandbox/voice-otp">
 																													<span class="">
-																																	<img src="/images/call.svg">
+																																	 <i class="entypo-phone blue-i"></i>
 																													</span>
 																													</nuxt-link>
 																													<h4><nuxt-link to="/sandbox/voice-otp" class="blue-t">Voice OTP</nuxt-link></h4>
@@ -34,9 +34,9 @@
 																						<ul class="modern-listing big-icon no-top-border-list mt-10">
 																							<li>
 																								<a class="btn btn-primary">Coming soon</a>
-																								<a >
+																								<a>
 																													<span class="">
-																																	<img src="/images/sandbox_whatsapp.svg">
+																																	 <i class="fa fa-whatsapp blue-i"></i>
 																													</span>
 																								</a>
 																								<h4><a  class="blue-t">WhatsApp Sandbox </a></h4>
@@ -177,13 +177,13 @@ ul.modern-listing li {
 	border-bottom: solid 1px #ddd;
 	margin-bottom: 20px;
 }
-ul.modern-listing li img, .table-row-icon {
+ul.modern-listing li i, .table-row-icon {
 	float: left;
 	font-size: 30px;
 	height: 70px;
 	margin-right: 20px;
 	color: #00838F;
-	margin-top: -10px;
+	margin-top: 5px;
 	width: 30px;
 	text-align: center;
 }

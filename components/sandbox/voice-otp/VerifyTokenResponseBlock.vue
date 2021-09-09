@@ -40,6 +40,6 @@ export default {
 	border-radius: 0.3em;
 	min-height: 160px;
 	max-height: 280px;
-	background: rgba(32, 74, 113, 1);
+	background: #263238;
 }
 </style>
