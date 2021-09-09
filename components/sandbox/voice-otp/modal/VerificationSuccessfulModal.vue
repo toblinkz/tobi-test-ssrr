@@ -12,7 +12,7 @@
 							<div class="mt-20">
 								<p style="font-weight: bold; font-size: 23px; color: #365899">Your otp verification <br> was successful!</p>
 								<p>Delivering your OTP using our voice option as an <br>alternative is secured and also has an high<br>	delivery rate.</p>
-								<a href="https://developers.termii.com/verify-token" target="_blank" class="mt-20 btn bg-blue" >Read full documentation</a>
+								<a href="https://developers.termii.com/voice-token" target="_blank" class="mt-20 btn bg-blue" >Read full documentation</a>
 							</div>
 						</center>
 
