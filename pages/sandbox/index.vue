@@ -33,6 +33,20 @@
 																								</ul>
 																						<ul class="modern-listing big-icon no-top-border-list mt-10">
 																							<li>
+																								<nuxt-link to="/sandbox/sms" class="btn btn-primary">Try now</nuxt-link>
+																								<nuxt-link to="/sandbox/sms">
+																													<span class="">
+																																	 <i class="entypo-chat blue-i"></i>
+																													</span>
+																								</nuxt-link>
+																								<h4><nuxt-link to="/sandbox/sms" class="blue-t">SMS</nuxt-link></h4>
+																								<p>
+																									Engage your users by having two-way conversation and send templated messages via Whatsapp
+																								</p>
+																							</li>
+																						</ul>
+																						<ul class="modern-listing big-icon no-top-border-list mt-10">
+																							<li>
 																								<a class="btn btn-primary">Coming soon</a>
 																								<a>
 																													<span class="">

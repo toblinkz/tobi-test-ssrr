@@ -88,6 +88,8 @@ function hasAccess(route_name){
 			return customer_permissions.includes('view_sandbox');
 		case "sandbox-voice-otp":
 			return customer_permissions.includes('view_sandbox');
+		case "sandbox-sms":
+			return customer_permissions.includes('view_sandbox');
 		case "teams":
 			return (JSON.parse(localStorage.getItem('user_data')).is_main) ;
 		default:

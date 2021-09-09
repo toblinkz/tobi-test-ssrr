@@ -193,6 +193,9 @@ ul.campaign-steps {
 .nav-pills > li {
 	float: none;
 }
+.nav > li {
+	position: relative;
+}
 .campaign-steps > li > a {
 	padding-right: 0;
 	padding-left: 0;
