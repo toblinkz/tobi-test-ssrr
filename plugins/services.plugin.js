@@ -10,11 +10,13 @@ import {SmsService} from "../services/sms.service";
 import {InsightService} from "../services/insight.service";
 import {CouponService} from "../services/coupon.service";
 import {VoiceOtpService} from "../services/sandbox/voice-otp.service";
+import {SmsSandboxService} from "../services/sandbox/sms.service";
 
 export default ({ app: { $axios, $toast } }, inject) => {
 	// pass $axios as a dependency to the BillingService constructor
 	const billing = new BillingService($axios)
 	const voiceOTP = new VoiceOtpService($axios)
+	const smsSandbox = new SmsSandboxService($axios)
 	const device = new DeviceService($axios)
 	const user = new UserService($axios)
 	const utility = new UtilityService($axios)
@@ -37,4 +39,5 @@ export default ({ app: { $axios, $toast } }, inject) => {
 	inject('insight', insight)
 	inject('coupon', coupon)
 	inject('voiceOTP', voiceOTP)
+	inject('smsSandbox', smsSandbox)
 }

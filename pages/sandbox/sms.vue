@@ -42,16 +42,18 @@
 										<div class="row mt-20">
 											 <div class="col-md-6 ">
 													<div style="position: relative">
-														<input class="number form-control has-input" :class="{ 'error' : hasPhoneNumberError }" type="tel"  placeholder="Input your phone number here">
+														<input class="form-control has-input" :class="{ 'error' : hasPhoneNumberError }" v-model="request_payload.to" type="tel"  placeholder="2340000000000">
 														<span class="input-field_helper">Recipient Phone number</span>
 														<span class=" error_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
 													</div>
 												</div>
 											 <div class="col-md-6 ">
 													<div style="position: relative">
-														<select class="form-control has-input" v-model="request_payload.pin_length" >
-															<option>Termii</option>
-															<option>Tobi</option>
+														<select class="form-control has-input" v-model="request_payload.from" >
+															<option v-if="is_generic && generic_senderid.length > 0" v-for="item in generic_senderid">{{item.sender_id}}</option>
+															<option v-if="is_dnd && dnd_senderid.length > 0" v-for="item in dnd_senderid">{{item.sender_id}}</option>
+															<option v-if="is_generic && generic_senderid.length < 1">Fast Beep</option>
+															<option v-if="is_dnd && dnd_senderid.length < 1">N-Alert</option>
 														</select>
 														<span class="input-field_helper">Select a Sender ID</span>
 													</div>
@@ -86,10 +88,10 @@
 										<div>
 											<div class="mt-30" style="background: #f5f5f5; border-radius: 3px; padding: 15px">
 												<p class="text-center"><i class="entypo-cc" style="color: #079805 !important;"></i>
-													You will be charged from your wallet per test (N1.37 naira)</p>
+													You will be charged from your wallet per test</p>
 											</div>
-											<a class="mt-30 btn bg-blue" aria-disabled  style="width: 100%; padding-top: 15px; padding-bottom: 18px; font-size: 15px">
-												Send message
+											<a class="mt-30 btn bg-blue" @click="sendMessage" :aria-disabled="isDisabled"   style="width: 100%; padding-top: 15px; padding-bottom: 18px; font-size: 15px">
+												{{ send_button_text }}
 												<span v-show="isLoading">
 												 <img src="/images/spinner.svg" height="20px" width="30px"/>
 											</span>
@@ -99,53 +101,31 @@
 									</div>
 							</div>
 							<div class="col-md-6">
-								<div v-if="!show_verify_token">
+								<div>
 									<div>
 										<p>Request</p>
-										<VoiceOtpCodeBlock :request_payload="request_payload"></VoiceOtpCodeBlock>
+										<SmsCodeBlock :request_payload="request_payload"></SmsCodeBlock>
 									</div>
 									<div>
 										<p>Response</p>
-										<CodeBlockResponse :show_default_text="show_default_text">
+										<CodeBlockResponse :show_default_text="show_default_text" :default_text="default_text">
 											<template v-slot:json_code>
 												{
-												"code": "{{ voice_otp_response.code }}",
-												"message_id": "{{ voice_otp_response.message_id }}",
-												"pin_id": "{{ voice_otp_response.pin_id }}",
-												"message": "{{ voice_otp_response.message }}",
-												"balance": {{ voice_otp_response.balance }},
-												"user": "{{voice_otp_response.user}}"
+															"balance": "{{sent_message_response.code }}",
+															"code": "{{sent_message_response.code}}",
+															"message": "{{sent_message_response.message }}",
+															"message_id": {{sent_message_response.balance }},
+															"user": "{{sent_message_response.user}}"
 												}
 											</template>
 										</CodeBlockResponse>
 									</div>
 								</div>
-								<div v-if="show_verify_token">
-									<div>
-										<p>Request</p>
-										<VerifyOtpCodeBlock :pin_id="voice_otp_response.pin_id" :pin="otp"></VerifyOtpCodeBlock>
-									</div>
-									<div>
-										<p>Response</p>
-										<VerifyTokenResponseBlock :show_verify_default_text="show_verify_default_text">
-											<template v-slot:json_code>
-												{
-												"pinId":"{{ verify_token_response.pinId }}",
-												"verified":{{ verify_token_response.verified }},
-												"msisdn":"{{verify_token_response.msisdn}}",
-												"attemptsRemaining":{{verify_token_response.attemptsRemaining}}
-												}
-											</template>
-
-										</VerifyTokenResponseBlock>
-									</div>
-								</div>
-
 							</div>
 						</div>
 					</main>
-					<VerificationSuccessfulModal @closeModal="closeVerificationSuccessfulModal"></VerificationSuccessfulModal>
-					<VerificationUnsuccessfulModal></VerificationUnsuccessfulModal>
+			  <MessageDeliveredSuccessfulModal :has_dnd_senderid="has_dnd_senderid" :has_generic_senderid="has_generic_senderid" @closeModal="closeMessageDeliveredSuccessfulModal"></MessageDeliveredSuccessfulModal>
+					<MessageDeliveredUnsuccessfulModal></MessageDeliveredUnsuccessfulModal>
 				</div>
 			</div>
 		</div>
@@ -162,10 +142,17 @@ import VerifyOtpCodeBlock from "../../components/sandbox/voice-otp/VerifyOtpCode
 import VerifyTokenResponseBlock from "../../components/sandbox/voice-otp/VerifyTokenResponseBlock";
 import VerificationSuccessfulModal from "../../components/sandbox/voice-otp/modal/VerificationSuccessfulModal";
 import VerificationUnsuccessfulModal from "../../components/sandbox/voice-otp/modal/VerificationUnsuccessfulModal";
+import MessageDeliveredSuccessfulModal from "../../components/sandbox/sms/modal/MessageDeliveredSuccessfulModal";
+import SmsCodeBlock from "../../components/sandbox/sms/SmsCodeBlock";
+import MessageDeliveredUnsuccessfulModal from "../../components/sandbox/sms/modal/MessageDeliveredUnsuccessfulModal";
+
 export default {
 	name: "sms",
 	middleware:['auth'],
 	components: {
+		MessageDeliveredUnsuccessfulModal,
+		SmsCodeBlock,
+		MessageDeliveredSuccessfulModal,
 		VerificationUnsuccessfulModal,
 		VerificationSuccessfulModal,
 		VerifyTokenResponseBlock,
@@ -177,21 +164,39 @@ export default {
 			is_otp: true,
 			is_product_notification: false,
 			is_marketing: false,
-			request_payload: {},
+			request_payload: {
+				 to: '',
+				 from:'',
+				 sms: '',
+				 channel: 'generic',
+				 type:'otp'
+			},
 			otp:'',
 			error_message:[],
 			hasPhoneNumberError: false,
-			hasPinAttemptError: false,
-			hasPinTimeToLiveError: false,
-			hasOtpError: false,
+			has_dnd_senderid: false,
+			has_generic_senderid: false,
+			generic_senderid:[],
+			dnd_senderid:[],
+			 message_content:'',
 			show_default_text: true,
 			show_verify_default_text: true,
-			voice_otp_response: '',
-			verify_token_response:'',
-			dial_button_text: 'Dial number',
+			sent_message_response: '',
+			send_button_text: 'Send message',
+			default_text: 'Send message to see the response here',
 			isLoading: false,
-			show_next_step_button: false,
-			show_verify_token: false
+		}
+	},
+
+	watch:{
+	 'request_payload.to': function (value) {
+			 this.validatePhoneNumber(value);
+		}
+	},
+
+	computed:{
+		isDisabled: function () {
+			 return(!this.request_payload.to || this.hasPhoneNumberError || !this.request_payload.from);
 		}
 	},
 
@@ -200,12 +205,16 @@ export default {
 		selectGenericChannel(){
 			 this.is_generic = true;
 			 this.is_dnd = false;
+				this.request_payload.channel = 'generic';
+				this.request_payload.from = '';
 				this.selectOtp();
 		},
 
 		selectDndChannel(){
 			this.is_dnd = true;
 			this.is_generic = false;
+			this.request_payload.channel = 'dnd';
+			this.request_payload.from = '';
 		 this.selectOtp();
 		},
 
@@ -213,69 +222,111 @@ export default {
 			 this.is_otp = true;
 				this.is_product_notification = false;
 				this.is_marketing = false;
-			document.getElementsByName('your-message')[0].value = '213378 is your verification code for your new login, code expires in 60secs.\n' + 'Sent via Termii test by {{company name}}.';
+				this.request_payload.type = 'otp';
+				this.request_payload.sms = this.message_content.otp;
+			document.getElementsByName('your-message')[0].value = this.message_content.otp;
 			},
 
 		selectProductNotification(){
 			this.is_product_notification = true;
 			this.is_otp = false;
 			this.is_marketing = false;
-			document.getElementsByName('your-message')[0].value = 'Hi {{company name}}, your order is confirmed! It would be delivered\n' + 'shortly; Thank you! Sent via Termii test.';
+			this.request_payload.type = 'notification';
+			this.request_payload.sms = this.message_content.product_notification;
+			document.getElementsByName('your-message')[0].value = this.message_content.product_notification;
 		},
 
 		selectMarketing(){
 			this.is_marketing = true;
 			this.is_product_notification = false;
 			this.is_otp = false;
-			document.getElementsByName('your-message')[0].value = 'Shop sweaters this season, use this code Ter173 to enjoy 40% off on our\n' +
-				'comfy sweaters. Sent via Termii test by {{company name}}.';
+			this.request_payload.type = 'marketing';
+			this.request_payload.sms = this.message_content.marketing;
+			document.getElementsByName('your-message')[0].value = this.message_content.marketing;
 		},
 
-		setVoiceOtpResponse(response){
-			this.voice_otp_response = response;
-			this.show_default_text = false;
-			this.show_next_step_button = true;
+		validatePhoneNumber(value){
+			if (value.toString()[0] === '0'){
+				this.error_message['phone_number'] = 'Phone number must be in international format';
+				this.hasPhoneNumberError = true;
+			} else if ( isNaN(value) || value.length < 10 || value.length > 14) {
+				this.error_message['phone_number'] = 'Phone number must be between 10 and 14 digits';
+				this.hasPhoneNumberError = true;
+			}else {
+				this.error_message['phone_number'] = '';
+				this.hasPhoneNumberError = false;
+			}
 		},
 
-		setVerifyTokenResponse(response){
-			this.verify_token_response = response;
-			this.show_verify_default_text = false;
-			this.$modal.show('verification-successful-modal');
-		},
-		showVerifyToken(){
-			this.show_next_step_button = false;
-			this.show_verify_token = true;
-		},
-		setOtp(otp){
-			this.otp = otp;
-		},
-		setVoiceTokenRequestPayload(payload){
-			this.request_payload = payload;
+		showMessageDeliveredSuccessfulModal(){
+			if (this.dnd_senderid.length < 1 && this.is_dnd){
+				this.has_dnd_senderid = false;
+				this.has_generic_senderid = true;
+			}
+
+			if (this.generic_senderid.length < 1 && this.is_generic){
+				this.has_generic_senderid = false;
+				this.has_dnd_senderid = true;
+			}
+			this.$modal.show('message-delivered-successful-modal');
 		},
 		showVerificationUnsuccessfulModal(){
-			this.$modal.show('verification-unsuccessful-modal');
+
 		},
-		showVerificationSuccessfulModal(){
-			this.$modal.show('verification-successful-modal');
-		},
-		closeVerificationSuccessfulModal(){
-			this.$modal.hide('verification-successful-modal');
-			this.show_next_step_button = false;
-			this.show_verify_token = false;
-			this.request_payload = {};
+		closeMessageDeliveredSuccessfulModal(){
+			this.$modal.hide('message-delivered-successful-modal');
 			this.show_default_text = true;
+		},
+
+		async getSenderIdByChannel(){
+			try {
+				let data = await this.$smsSandbox.getSenderIdByChannel();
+				this.generic_senderid = data.generic;
+			}catch (e) {
+
+			}
+		},
+
+		async getMessageContent(){
+			 try {
+					let data = await this.$smsSandbox.getMessageContent( );
+					this.message_content = data.message;
+					this.request_payload.sms = this.message_content.otp;
+					document.getElementsByName('your-message')[0].value = this.message_content.otp;
+				}catch (e) {
+
+				}
+		},
+
+		async sendMessage(){
+			 try {
+
+						this.isLoading = true;
+						this.send_button_text = '';
+					 this.sent_message_response = await this.$smsSandbox.sendMessage(this.request_payload.to, this.request_payload.from, this.request_payload.channel,this.request_payload.type);
+
+						this.isLoading = false;
+						this.send_button_text = 'Send message';
+						this.show_default_text = false;
+						this.showMessageDeliveredSuccessfulModal();
+				}catch (e) {
+					this.$modal.show('message-delivered-unsuccessful-modal');
+					this.isLoading = false;
+					this.send_button_text = 'Send message';
+				}
 		}
 
 	},
 	mounted() {
-		document.getElementsByName('your-message')[0].value = '213378 is your verification code for your new login, code expires in 60secs.\n' +
-			'Sent via Termii test by {{company name}}.';
+		this.getSenderIdByChannel();
+		this.getMessageContent();
+
 	}
 }
 </script>
 
 <style scoped>
-/*@import "../../assets/css/general_style/authentication_pages.css";*/
+
 @media (min-width: 769px){
 	.nav-pills {
 		font-size: 0;

@@ -36,7 +36,7 @@
 														</div>
 													<div>
 														<p>Response</p>
-														<CodeBlockResponse :show_default_text="show_default_text">
+														<CodeBlockResponse :show_default_text="show_default_text" :default_text="default_text">
 															<template v-slot:json_code>
 															{
 																	"code": "{{ voice_otp_response.code }}",
@@ -114,6 +114,7 @@ export default {
 				  voice_otp_response: '',
 				  verify_token_response:'',
 				  dial_button_text: 'Dial number',
+				  default_text: 'Dial number to see the response here',
 				  isLoading: false,
 				  show_next_step_button: false,
 				  show_verify_token: false

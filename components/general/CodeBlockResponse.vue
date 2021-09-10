@@ -1,7 +1,7 @@
 <template>
 	<div style="width: 580px">
 		<div v-if="show_default_text" class="code-block-style">
-			<div class="text-center" style="margin-top: 60px">Dial number to see the response here</div>
+			<div class="text-center" style="margin-top: 60px">{{default_text}}</div>
 		</div>
 		<CodeHighlight v-if="!show_default_text" language="json">
 			<slot name="json_code"></slot>
@@ -32,7 +32,8 @@ export default {
 		return {}
 	},
 	props: {
-		show_default_text: {}
+		show_default_text: {},
+		 default_text:{}
 	},
 	methods: {}
 };

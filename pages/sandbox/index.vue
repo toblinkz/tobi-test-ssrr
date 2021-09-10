@@ -41,7 +41,7 @@
 																								</nuxt-link>
 																								<h4><nuxt-link to="/sandbox/sms" class="blue-t">SMS</nuxt-link></h4>
 																								<p>
-																									Engage your users by having two-way conversation and send templated messages via Whatsapp
+																									Send test SMS to any number and see it deliver swiftly, anywhere.
 																								</p>
 																							</li>
 																						</ul>
