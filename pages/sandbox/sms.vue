@@ -42,7 +42,7 @@
 										<div class="row mt-20">
 											 <div class="col-md-6 ">
 													<div style="position: relative">
-														<input class="form-control has-input" :class="{ 'error' : hasPhoneNumberError }" v-model="request_payload.to" type="tel"  placeholder="2340000000000">
+														<input class="form-control has-input" :class="{ 'error' : hasPhoneNumberError }" v-model="request_payload.to" type="tel"  >
 														<span class="input-field_helper">Recipient Phone number</span>
 														<span class=" error_field_message" v-if="error_message.phone_number">{{error_message.phone_number}}</span>
 													</div>
@@ -52,7 +52,7 @@
 														<select class="form-control has-input" v-model="request_payload.from" >
 															<option v-if="is_generic && generic_senderid.length > 0" v-for="item in generic_senderid">{{item.sender_id}}</option>
 															<option v-if="is_dnd && dnd_senderid.length > 0" v-for="item in dnd_senderid">{{item.sender_id}}</option>
-															<option v-if="is_generic && generic_senderid.length < 1">Fast Beep</option>
+															<option v-if="is_generic && generic_senderid.length < 1">FastBeep</option>
 															<option v-if="is_dnd && dnd_senderid.length < 1">N-Alert</option>
 														</select>
 														<span class="input-field_helper">Select a Sender ID</span>
@@ -111,7 +111,7 @@
 										<CodeBlockResponse :show_default_text="show_default_text" :default_text="default_text">
 											<template v-slot:json_code>
 												{
-															"balance": "{{sent_message_response.code }}",
+															"balance": "{{sent_message_response.balance }}",
 															"code": "{{sent_message_response.code}}",
 															"message": "{{sent_message_response.message }}",
 															"message_id": {{sent_message_response.balance }},
@@ -247,7 +247,8 @@ export default {
 
 		validatePhoneNumber(value){
 			if (value.toString()[0] === '0'){
-				this.error_message['phone_number'] = 'Phone number must be in international format';
+				this.error_message['phone_number'] = '* Please input the country code before the\n' +
+					'number (i.e. 23481, 1368... etc).';
 				this.hasPhoneNumberError = true;
 			} else if ( isNaN(value) || value.length < 10 || value.length > 14) {
 				this.error_message['phone_number'] = 'Phone number must be between 10 and 14 digits';
