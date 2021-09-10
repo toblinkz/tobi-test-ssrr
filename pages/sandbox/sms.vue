@@ -11,7 +11,7 @@
 						</li>
 						<li class="active">
 							<nuxt-link to="/sms/quick-sms">
-								<img src="/images/call_icon.svg" style="margin-top: -5px;margin-right: 5px;"> SMS
+								<img src="/images/sms.svg" style="margin-top: 2px;margin-right: 5px;"> SMS
 							</nuxt-link>
 						</li>
 					</ul>

@@ -1,5 +1,5 @@
 <template>
-	<modal name="message-delivered-unsuccessful-modal" height="auto" width="500" >
+	<modal name="message-delivered-successful-modal" height="auto" width="500" >
 		<div  style="display: block; padding-left: 9px;">
 			<div>
 				<div>
