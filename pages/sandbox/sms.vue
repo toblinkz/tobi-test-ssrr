@@ -52,7 +52,7 @@
 														<select class="form-control has-input" v-model="request_payload.from" >
 															<option v-if="is_generic && generic_senderid.length > 0" v-for="item in generic_senderid">{{item.sender_id}}</option>
 															<option v-if="is_dnd && dnd_senderid.length > 0" v-for="item in dnd_senderid">{{item.sender_id}}</option>
-															<option v-if="is_generic && generic_senderid.length < 1">FastBeep</option>
+															<option v-if="is_generic && generic_senderid.length < 1">fastBeep</option>
 															<option v-if="is_dnd && dnd_senderid.length < 1">N-Alert</option>
 														</select>
 														<span class="input-field_helper">Select a Sender ID</span>
