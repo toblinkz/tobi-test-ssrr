@@ -114,7 +114,7 @@
 															"balance": "{{sent_message_response.balance }}",
 															"code": "{{sent_message_response.code}}",
 															"message": "{{sent_message_response.message }}",
-															"message_id": {{sent_message_response.balance }},
+															"message_id": {{sent_message_response.message_id }},
 															"user": "{{sent_message_response.user}}"
 												}
 											</template>
