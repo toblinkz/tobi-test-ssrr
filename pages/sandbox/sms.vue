@@ -108,7 +108,7 @@
 									</div>
 									<div>
 										<p>Response</p>
-										<CodeBlockResponse :show_default_text="show_default_text" :default_text="default_text">
+										<CodeBlockResponse v-show="!has_response_error" :show_default_text="show_default_text" :default_text="default_text">
 											<template v-slot:json_code>
 												{
 															"balance": "{{sent_message_response.balance }}",
@@ -117,6 +117,15 @@
 															"message_id": {{sent_message_response.message_id }},
 															"user": "{{sent_message_response.user}}"
 												}
+											</template>
+										</CodeBlockResponse>
+										<CodeBlockResponse v-show="has_response_error" :show_default_text="show_default_text" :default_text="default_text">
+													<template v-slot:json_code>
+														{
+
+																	"message": "{{response_error_message }}",
+
+														}
 											</template>
 										</CodeBlockResponse>
 									</div>
@@ -173,6 +182,8 @@ export default {
 			},
 			otp:'',
 			error_message:[],
+			response_error_message:'',
+			has_response_error:false,
 			hasPhoneNumberError: false,
 			has_dnd_senderid: false,
 			has_generic_senderid: false,
@@ -269,6 +280,7 @@ export default {
 				this.has_generic_senderid = false;
 				this.has_dnd_senderid = true;
 			}
+			this.has_response_error = false;
 			this.$modal.show('message-delivered-successful-modal');
 		},
 		showVerificationUnsuccessfulModal(){
@@ -311,7 +323,10 @@ export default {
 						this.show_default_text = false;
 						this.showMessageDeliveredSuccessfulModal();
 				}catch (e) {
-					this.$modal.show('message-delivered-unsuccessful-modal');
+					this.show_default_text = false;
+					this.has_response_error = true;
+					this.response_error_message = e.response.data.message;
+					// this.$modal.show('message-delivered-unsuccessful-modal');
 					this.isLoading = false;
 					this.send_button_text = 'Send message';
 				}
