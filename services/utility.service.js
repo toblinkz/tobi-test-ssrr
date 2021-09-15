@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export class UtilityService {
 
 	constructor(axios) {
@@ -14,5 +16,13 @@ export class UtilityService {
 			 identification_number: bvn,
 			 dob: date_of_birth
 		 });
+	}
+
+	setExpiryTime(){
+		let loggedInTime = Date.now();
+		let expiryTime =  moment(loggedInTime).add(54, 'minutes').toDate();
+		localStorage.setItem('ET', expiryTime - Date.now() );
+		localStorage.setItem('LGIT', loggedInTime);
+
 	}
 }

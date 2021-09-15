@@ -17,7 +17,7 @@
 					<nuxt-link to="/"> <img src="/images/logo.png" alt="logo" data-src-retina="/" width="150px" height="auto"></nuxt-link>
 					<p class="p-t-35">Welcome to Termii! Join <strong class="text-bold   text-center">{{registered_business}}+</strong> businesses across Africa building awesome products with our communication APIs, create an account now!</p>
 					<!-- register Form -->
-					<form  method="post"  @submit.prevent="register">
+					<form  method="post"  @submit.prevent="registerUser">
 						<div class="mt-20">
 							<div class="row ">
 								<div class="select-class">
@@ -319,55 +319,57 @@ export default {
 		setRoleId(event){
 			this.role_id = event;
 		},
-		//call registration endpoint
-		async register(){
+
+		async setUserData(){
+
+			 try {
+
+					let response_data = await this.$user.LoginUser(this.email, this.password);
+				 console.log(response_data.access_token)
+					localStorage.setItem('local', response_data.access_token);
+
+					let response = await this.$user.getUser();
+
+					await localStorage.setItem('user_data', JSON.stringify(response.data));
+					if (JSON.parse(localStorage.getItem('user_data')).active_status_id.name === "Pending"){
+						this.$store.commit('setFirstName', JSON.parse(localStorage.getItem('user_data')).fname);
+						this.$store.commit('setViewVerificationPage', 'true');
+						this.$store.commit('setLIState', true);
+						this.isLoading = false;
+						this.button_text = "Create My Account";
+						await this.$router.push('/verify');
+
+					}
+				}catch (e){
+
+				}
+
+		},
+
+
+		async registerUser(){
 
 			this.isLoading = true;
 			this.button_text = "Creating..."
 
 			try{
-				await this.$axios.post('auth/register', {
-					first_name: this.first_name,
-					last_name: this.last_name,
-					email: this.email,
-					password: this.password,
-					phone_number: this.phone_number,
-					country: this.selected_country,
-					sector: this.sectors_id,
-					company: this.company,
-					role: this.role_id,
-					notification_opt_in: this.notification_opt_in
-				},);
-				//call login endpoint
-				let response_data =   await this.$axios.post('auth/login', {
-					email: this.email,
-					password: this.password
-				});
-				localStorage.setItem('local', response_data.data.access_token); //set user token in local storage
-				// call user endpoint
-				let response = await this.$axios.$get('user', {
-					headers: {
-						'Authorization': `Bearer ${localStorage.getItem('local')}`
-					}
-				});
-				await localStorage.setItem('user_data', JSON.stringify(response.data));
-				if (JSON.parse(localStorage.getItem('user_data')).active_status_id.name === "Pending"){
-					this.$store.commit('setFirstName', JSON.parse(localStorage.getItem('user_data')).fname);
-					this.$store.commit('setViewVerificationPage', 'true');
-					this.$store.commit('setLIState', true);
-					this.isLoading = false;
-					this.button_text = "Create My Account";
-					await this.$router.push('/verify');
-				}
+
+				 await this.$user.registerUser(this.first_name, this.last_name, this.email,
+					this.password, this.phone_number, this.selected_country,
+					this.sectors_id, this.company, this.role_id, this.notification_opt_in);
+
+				 await this.setUserData();
+
 
 			} catch (e) {
+
 				this.isLoading = false;
 				this.button_text = "Create My Account"
 				if (navigator.onLine){
 					if (e.response.data.error === 'Account not verified.'){
 						this.$store.commit('setFirstName', e.response.data.data);
 						this.$store.commit('setViewVerificationPage', 'true');
-						await this.$router.push({ name: 'index', });
+						// await this.$router.push({ name: 'index', });
 					}else {
 						let errors = e.response.data.errors;
 						for(let key in errors){

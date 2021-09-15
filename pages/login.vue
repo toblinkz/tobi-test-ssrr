@@ -138,13 +138,6 @@ export default {
 				this.isToggled = false;
 			}
 		},
-		setExpiryTime(){
-			let loggedInTime = Date.now();
-			let expiryTime =  moment(loggedInTime).add(54, 'minutes').toDate();
-			localStorage.setItem('ET', expiryTime - Date.now() );
-			localStorage.setItem('LGIT', loggedInTime);
-
-		},
 
 		async loginUser() {
 			try{
@@ -157,8 +150,7 @@ export default {
 				await 	localStorage.setItem('local', response_data.data.access_token);
 				localStorage.setItem('activity_log_error', 'false');
 
-				//set expiry time
-				this.setExpiryTime();
+				this.$utility.setExpiryTime();
 				this.$store.commit('setLIState', true);
 				let response = 	await this.$axios.$get('user', {
 					headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
