@@ -99,7 +99,7 @@
       </div>
     <DeviceModal  @requested="requested"></DeviceModal>
 			 <DeviceConnectedModal></DeviceConnectedModal>
-			<device-barcoded-modal :image_url="barcode_url"></device-barcoded-modal>
+			 <device-barcoded-modal @qrCodeModalClosed="setRefreshQrCodeFalse" :image_url="barcode_url"></device-barcoded-modal>
 				<VerificationModal></VerificationModal>
 			<InActiveSenderIdModal></InActiveSenderIdModal>
 			<device-info-modal></device-info-modal>
@@ -108,21 +108,18 @@
 </template>
 
 <script>
-	import Sidebar from "../components/general/Sidebar";
-	import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
-	import DeviceModal from "../components/modals/DeviceModal";
-	import Swal from "sweetalert2";
-	import {mapGetters} from "vuex";
-	import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
-	import VerificationModal from "~/components/modals/VerificationModal";
-	import InActiveSenderIdModal from "~/components/modals/InActiveSenderIdModal";
-	import inactive_user from "@/middleware/inactive_user";
-	import DeviceConnectedModal from "../components/modals/DeviceConnectedModal";
-	import DeviceBarcodedModal from "../components/modals/DeviceBarcodeModal";
-	import DeviceInfoModal from "../components/modals/DeviceInfoModal";
-	import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
+import Sidebar from "../components/general/Sidebar";
+import DashboardNavbar from "../components/general/navbar/DashboardNavbar";
+import DeviceModal from "../components/modals/DeviceModal";
+import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
+import VerificationModal from "~/components/modals/VerificationModal";
+import InActiveSenderIdModal from "~/components/modals/InActiveSenderIdModal";
+import DeviceConnectedModal from "../components/modals/DeviceConnectedModal";
+import DeviceBarcodedModal from "../components/modals/DeviceBarcodeModal";
+import DeviceInfoModal from "../components/modals/DeviceInfoModal";
+import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
 
-	export default {
+export default {
 		     name: "devices",
 		     middleware:['auth', 'permission'],
 							components: {
@@ -134,13 +131,15 @@
 		     data(){
           return{
             response_data:[],
-            name:"",
+            name:'',
             messages_sent_today: {},
             isActive: false,
-            active_status:"",
-            device_status:"",
+            active_status:'',
+            device_status:'',
             device_id:"",
+											 qrcode_device_id:'',
 											 barcode_url: '',
+											 refresh_qrcode: false,
 										 	customer_permissions: localStorage.getItem('permissions'),
 											 show_shimmer:false,
 
@@ -157,10 +156,10 @@
       methods: {
 
         async fetch(){
+
           try {
           	// get device ids
-            let data = await this.$axios.$get('devices');
-            this.response_data = data;
+											this.response_data = await this.$axios.$get('devices');
 											this.show_shimmer = true;
           }catch (e) {
 
@@ -168,12 +167,11 @@
         },
 
         async getQRCode(device_id){
-        	try{
-
+									this.qrcode_device_id = device_id;
+									try{
         		this.disableQRCodeButton(device_id)
 
 										const data  = await this.$device.getQRCode(device_id);
-
 
         		if (!data.data_type){
 												this.$modal.show('device-info-modal');
@@ -191,6 +189,16 @@
 									}
         },
 
+							async getQRCodeUrl(device_id){
+						    try {
+											const data  = await this.$device.getQRCode(device_id);
+											this.barcode_url = data.data;
+										}catch (e) {
+
+										}
+
+							},
+
 							loadImageModal(data){
 								switch (data.data_type) {
 									case ('string'):{
@@ -200,12 +208,28 @@
 									case ('image_hash'):{
 										this.barcode_url = data.data;
 										this.$modal.show('device-barcode-modal');
+										this.refresh_qrcode = true;
+										this.getQRCodeUrlAtInterval();
 										break;
 									}
 									default:{
 										this.$modal.show('device-info-modal');
 									}
 								}
+							},
+
+							async getQRCodeUrlAtInterval(){
+
+										setInterval(async () => {
+											 if (this.refresh_qrcode){
+													   await this.getQRCodeUrl(this.qrcode_device_id);
+												}
+										}, 30000);
+
+
+							},
+							setRefreshQrCodeFalse(){
+							 this.refresh_qrcode = false;
 							},
 
         showModal(){

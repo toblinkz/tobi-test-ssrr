@@ -41,6 +41,7 @@ export default {
 	methods: {
 		close() {
 			this.$modal.hide('device-barcode-modal');
+			this.$emit('qrCodeModalClosed');
 		},
 	}
 }
