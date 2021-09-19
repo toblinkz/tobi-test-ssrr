@@ -81,9 +81,9 @@ name: "VerificationModal",
 						verification_code: this.verification_code
 					}, {headers: {'Authorization':  `Bearer ${localStorage.getItem('local')}`}});
 
-					let response = 	await this.$axios.$get('user', {
-						headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
-					});
+					let response = 	await this.$user.getUser();
+
+ 			 this.$utility.setExpiryTime();
 					await localStorage.setItem('user_data', JSON.stringify(response.data));
 					this.isLoading = false;
 					this.button_text = "Verify Code";

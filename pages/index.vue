@@ -426,6 +426,7 @@ export default {
 			}
 		},
 
+
 		checkUserIsVerifiedAndProcess(){
 			if (this.$store.state.view_verify_page === 'true') {
 				this.first_name = this.getFirstName;

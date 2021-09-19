@@ -5,6 +5,36 @@ export class UserService {
 		this.$axios = axios
 	}
 
+	async registerUser(first_name, last_name, email, password, phone_number, selected_country, sector_id, company, role_id, notification_opt_in){
+		 return await this.$axios.$post('auth/register', {
+				first_name: first_name,
+				last_name: last_name,
+				email: email,
+				password: password,
+				phone_number: phone_number,
+				country: selected_country,
+				sector: sector_id,
+				company:company,
+				role: role_id,
+				notification_opt_in: notification_opt_in
+			});
+	}
+
+	async LoginUser(email, password){
+		 return await this.$axios.$post('auth/login', {
+				email: email,
+				password: password
+			})
+	}
+
+	async getUser(){
+	return 	await this.$axios.$get('user', {
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem('local')}`
+			}
+		});
+	}
+
 	async getLoggedInUserData () {
 		return await this.$axios.$get('user');
 	}
