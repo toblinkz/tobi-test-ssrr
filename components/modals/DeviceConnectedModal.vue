@@ -41,6 +41,9 @@ export default {
 		close() {
 			this.$modal.hide('device-connected-modal');
 		},
+	},
+	mounted() {
+
 	}
 }
 </script>
