@@ -1,11 +1,6 @@
 <template>
-	<div>
-			<!-- Page header -->
-			<div class="page-header">
-				<div class="page-header-content">
-				</div>
-			</div>
-			<!-- /page header -->
+	<div class="padding-sides mt-50">
+
 			<!-- Page container -->
 			<div class="page-container">
 				<!-- Page content -->
@@ -356,9 +351,7 @@ export default {
 		padding-bottom: 48px;
 	}
 }
-.page-header:not(.page-header-filled) + .page-container {
-	padding-top: 35px;
-}
+
 .page-container {
 	position: relative;
 	/* padding-bottom: 40px; */

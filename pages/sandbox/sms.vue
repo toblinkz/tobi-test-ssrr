@@ -1,8 +1,8 @@
 <template>
-	<div>
+	<div class="padding-sides">
 		<div class="page-header">
 			<div class="page-header-content">
-				<div class="page-title mt-150">
+				<div class="page-title mt-100">
 					<ul class="nav nav-pills campaign-steps hidden-xs" style="margin-bottom: -20px;">
 						<li>
 							<nuxt-link to="/sandbox">

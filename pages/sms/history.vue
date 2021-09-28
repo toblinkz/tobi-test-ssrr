@@ -1,10 +1,6 @@
 <template>
-	<div>
-			<!-- Page header -->
-			<div class="page-header">
-				<div class="page-header-content">
-				</div>
-			</div>
+	<div class="padding-sides mt-70">
+
 			<!-- /page header -->
 			<!-- Page container -->
 			<div class="page-container">
@@ -23,7 +19,7 @@
 													<!--													<div class="col-lg-4 mb-20">-->
 													<!-- START PANEL -->
 													<div class="col-md-12">
-														<div class="panel-transparent mt-50">
+														<div class="panel-transparent mt-20">
 															<p class="insight text-center"  id="welcome" style="margin-top: 10px;margin-bottom: 10px; font-size: 18px!important;"><i class="entypo-chart-pie"></i> Message Report</p>
 															<p class="insight text-center" >View all your message reports. <br>Report captured here include all sent, failed and delivered messages.</p>
 
@@ -449,9 +445,7 @@ export default {
 		padding-bottom: 48px;
 	}
 }
-.page-header:not(.page-header-filled) + .page-container {
-	padding-top: 35px;
-}
+
 .page-container {
 	position: relative;
 	/* padding-bottom: 40px; */

@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="padding-sides mt-150">
 			  <div class="page-header">
 						  <div class="page-header-content">
-									   <ul class="nav nav-pills campaign-steps mt-150" style="margin-bottom: -20px;">
+									   <ul class="nav nav-pills campaign-steps " style="margin-bottom: -20px; margin-top: 100px!important;">
 													<li class="active">
 														<nuxt-link to="/message/select-type">
 															<img src="/images/gift_white.svg" style="margin-top: -5px;margin-right: 5px;"> Sandbox
@@ -16,7 +16,7 @@
 									   <div class="content-wrapper">
 													  <main id="wrapper">
 																  <div class="row">
-                     <div class="col-md-10">
+                     <div class="col-md-12">
 																						  <ul class="modern-listing big-icon no-top-border-list mt-10">
 																											<li>
 																													<nuxt-link to="/sandbox/voice-otp" class="btn btn-primary">Try now</nuxt-link>
@@ -115,7 +115,7 @@ ul.campaign-steps {
 	text-align: left;
 	border-bottom: dashed 2px #aaa;
 	margin-top: 30px;
-	width: 83%;
+	width: 100%;
 }
 .mt-150 {
 	margin-top: 150px !important;

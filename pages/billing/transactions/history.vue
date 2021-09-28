@@ -1,10 +1,6 @@
 <template>
-  <div>
-      <!-- Page header -->
-      <div class="page-header">
-        <div class="page-header-content">
-        </div>
-      </div>
+  <div class="m-t-85">
+
       <!-- /page header -->
           <!-- Page container -->
           <div class="page-container">
@@ -20,7 +16,7 @@
                       <div class="container-fluid container-fixed-lg">
                         <div class="inner">
                           <!-- END BREADCRUMB -->
-                          <div class="container-md-height mt-100 ">
+                          <div class="container-md-height mt-30 ">
                             <div class="row row-md-height">
                               <div class="col-lg-6 col-md-height col-md-7 col-top">
                                 <!-- START PANEL -->
@@ -294,9 +290,7 @@
     background-color: inherit;
     padding: 0 20px;
   }
-  .page-header:not(.page-header-filled) + .page-container {
-    padding-top: 35px;
-  }
+
   .page-container {
     margin: auto;
     padding-bottom: 10px;

@@ -1,11 +1,5 @@
 <template>
-	<div>
-			<!-- Page header -->
-			<div class="page-header">
-				<div class="page-header-content">
-				</div>
-			</div>
-			<!-- /page header -->
+	<div class="padding-sides mt-70">
 			<!-- Page container -->
 			<div class="page-container">
 				<!-- Page content -->
@@ -18,7 +12,7 @@
 								<div class="jumbotron" data-pages="parallax">
 									<div class="container-fluid container-fixed-lg">
 										<div class="inner">
-											<div class="m-t-20">
+											<div >
 												<div class="row">
 													<center>
 														<!-- START PANEL -->
@@ -330,9 +324,7 @@
 			padding-bottom: 48px;
 		}
 	}
-	.page-header:not(.page-header-filled) + .page-container {
-		padding-top: 35px;
-	}
+
 	.page-container {
 		position: relative;
 		/* padding-bottom: 40px; */

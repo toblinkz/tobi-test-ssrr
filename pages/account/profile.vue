@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-70">
       <!-- Page header -->
 					<div class="page-header">
 						<div class="page-header-content">
@@ -13,7 +13,7 @@
 										<div class="jumbotron" data-pages="parallax">
 											<div class="container-fluid container-fixed-lg">
 												<div class="inner">
-													<div class="row m-t-60">
+													<div class="row ">
 														<div class="col-md-8">
 															<h3 > </h3>
 															<p><i class="icon-profile"></i> Your Account Profile</p>

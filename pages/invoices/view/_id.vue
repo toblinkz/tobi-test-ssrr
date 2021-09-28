@@ -1,11 +1,6 @@
 <template>
-  <div>
-      <!--Page header-->
-      <div class="page-header">
-        <div class="page-header-content">
-        </div>
-      </div>
-      <!-- /page header -->
+  <div class="padding-sides mt-70">
+
       <!-- Page container -->
       <div class="page-container">
         <!-- Page content -->

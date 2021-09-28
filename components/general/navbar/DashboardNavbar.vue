@@ -1,9 +1,7 @@
 <template>
-  <div class="body navbar-fixed-top navbar navbar-inverse" style="z-index: 800;background-color: #ffffff;">
+  <div class="body navbar-fixed-top  navbar navbar-inverse" style="z-index: 800;background-color: #ffffff;">
     <div class="navbar-header">
-      <nuxt-link class=" navbar-brand " to="/">
-        <img src="/images/logo.png" alt="">
-      </nuxt-link>
+
 					<ul  class="nav navbar-nav pull-right visible-menu-icon"  style="margin-left: -20px">
 						<li>
 							<a class="mobile-menu-button" v-if="!menu" data-toggle="collapse" ><i  class="icon-menu7 " style="color: #000;" @click.stop="menu = !menu"></i></a>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="padding-sides mt-100">
         <!-- Page header -->
         <div class="page-header">
           <div class="page-header-content">
@@ -24,7 +24,7 @@
               <!-- main inner content -->
               <main id="wrapper" class="wrapper">
                 <div class="row">
-                  <div class="col-md-10">
+                  <div class="col-md-12">
                     <ul class="modern-listing big-icon no-top-border-list mt-0">
                       <li>
                         <nuxt-link to="/sms/quick-sms" class="btn btn-primary">Choose</nuxt-link>
@@ -65,7 +65,7 @@
 
                     </ul>
                   </div>
-                  <div class="col-md-1"></div>
+
                 </div>
               </main>
             </div>
@@ -137,7 +137,7 @@
     text-align: left;
     border-bottom: dashed 2px #aaa;
     margin-top: 30px;
-    width: 83%;
+    width: 100%;
   }
   .mt-150 {
     margin-top: 150px !important;

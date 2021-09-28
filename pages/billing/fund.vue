@@ -1,11 +1,5 @@
 <template>
-  <div>
-						<!-- Page header -->
-				<div class="page-header">
-						<div class="page-header-content">
-						</div>
-				</div>
-        <!-- /page header -->
+  <div class="padding-sides m-t-85">
         <!-- Page container -->
         <div class="fund-page-container">
           <!-- Page content -->
@@ -14,7 +8,7 @@
             <div class="fund-content-wrapper">
               <!-- main inner content -->
               <main id="wrapper" class="wrapper">
-                <section class="wrapper-bottom-sec mt-50">
+                <section class="wrapper-bottom-sec mt-20">
                   <div class="container-fluid container-fixed-lg">
                     <div class="inner">
                       <!-- END BREADCRUMB -->

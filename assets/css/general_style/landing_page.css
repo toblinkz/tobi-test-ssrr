@@ -89,6 +89,10 @@ input[type=text].error {
 	transform: skew(0,-10deg);
 	width: 100%;
 }
+.padding-sides{
+	 padding-left: 30px!important;
+	padding-right: 30px!important;
+}
 .home-x::before {
   content: '';
   position: absolute;
