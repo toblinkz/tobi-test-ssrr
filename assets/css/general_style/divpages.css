@@ -315,7 +315,7 @@ html #msb {
   z-index: 1000;
   position: fixed;
   bottom: 0;
-  width: 225px;
+  width: inherit;
   top: 0;
   right: auto;
   left: 0px;

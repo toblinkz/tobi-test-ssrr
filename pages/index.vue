@@ -1,5 +1,5 @@
 <template xmlns="http://www.w3.org/1999/html">
-	<div>
+	<div class="padding-sides m-t-80">
 				<!-- Page header -->
 				<div class="page-header">
 					<div class="page-header-content">
@@ -13,7 +13,7 @@
 						<!-- Main content -->
 						<div class="dashboard-content-wrapper">
 							<!-- main inner content -->
-							<main id="wrapper" class="wrapper mt-50">
+							<main id="wrapper" class="wrapper mt-20">
 								<div id="pages" class="fixed-header dashboard menu-pin">
 									<div id="sb">
 										<div class="jumbotron" data-pages="parallax">
@@ -21,7 +21,7 @@
 												<div class="inner">
 													<!-- END BREADCRUMB -->
 
-													<div class="container-md-height mt-30">
+													<div class="container-md-height">
 														<div class="row">
 															<div class="col-md-7">
 
@@ -468,9 +468,7 @@ export default {
 	padding: 0;
 	border-bottom-width: 0;
 }
-.page-header:not(.page-header-filled) + .dashboard-page-container {
-	padding-top: 35px;
-}
+
 .dashboard-page-container {
 	margin: auto;
 }

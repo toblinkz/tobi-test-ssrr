@@ -1,7 +1,7 @@
 <template>
-	<div>
+	<div class="padding-sides mt-70">
 			<div class="col-md-10">
-				<div class="mt-150">
+				<div class="mt-50">
 					<span style="font-size: 20px; font-weight: bold"> <i class="fa fa-tty m-r-5" style="font-size: 15px"></i> Numbers </span>
 					<p class="insight">Reach your customers easily in other<br> regions by using numbers with their country code</p>
 				</div>

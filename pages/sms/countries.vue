@@ -1,11 +1,7 @@
 <template>
-	<div>
-			<!--Page header-->
-			<div class="page-header">
-				<div class="page-header-content">
-				</div>
-			</div>
-			<!-- /page header -->
+	<div class="padding-sides mt-70">
+
+		<!-- /page header -->
 			<!-- Page container -->
 			<div class="page-container">
 				<!-- Page content -->
@@ -14,7 +10,7 @@
 					<div class="content-wrapper">
 						<!-- main inner content -->
 						<main id="wrapper" class="wrapper">
-							<section class="wrapper-bottom-sec mt-50">
+							<section class="wrapper-bottom-sec ">
 								<div class="col-md-12">
 									<div class="jumbotron" data-pages="parallax">
 										<div class="container-fluid container-fixed-lg">

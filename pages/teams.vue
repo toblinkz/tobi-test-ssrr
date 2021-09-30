@@ -1,5 +1,5 @@
 <template>
-		<div>
+		<div class="padding-sides mt-70">
 					 <div class="main-content">
 							<div style="display: flex; flex-direction: row; justify-content: space-between">
 										<div style="display: flex; flex-direction: column">
@@ -147,7 +147,7 @@ export default {
 
 <style scoped>
 .main-content {
-	padding: 150px 32px 122px;
+	padding: 90px 32px 122px;
 	position: relative;
 	height: 100%;
 }

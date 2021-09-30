@@ -1,11 +1,6 @@
 <template>
-	<div>
-			<!-- Page header -->
-			<div class="page-header">
-				<div class="page-header-content">
-				</div>
-			</div>
-			<!-- /page header -->
+	<div class="mt-70">
+
 			<!-- Page container -->
 			<div class="page-container">
 				<!-- Page content -->
@@ -14,12 +9,12 @@
 					<div class="content-wrapper">
 						<!-- main inner content -->
 						<main id="wrapper" class="wrapper">
-							<section class="wrapper-bottom-sec mt-50">
+							<section class="wrapper-bottom-sec mt-20">
 								<div class="jumbotron" data-pages="parallax">
 									<div class="container-fluid container-fixed-lg">
 										<div class="inner">
 											<!-- END BREADCRUMB -->
-											<div class="container-sm-height m-t-20">
+											<div class="container-sm-height ">
 												<div class="row row-sm-height">
 													<center>
 														<!-- START PANEL -->
@@ -342,9 +337,7 @@ export default {
 		padding-bottom: 48px;
 	}
 }
-.page-header:not(.page-header-filled) + .page-container {
-	padding-top: 35px;
-}
+
 .page-container {
 	position: relative;
 	/* padding-bottom: 40px; */

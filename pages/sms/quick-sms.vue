@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="padding-sides mt-100">
       <!-- Page header -->
       <div class="page-header">
         <div class="page-header-content">
-          <div class="page-title mt-100">
+          <div class="page-title mt-70">
             <ul class="breadcrumb breadcrumb-caret position-right">
               <li><nuxt-link to="/">Home</nuxt-link></li>
               <li><nuxt-link to="/sms/quick-sms">Direct sms</nuxt-link></li>

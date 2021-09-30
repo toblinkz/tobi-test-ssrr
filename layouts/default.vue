@@ -1,18 +1,18 @@
 <template>
-  <div>
-			<div class="container-fluid body" >
+
+			<div class="container-fluid" >
 				<div class="row">
-					<div id="msb" class="col-md-2">
+					<div id="msb" class="col-md-2 padding-0" >
 						<Sidebar></Sidebar>
 					</div>
-					<div class="col-md-10">
+					<div class="col-md-10 padding-0" >
 					 <DashboardNavbar></DashboardNavbar>
 						<nuxt keep-alive :keep-alive-props="{ max: 3 }"/>
 					</div>
 				</div>
 			</div>
 
-  </div>
+
 </template>
 <style>
 

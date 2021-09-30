@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="padding-sides mt-70">
       <!--Page header-->
       <div class="page-header">
         <div class="page-header-content">
@@ -19,7 +19,7 @@
                       <div class="container-fluid container-fixed-lg">
                         <div class="inner">
                           <!-- END BREADCRUMB -->
-                          <div class="mt-50 ">
+                          <div >
                             <div class="row ">
                               <!--START PANEL -->
                               <div class="col-lg-6  col-md-7 ">
@@ -285,9 +285,7 @@
       padding-bottom: 48px;
     }
   }
-  .page-header:not(.page-header-filled) + .page-container {
-    padding-top: 35px;
-  }
+
   .page-container {
     position: relative;
     /* padding-bottom: 40px; */

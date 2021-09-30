@@ -1,11 +1,5 @@
 <template>
-  <div>
-						<!-- Page header -->
-				<div class="page-header">
-						<div class="page-header-content">
-						</div>
-				</div>
-        <!-- /page header -->
+  <div class="padding-sides m-t-85">
         <!-- Page container -->
         <div class="fund-page-container">
           <!-- Page content -->
@@ -14,7 +8,7 @@
             <div class="fund-content-wrapper">
               <!-- main inner content -->
               <main id="wrapper" class="wrapper">
-                <section class="wrapper-bottom-sec mt-50">
+                <section class="wrapper-bottom-sec mt-20">
                   <div class="container-fluid container-fixed-lg">
                     <div class="inner">
                       <!-- END BREADCRUMB -->
@@ -64,7 +58,7 @@
 																																				<!--Get Account Number Button-->
 																																				<div style="display: flex">
 																																					<button type="button" @click="showModal" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn m-r-10 btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
-																																					<a class="btn account mb-30" v-if="!has_nuban" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 8px!important;  margin-left: 11px;">
+																																					<a class="btn account mb-30" v-if="!has_nuban && customer_country === 'Nigeria'" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 8px!important;  margin-left: 11px;">
 																																						<i class="entypo-light-up"></i>
 																																						Get account number
 																																					</a>
@@ -193,7 +187,6 @@
 							isRegularBody: true,
 							isRegularForm: false,
 							isLoading: false,
-							show_get_account_number: false,
 							payment_method: '',
 							minimum_top_up: '',
 							minimum_top_up_value: '',
@@ -256,11 +249,11 @@
 						},
 
 						nuban_account(account_data){
-							 if(account_data.length === 0){
-							 	 this.has_nuban = false;
+							 if(account_data.length >= 1){
+							 	 this.has_nuban = true;
 							 	 return;
 								}
-							 this.has_nuban = true;
+							 this.has_nuban = false;
 						},
 					},
 					methods: {
@@ -275,11 +268,6 @@
 								this.customer_permissions.push(permission.name);
 							});
 						},
-
-						setNubanAccount(){
-							this.getNuban();
-						},
-
 						showModal() {
 							this.$modal.show('service-pricing-modal');
 						},
@@ -409,12 +397,17 @@
 
 						},
 						getNuban: async function () {
-							if (this.customer_country === 'Nigeria' && this.nuban_account.length === 0) {
+							if (this.customer_country === 'Nigeria' && this.nuban_account.length < 1) {
 								const {data} = await this.$billing.getNubanAccount();
 								this.nuban_account = data.data;
 							}
 
 						},
+
+						setNubanAccount(){
+						 location.reload();
+						},
+
 						async getTopUp() {
 							try {
 								let response = await this.$axios.$get('billing/top-up/plans');
@@ -499,9 +492,6 @@
 							this.getPaymentMethod();
 							this.getTopDetails();
 							this.getNuban();
-							if (this.customer_country === 'Nigeria' && this.nuban_account.length === 0){
-								 this.show_get_account_number = true;
-							}
 
 						}
 					}
