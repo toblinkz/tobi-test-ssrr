@@ -1,7 +1,7 @@
 <template>
 
 			<div class="container-fluid" >
-				<div class="row">
+				<div class="row layout-flex" >
 					<div id="msb" class="col-md-2 padding-0" >
 						<Sidebar></Sidebar>
 					</div>
@@ -15,7 +15,11 @@
 
 </template>
 <style>
-
+@media  (min-width: 768px){
+	.layout-flex{
+		display: flex!important;
+	}
+}
 </style>
 
 <script>
