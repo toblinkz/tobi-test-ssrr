@@ -124,6 +124,14 @@ a {
   top: 0;
   border-width: 0 0 1px;
 }
+
+@media  (max-width: 768px){
+	.navbar-fixed-top{
+		width: 100%!important;
+		padding-left: 20px!important;
+
+	}
+}
 @media (min-width: 768px){
   .navbar-fixed-top, .navbar-fixed-bottom {
     border-radius: 0;
@@ -136,6 +144,7 @@ a {
   right: 0;
   z-index: 1030;
 }
+
 .stretch-a {
   margin-left: 15px !important;
 
