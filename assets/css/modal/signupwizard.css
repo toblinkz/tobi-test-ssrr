@@ -155,11 +155,11 @@ strong {
 	height: 100%;
 }
 .flex-item-left {
-	flex: 30%;
+	flex: 32%;
 }
 
 .flex-item-right {
-	flex: 70%;
+	flex: 68%;
 }
 ul{
 	list-style: none;
