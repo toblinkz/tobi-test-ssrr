@@ -25,7 +25,7 @@
 																																	 <i class="entypo-phone blue-i"></i>
 																													</span>
 																													</nuxt-link>
-																													<h4><nuxt-link to="/sandbox/voice-otp" class="blue-t">Voice OTP</nuxt-link></h4>
+																													<h4><nuxt-link to="/sandbox/voice-otp" class="blue-t">Voice OTP Sandbox</nuxt-link></h4>
 																													<p>
 																														Verify your customers by triggering a phone call that reads their code to them.
 																													</p>
@@ -39,7 +39,7 @@
 																																	 <i class="entypo-chat blue-i"></i>
 																													</span>
 																								</nuxt-link>
-																								<h4><nuxt-link to="/sandbox/sms" class="blue-t">SMS</nuxt-link></h4>
+																								<h4><nuxt-link to="/sandbox/sms" class="blue-t">SMS Sandbox</nuxt-link></h4>
 																								<p>
 																									Send test SMS to any number and see it deliver swiftly, anywhere.
 																								</p>
