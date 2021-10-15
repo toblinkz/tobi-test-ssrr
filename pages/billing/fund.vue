@@ -49,13 +49,13 @@
 																																			</ContentLoader>
 																																			<div v-else>
 
-																																			<GenericAccountNumberComponent v-if="!has_nuban"
+																																			<GenericAccountNumberComponent v-if="(!has_nuban && customer_country === 'Nigeria') || customer_country !== 'Nigeria' "
 																																																																		:account_number="account_number"
 																																																																		:bank_name="bank_name"
 																																																																		:account_name="account_name">
 																																			</GenericAccountNumberComponent>
 
-																																				<NubanAccountNumberComponent v-if="has_nuban"
+																																				<NubanAccountNumberComponent v-if="has_nuban && customer_country === 'Nigeria'"
 																																																																	 :nuban_account="nuban_account">
 																																				</NubanAccountNumberComponent>
 
