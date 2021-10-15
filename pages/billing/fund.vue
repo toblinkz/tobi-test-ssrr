@@ -18,8 +18,12 @@
                             <!-- START PANEL -->
                             <div class="panel-transparent">
 																													<span id="welcome" ><i class="entypo-credit-card" style="font-size: 20px"></i><span style="font-size: 13px">Available balance:</span></span>
-																													 <p style="font-size: 50px; font-weight: 500; color:#365899;">{{account_balance}}</p>
-                            </div>
+																													 <div v-if="account_balance" style="display: flex">
+																															<p class="mt-5" style="font-size: 50px; font-weight: 500; color:#365899;">{{account_balance}}</p>
+																															<a  class="bg-blue mt-20 m-l-50 no-margin-left" v-if="!has_nuban && customer_country === 'Nigeria'" @click="showAccountNumberModal">Get a virtual account number <i class="m-l-10 fa fa-angle-right"></i> </a>
+																														</div>
+
+																												</div>
                             <!-- Trigger the modal with a button -->
                           </div>
                         </div>
@@ -58,10 +62,7 @@
 																																				<!--Get Account Number Button-->
 																																				<div style="display: flex">
 																																					<button type="button" @click="showModal" style="border: 1px solid #E6E6E6 !important; background: #fff !important;" class="btn m-r-10 btn-blue btn-cons hidden-xs mb-30" ><i class="entypo-popup"></i> View full messaging prices</button>
-																																					<a class="btn account mb-30" v-if="!has_nuban && customer_country === 'Nigeria'" @click="showAccountNumberModal" style="font-size: 12px !important; padding: 10px; background-color: #FFE8E8; color: #FF0000; border-radius: 8px!important;  margin-left: 11px;">
-																																						<i class="entypo-light-up"></i>
-																																						Get account number
-																																					</a>
+
 																																				</div>
 																																				<!--End Get Account Number Button-->
 
@@ -198,7 +199,7 @@
 							isValidatingCoupon: false,
 							amount: '',
 							coupon_code: '',
-							has_nuban: false,
+							has_nuban: true,
 							show_validate_button: false,
 							is_nigerian_wallet: false,
 							show_coupon_input_field: false,

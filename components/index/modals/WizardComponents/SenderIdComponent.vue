@@ -5,7 +5,7 @@
 				<p  style="font-size:18px; padding:0 15px; color: #FFFFFF">Set Up Your account </p>
 				<p  style="font-size: 12px; padding: 0 15px; color: #FFFFFF" >Here's a quick guide to setting up your account</p>
 				<div class="m-l-20 mt-50">
-					<img src="/images/stepper/stepper_two.svg" />
+					<img src="/images/stepper/guide_two.svg" />
 				</div>
 			</div>
 		</div>
@@ -107,7 +107,7 @@ export default {
 				this.request_button_text = '';
 				this.isLoading = true;
 				await this.$sms.requestSenderId(this.sender_id, JSON.parse(localStorage.getItem('user_data')).country, this.usecase, this.company);
-				this.$emit('showSuccessModal');
+				this.$emit('showVirtualAccountSetup');
 			}catch (e) {
 				this.request_button_text = 'request';
 				this.isLoading = false;

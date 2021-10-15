@@ -5,7 +5,7 @@
 				<p  style="font-size:18px; padding:0 15px; color: #FFFFFF">Set Up Your account </p>
 				<p  style="font-size: 12px; padding: 0 15px; color: #FFFFFF" >Here's a quick guide to setting up your account</p>
 				<div class="m-l-20 mt-50">
-					<img src="/images/stepper/stepper_two.svg" />
+					<img src="/images/stepper/guide_two.svg" />
 				</div>
 			</div>
 		</div>
@@ -30,7 +30,7 @@
 				</span>
 			</a>
 		</div>
-				<div style="position: absolute; bottom: 10px;">
+				<div style="position: absolute; bottom: 50px;">
 					<span style="font-weight: 700; cursor: pointer; color: #365899;" class="text-left" @click="showSelectService">Back</span>
 				</div>
 			</div>
@@ -73,7 +73,8 @@ name: "DeviceIdComponent",
 				await this.$axios.post('devices', {
 					name: this.device_id
 				}, )
-				this.$emit('showSuccessModal');
+				this.$emit('showVirtualAccountSetup');
+
 			} catch (e) {
 				this.request_button_text = 'request';
 				this.isLoading = false;

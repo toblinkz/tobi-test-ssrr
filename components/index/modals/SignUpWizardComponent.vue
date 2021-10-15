@@ -1,10 +1,11 @@
 <template>
 	<modal name="signup-wizard-modal"   width="800px" height="700px" @before-close="beforeClose">
      <WelcomeComponent v-if="showStepOne" @showServicePage="moveToStepTwo"></WelcomeComponent>
-     <SelectServiceComponent v-if="showStepTwo" @showSenderIdForm="moveToStepThreeA" @showDeviceIdForm = moveToStepThreeB></SelectServiceComponent>
-     <SenderIdComponent v-if="showStepThreeA" @showSelectService="moveToStepTwo" @showSuccessModal="moveToStepFour"></SenderIdComponent>
-		    <DeviceIdComponent v-if="showStepThreeB" @showSelectService="moveToStepTwo"  @showSuccessModal="moveToStepFour"></DeviceIdComponent>
-		    <SuccessModal v-if="showStepFour"></SuccessModal>
+      <SelectServiceComponent v-if="showStepTwo" @showSenderIdForm="moveToStepThreeA" @showDeviceIdForm = moveToStepThreeB></SelectServiceComponent>
+     <SenderIdComponent v-if="showStepThreeA" @showSelectService="moveToStepTwo" @showVirtualAccountSetup="moveToStepFour"></SenderIdComponent>
+		    <DeviceIdComponent v-if="showStepThreeB" @showSelectService="moveToStepTwo"  @showVirtualAccountSetup="moveToStepFour"></DeviceIdComponent>
+		  		<VirtualAccountComponent @showSuccessModal="moveToStepFive" v-if="showStepFour"></VirtualAccountComponent>
+		    <SuccessModal v-if="showStepFive"></SuccessModal>
 
 
 	</modal>
@@ -17,9 +18,11 @@ import SenderIdComponent from "./WizardComponents/SenderIdComponent";
 import FundWalletComponent from "./WizardComponents/FundWalletComponent";
 import SuccessModal from "./WizardComponents/SuccessModal";
 import DeviceIdComponent from "./WizardComponents/DeviceIdComponent";
+import VirtualAccountComponent from "./WizardComponents/VirtualAccountComponent";
 export default {
 name: "SignUpWizardComponent",
   components: {
+			VirtualAccountComponent,
 			SuccessModal,
 			DeviceIdComponent, FundWalletComponent, SenderIdComponent, SelectServiceComponent, WelcomeComponent},
   watch: {
@@ -30,11 +33,11 @@ name: "SignUpWizardComponent",
 	},
 	data(){
 	  return{
-				 showStepOne: true,
+				 showStepOne: false,
 				 showStepTwo: false,
 				 showStepThreeA: false,
 				 showStepThreeB: false,
-				 showStepFour: false,
+				 showStepFour: true,
 				 showStepFive: false,
 					showSenderIdRequestSuccessfulMessage: false,
 				 request_button_text: 'Request',
@@ -69,10 +72,12 @@ name: "SignUpWizardComponent",
 
 			}
 		},
+
 		async beforeClose(){
 			await this.$user.updateIsWizardCompleted();
 			await this.fetchAndSoreLoggedInData();
 		},
+
 		async fetchAndSoreLoggedInData(){
 			let data = await this.$user.getLoggedInUserData()
 			localStorage.setItem('user_data', JSON.stringify(data.data));

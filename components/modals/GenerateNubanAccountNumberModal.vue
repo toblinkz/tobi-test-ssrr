@@ -11,7 +11,6 @@
 							<p class="alert insight toke" style="border-radius: 10px; padding: 5px">
 							<span>Kindly generate your dedicated account number. New CBN regulations
 													mandates that you input your BVN to generate a new account number.<br>
-								<b>NB:</b> ₦10 would be debited for this action
 						</span>
 							</p>
 							<div class="form-group">

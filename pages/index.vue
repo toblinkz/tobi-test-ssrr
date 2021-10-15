@@ -258,6 +258,7 @@ export default {
 	mounted:  function () {
 
 		this.startUserWizard();
+		this.$modal.show('signup-wizard-modal');
 
 		// this.displayAnnouncementModal();
 
