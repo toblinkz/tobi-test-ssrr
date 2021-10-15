@@ -52,6 +52,7 @@ name: "SignUpWizardComponent",
 				 payment_method:'',
 				 payment_gateway:'',
 				 amount: '',
+		 		customer_country: JSON.parse(localStorage.getItem('user_data')).country,
 				 total:'',
 				 input_amount: true
 			}
@@ -110,12 +111,22 @@ name: "SignUpWizardComponent",
 			this.showStepFive = false;
 		},
 		moveToStepFour(){
+			if (this.customer_country === "Nigeria"){
+				this.showStepOne = false;
+				this.showStepTwo = false;
+				this.showStepThreeA = false;
+				this.showStepThreeB = false;
+				this.showStepFour = true;
+				this.showStepFive = false;
+				return;
+			}
 			this.showStepOne = false;
 			this.showStepTwo = false;
 			this.showStepThreeA = false;
 			this.showStepThreeB = false;
-			this.showStepFour = true;
-			this.showStepFive = false;
+			this.showStepFour = false;
+			this.showStepFive = true;
+
 		},
 		moveToStepFive(){
 			this.showStepOne = false;
