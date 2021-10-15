@@ -33,11 +33,11 @@ name: "SignUpWizardComponent",
 	},
 	data(){
 	  return{
-				 showStepOne: false,
+				 showStepOne: true,
 				 showStepTwo: false,
 				 showStepThreeA: false,
 				 showStepThreeB: false,
-				 showStepFour: true,
+				 showStepFour: false,
 				 showStepFive: false,
 					showSenderIdRequestSuccessfulMessage: false,
 				 request_button_text: 'Request',
