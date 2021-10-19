@@ -175,39 +175,23 @@
               borderRadius: '5px',
             },
             isToggled: false,
-            type: "password"
+            type: "password",
+										 	file:''
 
           }
       },
 					watch:{
+
        password(value){
        	this.validatePassword(value)
 							}
-					},
-      computed: {
-          config(){
-            return{
-              bucketName: 'termii',
-              dirName: 'upload/images',
-              region: 'us-west-1',
-              accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-              secretAccessKey:  process.env.SECRET_ACCESS_KEY,
-            }
-          },
-							canUpdateProfile(){
-								return (this.customer_permissions.includes("update_profile"));
-							},
-        S3Client(){
-          return new S3(this.config);
-        },
-							newFileName(){
-          	return `customer_dp_${JSON.parse(localStorage.getItem('user_data')).fname}_${JSON.parse(localStorage.getItem('user_data')).customer.uid}`
-							},
 
-      },
+					},
+
       methods:{
+
         showPassword(){
-          if (this.type === "password") {
+          if (this.type === "password"){
             this.type = 'text';
             this.isToggled = true;
           }
@@ -216,15 +200,18 @@
             this.isToggled = false;
           }
         },
+
         async fetchUtilityData(){
 
-          //fetch sector data
           let sector_data =await this.$axios.$get('/utility/sectors');
           this.sectors = sector_data.data;
+
         },
+
         setSectorId(event){
           this.sectors_id = event;
         },
+
         async updateProfile(){
           try{
             await this.$axios.$patch('user/profile',{
@@ -268,33 +255,34 @@
 									this.hasPasswordError = false;
 								}
 							},
+
 							validateImage(file){
+
         	let y = file.type.split('/').pop().toLowerCase();
-        	if ( y === "jpeg" || y === "png"){
-        					return true
-									}
-        	return false;
+
+        	return y === "jpeg" || y === "png";
 
 							},
+
 							showPasswordModal(){
-        	this.$modal.show('account-password-modal');
+
+								this.$modal.show('account-password-modal');
+
 							},
-        uploadPhoto(fieldName, files){
+
+       async uploadPhoto(fieldName, files){
 									this.upload_button_text = 'Uploading...'
 									try {
-										let file = files[0];
-										if (this.validateImage(file)){
-											let src = URL.createObjectURL(file);
+										 this.file = files[0];
+										 const file_type = this.file.name.split('.').pop().toLowerCase();
+										if (this.validateImage(this.file)){
+											let src = URL.createObjectURL(this.file);
 											let preview = document.getElementById('customer_dp');
-											preview.src = src
-											this.S3Client
-												.uploadFile(file, this.newFileName)
-												.then(data => { this.image_url = data.location, this.$toast.success('Uploaded successfully'), this.upload_button_text = 'Upload'})
-												.catch(err => {Swal.fire({
-													icon: 'error',
-													title: 'Oops...',
-													text: 'Something went wrong! Please try again.',
-												}), this.upload_button_text = 'Upload'});
+											preview.src = src;
+											const uploadS3Url = await this.$uploadFileTos3.uploadFileToS3(this.file, file_type).catch((e)=> {this.$toast.error(e)});
+											this.image_url = uploadS3Url.data;
+											this.$toast.success('Uploaded successfully');
+											this.upload_button_text = 'Upload';
 										}else {
 											this.upload_button_text = 'Upload';
 											this.$toast.error("Please upload a valid image file(JPEG, PNG)");

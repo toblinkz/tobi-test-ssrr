@@ -18,6 +18,7 @@ export class UtilityService {
 		 });
 	}
 
+
 	setExpiryTime(){
 		let loggedInTime = Date.now();
 		let expiryTime =  moment(loggedInTime).add(54, 'minutes').toDate();
