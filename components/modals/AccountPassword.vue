@@ -61,7 +61,7 @@ export default {
 	props:{
 		company_sector:{
 		},
-		phone:{
+		phone_number:{
 		},
 		email:{
 		},
@@ -69,7 +69,7 @@ export default {
 		},
 		last_name:{
 		},
-		image:{
+		image_url:{
 		},
 		feedback: {
 		},
@@ -173,16 +173,9 @@ export default {
 			this.button_text = "";
 			this.isLoading = true;
 			try {
-				await this.$axios.$patch('user/profile', {
-					first_name: this.first_name,
-					last_name: this.last_name,
-					email: this.email,
-					password: this.password,
-					company_sector: this.company_sector,
-					phone: this.phone,
-					image: this.image_url,
+				await this.$user.updateProfile(this.first_name, this.last_name,
+					this.email, this.password, this.company_sector, this.image_url, this.phone_number);
 
-				});
 				let response = await this.$axios.$get('user', {
 					headers: {'Authorization': `Bearer ${localStorage.getItem('local')}`}
 				});

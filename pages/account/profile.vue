@@ -41,7 +41,7 @@
                                   <div class="media profile-image">
                                     <div class="media-left">
                                       <a  class="upload-media-container">
-                                        <img preview-for="image" :src="user_image"  class="img-circle" alt="" id="customer_dp">
+                                        <img preview-for="image" :src="image_url"  class="img-circle" alt="" id="customer_dp">
                                       </a>
                                       <input type="file" name="image" class="file-styled previewable hide" @change="uploadPhoto(fieldName, $event.target.files)">
                                     </div>
@@ -126,8 +126,8 @@
 						:email="email"
 					 :first_name="first_name"
 					 :last_name="last_name"
-					 :phone="phone_number"
-						:image="image_url"
+					 :phone_number="phone_number"
+						:image_url="image_url"
 						 event_name="profile"
 					 >
 					</AccountPassword>
@@ -170,7 +170,7 @@
             selected_country: '',
             selected_sector: '',
 												user_image: '',
-            image_url: this.image_url,
+            image_url: '',
             dropdownStyle: {
               borderRadius: '5px',
             },
@@ -185,6 +185,13 @@
        password(value){
        	this.validatePassword(value)
 							}
+
+					},
+					computed:{
+
+						canUpdateProfile(){
+							return true;
+						}
 
 					},
 
@@ -212,37 +219,6 @@
           this.sectors_id = event;
         },
 
-        async updateProfile(){
-          try{
-            await this.$axios.$patch('user/profile',{
-              first_name: this.first_name,
-              last_name: this.last_name,
-              email: this.email,
-														password: this.password,
-              company_sector: this.selected_sector,
-													 image: this.image_url,
-              phone: this.phone_number
-            });
-            await Swal.fire({
-              icon: 'success',
-              text: 'Profile Updated Successfully',
-            })
-											let response = 	await this.$axios.$get('user', {
-												headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
-											});
-											await localStorage.setItem('user_data', JSON.stringify(response.data));
-          }catch (e) {
-												let errors = e.response.data.errors;
-												for(let key in errors){
-													errors[key].forEach(err => {
-														this.$toast.error(err);
-														this.hasPasswordError = true
-														this.error_message['password'] = err;
-													});
-												}
-
-          }
-        },
 							removeImage(){
 								$("#customer_dp").attr('src', '')
 							},
@@ -304,7 +280,7 @@
 									this.email = JSON.parse(localStorage.getItem('user_data')).email;
 							  this.selected_country = JSON.parse(localStorage.getItem('user_data')).country;
 									this.selected_sector = JSON.parse(localStorage.getItem('user_data')).company_sector.id;
-									this.user_image = JSON.parse(localStorage.getItem('user_data')).image;
+									this.image_url = JSON.parse(localStorage.getItem('user_data')).image;
 									this.phone_number =  JSON.parse(localStorage.getItem('user_data')).phone;
 								 this.sectors = [JSON.parse(localStorage.getItem('user_data')).company_sector.name];
 								this.fetchUtilityData();
