@@ -20,6 +20,18 @@ export class UserService {
 			});
 	}
 
+	async updateProfile(first_name, last_name, email, password, company_sector, image, phone){
+     return await this.$axios.$patch('user/profile', {
+						first_name: first_name,
+						last_name: last_name,
+						email: email,
+						password: password,
+						company_sector: company_sector,
+						image: image,
+						phone: phone
+					});
+	}
+
 	async LoginUser(email, password){
 		 return await this.$axios.$post('auth/login', {
 				email: email,

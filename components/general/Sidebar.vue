@@ -155,7 +155,7 @@
 				  	data(){
         	return{
 													show_drop_down: true,
-													imageUrl:  'https://termii.s3-us-west-1.amazonaws.com/upload/images/sBBQZhMRRLWpKP5hjTR7BZ.jpeg',
+													imageUrl: '',
 										   permission_data : [],
 										   customer_permissions:[],
 										   company_name:JSON.parse(localStorage.getItem('user_data')).company.name,

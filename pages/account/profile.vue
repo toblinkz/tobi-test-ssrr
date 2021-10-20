@@ -41,7 +41,7 @@
                                   <div class="media profile-image">
                                     <div class="media-left">
                                       <a  class="upload-media-container">
-                                        <img preview-for="image" :src="user_image"  class="img-circle" alt="" id="customer_dp">
+                                        <img preview-for="image" :src="image_url"  class="img-circle" alt="" id="customer_dp">
                                       </a>
                                       <input type="file" name="image" class="file-styled previewable hide" @change="uploadPhoto(fieldName, $event.target.files)">
                                     </div>
@@ -126,8 +126,8 @@
 						:email="email"
 					 :first_name="first_name"
 					 :last_name="last_name"
-					 :phone="phone_number"
-						:image="image_url"
+					 :phone_number="phone_number"
+						:image_url="image_url"
 						 event_name="profile"
 					 >
 					</AccountPassword>
@@ -170,44 +170,35 @@
             selected_country: '',
             selected_sector: '',
 												user_image: '',
-            image_url: this.image_url,
+            image_url: '',
             dropdownStyle: {
               borderRadius: '5px',
             },
             isToggled: false,
-            type: "password"
+            type: "password",
+										 	file:''
 
           }
       },
 					watch:{
+
        password(value){
        	this.validatePassword(value)
 							}
-					},
-      computed: {
-          config(){
-            return{
-              bucketName: 'termii',
-              dirName: 'upload/images',
-              region: 'us-west-1',
-              accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-              secretAccessKey:  process.env.SECRET_ACCESS_KEY,
-            }
-          },
-							canUpdateProfile(){
-								return (this.customer_permissions.includes("update_profile"));
-							},
-        S3Client(){
-          return new S3(this.config);
-        },
-							newFileName(){
-          	return `customer_dp_${JSON.parse(localStorage.getItem('user_data')).fname}_${JSON.parse(localStorage.getItem('user_data')).customer.uid}`
-							},
 
-      },
+					},
+					computed:{
+
+						canUpdateProfile(){
+							return true;
+						}
+
+					},
+
       methods:{
+
         showPassword(){
-          if (this.type === "password") {
+          if (this.type === "password"){
             this.type = 'text';
             this.isToggled = true;
           }
@@ -216,46 +207,18 @@
             this.isToggled = false;
           }
         },
+
         async fetchUtilityData(){
 
-          //fetch sector data
           let sector_data =await this.$axios.$get('/utility/sectors');
           this.sectors = sector_data.data;
+
         },
+
         setSectorId(event){
           this.sectors_id = event;
         },
-        async updateProfile(){
-          try{
-            await this.$axios.$patch('user/profile',{
-              first_name: this.first_name,
-              last_name: this.last_name,
-              email: this.email,
-														password: this.password,
-              company_sector: this.selected_sector,
-													 image: this.image_url,
-              phone: this.phone_number
-            });
-            await Swal.fire({
-              icon: 'success',
-              text: 'Profile Updated Successfully',
-            })
-											let response = 	await this.$axios.$get('user', {
-												headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
-											});
-											await localStorage.setItem('user_data', JSON.stringify(response.data));
-          }catch (e) {
-												let errors = e.response.data.errors;
-												for(let key in errors){
-													errors[key].forEach(err => {
-														this.$toast.error(err);
-														this.hasPasswordError = true
-														this.error_message['password'] = err;
-													});
-												}
 
-          }
-        },
 							removeImage(){
 								$("#customer_dp").attr('src', '')
 							},
@@ -268,33 +231,34 @@
 									this.hasPasswordError = false;
 								}
 							},
+
 							validateImage(file){
+
         	let y = file.type.split('/').pop().toLowerCase();
-        	if ( y === "jpeg" || y === "png"){
-        					return true
-									}
-        	return false;
+
+        	return y === "jpeg" || y === "png";
 
 							},
+
 							showPasswordModal(){
-        	this.$modal.show('account-password-modal');
+
+								this.$modal.show('account-password-modal');
+
 							},
-        uploadPhoto(fieldName, files){
+
+       async uploadPhoto(fieldName, files){
 									this.upload_button_text = 'Uploading...'
 									try {
-										let file = files[0];
-										if (this.validateImage(file)){
-											let src = URL.createObjectURL(file);
+										 this.file = files[0];
+										 const file_type = this.file.name.split('.').pop().toLowerCase();
+										if (this.validateImage(this.file)){
+											let src = URL.createObjectURL(this.file);
 											let preview = document.getElementById('customer_dp');
-											preview.src = src
-											this.S3Client
-												.uploadFile(file, this.newFileName)
-												.then(data => { this.image_url = data.location, this.$toast.success('Uploaded successfully'), this.upload_button_text = 'Upload'})
-												.catch(err => {Swal.fire({
-													icon: 'error',
-													title: 'Oops...',
-													text: 'Something went wrong! Please try again.',
-												}), this.upload_button_text = 'Upload'});
+											preview.src = src;
+											const uploadS3Url = await this.$uploadFileTos3.uploadFileToS3(this.file, file_type).catch((e)=> {this.$toast.error(e)});
+											this.image_url = uploadS3Url.data;
+											this.$toast.success('Uploaded successfully');
+											this.upload_button_text = 'Upload';
 										}else {
 											this.upload_button_text = 'Upload';
 											this.$toast.error("Please upload a valid image file(JPEG, PNG)");
@@ -316,7 +280,7 @@
 									this.email = JSON.parse(localStorage.getItem('user_data')).email;
 							  this.selected_country = JSON.parse(localStorage.getItem('user_data')).country;
 									this.selected_sector = JSON.parse(localStorage.getItem('user_data')).company_sector.id;
-									this.user_image = JSON.parse(localStorage.getItem('user_data')).image;
+									this.image_url = JSON.parse(localStorage.getItem('user_data')).image;
 									this.phone_number =  JSON.parse(localStorage.getItem('user_data')).phone;
 								 this.sectors = [JSON.parse(localStorage.getItem('user_data')).company_sector.name];
 								this.fetchUtilityData();
