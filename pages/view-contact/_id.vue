@@ -178,10 +178,7 @@
 							if(!this.error_message){
 								try {
 									//get phonebook contact
-									let data = await this.$axios.$get('sms/phone-book/' +this.$route.params.id,{params:{
-											page: this.page,
-											phone_number: this.phone_number
-										}});
+									let data = await this.$campaign.getPhonebookContacts(this.$route.params.id, this.phone_number);
 									this.phone_book_contacts = data;
 									if (data.meta.last_page > 1){this.showPagination = true}
 									this.page = data.meta.current_page;
@@ -227,7 +224,7 @@
 													confirmButtonText: 'Yes, delete it!'
 												}).then(async (result) => {
 													if (result.value){
-														await this.$axios.$delete('sms/phone-book/contact/' + row.id).catch((e)=>{this.$toast.error("An Error Occured while trying to delete this contact");});
+														await this.$campaign.deleteContact(row.id).catch((e)=>{this.$toast.error("An Error Occured while trying to delete this contact");});
 														this.$toast.success("Phone book deleted successfully");
 														await this.getPhonebookContacts();
 													}

@@ -154,7 +154,7 @@ export default {
 			 this.countries.push({code: null, d_code: '+null', name: " Country code exists on contact "})
 
 				//get phonebook list
-				let phone_book_list = await this.$campaign.getPhoneBook();
+				let phone_book_list = await this.$campaign.getUnPaginatedPhonebookList();
 
 				this.phone_books = phone_book_list.data
 
@@ -202,10 +202,16 @@ export default {
 					showConfirmButton: true,
 				});
 			}catch (e) {
-				this.$toast.error("Something went wrong. Try again!");
 				this.isLoading = false;
 				this.showIcon = true;
 				this.button_text = 'Add';
+				if (e.response.status === 400){
+					 this.$toast.error(e.response.data.message);
+				}else {
+					this.$toast.error("Something went wrong. Try again!");
+				}
+
+
 
 			}
 
