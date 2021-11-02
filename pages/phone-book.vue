@@ -216,9 +216,7 @@
 		methods:{
 			async getPhoneBook() {
 				try {
-					let data = await this.$axios.$get('sms/phone-book', {params:{
-							page: this.page
-						}});
+					let data = await this.$campaign.getPhonebooks(this.page);
 					this.phone_book = data.data;
 					this.showPagination = data.meta.last_page > 1;
 					this.page = data.meta.current_page;

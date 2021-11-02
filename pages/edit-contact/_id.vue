@@ -125,7 +125,7 @@
       async fetch(){
       	//get contact details
         try{
-          let response_data = await this.$axios.$get('sms/phone-book/contact/' + this.$route.params.id);
+          let response_data = await this.$campaign.getContactDetails(this.$route.params.id);
           this.phone_number = response_data.data.phone_number;
           this.phone_book_id = response_data.data.pid;
           this.first_name = response_data.data.first_name;

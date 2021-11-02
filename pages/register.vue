@@ -325,7 +325,6 @@ export default {
 			 try {
 
 					let response_data = await this.$user.LoginUser(this.email, this.password);
-				 console.log(response_data.access_token)
 					localStorage.setItem('local', response_data.access_token);
 
 					let response = await this.$user.getUser();
@@ -351,16 +350,11 @@ export default {
 
 			this.isLoading = true;
 			this.button_text = "Creating..."
-
 			try{
-
 				 await this.$user.registerUser(this.first_name, this.last_name, this.email,
 					this.password, this.phone_number, this.selected_country,
 					this.sectors_id, this.company, this.role_id, this.notification_opt_in);
-
 				 await this.setUserData();
-
-
 			} catch (e) {
 
 				this.isLoading = false;

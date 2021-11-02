@@ -38,6 +38,16 @@ export class UserService {
 				password: password
 			})
 	}
+	async getPhonebook(){
+		return await this.$axios.$get('sms/phone-book?filter=unpaginated');
+	}
+
+	async authenticateUserForCampaign(email, password){
+		return await this.$axios.$post('auth/login', {
+			email: email,
+			password: password
+		})
+	}
 
 	async getUser(){
 	return 	await this.$axios.$get('user', {

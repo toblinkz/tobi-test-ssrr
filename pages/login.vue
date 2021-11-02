@@ -143,11 +143,11 @@ export default {
 			try{
 				this.isLoading = true;
 				this.button_text = "Logging in";
-				let response_data =   await this.$axios.post('auth/login', {
-					email: this.email,
-					password: this.password
-				});
-				await 	localStorage.setItem('local', response_data.data.access_token);
+
+				let campaign_auth_response =  await this.$user.authenticateUserForCampaign(this.email, this.password);
+				await 	localStorage.setItem('campaign_token', campaign_auth_response.access_token);
+				let response_data = await this.$user.LoginUser(this.email, this.password);
+				await 	localStorage.setItem('local', response_data.access_token);
 				localStorage.setItem('activity_log_error', 'false');
 
 				this.$utility.setExpiryTime();
