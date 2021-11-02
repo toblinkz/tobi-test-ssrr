@@ -30,7 +30,7 @@ export default {
 			baseURL: 'https://termii.com',
 			TERMII_API_KEY: process.env.TERMII_API_KEY,
 			PUBLIC_API_BASE_URL: process.env.PUBLIC_API_BASE_URL,
-			CAMPAIGN_API_BASE_URL: process.env.CAMPAIGN_BASE_URL
+			campaignApiBaseURL: process.env.CAMPAIGN_BASE_URL
 		},
   /*
   ** Customize the progress-bar color

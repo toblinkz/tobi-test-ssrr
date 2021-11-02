@@ -154,7 +154,8 @@ export default {
 			 this.countries.push({code: null, d_code: '+null', name: " Country code exists on contact "})
 
 				//get phonebook list
-				let phone_book_list = await this.$axios.$get('sms/phone-book?filter=unpaginated',);
+				let phone_book_list = await this.$campaign.getPhoneBook();
+
 				this.phone_books = phone_book_list.data
 
 			}catch (e) {
@@ -180,7 +181,6 @@ export default {
 				if (this.validateFile(this.file)){
         const uploadS3Url = await this.$uploadFileTos3.uploadFileToS3(this.file, file_type).catch((e)=> {this.$toast.error(e)});
         this.contact_upload_url = uploadS3Url.data;
-        console.log(this.contact_upload_url);
 								this.$toast.success('Uploaded successfully');
 								return;
 				}
@@ -192,11 +192,7 @@ export default {
 				this.isLoading = true;
 				this.showIcon = false;
 				this.button_text = '';
-				let data = await this.$axios.$post('sms/phone-book/contact/add',{
-					contact_upload_url : this.contact_upload_url,
-					id: this.selected_phone_book,
-					country_code: this.selected_country.substring(1)
-				});
+				let data = await this.$campaign.addContact(this.contact_upload_url, this.selected_phone_book, this.selected_country);
 				this.isLoading = false;
 				this.showIcon = true;
 				this.button_text = 'Add';

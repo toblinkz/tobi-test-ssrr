@@ -144,8 +144,8 @@ export default {
 				this.isLoading = true;
 				this.button_text = "Logging in";
 
-				let response_d =  await this.$user.authenticateUserForCampaign(this.email, this.password);
-				console.log(response_d.data.access_token);
+				let campaign_auth_response =  await this.$user.authenticateUserForCampaign(this.email, this.password);
+				await 	localStorage.setItem('campaign_token', campaign_auth_response.access_token);
 				let response_data = await this.$user.LoginUser(this.email, this.password);
 				await 	localStorage.setItem('local', response_data.access_token);
 				localStorage.setItem('activity_log_error', 'false');
