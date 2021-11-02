@@ -39,6 +39,13 @@ export class UserService {
 			})
 	}
 
+	async authenticateUserForCampaign(email, password){
+		return await this.$axios.$post('auth/login', {
+			email: email,
+			password: password
+		})
+	}
+
 	async getUser(){
 	return 	await this.$axios.$get('user', {
 			headers: {
