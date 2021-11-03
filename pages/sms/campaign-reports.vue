@@ -54,7 +54,8 @@
 															<thead>
 															<tr>
 																<th style=""></th>
-																<th style="">Date</th>
+																<th style="">Date Created</th>
+																<th style="">Run At</th>
 																<th style="">From</th>
 																<th style="">Recipients</th>
 																<th style="">Status</th>
@@ -65,6 +66,7 @@
 															<tr v-for="row in campaign_report" :key="row.campaign_id">
 																<td style="">{{row.campaign_id}}</td>
 																<td style="" id="created-at">{{row.created_at}}</td>
+																<td style="" id="">{{row.run_at}}</td>
 																<td style="">{{row.sender}}</td>
 																<td style="">{{row.total_recipients}}</td>
 																<td style="">
