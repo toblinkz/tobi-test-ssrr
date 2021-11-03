@@ -32,8 +32,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-12">
-									<div class="p-t-none p-b-none">
+								<div class="col-md-12 col-lg-12">
+									<div class="p-t-none p-b-ngone">
 										<div class="col-lg-3">
 										</div>
 										<div class="col-lg-6">
