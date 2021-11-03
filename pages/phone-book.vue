@@ -38,9 +38,9 @@
 												<h2></h2>
 											</div>
 											<div class="row">
-												<div class="col-md-2">
+												<div class="col-md-2 col-lg-2">
 												</div>
-												<div  v-if="canAddPhonebook" class="col-md-8">
+												<div  v-if="canAddPhonebook" class="col-md-8 col-lg-8">
 													<div class="panel">
 														<div class="panel-body">
 															<form class="" role="form" method="post" @submit.prevent="addPhoneBook">
