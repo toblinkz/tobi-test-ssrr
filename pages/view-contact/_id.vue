@@ -75,8 +75,7 @@
 																														</div>
 																														<form @submit.prevent="getPhonebookContacts" class="">
 																															<input type="search" class="form-control2 input-sm" placeholder="Search phone number" v-model="phone_number">
-																															<span class=" error_fi
-																															eld_message" v-if="error_message">{{error_message}}</span>
+																															<span class=" error_field_message" v-if="error_message">{{error_message}}</span>
 																														</form>
 																												</div>
 
@@ -178,7 +177,7 @@
 							if(!this.error_message){
 								try {
 									//get phonebook contact
-									let data = await this.$campaign.getPhonebookContacts(this.$route.params.id, this.phone_number);
+									let data = await this.$campaign.getPhonebookContacts(this.$route.params.id, this.page, this.phone_number);
 									this.phone_book_contacts = data;
 									if (data.meta.last_page > 1){this.showPagination = true}
 									this.page = data.meta.current_page;
