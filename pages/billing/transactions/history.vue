@@ -199,10 +199,8 @@
 									this.show_shimmer = true;
 
 									let transactions = await this.setTransactionData(null, this.page);
-
-									let transaction_sum = await this.setTransactionSumData(null);
-
 									this.show_shimmer = false;
+									let transaction_sum = await this.setTransactionSumData(null);
 
 								}catch (e) {
 
