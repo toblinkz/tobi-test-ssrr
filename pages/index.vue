@@ -1,87 +1,87 @@
 <template xmlns="http://www.w3.org/1999/html">
 	<div class="padding-sides m-t-80">
-				<!-- Page header -->
-				<div class="page-header">
-					<div class="page-header-content">
-					</div>
-				</div>
-				<!-- /page header -->
-				<!-- Page container -->
-				<div class="dashboard-page-container">
-					<!-- Page content -->
-					<div class="dashboard-page-content">
-						<!-- Main content -->
-						<div class="dashboard-content-wrapper">
-							<!-- main inner content -->
-							<main id="wrapper" class="wrapper mt-20">
-								<div id="pages" class="fixed-header dashboard menu-pin">
-									<div id="sb">
-										<div class="jumbotron" data-pages="parallax">
-											<div class="container-fluid container-fixed-lg">
-												<div class="inner">
-													<!-- END BREADCRUMB -->
+		<!-- Page header -->
+		<div class="page-header">
+			<div class="page-header-content">
+			</div>
+		</div>
+		<!-- /page header -->
+		<!-- Page container -->
+		<div class="dashboard-page-container">
+			<!-- Page content -->
+			<div class="dashboard-page-content">
+				<!-- Main content -->
+				<div class="dashboard-content-wrapper">
+					<!-- main inner content -->
+					<main id="wrapper" class="wrapper mt-20">
+						<div id="pages" class="fixed-header dashboard menu-pin">
+							<div id="sb">
+								<div class="jumbotron" data-pages="parallax">
+									<div class="container-fluid container-fixed-lg">
+										<div class="inner">
+											<!-- END BREADCRUMB -->
 
-													<div class="container-md-height">
+											<div class="container-md-height">
+												<div class="row">
+													<div class="col-md-7">
+
 														<div class="row">
-															<div class="col-md-7">
+															<div  class="container-fluid container-fixed-lg" style="background: white;">
+																<!-- START PANEL -->
+																<div class="panel panel-transparent">
+																	<div class="panel-body">
+																		<div class="row pad-100">
+																			<p style="font-size: 15px;"><i class="entypo-credit-card"></i>Hi {{first_name}}, Welcome to Your Dashboard</p>
+																			<ContentLoader v-if="!account_balance" height="20">
+																				<rect x="15" y="15" rx="4" ry="4" width="130" height="5" />
+																				<rect x="155" y="15" rx="3" ry="3" width="130" height="5" />
+																				<rect x="295" y="15" rx="3" ry="3" width="90" height="5" />
+																				<rect x="15" y="50" rx="3" ry="3" width="90" height="5" />
+																				<rect x="115" y="50" rx="3" ry="3" width="60" height="5" />
+																				<rect x="185" y="50" rx="3" ry="3" width="200" height="5" />
+																			</ContentLoader>
+																			<div v-else style="display: flex" class="flex-direction">
+																				<p style="font-size: 40px; color: #365899; font-weight: 700; letter-spacing: 2px; line-height: 53.2px">{{account_balance}}</p>
+																				<nuxt-link to="/billing/fund" v-if="canTopUp" class="bg-blue mt-10 m-l-50 no-margin-left"><i class="entypo-credit-card"></i> Fund Wallet <i class="m-l-10 fa fa-angle-right"></i> </nuxt-link>
+																			</div>
+																			<div class="mt-50" style="height: 320px; width: 90%; border: 0 !important">
+																				<div style="display: flex; justify-content: space-between">
+																					<span style="font-weight: 700; "><i class="entypo-chart-bar" style="color: #365899"></i>All Channels Performance in {{month}}</span>
+																				</div>
+																				<div class="m-l-10 " style="border-bottom: dotted #ddd!important;width: 100%"></div>
+																				<div>
 
-																<div class="row">
-																	<div  class="container-fluid container-fixed-lg" style="background: white;">
-																		<!-- START PANEL -->
-																		<div class="panel panel-transparent">
-																			<div class="panel-body">
-																				<div class="row pad-100">
-																					<p style="font-size: 15px;"><i class="entypo-credit-card"></i>Hi {{first_name}}, Welcome to Your Dashboard</p>
-																					<ContentLoader v-if="!account_balance" height="20">
-																						<rect x="15" y="15" rx="4" ry="4" width="130" height="5" />
-																						<rect x="155" y="15" rx="3" ry="3" width="130" height="5" />
-																						<rect x="295" y="15" rx="3" ry="3" width="90" height="5" />
-																						<rect x="15" y="50" rx="3" ry="3" width="90" height="5" />
-																						<rect x="115" y="50" rx="3" ry="3" width="60" height="5" />
-																						<rect x="185" y="50" rx="3" ry="3" width="200" height="5" />
-																					</ContentLoader>
-																					<div v-else style="display: flex" class="flex-direction">
-																							<p style="font-size: 40px; color: #365899; font-weight: 700; letter-spacing: 2px; line-height: 53.2px">{{account_balance}}</p>
-																							<nuxt-link to="/billing/fund" v-if="canTopUp" class="bg-blue mt-10 m-l-50 no-margin-left"><i class="entypo-credit-card"></i> Fund Wallet <i class="m-l-10 fa fa-angle-right"></i> </nuxt-link>
+																				</div>
+																				<div v-if="total_messages_sent">
+																					<div class="col-md-7">
+																						<DoughnutChart
+																							:array_of_doughnut_chart_count="array_of_doughnut_chart_count"
+																							:labels="labels"
+																							:colors="colors"
+																						></DoughnutChart>
 																					</div>
-                      <div class="mt-50" style="height: 320px; width: 90%; border: 0 !important">
-																							 <div style="display: flex; justify-content: space-between">
-																									<span style="font-weight: 700; "><i class="entypo-chart-bar" style="color: #365899"></i>All Channels Performance in {{month}}</span>
-																								</div>
-																							<div class="m-l-10 " style="border-bottom: dotted #ddd!important;width: 100%"></div>
-																							<div>
+																				</div>
 
-																							</div>
-																							<div v-if="total_messages_sent">
-																									<div class="col-md-7">
-																									<DoughnutChart
-																										:array_of_doughnut_chart_count="array_of_doughnut_chart_count"
-																									 :labels="labels"
-																										:colors="colors"
-																									></DoughnutChart>
-																									</div>
-																							</div>
+																				<div v-else  style="text-align:center">
+																					<div class="col-md-7 mt-150">
+																						No data to display
+																					</div>
+																				</div>
 
-																							<div v-else  style="text-align:center">
-																								<div class="col-md-7 mt-150">
-																									No data to display
-																								</div>
-																							</div>
+																				<div class="col-md-5">
+																					<div class="panel-body">
+																						<h3 class="blue-t" style="font-size: 25px; font-weight: 700;"><strong>{{total_messages_sent}}</strong></h3>
+																						<h5><strong>Messages  in {{month}}</strong></h5>
+																					</div>
+																					<div class="panel-body" style="padding: 0px 20px 20px 20px !important;">
+																						<h3 class="blue-t" style="font-size: 25px; font-weight: 700;"><strong>{{total_amount_spent}}</strong></h3>
+																						<h5 class="mb-10"><strong>Cash Spent in {{month}}</strong></h5>
+																					</div>
+																				</div>
 
-																								<div class="col-md-5">
-																										<div class="panel-body">
-																											<h3 class="blue-t" style="font-size: 25px; font-weight: 700;"><strong>{{total_messages_sent}}</strong></h3>
-																											<h5><strong>Messages  in {{month}}</strong></h5>
-																										</div>
-																									<div class="panel-body" style="padding: 0px 20px 20px 20px !important;">
-																										<h3 class="blue-t" style="font-size: 25px; font-weight: 700;"><strong>{{total_amount_spent}}</strong></h3>
-																										<h5 class="mb-10"><strong>Cash Spent in {{month}}</strong></h5>
-																									</div>
-																								</div>
+																				<div class="row">
 
-																								<div class="row">
-
-																									<hr style="border: 0;
+																					<hr style="border: 0;
 																													height: 15px;
 																													margin-top: 50px !important;
 																													margin-bottom: 50px !important;
@@ -89,50 +89,62 @@
 																													background: radial-gradient(ellipse at bottom, rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 70%);
 																													width: 50% !important;">
 
-																								<div class="col-md-6"  v-if="canViewApiKey">
-																									<div style="display: flex;" >
-																										<p class="text-semibold"><i class="entypo-key" style="color: #079805 !important;"></i>API Key</p>
-																									</div>
-																									<div class="row alert toke insight wd">
-																									<p class="alert toke insight wd">
-																										{{live_api_key}}
-																									</p>
-																										</div>
-																								</div>
-
-																									<div class="col-md-6" v-if="canRequestSenderId">
-																										<div style="display: flex;" >
-																											<p class="text-semibold"><i class="entypo-light-up" style="color: rgb(193, 2, 2) !important;"></i> Guide for IDs </p>
-																										</div>
-																										<div class="row alert toke insight wd">
-																											<p class="alert toke insight wd">
-																												To send otps and alerts, you have to use our default IDs. <a id="CHATID" class="blue-t text-bold"> Click here to request</a>
-																											</p>
-																										</div>
-																									</div>
-																								</div>
-
+																					<div class="col-md-6"  v-if="canViewApiKey">
+																						<div style="display: flex;" >
+																							<p class="text-semibold"><i class="entypo-key" style="color: #079805 !important;"></i>API Key</p>
 																						</div>
+																						<div class="row alert toke insight wd">
+																							<p class="alert toke insight wd">
+																								<button class="clipboard-style" style="top: -5px!important; right: -15px!important;"
+																																v-clipboard:copy="live_api_key"
+																																v-clipboard:success="onCopyApiKey"
+
+																								>
+																									<img src="/images/copy.svg" width="18"/>
+																								</button>
+																								{{live_api_key}}
+																							</p>
+																						</div>
+																					</div>
+
+																					<div class="col-md-6" v-if="canRequestSenderId">
+																						<div style="display: flex;" >
+																							<p class="text-semibold"><i class="entypo-link" style="color: rgb(193, 2, 2) !important;"></i> Base URL </p>
+																						</div>
+																						<div class="row alert toke insight wd" style="padding: 25px 25px 29px 15px !important">
+																							<button class="clipboard-style"
+																															v-clipboard:copy="api_base_url"
+																															v-clipboard:success="onCopyBaseUrl"
+
+																							>
+																								<img src="/images/copy.svg" width="18"/>
+																							</button>
+																							<p class="alert toke insight wd">
+																								{{ api_base_url }}
+																							</p>
+																						</div>
+																					</div>
 																				</div>
+
 																			</div>
 																		</div>
 																	</div>
 																</div>
 															</div>
-															<div class="col-md-4 panel-margin-top"  v-if="canViewWalletHistory">
-																<!-- START PANEL -->
-																<div class="">
-																	<div class="row mt-20">
-																		<div class="row mt-30">
-																			<div class="row">
-																				<div class="mt-20 col-md-11">
-																					<div style="display:flex;">
-																						<p class=" text-semibold" style="margin-bottom: 0"><i class="entypo-light-up" style="color: #079805 !important;"></i>Transaction History</p>
-																						<nuxt-link to="/billing/transactions/history" style="margin-left: auto; color: #365899">view transaction</nuxt-link>
-																					</div>
-																					<ActivityLog @emptyActivityLog="emptyActivityLog = $event"></ActivityLog>
-																				</div>
+														</div>
+													</div>
+													<div class="col-md-4 panel-margin-top"  v-if="canViewWalletHistory">
+														<!-- START PANEL -->
+														<div class="">
+															<div class="row mt-20">
+																<div class="row mt-30">
+																	<div class="row">
+																		<div class="mt-20 col-md-11">
+																			<div style="display:flex;">
+																				<p class=" text-semibold" style="margin-bottom: 0"><i class="entypo-light-up" style="color: #079805 !important;"></i>Transaction History</p>
+																				<nuxt-link to="/billing/transactions/history" style="margin-left: auto; color: #365899">view transaction</nuxt-link>
 																			</div>
+																			<ActivityLog @emptyActivityLog="emptyActivityLog = $event"></ActivityLog>
 																		</div>
 																	</div>
 																</div>
@@ -143,24 +155,26 @@
 											</div>
 										</div>
 									</div>
-									<!-- END PAGE CONTAINER -->
 								</div>
-							</main>
+							</div>
+							<!-- END PAGE CONTAINER -->
 						</div>
-					</div>
-		<ActivateIdModal v-if="showActivateIdModal" @close="closeActivateIdModal"></ActivateIdModal>
-		<YourWalletModal v-if="showYourWalletModal" @close="closeYourWalletModal"></YourWalletModal>
-		<VerificationModal></VerificationModal>
-		<AccountNumberModal></AccountNumberModal>
-		<PageDeniedModal></PageDeniedModal>
-		<SignUpWizardComponent></SignUpWizardComponent>
-		<OnBoardingModal></OnBoardingModal>
-		<SuccessModal :modal_information="modal_information"></SuccessModal>
-		<AnnouncementModal :announcement_information="announcement_information"></AnnouncementModal>
-		<UpdateCompanyNameModal></UpdateCompanyNameModal>
+					</main>
+				</div>
+			</div>
+			<ActivateIdModal v-if="showActivateIdModal" @close="closeActivateIdModal"></ActivateIdModal>
+			<YourWalletModal v-if="showYourWalletModal" @close="closeYourWalletModal"></YourWalletModal>
+			<VerificationModal></VerificationModal>
+			<AccountNumberModal></AccountNumberModal>
+			<PageDeniedModal></PageDeniedModal>
+			<SignUpWizardComponent></SignUpWizardComponent>
+			<OnBoardingModal></OnBoardingModal>
+			<SuccessModal :modal_information="modal_information"></SuccessModal>
+			<AnnouncementModal :announcement_information="announcement_information"></AnnouncementModal>
+			<UpdateCompanyNameModal></UpdateCompanyNameModal>
 
 
-	</div>
+		</div>
 	</div>
 </template>
 
@@ -221,6 +235,7 @@ export default {
 			emptyActivityLog:false,
 			nuban_account:[],
 			live_api_key:'',
+			api_base_url:'',
 			first_name: '',
 			is_main: JSON.parse(localStorage.getItem('user_data')).is_main,
 			permission_data : [],
@@ -271,13 +286,13 @@ export default {
 
 		this.getMonthAndYear();
 
-		 this.fetchAndSoreLoggedInData();
+		this.fetchAndSoreLoggedInData();
 
-		 this.fetchAndSetBalance();
+		this.fetchAndSetBalance();
 
-		 this.getTotalAmountSpent();
+		this.getTotalAmountSpent();
 
-		 this.getTotalMessagesSent();
+		this.getTotalMessagesSent();
 
 
 		// await this.getAndSetAnnouncements()
@@ -303,7 +318,12 @@ export default {
 			}
 
 		},
-
+		onCopyApiKey(e){
+			this.$toast.success('Copied!');
+		},
+		onCopyBaseUrl(e){
+			this.$toast.success('Copied!');
+		},
 		getUserPermissions(){
 			this.permissions_data = JSON.parse(localStorage.getItem('user_data')).permissions;
 			this.permissions_data.forEach((permission) => {
@@ -311,7 +331,7 @@ export default {
 			});
 			localStorage.setItem('permissions', this.customer_permissions);
 		},
-		 async getTotalMessagesSent(){
+		async getTotalMessagesSent(){
 			try {
 				let data = await this.$insight.getFilteredChartData('this month');
 				this.total_messages_sent = data.data.message_data.count_data;
@@ -319,7 +339,7 @@ export default {
 
 			}
 
-			},
+		},
 
 		async getTotalAmountSpent(){
 			try {
@@ -388,11 +408,11 @@ export default {
 
 		checkIfAnnouncementCookieExists(){
 			const cookie_name  = this.getCookie('announcement_title');
-				if (!cookie_name || cookie_name !== this.announcement_information.data.title){
-					this.setCookie('announcement_title', this.announcement_information.data.title, 30);
-					this.$modal.show('announcement-modal');
-				}
-			},
+			if (!cookie_name || cookie_name !== this.announcement_information.data.title){
+				this.setCookie('announcement_title', this.announcement_information.data.title, 30);
+				this.$modal.show('announcement-modal');
+			}
+		},
 
 		getCookie(cookie_name) {
 			const name = cookie_name + "=";
@@ -438,19 +458,20 @@ export default {
 				if (doneShowingBvnModal) {
 
 				}
-		}
+			}
 		},
 		setNameAndKey(){
 			this.first_name = JSON.parse(localStorage.getItem('user_data')).fname;
 			this.live_api_key = JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
+			this.api_base_url = JSON.parse(localStorage.getItem('user_data')).customer.api_base_url;
 		},
 
 		startUserWizard(){
 			let is_wizard_completed = JSON.parse(localStorage.getItem('user_data')).customer.is_wizard_completed;
-			 if (!(is_wizard_completed === 0 && (this.$store.state.view_verify_page === 'false'))){
-			 	  return;
-				}
-			 this.$modal.show('signup-wizard-modal');
+			if (!(is_wizard_completed === 0 && (this.$store.state.view_verify_page === 'false'))){
+				return;
+			}
+			this.$modal.show('signup-wizard-modal');
 		}
 
 	},
@@ -492,9 +513,9 @@ export default {
 	}
 }
 @media (max-width: 769px) {
-	 .panel-margin-top{
-			 margin-top: 130px;
-		}
+	.panel-margin-top{
+		margin-top: 130px;
+	}
 	.flex-direction{
 		flex-direction: column;
 	}
@@ -511,7 +532,14 @@ export default {
 .dashboard-content-wrapper {
 	width: 100%;
 }
-
+.clipboard-style{
+	position: absolute;
+	right: 4px;
+	top: 4px;
+	cursor: pointer;
+	border: 1px solid transparent;
+	background-color: transparent;
+}
 #welcome {
 	margin-bottom: 15px;
 	font-weight: 300;
