@@ -14,7 +14,7 @@
                       <!-- END BREADCRUMB -->
                       <div class="container-md-height">
                         <div class="fund-row">
-                          <div class="col-md-6">
+                          <div class="col-md-12">
                             <!-- START PANEL -->
                             <div class="panel-transparent">
 																													<span id="welcome" ><i class="entypo-credit-card" style="font-size: 20px"></i><span style="font-size: 13px">Available balance:</span></span>
@@ -229,6 +229,18 @@
 								borderRadius: '8px'
 							}
 
+						}
+					},
+					head() {
+						return {
+							title: 'Billing fund',
+							meta: [
+								{
+									hid: 'description',
+									name: 'description',
+									content: 'View full messaging prices'
+								}
+							]
 						}
 					},
 					computed: {

@@ -17,6 +17,7 @@
 
 }
 
+
 .page-header-content {
 
 	margin: auto;
@@ -456,6 +457,18 @@ button {
 
 		flex-direction: column;
 
+	}
+
+	.bg-blue{
+		background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
+		box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+		color: #fff !important;
+		margin-bottom: 35px;
+		border-radius: 4px;
+		padding-top: 6px;
+		padding-bottom: 14px;
+		padding-left: 22px !important;
+		padding-right: 26px !important;
 	}
 
 }
