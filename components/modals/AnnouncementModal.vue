@@ -7,9 +7,9 @@
 						<button type="button" class="close"  aria-label="Close"><span style="cursor:pointer;" @click="close">&times;</span></button>
 					</div>
 
-					<div class="modal-body" v-if="show_home_page">
+					<div class="modal-body mt-20" v-if="show_home_page">
 						<center>
-							<img :src="announcement_information.data.image_url"/>
+							<img :src="announcement_information.data.image_url" width="500"/>
 							<div class="mt-20">
 								<p style="font-weight: 700; font-size: 32px; color: #365899;">{{announcement_information.data.title}}</p>
 								<p style="font-size: 13px; padding-left: 50px; padding-right: 50px">{{announcement_information.data.body}}</p>

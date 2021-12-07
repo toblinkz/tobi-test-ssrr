@@ -274,7 +274,6 @@ export default {
 
 		this.startUserWizard();
 
-		// this.displayAnnouncementModal();
 
 		this.getUserPermissions();
 
@@ -294,8 +293,7 @@ export default {
 
 		this.getTotalMessagesSent();
 
-
-		// await this.getAndSetAnnouncements()
+		this.getAndSetAnnouncements()
 
 		// await this.getNuban();
 
@@ -388,6 +386,10 @@ export default {
 
 		async getAndSetAnnouncements(){
 			this.announcement_information = await this.$utility.getAnnouncements();
+			if(this.announcement_information.length === 0){
+				return;
+			}
+			this.checkIfAnnouncementCookieExists();
 		},
 
 		async fetchAndSetBalance(){
@@ -397,13 +399,6 @@ export default {
 			}catch (e){
 
 			}
-		},
-
-		displayAnnouncementModal(){
-			if(this.announcement_information.length === 0){
-				return;
-			}
-			this.checkIfAnnouncementCookieExists();
 		},
 
 		checkIfAnnouncementCookieExists(){
