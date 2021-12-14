@@ -10,7 +10,7 @@
         <!-- Page content -->
         <div class="page-content">
           <!-- Main content -->
-          <div class="content-wrapper">
+          <div class="padding-20">
             <!-- main inner content -->
             <main id="wrapper" class="wrapper">
 													<div class="col-md-12 mt-20">
