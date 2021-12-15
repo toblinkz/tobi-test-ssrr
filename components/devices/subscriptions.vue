@@ -164,13 +164,10 @@ name: "DeviceSubscription",
 				case('PAID'):{
 					return 'label-success'
 				}
-				case ('UNPAID'):{
-					return 'label-pending'
-				}
+				case ('UNPAID'):
 				default:{
 					return 'label-pending'
 				}
-			}
 		}
 },
 	mounted() {
