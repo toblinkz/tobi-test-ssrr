@@ -167,6 +167,9 @@ name: "DeviceSubscription",
 				case ('UNPAID'):{
 					return 'label-pending'
 				}
+				default:{
+					return 'label-pending'
+				}
 			}
 		}
 },
