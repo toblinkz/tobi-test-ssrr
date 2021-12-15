@@ -169,6 +169,7 @@ name: "DeviceSubscription",
 					return 'label-pending'
 				}
 		}
+		}
 },
 	mounted() {
 		// this.enabled_offline_notification = localStorage.getItem('notify-offline')
