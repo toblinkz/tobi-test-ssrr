@@ -39,7 +39,7 @@
 										<td style="width: 20%;"><p>{{row.subscription_expiry}}</p></td>
 										<td style="width: 10%;"><p>{{row.amount}}</p></td>
 										<td data-label="Status">
-											<p class="label label-success">Paid</p>
+											<p class="label" :class="setStatusClass(row)">{{row.payment_status}}</p>
 										</td>
 									</tr>
 									</tbody>
@@ -159,6 +159,16 @@ name: "DeviceSubscription",
 
 			}
 		},
+		setStatusClass(row){
+			switch (row.payment_status){
+				case('PAID'):{
+					return 'label-success'
+				}
+				case ('UNPAID'):
+				default:{
+					return 'label-pending'
+				}
+		}
 },
 	mounted() {
 		// this.enabled_offline_notification = localStorage.getItem('notify-offline')
@@ -259,6 +269,16 @@ h3 {
 	filter: alpha(opacity=40);
 	-webkit-transition: opacity 0.3s ease;
 	transition: opacity 0.3s ease;
+}
+.label-pending {
+	border-color:#ffc107;
+	color: #fff;
+	background-color: #ffc107;
+}
+.label-rejected {
+	border-color:#FF0000;
+	color: #fff;
+	background-color:#FF0000;
 }
 .label {
 	font-size: 11px;
