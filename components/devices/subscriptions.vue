@@ -164,11 +164,8 @@ name: "DeviceSubscription",
 				case('PAID'):{
 					return 'label-success'
 				}
-				case ('PENDING'):{
+				case ('UNPAID'):{
 					return 'label-pending'
-				}
-				case('UNPAID'):{
-					return 'label-rejected'
 				}
 			}
 		}
