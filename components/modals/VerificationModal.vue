@@ -73,6 +73,13 @@ name: "VerificationModal",
 					this.hasVerificationError = false;
 				}
 			},
+			triggerCustomerConversionScript(){
+				gtag('event', 'conversion', {
+					'send_to': 'AW-989861671/aX13CJqy2IoDEKeugNgD',
+					'value': 1.0,
+					'currency': 'USD'
+				});
+			},
 			async verifyCode(){
 				try{
 					this.isLoading = true;
@@ -89,6 +96,7 @@ name: "VerificationModal",
 					this.button_text = "Verify Code";
 					this.$toast.show("Successfully verified");
 					this.$store.commit('setViewVerificationPage', 'false');
+					this.triggerCustomerConversionScript();
 					await this.$router.push('/');
 				}catch (error) {
 					if (navigator.onLine) {
