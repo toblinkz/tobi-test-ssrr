@@ -1,8 +1,9 @@
 require('dotenv').config();
 export default {
+
 	mode: 'spa',
 	router: {
-		mode: 'hash'
+		mode: 'hash',
 	},
 	/*
 	** Headers of the page

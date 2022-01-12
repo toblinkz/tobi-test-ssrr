@@ -88,7 +88,9 @@ export default {
 			type: "password",
 			isLoading: false,
 			button_text:"Proceed",
-			access_token: ""
+			access_token: "",
+			permission_data : [],
+			customer_permissions: []
 		}
 	},
 	computed: {
@@ -154,9 +156,15 @@ export default {
 				this.$store.commit('setLIState', true);
 				let response = 	await this.$axios.$get('user', {
 					headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
-				});
-				await localStorage.setItem('user_data', JSON.stringify(response.data));
+				})
 
+				this.permissions_data = await response.data.permissions
+				this.permissions_data.forEach((permission) => {
+					this.customer_permissions.push(permission.name);
+				});
+				await localStorage.setItem('permissions', JSON.stringify(this.customer_permissions));
+
+				await localStorage.setItem('user_data', JSON.stringify(response.data));
 
 				if (JSON.parse(localStorage.getItem('user_data')).active_status_id.name === "Pending"){
 					this.$store.commit('setFirstName', JSON.parse(localStorage.getItem('user_data')).fname);
@@ -165,7 +173,11 @@ export default {
 				}else {
 					this.isLoading = false;
 					this.button_text = "Proceed";
-					await this.$router.push('/');
+
+					let redirect_url = localStorage.getItem('redirect_path')
+					this.$axios.setHeader('Authorization', `Bearer ${localStorage.getItem('local')}`);
+					await this.$router.push(`${redirect_url}`)
+
 					this.$store.commit('setViewVerificationPage', 'false');
 				}
 
@@ -203,7 +215,7 @@ export default {
 					this.$toast.show("No Internet connection");
 				}
 			}
-		}
+		},
 	},
 	mounted() {
 
