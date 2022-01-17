@@ -174,7 +174,7 @@ export default {
 					this.isLoading = false;
 					this.button_text = "Proceed";
 
-					let redirect_url = localStorage.getItem('redirect_path')
+					let redirect_url = localStorage.getItem('redirect_path') || '/'
 					this.$axios.setHeader('Authorization', `Bearer ${localStorage.getItem('local')}`);
 					await this.$router.push(`${redirect_url}`)
 
