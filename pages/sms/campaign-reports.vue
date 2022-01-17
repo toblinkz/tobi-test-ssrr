@@ -1,103 +1,80 @@
 <template>
-	<div class="padding-sides mt-70">
-			<!-- Page container -->
-			<div class="page-container">
-				<!-- Page content -->
-				<div class="page-content">
-					<!-- Main content -->
-					<div class="content-wrapper">
-						<!-- main inner content -->
-						<main id="wrapper" class="wrapper">
-							<section class="wrapper-bottom-sec">
-								<div class="jumbotron" data-pages="parallax">
-									<div class="container-fluid container-fixed-lg">
-										<div class="inner">
-											<div >
-												<div class="row ">
-													<div class="col-lg-6 mb-20">
-														<!-- START PANEL -->
-														<div class="panel-transparent mt-30">
-															<p id="welcome" style="margin-top: 10px;margin-bottom: 0px"><i class="entypo-chart-pie"></i> Group Sms Insight</p>
-															<p class="insight">View all your group text insights. <br>Insights captured here include all sent messages.</p>
-														</div>
-													</div>
-													<div class="col-lg-4 mb-20">
-														<form @submit.prevent="filterCampaignReport" role="form" method="get" id="search-form">
-															<div class="row">
-																<div class="form-group">
-																	<date-picker v-model="date_time" value-type="YYYY-MM-DD " type="date" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
-																</div>
-															</div>
-
-															<button type="submit" class="btn btn-success wd-100 bx-line" :disabled="Disabled">
-																<i class="fa fa-search" v-show="showIcon"></i>
-																{{searchText}}
-																<span v-show="isLoading">
-                                         <img src="/images/spinner.svg" height="20px" width="80px"/>
-                                      </span>
-															</button>
-														</form>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<TableVuePlaceHolder v-if="!show_shimmer">
-
-									</TableVuePlaceHolder>
-									<div class="col-md-12" v-else>
-										<div class="row">
-											<div class="col-sm-12">
-												<div class="panel">
-													<div class="panel-body scrollme" style="padding: 10px !Important;">
-														<table class="table table-responsive data-table table-hover">
-															<thead>
-															<tr>
-																<th style=""></th>
-																<th style="">Date Created</th>
-																<th style="">Run At</th>
-																<th style="">From</th>
-																<th style="">Recipients</th>
-																<th style="">Status</th>
-																<th style="">Action</th>
-															</tr>
-															</thead>
-															<tbody>
-															<tr v-for="row in campaign_report" :key="row.campaign_id">
-																<td style="">{{row.campaign_id}}</td>
-																<td style="" id="created-at">{{row.created_at}}</td>
-																<td style="" id="">{{row.run_at}}</td>
-																<td style="">{{row.sender}}</td>
-																<td style="">{{row.total_recipients}}</td>
-																<td style="">
-																	<span class="label label-flat" :class="getLabelClass(row.status)">{{row.status}}</span>
-																</td>
-																<td style="">
-																	<nuxt-link class="btn btn-success btn-xs"  :aria-disabled="isDisabled(row.status)" :to="{name:'sms-campaign-history-id', params:{id: row.campaign_id, created_at: row.created_at}}" ><i class="entypo-popup"></i> Reports </nuxt-link>
-																</td>
-															</tr>
-															</tbody>
-														</table>
-													</div>
-												</div>
-											</div>
-										</div>
-										<Pagination
-											:page="page"
-											:total_page="total_page"
-											:on-page-change="onPageChange"
-											v-show="showPagination === true"
-										>
-										</Pagination>
-									</div>
-								</div>
-							</section>
-						</main>
+	<div class="padding-sides mt-70 campaign-page">
+		<main>
+			<div class="campaign-history-header">
+				<div class="campaign-history-title">
+					<div class="group-sms-div">
+						<img src="/icons/svg_icons/messaging-icon.svg" width="20px" alt="">
+						<p>Group SMS Campaign History</p>
 					</div>
-					<VerificationModal></VerificationModal>
-					<UpdateCompanyNameModal></UpdateCompanyNameModal>
+					<p class="campaign-history-subtitle">View all Group SMS Campaign history</p>
+				</div>
+				<div class="campaign-insight-graph-button">
+					<img src="/icons/svg_icons/entypo_bar-graph.svg" width="16px" alt="">
+					<p>View insight graph</p>
 				</div>
 			</div>
+
+			<div class="filter-group">
+				<div class="campaign-pill" >
+					<button class="status-button " :class="{'all': all_active}" @click="display_all">All</button>
+					<button class="status-button" :class="{'scheduled': scheduled_active}" @click="display_scheduled">Scheduled</button>
+					<button class="status-button" :class="{'running': running_active}" @click="display_running">Running</button>
+					<button class="status-button" :class="{'delivered': delivered_active}" @click="display_delivered">Delivered</button>
+				</div>
+				<form @submit.prevent="filterCampaignReport" role="form" method="get" id="search-form">
+					<div class="date-picker-input">
+						<date-picker @change="filterByDateRange"	v-model="date_time" value-type="YYYY-MM-DD " type="date" range style="width: 100%" placeholder="Search using date range" confirm></date-picker>
+					</div>
+				</form>
+			</div>
+
+			<TableVuePlaceHolder v-if="!show_shimmer"></TableVuePlaceHolder>
+
+			<div class="campaigns" v-else>
+				<div class="campaigns-header">
+					<span class="ellipse"
+											v-bind:class="{
+															delivered: campaign_status === 'Delivered',
+															scheduled: campaign_status === 'Scheduled',
+															running: campaign_status === 'Running',
+						}"></span>
+					<p style="margin-left: -90px">Campaign ID</p>
+					<p style="margin-left: 20px">Created at</p>
+					<p style="margin-left: -20px">Run at</p>
+					<p style="margin-left: 5px">From</p>
+					<p>Status</p>
+					<p style="margin-right: -10px">Action</p>
+				</div>
+			</div>
+
+				<CampaignReportCard
+					v-for="campaign in campaign_report"
+					:key="campaign.campaign_id"
+					:campaign_id="campaign.campaign_id"
+					:phonebook="campaign.phone_book"
+					:recipients="campaign.total_recipients"
+					:created_at="campaign.created_at"
+					:run_at="campaign.run_at"
+					:sender="campaign.sender"
+					:campaign_status="campaign.status"
+					:campaign_status_filter=campaign_status
+					@show-delete-modal="showDeleteModal"
+				/>
+
+			<Pagination
+				:page="page"
+				:total_page="total_page"
+				:on-page-change="onPageChange"
+				v-show="showPagination === true"
+			>
+			</Pagination>
+		</main>
+
+		<ConfirmCampaignDeleteModal :campaign_id="campaign_id"></ConfirmCampaignDeleteModal>
+		<CampaignDeleteSuccessfulModal @refetch-campaign-reports="this.fetch"></CampaignDeleteSuccessfulModal>
+		<VerificationModal></VerificationModal>
+<!--		<UpdateCompanyNameModal></UpdateCompanyNameModal>-->
 	</div>
 </template>
 
@@ -110,15 +87,22 @@ import 'vue2-datepicker/index.css';
 import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 import VerificationModal from "~/components/modals/VerificationModal";
 import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
+
+import CampaignReportCard from "../../components/message-reports/campaign/CampaignReportCard";
+import ConfirmCampaignDeleteModal from "../../components/message-reports/campaign/modals/ConfirmCampaignDeleteModal";
+import CampaignDeleteSuccessfulModal from "@/components/message-reports/campaign/modals/CampaignDeleteSuccessfulModal";
+
 export default {
 	name: "campaign-reports",
 	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {
+		CampaignReportCard,
+		ConfirmCampaignDeleteModal,
+		CampaignDeleteSuccessfulModal,
 		UpdateCompanyNameModal,
 		VerificationModal, TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar, DatePicker},
 	data(){
 		return{
-
 			isLoading: false,
 			showIcon: true,
 			searchText: 'Search',
@@ -129,18 +113,37 @@ export default {
 			total_page:'',
 			showPagination: false,
 			show_shimmer: false,
+			campaign_status: '',
+			all_active: true,
+			scheduled_active: false,
+			running_active: false,
+			delivered_active: false,
+			campaign_id: ''
 		}
 	},
+
 	computed:{
 		Disabled: function () {
 			return (this.date_time === null);
-		}
+		},
 	},
+
 	methods:{
+		filterByDateRange(){
+			console.log(this.date_time)
+			this.filterCampaignReport()
+		},
+
+		showDeleteModal(campaign_id){
+			this.campaign_id = campaign_id
+			this.$modal.show('confirm-campaign-delete-modal')
+			// this.$modal.show('campaign-delete-successful-modal')
+		},
+
 		async fetch(){
-			//get campaign report
+			//get campaign reports
 			try {
-				let response_data = await this.$axios.$get('sms/campaign/reports', {params: {page: this.page}});
+				let response_data = await this.$campaign.getCampaignReports(this.page)
 				this.campaign_report = response_data.data;
 
 				if (this.campaign_report.length !== 0){this.showPagination = true;}
@@ -148,19 +151,15 @@ export default {
 				this.total_page = response_data.meta.last_page;
 				this.show_shimmer = true;
 
-			}catch (e) {
-
-			}
+			}catch (e) {}
 		},
+
 		async filterCampaignReport(){
 			this.isLoading = true;
 			this.searchText = '';
 			this.showIcon = false;
 			try {
-				let response_data = await this.$axios.$get('sms/campaign/reports', {params:
-						{page: this.page,
-							date_from: this.date_time[0],
-							date_to: this.date_time[1]}});
+				let response_data = await this.$campaign.filterCampaignReport(this.page, this.date_time[0], this.date_time[1])
 				this.campaign_report = response_data.data;
 
 				if (this.campaign_report.length !== 0){this.showPagination = true;}
@@ -180,58 +179,249 @@ export default {
 				this.showIcon = true;
 			}
 		},
+
 		isDisabled(status){
 			return (status === 'In progress');
 		},
+
 		onPageChange(page) {
 			this.page = page;
 			this.show_shimmer = false;
 			this.fetch();
 		},
-		showLabel(status){
-			switch (status){
-				case('Delivered'):{
-					return true;
-				}
-				case ("Insufficient Balance"):{
-					return true;
-				}
-				default:{
-					return "In progress";
-				}
-			}
+
+		async filterByStatus(){
+			console.log(this.campaign_status)
+			try {
+						let response_data = await this.$campaign.filterCampaignReport(this.page, this.campaign_status)
+						this.campaign_report = response_data.data;
+			}catch (e) {}
 		},
 
-		getLabelClass(row){
-			switch (row){
-				case('Delivered'):{
-					return 'label-success';
-				}
-				case ("Insufficient Balance"):{
-					return 'bg-danger';
-				}
-				default:{
-					return "bg-warning";
-				}
-			}
-		}
+		async display_all(){
+			this.campaign_status = 'All';
+			this.page = 1;
+			await this.filterCampaignReport();
+			this.all_active = true;
+			this.scheduled_active = false;
+			this.running_active = false;
+			this.delivered_active = false;
+		},
 
+		async display_scheduled(){
+			this.campaign_status = 'Scheduled';
+			this.page = 1;
+			await this.filterByStatus();
+			this.all_active = false;
+			this.scheduled_active = true;
+			this.running_active = false;
+			this.delivered_active = false;
 
+		},
+
+		async display_running(){
+			this.campaign_status = 'Running';
+			this.page = 1;
+			await this.filterByStatus();
+			this.all_active = false;
+			this.scheduled_active = false;
+			this.running_active = true;
+			this.delivered_active = false;
+		},
+
+		async display_delivered(){
+			this.campaign_status = 'Delivered';
+			this.page = 1;
+			await this.filterByStatus();
+			this.all_active = false;
+			this.scheduled_active = false;
+			this.running_active = false;
+			this.delivered_active = true;
+		},
 	},
+
 	mounted() {
 		if(this.$store.state.view_verify_page === 'true'){
 			this.$modal.show('verification-id-modal');
 		}else {
 			this.fetch();
 		}
-
-
 	}
-
 }
 </script>
 
 <style scoped>
+.campaign-page {
+	width: 950px;
+	margin: 0 auto;
+}
+
+p {
+	padding: 0;
+	margin: 0;
+}
+
+.campaign-history-header{
+	margin: 150px 0 60px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+
+.campaign-history-title {
+	margin-left: 30px;
+}
+
+.group-sms-div {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	/*width: 260px;*/
+}
+
+.group-sms-div p {
+	margin-left: 10px;
+	vertical-align: middle;
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 21px;
+	/*letter-spacing: -0.01em;*/
+	color: #365899;
+}
+.campaign-history-subtitle {
+	margin-top: 6px;
+}
+
+.campaign-insight-graph-button {
+	cursor: pointer;
+	padding: 11px 28px;
+	color: #FFFFFF;
+	background: linear-gradient(97.92deg, #4D6BA4 20.72%, #238FBE 74.67%);
+	border-radius: 4px;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
+	transition: all 0.2s ease-out;
+}
+
+.campaign-insight-graph-button:focus,
+.campaign-insight-graph-button:active {
+	box-shadow: none;
+}
+
+.campaign-insight-graph-button > p {
+	margin-left: 15px;
+}
+
+main {
+	margin-left: -60px;
+}
+
+.filter-group {
+	display: flex;
+	flex-direction: row;
+	width: 950px;
+	justify-content: space-between;
+}
+
+.campaign-pill {
+	display: flex;
+	flex-direction: row;
+	width: 340px;
+	justify-content: space-between;
+	margin-bottom: 30px;
+	margin-left: 60px;
+}
+
+.status-button{
+	padding: 2px 10px;
+	margin: 2px 0;
+	outline: none;
+	color: #A9A9A9;
+	border: 1px solid #A9A9A9;
+	cursor: pointer;
+	/*width: 44px;*/
+	height: 26px;
+	background-color: #FFFFFF;
+	border-radius: 6px;
+	transition: all 0.2s ease-out;
+}
+.status-button.all{
+	background: #365899;
+	color: #fff;
+	border: 1px solid #365899;
+}
+
+.status-button.scheduled{
+	background: #BE6105;
+	color: #fff;
+	border: 1px solid #BE6105;
+}
+.status-button.running{
+	background: #F4BA0C;
+	color: #fff;
+	border: 1px solid #F4BA0C;
+}
+.status-button.delivered{
+	background: #4AB14E;
+	color: #fff;
+	border: 1px solid #4AB14E;
+}
+
+.date-picker-input {
+	width: 214px;
+	height: 38px;
+}
+
+.campaigns {
+	width: 950px;
+	/*margin: 0 auto;*/
+	margin-bottom: 35px;
+	/*margin-left: -60px;*/
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.campaigns-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+	width: 946px;
+	padding: 24px 32px 0;
+}
+
+.campaigns-header > p {
+	padding: 0;
+	margin: 0;
+	font-weight: 600;
+}
+
+.ellipse {
+	background-color: #365899;
+	width: 10px;
+	height: 10px;
+	border-radius: 10px;
+	/*border-radius: 50%;*/
+	margin-top: 3px;
+}
+
+.ellipse.delivered {
+	background: #4AB14E;
+}
+.ellipse.scheduled {
+	background: #BE6105;
+}
+.ellipse.running {
+	background: #F4BA0C;
+}
+
 @media (min-width: 769px){
 	.content-wrapper {
 		display: table-cell;
@@ -266,151 +456,5 @@ export default {
 		padding-top: 48px;
 		padding-bottom: 48px;
 	}
-}
-
-.page-container {
-	position: relative;
-	/* padding-bottom: 40px; */
-}
-
-.jumbotron {
-	/* padding-top: 30px; */
-	/* padding-bottom: 10px; */
-	margin-bottom: 10px;
-	color: inherit;
-	background-color: #fff;
-}
-
-.row {
-	margin-left: 0px;
-	margin-right: 0px;
-}
-#welcome {
-	/* margin-bottom: 15px; */
-	font-weight: 300;
-	letter-spacing: normal;
-	font-size: 18px;
-	-webkit-font-smoothing: antialiased;
-	color: #2c2c2c;
-	display: block;
-	font-style: normal;
-	/* -webkit-margin-before: 1em; */
-}
-.insight {
-	font-size: 13.5px !important;
-	letter-spacing: normal !important;
-	font-weight: 400 !important;
-	line-height: 20px !important;
-	margin: 0px 0px 10px 0px;
-	font-style: normal;
-	white-space: normal;
-	color: #333333;
-	/* -webkit-margin-before: 1em; */
-	/* -webkit-margin-after: 1em; */
-	/* -webkit-margin-start: 0px; */
-	/* -webkit-margin-end: 0px; */
-	/* display: block; */
-}
-.p-15 {
-	padding: 15px!important;
-}
-.wide {
-	width: 200px !important;
-}
-.scrollme {
-	overflow-y: auto;
-}
-.table {
-	margin-bottom: 0;
-}.table > thead > tr > th {
-		border-bottom: dotted #ddd !important;
-		vertical-align: middle;
-		padding: 12px 20px;
-		line-height: 1.5384616;
-	}
-.table-responsive {
-	overflow-x: auto;
-	min-height: 0.01%;
-}
-.table {
-	width: 100%;
-	max-width: 100%;
-	/* margin-bottom: 20px; */
-}
-
-.table > tbody > tr > td{
-	vertical-align: middle;
-	padding: 12px 20px;
-	line-height: 1.5384616;
-}
-th {
-	font-weight: 500;
-	text-align: left;
-}
-.table-hover > tbody > tr:hover {
-	background-color: #f8f8f8;
-}
-
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-	background-color: transparent;
-}
-.label-success {
-	border-color: #4CAF50;
-	color: #fff;
-	background-color: #4CAF50;
-}
-.btn-success {
-	color: #fff;
-	background: linear-gradient(-48deg, #70ddad -30%, #226a4a 60%) !important;
-	box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
-}
-.label-flat {
-	border-width: 2px;
-}
-.label {
-	font-size: 11px;
-	padding: 2px 10px;
-	margin: 2px 0;
-	border-radius: 20px;
-	font-weight: 600;
-}
-.label {
-	display: inline-block;
-	border: 1px solid transparent;
-	text-transform: uppercase;
-	letter-spacing: 0.1px;
-	white-space: nowrap;
-}
-.bx-line {
-	border: transparent !important;
-}
-.form-group {
-	margin-bottom: 20px;
-}
-.form-control:focus {
-	border-color: #4DB6AC;
-}
-.form-control {
-	display: block;
-	width: 100%;
-	height: 36px;
-	padding: 7px 12px;
-	/* font-size: 13px; */
-	line-height: 1.5384616;
-	color: #333333;
-	background-color: #fff;
-	background-image: none;
-	border: 1px solid #ddd;
-	border-radius: 3px;
-	-webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-}
-.form-control:focus {
-	border-color: #4DB6AC;
-	box-shadow: none;
-	outline: 0;
 }
 </style>

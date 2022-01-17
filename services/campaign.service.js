@@ -42,5 +42,22 @@ export class CampaignService {
 			})
 	}
 
+	async getCampaignReports(page){
+		return await this.$axios.$get('sms/campaign/reports', {params: {page: page}});
+	}
+
+	async filterCampaignReports(page, date_from, date_to, campaign_status){
+		return await this.$axios.$get('sms/campaign/reports', {params:
+				{page: page,
+					date_from: date_from,
+					date_to: date_to,
+					status: campaign_status
+				}
+		});
+	}
+
+	async deleteCampaignReport(campaign_id){
+		return await this.$axios.$delete(`/sms/campaign/${campaign_id}`)
+	}
 
 }
