@@ -28,11 +28,13 @@
 
 	<div class="action">
 		<img src="/icons/svg_icons/overflow-menu-vertical.svg" alt="" @click="toggleMenu">
+
 		<div class="menu" v-if="isMenuOpen">
-			<div class="menu-option view-report">
+			<nuxt-link :to="'campaign/history/' + campaign_id" class="menu-option view-report">
 				<img src="/icons/svg_icons/entypo_popup.svg" alt="">
 				<p>View report</p>
-			</div>
+			</nuxt-link>
+
 			<div v-if="campaign_status === 'Scheduled'" class="menu-option delete-campaign" @click="showDeleteModal">
 				<img src="/icons/svg_icons/delete-icon.svg" alt="">
 				<p>Delete campaign</p>
@@ -72,6 +74,9 @@ export default {
 		showDeleteModal(){
 			this.isMenuOpen = !this.isMenuOpen
 			this.$emit('show-delete-modal', this.campaign_id)
+		},
+		hide(){
+			this.isMenuOpen = false
 		}
 	},
 
@@ -223,11 +228,17 @@ export default {
 	justify-content: flex-start;
 	align-items: center;
 	transition: all 0.2s ease-out;
+	text-decoration: none;
 }
 
 .menu-option p {
 	margin: 0 0 0 10px;
 	vertical-align: middle;
+	text-decoration: none;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 16px;
+	color: #333333;
 }
 
 .menu-option:hover {
@@ -239,6 +250,10 @@ export default {
 	border-top: 1px solid #F4F4F4;
 	color: #C10202;
 	width: 180px;
+}
+
+.menu-option.view-report {
+	text-decoration: none;
 }
 
 </style>
