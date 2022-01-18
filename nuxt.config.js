@@ -112,7 +112,7 @@ export default {
 	env: {
 		apiBaseUrl: process.env.API_BASE_URL,
 		termiiApiKey: process.env.TERMII_API_KEY,
-		ACCOUNT_DASHBOARD_SECRET_KEY: process.env.ACCOUNT_DASHBOARD_SECRET_KEY
+		ADSK: process.env.ADSK
 	},
 
 	/*
