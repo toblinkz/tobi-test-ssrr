@@ -26,7 +26,6 @@ export class UserService {
 		 return await this.$axios.$post('auth/register', data, {
 				headers:{
 					'X-TERMII-SIGNATURE': signature,
-					'IP_ADDRESS' : '0.0.0.0'
 				}
 			});
 	}
@@ -51,7 +50,6 @@ export class UserService {
 		return await this.$axios.$post('auth/login',  data, {
 			headers:{
 				'X-TERMII-SIGNATURE': signature,
-				'IP_ADDRESS' : '0.0.0.0'
 			}
 		});
 	}
@@ -67,7 +65,6 @@ export class UserService {
 		return await this.$axios.$post('auth/login', data, {
 			headers:{
 				'X-TERMII-SIGNATURE': signature,
-				'IP_ADDRESS' : '0.0.0.0'
 			}
 		})
 	}
