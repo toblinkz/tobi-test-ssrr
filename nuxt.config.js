@@ -21,6 +21,7 @@ export default {
 			{ src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
 			{ src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
 			{src:"/js/intro.js" },
+			{src:"/js/has_request_payload.js" },
 		],
 		link: [
 			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -31,7 +32,8 @@ export default {
 		baseURL: 'https://termii.com',
 		TERMII_API_KEY: process.env.TERMII_API_KEY,
 		PUBLIC_API_BASE_URL: process.env.PUBLIC_API_BASE_URL,
-		campaignApiBaseURL: process.env.CAMPAIGN_BASE_URL
+		campaignApiBaseURL: process.env.CAMPAIGN_BASE_URL,
+
 	},
 	/*
 	** Customize the progress-bar color
@@ -109,7 +111,8 @@ export default {
 	//added env object in other to access API_BASE_URL variable in .env file
 	env: {
 		apiBaseUrl: process.env.API_BASE_URL,
-		termiiApiKey: process.env.TERMII_API_KEY
+		termiiApiKey: process.env.TERMII_API_KEY,
+		ACCOUNT_SECRET_KEY: process.env.ACCOUNT_SECRET_KEY
 	},
 
 	/*
