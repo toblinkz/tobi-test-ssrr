@@ -33,7 +33,7 @@ export default {
 		TERMII_API_KEY: process.env.TERMII_API_KEY,
 		PUBLIC_API_BASE_URL: process.env.PUBLIC_API_BASE_URL,
 		campaignApiBaseURL: process.env.CAMPAIGN_BASE_URL,
-
+		IPAS: process.env.IPAS
 	},
 	/*
 	** Customize the progress-bar color
@@ -112,7 +112,8 @@ export default {
 	env: {
 		apiBaseUrl: process.env.API_BASE_URL,
 		termiiApiKey: process.env.TERMII_API_KEY,
-		ADSK: process.env.ADSK
+		ADSK: process.env.ADSK,
+		IPAS: process.env.IPAS
 	},
 
 	/*
