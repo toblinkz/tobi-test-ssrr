@@ -1,3 +1,5 @@
+import {hashRequestPayload} from "static/js/has_request_payload";
+
 export class UserService {
 
 	constructor(axios) {
@@ -6,17 +8,25 @@ export class UserService {
 	}
 
 	async registerUser(first_name, last_name, email, password, phone_number, selected_country, sector_id, company, role_id, notification_opt_in){
-		 return await this.$axios.$post('auth/register', {
-				first_name: first_name,
-				last_name: last_name,
-				email: email,
-				password: password,
-				phone_number: phone_number,
-				country: selected_country,
-				sector: sector_id,
-				company:company,
-				role: role_id,
-				notification_opt_in: notification_opt_in
+
+		let data = {
+			first_name: first_name,
+			last_name: last_name,
+			email: email,
+			password: password,
+			phone_number: phone_number,
+			country: selected_country,
+			sector: sector_id,
+			company:company,
+			role: role_id,
+			notification_opt_in: notification_opt_in
+		}
+		let signature =	hashRequestPayload(data);
+
+		 return await this.$axios.$post('auth/register', data, {
+				headers:{
+					'X-TERMII-SIGNATURE': signature,
+				}
 			});
 	}
 
@@ -33,21 +43,32 @@ export class UserService {
 	}
 
 	async LoginUser(email, password){
-		 return await this.$axios.$post('auth/login', {
-				email: email,
-				password: password
-			})
+		let data = { email: email, password: password}
+
+		let signature =	hashRequestPayload(data);
+
+		return await this.$axios.$post('auth/login',  data, {
+			headers:{
+				'X-TERMII-SIGNATURE': signature,
+			}
+		});
 	}
+
 	async getPhonebook(){
 		return await this.$axios.$get('sms/phone-book?filter=unpaginated');
 	}
 
 	async authenticateUserForCampaign(email, password){
-		return await this.$axios.$post('auth/login', {
-			email: email,
-			password: password
+		let data = { email: email, password: password};
+		let signature =	hashRequestPayload(data);
+
+		return await this.$axios.$post('auth/login', data, {
+			headers:{
+				'X-TERMII-SIGNATURE': signature,
+			}
 		})
 	}
+
 
 	async getUser(){
 	return 	await this.$axios.$get('user', {
