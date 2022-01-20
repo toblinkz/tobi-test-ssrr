@@ -37,18 +37,15 @@ export default {
 		async deleteCampaign(){
 			this.del_btn_text  = 'Deleting'
 			this.isLoading = true
-			console.log(this.campaign_id)
+
 			try {
-				let response = await this.$campaign.deleteCampaignReport(this.campaign_id)
-				console.log(response)
+				await this.$campaign.deleteCampaignReport(this.campaign_id)
 
-				if (response === 'OK') {
-					this.$modal.hide('confirm-campaign-delete-modal');
-					this.$modal.show('campaign-delete-successful-modal');
+				this.$modal.hide('confirm-campaign-delete-modal');
+				this.$modal.show('campaign-delete-successful-modal');
 
-					this.del_btn_text  = 'Yes, delete it'
-					this.isLoading = false
-				}
+				this.del_btn_text  = 'Yes, delete it'
+				this.isLoading = false
 			}catch (e) {
 
 			}

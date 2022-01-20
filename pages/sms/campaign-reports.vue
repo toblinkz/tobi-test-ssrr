@@ -29,7 +29,7 @@
 				</form>
 			</div>
 
-			<TableVuePlaceHolder v-if="!show_shimmer"></TableVuePlaceHolder>
+			<TableVuePlaceHolder v-if="show_shimmer"></TableVuePlaceHolder>
 
 			<div class="campaigns" v-else>
 				<div class="campaigns-header">
@@ -66,7 +66,7 @@
 				:page="page"
 				:total_page="total_page"
 				:on-page-change="onPageChange"
-				v-show="showPagination === true"
+				v-show="showPagination"
 			>
 			</Pagination>
 		</main>
@@ -104,8 +104,6 @@ export default {
 	data(){
 		return{
 			isLoading: false,
-			showIcon: true,
-			searchText: 'Search',
 			campaign_report:[],
 			customer_permissions: localStorage.getItem('permissions'),
 			date_time: null,
@@ -142,41 +140,39 @@ export default {
 
 		async fetch(){
 			//get campaign reports
+			this.show_shimmer = true
 			try {
 				let response_data = await this.$campaign.getCampaignReports(this.page)
 				this.campaign_report = response_data.data;
 
-				if (this.campaign_report.length !== 0){this.showPagination = true;}
+				this.showPagination = this.campaign_report.length !== 0;
+
 				this.page = response_data.meta.current_page;
 				this.total_page = response_data.meta.last_page;
-				this.show_shimmer = true;
+				this.show_shimmer = false;
 
 			}catch (e) {}
 		},
 
 		async filterCampaignReport(){
 			this.isLoading = true;
-			this.searchText = '';
-			this.showIcon = false;
+			this.show_shimmer = true
 			try {
 				let response_data = await this.$campaign.filterCampaignReport(this.page, this.date_time[0], this.date_time[1])
 				this.campaign_report = response_data.data;
 
-				if (this.campaign_report.length !== 0){this.showPagination = true;}
+				this.showPagination = this.campaign_report.length !== 0;
+
 				this.page = response_data.meta.current_page;
 				this.total_page = response_data.meta.last_page;
-				this.show_shimmer = true;
+				this.show_shimmer = false
 
 				this.isLoading = false;
-				this.searchText = 'Search';
-				this.showIcon = true;
 
 				this.$toast.success('Search completed');
 			}catch (e) {
 				this.$toast.error('Something went wrong. Try again!');
 				this.isLoading = false;
-				this.searchText = 'Search';
-				this.showIcon = true;
 			}
 		},
 
@@ -190,18 +186,33 @@ export default {
 			this.fetch();
 		},
 
-		async filterByStatus(){
-			console.log(this.campaign_status)
+		async filterCampaignReportsByStatus(){
+			this.isLoading = true;
+			this.show_shimmer = true
+
 			try {
-						let response_data = await this.$campaign.filterCampaignReport(this.page, this.campaign_status)
-						this.campaign_report = response_data.data;
-			}catch (e) {}
+				let response_data = await this.$campaign.filterCampaignReportsByStatus(this.page, this.campaign_status)
+				this.campaign_report = response_data.data;
+
+				this.showPagination = this.campaign_report.length !== 0;
+
+				this.page = response_data.meta.current_page;
+				this.total_page = response_data.meta.last_page;
+				this.show_shimmer = false
+
+				this.isLoading = false;
+
+				this.$toast.success('Search completed');
+			}catch (e) {
+				this.$toast.error('Something went wrong. Try again!');
+				this.isLoading = false;
+			}
 		},
 
 		async display_all(){
 			this.campaign_status = 'All';
 			this.page = 1;
-			await this.filterCampaignReport();
+			await this.fetch();
 			this.all_active = true;
 			this.scheduled_active = false;
 			this.running_active = false;
@@ -211,7 +222,7 @@ export default {
 		async display_scheduled(){
 			this.campaign_status = 'Scheduled';
 			this.page = 1;
-			await this.filterByStatus();
+			await this.filterCampaignReportsByStatus();
 			this.all_active = false;
 			this.scheduled_active = true;
 			this.running_active = false;
@@ -222,7 +233,7 @@ export default {
 		async display_running(){
 			this.campaign_status = 'Running';
 			this.page = 1;
-			await this.filterByStatus();
+			await this.filterCampaignReportsByStatus();
 			this.all_active = false;
 			this.scheduled_active = false;
 			this.running_active = true;
@@ -232,7 +243,7 @@ export default {
 		async display_delivered(){
 			this.campaign_status = 'Delivered';
 			this.page = 1;
-			await this.filterByStatus();
+			await this.filterCampaignReportsByStatus();
 			this.all_active = false;
 			this.scheduled_active = false;
 			this.running_active = false;
@@ -254,6 +265,7 @@ export default {
 .campaign-page {
 	width: 950px;
 	margin: 0 auto;
+	padding: 0 0 30px 0;
 }
 
 p {
