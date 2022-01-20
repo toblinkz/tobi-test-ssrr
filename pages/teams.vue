@@ -4,10 +4,12 @@
 							<div style="display: flex; flex-direction: row; justify-content: space-between">
 										<div style="display: flex; flex-direction: column">
 											<div style="font-size: 20px; font-weight: bold"> <i class="entypo-user-add  m-r-5" style="font-size: 20px"></i> Teams </div>
-											<p style="font-size: 13.5px!important;">Here is a list of your teammates currently on {{f_name}} {{l_name}}</p>
+											<p style="font-size: 15px!important; line-height: 18px; color: #727272; margin-top: 10px;">
+												Here is a list of your teammates currently on {{f_name}} {{l_name}}</p>
 										</div>
-									<div>
-										<a class="btn bg-blue" @click="showModal">Add Teammate</a>
+									<div class="btn bg-blue invite-btn" @click="showModal">
+										<img src="/icons/svg_icons/plus-icon.svg" alt="">
+										<p>Invite teammate</p>
 									</div>
 							</div>
 							<TableVuePlaceHolder v-if="show_shimmer">
@@ -15,19 +17,25 @@
 							</TableVuePlaceHolder>
 							<div v-else class="mt-20">
 								  <div class="header-style">
-
-												<p class="header-title">Name</p>
-												<p class="header-title">Permissions</p>
+												<p class="header-title header-name">Name</p>
+												<p class="header-title header-permissions">Permissions</p>
+												<p class="header-title header-status">Status</p>
 												<p class="header-title">Action</p>
-
 										</div>
 								<div class="m-l-10 " style="border-bottom: dotted #ddd!important;"></div>
 								  <div v-for="team_member in team_members.data">
-											<team-card :team_member="team_member" @team-member-permissions="getTeammatePermissions($event)" @update-team-member="updateTeamMember($event)" @delete-team-member="deleteTeamMember($event)"></team-card>
+											<team-card
+												:team_member="team_member"
+												@team-member-permissions="getTeammatePermissions($event)"
+												@update-team-member="updateTeamMember($event)"
+												@delete-team-member="deleteTeamMember($event)"
+												@resend-invitation="resendInvitation($event)"
+											></team-card>
 										</div>
-
 							</div>
+
 						</div>
+							<ResendTeamInviteModal></ResendTeamInviteModal>
 					  <DeleteTeammateModal @get-teammates="getTeammates" :teammate_id="teammate_id" :teammate_email="email"></DeleteTeammateModal>
 					  <AddedTeammateSuccessfullyModal></AddedTeammateSuccessfullyModal>
 					  <UpdatedTeammatePermissionModal></UpdatedTeammatePermissionModal>
@@ -51,10 +59,13 @@ import UpdatedTeammatePermissionModal from "../components/modals/UpdatedTeammate
 import UserEmailExistNotificationModal from "../components/team/modals/UserEmailExistNotificationModal";
 import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
 import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
+import ResendTeamInviteModal from "@/components/team/modals/ResendTeamInviteModal";
+
 export default {
  name: "teams",
 	middleware:['auth','permission'],
 	components: {
+		ResendTeamInviteModal,
 		TableVuePlaceHolder,
 		UpdateCompanyNameModal,
 		UserEmailExistNotificationModal,
@@ -116,9 +127,10 @@ export default {
 			this.$modal.show('user-email-exist-notification-modal');
 		},
 		async getTeammates(){
-			   this.show_shimmer = true
+			this.show_shimmer = true
 			  try {
 						this.team_members = await this.$axios.$get('team');
+						console.log(this.team_members)
 						this.show_shimmer = false;
 					}catch (e) {
 
@@ -134,7 +146,13 @@ export default {
 		},
 		getTeammatePermissions(event){
 			 this.selected_teammate_permission = event;
-		}
+		},
+		async resendInvitation(team_member){
+			// this.teammate_id = team_member.id;
+			// this.email = team_member.email;
+			console.log(team_member)
+			this.$modal.show('resend-team-invite-modal');
+		},
 	},
 	async mounted() {
 		 await this.getTeammates();
@@ -169,14 +187,39 @@ export default {
 	transition: background 0.2s ease 0s;
 	align-self: flex-start;
 }
+.invite-btn {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 14px 0;
+}
+.invite-btn p{
+	padding: 0;
+	margin: 0 0 0 10px;
+	font-size: 15px;
+	line-height: 18px;
+	color: #FFFFFF;
+}
 .header-style{
 	display: flex;
 	justify-content: space-between;
-	padding: 20px 50px 10px 50px;
-	min-height: 63px;
+	padding: 10px 20px 0 65px;
+	height: 40px;
 	color: #727272;
-font-weight: 600;
+	font-weight: 600;
 }
+
+.header-name {
+	width: 280px;
+}
+.header-permissions {
+	margin-left: -40px;
+}
+.header-status {
+	margin-right: -120px;
+}
+
 @media (max-width: 768px){
 	.container-item {
 	flex-direction: column;
