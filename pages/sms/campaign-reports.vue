@@ -72,7 +72,7 @@
 		</main>
 
 		<ConfirmCampaignDeleteModal :campaign_id="campaign_id"></ConfirmCampaignDeleteModal>
-		<CampaignDeleteSuccessfulModal @refetch-campaign-reports="this.fetch"></CampaignDeleteSuccessfulModal>
+		<CampaignDeleteSuccessfulModal @refetch-campaign-reports="this.filterCampaignReportsByStatus"></CampaignDeleteSuccessfulModal>
 		<VerificationModal></VerificationModal>
 <!--		<UpdateCompanyNameModal></UpdateCompanyNameModal>-->
 	</div>
@@ -161,7 +161,7 @@ export default {
 				let response_data = await this.$campaign.filterCampaignReport(this.page, this.date_time[0], this.date_time[1])
 				this.campaign_report = response_data.data;
 
-				this.showPagination = this.campaign_report.length !== 0;
+				this.showPagination = this.campaign_report.length > 15;
 
 				this.page = response_data.meta.current_page;
 				this.total_page = response_data.meta.last_page;
@@ -194,7 +194,7 @@ export default {
 				let response_data = await this.$campaign.filterCampaignReportsByStatus(this.page, this.campaign_status)
 				this.campaign_report = response_data.data;
 
-				this.showPagination = this.campaign_report.length !== 0;
+				this.showPagination = this.campaign_report.length > 15;
 
 				this.page = response_data.meta.current_page;
 				this.total_page = response_data.meta.last_page;
