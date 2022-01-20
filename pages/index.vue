@@ -274,6 +274,8 @@ export default {
 
 		this.startUserWizard();
 
+		this.getUserPermissions();
+
 		this.getChartData();
 
 		this.checkUserIsVerifiedAndProcess();
