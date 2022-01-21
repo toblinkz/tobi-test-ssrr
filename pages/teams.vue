@@ -35,7 +35,11 @@
 							</div>
 
 						</div>
-							<ResendTeamInviteModal></ResendTeamInviteModal>
+							<ResendTeamInviteModal
+								:firstName="resend_team_member.fname"
+								:lastName="resend_team_member.lname"
+								:email="resend_team_member.email"
+							></ResendTeamInviteModal>
 					  <DeleteTeammateModal @get-teammates="getTeammates" :teammate_id="teammate_id" :teammate_email="email"></DeleteTeammateModal>
 					  <AddedTeammateSuccessfullyModal></AddedTeammateSuccessfullyModal>
 					  <UpdatedTeammatePermissionModal></UpdatedTeammatePermissionModal>
@@ -87,8 +91,8 @@ export default {
 				  existing_user_data:'',
 				  selected_permission:'',
 			  	selected_teammate_permission:[],
-				  show_shimmer : false
-
+				  show_shimmer : false,
+						resend_team_member: {}
 			}
 	},
 	methods: {
@@ -148,9 +152,7 @@ export default {
 			 this.selected_teammate_permission = event;
 		},
 		async resendInvitation(team_member){
-			// this.teammate_id = team_member.id;
-			// this.email = team_member.email;
-			console.log(team_member)
+			this.resend_team_member = team_member
 			this.$modal.show('resend-team-invite-modal');
 		},
 	},
