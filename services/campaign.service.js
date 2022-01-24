@@ -46,18 +46,12 @@ export class CampaignService {
 		return await this.$axios.$get('sms/campaign/reports', {params: {page: page}});
 	}
 
-	async filterCampaignReports(page, date_from, date_to){
+	async filterCampaignReports(page, date_from, date_to, campaign_status){
 		return await this.$axios.$get('sms/campaign/reports', {params:
-				{page: page,
+				{
+					page: page,
 					date_from: date_from,
 					date_to: date_to,
-				}
-		});
-	}
-
-	async filterCampaignReportsByStatus(page, campaign_status){
-		return await this.$axios.$get('sms/campaign/reports', {params:
-				{page: page,
 					status: campaign_status
 				}
 		});
