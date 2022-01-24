@@ -328,6 +328,7 @@ export default {
 			});
 			localStorage.setItem('permissions', this.customer_permissions);
 		},
+
 		async getTotalMessagesSent(){
 			try {
 				let data = await this.$insight.getFilteredChartData('this month');
