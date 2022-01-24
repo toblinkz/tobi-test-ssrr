@@ -13,13 +13,13 @@
 		<span class="pill all_permission" v-if="team_member.is_main">All Permissions</span>
 		<div class="m-l-5 m-t-5">
 <!--			<a v-show="team_member.permissions.length > 5 && !team_member.is_main" @click="viewPermissions(team_member)">View more</a>-->
-			<a v-show="team_member.permissions.length > 5 && !team_member.is_main" @click="getPermissions">View more</a>
+			<a v-show="team_member.permissions.length > 5 && !team_member.is_main" @click="viewPermissionsModal">View more</a>
 		</div>
 	</div>
 
 		<div class="team-member-status" :class="{'team-member-pending': team_member.active_status_id.name === 'Pending' }">{{team_member.active_status_id.name}}</div>
 
-		<div class="action">
+		<div class="action" v-click-outside="closeMenu">
 			<img src="/icons/svg_icons/overflow-menu-vertical.svg" alt="" @click="toggleMenu">
 
 			<div class="menu" v-if="isMenuOpen">
@@ -45,13 +45,15 @@
 
 <script>
 import permission from "@/middleware/permission";
+import ClickOutside from "vue-click-outside";
 
 export default {
 	name: "TeamCard",
 	data() {
 		return {
 			isMenuOpen: false,
-			permissionsList: []
+			permissionsList: [],
+			cleanedUpTeamMemberPermissions: []
 		}
 	},
 	props:{
@@ -68,7 +70,7 @@ export default {
 		updateTeamMember(row)	{
 			this.isMenuOpen = false
 			this.$emit('update-team-member', row);
-			this.$emit('team-member-permissions', this.team_member.permissions)
+			// this.$emit('team-member-permissions', this.team_member.permissions)
 		},
 		deleteTeamMember(id)	{
 			this.isMenuOpen = false
@@ -81,21 +83,51 @@ export default {
 		toggleMenu(){
 			this.isMenuOpen = !this.isMenuOpen
 		},
-		async getPermissions(){
+		closeMenu(){
+			this.isMenuOpen = false
+		},
+		async viewTeamMemberPermissions(){
 			try {
 				let data = await this.$axios.$get('utility/permission');
-				// this.permission = data.data;
-				console.log(data.data)
+				this.permission = data.data;
 
-				// let all_permission = data.data;
-				// this.all_permissions_id = [];
-				// all_permission.forEach((module) =>{
-				// 	module.permission.forEach((permission) => {
-				// 		this.all_permissions_id.push(permission.id)
-				// 	})
-				// });
+				let allPermissions = data.data
+
+				let teamMemberPermissionsIDs = this.team_member.permissions
+
+				let cleanedUpTeamMemberPermissions = []
+				allPermissions.forEach((categoryPermission) => {
+					let singleCategoryPermission = {}
+					singleCategoryPermission.name = categoryPermission.name
+					singleCategoryPermission.permissionsList = []
+
+					categoryPermission.permission.forEach((permission) => {
+						teamMemberPermissionsIDs.forEach((teamMemberPermission) => {
+							if (permission.id === teamMemberPermission.id) {
+								singleCategoryPermission.permissionsList.push(permission)
+							}
+						})
+					})
+
+					if (singleCategoryPermission.permissionsList.length > 0) {
+						cleanedUpTeamMemberPermissions.push(singleCategoryPermission)
+					}
+				})
+
+				this.cleanedUpTeamMemberPermissions = cleanedUpTeamMemberPermissions
 			}catch (e) {	}
 		},
+		viewPermissionsModal() {
+			this.$emit('view-team-member-permissions',
+				{permissionsToView: this.cleanedUpTeamMemberPermissions, teamMemberToView: this.team_member})
+			this.$modal.show('view-permissions-modal');
+		},
+	},
+	directives: {
+		ClickOutside
+	},
+	async mounted() {
+		await this.viewTeamMemberPermissions()
 	}
 }
 </script>

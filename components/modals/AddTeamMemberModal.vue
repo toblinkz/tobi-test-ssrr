@@ -48,11 +48,6 @@
 					<br>
 
 					<div>
-<!--						<label>Role</label>-->
-<!--						<select  @change="onChange($event)" class="form-control" >-->
-<!--							<option v-for="role in roles"  :value="role.id" >{{role.name}}</option>-->
-<!--						</select>-->
-
 						<label>Role</label>
 						<TeamRolesDropdown
 							:options="roles"

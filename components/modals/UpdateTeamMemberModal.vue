@@ -12,14 +12,14 @@
 					<div style="display: flex;">
 						<div style="width: 45%">
 							<label>First Name</label>
-							<div class="form-control">{{ first_name }}</div>
+							<div class="form-control">{{ team_member.fname }}</div>
 						</div>
 
 						<div style="width: 5%"></div>
 
 						<div  style="width: 50%">
 							<label>Last Name</label>
-							<div class="form-control">{{last_name}}</div>
+							<div class="form-control">{{team_member.lname}}</div>
 						</div>
 					</div>
 					<br>
@@ -31,7 +31,7 @@
 												style="margin-left: 6px; cursor: pointer"
 												src="/icons/svg_icons/more-info-icon.svg" alt="">
 						</label>
-						<div class="form-control">{{email}}</div>
+						<div class="form-control">{{team_member.email}}</div>
 						<div class="more-info" v-if="hover">
 							You can’t edit this email address,
 							please remove teammate and
@@ -45,7 +45,7 @@
 						<label class="role">Role</label>
 						<TeamRolesDropdown
 							:options="roles"
-							:default="{id: -1, name: role}"
+							:default="{id: -1, name: team_member.role}"
 							@select-role-input="updateSelectedRole"
 						></TeamRolesDropdown>
 					</div>
@@ -67,7 +67,7 @@
 								>Select all</p>
 							</div>
 							<div class="mt-20">
-								<div v-for="row in permissions">
+								<div v-for="row in all_permissions">
 									<h3 class="m-b-10" style="font-weight: bold;
 												font-size: 14px;
 												line-height: 16px;
@@ -118,7 +118,6 @@ export default {
 		 return{
 		 	 roles: [],
 				 isLoading: false,
-				 permissions:[],
 				 all_permissions:[],
 				 select_all_permission: false,
 				 teammates_permissions:[],
@@ -134,21 +133,9 @@ export default {
 			}
 	},
  props:{
-		 first_name:{ required: true},
-		 last_name:{ required: true },
-		 teammate_id:{ required: true},
-		 email: { required: true },
-
-		 selected_teammate_permission:{required: true},
-		 role: { required: true }
+			team_member: {required: true},
 	},
 	watch:{
-		 email(){
-		 	  if(this.email){
-		 	  	 this.teammates_permissions = [];
-		 	  	  this.mergeTeammatePermissions();
-						}
-			},
 		select_all_permission(){
 			if (this.select_all_permission){
 				this.teammates_permissions = this.all_permissions_id;
@@ -174,16 +161,11 @@ export default {
 		},
 
 		showPermissions() {
-			console.log(this.all_permissions)
-			this.isPermissionsOpen = !this.isPermissionsOpen
-		},
+			this.team_member.permissions.forEach((permission) => {
+				this.teammates_permissions.push(permission.id);
+			})
 
-		mergeTeammatePermissions(){
-			 this.selected_teammate_permission.forEach((permission) => {
-			 	 this.teammates_permissions.push(permission.id);
-				})
-			let ids = new Set(this.all_permissions.map(d => d.id));
-			this.permissions = [...this.all_permissions];
+			this.isPermissionsOpen = !this.isPermissionsOpen
 		},
 		async getPermissions(){
 			try {
@@ -197,10 +179,7 @@ export default {
 						this.all_permissions_id.push(permission.id)
 					})
 				});
-
-			}catch (e) {
-
-			}
+			}catch (e) {}
 		},
 		handle422Errors(data){
 			let errors = data.errors
@@ -218,9 +197,10 @@ export default {
 			this.show_icon = false;
 			this.isLoading = true;
 			try {
-				let data = await this.$axios.$patch(`team/${this.teammate_id}/permissions/update`, {
+				let data = await this.$axios.$patch(`team/${this.team_member.id}/permissions/update`, {
 					permissions: this.teammates_permissions
 				});
+				this.$toast.success('Details updated successfully!')
 				this.$emit('update-teammate-permission');
 				this.update_button_text = 'Update';
 				this.show_icon = true;
@@ -253,7 +233,6 @@ export default {
 
 <style scoped >
 @import "../../assets/css/modal/modal.css";
-
 
 .update-teammate-modal-header {
 	width: 100%;

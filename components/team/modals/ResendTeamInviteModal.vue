@@ -90,13 +90,13 @@ export default {
 			this.resend_btn_text = 'Resending invite'
 			this.isLoading = true
 			try {
-				console.log(`sending invite to`, this.email)
 				let response = await this.$teams.resendTeamMemberInvite(this.email)
 				console.log(response) // 2 possible responses
 				this.isLoading = false
 				this.resend_btn_text = 'Resend Invite'
 				this.$modal.hide('resend-team-invite-modal');
-				this.$modal.show('added-team-successfully-modal');
+				this.$toast.success('Invite successfully resent!')
+				// this.$modal.show('added-team-successfully-modal');
 			} catch (e) {
 				this.isLoading = false
 				this.resend_btn_text = 'Resend Invite'
