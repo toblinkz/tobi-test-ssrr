@@ -2,7 +2,6 @@
 <div class="card-container">
 	<span class="ellipse"
 							v-bind:class="{
-										// ellipse: campaign_status_filter === 'All',
 										delivered: campaign_status_filter === 'Delivered',
 										scheduled: campaign_status_filter === 'Scheduled',
 										running: campaign_status_filter === 'Running',
@@ -26,7 +25,7 @@
 		</div>
 	</div>
 
-	<div class="action">
+	<div class="action" v-click-outside="closeMenu">
 		<img src="/icons/svg_icons/overflow-menu-vertical.svg" alt="" @click="toggleMenu">
 
 		<div class="menu" v-if="isMenuOpen">
@@ -59,7 +58,7 @@ export default {
 		"run_at",
 		"sender",
 		"campaign_status",
-		"campaign_status_filter"
+		"campaign_status_filter",
 	],
 	data(){
 		return {
@@ -73,16 +72,16 @@ export default {
 		},
 		showDeleteModal(){
 			this.isMenuOpen = !this.isMenuOpen
-			this.$emit('show-delete-modal', this.campaign_id)
+			this.$emit('show-delete-modal', this.campaign_id, this.run_at)
 		},
-		hide(){
+		closeMenu() {
 			this.isMenuOpen = false
 		}
 	},
 
 	directives: {
 		ClickOutside
-	}
+	},
 }
 </script>
 
@@ -93,7 +92,6 @@ export default {
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: flex-start;
-	/*width: 946px;*/
 	width: 946px;
 	background: #FFFFFF;
 	box-shadow: 5px 4px 26px 2px rgba(0, 0, 0, 0.07);
@@ -108,7 +106,6 @@ export default {
 	width: 10px;
 	height: 10px;
 	border-radius: 10px;
-	/*border-radius: 50%;*/
 	margin-top: 3px;
 }
 
@@ -120,7 +117,6 @@ export default {
 	font-style: normal;
 	font-weight: 500;
 	margin-left: 20px;
-	/*margin-right: 70px;*/
 	width: 195px;
 }
 
@@ -203,7 +199,6 @@ export default {
 
 .menu {
 	position: absolute;
-	/*right: 20px;*/
 	width: 180px;
 	background: #FFFFFF;
 	box-shadow: -2px 4px 10px rgba(0, 0, 0, 0.15);

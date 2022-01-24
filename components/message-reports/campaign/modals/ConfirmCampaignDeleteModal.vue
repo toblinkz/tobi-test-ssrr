@@ -7,7 +7,7 @@
 			<img src="/icons/svg_icons/exclaim_icon.svg" width="172px" alt="">
 			<p class="delete-title">Delete scheduled campaign?</p>
 			<p class="delete-message">Deleting this campaign means it won’t
-				run at 2021-12-16 12:09:49.</p>
+				run at {{ run_at_date }}.</p>
 			<div class="delete-btn" @click="deleteCampaign">
 				{{del_btn_text}}
 
@@ -22,7 +22,7 @@
 <script>
 export default {
 	name: "ConfirmCampaignDeleteModal",
-	props: ['campaign_id'],
+	props: ['campaign_id', 'run_at_date'],
 	data(){
 		return{
 			del_btn_text: 'Yes, delete it',
@@ -46,9 +46,7 @@ export default {
 
 				this.del_btn_text  = 'Yes, delete it'
 				this.isLoading = false
-			}catch (e) {
-
-			}
+			}catch (e) {}
 		}
 	}
 }

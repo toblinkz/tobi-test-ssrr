@@ -9,10 +9,6 @@
 					</div>
 					<p class="campaign-history-subtitle">View all Group SMS Campaign history</p>
 				</div>
-				<div class="campaign-insight-graph-button">
-					<img src="/icons/svg_icons/entypo_bar-graph.svg" width="16px" alt="">
-					<p>View insight graph</p>
-				</div>
 			</div>
 
 			<div class="filter-group">
@@ -46,10 +42,9 @@
 					<p>Status</p>
 					<p style="margin-right: -10px">Action</p>
 				</div>
-			</div>
 
 				<CampaignReportCard
-					v-for="campaign in campaign_report"
+					v-for="campaign in campaign_reports"
 					:key="campaign.campaign_id"
 					:campaign_id="campaign.campaign_id"
 					:phonebook="campaign.phone_book"
@@ -62,19 +57,22 @@
 					@show-delete-modal="showDeleteModal"
 				/>
 
-			<Pagination
-				:page="page"
-				:total_page="total_page"
-				:on-page-change="onPageChange"
-				v-show="showPagination"
-			>
-			</Pagination>
+				<div style="text-align: center; font-size: 16px; margin: 30px 0;" v-show="campaign_reports.length < 1">No data available</div>
+
+				<Pagination
+					:page="page"
+					:total_page="total_page"
+					:on-page-change="onPageChange"
+					v-show="showPagination"
+				>
+				</Pagination>
+			</div>
 		</main>
 
-		<ConfirmCampaignDeleteModal :campaign_id="campaign_id"></ConfirmCampaignDeleteModal>
+		<ConfirmCampaignDeleteModal :campaign_id="campaign_id" :run_at_date="run_at_date"></ConfirmCampaignDeleteModal>
 		<CampaignDeleteSuccessfulModal @refetch-campaign-reports="this.filterCampaignReportsByStatus"></CampaignDeleteSuccessfulModal>
 		<VerificationModal></VerificationModal>
-<!--		<UpdateCompanyNameModal></UpdateCompanyNameModal>-->
+		<UpdateCompanyNameModal></UpdateCompanyNameModal>
 	</div>
 </template>
 
@@ -87,7 +85,6 @@ import 'vue2-datepicker/index.css';
 import TableVuePlaceHolder from "../../components/general/TableVuePlaceHolder";
 import VerificationModal from "~/components/modals/VerificationModal";
 import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
-
 import CampaignReportCard from "../../components/message-reports/campaign/CampaignReportCard";
 import ConfirmCampaignDeleteModal from "../../components/message-reports/campaign/modals/ConfirmCampaignDeleteModal";
 import CampaignDeleteSuccessfulModal from "@/components/message-reports/campaign/modals/CampaignDeleteSuccessfulModal";
@@ -104,7 +101,7 @@ export default {
 	data(){
 		return{
 			isLoading: false,
-			campaign_report:[],
+			campaign_reports:[],
 			customer_permissions: localStorage.getItem('permissions'),
 			date_time: null,
 			page: 1,
@@ -116,7 +113,9 @@ export default {
 			scheduled_active: false,
 			running_active: false,
 			delivered_active: false,
-			campaign_id: ''
+			campaign_id: '',
+			run_at_date: '',
+			cardMenuOpen: true
 		}
 	},
 
@@ -127,15 +126,14 @@ export default {
 	},
 
 	methods:{
-		filterByDateRange(){
-			console.log(this.date_time)
-			this.filterCampaignReport()
+		async filterByDateRange(){
+			await this.filterCampaignReport()
 		},
 
-		showDeleteModal(campaign_id){
+		showDeleteModal(campaign_id, run_at_date){
 			this.campaign_id = campaign_id
+			this.run_at_date = run_at_date
 			this.$modal.show('confirm-campaign-delete-modal')
-			// this.$modal.show('campaign-delete-successful-modal')
 		},
 
 		async fetch(){
@@ -143,9 +141,9 @@ export default {
 			this.show_shimmer = true
 			try {
 				let response_data = await this.$campaign.getCampaignReports(this.page)
-				this.campaign_report = response_data.data;
+				this.campaign_reports = response_data.data;
 
-				this.showPagination = this.campaign_report.length !== 0;
+				this.showPagination = this.campaign_reports.length !== 0;
 
 				this.page = response_data.meta.current_page;
 				this.total_page = response_data.meta.last_page;
@@ -158,17 +156,15 @@ export default {
 			this.isLoading = true;
 			this.show_shimmer = true
 			try {
-				let response_data = await this.$campaign.filterCampaignReport(this.page, this.date_time[0], this.date_time[1])
-				this.campaign_report = response_data.data;
-
-				this.showPagination = this.campaign_report.length > 15;
+				let response_data = await this.$campaign.filterCampaignReports(this.page, this.date_time[0], this.date_time[1])
+				this.campaign_reports = response_data.data;
 
 				this.page = response_data.meta.current_page;
 				this.total_page = response_data.meta.last_page;
+
 				this.show_shimmer = false
-
 				this.isLoading = false;
-
+				this.showPagination = this.campaign_reports.length > 15;
 				this.$toast.success('Search completed');
 			}catch (e) {
 				this.$toast.error('Something went wrong. Try again!');
@@ -192,17 +188,15 @@ export default {
 
 			try {
 				let response_data = await this.$campaign.filterCampaignReportsByStatus(this.page, this.campaign_status)
-				this.campaign_report = response_data.data;
+				this.campaign_reports = response_data.data;
 
-				this.showPagination = this.campaign_report.length > 15;
+				this.showPagination = this.campaign_reports.length > 15;
 
 				this.page = response_data.meta.current_page;
 				this.total_page = response_data.meta.last_page;
 				this.show_shimmer = false
 
 				this.isLoading = false;
-
-				this.$toast.success('Search completed');
 			}catch (e) {
 				this.$toast.error('Something went wrong. Try again!');
 				this.isLoading = false;
@@ -257,7 +251,7 @@ export default {
 		}else {
 			this.fetch();
 		}
-	}
+	},
 }
 </script>
 
@@ -406,7 +400,8 @@ main {
 	justify-content: space-between;
 	align-items: flex-start;
 	width: 946px;
-	padding: 24px 32px 0;
+	padding: 24px 32px 10px;
+	border-bottom: 3px dashed #A9A9A9;
 }
 
 .campaigns-header > p {
@@ -446,9 +441,6 @@ main {
 	}
 }
 
-.content-wrapper {
-	width: 100%;
-}
 @media screen and (min-width: 769px){
 	.container .jumbotron, .container-fluid .jumbotron {
 		padding-left: 60px;
