@@ -97,7 +97,9 @@ export default {
 		ConfirmCampaignDeleteModal,
 		CampaignDeleteSuccessfulModal,
 		UpdateCompanyNameModal,
-		VerificationModal, TableVuePlaceHolder, Pagination, DashboardNavbar, Sidebar, DatePicker},
+		VerificationModal,
+		TableVuePlaceHolder,
+		Pagination, DashboardNavbar, Sidebar, DatePicker},
 	data(){
 		return{
 			isLoading: false,
