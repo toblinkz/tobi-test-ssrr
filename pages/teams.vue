@@ -12,14 +12,14 @@
 										<p>Invite teammate</p>
 									</div>
 							</div>
-							<TableVuePlaceHolder v-if="show_shimmer">
 
+							<TableVuePlaceHolder v-if="show_shimmer">
 							</TableVuePlaceHolder>
 							<div v-else class="mt-20">
 								  <div class="header-style">
 												<p class="header-title header-name">Name</p>
 												<p class="header-title header-permissions">Permissions</p>
-												<p class="header-title header-status">Status</p>
+												<p class="header-title header-status" @click="showTestModal">Status</p>
 												<p class="header-title">Action</p>
 										</div>
 								<div class="m-l-10 " style="border-bottom: dotted #ddd!important;"></div>
@@ -33,8 +33,11 @@
 											></team-card>
 										</div>
 							</div>
-
 						</div>
+
+						<ViewPermissionsModal
+							:selected_teammate_permission="this.selected_teammate_permission"></ViewPermissionsModal>
+
 							<ResendTeamInviteModal
 								:firstName="resend_team_member.fname"
 								:lastName="resend_team_member.lname"
@@ -64,11 +67,15 @@ import UserEmailExistNotificationModal from "../components/team/modals/UserEmail
 import UpdateCompanyNameModal from "../components/index/modals/UpdateCompanyNameModal";
 import TableVuePlaceHolder from "../components/general/TableVuePlaceHolder";
 import ResendTeamInviteModal from "@/components/team/modals/ResendTeamInviteModal";
+import TeamRolesDropdown from "@/components/team/TeamRolesDropdown";
+import ViewPermissionsModal from "@/components/team/modals/ViewPermissionsModal";
 
 export default {
  name: "teams",
 	middleware:['auth','permission'],
 	components: {
+		ViewPermissionsModal,
+		TeamRolesDropdown,
 		ResendTeamInviteModal,
 		TableVuePlaceHolder,
 		UpdateCompanyNameModal,
@@ -98,6 +105,10 @@ export default {
 	methods: {
 		showModal(){
 			 this.$modal.show('add-team-member-modal');
+		},
+
+		showTestModal(){
+			this.$modal.show('view-permissions-modal')
 		},
 
 		addTeamMember(event){

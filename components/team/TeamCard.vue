@@ -12,7 +12,8 @@
 		<span  v-if="!team_member.is_main" v-for="row in team_member.permissions.slice(0,5)"  class="pill" >{{row.name.replace(/_/g, " ")}}</span>
 		<span class="pill all_permission" v-if="team_member.is_main">All Permissions</span>
 		<div class="m-l-5 m-t-5">
-			<a v-show="team_member.permissions.length > 5 && !team_member.is_main" @click="updateTeamMember(team_member)">View more</a>
+<!--			<a v-show="team_member.permissions.length > 5 && !team_member.is_main" @click="viewPermissions(team_member)">View more</a>-->
+			<a v-show="team_member.permissions.length > 5 && !team_member.is_main" @click="getPermissions">View more</a>
 		</div>
 	</div>
 
@@ -43,11 +44,14 @@
 </template>
 
 <script>
+import permission from "@/middleware/permission";
+
 export default {
 	name: "TeamCard",
 	data() {
 		return {
 			isMenuOpen: false,
+			permissionsList: []
 		}
 	},
 	props:{
@@ -55,11 +59,19 @@ export default {
 		},
 	},
 	methods:{
+		viewPermissions(team_member){
+			team_member.permissions.forEach((permission) => {
+				this.permissionsList.push(permission.name.replace(/_/g, " "))
+			})
+			console.log(this.permissionsList)
+		},
 		updateTeamMember(row)	{
+			this.isMenuOpen = false
 			this.$emit('update-team-member', row);
 			this.$emit('team-member-permissions', this.team_member.permissions)
 		},
 		deleteTeamMember(id)	{
+			this.isMenuOpen = false
 			this.$emit('delete-team-member', id)
 		},
 		resendInvitation() {
@@ -68,7 +80,22 @@ export default {
 		},
 		toggleMenu(){
 			this.isMenuOpen = !this.isMenuOpen
-		}
+		},
+		async getPermissions(){
+			try {
+				let data = await this.$axios.$get('utility/permission');
+				// this.permission = data.data;
+				console.log(data.data)
+
+				// let all_permission = data.data;
+				// this.all_permissions_id = [];
+				// all_permission.forEach((module) =>{
+				// 	module.permission.forEach((permission) => {
+				// 		this.all_permissions_id.push(permission.id)
+				// 	})
+				// });
+			}catch (e) {	}
+		},
 	}
 }
 </script>

@@ -1,16 +1,5 @@
 <template>
 	<modal name="resend-team-invite-modal" height="auto" width="440px">
-<!--				<div>-->
-<!--					<div class="resend-modal-footer">-->
-<!--						<a @click="" class="btn id-btn-primary"   :aria-disabled="isDisabled">-->
-<!--							{{resend_btn_text}}-->
-<!--							<span v-show="isLoading" >-->
-<!--									<img src="/images/black_spinner.svg" height="20px" width="30px"/>-->
-<!--							</span>-->
-<!--						</a>-->
-<!--					</div>-->
-<!--				</div>-->
-
 		<div class="resend-modal-container">
 			<div class="resend-modal-header">
 				<h4 class="resend-modal-title">Resend team invite</h4>
@@ -35,8 +24,20 @@
 					</div>
 					<br>
 					<div>
-						<label>Email address</label>
+						<label>
+							Email address
+							<img @mouseover="hover = true"
+												@mouseleave="hover = false"
+												style="margin-left: 6px; cursor: pointer"
+												src="/icons/svg_icons/more-info-icon.svg" alt="">
+						</label>
 						<div class="form-control">{{email}}</div>
+						<div class="more-info" v-if="hover">
+							You can’t edit this email address,
+							please remove teammate and
+							add the correct email.
+						</div>
+
 					</div>
 				</div>
 			</div>
@@ -48,7 +49,12 @@
 			</div>
 
 			<div class="resend-modal-footer">
-				<div class="btn bg-blue" @click="resendInvite">Resend invite</div>
+				<div class="btn bg-blue" @click="resendInvite">
+					{{resend_btn_text}}
+					<span v-show="isLoading" >
+						<img src="/images/black_spinner.svg" height="20px" width="30px"/>
+					</span>
+				</div>
 			</div>
 		</div>
 	</modal>
@@ -71,6 +77,7 @@ export default {
 	data() {
 		return {
 			isLoading: false,
+			hover: false,
 			show_icon: true,
 			resend_btn_text: 'Resend Invite',
 		}
@@ -80,7 +87,20 @@ export default {
 			this.$modal.hide('resend-team-invite-modal');
 		},
 		async resendInvite() {
-			console.log(`sending invite to`, this.email)
+			this.resend_btn_text = 'Resending invite'
+			this.isLoading = true
+			try {
+				console.log(`sending invite to`, this.email)
+				let response = await this.$teams.resendTeamMemberInvite(this.email)
+				console.log(response) // 2 possible responses
+				this.isLoading = false
+				this.resend_btn_text = 'Resend Invite'
+				this.$modal.hide('resend-team-invite-modal');
+				this.$modal.show('added-team-successfully-modal');
+			} catch (e) {
+				this.isLoading = false
+				this.resend_btn_text = 'Resend Invite'
+			}
 		}
 	}
 }
@@ -163,6 +183,20 @@ label {
 .form-control:focus {
 	border-color: #4DB6AC;
 	outline: none;
+}
+
+.more-info {
+	width: 226px;
+	height: 75px;
+	background: #365899;
+	border-radius: 6px 6px 6px 0;
+	font-size: 13px;
+	line-height: 18px;
+	color: #FFFFFF;
+	padding: 10px 13px;
+	position: absolute;
+	top: 18px;
+	left: 105px;
 }
 
 .resend-note {
