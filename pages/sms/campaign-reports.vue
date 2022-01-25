@@ -7,7 +7,7 @@
 						<img src="/icons/svg_icons/messaging-icon.svg" width="20px" alt="">
 						<p>Group SMS Campaign History</p>
 					</div>
-					<p class="campaign-history-subtitle">View all Group SMS Campaign history</p>
+					<p class="campaign-history-subtitle">View all your Group SMS Campaign history</p>
 				</div>
 			</div>
 
