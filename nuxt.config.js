@@ -18,6 +18,7 @@ export default {
 		script: [
 			{src: '/js/intercom.js'},
 			{src: '/js/feedback.js'},
+			{src: '/js/google_tag.js'},
 			{ src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
 			{ src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
 			{src:"/js/intro.js" },
@@ -25,7 +26,6 @@ export default {
 		],
 		link: [
 			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-
 		]
 	},
 	publicRuntimeConfig: {
@@ -75,7 +75,7 @@ export default {
 		{ src: '~plugins/idle-vue.js'},
 		{ src: '~plugins/vue-code-highlight.js'},
 		{ src: '~plugins/local-storage.js', ssr: false},
-
+		{ src: '~plugins/google_tag_no_script.js'}
 	],
 	/*
 	** Nuxt.js dev-modules
