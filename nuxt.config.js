@@ -1,6 +1,5 @@
 require('dotenv').config();
 export default {
-
 	mode: 'spa',
 	router: {
 		mode: 'hash',
@@ -21,17 +20,17 @@ export default {
 			{ src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
 			{ src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
 			{src:"/js/intro.js" },
+			{src:"/js/has_request_payload.js" },
 		],
 		link: [
 			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-
 		]
 	},
 	publicRuntimeConfig: {
+		baseURLv2: process.env.API_BASE_URL_v2,
 		baseURL: 'https://termii.com',
 		TERMII_API_KEY: process.env.TERMII_API_KEY,
-		PUBLIC_API_BASE_URL: process.env.PUBLIC_API_BASE_URL,
-		campaignApiBaseURL: process.env.CAMPAIGN_BASE_URL
+		PUBLIC_API_BASE_URL: process.env.PUBLIC_API_BASE_URL
 	},
 	/*
 	** Customize the progress-bar color
@@ -49,13 +48,11 @@ export default {
 	** Global CSS
 	*/
 	css: [
-
 		'@assets/css/general_style/landing_page.css',
 		'@assets/font/karla/css/karla.css',
 		'@assets/icons/entypo/css/entypo.css',
 		'@assets/icons/fontawesome/styles.min.css',
 		'@assets/icons/icomoon/styles.css'
-
 	],
 	/*
 	** Plugins to load before mounting the App
@@ -73,13 +70,11 @@ export default {
 		{ src: '~plugins/idle-vue.js'},
 		{ src: '~plugins/vue-code-highlight.js'},
 		{ src: '~plugins/local-storage.js', ssr: false},
-
 	],
 	/*
 	** Nuxt.js dev-modules
 	*/
 	buildModules: [
-
 	],
 	/*
 	** Nuxt.js modules
@@ -91,27 +86,24 @@ export default {
 			publishableKey: process.env.STRIPE_PK,
 		}],
 	],
-
 	generate: {
 		fallback: true, // if you want to use '404.html' instead of the default '200.html'
 	},
 	axios: {
 		// proxyHeaders: false
 		baseURL: process.env.API_BASE_URL,
-
 	},
-
 	toast: {
 		position: 'bottom-center',
 		duration: 3000
 	},
-
 	//added env object in other to access API_BASE_URL variable in .env file
 	env: {
 		apiBaseUrl: process.env.API_BASE_URL,
-		termiiApiKey: process.env.TERMII_API_KEY
+		termiiApiKey: process.env.TERMII_API_KEY,
+		ADSK: process.env.ADSK,
+		IPAS: process.env.IPAS
 	},
-
 	/*
 	** Build configuration
 	*/
@@ -121,6 +113,5 @@ export default {
 		*/
 		extend (config, ctx) {
 		},
-
 	}
 }

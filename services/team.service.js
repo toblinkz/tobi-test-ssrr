@@ -22,4 +22,10 @@ export class TeamService {
 		 })
 	}
 
+	async resendTeamMemberInvite(email){
+		return await this.$axios.$post('/team/resend-team-invite', {
+			email: email
+		})
+	}
+
 }
