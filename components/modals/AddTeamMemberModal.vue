@@ -5,7 +5,7 @@
 		<div class="add-teammate-modal-container">
 			<div class="add-teammate-modal-header">
 				<h4 class="add-teammate-modal-title">Add a teammate</h4>
-				<img src="/icons/svg_icons/close-icon-round.svg" alt="" class="close-icon" @click="closeModal">
+				<img src="/images/icons/svg_icons/close-icon-round.svg" alt="" class="close-icon" @click="closeModal">
 			</div>
 
 			<div class="add-teammate-modal-body">
@@ -31,10 +31,10 @@
 						<label>
 							Email address
 							<img
-										@mouseover="hover = true"
-										@mouseleave="hover = false"
-										style="margin-left: 6px; cursor: pointer"
-										src="/icons/svg_icons/more-info-icon.svg" alt="">
+                  @mouseover="hover = true"
+                  @mouseleave="hover = false"
+                  style="margin-left: 6px; cursor: pointer"
+                  src="/images/icons/svg_icons/more-info-icon.svg" alt="">
 						</label>
 						<input type="text" class="form-control" v-model="email" placeholder="Input email here" :class="{'error ' : hasEmailError}">
 						<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
@@ -57,11 +57,10 @@
 					</div>
 
 					<div style="background: #F8F8F8; border-radius: 6px 6px 0 0; padding: 10px; margin-top: 30px">
-						<div style="display: flex; justify-content: space-between">
+						<div style="display: flex; justify-content: space-between; cursor: pointer" @click="showPermissions">
 								<p style="padding: 0; margin: 0; font-weight: bold">Permissions</p>
 							<img
-								@click="showPermissions"
-								style="cursor: pointer" src="/icons/svg_icons/entypo_chevron-small-down.svg"
+								style="cursor: pointer" src="/images/icons/svg_icons/entypo_chevron-small-down.svg"
 								alt="">
 						</div>
 						<div class="permissions-list" v-if="isPermissionsOpen">

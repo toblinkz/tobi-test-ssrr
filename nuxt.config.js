@@ -17,6 +17,7 @@ export default {
 		script: [
 			{src: '/js/intercom.js'},
 			{src: '/js/feedback.js'},
+			{src: '/js/google_tag.js'},
 			{ src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js' },
 			{ src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js'},
 			{src:"/js/intro.js" },
@@ -30,7 +31,9 @@ export default {
 		baseURLv2: process.env.API_BASE_URL_v2,
 		baseURL: 'https://termii.com',
 		TERMII_API_KEY: process.env.TERMII_API_KEY,
-		PUBLIC_API_BASE_URL: process.env.PUBLIC_API_BASE_URL
+		PUBLIC_API_BASE_URL: process.env.PUBLIC_API_BASE_URL,
+		campaignApiBaseURL: process.env.CAMPAIGN_BASE_URL,
+		IPAS: process.env.IPAS
 	},
 	/*
 	** Customize the progress-bar color
@@ -70,6 +73,7 @@ export default {
 		{ src: '~plugins/idle-vue.js'},
 		{ src: '~plugins/vue-code-highlight.js'},
 		{ src: '~plugins/local-storage.js', ssr: false},
+		{ src: '~plugins/google_tag_no_script.js'}
 	],
 	/*
 	** Nuxt.js dev-modules

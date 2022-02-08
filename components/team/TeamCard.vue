@@ -12,7 +12,6 @@
 		<span  v-if="!team_member.is_main" v-for="row in team_member.permissions.slice(0,5)"  class="pill" >{{row.name.replace(/_/g, " ")}}</span>
 		<span class="pill all_permission" v-if="team_member.is_main">All Permissions</span>
 		<div class="m-l-5 m-t-5">
-<!--			<a v-show="team_member.permissions.length > 5 && !team_member.is_main" @click="viewPermissions(team_member)">View more</a>-->
 			<a v-show="team_member.permissions.length > 5 && !team_member.is_main" @click="viewPermissionsModal">View more</a>
 		</div>
 	</div>
@@ -20,21 +19,21 @@
 		<div class="team-member-status" :class="{'team-member-pending': team_member.active_status_id.name === 'Pending' }">{{team_member.active_status_id.name}}</div>
 
 		<div class="action" v-click-outside="closeMenu">
-			<img src="/icons/svg_icons/overflow-menu-vertical.svg" alt="" @click="toggleMenu">
+			<img src="/images/icons/svg_icons/overflow-menu-vertical.svg" alt="" @click="toggleMenu">
 
 			<div class="menu" v-if="isMenuOpen">
 				<div class="menu-option" v-if="team_member.active_status_id.name !== 'Pending'" @click="updateTeamMember(team_member)">
-					<img src="/icons/svg_icons/update-icon.svg" alt="">
+					<img src="/images/icons/svg_icons/update-icon.svg" alt="">
 					<p>Update permissions</p>
 				</div>
 
 				<div class="menu-option" v-if="team_member.active_status_id.name === 'Pending'" @click="resendInvitation(team_member)">
-					<img src="/icons/svg_icons/resend-icon.svg" alt="">
+					<img src="/images/icons/svg_icons/resend-icon.svg" alt="">
 					<p>Resend invitation</p>
 				</div>
 
 				<div class="menu-option remove-teammate" @click="deleteTeamMember(team_member)">
-					<img src="/icons/svg_icons/delete-icon.svg" alt="">
+					<img src="/images/icons/svg_icons/delete-icon.svg" alt="">
 					<p>Remove teammate</p>
 				</div>
 			</div>
