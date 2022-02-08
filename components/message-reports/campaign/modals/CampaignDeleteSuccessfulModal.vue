@@ -2,9 +2,9 @@
 	<modal name="campaign-delete-successful-modal" height="400px"  width="440px" >
 		<div class="container">
 			<div class="close-icon-container">
-				<img class="close-icon" @click="closeAndRefetchCampaignReports" src="/icons/svg_icons/close-svgrepo-com.svg" alt="">
+				<img class="close-icon" @click="closeAndRefetchCampaignReports" src="/static/images/icons/svg_icons/close-svgrepo-com.svg" alt="">
 			</div>
-			<img src="/icons/svg_icons/success_icon.svg" width="172px" alt="">
+			<img src="/static/images/icons/svg_icons/success_icon.svg" width="172px" alt="">
 			<p class="delete-successful-message">Scheduled campaign has been deleted!</p>
 			<div @click="closeAndRefetchCampaignReports"  class="back-btn">
 					Back to campaign history

@@ -2,9 +2,9 @@
 	<modal name="confirm-campaign-delete-modal" height="400px"  width="440px" >
 		<div class="container">
 			<div class="close-icon-container">
-				<img class="close-icon" @click="close" src="/icons/svg_icons/close-svgrepo-com.svg" alt="">
+				<img class="close-icon" @click="close" src="/static/images/icons/svg_icons/close-svgrepo-com.svg" alt="">
 			</div>
-			<img src="/icons/svg_icons/exclaim_icon.svg" width="172px" alt="">
+			<img src="/static/images/icons/svg_icons/exclaim_icon.svg" width="172px" alt="">
 			<p class="delete-title">Delete scheduled campaign?</p>
 			<p class="delete-message">Deleting this campaign means it won’t
 				run at {{ run_at_date }}.</p>

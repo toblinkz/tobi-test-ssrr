@@ -3,7 +3,7 @@
 		<div class="resend-modal-container">
 			<div class="resend-modal-header">
 				<h4 class="resend-modal-title">Resend team invite</h4>
-				<img src="/icons/svg_icons/close-icon-round.svg" alt="" class="close-icon" @click="closeModal">
+				<img src="/static/images/icons/svg_icons/close-icon-round.svg" alt="" class="close-icon" @click="closeModal">
 			</div>
 
 			<div class="resend-modal-body">
@@ -27,9 +27,9 @@
 						<label>
 							Email address
 							<img @mouseover="hover = true"
-												@mouseleave="hover = false"
-												style="margin-left: 6px; cursor: pointer"
-												src="/icons/svg_icons/more-info-icon.svg" alt="">
+                   @mouseleave="hover = false"
+                   style="margin-left: 6px; cursor: pointer"
+                   src="/static/images/icons/svg_icons/more-info-icon.svg" alt="">
 						</label>
 						<div class="form-control">{{email}}</div>
 						<div class="more-info" v-if="hover">

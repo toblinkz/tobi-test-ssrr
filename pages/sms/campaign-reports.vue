@@ -4,7 +4,7 @@
 			<div class="campaign-history-header">
 				<div class="campaign-history-title">
 					<div class="group-sms-div">
-						<img src="/icons/svg_icons/messaging-icon.svg" width="20px" alt="">
+						<img src="/static/images/icons/svg_icons/messaging-icon.svg" width="20px" alt="">
 						<p>Group SMS Campaign History</p>
 					</div>
 					<p class="campaign-history-subtitle">View all your Group SMS Campaign history</p>
