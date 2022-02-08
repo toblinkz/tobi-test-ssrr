@@ -13,14 +13,14 @@
 					<div class="form-group">
 						<label>Password</label>
 						<input type="text" :type="type" class="form-control" v-model="password" placeholder="enter password" >
-						<span class=" error_field_message" v-if="error_message.password">{{error_message.password}}</span>
+						<span class=" error_field_message" v-if="errorMessage.password">{{errorMessage.password}}</span>
 						<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  @click="showPassword"></i>
 					</div>
 
 				</div>
 				<div class="modal-footer">
 					<button @click="update" class="btn btn-primary" :disabled="isDisabled">
-						{{button_text }}
+						{{buttonText }}
 						<span v-show="isLoading">
 							 <img src="/images/spinner.svg" height="20px" width="30px"/>
 						</span>
@@ -42,9 +42,9 @@ export default {
 			hasPasswordError: false,
 			password:'',
 			type: "password",
-			error_message:[],
+			errorMessage:[],
 			isToggled: false,
-			button_text: 'Update',
+			buttonText: 'Update',
 			isLoading: false
 	}
 	},
@@ -59,21 +59,21 @@ export default {
 		},
 	},
 	props:{
-		company_sector:{
+		companySector:{
 		},
-		phone_number:{
+		phoneNumber:{
 		},
 		email:{
 		},
-		first_name:{
+		firstName:{
 		},
-		last_name:{
+		lastName:{
 		},
-		image_url:{
+		imageUrl:{
 		},
 		feedback: {
 		},
-		event_name:{
+		eventName:{
 			required:true
 		}
 	},
@@ -93,15 +93,15 @@ export default {
 		},
 		validatePassword(value){
 			if (value.length < 6) {
-				this.error_message['password'] = 'The password field must be at least 5 characters';
+				this.errorMessage['password'] = 'The password field must be at least 5 characters';
 				this.hasPasswordError = true;
 			}else {
-				this.error_message['password'] = '';
+				this.errorMessage['password'] = '';
 				this.hasPasswordError = false;
 			}
 		},
 		update(){
-			 switch (this.event_name){
+			 switch (this.eventName){
 			 	 case 'profile': {
 							  this.updateProfile();
 							  break;
@@ -140,14 +140,14 @@ export default {
 
 			}catch (e) {
 				if (e.response.data.data === 'Incorrect Password Entered'){
-					this.error_message['password'] = 'Incorrect Password Entered';
+					this.errorMessage['password'] = 'Incorrect Password Entered';
 					this.hasPasswordError = true;
 				}
 
 			}
 		},
 		async renewApiToken(){
-			this.button_text = "";
+			this.buttonText = "";
 			this.isLoading = true;
 			try{
 				await this.$axios.$get('user/keys/renew', {params:{password: this.password} });
@@ -156,44 +156,44 @@ export default {
 				this.api_key = 	JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
 				this.$emit('set_api_key', this.api_key);
 				this.$toast.success('Your API token was successfully renewed');
-				this.button_text = 'Update';
+				this.buttonText = 'Update';
 				this.isLoading = false;
 				this.password = '';
 				this.close();
 
 			}catch (e) {
-				this.button_text = "Update";
+				this.buttonText = "Update";
 				this.isLoading = false;
-				this.error_message['password'] = 'Password Incorrect';
+				this.errorMessage['password'] = 'Password Incorrect';
 				this.hasPasswordError = true;
 			}
 
 		},
 		async updateProfile() {
-			this.button_text = "";
+			this.buttonText = "";
 			this.isLoading = true;
 			try {
-				await this.$user.updateProfile(this.first_name, this.last_name,
-					this.email, this.password, this.company_sector, this.image_url, this.phone_number);
+				await this.$user.updateProfile(this.firstName, this.lastName,
+					this.email, this.password, this.companySector, this.imageUrl, this.phoneNumber);
 
 				let response = await this.$axios.$get('user', {
 					headers: {'Authorization': `Bearer ${localStorage.getItem('local')}`}
 				});
 				await localStorage.setItem('user_data', JSON.stringify(response.data));
-				this.button_text = 'Update';
+				this.buttonText = 'Update';
 				this.isLoading = false;
 				this.$toast.success('Profile Updated Successfully');
 				this.password = '';
 				this.close();
 			} catch (e) {
-				this.button_text = "Update";
+				this.buttonText = "Update";
 				this.isLoading = false;
 				let errors = e.response.data.errors;
 				for (let key in errors) {
 					errors[key].forEach(err => {
 						this.$toast.error(err);
 						this.hasPasswordError = true
-						this.error_message['password'] = err;
+						this.errorMessage['password'] = err;
 					});
 				}
 

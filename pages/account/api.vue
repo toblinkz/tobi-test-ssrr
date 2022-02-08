@@ -1,95 +1,56 @@
 <template>
-  <div class="mt-70">
-      <!-- Page header -->
-      <div class="page-header">
-        <div class="page-header-content">
-          <!-- Page container -->
-          <div class="page-container">
-            <!-- Page content -->
-            <div class="page-content">
-              <!-- Main content -->
-              <div class="content-wrapper">
-                <!-- START JUMBOTRON -->
-                <div class="jumbotron" data-pages="parallax">
-                  <div class="container-fluid container-fixed-lg">
-                    <div class="inner">
-                      <div class="row ">
-                        <div class="col-md-8">
-                          <h3 > </h3>
-                          <p><i class="icon-profile"></i> Your API Keys</p>
-                          <p class="insight">We have given you the power to build awesome apps that can integrate<br> with our system but we only ask that you repay us the favour by keeping<br> your passkeys secure and private.
-                          </p>
-                        </div>
-                        <div class="col-md-4 hidden-xs">
-                          <img src="/images/api-doc.gif" class="wide">
-                        </div>
-                      </div>
-                      <center>
-                        <div class="item-height"></div>
-                      </center>
-                    </div>
-                    <!-- Page container -->
-                    <div class="page-container">
-                      <!-- Page content -->
-                      <div class="page-content">
-                        <!-- main inner content -->
-                        <main id="wrapper" class="wrapper">
-                          <ApiNavbar></ApiNavbar>
-                          <!-- START CONTAINER FLUID -->
-                          <div class="row">
+	<div>
+		<SettingsTabHeader
+			:titleIcon="'icon-profile'"
+			:titleText="'Your API Keys'"
+			:body="'We have given you the power to build awesome apps that can integrate\n'+
+										'with our system but we only ask that you repay us the favour by keeping\n'+
+										'your passkeys secure and private.'"
+			:tabImage="'/images/api-doc.gif'"
+		/>
 
-                            <div class="col-sm-12">
-                              <div class="col-md-6">
-                                <!-- START PANEL -->
-                                <p class="text-semibold"><i class="fa fa-certificate" style="color: #079805 !important;"></i> API Key</p>
-                                <div class="alert toke wd">
-                                  <button class="clipboard-style"  v-clipboard:copy="api_key">
-																																			<img src="/images/copy.svg"/>
-                                  </button>
-                                 <p class="insight" style="color: #595959 !important;">{{api_key}}</p> </div>
-																																<form>
-																																	<br>
-																																	<button v-if="canRenewApiKey" class="btn btn-primary btn-cons" @click="showModal">
-																																		<i class="fa fa-certificate" v-show="showIcon"></i>
-																																		 Renew API key
-																																	</button>
-																																</form>
-                                <!-- END PANEL -->
-                              </div>
-																													<div class="col-md-6">
-																														<!-- START PANEL -->
-																														<p class="text-semibold"><i class="fa fa-certificate" style="color: #079805 !important;"></i> Secret Key</p>
-																														<div class="alert toke wd">
-																															<button class="clipboard-style"  v-clipboard:copy="secret_key">
-																																<img src="/images/copy.svg"/>
-																															</button>
-																															<p class="insight" style="color: #595959 !important;">{{secret_key}}</p> </div>
-																														<form>
-																															<br>
-																														</form>
-																														<!-- END PANEL -->
-																													</div>
-                            </div>
+		<ApiNavbar />
 
-                          </div>
-                        </main>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-							<VerificationModal></VerificationModal>
-							<UpdateCompanyNameModal></UpdateCompanyNameModal>
-							<AccountPassword
-								event_name="api_token"
-								@set_api_key="setApiKey($event)"
-							></AccountPassword>
-      </div>
-      <!-- /page header -->
-  </div>
+		<div class="content-container">
+				<div class="col-md-6">
+					<!-- START PANEL -->
+					<p class="text-semibold"><i class="fa fa-certificate" style="color: #079805 !important;"></i> API Key</p>
+					<div class="alert toke wd">
+						<button class="clipboard-style"  v-clipboard:copy="api_key">
+							<img src="/images/copy.svg"/>
+						</button>
+						<p class="insight" style="color: #595959 !important;">{{api_key}}</p> </div>
+					<form>
+						<br>
+						<button v-if="canRenewApiKey" class="btn btn-primary btn-cons" @click="showModal">
+							<i class="fa fa-certificate" v-show="showIcon"></i>
+							Renew API key
+						</button>
+					</form>
+					<!-- END PANEL -->
+				</div>
+				<div class="col-md-6">
+					<!-- START PANEL -->
+					<p class="text-semibold"><i class="fa fa-certificate" style="color: #079805 !important;"></i> Secret Key</p>
+					<div class="alert toke wd">
+						<button class="clipboard-style"  v-clipboard:copy="secretKey">
+							<img src="/images/copy.svg"/>
+						</button>
+						<p class="insight" style="color: #595959 !important;">{{secretKey}}</p> </div>
+					<form>
+						<br>
+					</form>
+					<!-- END PANEL -->
+				</div>
+		</div>
+
+		<VerificationModal />
+		<UpdateCompanyNameModal />
+		<AccountPassword
+			event-name="api_token"
+			@set_api_key="setApiKey($event)"
+		/>
+	</div>
 </template>
 
 <script>
@@ -103,10 +64,12 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
 				import AccountPassword from "../../components/modals/AccountPassword";
 				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
+				import SettingsTabHeader from "@/components/settings/SettingsTabHeader";
 
     export default {
 					 name: "api",
       components: {
+							SettingsTabHeader,
 							UpdateCompanyNameModal,
 							AccountPassword, VerificationModal, ApiNavbar, Main, DashboardNavbar, Sidebar, VueClipboard },
 					 middleware: ['auth', 'inactive_user', 'permission'],
@@ -117,9 +80,9 @@
 									isLoading: false,
 									showIcon: true,
 									api_key: '',
-									secret_key:'',
-									error_message:[],
-									customer_permissions: localStorage.getItem('permissions'),
+									secretKey:'',
+									errorMessage:[],
+									customerPermissions: localStorage.getItem('permissions'),
 									hasPasswordError: false,
 									type: "password",
 									isToggled: false,
@@ -130,7 +93,7 @@
 								return (this.hasPasswordError || this.password === '');
 							},
 							canRenewApiKey(){
-								return (this.customer_permissions.includes("renew_api_key"));
+								return (this.customerPermissions.includes("renew_api_key"));
 							},
       },
 					watch:{
@@ -144,10 +107,10 @@
 							},
 							validatePassword(value){
 								if (value.length < 6) {
-									this.error_message['password'] = 'The password field must be at least 5 characters';
+									this.errorMessage['password'] = 'The password field must be at least 5 characters';
 									this.hasPasswordError = true;
 								}else {
-									this.error_message['password'] = '';
+									this.errorMessage['password'] = '';
 									this.hasPasswordError = false;
 								}
 							},
@@ -167,24 +130,13 @@
       },
 					mounted() {
 						this.api_key = 	JSON.parse(localStorage.getItem('user_data')).customer.live_api_key;
-						this.secret_key = 	JSON.parse(localStorage.getItem('user_data')).customer.secret_key;
+						this.secretKey = 	JSON.parse(localStorage.getItem('user_data')).customer.secret_key;
 					}
 
     }
 </script>
 
 <style scoped>
-  @media (min-width: 769px){
-    .content-wrapper {
-      display: table-cell;
-      vertical-align: top;
-    }
-  }
-  @media (min-width: 769px){
-    .page-content {
-      display: table-row;
-    }
-  }
   .clipboard-style{
     position: absolute;
     right: 4px;
@@ -193,76 +145,13 @@
     border: 1px solid transparent;
     background-color: transparent;
   }
-  .page-header-content {
-    position: relative;
-    background-color: inherit;
-    padding: 0 20px;
-  }
-  .content-wrapper {
-    width: 100%;
-  }
-  @media screen and (min-width: 769px){
-    .container .jumbotron, .container-fluid .jumbotron {
-      padding-left: 60px;
-      padding-right: 60px;
-    }
-  }
-  @media (min-width: 769px){
-    .page-container {
-      width: 100%;
-      display: table;
-      table-layout: fixed;
-    }
+
+  .content-container {
+			margin: 0 auto;
+			padding: 0;
+			width: 1000px;
   }
 
-
-
-  @media screen and (min-width: 769px){
-    .jumbotron {
-      padding-top: 48px;
-      padding-bottom: 48px;
-    }
-  }
-  .page-header:not(.page-header-filled) + .page-container {
-    padding-top: 35px;
-  }
-  .page-container {
-    position: relative;
-    /* padding-bottom: 40px; */
-  }
-  .content-wrapper {
-    width: 100%;
-  }
-  @media (min-width: 769px){
-    .content-wrapper {
-      display: table-cell;
-      vertical-align: top;
-    }
-  }
-  .jumbotron {
-    margin-bottom: 10px;
-    color: inherit;
-    background-color: #fff;
-  }
-  .jumbotron p {
-    margin-bottom: 15px;
-    font-weight: 300;
-    letter-spacing: normal;
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
-    color: #2c2c2c;
-    display: block;
-    font-style: normal;
-    -webkit-margin-before: 1em;
-  }
-
-  .row {
-    margin-left: 0px;
-    margin-right: 0px;
-  }
-  .wide {
-    width: 200px !important;
-  }
   .toke {
     background-color: #f5f5f5;
     border-color: #efefef;
@@ -278,27 +167,7 @@
     border-radius: 5px;
     word-wrap: break-word;
   }
-  #welcome {
-    /* margin-bottom: 15px; */
-    font-weight: 300;
-    letter-spacing: normal;
-    font-size: 18px;
-    -webkit-font-smoothing: antialiased;
-    color: #2c2c2c;
-    display: block;
-    font-style: normal;
-    /* -webkit-margin-before: 1em; */
-  }
-		.form-group i.password-visibility{
-			height: 16px;
-			cursor: pointer;
-			fill: #0a2e65;
-			top: 15px;
-			width: 16px;
-			opacity: 1;
-			position: absolute;
-			right: 16px;
-		}
+
 		.btn:hover {
 			background-color: #fafafa;
 			border: 1px solid rgba(98, 98, 98, 0.27);
