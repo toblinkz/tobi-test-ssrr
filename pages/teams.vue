@@ -8,7 +8,7 @@
 												Here is a list of your teammates currently on {{f_name}} {{l_name}}</p>
 										</div>
 									<div class="btn bg-blue invite-btn" @click="showModal">
-										<img src="/static/images/icons/svg_icons/plus-icon.svg" alt="">
+										<img src="/images/icons/svg_icons/plus-icon.svg" alt="">
 										<p>Invite teammate</p>
 									</div>
 							</div>
