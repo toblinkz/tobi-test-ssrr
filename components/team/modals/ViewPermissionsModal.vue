@@ -3,7 +3,7 @@
 	<div style="display: flex; flex-direction: column">
 		<div class="view-teammate-permissions-modal-header">
 			<h4 class="view-teammate-permissions-modal-title">Add a teammate</h4>
-			<img src="/icons/svg_icons/close-icon-round.svg" alt="" class="close-icon" @click="closeModal">
+			<img src="/images/icons/svg_icons/close-icon-round.svg" alt="" class="close-icon" @click="closeModal">
 		</div>
 
 		<div class="all-permissions-body-container">

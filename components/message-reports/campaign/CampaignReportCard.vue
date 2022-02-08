@@ -26,16 +26,16 @@
 	</div>
 
 	<div class="action" v-click-outside="closeMenu">
-		<img src="/icons/svg_icons/overflow-menu-vertical.svg" alt="" @click="toggleMenu">
+		<img src="/images/icons/svg_icons/overflow-menu-vertical.svg" alt="" @click="toggleMenu">
 
 		<div class="menu" v-if="isMenuOpen">
 			<nuxt-link :to="'campaign/history/' + campaign_id" class="menu-option view-report">
-				<img src="/icons/svg_icons/entypo_popup.svg" alt="">
+				<img src="/images/icons/svg_icons/entypo_popup.svg" alt="">
 				<p>View report</p>
 			</nuxt-link>
 
 			<div v-if="campaign_status === 'Scheduled'" class="menu-option delete-campaign" @click="showDeleteModal">
-				<img src="/icons/svg_icons/delete-icon.svg" alt="">
+				<img src="/images/icons/svg_icons/delete-icon.svg" alt="">
 				<p>Delete campaign</p>
 			</div>
 		</div>
