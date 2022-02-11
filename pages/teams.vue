@@ -19,19 +19,20 @@
 								  <div class="header-style">
 												<p class="header-title header-name">Name</p>
 												<p class="header-title header-permissions">Permissions</p>
-												<p class="header-title header-status" @click="showTestModal">Status</p>
+												<p class="header-title header-status">Status</p>
 												<p class="header-title">Action</p>
 										</div>
 								<div class="m-l-10 " style="border-bottom: dotted #ddd!important;"></div>
 								  <div v-for="team_member in team_members.data">
 											<TeamCard
 												:team_member="team_member"
+												:all-permissions="allPermissions"
 												@team-member-permissions="getTeammatePermissions($event)"
 												@view-team-member-permissions="viewAllPermissions"
 												@update-team-member="updateTeamMember($event)"
 												@delete-team-member="deleteTeamMember($event)"
 												@resend-invitation="resendInvitation($event)"
-											></TeamCard>
+											/>
 										</div>
 							</div>
 						</div>
@@ -47,14 +48,36 @@
 								:firstName="resend_team_member.fname"
 								:lastName="resend_team_member.lname"
 								:email="resend_team_member.email"
-							></ResendTeamInviteModal>
-					  <DeleteTeammateModal @get-teammates="getTeammates" :teammate_id="teammate_id" :teammate_email="email"></DeleteTeammateModal>
-					  <AddedTeammateSuccessfullyModal></AddedTeammateSuccessfullyModal>
-					  <UpdatedTeammatePermissionModal></UpdatedTeammatePermissionModal>
-					  <UpdateCompanyNameModal></UpdateCompanyNameModal>
-					  <AddTeamMemberModal @add-team-member="addTeamMember($event)" :teammates_email="teammates_email" @user-email-exist="showUserEmailNotificationModal($event)"></AddTeamMemberModal>
-					  <UserEmailExistNotificationModal @add-teammate="addTeamMember" :existing_user_data="existing_user_data"></UserEmailExistNotificationModal>
-					  <UpdateTeamMemberModal @update-team-member="updateTeamMember($event)" @update-teammate-permission="updateTeammatePermission" :team_member="this.onCardTeamMember" :teammate_id="teammate_id" :email="email" :first_name="first_name" :selected_teammate_permission="selected_teammate_permission" :last_name="last_name" :role="role" ></UpdateTeamMemberModal>
+							/>
+
+					  <DeleteTeammateModal
+								@get-teammates="getTeammates"
+								:teammate_id="teammate_id"
+								:teammate_email="email"
+							/>
+
+					  <AddedTeammateSuccessfullyModal/>
+
+					  <UpdatedTeammatePermissionModal/>
+
+					  <UpdateCompanyNameModal/>
+
+					  <AddTeamMemberModal
+								:all-permissions="allPermissions"
+								@add-team-member="addTeamMember($event)"
+								:teammates_email="teammates_email"
+								@user-email-exist="showUserEmailNotificationModal($event)"
+							/>
+
+					  <UserEmailExistNotificationModal @add-teammate="addTeamMember" :existing_user_data="existing_user_data"/>
+
+					  <UpdateTeamMemberModal
+								:all-permissions="allPermissions"
+								:roles="roles"
+								@update-team-member="updateTeamMember($event)"
+								@update-teammate-permission="updateTeammatePermission"
+								:team_member="this.onCardTeamMember"
+							/>
 		</div>
 </template>
 
@@ -91,23 +114,25 @@ export default {
 		TeamCard, UpdateTeamMemberModal, AddTeamMemberModal, DashboardNavbar, Sidebar},
 	data(){
  	 return{
- 	 	 team_members:[],
-						f_name: JSON.parse(localStorage.getItem('user_data')).fname,
-						l_name: JSON.parse(localStorage.getItem('user_data')).lname,
-						first_name: '',
-						last_name: '',
-				  teammate_id: '',
-						email: '',
-				  role: '',
-				  teammates_email:[],
-				  existing_user_data:'',
-				  selected_permission:'',
-			  	selected_teammate_permission:[],
-				  show_shimmer : false,
-						resend_team_member: {},
-						team_member_all_permissions: [],
-						team_member_profile_for_permissions: '',
-						onCardTeamMember: ''
+				team_members:[],
+				f_name: JSON.parse(localStorage.getItem('user_data')).fname,
+				l_name: JSON.parse(localStorage.getItem('user_data')).lname,
+				first_name: '',
+				last_name: '',
+				teammate_id: '',
+				email: '',
+				role: '',
+				teammates_email:[],
+				existing_user_data:'',
+				selected_permission:'',
+				selected_teammate_permission:[],
+				show_shimmer : false,
+				resend_team_member: {},
+				team_member_all_permissions: [],
+				team_member_profile_for_permissions: '',
+				onCardTeamMember: '',
+				allPermissions: [],
+				roles: [],
 			}
 	},
 	methods: {
@@ -115,8 +140,14 @@ export default {
 			 this.$modal.show('add-team-member-modal');
 		},
 
-		showTestModal(){
-			this.$modal.show('view-permissions-modal')
+		async getAllPermissions(){
+			let data = await this.$utility.getAllPermissions()
+			this.allPermissions = data.data
+		},
+
+		async getAllRoles(){
+			let data = await this.$utility.getAllRoles()
+			this.roles = data.data
 		},
 
 		addTeamMember(event){
@@ -180,8 +211,10 @@ export default {
 		}
 	},
 	async mounted() {
-		 await this.getTeammates();
- 	 await this.pushTeammateEmailToTeammateEmailArray();
+		await this.getAllPermissions()
+		await this.getAllRoles()
+		await this.getTeammates();
+		await this.pushTeammateEmailToTeammateEmailArray();
 	}
 
 }

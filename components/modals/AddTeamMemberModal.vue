@@ -71,7 +71,7 @@
 								>Select all</p>
 							</div>
 							<div class="mt-20">
-								<div v-for="row in permission">
+								<div v-for="row in allPermissions">
 									<h3 class="m-b-10" style="font-weight: bold;
 												font-size: 14px;
 												line-height: 16px;
@@ -130,7 +130,6 @@ export default {
 			hasFirstNameError: false,
 			hasLastNameError: false,
 			roles:[],
-			permission:[],
 			selected_permission:[],
 			select_all_permission: false,
 			show_icon: true,
@@ -153,6 +152,9 @@ export default {
 		}
 	},
 	props:{
+		allPermissions: {
+			type: Array
+		},
 		teammates_email:{
 			 required: true
 		}
@@ -197,27 +199,20 @@ export default {
 		showPermissions() {
 			this.isPermissionsOpen = !this.isPermissionsOpen
 		},
+
 		async getPermissions(){
-			 try {
-					 let data = await this.$axios.$get('utility/permission');
-					 this.permission = data.data;
-
-					 let all_permission = data.data;
-					  this.all_permissions_id = [];
-					 all_permission.forEach((module) =>{
-							  module.permission.forEach((permission) => {
-										this.all_permissions_id.push(permission.id)
-									})
-						});
-
-
-				}catch (e) {
-
-				}
+			this.all_permissions_id = [];
+			this.allPermissions.forEach((module) =>{
+				module.permission.forEach((permission) => {
+					this.all_permissions_id.push(permission.id)
+				})
+			});
 		},
+
 		updateSelectedRole(roleId){
 			this.role_selected = roleId
 		},
+
 		validateFirstName(value){
 			if ( value === ""){
 				this.error_message['first_name'] = 'The first name field is required';

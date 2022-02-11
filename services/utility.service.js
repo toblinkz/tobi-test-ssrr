@@ -7,6 +7,14 @@ export class UtilityService {
 		this.$axios = axios
 	}
 
+	async getAllPermissions(){
+		return await this.$axios.$get('utility/permission');
+	}
+
+	async getAllRoles(){
+		return await this.$axios.$get('utility/roles');
+	}
+
 	async getAnnouncements () {
 		return await this.$axios.$get('announcements');
 	}

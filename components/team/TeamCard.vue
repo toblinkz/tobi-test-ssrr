@@ -1,33 +1,53 @@
 <template>
 	<div class="mt-20 card-container">
 		<div class="profile">
-			<div class="profile-icon m-r-10">{{team_member.fname.charAt(0)}}{{team_member.lname.charAt(0)}}</div>
+			<div class="profile-icon m-r-10">{{ team_member.fname.charAt(0) }}{{ team_member.lname.charAt(0) }}</div>
 			<div class="profile-name">
-				<div style="font-weight: 200; word-break: break-word">{{ team_member.fname }} {{team_member.lname}} ({{team_member.email}})</div>
-				<div><span style="font-weight: bold">Role</span>: {{team_member.role}}</div>
+				<div style="font-weight: 200; word-break: break-word">{{ team_member.fname }} {{ team_member.lname }}
+					({{ team_member.email }})
+				</div>
+				<div><span style="font-weight: bold">Role</span>: {{ team_member.role }}</div>
 			</div>
 		</div>
 
 		<div class="permissions-list">
-		<span  v-if="!team_member.is_main" v-for="row in team_member.permissions.slice(0,5)"  class="pill" >{{row.name.replace(/_/g, " ")}}</span>
-		<span class="pill all_permission" v-if="team_member.is_main">All Permissions</span>
-		<div class="m-l-5 m-t-5">
-			<a v-show="team_member.permissions.length > 5 && !team_member.is_main" @click="viewPermissionsModal">View more</a>
+			<span v-if="!team_member.is_main"
+									v-for="row in team_member.permissions.slice(0,5)"
+									class="pill"
+			>
+				{{ row.name.replace(/_/g, " ") }}
+			</span>
+			<span class="pill all_permission" v-if="team_member.is_main">All Permissions</span>
+			<div class="m-l-5 m-t-5">
+				<a v-show="team_member.permissions.length > 5 && !team_member.is_main" @click="viewPermissionsModal">View more</a>
+			</div>
 		</div>
-	</div>
 
-		<div class="team-member-status" :class="{'team-member-pending': team_member.active_status_id.name === 'Pending' }">{{team_member.active_status_id.name}}</div>
+		<div class="team-member-status"
+							:class="{
+										'team-member-pending': team_member.active_status_id.name === 'Pending',
+										'make-opaque': team_member.is_main
+							}"
+		>
+			{{ team_member.active_status_id.name }}
+		</div>
 
-		<div class="action" v-click-outside="closeMenu">
+		<div
+			class="action"
+			:class="{'make-opaque': team_member.is_main}"
+			v-click-outside="closeMenu"
+		>
 			<img src="/images/icons/svg_icons/overflow-menu-vertical.svg" alt="" @click="toggleMenu">
 
-			<div class="menu" v-if="isMenuOpen">
-				<div class="menu-option" v-if="team_member.active_status_id.name !== 'Pending'" @click="updateTeamMember(team_member)">
+			<div class="menu" v-if="isMenuOpen && !team_member.is_main">
+				<div class="menu-option" v-if="team_member.active_status_id.name !== 'Pending'"
+									@click="updateTeamMember(team_member)">
 					<img src="/images/icons/svg_icons/update-icon.svg" alt="">
 					<p>Update permissions</p>
 				</div>
 
-				<div class="menu-option" v-if="team_member.active_status_id.name === 'Pending'" @click="resendInvitation(team_member)">
+				<div class="menu-option" v-if="team_member.active_status_id.name === 'Pending'"
+									@click="resendInvitation(team_member)">
 					<img src="/images/icons/svg_icons/resend-icon.svg" alt="">
 					<p>Resend invitation</p>
 				</div>
@@ -37,9 +57,8 @@
 					<p>Remove teammate</p>
 				</div>
 			</div>
-
-			</div>
 		</div>
+	</div>
 </template>
 
 <script>
@@ -55,23 +74,25 @@ export default {
 			cleanedUpTeamMemberPermissions: []
 		}
 	},
-	props:{
-		team_member:{
+	props: {
+		allPermissions: {
+			type: Array
 		},
+		team_member: {},
 	},
-	methods:{
-		viewPermissions(team_member){
+	methods: {
+		viewPermissions(team_member) {
 			team_member.permissions.forEach((permission) => {
 				this.permissionsList.push(permission.name.replace(/_/g, " "))
 			})
 			console.log(this.permissionsList)
 		},
-		updateTeamMember(row)	{
+		updateTeamMember(row) {
 			this.isMenuOpen = false
 			this.$emit('update-team-member', row);
 			// this.$emit('team-member-permissions', this.team_member.permissions)
 		},
-		deleteTeamMember(id)	{
+		deleteTeamMember(id) {
 			this.isMenuOpen = false
 			this.$emit('delete-team-member', id)
 		},
@@ -79,49 +100,45 @@ export default {
 			this.isMenuOpen = false
 			this.$emit('resend-invitation', this.team_member);
 		},
-		toggleMenu(){
+		toggleMenu() {
 			this.isMenuOpen = !this.isMenuOpen
 		},
-		closeMenu(){
+		closeMenu() {
 			this.isMenuOpen = false
 		},
-		async viewTeamMemberPermissions(){
-			try {
-				let data = await this.$axios.$get('utility/permission');
-				this.permission = data.data;
 
-				let allPermissions = data.data
+		viewTeamMemberPermissions() {
+			let teamMemberPermissionsIDs = this.team_member.permissions
 
-				let teamMemberPermissionsIDs = this.team_member.permissions
+			let cleanedUpTeamMemberPermissions = []
+			this.allPermissions.forEach((categoryPermission) => {
+				let singleCategoryPermission = {}
+				singleCategoryPermission.name = categoryPermission.name
+				singleCategoryPermission.permissionsList = []
 
-				let cleanedUpTeamMemberPermissions = []
-				allPermissions.forEach((categoryPermission) => {
-					let singleCategoryPermission = {}
-					singleCategoryPermission.name = categoryPermission.name
-					singleCategoryPermission.permissionsList = []
-
-					categoryPermission.permission.forEach((permission) => {
-						teamMemberPermissionsIDs.forEach((teamMemberPermission) => {
-							if (permission.id === teamMemberPermission.id) {
-								singleCategoryPermission.permissionsList.push(permission)
-							}
-						})
+				categoryPermission.permission.forEach((permission) => {
+					teamMemberPermissionsIDs.forEach((teamMemberPermission) => {
+						if (permission.id === teamMemberPermission.id) {
+							singleCategoryPermission.permissionsList.push(permission)
+						}
 					})
-
-					if (singleCategoryPermission.permissionsList.length > 0) {
-						cleanedUpTeamMemberPermissions.push(singleCategoryPermission)
-					}
 				})
 
-				this.cleanedUpTeamMemberPermissions = cleanedUpTeamMemberPermissions
-			}catch (e) {	}
+				if (singleCategoryPermission.permissionsList.length > 0) {
+					cleanedUpTeamMemberPermissions.push(singleCategoryPermission)
+				}
+			})
+
+			this.cleanedUpTeamMemberPermissions = cleanedUpTeamMemberPermissions
 		},
+
 		viewPermissionsModal() {
 			this.$emit('view-team-member-permissions',
 				{permissionsToView: this.cleanedUpTeamMemberPermissions, teamMemberToView: this.team_member})
 			this.$modal.show('view-permissions-modal');
 		},
 	},
+
 	directives: {
 		ClickOutside
 	},
@@ -145,7 +162,7 @@ export default {
 	*background-color: white;
 	line-height: 24px;
 	min-height: 80px;
-	box-shadow: 0 10px 45px 0 rgba(0,0,0,.1);
+	box-shadow: 0 10px 45px 0 rgba(0, 0, 0, .1);
 }
 
 .profile {
@@ -156,7 +173,7 @@ export default {
 }
 
 .profile-icon {
-	display:inline-block;
+	display: inline-block;
 	border-radius: 50%;
 	color: #FFFFFF;
 	background: #B8DECD;
@@ -169,7 +186,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	width: 270px;
-	color:  #818181;
+	color: #818181;
 }
 
 .permissions-list {
@@ -193,13 +210,15 @@ export default {
 	background: #E5E5E5;
 	color: #333333;
 }
-.all_permission{
+
+.all_permission {
 	/*margin-left: -50px!important;*/
 	align-self: center;
 }
-@media (max-width: 768px){
-	.all_permission{
-		margin-left: 0px!important;
+
+@media (max-width: 768px) {
+	.all_permission {
+		margin-left: 0 !important;
 	}
 }
 
@@ -209,6 +228,10 @@ export default {
 	justify-content: flex-start;
 	text-align: left;
 	margin-left: -50px;
+}
+.make-opaque {
+	opacity: 0;
+	cursor: default!important;
 }
 
 .team-member-pending {
@@ -264,10 +287,11 @@ export default {
 	border-radius: 4px;
 }
 
-.menu-option.remove-teammate{
+.menu-option.remove-teammate {
 	border-top: 1px solid #F4F4F4;
 }
-.menu-option.remove-teammate p{
+
+.menu-option.remove-teammate p {
 	color: #C10202;
 }
 

@@ -1,6 +1,4 @@
 <template>
-
-	<!-- Modal -->
 	<modal name="added-team-successfully-modal" height="auto" width="500" >
 		<div  style="display: block;
     padding-left: 9px;">
@@ -32,10 +30,6 @@
 
 export default {
 	name: "AddedTeammateSuccessfullyModal",
-
-	props: {
-
-	},
 	methods: {
 		close() {
 			this.$modal.hide('added-team-successfully-modal');
