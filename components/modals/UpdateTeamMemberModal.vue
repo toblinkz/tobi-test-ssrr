@@ -1,5 +1,4 @@
 <template>
-	<!-- Modal -->
 	<modal name="update-team-member-modal" height="auto" width="502px">
 		<div class="update-teammate-modal-container">
 			<div class="update-teammate-modal-header">
@@ -66,7 +65,7 @@
 								>Select all</p>
 							</div>
 							<div class="mt-20">
-								<div v-for="row in all_permissions">
+								<div v-for="row in allPermissions">
 									<h3 class="m-b-10" style="font-weight: bold;
 												font-size: 14px;
 												line-height: 16px;
@@ -81,7 +80,7 @@
 												border: 1px solid #F5F5F5;
 												color: #333333;
 												border-radius: 4px;">
-											<input type="checkbox" :value="member.id" v-model="teammates_permissions" style="margin-right:10px;"/>
+											<input type="checkbox" :value="member.id" v-model="teammatesPermissions" style="margin-right:10px;"/>
 											<span style="font-weight: bold;">Can</span> {{ member.name.replace(/_/g, " ") }}
 										</label>
 									</div>
@@ -115,11 +114,10 @@ export default {
 	components: {ButtonSpinner, Switches, TeamRolesDropdown},
 	data(){
 		 return{
-		 	 roles: [],
 				 isLoading: false,
 				 all_permissions:[],
 				 select_all_permission: false,
-				 teammates_permissions:[],
+				 teammatesPermissions:[],
 			 	selected_permission:[],
 				 team_member_info: [],
 				 error_message:[],
@@ -128,58 +126,57 @@ export default {
 				 all_permissions_id:[],
 					hover: false,
 					btn_text: 'Send invite',
-					isPermissionsOpen: false,
+					isPermissionsOpen: true,
+				roleSelected: ''
 			}
 	},
+
  props:{
-			team_member: {required: true},
+		roles: {
+			type: Array
+		},
+		allPermissions: {
+			type: Array
+		},
+		team_member: {required: true},
 	},
+
 	watch:{
 		select_all_permission(){
 			if (this.select_all_permission){
-				this.teammates_permissions = this.all_permissions_id;
+				this.teammatesPermissions = this.all_permissions_id;
 			}else {
-				this.teammates_permissions = [];
+				this.teammatesPermissions = [];
 			}
 		}
 	},
 	computed:{
 		isDisabled:function () {
-			return (this.teammates_permissions.length === 0);
+			return (this.teammatesPermissions.length === 0);
 		},
 	},
 	methods:{
 		closeModal() {
 			this.$modal.hide('update-team-member-modal');
 		},
-		async getRoles(){
-			try {
-				let data = await this.$axios.$get('utility/roles');
-				this.roles = data.data;
-			}catch (e) {}
-		},
 
 		showPermissions() {
 			this.team_member.permissions.forEach((permission) => {
-				this.teammates_permissions.push(permission.id);
+				this.teammatesPermissions.push(permission.id);
 			})
 
 			this.isPermissionsOpen = !this.isPermissionsOpen
 		},
-		async getPermissions(){
-			try {
-				let data = await this.$axios.$get('utility/permission');
-				this.all_permissions = data.data;
 
-				let all_permission = data.data;
-				this.all_permissions_id = [];
-				all_permission.forEach((module) =>{
-					module.permission.forEach((permission) => {
-						this.all_permissions_id.push(permission.id)
-					})
-				});
-			}catch (e) {}
+		getPermissions(){
+			this.all_permissions_id = [];
+			this.allPermissions.forEach((module) =>{
+				module.permission.forEach((permission) => {
+					this.all_permissions_id.push(permission.id)
+				})
+			});
 		},
+
 		handle422Errors(data){
 			let errors = data.errors
 			for (let key in errors) {
@@ -196,15 +193,16 @@ export default {
 			this.show_icon = false;
 			this.isLoading = true;
 			try {
-				let data = await this.$axios.$patch(`team/${this.team_member.id}/permissions/update`, {
-					permissions: this.teammates_permissions
+				await this.$axios.$patch(`team/${this.team_member.id}/permissions/update`, {
+					permissions: this.teammatesPermissions
 				});
+
 				this.$toast.success('Details updated successfully!')
 				this.$emit('update-teammate-permission');
 				this.update_button_text = 'Update';
 				this.show_icon = true;
 				this.isLoading = false;
-				this.close();
+				this.closeModal();
 			}catch (e) {
 				this.update_button_text = 'Update';
 				this.show_icon = true;
@@ -219,12 +217,12 @@ export default {
 				}
 			}
 		},
+
 		updateSelectedRole(roleId){
-			this.role_selected = roleId
+			this.roleSelected = roleId
 		},
 	},
 	mounted() {
-		this.getRoles();
 		this.getPermissions();
 	}
 }

@@ -41,7 +41,6 @@ export default {
 	name: "ViewPermissionsModal",
 	data(){
 		return{
-			permissions:[],
 			btn_text: 'Edit permissions'
 		}
 	},
@@ -53,22 +52,13 @@ export default {
 		closeModal() {
 			this.$modal.hide('view-permissions-modal');
 		},
-		async getPermissions(){
-			try {
-				let data = await this.$axios.$get('utility/permission');
-				this.permissions = data.data;
-			}catch (e) {}
-		},
+
 		updatePermissions(row) {
 			this.$modal.hide('view-permissions-modal')
 			// this.$modal.show('update-team-member-modal');
 			this.$emit('update-team-member', this.teamMember);
 		}
 	},
-	async mounted() {
-		let data = await this.$axios.$get('utility/permission');
-		this.permissions = data.data;
-	}
 }
 </script>
 
