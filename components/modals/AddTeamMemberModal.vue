@@ -145,16 +145,14 @@ export default {
 			webhook_selected: false,
 			report_selected: false,
 			team_member_info: '',
-			all_permissions_id:[],
 			hover: false,
 			btn_text: 'Send invite',
 			isPermissionsOpen: false,
+			allPermissions: [],
+			allPermissionsIDs: []
 		}
 	},
 	props:{
-		allPermissions: {
-			type: Array
-		},
 		teammates_email:{
 			 required: true
 		}
@@ -180,7 +178,7 @@ export default {
 		},
 		select_all_permission(){
 			 if (this.select_all_permission){
-			 	 this.selected_permission = this.all_permissions_id;
+			 	 this.selected_permission = this.allPermissionsIDs;
 				}else {
 			 	this.selected_permission = [];
 				}
@@ -201,10 +199,11 @@ export default {
 		},
 
 		async getPermissions(){
-			this.all_permissions_id = [];
+			let data = await this.$utility.getAllPermissions()
+			this.allPermissions = data.data
 			this.allPermissions.forEach((module) =>{
 				module.permission.forEach((permission) => {
-					this.all_permissions_id.push(permission.id)
+					this.allPermissionsIDs.push(permission.id)
 				})
 			});
 		},

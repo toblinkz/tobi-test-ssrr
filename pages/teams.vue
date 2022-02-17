@@ -74,9 +74,9 @@
 					  <UpdateTeamMemberModal
 								:all-permissions="allPermissions"
 								:roles="roles"
-								@update-team-member="updateTeamMember($event)"
 								@update-teammate-permission="updateTeammatePermission"
 								:team_member="this.onCardTeamMember"
+								:team-member-permissions="this.onCardTeammatePermissions"
 							/>
 		</div>
 </template>
@@ -132,7 +132,9 @@ export default {
 				team_member_profile_for_permissions: '',
 				onCardTeamMember: '',
 				allPermissions: [],
+				allPermissionsIDs:[],
 				roles: [],
+				onCardTeammatePermissions: [],
 			}
 	},
 	methods: {
@@ -143,6 +145,11 @@ export default {
 		async getAllPermissions(){
 			let data = await this.$utility.getAllPermissions()
 			this.allPermissions = data.data
+			this.allPermissions.forEach((module) =>{
+				module.permission.forEach((permission) => {
+					this.allPermissionsIDs.push(permission.id)
+				})
+			});
 		},
 
 		async getAllRoles(){
@@ -189,12 +196,9 @@ export default {
 					}
 		},
 		updateTeamMember(row){
-				this.onCardTeamMember = row
-			 this.first_name = row.fname;
-			 this.last_name = row.lname;
-			 this.teammate_id = row.id;
-			 this.email = row.email;
-			 this.role = row.role;
+				this.onCardTeamMember = row.teamMember
+			 this.role = row.teamMember.role;
+				this.onCardTeammatePermissions = row.teammatePermissions
 			 this.$modal.show('update-team-member-modal');
 		},
 		getTeammatePermissions(event){
