@@ -5,7 +5,7 @@
 			<div>
 				<div>
 					<div class="modal-header" >
-						<button type="button" class="close" @click="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<button type="button" class="close" @click="closeModal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					</div>
 					<div  class="success-card-position main-card" >
 						<center>
@@ -13,7 +13,7 @@
 								<img src="/images/check.svg" />
 								<p class="m-t-5" style="font-weight: bolder;">Teammate Added!</p>
 								<div>Teammate should check mail to set password</div>
-								<a  @click="close"  class="btn bg-blue mt-20">
+								<a  @click="closeModal"  class="btn bg-blue mt-20">
 									OK
 								</a>
 							</div>
@@ -31,7 +31,7 @@
 export default {
 	name: "AddedTeammateSuccessfullyModal",
 	methods: {
-		close() {
+		closeModal() {
 			this.$modal.hide('added-team-successfully-modal');
 		},
 	}

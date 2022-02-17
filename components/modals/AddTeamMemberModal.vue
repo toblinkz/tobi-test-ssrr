@@ -31,10 +31,10 @@
 						<label>
 							Email address
 							<img
-                  @mouseover="hover = true"
-                  @mouseleave="hover = false"
-                  style="margin-left: 6px; cursor: pointer"
-                  src="/images/icons/svg_icons/more-info-icon.svg" alt="">
+								@mouseover="hover = true"
+								@mouseleave="hover = false"
+								style="margin-left: 6px; cursor: pointer"
+								src="/images/icons/svg_icons/more-info-icon.svg" alt="">
 						</label>
 						<input type="text" class="form-control" v-model="email" placeholder="Input email here" :class="{'error ' : hasEmailError}">
 						<span class=" error_field_message" v-if="error_message.email">{{error_message.email}}</span>
@@ -77,6 +77,7 @@
 												line-height: 16px;
 												color: #333333;
 									">{{row.name}}</h3>
+
 									<div class="checkboxes" v-for="member in row.permission">
 										<label style=" width: 100%;
 										padding: 8px;
@@ -106,7 +107,6 @@
 
 		</div>
 	</modal>
-
 </template>
 
 <script>
@@ -282,7 +282,7 @@ export default {
 				this.clearForm();
 				this.show_icon = true;
 				this.isLoading = false;
-				this.close();
+				this.closeModal();
 			}catch (e) {
 				console.log(e)
 				this.add_button_text = 'Add teammate';
