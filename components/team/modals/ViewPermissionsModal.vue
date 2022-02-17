@@ -2,7 +2,7 @@
 <modal name="view-permissions-modal" height="auto" width="502px">
 	<div style="display: flex; flex-direction: column">
 		<div class="view-teammate-permissions-modal-header">
-			<h4 class="view-teammate-permissions-modal-title">Add a teammate</h4>
+			<h4 class="view-teammate-permissions-modal-title">Active Permissions</h4>
 			<img src="/images/icons/svg_icons/close-icon-round.svg" alt="" class="close-icon" @click="closeModal">
 		</div>
 
@@ -56,7 +56,14 @@ export default {
 		updatePermissions(row) {
 			this.$modal.hide('view-permissions-modal')
 			// this.$modal.show('update-team-member-modal');
-			this.$emit('update-team-member', this.teamMember);
+			let teammatePermissions = []
+			this.teamMember.permissions.forEach((permission) => {
+				teammatePermissions.push(permission.id);
+			})
+			let teamMemberObject = {teamMember: this.teamMember, teammatePermissions}
+
+			this.$emit('update-team-member', teamMemberObject);
+			// this.$emit('update-team-member', this.teamMember);
 		}
 	},
 }

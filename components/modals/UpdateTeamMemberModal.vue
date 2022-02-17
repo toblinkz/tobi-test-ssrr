@@ -115,19 +115,19 @@ export default {
 	data(){
 		 return{
 				 isLoading: false,
-				 all_permissions:[],
+				 allPermissions:[],
 				 select_all_permission: false,
-				 teammatesPermissions:[],
+				 teammatesPermissions: this.teamMemberPermissions,
 			 	selected_permission:[],
 				 team_member_info: [],
 				 error_message:[],
 				 show_icon: true,
 				 update_button_text: 'Update',
-				 all_permissions_id:[],
+				 allPermissionsIDs:[],
 					hover: false,
 					btn_text: 'Send invite',
 					isPermissionsOpen: true,
-				roleSelected: ''
+					roleSelected: ''
 			}
 	},
 
@@ -135,20 +135,18 @@ export default {
 		roles: {
 			type: Array
 		},
-		allPermissions: {
-			type: Array
-		},
 		team_member: {required: true},
+		teamMemberPermissions: {required: false}
 	},
 
 	watch:{
 		select_all_permission(){
 			if (this.select_all_permission){
-				this.teammatesPermissions = this.all_permissions_id;
-			}else {
-				this.teammatesPermissions = [];
+				this.teammatesPermissions = this.allPermissionsIDs;
+			} else {
+				this.teammatesPermissions = []
 			}
-		}
+		},
 	},
 	computed:{
 		isDisabled:function () {
@@ -161,18 +159,15 @@ export default {
 		},
 
 		showPermissions() {
-			this.team_member.permissions.forEach((permission) => {
-				this.teammatesPermissions.push(permission.id);
-			})
-
 			this.isPermissionsOpen = !this.isPermissionsOpen
 		},
 
-		getPermissions(){
-			this.all_permissions_id = [];
+		async getPermissions(){
+			let data = await this.$utility.getAllPermissions()
+			this.allPermissions = data.data
 			this.allPermissions.forEach((module) =>{
 				module.permission.forEach((permission) => {
-					this.all_permissions_id.push(permission.id)
+					this.allPermissionsIDs.push(permission.id)
 				})
 			});
 		},
