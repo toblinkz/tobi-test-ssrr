@@ -1,88 +1,53 @@
 <template>
-	<div class="mt-70">
-			<!-- Page header -->
-			<div class="page-header">
-				<div class="page-header-content">
-					<!-- Page container -->
-					<div class="page-container">
-						<!-- Page content -->
-						<div >
-							<!-- Main content -->
-							<div>
-								<!-- START JUMBOTRON -->
-								<div class="jumbotron" data-pages="parallax">
-									<div class="container-fluid container-fixed-lg">
-										<div class="inner">
-											<div class="row ">
-												<div class="col-md-8">
-													<h3> </h3>
-													<p><i class="icon-profile"></i> Change Password</p>
-													<p class="insight">
-														We have given you the power to set security access to your dashboard.<br> Change your Termii password using the form below.</p>
-												</div>
-												<div class="col-md-4 hidden-xs">
-													<img src="/images/api-doc.gif" class="wide">
-												</div>
-											</div>
-											<center>
-												<div class="item-height"></div>
-											</center>
-										</div>
-										<!-- Page container -->
-										<div class="page-container mt-30">
-											<!-- Page content -->
-											<div class="page-content">
-												<!-- main inner content -->
-												<main id="wrapper" class="wrapper">
-												<ApiNavbar></ApiNavbar>
-													<div class="col-md-6">
-														<form method="patch" @submit.prevent="changePassword">
-															<div class="form-group mt-20">
-																<input v-model="old_password"  :type="old_type" class="password-form-control"  placeholder="Old Password"  :class="{'error' : hasOldPasswordError}">
-																<i class="password-visibility" :class="[isOldPasswordToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showOldPassword"></i>
-																<span class=" error_field_message" v-if="error_message.old_password">{{error_message.old_password}}</span>
-															</div>
-															<div class="form-group mt-20">
-																<input v-model="new_password"  :type="new_type" class="password-form-control"  placeholder="New Password"  :class="{'error' : hasNewPasswordError}">
-																<i class="password-visibility" :class="[isNewPasswordToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showNewPassword"></i>
-																<span class=" error_field_message" v-if="error_message.new_password">{{error_message.new_password}}</span>
-																<div v-show="hasNewPasswordError">
-																	<p>Password should contain at least:</p>
-																	<ul>
-																		<li>One lowercase letter</li>
-																		<li>One uppercase letter</li>
-																		<li>One special character</li>
-																		<li>8 minimum characters</li>
-																	</ul>
-																</div>
-															</div>
-															<div class="form-group mt-20">
-																<input v-model="confirm_password"  :type="confirm_type" class="password-form-control"  placeholder="Confirm Password"  :class="{'error' : hasConfirmPasswordError}">
-																<i class="password-visibility" :class="[isConfirmPasswordToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showConfirmPassword"></i>
-																<span class=" error_field_message" v-if="error_message.confirm_password">{{error_message.confirm_password}}</span>
-															</div>
-														<button v-if="canChangePassword" type="submit" class="btn btn-primary btn-cons mt-20" :disabled="isDisabled">
-															<i class="fa fa-certificate" v-show="showIcon"></i>
-															{{button_text}}
-															<span v-show="isLoading">
-																<img src="/images/spinner.svg" height="20px" width="80px"/>
-																</span>
-														</button>
-														</form>
-													</div>
+	<div>
+		<SettingsTabHeader
+			:titleIcon="'icon-profile'"
+			:titleText="'Change Your Password'"
+			:body="'We have given you the power to set security access to your dashboard.\n'+
+										'Change your Termii password using the form below.'"
+			:tabImage="'/images/api-doc.gif'"
+		/>
 
-												</main>
-											</div>
-										</div>
-									</div>
+		<ApiNavbar />
+
+		<div class="content-container">
+						<form method="patch" @submit.prevent="changePassword">
+							<div class="form-group mt-20">
+								<input v-model="oldPassword"  :type="oldType" class="password-form-control"  placeholder="Old Password"  :class="{'error' : hasOldPasswordError}">
+								<i class="password-visibility" :class="[isOldPasswordToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showOldPassword"></i>
+								<span class=" error_field_message" v-if="errorMessage.oldPassword">{{errorMessage.oldPassword}}</span>
+							</div>
+							<div class="form-group mt-20">
+								<input v-model="newPassword"  :type="newType" class="password-form-control"  placeholder="New Password"  :class="{'error' : hasNewPasswordError}">
+								<i class="password-visibility" :class="[isNewPasswordToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showNewPassword"></i>
+								<span class=" error_field_message" v-if="errorMessage.newPassword">{{errorMessage.newPassword}}</span>
+								<div v-show="hasNewPasswordError">
+									<p>Password should contain at least:</p>
+									<ul>
+										<li>One lowercase letter</li>
+										<li>One uppercase letter</li>
+										<li>One special character</li>
+										<li>8 minimum characters</li>
+									</ul>
 								</div>
 							</div>
-						</div>
+							<div class="form-group mt-20">
+								<input v-model="confirmPassword"  :type="confirmType" class="password-form-control"  placeholder="Confirm Password"  :class="{'error' : hasConfirmPasswordError}">
+								<i class="password-visibility" :class="[isConfirmPasswordToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  aria-hidden="true" @click="showConfirmPassword"></i>
+								<span class=" error_field_message" v-if="errorMessage.confirmPassword">{{errorMessage.confirmPassword}}</span>
+							</div>
+							<button v-if="canChangePassword" type="submit" class="btn btn-primary btn-cons mt-20" :disabled="isDisabled">
+								<i class="fa fa-certificate" v-show="showIcon"></i>
+								{{buttonText}}
+								<span v-show="isLoading">
+																<img src="/images/spinner.svg" height="20px" width="80px"/>
+																</span>
+							</button>
+						</form>
 					</div>
-				</div>
-			<VerificationModal></VerificationModal>
-				<UpdateCompanyNameModal></UpdateCompanyNameModal>
-			</div>
+
+		<VerificationModal />
+		<UpdateCompanyNameModal />
 	</div>
 </template>
 
@@ -92,119 +57,138 @@ import DashboardNavbar from "@/components/general/navbar/DashboardNavbar";
 import VerificationModal from "@/components/modals/VerificationModal";
 import ApiNavbar from "@/components/general/navbar/ApiNavbar";
 import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
+import SettingsTabHeader from "@/components/settings/SettingsTabHeader";
 export default {
  name: "change-password",
 	middleware: ['auth', 'inactive_user', 'permission'],
-	components: {UpdateCompanyNameModal, ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
+	components: {SettingsTabHeader, UpdateCompanyNameModal, ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
 	data(){
 			return{
-				old_password:'',
-				new_password:'',
-				confirm_password:'',
+				oldPassword:'',
+				newPassword:'',
+				confirmPassword:'',
 				isLoading: false,
 				showIcon: false,
-				button_text: 'Change',
+				buttonText: 'Change',
 				isOldPasswordToggled: false,
 				isNewPasswordToggled: false,
 				isConfirmPasswordToggled: false,
-				error_message:[],
+				errorMessage:[],
 				hasOldPasswordError: false,
 				hasConfirmPasswordError: false,
 				hasNewPasswordError: false,
-				old_type: "password",
-				new_type: "password",
-				confirm_type: "password",
-				customer_permissions: localStorage.getItem('permissions'),
+				oldType: "password",
+				newType: "password",
+				confirmType: "password",
+				customerPermissions: localStorage.getItem('permissions'),
 
 
 			}
 	},
 	computed: {
  		isDisabled: function (){
- 			return ( !this.new_password || !this.old_password || !this.confirm_password || this.hasOldPasswordError
+ 			return ( !this.newPassword || !this.oldPassword || !this.confirmPassword || this.hasOldPasswordError
 								|| this.hasNewPasswordError || this.hasConfirmPasswordError)
 			},
 		canChangePassword(){
-			return (this.customer_permissions.includes("change_password"));
+			return (this.customerPermissions.includes("change_password"));
 		},
 	},
 	watch: {
- 	old_password(value){
+ 	oldPassword(value){
  		this.validateOldPassword(value);
 		},
-		new_password(value){
+		newPassword(value){
 			this.validateNewPassword(value);
 		},
-		confirm_password(value){
+		confirmPassword(value){
  		this.validateConfirmPassword(value);
 		}
 	},
 	methods:{
 		validateOldPassword(value){
 			if (value.length < 8) {
-				this.error_message['old_password'] = 'The password field must be at least 8 characters';
+				this.errorMessage['oldPassword'] = 'The password field must be at least 8 characters';
 				this.hasOldPasswordError = true;
 			}else {
-				this.error_message['old_password'] = '';
+				this.errorMessage['oldPassword'] = '';
 				this.hasOldPasswordError = false;
 			}
 		},
 		validateNewPassword(value){
 			if ( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#@$%^_&*-])(?=.{8,})/.test(value)){
-				this.error_message['new_password'] = '';
+				this.errorMessage['newPassword'] = '';
 				this.hasNewPasswordError = false;
 			}
 			else {
-				this.error_message['new_password'] = 'Password is too weak';
+				this.errorMessage['newPassword'] = 'Password is too weak';
 				this.hasNewPasswordError = true;
 			}
 		},
 		validateConfirmPassword(value){
-			if ( value !== this.new_password){
-				this.error_message['confirm_password'] = 'The password confirmation does not match';
+			if ( value !== this.newPassword){
+				this.errorMessage['confirmPassword'] = 'The password confirmation does not match';
 				this.hasConfirmPasswordError = true;
 			}
 			else {
-				this.error_message['confirm_password'] = '';
+				this.errorMessage['confirmPassword'] = '';
 				this.hasConfirmPasswordError = false;
 			}
 		},
 		showOldPassword(){
-			this.isOldPasswordToggled = !this.isOldPasswordToggled;
+			if (!this.isOldPasswordToggled) {
+				this.oldType = 'text'
+				this.isOldPasswordToggled = !this.isOldPasswordToggled
+			} else {
+				this.oldType = 'password'
+				this.isOldPasswordToggled = !this.isOldPasswordToggled
+			}
 		},
 		showNewPassword(){
-				this.isNewPasswordToggled = !this.isNewPasswordToggled;
+			if (!this.isNewPasswordToggled) {
+				this.newType = 'text'
+				this.isNewPasswordToggled = !this.isNewPasswordToggled
+			} else {
+				this.newType = 'password'
+				this.isNewPasswordToggled = !this.isNewPasswordToggled
+			}
 		},
 		showConfirmPassword(){
-				this.isConfirmPasswordToggled = !this.isConfirmPasswordToggled;
+			if (!this.isConfirmPasswordToggled) {
+				this.confirmType = 'text'
+				this.isConfirmPasswordToggled = !this.isConfirmPasswordToggled
+			} else {
+				this.confirmType = 'password'
+				this.isConfirmPasswordToggled = !this.isConfirmPasswordToggled
+			}
 		},
 		async changePassword(){
 				try{
 					this.isLoading = true;
-					this.button_text = "";
+					this.buttonText = "";
 					await this.$axios.patch('user/change-password', {
-						old_password: this.old_password,
-						password: this.new_password,
-						password_confirmation: this.confirm_password
+						oldPassword: this.oldPassword,
+						password: this.newPassword,
+						password_confirmation: this.confirmPassword
 					});
 					this.isLoading = false;
-					this.button_text = "Change";
+					this.buttonText = "Change";
 				} catch (e) {
 					this.isLoading = false;
-					this.button_text = "Change";
+					this.buttonText = "Change";
 					let errors = e.response.data.errors;
 					for(let key in errors){
 						switch (key) {
-									case('old_password'):{
+									case('oldPassword'):{
 										errors[key].forEach(err => {
-											this.error_message['old_password'] = err;
+											this.errorMessage['oldPassword'] = err;
 											this.hasOldPasswordError = true;
 										});
 										break;
 									}
 							case('password'):{
 								errors[key].forEach(err => {
-									this.error_message['new_password'] = err;
+									this.errorMessage['newPassword'] = err;
 									this.hasNewPasswordError = true;
 								});
 								break;
@@ -213,7 +197,7 @@ export default {
 						errors[key].forEach(err => {
 							this.$toast.error(err);
 							this.hasPasswordError = true
-							this.error_message['old_password'] = err;
+							this.errorMessage['oldPassword'] = err;
 						});
 					}
 				}
@@ -223,6 +207,12 @@ export default {
 </script>
 
 <style scoped>
+.content-container {
+	margin: 0 auto;
+	padding: 0;
+	width: 1000px;
+}
+
 .password-form-control {
 	display: block;
 	width: 100%;
@@ -247,6 +237,10 @@ export default {
 input[type="text"], input[type="password"]{
 	-webkit-appearance: none;
 	border: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.form-group {
+	width: 400px;
 }
 .form-group i.password-visibility{
 	height: 16px;

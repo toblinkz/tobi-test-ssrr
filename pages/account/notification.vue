@@ -1,75 +1,42 @@
 <template>
-	<div class="mt-70">
-			<!-- Page header -->
-			<div class="page-header">
-				<div class="page-header-content">
-					<!-- Page container -->
-					<div class="page-container">
-						<!-- Page content -->
-						<div >
-							<!-- Main content -->
-							<div>
-								<!-- START JUMBOTRON -->
-								<div class="jumbotron" data-pages="parallax">
-									<div class="container-fluid container-fixed-lg">
-										<div class="inner">
-											<div class="row ">
-												<div class="col-md-8">
-													<h3> </h3>
-													<p><i class="icon-mail-read"></i> Email Notification</p>
-													<p class="insight">
-														You can add one or more email address to receive system triggered notifications like <br> new invoices, low balance notification, subscription expiry <br> or scheduled application maintenance.
-													</p>
-												</div>
-												<div class="col-md-4 hidden-xs">
-													<img src="/images/api-doc.gif" class="wide">
-												</div>
-											</div>
-											<center>
-												<div class="item-height"></div>
-											</center>
-										</div>
-										<!-- Page container -->
-										<div class="page-container mt-30">
-											<!-- Page content -->
-											<div class="page-content">
-												<!-- main inner content -->
-												<main id="wrapper" class="wrapper">
-													<ApiNavbar></ApiNavbar>
-													<div>
-														<div  style="display:flex; justify-content: space-between; padding: 0px 25px">
-															<p><b>Added Emails</b></p>
-															<a v-if="canUpdateEmailNotificationSettings" @click="showInputField" style="font-weight: bold">+ <span style="margin-left: 3px">Add new</span></a>
-														</div>
-														<div class=" mt-40 hidden-xs" style="display: flex">
-															<span  style="width: 40% ;font-size: 15px"><i class="fa fa-circle m-r-10 m-l-30"></i>Email Address</span>
-															<span  style="width:30%; font-size: 15px; margin-left: 40px">Categories</span>
-															<span style="width:30%; font-size: 15px;margin-left: 20px"><span style="float: right;margin-right: 70px">Action</span></span>
-														</div>
-														<div  class="col-md-12 mt-20">
-															<div class="m-l-10 " style="border-bottom: dotted #ddd!important;"></div>
-															<div v-for="(row, index ) in emails">
-																<email-card :email="row.email" :categories="row.categories" @deletedEmail="deletedEmail($event)" @updateEmail="updateEmail($event)" @categories="showCategories($event)"></email-card>
-															</div>
-														</div>
-													</div>
-													<div>
+	<div>
+		<SettingsTabHeader
+			:titleIcon="'icon-mail-read'"
+			:titleText="'Email Notification'"
+			:body="'You can add one or more email address to receive system triggered notifications like\n'+
+										'new invoices, low balance notification, subscription expiry\n'+
+										'or scheduled application maintenance.'"
+			:tabImage="'/images/api-doc.gif'"
+		/>
 
-													</div>
-												</main>
-											</div>
-										</div>
-									</div>
-								</div>
+		<ApiNavbar />
+
+		<div class="content-container">
+						<div  style="display:flex; justify-content: space-between; padding: 0px 25px">
+							<p><b>Added Emails</b></p>
+							<a v-if="canUpdateEmailNotificationSettings" @click="showInputField" style="font-weight: bold">+ <span style="margin-left: 3px">Add new</span></a>
+						</div>
+						<div class=" mt-40 hidden-xs" style="display: flex">
+							<span  style="width: 40% ;font-size: 15px"><i class="fa fa-circle m-r-10 m-l-30"></i>Email Address</span>
+							<span  style="width:30%; font-size: 15px; margin-left: 40px">Categories</span>
+							<span style="width:30%; font-size: 15px;margin-left: 20px"><span style="float: right;margin-right: 70px">Action</span></span>
+						</div>
+						<div  class="col-md-12 mt-20">
+							<div class="m-l-10 " style="border-bottom: dotted #ddd!important;"></div>
+							<div v-for="(row, index ) in emails">
+								<email-card :email="row.email" :categories="row.categories" @deletedEmail="deletedEmail($event)" @updateEmail="updateEmail($event)" @categories="showCategories($event)"></email-card>
 							</div>
 						</div>
 					</div>
-				</div>
-				<VerificationModal></VerificationModal>
-				<UpdateCompanyNameModal></UpdateCompanyNameModal>
-				<AddNewEmailModal @addedEmail="addNewEmail($event)"></AddNewEmailModal>
-				<update-email-notification-modal  @addedEmail="addNewEmail($event)"  :email_address="email_address" :selected_email_categories="email_categories" ></update-email-notification-modal>
-			</div>
+
+		<VerificationModal />
+		<UpdateCompanyNameModal />
+		<AddNewEmailModal @addedEmail="addNewEmail($event)" />
+		<update-email-notification-modal
+			@addedEmail="addNewEmail($event)"
+			:email-address="emailAddress"
+			:selected_email_categories="emailCategories"
+		/>
 	</div>
 </template>
 
@@ -82,17 +49,19 @@ import EmailCard from "@/components/general/EmailCard";
 import AddNewEmailModal from "@/components/modals/AddNewEmailModal";
 import UpdateEmailNotificationModal from "@/components/modals/UpdateEmailNotificationModal";
 import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
+import SettingsTabHeader from "@/components/settings/SettingsTabHeader";
 export default {
 	name: "notification",
 	middleware: ['auth', 'inactive_user', 'permission'],
 	components: {
+		SettingsTabHeader,
 		UpdateCompanyNameModal,
 		UpdateEmailNotificationModal,
 		AddNewEmailModal, EmailCard, ApiNavbar, VerificationModal, DashboardNavbar, Sidebar},
 	data(){
 		return{
 			emails: [],
-			email_address:'',
+			emailAddress:'',
 			selected_categories: [],
 			old_password:'',
 			new_password:'',
@@ -102,18 +71,12 @@ export default {
 			isLoading: false,
 			showIcon: false,
 			button_text: 'Change',
-			isOldPasswordToggled: false,
-			isNewPasswordToggled: false,
-			isConfirmPasswordToggled: false,
 			error_message:[],
 			hasOldPasswordError: false,
 			hasConfirmPasswordError: false,
 			hasNewPasswordError: false,
-			old_type: "password",
-			new_type: "password",
-			confirm_type: "password",
-			email_categories:[],
-			customer_permissions: localStorage.getItem('permissions'),
+			emailCategories:[],
+			customerPermissions: localStorage.getItem('permissions'),
 
 		}
 	},
@@ -123,19 +86,8 @@ export default {
 				|| this.hasNewPasswordError || this.hasConfirmPasswordError)
 		},
 		canUpdateEmailNotificationSettings(){
-			return (this.customer_permissions.includes("update_email_notification_settings"));
+			return (this.customerPermissions.includes("update_email_notification_settings"));
 		},
-	},
-	watch: {
-		old_password(value){
-			this.validateOldPassword(value);
-		},
-		new_password(value){
-			this.validateNewPassword(value);
-		},
-		confirm_password(value){
-			this.validateConfirmPassword(value);
-		}
 	},
 	methods:{
 		showInputField(){
@@ -155,10 +107,10 @@ export default {
 		},
 		updateEmail(event){
 			this.$modal.show('update-email-notification-modal')
-   this.email_address = event;
+   this.emailAddress = event;
 		},
 		showCategories(event){
-			 this.email_categories = event;
+			 this.emailCategories = event;
 		}
 
 
@@ -170,6 +122,11 @@ export default {
 </script>
 
 <style scoped>
+.content-container {
+	margin: 0 auto;
+	padding: 0;
+	width: 1000px;
+}
 
 .email-form-control {
 	display: block;

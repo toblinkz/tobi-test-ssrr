@@ -1,137 +1,99 @@
 <template>
-  <div class="mt-70">
-      <!-- Page header -->
-					<div class="page-header">
-						<div class="page-header-content">
-							<!-- Page container -->
-							<div class="page-container">
-								<!-- Page content -->
-								<div class="page-content">
-									<!-- Main content -->
-									<div class="content-wrapper">
-										<!-- START JUMBOTRON -->
-										<div class="jumbotron" data-pages="parallax">
-											<div class="container-fluid container-fixed-lg">
-												<div class="inner">
-													<div class="row ">
-														<div class="col-md-8">
-															<h3 > </h3>
-															<p><i class="icon-profile"></i> Your Account Profile</p>
-															<p class="insight">Ensure your details are always up to date. This helps us provide a really<br> great service and target your campaigns effectively.
-															</p>
-														</div>
-														<div class="col-md-4 hidden-xs">
-															<img src="/images/profile.gif"class="wide">
-														</div>
-													</div>
-													<center>
-														<div class="item-height"></div>
-													</center>
-												</div>
-												<!-- Page container -->
-												<div class="page-container">
-													<!-- Page content -->
-													<div class="page-content">
-														<!-- main inner content -->
-														<main id="wrapper" class="wrapper">
-															<ApiNavbar></ApiNavbar>
-                            <div class="profile-row mt-30">
-                              <div class="col-md-2">
-                                <div class="sub_section">
-                                  <div class="media profile-image">
-                                    <div class="media-left">
-                                      <a  class="upload-media-container">
-                                        <img preview-for="image" :src="image_url"  class="img-circle" alt="" id="customer_dp">
-                                      </a>
-                                      <input type="file" name="image" class="file-styled previewable hide" @change="uploadPhoto(fieldName, $event.target.files)">
-                                    </div>
-                                    <div class="media-body text-center">
-                                      <h5 class="media-heading text-semibold">Upload your photo…</h5>
-                                      Photo should be at least 300px x 300px
-                                      <br /><br />
-                                      <a v-if="canUpdateProfile" @click="removeImage" class="btn btn-xs bg-grey-800 "><i class="icon-trash"></i> Remove</a>
-                                      <br />
-                                      <br />
-                                      <a v-if="canUpdateProfile" onclick="$('input[name=image]').trigger('click')"  class="btn btn-xs bg-teal mr-10"><i class="icon-upload4"></i>
-																																							{{ upload_button_text }}</a>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-5">
-                                <div class="form-group control-text" style="display: flex;">
-																																	<div>
-																																		<label>First Name</label>
-																																		<input
-																																			v-model="first_name"
-																																			type="text"
-																																			name="first_name"
-																																			class="profile-form-control required  "
-																																			style="width: 95%"
-																																		>
-																																	</div>
-																																<div>
-																																	<label>Last Name</label>
-																																	<input
-																																		v-model="last_name"
-																																		type="text"
-																																		name="last_name"
-																																		class="profile-form-control required  "
-																																		style="width: 95%"
-																																	>
-																																</div>
-                                </div>
-                                <label>Sector</label>
-                                   <CustomSelect style="width: 95%" :options="sectors" :dropdown-style="dropdownStyle" @item-selected="setSectorId($event)"></CustomSelect>
-                              </div>
-                              <div class="col-md-5">
-																															<label>Email Address</label>
-																															<div class="control-text form-group" >
-																																<input
-																																	v-model="email"
-																																	type="text"
-																																	name="email"
-																																	class="profile-form-control required email  "
-																																	style="width: 95%"
-																																>
-																															</div>
-																															<label>Phone Number</label>
-																															<div class="form-group control-text">
-																																<input
-																																	v-model="phone_number"
-																																	type="text"
-																																	name="phone_number"
-																																	class="profile-form-control required numeric  "
-																																	style="width: 95%"
-																																>
-																															</div>
-																				<hr />
-																				<button v-if="canUpdateProfile" class="btn bg-teal pull-right" @click="showPasswordModal"><i class="icon-check"></i> Save</button>
-																	</div>
-																</div>
-														</main>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
+	<div>
+		<SettingsTabHeader
+			:titleIcon="'icon-profile'"
+			:titleText="'Your Account Profile'"
+			:body="'Ensure your details are always up to date. This helps us provide a really\n'+
+						'\t\t\t\t\tgreat service and target your campaigns effectively.'"
+			:tabImage="'/images/profile.gif'"
+		/>
+
+		<ApiNavbar />
+
+		<div class="profile-row mt-30">
+			<div class="col-md-2">
+				<div class="sub_section">
+					<div class="media profile-image">
+						<div class="media-left">
+							<a  class="upload-media-container">
+								<img preview-for="image" :src="imageUrl"  class="img-circle" alt="" id="customer_dp">
+							</a>
+							<input type="file" name="image" class="file-styled previewable hide" @change="uploadPhoto(fieldName, $event.target.files)">
+						</div>
+						<div class="media-body text-center">
+							<h5 class="media-heading text-semibold">Upload your photo…</h5>
+						 <p style="margin: 0; padding: 0; font-size: 14px;">Photo should be at least 300px by 300px</p>
+							<a v-if="canUpdateProfile" @click="removeImage" class="btn btn-xs bg-grey-800 mt-10"><i class="icon-trash"></i> Remove</a>
+							<a v-if="canUpdateProfile" onclick="$('input[name=image]').trigger('click')"  class="btn btn-xs bg-teal mr-10 mt-10"><i class="icon-upload4"></i>
+								{{ uploadButtonText }}</a>
 						</div>
 					</div>
-					<VerificationModal></VerificationModal>
-					<UpdateCompanyNameModal></UpdateCompanyNameModal>
-					<AccountPassword
-						:company_sector="selected_sector"
-						:email="email"
-					 :first_name="first_name"
-					 :last_name="last_name"
-					 :phone_number="phone_number"
-						:image_url="image_url"
-						 event_name="profile"
-					 >
-					</AccountPassword>
-  </div>
+				</div>
+			</div>
+			<div class="col-md-5">
+				<div class="form-group control-text" style="display: flex;">
+					<div>
+						<label>First Name</label>
+						<input
+							v-model="firstName"
+							type="text"
+							name="firstName"
+							class="profile-form-control required  "
+							style="width: 95%"
+						>
+					</div>
+					<div>
+						<label>Last Name</label>
+						<input
+							v-model="lastName"
+							type="text"
+							name="lastName"
+							class="profile-form-control required  "
+							style="width: 95%"
+						>
+					</div>
+				</div>
+				<label>Sector</label>
+				<CustomSelect style="width: 95%" :options="sectors" :dropdown-style="dropdownStyle" @item-selected="setSectorId($event)"></CustomSelect>
+			</div>
+			<div class="col-md-5">
+				<label>Email Address</label>
+				<div class="control-text form-group" >
+					<input
+						v-model="email"
+						type="text"
+						name="email"
+						class="profile-form-control required email  "
+						style="width: 95%"
+					>
+				</div>
+				<label>Phone Number</label>
+				<div class="form-group control-text">
+					<input
+						v-model="phoneNumber"
+						type="text"
+						name="phoneNumber"
+						class="profile-form-control required numeric  "
+						style="width: 95%"
+					>
+				</div>
+				<hr />
+				<button v-if="canUpdateProfile" class="btn bg-teal pull-right" @click="showPasswordModal"><i class="icon-check"></i> Save</button>
+			</div>
+		</div>
+
+		<VerificationModal />
+		<UpdateCompanyNameModal />
+		<AccountPassword
+			:company-sector="selectedSector"
+			:email="email"
+			:first-name="firstName"
+			:last-ame="lastName"
+			:phone-number="phoneNumber"
+			:image-url="imageUrl"
+			:event-name="'profile'"
+		/>
+	</div>
 </template>
 
 <script>
@@ -146,31 +108,33 @@
 				import VerificationModal from "~/components/modals/VerificationModal";
 				import AccountPassword from "../../components/modals/AccountPassword";
 				import UpdateCompanyNameModal from "../../components/index/modals/UpdateCompanyNameModal";
+				import SettingsTabHeader from "@/components/settings/SettingsTabHeader";
 
     export default {
         name: "profile",
 					middleware: ['auth', 'inactive_user',  'permission'],
         components: {
+									SettingsTabHeader,
 									UpdateCompanyNameModal,
 									AccountPassword,
 									VerificationModal, SearchDropdown, CustomSelect,  ApiNavbar, DashboardNavbar, Sidebar,},
 
         data(){
           return{
-            first_name:'',
-            last_name:  '',
+            firstName:'',
+            lastName:  '',
             email:  '',
-            phone_number:  '',
+            phoneNumber:  '',
 											 hasPasswordError: false,
 												password: '',
-											 upload_button_text:'Upload',
-											 error_message:[],
-										 	customer_permissions: localStorage.getItem('permissions'),
+											 uploadButtonText:'Upload',
+											 errorMessage:[],
+										 	customerPermissions: localStorage.getItem('permissions'),
 											 sectors : [],
-            selected_country: '',
-            selected_sector: '',
-												user_image: '',
-            image_url: '',
+            selectedCountry: '',
+            selectedSector: '',
+												userImage: '',
+            imageUrl: '',
             dropdownStyle: {
               borderRadius: '5px',
             },
@@ -224,10 +188,10 @@
 							},
 							validatePassword(value){
 								if (value.length < 6) {
-									this.error_message['password'] = 'The password field must be at least 5 characters';
+									this.errorMessage['password'] = 'The password field must be at least 5 characters';
 									this.hasPasswordError = true;
 								}else {
-									this.error_message['password'] = '';
+									this.errorMessage['password'] = '';
 									this.hasPasswordError = false;
 								}
 							},
@@ -247,7 +211,7 @@
 							},
 
        async uploadPhoto(fieldName, files){
-									this.upload_button_text = 'Uploading...'
+									this.uploadButtonText = 'Uploading...'
 									try {
 										 this.file = files[0];
 										 const file_type = this.file.name.split('.').pop().toLowerCase();
@@ -256,11 +220,11 @@
 											let preview = document.getElementById('customer_dp');
 											preview.src = src;
 											const uploadS3Url = await this.$uploadFileTos3.uploadFileToS3(this.file, file_type).catch((e)=> {this.$toast.error(e)});
-											this.image_url = uploadS3Url.data;
+											this.imageUrl = uploadS3Url.data;
 											this.$toast.success('Uploaded successfully');
-											this.upload_button_text = 'Upload';
+											this.uploadButtonText = 'Upload';
 										}else {
-											this.upload_button_text = 'Upload';
+											this.uploadButtonText = 'Upload';
 											this.$toast.error("Please upload a valid image file(JPEG, PNG)");
 										}
 
@@ -275,13 +239,13 @@
 							if(this.$store.state.view_verify_page === 'true'){
 								this.$modal.show('verification-id-modal');
 							}else{
-								 this.first_name = JSON.parse(localStorage.getItem('user_data')).fname;
-									this.last_name = JSON.parse(localStorage.getItem('user_data')).lname;
+								 this.firstName = JSON.parse(localStorage.getItem('user_data')).fname;
+									this.lastName = JSON.parse(localStorage.getItem('user_data')).lname;
 									this.email = JSON.parse(localStorage.getItem('user_data')).email;
-							  this.selected_country = JSON.parse(localStorage.getItem('user_data')).country;
-									this.selected_sector = JSON.parse(localStorage.getItem('user_data')).company_sector.id;
-									this.image_url = JSON.parse(localStorage.getItem('user_data')).image;
-									this.phone_number =  JSON.parse(localStorage.getItem('user_data')).phone;
+							  this.selectedCountry = JSON.parse(localStorage.getItem('user_data')).country;
+									this.selectedSector = JSON.parse(localStorage.getItem('user_data')).company_sector.id;
+									this.imageUrl = JSON.parse(localStorage.getItem('user_data')).image;
+									this.phoneNumber =  JSON.parse(localStorage.getItem('user_data')).phone;
 								 this.sectors = [JSON.parse(localStorage.getItem('user_data')).company_sector.name];
 								this.fetchUtilityData();
 							}
@@ -292,93 +256,17 @@
 
 <style >
 
-  @media (min-width: 769px){
-    .profile-content-wrapper {
-      display: table-cell;
-      vertical-align: top;
-    }
-  }
-  @media (min-width: 769px){
-    .profile-page-content {
-      display: table-row;
-    }
-  }
 
-  .profile-content-wrapper {
-    width: 100%;
-  }
-  @media screen and (min-width: 769px){
-    .container .jumbotron, .container-fluid .jumbotron {
-      padding-left: 60px;
-      padding-right: 60px;
-    }
-  }
-  @media (min-width: 769px){
-    .profile-page-container {
-      width: 100%;
-      display: table;
-      table-layout: fixed;
-    }
-  }
-
-  @media screen and (min-width: 769px){
-    .jumbotron {
-      padding-top: 48px;
-      padding-bottom: 48px;
-    }
-  }
   .page-header:not(.page-header-filled) + .profile-page-container {
     padding-top: 35px;
   }
-  .profile-page-container {
-    position: relative;
-    /* padding-bottom: 40px; */
-  }
 
-  .jumbotron {
-    /* padding-top: 30px; */
-    /* padding-bottom: 10px; */
-    margin-bottom: 10px;
-    color: inherit;
-    background-color: #fff;
-  }
 
   .profile-row {
-    margin-left: 0px;
-    margin-right: 0px;
+			width: 1000px;
+			margin: 0 auto;
   }
-  #welcome {
-    /* margin-bottom: 15px; */
-    font-weight: 300;
-    letter-spacing: normal;
-    font-size: 18px;
-    -webkit-font-smoothing: antialiased;
-    color: #2c2c2c;
-    display: block;
-    font-style: normal;
-    /* -webkit-margin-before: 1em; */
-  }
-  .insight {
-    font-size: 13.5px !important;
-    letter-spacing: normal !important;
-    font-weight: 400 !important;
-    line-height: 20px !important;
-    margin: 0px 0px 10px 0px;
-    font-style: normal;
-    white-space: normal;
-    color: #333333;
-    /* -webkit-margin-before: 1em; */
-    /* -webkit-margin-after: 1em; */
-    /* -webkit-margin-start: 0px; */
-    /* -webkit-margin-end: 0px; */
-    /* display: block; */
-  }
-  .p-15 {
-    padding: 15px!important;
-  }
-  .wide {
-    width: 200px !important;
-  }
+
   .sub_section {
     margin-bottom: 20px;
   }

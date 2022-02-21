@@ -1,46 +1,43 @@
 <template>
-  <div class="row">
-    <div class="col-md-12">
-      <ul class="nav nav-tabs mt-5 nav-tabs-top page-second-nav">
+  <div class="container">
+			<ul class="settings-nav-bar">
         <li rel0="AccountController/profile">
           <nuxt-link to="/account/profile" class="level-1  " >
-            <i class="icon-user position-left"></i> My profile
+            <i class="icon-user icon"></i> My profile
           </nuxt-link>
         </li>
         <li rel0="AccountController/api">
           <nuxt-link to="/account/api" class="level-1  ">
-            <i class="icon-key position-left"></i> API token
+            <i class="icon-key icon"></i> API token
           </nuxt-link>
         </li>
         <li>
           <nuxt-link to="/account/webhook/config" class="level-1  ">
-            <i class="entypo-tools position-left"></i> Webhook Config
+            <i class="entypo-tools icon"></i> Webhook Config
           </nuxt-link>
         </li>
         <li rel0="AccountController/api">
           <nuxt-link to="/account/deactivate" class="level-1 " exact>
-            <i class="entypo-logout position-left"></i> Deactivate Account
+            <i class="entypo-logout icon"></i> Deactivate Account
           </nuxt-link>
         </li>
 							<li rel0="AccountController/api">
 								<nuxt-link to="/account/change-password" class="level-1  ">
-									<i class="icon-lock position-left"></i> Change Password
+									<i class="icon-lock icon"></i> Change Password
 								</nuxt-link>
 							</li>
 							<li rel0="AccountController/api">
 								<nuxt-link to="/account/notification" class="level-1  ">
-									<i class="icon-notification2 position-left"></i> Email Notification
+									<i class="icon-notification2 icon"></i> Email Notification
 								</nuxt-link>
 							</li>
       </ul>
-    </div>
   </div>
 </template>
 
 <script>
     export default {
         name: "ApiNavbar",
-
     }
 </script>
 
@@ -53,90 +50,50 @@
     color: #ffffff !important;
     background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
   }
-  .row {
-    margin-left: 0px;
-    margin-right: 0px;
-  }
-  .nav-tabs {
-    border-bottom: 1px dashed #26A69A;
-    /* margin-top: -55px; */
-  }
-
-  .page-second-nav {
-    margin: 0 0 20px 0;
-  }
-  @media (min-width: 769px){
-    .nav-tabs {
-      font-size: 0;
-    }
-  }
-  .nav {
-    /* margin-bottom: 0; */
-    padding-left: 0;
-    list-style: none;
-  }
-  @media (min-width: 769px){
-    .nav-tabs.nav-tabs-top > li {
-      margin-bottom: 0;
-    }
-  }
-  .nav-tabs > li {
-    margin-right: 5px;
-    font-size: 14px;
-  }
-  @media (min-width: 769px){
-    .nav-tabs > li {
-      display: inline-block;
-      /* font-size: 13px; */
-    }
-  }
-  .nav > li {
-    position: relative;
-  }
-  @media (min-width: 769px){
-    .nav-tabs.nav-tabs-top > li > a {
-      /**color: #777;**/
-    }
-  }
-  @media (min-width: 769px){
-    .nav-tabs.nav-tabs-top > li > a, .nav-tabs.nav-tabs-top > li > a:hover, .nav-tabs.nav-tabs-top > li > a:focus {
-      border-width: 0 0 4px 0;
-      margin-bottom: -1px;
-      cursor: pointer;
-      border-radius: 5px;
-      color: #777;
-    }
-  }
-  .nav-tabs > li > a {
-    color: #333;
-    padding: 7px 8px !important;
-  }
-  .page-second-nav li a.level-1 {
-    font-weight: 600;
-    /*font-size: 15px;*/
-  }
-  .nav-tabs > li > a {
-    margin-right: 0;
-    border-radius: 0;
-    line-height: 1.5384616;
-    border: 1px solid transparent;
-    padding: 7px 8px !important;
+  .container {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			width: 1000px;
+			padding: 10px;
+			margin: 0 auto 20px;
+			/*background-color: red;*/
   }
 
+		.settings-nav-bar{
+			/*background-color: blue;*/
+			width: 100%;
+			border-bottom: 1px dashed #26A69A;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
 
+		.settings-nav-bar > li > a,
+		.settings-nav-bar > li > a:focus {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: -1px;
+			cursor: pointer;
+			border-width: 0 0 4px 0;
+			border-radius: 3px 3px 0 0;
+			border-bottom: 4px solid transparent;
+			color: #777;
+			padding: 8px;
+		}
 
-  .nav > li > a {
-    position: relative;
-    display: block;
+		.settings-nav-bar > li > a:hover {
+			border-bottom-color: #365899;
+		}
+
+  .icon {
+    margin-right: 6px;
   }
-  .position-left {
-    margin-right: 7px;
-  }
-  @media (min-width: 769px){
-    .nav-tabs.nav-tabs-top > li > a:hover {
-      border-bottom-color: #365899;
-    }
-  }
-
-
 </style>
