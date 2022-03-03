@@ -210,7 +210,7 @@
 							account_balance: '',
 							account_name:'',
 							bank_name: '',
-							options: ['Select Top Up Option', {id: '1', name: 'Regular Top Up'}, {id: '2', name: 'Bundled Top Up'}, {id: '3', name: 'Apply Coupon'}],
+							options: ['Select Top Up Option', {id: '1', name: 'Regular Top Up'}, {id: '2', name: 'Apply Coupon'}],
 							payment_gateway: '',
 							hasError: false,
 							total: '',
@@ -472,15 +472,6 @@
 								}
 
 								case '2' : {
-									this.selectPayment = true;
-									this.input_amount = false;
-									this.show_coupon_input_field = false;
-									await this.getTopUp();
-									await this.getExchangeRate();
-									break;
-								}
-
-								case '3' : {
 									this.selectPayment = false;
 									this.input_amount = false;
 									this.total = '';
