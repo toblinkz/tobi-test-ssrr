@@ -11,7 +11,7 @@
 				<div class="modal-body">
 
 					<div class="form-group">
-						<label>Password</label>
+						<label>Input password to update profile</label>
 						<input type="text" :type="type" class="form-control" v-model="password" placeholder="enter password" >
 						<span class=" error_field_message" v-if="errorMessage.password">{{errorMessage.password}}</span>
 						<i class="password-visibility" :class="[isToggled ? 'fa-eye': 'fa-eye-slash', 'fa']"  @click="showPassword"></i>

@@ -88,7 +88,7 @@
 			:company-sector="selectedSector"
 			:email="email"
 			:first-name="firstName"
-			:last-ame="lastName"
+			:last-name="lastName"
 			:phone-number="phoneNumber"
 			:image-url="imageUrl"
 			:event-name="'profile'"
