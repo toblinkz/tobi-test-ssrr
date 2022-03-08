@@ -100,7 +100,7 @@
         <div class="padd-x">
           <hr class="mb-10 mt-10">
         </div>
-							<li class="padd-x" v-if="isAdmin">
+							<li class="padd-x" v-if="canViewSandbox">
 								<nuxt-link to="/sandbox" class="color-a level-1">
 									<i class="icon-gift"></i>
 									Sandbox <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
@@ -110,7 +110,7 @@
 									<i class="entypo-user-add"></i>
 									Teams <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
 							</li>
-							<li class="padd-x" v-if="isAdmin">
+							<li class="padd-x" v-if="canViewCountryRoutes">
 								<nuxt-link to="/sms/countries" class="color-a level-1">
 									<i class="entypo-globe"></i>
 									Countries <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
@@ -224,6 +224,12 @@
 							},
 							viewSettings(){
 								return (this.customer_permissions.includes("view_profile"));
+							},
+							canViewSandbox(){
+										return (this.customer_permissions.includes('view_sandbox'));
+							},
+							canViewCountryRoutes(){
+										return (this.customer_permissions.includes('view_active_country_route'));
 							}
       },
 					methods:{
