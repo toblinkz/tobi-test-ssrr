@@ -49,6 +49,7 @@
 										<ul>
 											<li>One lowercase letter</li>
 											<li>One uppercase letter</li>
+											<li>One number </li>
 											<li>One special character</li>
 											<li>8 minimum characters</li>
 										</ul>
