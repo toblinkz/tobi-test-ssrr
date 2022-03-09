@@ -113,14 +113,14 @@ export default {
 			}
 		},
 		validatePassword(value) {
-			if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#@$%^&*])(?=.{8,})/.test(value)) {
+			if ( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#@$%^_&*-])(?=.{8,})/.test(value)){
 				this.error_message['password'] = '';
 				this.hasPasswordError = false;
-				return;
 			}
-			this.error_message['password'] = 'Password is too weak';
-			this.hasPasswordError = true;
-
+			else {
+				this.error_message['password'] = 'Password is too weak';
+				this.hasPasswordError = true;
+			}
 		},
 		validateConfirmPassword() {
 			if (this.confirm_password !== this.password) {
