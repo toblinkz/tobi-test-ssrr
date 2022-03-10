@@ -145,9 +145,12 @@
               </div>
             </div>
 
-											<TransactionHistoryModal></TransactionHistoryModal>
-											<VerificationModal></VerificationModal>
-											<UpdateCompanyNameModal></UpdateCompanyNameModal>
+											<TransactionHistoryModal
+												@exported-successfully="displaySuccessModal"
+											/>
+										<SuccessModal :modal_information="successInfo"/>
+											<VerificationModal/>
+											<UpdateCompanyNameModal/>
           </div>
   </div>
 </template>
@@ -163,10 +166,12 @@
 				import TransactionHistoryModal from "../../../components/modals/TransactionHistoryExportModal";
 				import VerificationModal from "~/components/modals/VerificationModal";
 				import UpdateCompanyNameModal from "../../../components/index/modals/UpdateCompanyNameModal";
+				import SuccessModal from "~/components/modals/SuccessModal";
     export default {
         name: "history",
 					   middleware: ['auth', 'inactive_user', 'permission'],
         components: {
+									SuccessModal,
 									UpdateCompanyNameModal,
 									VerificationModal,
 									TransactionHistoryModal,
@@ -183,6 +188,7 @@
             amount_funded:'',
             showPagination: true,
 												show_shimmer: true,
+											 successInfo: 'Your wallet transaction history has been sent to your mail',
 											 customer_permissions: localStorage.getItem('permissions'),
           }
       },
@@ -210,6 +216,10 @@
 								}
 							},
 
+							displaySuccessModal(){
+								  this.$modal.hide('transaction-history-modal');
+									 this.$modal.show('success-modal');
+							},
         async getWalletTransactionByDate(){
 
 									try

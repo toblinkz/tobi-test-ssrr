@@ -14,6 +14,12 @@
 							<option >Debit</option>
 							<option >Credit</option>
 						</select>
+						<label>Select Year</label>
+						<select class="form-control" @change="onChangeYear($event)">
+							<option >2020</option>
+							<option >2021</option>
+							<option >2022</option>
+						</select>
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -21,8 +27,10 @@
 						<label>Number of records</label>
 						<input type="text" class="form-control"  v-model="no_of_records" :class="{'error' : hasRecordsError}">
 						<span class=" error_field_message" v-if="error_message.records">{{error_message.records}}</span>
-						<label>Date Range</label>
-						<date-picker v-model="date_time" value-type="YYYY-MM-DD HH:mm:ss" type="datetime" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
+						<label>Select Month</label>
+						<select  class="form-control" @change="onChangeMonth($event)">
+							<option v-for="(month, index) in months" :value="index + 1">{{month}}</option>
+						</select>
 					</div>
 				</div>
 			</div>
@@ -34,7 +42,6 @@
 									</span>
 				</button>
 				<button type="button" class="btn btn-default" @click="close">Close</button>
-				<a  v-show="exportUrlReady" :href="exportUrl" target="_blank"  class="btn btn-primary" download>Download</a>
 			</div>
 		</form>
 	</modal>
@@ -47,14 +54,16 @@
 									components:{DatePicker},
 								data(){
         	return{
-										date_time: null,
+										year: 2020,
+										month: 1,
 										no_of_records: 100,
 										isLoading: false,
 										transaction_type:'All',
 										exportUrl: '',
 										hasRecordsError: false,
 										exportUrlReady: false,
-										error_message: []
+										error_message: [],
+          months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 									}
 								},
 					watch:{
@@ -64,7 +73,7 @@
 					},
 					computed:{
        isDisabled:function () {
-											return(this.no_of_records === '' || this.date_time == null || this.hasRecordsError)
+											return(this.no_of_records === ''  || this.hasRecordsError)
 							}
 					},
 					methods:{
@@ -106,24 +115,28 @@
 										}
 							}
 							},
+						 onChangeYear(year){
+							   this.year = year.target.value;
+							},
+
+						onChangeMonth(month){
+						   this.month = month.target.value;
+						},
+
 						async getExportUrl(){
 							try{
 								 this.exportUrlReady = false;
 								 this.isLoading = true;
-
 								 let data = await this.$axios.$post('billing/wallet/transactions/export', {
 								 	type: this.transaction_type,
-										date_from: this.date_time[0],
-										date_to: this.date_time[1],
+										month: this.month,
+										year: this.year,
 										number_of_records: this.no_of_records,
 										});
-
 								 this.isLoading = false;
-
+								this.$emit('exported-successfully');
 								 this.exportUrlReady = true;
-
 								 this.exportUrl = encodeURI(data.data.file_url);
-
 
 							}catch (e){
 								this.isLoading = false;
