@@ -29,10 +29,10 @@
 		<img src="/images/icons/svg_icons/overflow-menu-vertical.svg" alt="" @click="toggleMenu">
 
 		<div class="menu" v-if="isMenuOpen">
-			<nuxt-link :to="'campaign/history/' + campaign_id" class="menu-option view-report">
+			<a @click="storeCreatedAtAndShowInsight"  class="menu-option view-report">
 				<img src="/images/icons/svg_icons/entypo_popup.svg" alt="">
 				<p>View report</p>
-			</nuxt-link>
+			</a>
 
 			<div v-if="campaign_status === 'Scheduled'" class="menu-option delete-campaign" @click="showDeleteModal">
 				<img src="/images/icons/svg_icons/delete-icon.svg" alt="">
@@ -76,6 +76,10 @@ export default {
 		},
 		closeMenu() {
 			this.isMenuOpen = false
+		},
+		storeCreatedAtAndShowInsight(){
+			 this.$store.commit('setCampaignCreatedDate', this.created_at);
+			 this.$router.push('campaign/history/' + this.campaign_id)
 		}
 	},
 

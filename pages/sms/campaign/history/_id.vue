@@ -135,6 +135,7 @@
 				import PieChartPlaceHolder from "../../../../components/general/PieChartPlaceHolder";
 				import Pagination from "../../../../components/general/Pagination";
 				import VerificationModal from "~/components/modals/VerificationModal";
+				import moment from "moment";
     export default {
         name: "manage-campaign",
 					   middleware: ['auth', 'inactive_user', 'permission'],
@@ -271,8 +272,7 @@
 								this.$modal.show('verification-id-modal');
 							}else {
 								this.fetch();
-								this.$store.commit('setCampaignCreatedDate', this.$route.params.created_at);
-								this.triggered_date = moment(this.getCampaignCreatedDate).format('lll');
+								this.triggered_date = moment(this.$store.state.campaign_report_created).format('lll');
 							}
 
       },

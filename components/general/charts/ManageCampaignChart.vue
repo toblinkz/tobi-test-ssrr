@@ -3,7 +3,7 @@
 			<PieChartPlaceHolder v-if="!show_shimmer">
 
 			</PieChartPlaceHolder>
-    <canvas id="ManageCampaignChart" width="100%" height="100%" v-else>
+    <canvas id="ManageCampaignChart"  v-else>
 
     </canvas>
   </div>
@@ -15,7 +15,7 @@
 				import BarChart from "./PieChart";
 
     export default {
-        name: "ManageCampaignChart",
+					name: "ManageCampaignChart",
 					components: {BarChart, PieChartPlaceHolder},
 					data(){
        return{
