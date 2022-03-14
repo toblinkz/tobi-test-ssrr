@@ -66,7 +66,7 @@
 																																				</div>
 																																				<!--End Get Account Number Button-->
 
-																																				<TransactionGuide></TransactionGuide>
+																																				<TransactionGuide :has-nuban="has_nuban"></TransactionGuide>
 																																			</div>
 
 																																		</div>
