@@ -12,7 +12,9 @@ export default {
 		meta: [
 			{ charset: 'utf-8' },
 			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
-			{ hid: 'description', name: 'description', content:  'Termii helps teams drive repeat interaction with customers through personalized email, voice, text, and instant messages.' }
+			{ hid: 'description', name: 'description', content:  'Termii helps teams drive repeat interaction with customers through personalized email, voice, text, and instant messages.' },
+			{ 'http-equiv': 'Content-Security-Policy', content: "frame-ancestors 'none';"},
+			{ 'http-equiv': 'X-Frame-Options', content: "none"}
 		],
 		script: [
 			{src: '/js/intercom.js'},
