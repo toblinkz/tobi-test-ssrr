@@ -12,6 +12,7 @@ import {CouponService} from "../services/coupon.service";
 import {VoiceOtpService} from "../services/sandbox/voice-otp.service";
 import {SmsSandboxService} from "../services/sandbox/sms.service";
 import {CampaignService} from "../services/campaign.service";
+import {KYCService} from "@/services/kyc.service";
 
 export default ({ app: { $axios, $toast, $config } }, inject) => {
 	// pass $axios as a dependency to the BillingService constructor
@@ -28,6 +29,7 @@ export default ({ app: { $axios, $toast, $config } }, inject) => {
 	const insight = new InsightService($axios)
 	const coupon = new CouponService($axios)
 	const campaign = new CampaignService($axios, $config)
+	const kyc = new KYCService($axios)
 
 	// inject the service, making it available in the context, component, store, etc.
 	inject('billing', billing)
@@ -43,4 +45,5 @@ export default ({ app: { $axios, $toast, $config } }, inject) => {
 	inject('voiceOTP', voiceOTP)
 	inject('smsSandbox', smsSandbox)
 	inject('campaign', campaign)
+	inject('kyc', kyc)
 }

@@ -31,6 +31,11 @@
 									<i class="icon-notification2 icon"></i> Email Notification
 								</nuxt-link>
 							</li>
+							<li rel0="AccountController/api">
+								<nuxt-link to="/account/kyc" class="level-1  ">
+									<i class="icon-notification2 icon"></i> KYC
+								</nuxt-link>
+							</li>
       </ul>
   </div>
 </template>
