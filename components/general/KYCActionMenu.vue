@@ -13,7 +13,7 @@
 				<p>Update</p>
 			</div>
 
-			<div class="menu-option" @click="deleteFunc" v-if="documentObject.status !== 'APPROVED'">
+			<div class="menu-option" @click="deleteFunc" v-if="documentObject.status === 'PENDING'">
 				<img src="/images/icons/svg_icons/delete-icon.svg" alt="">
 				<p>Delete</p>
 			</div>
