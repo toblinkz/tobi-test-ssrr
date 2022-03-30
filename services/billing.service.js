@@ -67,6 +67,23 @@ export class BillingService {
 		 return this.$axios.$get('billing/top-up/plans');
 	}
 
+	async setWalletBalanceNotificationFrequency(frequency, given_time, channel, channel_item){
+      return this.$axios.$post('wallet-notification', {
+							  frequency: frequency,
+							  given_time: given_time,
+									channel: channel,
+									channel_item: channel_item
+						});
+	}
+
+	async getWalletBalanceNotificationFrequency(){
+		  return this.$axios.$get('wallet-notification');
+	}
+
+	async deleteWalletBalanceNotification(notificationId){
+		  return this.$axios.$delete(`wallet-notification/${notificationId}`)
+	}
+
 
 
 }
