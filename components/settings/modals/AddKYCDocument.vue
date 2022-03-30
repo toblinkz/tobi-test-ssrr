@@ -22,7 +22,7 @@
 							<input
 								v-model="nameOfFile"
 								class="form-control"
-								placeholder="Document name should not exceed 9 characters"
+								placeholder="Should not exceed 9 characters"
 							/>
 						</div>
 
@@ -31,9 +31,9 @@
 							<br>
 							<ul>
 								<li>NCC License</li>
-								<li>Payment License (CBN/Money Lender/Co-operative license/SEC, etc.)</li>
+								<li>Payment License</li>
 								<li>CAC document or certificate</li>
-								<li>Letter of Authorization (Signed Copy)</li>
+								<li>Letter of Authorization (Signed)</li>
 								<li>Trade License</li>
 								<li>NOC (No Objection Certificate)</li>
 							</ul>

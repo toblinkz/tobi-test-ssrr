@@ -18,7 +18,7 @@
 				'kyc--add-document--center': this.isKYCListIsEmpty
 			}"
 			>
-				<i class="fa fa-plus" style="margin-right: 10px"></i> Submit a new Document
+				<i class="fa fa-plus" style="margin-right: 10px"></i> Submit a New Document
 			</div>
 		</div>
 
