@@ -61,7 +61,7 @@ export default {
 }
 .sidebar-product-item-menu-container > li > a {
 	display: block;
-	padding: 0.4em 2em;
+	padding: 0.4em 1em;
 	font-size: 14px;
 	font-weight: 100;
 	color: #FFFFFF;

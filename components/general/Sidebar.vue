@@ -40,8 +40,8 @@
 
 						<SidebarProductItem item-name="Tokens" icon-name="entypo-shareable" :product-number = 2>
 							<template v-slot:menu-item>
-								<li><nuxt-link to="/tokens/overview"><i class="entypo-layout m-r-10 "></i>Overview</nuxt-link></li>
-								<li><nuxt-link to="/tokens/logs"><i class="fa fa-tty m-r-15"></i>Logs</nuxt-link></li>
+<!--								<li><nuxt-link to="/tokens/overview"><i class="entypo-layout m-r-10 "></i>Overview</nuxt-link></li>-->
+<!--								<li><nuxt-link to="/tokens/logs"><i class="fa fa-tty m-r-15"></i>Logs</nuxt-link></li>-->
 								<li><a href="https://developers.termii.com/token" target="_blank"><i class="entypo-users m-r-10"></i>Api Documentation</a></li>
 							</template>
 						</SidebarProductItem>
