@@ -7,7 +7,7 @@
               'status--declined': this.statusValue === 'DECLINED',
             }"
 	>
-		{{statusValue}}
+		{{ statusValue }}
 	</p>
 </template>
 
@@ -29,14 +29,16 @@ export default {
 	padding: 2px 10px;
 	border-radius: 20px;
 	font-weight: 600;
-	font-size: 11px;
-	height: 20px;
+	font-size: 11px !important;
+	width: 88px !important;
+	/*height: 20px;*/
 	color: #FFFFFF;
 	text-transform: uppercase;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	background-color: #4CAF50;
 }
 
 .status--approved {
