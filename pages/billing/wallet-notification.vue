@@ -1,9 +1,9 @@
 <template>
 	<div class="wallet-notification-container">
 		<div class="text-center">
-			<p id="welcome" style="margin-top: 10px;margin-bottom: 15px"><i class="entypo-list-add"></i> Get Balance Notification Here</p>
-			<p>Receive Notifications when you hit your wallet limit!</p>
-			<p>Also set your account to auto-recharge so you don't miss a thing<br></p>
+			<p id="welcome" style="margin-top: 10px;margin-bottom: 15px"><i class="entypo-list-add"></i> Set Balance Notification</p>
+			<p>Keep tabs on your Wallet Balance on the go!</p>
+			<p>Receive updates at a customized frequency and on your preferred notification channel.<br></p>
 		</div>
 
 		<TableVuePlaceHolder  v-if="showShimmer" style="padding: 3em 6em" ></TableVuePlaceHolder>
