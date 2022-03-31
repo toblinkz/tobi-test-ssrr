@@ -30,6 +30,10 @@ function hasAccess(route_name){
 			return customer_permissions.includes('view_invoice');
 		case "invoices-view-id":
 			return customer_permissions.includes('view_invoice');
+		case "tokens-overview":
+			return customer_permissions.includes('view_invoice');
+		case "tokens-logs":
+			return customer_permissions.includes('view_invoice');
 		case "invoices-iprint-id":
 			return customer_permissions.includes('view_invoice');
 		case "billing-transactions-history":
