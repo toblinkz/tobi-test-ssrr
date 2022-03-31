@@ -14,7 +14,6 @@
 						<input
 							v-model="nameOfFile"
 							class="form-control"
-							placeholder="eg. Termii (Ensure your ID is not more than 9 characters)"
 						/>
 					</div>
 

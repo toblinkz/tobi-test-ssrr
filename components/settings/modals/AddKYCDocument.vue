@@ -22,7 +22,6 @@
 							<input
 								v-model="nameOfFile"
 								class="form-control"
-								placeholder="Should not exceed 9 characters"
 							/>
 						</div>
 
