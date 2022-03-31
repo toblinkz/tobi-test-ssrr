@@ -1,13 +1,17 @@
 <template>
-	<div @click="toggleSidebarItemMenu">
-				<nuxt-link :to="routeName" class="sidebar-item-container" :class="{ 'sidebar-item-margin':!isMainItem, 'sidebar-item-color': isMainItem, 'sidebar-main-item-margin':isMainItem}">
-					<div class="name-color"><i :class="iconName" class="m-r-10"></i> {{itemName}}</div>
-					<slot name="caret-icon"></slot>
-				</nuxt-link>
-				<div class="sidebar-item-menu-container" v-if="showSidebarItemMenu">
-						<slot name="sidebar-item-menu"></slot>
-				</div>
-	</div>
+		<div>
+			  <a v-if="hasMenuItem" @click="toggleSidebarItemMenu" class="sidebar-item-container" :class="{ 'sidebar-item-margin':!isMainItem, 'sidebar-item-color': isMainItem, 'sidebar-main-item-margin':isMainItem}">
+						<div class="name-color"><i :class="iconName" class="m-r-10"></i> {{itemName}}</div>
+						<slot name="caret-icon"></slot>
+					</a>
+					<nuxt-link v-if="!hasMenuItem" :to="routeName" class="sidebar-item-container " :class="{ 'sidebar-item-margin':!isMainItem, 'sidebar-item-color': isMainItem, 'sidebar-main-item-margin':isMainItem}">
+						<div class="name-color"><i :class="iconName" class="m-r-10"></i> {{itemName}}</div>
+						<slot name="caret-icon"></slot>
+					</nuxt-link>
+					<div class="sidebar-item-menu-container" v-if="showSidebarItemMenu && hasMenuItem">
+							<slot name="sidebar-item-menu"></slot>
+					</div>
+		</div>
 </template>
 
 <script>
@@ -15,20 +19,32 @@ export default {
 	name: "SidebarItem",
 	data(){
 		return{
-			 showSidebarItemMenu: false
+			 showSidebarItemMenu: false,
 		}
 	},
 	methods:{
 		toggleSidebarItemMenu(){
 			 this.showSidebarItemMenu = !this.showSidebarItemMenu;
-		}
+		},
+		close (e) {
+			if (!this.$el.contains(e.target)){
+				this.showSidebarItemMenu = false;
+			}
+		},
+	},
+	mounted () {
+		document.addEventListener('click', this.close)
+	},
+	beforeDestroy () {
+		document.removeEventListener('click',this.close)
 	},
 	props:{
 		isUpdated: Boolean,
-		itemName: String,
-		iconName: String,
+		itemName:  String,
+		iconName:  String,
 		routeName: String,
-		isMainItem: Boolean
+		isMainItem: Boolean,
+		hasMenuItem: Boolean
 	},
 }
 </script>

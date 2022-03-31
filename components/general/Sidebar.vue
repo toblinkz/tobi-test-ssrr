@@ -10,7 +10,7 @@
 						</div>
 			  	<p v-if="!show_company_name" class="company-name">{{company_name}}</p>
 				  <p v-if="isAdmin && show_company_name" class="company-name mt-10 " style="color: #d3d3d3; cursor:pointer" @click="showUpdateCompanyNameModal"><i class="entypo-plus"></i>Company Name <span class="badge badge-sm badge-sidebar">New</span></p>
-							<SidebarItem item-name="Wallet" icon-name="entypo-cc" :is-main-item=true route-name="/">
+							<SidebarItem item-name="Wallet" icon-name="entypo-cc" :has-menu-item=true :is-main-item=true route-name="/">
 										<template v-slot:caret-icon >
 											<i class="caret"></i>
 										</template>
@@ -26,52 +26,68 @@
 										</template>
 							</SidebarItem>
 
-				 <div class="mt-20" style="overflow: auto; height: 540px">
+				 <div class="mt-20" id="sidebarScroll" style="overflow-y: auto;">
 						<SidebarProductItem item-name="Switch" icon-name="entypo-switch" :product-number = 1>
 								<template v-slot:menu-item>
 									<li><nuxt-link to="/sms/sender-id-management"><i class="entypo-list m-r-10"></i>Setup Sender IDs</nuxt-link></li>
 									<li><nuxt-link to="/devices"><i class="fa fa-barcode m-r-15 "></i>WhatsApp Devices</nuxt-link></li>
 									<li><nuxt-link to="/my-number"><i class="fa fa-tty m-r-15"></i>Rent a Number</nuxt-link></li>
-									<li><nuxt-link to="/billing/fund"><i class="entypo-users m-r-10"></i>Manage Contacts</nuxt-link></li>
+									<li><nuxt-link to="/phone-book"><i class="entypo-user-add m-r-10"></i>View Contacts</nuxt-link></li>
+									<li><nuxt-link to="/sms/import-contacts"><i class="entypo-upload m-r-10"></i>Import Contacts</nuxt-link></li>
 									<li><nuxt-link to="/message/select-type"><i class="entypo-paper-plane m-r-10"></i>Compose Message</nuxt-link></li>
 								</template>
 						</SidebarProductItem>
 
 						<SidebarProductItem item-name="Tokens" icon-name="entypo-shareable" :product-number = 2>
 							<template v-slot:menu-item>
-								<li><nuxt-link to="/billing/fund"><i class="fa fa-barcode m-r-15 "></i>Overview</nuxt-link></li>
-								<li><nuxt-link to="/billing/fund"><i class="fa fa-tty m-r-15"></i>Logs</nuxt-link></li>
-								<li><nuxt-link to="/billing/fund"><i class="entypo-users m-r-10"></i>Api Documentation</nuxt-link></li>
+								<li><nuxt-link to="/tokens/overview"><i class="entypo-layout m-r-10 "></i>Overview</nuxt-link></li>
+								<li><nuxt-link to="/tokens/logs"><i class="fa fa-tty m-r-15"></i>Logs</nuxt-link></li>
+								<li><a href="https://developers.termii.com/token" target="_blank"><i class="entypo-users m-r-10"></i>Api Documentation</a></li>
 							</template>
 						</SidebarProductItem>
 
 						<SidebarProductItem item-name="Insight" icon-name="entypo-light-up" :product-number = 3>
 							<template v-slot:menu-item>
-								<li><nuxt-link to="/billing/fund"><i class="fa fa-barcode m-r-15 "></i>Overview</nuxt-link></li>
-								<li><nuxt-link to="/billing/fund"><i class="fa fa-tty m-r-15"></i>Message Report</nuxt-link></li>
-								<li><nuxt-link to="/billing/fund"><i class="entypo-users m-r-10"></i>Campaign</nuxt-link></li>
+								<li><nuxt-link to="/sms/insights"><i class="entypo-layout m-r-10 "></i>Overview</nuxt-link></li>
+								<li><nuxt-link to="/sms/history"><i class="entypo-chart-area m-r-10"></i>Message Report</nuxt-link></li>
+								<li><nuxt-link to="/sms/campaign-reports"><i class="entypo-chart-pie m-r-10"></i>Campaign Report</nuxt-link></li>
 							</template>
 						</SidebarProductItem>
+
 						<hr class="mb-10 mt-10">
 
-						<SidebarItem item-name="Sandbox" icon-name="icon-gift" :is-main-item=false route-name="/sandbox"/>
-						<SidebarItem item-name="Teams" icon-name="entypo-user-add" :is-main-item=false route-name="/teams"/>
-						<SidebarItem item-name="Countries" icon-name="entypo-globe" :is-main-item=false route-name="/sms/countries"/>
-						<SidebarItem item-name="Developers" icon-name="entypo-code" :is-main-item=false route-name="/sandbox"/>
-						<SidebarItem item-name="Settings" icon-name="entypo-cog" :is-main-item=false route-name="/sandbox"/>
-						<SidebarItem item-name="Community" icon-name="entypo-users" :is-main-item=false route-name="/sandbox"/>
+						<SidebarItem item-name="Sandbox" icon-name="icon-gift" :has-menu-item=false :is-main-item=false route-name="/sandbox">
+							<template v-slot:caret-icon >
+								 <span class="badge badge-sm badge-sidebar">New</span>
+							</template>
+						</SidebarItem>
+						<SidebarItem item-name="Teams" icon-name="entypo-user-add" :has-menu-item=false :is-main-item=false route-name="/teams">
+								<template v-slot:caret-icon >
+									<span class="badge badge-sm badge-sidebar">New</span>
+								</template>
+						</SidebarItem>
+						<SidebarItem item-name="Countries" icon-name="entypo-globe" :has-menu-item=false :is-main-item=false route-name="/sms/countries">
+								<template v-slot:caret-icon >
+									<span class="badge badge-sm badge-sidebar">New</span>
+								</template>
+						</SidebarItem>
+						<SidebarProductItem item-name="Developers" icon-name="entypo-code" :product-number = 5>
+							<template v-slot:menu-item>
+								<li v-if="canViewDevelopersSettings"><a href="https://developers.termii.com" target="_blank" ><i class="entypo-docs m-r-10"></i> API Guide</a></li>
+								<li v-if="canViewApiConsole"><nuxt-link to="/account/api"><i class="entypo-key m-r-10"></i> Api console</nuxt-link></li>
+							</template>
+						</SidebarProductItem>
 
-						<SidebarItem item-name="Countries" icon-name="entypo-globe" :is-main-item=false route-name="/sms/countries"/>
-						<SidebarItem item-name="Developers" icon-name="entypo-code" :is-main-item=false route-name="/sandbox"/>
-						<SidebarItem item-name="Settings" icon-name="entypo-cog" :is-main-item=false route-name="/sandbox"/>
-						<SidebarItem item-name="Community" icon-name="entypo-users" :is-main-item=false route-name="/sandbox"/>
-						<SidebarItem item-name="Countries" icon-name="entypo-globe" :is-main-item=false route-name="/sms/countries"/>
-						<SidebarItem item-name="Developers" icon-name="entypo-code" :is-main-item=false route-name="/sandbox"/>
-						<SidebarItem item-name="Settings" icon-name="entypo-cog" :is-main-item=false route-name="/sandbox"/>
-						<SidebarItem item-name="Community" icon-name="entypo-users" :is-main-item=false route-name="/sandbox"/>
+					<SidebarItem item-name="Settings" icon-name="entypo-cog" :is-main-item=false route-name="/account/profile"/>
+						<div class="padd-x mb-10" style="margin-left: 1.5em">
+							<a target="_blank" class="color-a level-1 white"  href="https://join.slack.com/t/termii-loop/shared_invite/zt-imbqlf68-w4lsPkOzibBXSQohu8_8dQ">
+								<i class="entypo-users m-r-10"></i> Community</a>
+						</div>
 
 					</div>
 			</nav>
+
+
 <!--  &lt;!&ndash; BEGIN SIDEBPANEL&ndash;&gt;-->
 <!--  <nav class="page-sidebar sidebar-overflow-y  nav-block" data-pages="sidebar" :class="{'block' : menu, 'hidden': !menu}">-->
 <!--    &lt;!&ndash; BEGIN SIDEBAR MENU HEADER&ndash;&gt;-->
@@ -236,7 +252,7 @@
 										   company_name:JSON.parse(localStorage.getItem('user_data')).company.name,
 										   show_company_name: true,
 										   customer_data: [],
-										   isAdmin: JSON.parse(localStorage.getItem('user_data')).is_main
+										   isAdmin: JSON.parse(localStorage.getItem('user_data')).is_main,
 									}
 					},
       computed: {
@@ -321,6 +337,12 @@
 						},
 						showUpdateCompanyNameModal(){
 							this.$modal.show('update-company-name-modal');
+						},
+
+						handleScroll (e){
+							if (e.target.classList.contains("on-scrollbar") === false) {
+								e.target.classList.add("on-scrollbar");
+							}
 						}
 
 					},
@@ -349,9 +371,9 @@
 	display: flex;
 	flex-direction: column;
 	position: fixed;
+	height: 100%;
+	background-color: #011b33;
 	width: inherit;
-
-
 }
 .nav-header{
 	display: flex;
@@ -381,6 +403,11 @@
 	margin: -1px 0 0;
 	margin-left: 5px;
 }
+li > a:hover, .nav > li > a:focus {
+	text-decoration: none;
+	background-color: #fff;
+	color: #777 !important;
+}
 .caret:after {
 	font-size: 18px;
 	font-weight: 800;
@@ -397,180 +424,34 @@
 	display: inline-block;
 	vertical-align: middle;
 }
+.badge-sidebar{
+	background: 0 0;
+	border: 1px solid #08a4da;
+	color: #08a4da !important;
+	margin-left: 3px;
+	margin-top: -2px;
+}
+.badge{
+	display: inline-block;
+	min-width: 10px;
+	padding: 1px 5px;
+	font-size: 12px;
+	color: #08a4da;
+	border-radius: 10px;
+}
 hr{
 	border-color: rgba(28,60,90,.50196);
 	width: 100%;
 }
 
-
-  /*@import "../../assets/css/general_style/divpages.css";*/
-
-  /*.nav {*/
-  /*  margin-bottom: 0;*/
-  /*  padding-left: 0;*/
-  /*  list-style: none;*/
-  /*}*/
-
-  /*.nav > li > a {*/
-  /*  position: relative;*/
-  /*  display: block;*/
-  /*  padding: 7px 15px;*/
-  /*}*/
-  /*.color-a {*/
-  /*  color: #fff !important;*/
-  /*}*/
-		/*.hr-style{*/
-
-		/*}*/
-  /*.btn-primary {*/
-  /*  color: #fff;*/
-  /*  background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;*/
-  /*  box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);*/
-  /*}*/
-  /*.bord {*/
-  /*  border-radius: 5px 0px 0px 5px !important;*/
-  /*  border: none !important;*/
-  /*}*/
-
-  /*.caret {*/
-  /*  font-style: normal;*/
-  /*  font-weight: normal;*/
-  /*  border: 0;*/
-  /*  margin: 0;*/
-  /*  width: auto;*/
-  /*  height: auto;*/
-  /*  text-align: center;*/
-  /*  margin-top: -1px;*/
-  /*}*/
-  /*.caret {*/
-  /*  margin-left: 5px;*/
-  /*}*/
-  /*.caret:after {*/
-  /*  font-size: 18px;*/
-  /*  font-weight: 800;*/
-  /*}*/
-  /*.caret:after {*/
-  /*  content: '\e9c5';*/
-  /*  font-family: 'icomoon';*/
-  /*  display: block;*/
-  /*  font-size: 16px;*/
-  /*  line-height: 1;*/
-  /*  -webkit-font-smoothing: antialiased;*/
-  /*  -moz-osx-font-smoothing: grayscale;*/
-  /*}*/
-  /*.caret{*/
-  /*  display: inline-block;*/
-  /*  vertical-align: middle;*/
-  /*}*/
-  /*.navbar-nav > .dropdown-user > a > span {*/
-  /*  display: inline-block;*/
-  /*  padding-left: 7px;*/
-  /*}*/
-  /*.btn-primary .badge {*/
-  /*  color: #2196F3;*/
-  /*  background-color: #fff;*/
-  /*}*/
-  /*.badge, .label {*/
-  /*  line-height: 1;*/
-  /*  white-space: nowrap;*/
-  /*  text-align: center;*/
-  /*}*/
-  /*.badge {*/
-  /*  display: inline-block;*/
-  /*  min-width: 10px;*/
-  /*  padding: 3px 7px;*/
-  /*  font-size: 12px;*/
-  /*  color: #08a4da;*/
-  /*  border-radius: 10px;*/
-  /*}*/
-  /*.badge, .fa-stack {*/
-  /*  vertical-align: middle;*/
-  /*}*/
-  /*.badge-sm {*/
-  /*  font-size: 85%;*/
-  /*  padding: 2px 5px!important;*/
-  /*}*/
-  /*.badge {*/
-  /*  letter-spacing: 0.1px;*/
-  /*  border: 1px solid transparent;*/
-  /*}*/
-  /*.badge-sidebar {*/
-  /*  background: 0 0;*/
-  /*  border: 1px solid #08a4da;*/
-  /*  color: #08a4da !important;*/
-  /*  margin-left: 3px;*/
-  /*  margin-top: -2px;*/
-  /*}*/
-  /*.dropdown-menu > li {*/
-  /*  position: relative;*/
-  /*  margin-bottom: 1px;*/
-  /*}*/
-  /*.btn-primary:active:hover,*/
-  /*.btn-primary.active:hover,*/
-  /*.open > .dropdown-toggle.btn-primary:hover,*/
-  /*.btn-primary:active:focus,*/
-  /*.btn-primary.active:focus,*/
-  /*.open > .dropdown-toggle.btn-primary:focus,*/
-  /*.btn-primary:active.focus,*/
-  /*.btn-primary.active.focus,*/
-  /*.open > .dropdown-toggle.btn-primary.focus {*/
-  /*  color: #fff;*/
-  /*  background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;*/
-  /*  box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);*/
-  /*  border: 1px solid transparent !important;*/
-  /*}*/
-  /*.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {*/
-  /*  background-color: transparent;*/
-  /*  border-color: transparent;*/
-  /*  color: #333333;*/
-  /*}*/
-  /*.btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {*/
-  /*  color: #fff;*/
-  /*  background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;*/
-  /*  box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);*/
-  /*  border: 1px solid transparent !important;*/
-  /*}*/
-  /*.nav > li > a:hover, .nav > li > a:focus {*/
-  /*  text-decoration: none;*/
-  /*  background-color: #fff;*/
-  /*  color: #777 !important;*/
-  /*}*/
-  /*.sidebar-help-button {*/
-  /*  height: 35px;*/
-  /*  line-height: 35px;*/
-  /*  border-radius: 5px;*/
-  /*  background: #1a3d5d;*/
-  /*  display: inline-block;*/
-  /*  font-size: 13px;*/
-  /*  color: #fff !important;*/
-  /*  font-weight: 700;*/
-  /*  box-shadow: 0 5px 6px rgba(0,0,0,.05);*/
-  /*  position: relative;*/
-  /*  padding: 0 28px;*/
-  /*  margin-left: 35px;*/
-  /*  text-align: right;*/
-  /*  transition: all .3s;*/
-  /*  -webkit-transition: all .3s;*/
-  /*  transform: translateY(-55px);*/
-  /*  -webkit-transform: translateY(-55px);*/
-  /*}*/
-
-  /*@media (min-width: 769px){*/
-  /*  .nav > li {*/
-  /*    position: relative;*/
-  /*    display: block;*/
-  /*  }*/
-		/*	.nav-block{*/
-		/*		display: block !important;*/
-		/*	}*/
-  /*}*/
-		/*@media (max-width: 768px){*/
-
-		/*	.sidebar-overflow-y{*/
-		/*		overflow-y: auto !important;*/
-		/*	}*/
-		/*}*/
-
+::-webkit-scrollbar {
+	width: 3px;
+	height: 3px;
+}
+::-webkit-scrollbar-thumb {
+	background: #e4e4e4;
+	border-radius: 3px;
+}
 
 
 

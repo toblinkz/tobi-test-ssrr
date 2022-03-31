@@ -18,17 +18,28 @@ export default {
 }
 </script>
 <style>
+
 .layout-container{
 	display: flex;
 	width: 100%;
-	height: 100vh;
+	height: 100%;
 }
+
 .sidebar-container{
 	width: 17%;
 	background-color: #011b33;
-	overflow: auto;
- }
+}
+
+/*::-webkit-scrollbar {*/
+/*	width: 0;*/
+/*}*/
+
+::-webkit-scrollbar {
+	display: none;
+}
+
 .main-container{
 	width: 83%;
+
 }
 </style>
