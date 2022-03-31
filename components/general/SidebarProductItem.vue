@@ -1,6 +1,6 @@
 <template>
-	 <div @click="toggleMenuItem">
-				<div class="sidebar-item-container">
+	 <div>
+				<div class="sidebar-item-container"  @click="toggleMenuItem">
 					<div class="name-color"><i :class="iconName" class="m-r-10"></i> {{itemName}}</div>
 					<i class="caret"></i>
 				</div>
@@ -56,6 +56,7 @@ export default {
 	min-width: 160px;
 	list-style: none;
 	font-size: 13px;
+	margin-top: 0.5em;
 	margin-left: 2em;
 }
 .sidebar-product-item-menu-container > li > a {

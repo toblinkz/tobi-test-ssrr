@@ -25,21 +25,23 @@
 											<li v-if="canAccessBalanceLimit"><nuxt-link to="/billing/balance-limit"><i class="entypo-key"></i> Alert <span class="badge badge-sm badge-sidebar">New</span></nuxt-link></li>
 										</template>
 							</SidebarItem>
-				 <div style="overflow: scroll">
+
+				 <div class="mt-20" style="overflow: auto; height: 540px">
 						<SidebarProductItem item-name="Switch" icon-name="entypo-switch" :product-number = 1>
-							<template v-slot:menu-item>
-								<li><nuxt-link to="/billing/fund"><i class="fa fa-barcode m-r-15 "></i>WhatsApp Devices</nuxt-link></li>
-								<li><nuxt-link to="/billing/fund"><i class="fa fa-tty m-r-15"></i>Rent a Number</nuxt-link></li>
-								<li><nuxt-link to="/billing/fund"><i class="entypo-users m-r-15"></i>Manage Contacts</nuxt-link></li>
-								<li><nuxt-link to="/billing/fund"><i class="entypo-paper-plane m-r-15"></i>Compose Message</nuxt-link></li>
-							</template>
+								<template v-slot:menu-item>
+									<li><nuxt-link to="/sms/sender-id-management"><i class="entypo-list m-r-10"></i>Setup Sender IDs</nuxt-link></li>
+									<li><nuxt-link to="/devices"><i class="fa fa-barcode m-r-15 "></i>WhatsApp Devices</nuxt-link></li>
+									<li><nuxt-link to="/my-number"><i class="fa fa-tty m-r-15"></i>Rent a Number</nuxt-link></li>
+									<li><nuxt-link to="/billing/fund"><i class="entypo-users m-r-10"></i>Manage Contacts</nuxt-link></li>
+									<li><nuxt-link to="/message/select-type"><i class="entypo-paper-plane m-r-10"></i>Compose Message</nuxt-link></li>
+								</template>
 						</SidebarProductItem>
 
 						<SidebarProductItem item-name="Tokens" icon-name="entypo-shareable" :product-number = 2>
 							<template v-slot:menu-item>
 								<li><nuxt-link to="/billing/fund"><i class="fa fa-barcode m-r-15 "></i>Overview</nuxt-link></li>
 								<li><nuxt-link to="/billing/fund"><i class="fa fa-tty m-r-15"></i>Logs</nuxt-link></li>
-								<li><nuxt-link to="/billing/fund"><i class="entypo-users m-r-15"></i>Api Documentation</nuxt-link></li>
+								<li><nuxt-link to="/billing/fund"><i class="entypo-users m-r-10"></i>Api Documentation</nuxt-link></li>
 							</template>
 						</SidebarProductItem>
 
@@ -47,7 +49,7 @@
 							<template v-slot:menu-item>
 								<li><nuxt-link to="/billing/fund"><i class="fa fa-barcode m-r-15 "></i>Overview</nuxt-link></li>
 								<li><nuxt-link to="/billing/fund"><i class="fa fa-tty m-r-15"></i>Message Report</nuxt-link></li>
-								<li><nuxt-link to="/billing/fund"><i class="entypo-users m-r-15"></i>Campaign</nuxt-link></li>
+								<li><nuxt-link to="/billing/fund"><i class="entypo-users m-r-10"></i>Campaign</nuxt-link></li>
 							</template>
 						</SidebarProductItem>
 						<hr class="mb-10 mt-10">
