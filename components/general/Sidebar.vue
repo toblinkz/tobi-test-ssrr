@@ -1,157 +1,230 @@
 <template>
-  <!-- BEGIN SIDEBPANEL-->
-  <nav class="page-sidebar sidebar-overflow-y  nav-block" data-pages="sidebar" :class="{'block' : menu, 'hidden': !menu}">
-    <!-- BEGIN SIDEBAR MENU HEADER-->
-    <div id="user-side-bar" class="sidebar-header">
-      <center>
-        <nuxt-link to="/">
-          <img src="/images/logo.png"  width="120px"
-               height="auto">
-        </nuxt-link>
-      </center>
-    </div>
-    <!-- END SIDEBAR MENU HEADER-->
-    <!-- START SIDEBAR MENU -->
-    <div class="sidebar-menu">
-                        <span>
-           <center>
-             <img preview-for="image"  :src="imageUrl" class="circular" alt="">
-            </center>
-            </span>
-      <ul class="nav">
-        <li>
-          <div class="m-t-10 padd-x">
-            <center>
-              <p v-if="!show_company_name" class="text-center mt-10" style="color: #d3d3d3;">{{company_name}}</p>
-													 <p v-if="isAdmin && show_company_name" class="text-center mt-10 " style="color: #d3d3d3; cursor:pointer" @click="showUpdateCompanyNameModal"><i class="entypo-plus"></i>Company Name <span class="badge badge-sm badge-sidebar">New</span></p>
-													<p v-else></p>
-            </center>
-          </div>
-        </li>
-        <Dropdown>
-          <template v-if="canAccessWallet" v-slot:dropdown_title>
-            <a  class="dropdown-toggle color-a btn-primary btn-cons bord" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-cc"></i> Wallet <i class="caret"></i>
-												</span>
-												</a>
-          </template>
-          <template v-slot:dropdown_menu v-if="show_drop_down">
-            <li v-if="canTopUp"><nuxt-link to="/billing/fund"><i class="entypo-credit-card"></i> Top Up</nuxt-link></li>
-            <li v-if="canViewWalletHistory"><nuxt-link to="/billing/transactions/history" ><i class="entypo-flow-tree"></i> History</nuxt-link></li>
-            <li v-if="canAccessInvoice">
-              <nuxt-link to="/invoices/all">
-                <i class="entypo-basket"></i> Invoice
-              </nuxt-link>
-            </li>
-            <li v-if="canAccessBalanceLimit"><nuxt-link to="/billing/balance-limit"><i class="entypo-key"></i> Alert <span class="badge badge-sm badge-sidebar">New</span></nuxt-link></li>
-          </template>
-        </Dropdown>
-        <!-- BEGIN SIDEBAR MENU ITEMS-->
-        <div class="clearfix mb-30"></div>
-							<Dropdown>
-								<template v-slot:dropdown_title v-if="canViewSenderId">
-									<a data-toggle="dropdown" class="dropdown-toggle color-a"><span class="menu-text"><i class="entypo-list"></i> Setup Sender IDs
-									    <i class="caret"></i></span> </a>
-								</template>
-								<template v-slot:dropdown_menu v-if="canViewSenderId">
-									<li><nuxt-link to="/sms/sender-id-management" ><i class="entypo-list-add"></i> Sender ID</nuxt-link></li>
-
-								</template>
-							</Dropdown>
-
-							<li class="padd-x" v-if="show_drop_down" >
-								<nuxt-link  to="/devices" class="color-a level-1" v-if="canViewDevices">
-									<span> <i class="fa fa-barcode"></i> Manage Devices </span>
+			<nav class="nav-container">
+      <div  class="nav-header">
+								<nuxt-link to="/">
+									<img src="/images/logo.png" class="termii-logo" width="120"/>
 								</nuxt-link>
-							</li>
-							<li class="padd-x" v-if="show_drop_down">
-								<nuxt-link to="/my-number" class="color-a level-1" v-if="canViewNumbers">
-									<span> <i class="fa fa-tty "></i> Rent Numbers<span class="badge badge-sm badge-sidebar">New</span> </span>
-								</nuxt-link>
-							</li>
-							<Dropdown>
-								<template v-slot:dropdown_title v-if="canManageContacts">
-									<a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-users"></i> Manage Contacts
-									    <i class="caret"></i></span></a>
-								</template>
-								<template v-slot:dropdown_menu v-if="show_drop_down">
-									<li v-if="canViewContacts"><nuxt-link to="/phone-book" ><i class="entypo-user-add"></i> View contacts</nuxt-link></li>
-									<li v-if="canImportContacts"><nuxt-link to="/sms/import-contacts"><i class="entypo-upload"></i> Upload contacts</nuxt-link></li>
-								</template>
-							</Dropdown>
-        <li class="padd-x" v-if="show_drop_down" >
-          <nuxt-link v-if="canComposeMessage" to="/message/select-type" class="color-a level-1">
-            <span> <i class="entypo-paper-plane"></i> Compose message</span>
-          </nuxt-link>
-        </li>
-        <Dropdown>
-          <template v-slot:dropdown_title v-if="canViewDeliveryReport">
-            <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-chart-line"></i> Delivery Reports
-									    <i class="caret"></i></span></a>
-          </template>
-          <template v-slot:dropdown_menu v-if="show_drop_down">
-            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/history" ><i class="entypo-chart-area"></i> Message Report</nuxt-link></li>
-            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/campaign-reports"><i class="entypo-chart-pie"></i> Campaign Report</nuxt-link></li>
+							<div>
+								<img :src="imageUrl" class="circular-image"/>
+							</div>
+						</div>
+			  	<p v-if="!show_company_name" class="company-name">{{company_name}}</p>
+				  <p v-if="isAdmin && show_company_name" class="company-name mt-10 " style="color: #d3d3d3; cursor:pointer" @click="showUpdateCompanyNameModal"><i class="entypo-plus"></i>Company Name <span class="badge badge-sm badge-sidebar">New</span></p>
+							<SidebarItem item-name="Wallet" icon-name="entypo-cc" :is-main-item=true route-name="/">
+										<template v-slot:caret-icon >
+											<i class="caret"></i>
 										</template>
-        </Dropdown>
-							<li class="padd-x" v-if="canViewDeliveryReport">
-								<nuxt-link to="/sms/insights" class="color-a level-1">
-									<i class="entypo-chart-pie"></i> Insights <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
-							</li>
-        <div class="padd-x">
-          <hr class="mb-10 mt-10">
-        </div>
-							<li class="padd-x" v-if="canViewSandbox">
-								<nuxt-link to="/sandbox" class="color-a level-1">
-									<i class="icon-gift"></i>
-									Sandbox <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
-							</li>
-							<li class="padd-x" v-if="isAdmin">
-								<nuxt-link to="/teams" class="color-a level-1">
-									<i class="entypo-user-add"></i>
-									Teams <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
-							</li>
-							<li class="padd-x" v-if="canViewCountryRoutes">
-								<nuxt-link to="/sms/countries" class="color-a level-1">
-									<i class="entypo-globe"></i>
-									Countries <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>
-							</li>
-        <Dropdown>
-          <template v-slot:dropdown_title v-if="canViewDevelopersSettings">
-            <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-code"></i> Developers
-									    <i class="caret"></i></span></a>
-          </template>
-          <template v-slot:dropdown_menu v-if="show_drop_down">
-            <li v-if="canViewDevelopersSettings"><a href="https://developers.termii.com" target="_blank" ><i class="entypo-code"></i> API Guide</a></li>
-            <li v-if="canViewApiConsole"><nuxt-link to="/account/api"><i class="entypo-key"></i> Api console</nuxt-link></li>
-          </template>
-        </Dropdown>
-        <li v-if="viewSettings" class="padd-x">
-          <nuxt-link to="/account/profile" class="color-a level-1">
-            <i class="entypo-cog"></i>
-            Settings</nuxt-link>
-        </li>
-							<li class="padd-x">
-								<a target="_blank" class="color-a level-1"  href="https://join.slack.com/t/termii-loop/shared_invite/zt-imbqlf68-w4lsPkOzibBXSQohu8_8dQ">
-									<i class="entypo-users"></i> Community</a>
-							</li>
+										<template v-slot:sidebar-item-menu>
+											<li v-if="canTopUp"><nuxt-link to="/billing/fund"><i class="entypo-credit-card"></i> Top Up</nuxt-link></li>
+											<li v-if="canViewWalletHistory"><nuxt-link to="/billing/transactions/history" ><i class="entypo-flow-tree"></i> History</nuxt-link></li>
+											<li v-if="canAccessInvoice">
+												<nuxt-link to="/invoices/all">
+													<i class="entypo-basket"></i> Invoice
+												</nuxt-link>
+											</li>
+											<li v-if="canAccessBalanceLimit"><nuxt-link to="/billing/balance-limit"><i class="entypo-key"></i> Alert <span class="badge badge-sm badge-sidebar">New</span></nuxt-link></li>
+										</template>
+							</SidebarItem>
+				 <div style="overflow: scroll">
+						<SidebarProductItem item-name="Switch" icon-name="entypo-switch" :product-number = 1>
+							<template v-slot:menu-item>
+								<li><nuxt-link to="/billing/fund"><i class="fa fa-barcode m-r-15 "></i>WhatsApp Devices</nuxt-link></li>
+								<li><nuxt-link to="/billing/fund"><i class="fa fa-tty m-r-15"></i>Rent a Number</nuxt-link></li>
+								<li><nuxt-link to="/billing/fund"><i class="entypo-users m-r-15"></i>Manage Contacts</nuxt-link></li>
+								<li><nuxt-link to="/billing/fund"><i class="entypo-paper-plane m-r-15"></i>Compose Message</nuxt-link></li>
+							</template>
+						</SidebarProductItem>
+
+						<SidebarProductItem item-name="Tokens" icon-name="entypo-shareable" :product-number = 2>
+							<template v-slot:menu-item>
+								<li><nuxt-link to="/billing/fund"><i class="fa fa-barcode m-r-15 "></i>Overview</nuxt-link></li>
+								<li><nuxt-link to="/billing/fund"><i class="fa fa-tty m-r-15"></i>Logs</nuxt-link></li>
+								<li><nuxt-link to="/billing/fund"><i class="entypo-users m-r-15"></i>Api Documentation</nuxt-link></li>
+							</template>
+						</SidebarProductItem>
+
+						<SidebarProductItem item-name="Insight" icon-name="entypo-light-up" :product-number = 3>
+							<template v-slot:menu-item>
+								<li><nuxt-link to="/billing/fund"><i class="fa fa-barcode m-r-15 "></i>Overview</nuxt-link></li>
+								<li><nuxt-link to="/billing/fund"><i class="fa fa-tty m-r-15"></i>Message Report</nuxt-link></li>
+								<li><nuxt-link to="/billing/fund"><i class="entypo-users m-r-15"></i>Campaign</nuxt-link></li>
+							</template>
+						</SidebarProductItem>
+						<hr class="mb-10 mt-10">
+
+						<SidebarItem item-name="Sandbox" icon-name="icon-gift" :is-main-item=false route-name="/sandbox"/>
+						<SidebarItem item-name="Teams" icon-name="entypo-user-add" :is-main-item=false route-name="/teams"/>
+						<SidebarItem item-name="Countries" icon-name="entypo-globe" :is-main-item=false route-name="/sms/countries"/>
+						<SidebarItem item-name="Developers" icon-name="entypo-code" :is-main-item=false route-name="/sandbox"/>
+						<SidebarItem item-name="Settings" icon-name="entypo-cog" :is-main-item=false route-name="/sandbox"/>
+						<SidebarItem item-name="Community" icon-name="entypo-users" :is-main-item=false route-name="/sandbox"/>
+
+						<SidebarItem item-name="Countries" icon-name="entypo-globe" :is-main-item=false route-name="/sms/countries"/>
+						<SidebarItem item-name="Developers" icon-name="entypo-code" :is-main-item=false route-name="/sandbox"/>
+						<SidebarItem item-name="Settings" icon-name="entypo-cog" :is-main-item=false route-name="/sandbox"/>
+						<SidebarItem item-name="Community" icon-name="entypo-users" :is-main-item=false route-name="/sandbox"/>
+						<SidebarItem item-name="Countries" icon-name="entypo-globe" :is-main-item=false route-name="/sms/countries"/>
+						<SidebarItem item-name="Developers" icon-name="entypo-code" :is-main-item=false route-name="/sandbox"/>
+						<SidebarItem item-name="Settings" icon-name="entypo-cog" :is-main-item=false route-name="/sandbox"/>
+						<SidebarItem item-name="Community" icon-name="entypo-users" :is-main-item=false route-name="/sandbox"/>
+
+					</div>
+			</nav>
+<!--  &lt;!&ndash; BEGIN SIDEBPANEL&ndash;&gt;-->
+<!--  <nav class="page-sidebar sidebar-overflow-y  nav-block" data-pages="sidebar" :class="{'block' : menu, 'hidden': !menu}">-->
+<!--    &lt;!&ndash; BEGIN SIDEBAR MENU HEADER&ndash;&gt;-->
+<!--    <div id="user-side-bar" class="sidebar-header">-->
+<!--      <center>-->
+<!--        <nuxt-link to="/">-->
+<!--          <img src="/images/logo.png"  width="120px"-->
+<!--               height="auto">-->
+<!--        </nuxt-link>-->
+<!--      </center>-->
+<!--    </div>-->
+<!--    &lt;!&ndash; END SIDEBAR MENU HEADER&ndash;&gt;-->
+<!--    &lt;!&ndash; START SIDEBAR MENU &ndash;&gt;-->
+<!--    <div class="sidebar-menu">-->
+<!--                        <span>-->
+<!--           <center>-->
+<!--             <img preview-for="image"  :src="imageUrl" class="circular" alt="">-->
+<!--            </center>-->
+<!--            </span>-->
+<!--      <ul class="nav">-->
+<!--        <li>-->
+<!--          <div class="m-t-10 padd-x">-->
+<!--            <center>-->
+<!--              <p v-if="!show_company_name" class="text-center mt-10" style="color: #d3d3d3;">{{company_name}}</p>-->
+<!--													 <p v-if="isAdmin && show_company_name" class="text-center mt-10 " style="color: #d3d3d3; cursor:pointer" @click="showUpdateCompanyNameModal"><i class="entypo-plus"></i>Company Name <span class="badge badge-sm badge-sidebar">New</span></p>-->
+<!--													<p v-else></p>-->
+<!--            </center>-->
+<!--          </div>-->
+<!--        </li>-->
+<!--        <Dropdown>-->
+<!--          <template v-if="canAccessWallet" v-slot:dropdown_title>-->
+<!--            <a  class="dropdown-toggle color-a btn-primary btn-cons bord" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-cc"></i> Wallet <i class="caret"></i>-->
+<!--												</span>-->
+<!--												</a>-->
+<!--          </template>-->
+<!--          <template v-slot:dropdown_menu v-if="show_drop_down">-->
+<!--            <li v-if="canTopUp"><nuxt-link to="/billing/fund"><i class="entypo-credit-card"></i> Top Up</nuxt-link></li>-->
+<!--            <li v-if="canViewWalletHistory"><nuxt-link to="/billing/transactions/history" ><i class="entypo-flow-tree"></i> History</nuxt-link></li>-->
+<!--            <li v-if="canAccessInvoice">-->
+<!--              <nuxt-link to="/invoices/all">-->
+<!--                <i class="entypo-basket"></i> Invoice-->
+<!--              </nuxt-link>-->
+<!--            </li>-->
+<!--            <li v-if="canAccessBalanceLimit"><nuxt-link to="/billing/balance-limit"><i class="entypo-key"></i> Alert <span class="badge badge-sm badge-sidebar">New</span></nuxt-link></li>-->
+<!--          </template>-->
+<!--        </Dropdown>-->
+<!--        &lt;!&ndash; BEGIN SIDEBAR MENU ITEMS&ndash;&gt;-->
+<!--        <div class="clearfix mb-30"></div>-->
+<!--							<Dropdown>-->
+<!--								<template v-slot:dropdown_title v-if="canViewSenderId">-->
+<!--									<a data-toggle="dropdown" class="dropdown-toggle color-a"><span class="menu-text"><i class="entypo-list"></i> Setup Sender IDs-->
+<!--									    <i class="caret"></i></span> </a>-->
+<!--								</template>-->
+<!--								<template v-slot:dropdown_menu v-if="canViewSenderId">-->
+<!--									<li><nuxt-link to="/sms/sender-id-management" ><i class="entypo-list-add"></i> Sender ID</nuxt-link></li>-->
+
+<!--								</template>-->
+<!--							</Dropdown>-->
+
+<!--							<li class="padd-x" v-if="show_drop_down" >-->
+<!--								<nuxt-link  to="/devices" class="color-a level-1" v-if="canViewDevices">-->
+<!--									<span> <i class="fa fa-barcode"></i> Manage Devices </span>-->
+<!--								</nuxt-link>-->
+<!--							</li>-->
+<!--							<li class="padd-x" v-if="show_drop_down">-->
+<!--								<nuxt-link to="/my-number" class="color-a level-1" v-if="canViewNumbers">-->
+<!--									<span> <i class="fa fa-tty "></i> Rent Numbers<span class="badge badge-sm badge-sidebar">New</span> </span>-->
+<!--								</nuxt-link>-->
+<!--							</li>-->
+<!--							<Dropdown>-->
+<!--								<template v-slot:dropdown_title v-if="canManageContacts">-->
+<!--									<a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-users"></i> Manage Contacts-->
+<!--									    <i class="caret"></i></span></a>-->
+<!--								</template>-->
+<!--								<template v-slot:dropdown_menu v-if="show_drop_down">-->
+<!--									<li v-if="canViewContacts"><nuxt-link to="/phone-book" ><i class="entypo-user-add"></i> View contacts</nuxt-link></li>-->
+<!--									<li v-if="canImportContacts"><nuxt-link to="/sms/import-contacts"><i class="entypo-upload"></i> Upload contacts</nuxt-link></li>-->
+<!--								</template>-->
+<!--							</Dropdown>-->
+<!--        <li class="padd-x" v-if="show_drop_down" >-->
+<!--          <nuxt-link v-if="canComposeMessage" to="/message/select-type" class="color-a level-1">-->
+<!--            <span> <i class="entypo-paper-plane"></i> Compose message</span>-->
+<!--          </nuxt-link>-->
+<!--        </li>-->
+<!--        <Dropdown>-->
+<!--          <template v-slot:dropdown_title v-if="canViewDeliveryReport">-->
+<!--            <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-chart-line"></i> Delivery Reports-->
+<!--									    <i class="caret"></i></span></a>-->
+<!--          </template>-->
+<!--          <template v-slot:dropdown_menu v-if="show_drop_down">-->
+<!--            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/history" ><i class="entypo-chart-area"></i> Message Report</nuxt-link></li>-->
+<!--            <li v-if="canViewDeliveryReport"><nuxt-link to="/sms/campaign-reports"><i class="entypo-chart-pie"></i> Campaign Report</nuxt-link></li>-->
+<!--										</template>-->
+<!--        </Dropdown>-->
+<!--							<li class="padd-x" v-if="canViewDeliveryReport">-->
+<!--								<nuxt-link to="/sms/insights" class="color-a level-1">-->
+<!--									<i class="entypo-chart-pie"></i> Insights <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>-->
+<!--							</li>-->
+<!--        <div class="padd-x">-->
+<!--          <hr class="mb-10 mt-10">-->
+<!--        </div>-->
+<!--							<li class="padd-x" v-if="canViewSandbox">-->
+<!--								<nuxt-link to="/sandbox" class="color-a level-1">-->
+<!--									<i class="icon-gift"></i>-->
+<!--									Sandbox <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>-->
+<!--							</li>-->
+<!--							<li class="padd-x" v-if="isAdmin">-->
+<!--								<nuxt-link to="/teams" class="color-a level-1">-->
+<!--									<i class="entypo-user-add"></i>-->
+<!--									Teams <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>-->
+<!--							</li>-->
+<!--							<li class="padd-x" v-if="canViewCountryRoutes">-->
+<!--								<nuxt-link to="/sms/countries" class="color-a level-1">-->
+<!--									<i class="entypo-globe"></i>-->
+<!--									Countries <span class="badge badge-sm badge-sidebar">New</span></nuxt-link>-->
+<!--							</li>-->
+<!--        <Dropdown>-->
+<!--          <template v-slot:dropdown_title v-if="canViewDevelopersSettings">-->
+<!--            <a data-toggle="dropdown" class="dropdown-toggle color-a" :aria-disabled="isDisabled"><span class="menu-text"><i class="entypo-code"></i> Developers-->
+<!--									    <i class="caret"></i></span></a>-->
+<!--          </template>-->
+<!--          <template v-slot:dropdown_menu v-if="show_drop_down">-->
+<!--            <li v-if="canViewDevelopersSettings"><a href="https://developers.termii.com" target="_blank" ><i class="entypo-code"></i> API Guide</a></li>-->
+<!--            <li v-if="canViewApiConsole"><nuxt-link to="/account/api"><i class="entypo-key"></i> Api console</nuxt-link></li>-->
+<!--          </template>-->
+<!--        </Dropdown>-->
+<!--        <li v-if="viewSettings" class="padd-x">-->
+<!--          <nuxt-link to="/account/profile" class="color-a level-1">-->
+<!--            <i class="entypo-cog"></i>-->
+<!--            Settings</nuxt-link>-->
+<!--        </li>-->
+<!--							<li class="padd-x">-->
+<!--								<a target="_blank" class="color-a level-1"  href="https://join.slack.com/t/termii-loop/shared_invite/zt-imbqlf68-w4lsPkOzibBXSQohu8_8dQ">-->
+<!--									<i class="entypo-users"></i> Community</a>-->
+<!--							</li>-->
 
 
-        <div class="clearfix"></div>
+<!--        <div class="clearfix"></div>-->
 
-        <!-- END SIDEBAR MENU -->
-      </ul>
+<!--        &lt;!&ndash; END SIDEBAR MENU &ndash;&gt;-->
+<!--      </ul>-->
 
-    </div>
+<!--    </div>-->
 
-  </nav>
+<!--  </nav>-->
 </template>
 
 <script>
     import Dropdown from "./dropdown/Dropdown";
     import {mapGetters} from "vuex";
+				import SidebarItem from "@/components/general/SidebarItem";
+				import SidebarProductItem from "@/components/general/SidebarProductItem";
     export default {
         name: "sidebar",
-        components: { Dropdown},
+        components: {SidebarProductItem, SidebarItem, Dropdown},
 				  	data(){
         	return{
 													show_drop_down: true,
@@ -269,173 +342,232 @@
 </script>
 
 <style scoped>
-  @import "../../assets/css/general_style/divpages.css";
 
-  .nav {
-    margin-bottom: 0;
-    padding-left: 0;
-    list-style: none;
-  }
+.nav-container{
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	width: inherit;
 
-  .nav > li > a {
-    position: relative;
-    display: block;
-    padding: 7px 15px;
-  }
-  .color-a {
-    color: #fff !important;
-  }
-		.hr-style{
 
-		}
-  .btn-primary {
-    color: #fff;
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
-    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
-  }
-  .bord {
-    border-radius: 5px 0px 0px 5px !important;
-    border: none !important;
-  }
+}
+.nav-header{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.termii-logo{
+	margin: 2em 1em 2em 1em;
+}
+.circular-image{
+	border-radius: 50%;
+	width: 3.5em;
+}
+.company-name{
+	text-align: center;
+	font-size: 1.4rem;
+	color:rgb(211, 211, 211);
+	margin: 1em;
+}
+.caret{
+	font-style: normal;
+	font-weight: 400;
+	border: 0;
+	width: auto;
+	height: auto;
+	text-align: center;
+	margin: -1px 0 0;
+	margin-left: 5px;
+}
+.caret:after {
+	font-size: 18px;
+	font-weight: 800;
+	content: "\e9c5";
+	font-family: "icomoon";
+	display: block;
+	font-size: 16px;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.caret{
+	margin-top: 3px;
+	display: inline-block;
+	vertical-align: middle;
+}
+hr{
+	border-color: rgba(28,60,90,.50196);
+	width: 100%;
+}
 
-  .caret {
-    font-style: normal;
-    font-weight: normal;
-    border: 0;
-    margin: 0;
-    width: auto;
-    height: auto;
-    text-align: center;
-    margin-top: -1px;
-  }
-  .caret {
-    margin-left: 5px;
-  }
-  .caret:after {
-    font-size: 18px;
-    font-weight: 800;
-  }
-  .caret:after {
-    content: '\e9c5';
-    font-family: 'icomoon';
-    display: block;
-    font-size: 16px;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  .caret{
-    display: inline-block;
-    vertical-align: middle;
-  }
-  .navbar-nav > .dropdown-user > a > span {
-    display: inline-block;
-    padding-left: 7px;
-  }
-  .btn-primary .badge {
-    color: #2196F3;
-    background-color: #fff;
-  }
-  .badge, .label {
-    line-height: 1;
-    white-space: nowrap;
-    text-align: center;
-  }
-  .badge {
-    display: inline-block;
-    min-width: 10px;
-    padding: 3px 7px;
-    font-size: 12px;
-    color: #08a4da;
-    border-radius: 10px;
-  }
-  .badge, .fa-stack {
-    vertical-align: middle;
-  }
-  .badge-sm {
-    font-size: 85%;
-    padding: 2px 5px!important;
-  }
-  .badge {
-    letter-spacing: 0.1px;
-    border: 1px solid transparent;
-  }
-  .badge-sidebar {
-    background: 0 0;
-    border: 1px solid #08a4da;
-    color: #08a4da !important;
-    margin-left: 3px;
-    margin-top: -2px;
-  }
-  .dropdown-menu > li {
-    position: relative;
-    margin-bottom: 1px;
-  }
-  .btn-primary:active:hover,
-  .btn-primary.active:hover,
-  .open > .dropdown-toggle.btn-primary:hover,
-  .btn-primary:active:focus,
-  .btn-primary.active:focus,
-  .open > .dropdown-toggle.btn-primary:focus,
-  .btn-primary:active.focus,
-  .btn-primary.active.focus,
-  .open > .dropdown-toggle.btn-primary.focus {
-    color: #fff;
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
-    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
-    border: 1px solid transparent !important;
-  }
-  .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-    background-color: transparent;
-    border-color: transparent;
-    color: #333333;
-  }
-  .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
-    color: #fff;
-    background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;
-    box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
-    border: 1px solid transparent !important;
-  }
-  .nav > li > a:hover, .nav > li > a:focus {
-    text-decoration: none;
-    background-color: #fff;
-    color: #777 !important;
-  }
-  .sidebar-help-button {
-    height: 35px;
-    line-height: 35px;
-    border-radius: 5px;
-    background: #1a3d5d;
-    display: inline-block;
-    font-size: 13px;
-    color: #fff !important;
-    font-weight: 700;
-    box-shadow: 0 5px 6px rgba(0,0,0,.05);
-    position: relative;
-    padding: 0 28px;
-    margin-left: 35px;
-    text-align: right;
-    transition: all .3s;
-    -webkit-transition: all .3s;
-    transform: translateY(-55px);
-    -webkit-transform: translateY(-55px);
-  }
 
-  @media (min-width: 769px){
-    .nav > li {
-      position: relative;
-      display: block;
-    }
-			.nav-block{
-				display: block !important;
-			}
-  }
-		@media (max-width: 768px){
+  /*@import "../../assets/css/general_style/divpages.css";*/
 
-			.sidebar-overflow-y{
-				overflow-y: auto !important;
-			}
-		}
+  /*.nav {*/
+  /*  margin-bottom: 0;*/
+  /*  padding-left: 0;*/
+  /*  list-style: none;*/
+  /*}*/
+
+  /*.nav > li > a {*/
+  /*  position: relative;*/
+  /*  display: block;*/
+  /*  padding: 7px 15px;*/
+  /*}*/
+  /*.color-a {*/
+  /*  color: #fff !important;*/
+  /*}*/
+		/*.hr-style{*/
+
+		/*}*/
+  /*.btn-primary {*/
+  /*  color: #fff;*/
+  /*  background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;*/
+  /*  box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);*/
+  /*}*/
+  /*.bord {*/
+  /*  border-radius: 5px 0px 0px 5px !important;*/
+  /*  border: none !important;*/
+  /*}*/
+
+  /*.caret {*/
+  /*  font-style: normal;*/
+  /*  font-weight: normal;*/
+  /*  border: 0;*/
+  /*  margin: 0;*/
+  /*  width: auto;*/
+  /*  height: auto;*/
+  /*  text-align: center;*/
+  /*  margin-top: -1px;*/
+  /*}*/
+  /*.caret {*/
+  /*  margin-left: 5px;*/
+  /*}*/
+  /*.caret:after {*/
+  /*  font-size: 18px;*/
+  /*  font-weight: 800;*/
+  /*}*/
+  /*.caret:after {*/
+  /*  content: '\e9c5';*/
+  /*  font-family: 'icomoon';*/
+  /*  display: block;*/
+  /*  font-size: 16px;*/
+  /*  line-height: 1;*/
+  /*  -webkit-font-smoothing: antialiased;*/
+  /*  -moz-osx-font-smoothing: grayscale;*/
+  /*}*/
+  /*.caret{*/
+  /*  display: inline-block;*/
+  /*  vertical-align: middle;*/
+  /*}*/
+  /*.navbar-nav > .dropdown-user > a > span {*/
+  /*  display: inline-block;*/
+  /*  padding-left: 7px;*/
+  /*}*/
+  /*.btn-primary .badge {*/
+  /*  color: #2196F3;*/
+  /*  background-color: #fff;*/
+  /*}*/
+  /*.badge, .label {*/
+  /*  line-height: 1;*/
+  /*  white-space: nowrap;*/
+  /*  text-align: center;*/
+  /*}*/
+  /*.badge {*/
+  /*  display: inline-block;*/
+  /*  min-width: 10px;*/
+  /*  padding: 3px 7px;*/
+  /*  font-size: 12px;*/
+  /*  color: #08a4da;*/
+  /*  border-radius: 10px;*/
+  /*}*/
+  /*.badge, .fa-stack {*/
+  /*  vertical-align: middle;*/
+  /*}*/
+  /*.badge-sm {*/
+  /*  font-size: 85%;*/
+  /*  padding: 2px 5px!important;*/
+  /*}*/
+  /*.badge {*/
+  /*  letter-spacing: 0.1px;*/
+  /*  border: 1px solid transparent;*/
+  /*}*/
+  /*.badge-sidebar {*/
+  /*  background: 0 0;*/
+  /*  border: 1px solid #08a4da;*/
+  /*  color: #08a4da !important;*/
+  /*  margin-left: 3px;*/
+  /*  margin-top: -2px;*/
+  /*}*/
+  /*.dropdown-menu > li {*/
+  /*  position: relative;*/
+  /*  margin-bottom: 1px;*/
+  /*}*/
+  /*.btn-primary:active:hover,*/
+  /*.btn-primary.active:hover,*/
+  /*.open > .dropdown-toggle.btn-primary:hover,*/
+  /*.btn-primary:active:focus,*/
+  /*.btn-primary.active:focus,*/
+  /*.open > .dropdown-toggle.btn-primary:focus,*/
+  /*.btn-primary:active.focus,*/
+  /*.btn-primary.active.focus,*/
+  /*.open > .dropdown-toggle.btn-primary.focus {*/
+  /*  color: #fff;*/
+  /*  background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;*/
+  /*  box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);*/
+  /*  border: 1px solid transparent !important;*/
+  /*}*/
+  /*.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {*/
+  /*  background-color: transparent;*/
+  /*  border-color: transparent;*/
+  /*  color: #333333;*/
+  /*}*/
+  /*.btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {*/
+  /*  color: #fff;*/
+  /*  background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%) !important;*/
+  /*  box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);*/
+  /*  border: 1px solid transparent !important;*/
+  /*}*/
+  /*.nav > li > a:hover, .nav > li > a:focus {*/
+  /*  text-decoration: none;*/
+  /*  background-color: #fff;*/
+  /*  color: #777 !important;*/
+  /*}*/
+  /*.sidebar-help-button {*/
+  /*  height: 35px;*/
+  /*  line-height: 35px;*/
+  /*  border-radius: 5px;*/
+  /*  background: #1a3d5d;*/
+  /*  display: inline-block;*/
+  /*  font-size: 13px;*/
+  /*  color: #fff !important;*/
+  /*  font-weight: 700;*/
+  /*  box-shadow: 0 5px 6px rgba(0,0,0,.05);*/
+  /*  position: relative;*/
+  /*  padding: 0 28px;*/
+  /*  margin-left: 35px;*/
+  /*  text-align: right;*/
+  /*  transition: all .3s;*/
+  /*  -webkit-transition: all .3s;*/
+  /*  transform: translateY(-55px);*/
+  /*  -webkit-transform: translateY(-55px);*/
+  /*}*/
+
+  /*@media (min-width: 769px){*/
+  /*  .nav > li {*/
+  /*    position: relative;*/
+  /*    display: block;*/
+  /*  }*/
+		/*	.nav-block{*/
+		/*		display: block !important;*/
+		/*	}*/
+  /*}*/
+		/*@media (max-width: 768px){*/
+
+		/*	.sidebar-overflow-y{*/
+		/*		overflow-y: auto !important;*/
+		/*	}*/
+		/*}*/
 
 
 
