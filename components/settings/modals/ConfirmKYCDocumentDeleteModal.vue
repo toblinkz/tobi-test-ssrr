@@ -34,8 +34,8 @@ export default {
 		},
 
 		deleteKYCDocument() {
-			this.del_btn_text = 'Deleting'
-			this.isLoading = true
+			this.del_btn_text = 'Yes, delete it'
+			this.isLoading = false
 			this.$emit('confirm-delete')
 		}
 	}

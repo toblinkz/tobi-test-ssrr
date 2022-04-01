@@ -57,14 +57,14 @@ export default {
 .kyc--card-container {
 	width: 100%;
 	/*height: 10rem;*/
-	margin: 1rem auto;
+	margin: 1.5rem auto;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: flex-start;
-	padding: 1rem 2rem;
+	padding: 2rem;
 	background-color: #FFFFFF;
-	/*box-shadow: 0 10px 45px 0 rgba(0, 0, 0, .1);*/
+	box-shadow: 0 10px 45px 0 rgba(0, 0, 0, .1);
 	border-radius: 8px;
 }
 </style>

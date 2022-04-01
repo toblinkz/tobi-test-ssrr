@@ -19,7 +19,7 @@
 			}"
 			>
 <!--				<i class="fa fa-plus" style="margin-right: 10px"></i> -->
-				Submit a New Document
+				Submit a KYC Document
 			</div>
 		</div>
 
