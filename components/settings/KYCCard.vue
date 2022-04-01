@@ -1,13 +1,14 @@
 <template>
 	<div class="kyc--card-container">
-		<div style="width: 50%; font-size: 15px">{{ documentObject.name_of_file }}</div>
+		<a :href="`${this.documentObject.file_url}`" target="_blank"  style="width: 25%; font-size: 15px">{{ documentObject.name_of_file }}</a>
+		<p style="width:25%; margin-left: 20px">{{documentObject.customer}}</p>
 		<div style="width:25%; margin-left: 20px">
 			<StatusPill
 				:status-value="documentObject.status"
 				style="width: 100px; font-size: 14px"
 			/>
 		</div>
-		<div style="width:25%; margin-left: 20px">
+		<div style="width:15%; margin-left: 20px">
 			<div style="float: right; margin-right: 30px">
 				<KYCActionMenu
 					:id="documentObject.file_url"
@@ -56,14 +57,14 @@ export default {
 .kyc--card-container {
 	width: 100%;
 	/*height: 10rem;*/
-	margin: 1.5rem auto;
+	margin: 1rem auto;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: flex-start;
-	padding: 2rem;
+	padding: 1rem 2rem;
 	background-color: #FFFFFF;
-	box-shadow: 0 10px 45px 0 rgba(0, 0, 0, .1);
+	/*box-shadow: 0 10px 45px 0 rgba(0, 0, 0, .1);*/
 	border-radius: 8px;
 }
 </style>
