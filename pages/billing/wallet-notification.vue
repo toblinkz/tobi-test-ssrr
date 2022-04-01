@@ -6,14 +6,16 @@
 			<p>Receive updates at a customized frequency and on your preferred notification channel.<br></p>
 		</div>
 
-		<TableVuePlaceHolder  v-if="showShimmer" style="padding: 3em 6em" ></TableVuePlaceHolder>
-<!--		 <BoardSkeleton style="display: flex; align-self: center" v-if="showShimmer" />-->
+		 <center  v-if="showShimmer">
+				<BoardSkeleton style="display: flex; align-self: center" />
+			</center>
+
 		<div class="setup-card">
 
 			    <div v-if="channelItemName" class="notification-list-container">
 										<div  class="notification-header">
 											<p class="text-bold">Channel</p>
-											<p class="text-bold">Next Notification time</p>
+											<p class="text-bold">Next notification time</p>
 										</div>
 										<div class="notification-item-container">
 											<p>{{channelItemName}}</p>
@@ -174,6 +176,8 @@ export default {
 			this.webhook = '';
 			this.hasEmailError = false;
 			this.hasWebhookError = false;
+			this.showTime = false;
+			this.setTime = undefined;
 		},
 
 		selectFrequency(value){
