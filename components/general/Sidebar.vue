@@ -26,15 +26,14 @@
 										</template>
 							</SidebarItem>
 
-				 <div class="mt-20" id="sidebarScroll" style="overflow-y: auto;">
+				 <div  id="sidebarScroll" style="overflow-y: auto;">
 						<SidebarProductItem item-name="Switch" icon-name="entypo-switch" :product-number = 1>
 								<template v-slot:menu-item>
-									<li><nuxt-link to="/sms/sender-id-management"><i class="entypo-list m-r-10"></i>Setup Sender IDs</nuxt-link></li>
-									<li><nuxt-link to="/devices"><i class="fa fa-barcode m-r-15 "></i>WhatsApp Devices</nuxt-link></li>
-									<li><nuxt-link to="/my-number"><i class="fa fa-tty m-r-15"></i>Rent a Number</nuxt-link></li>
-									<li><nuxt-link to="/phone-book"><i class="entypo-user-add m-r-10"></i>View Contacts</nuxt-link></li>
-									<li><nuxt-link to="/sms/import-contacts"><i class="entypo-upload m-r-10"></i>Import Contacts</nuxt-link></li>
-									<li><nuxt-link to="/message/select-type"><i class="entypo-paper-plane m-r-10"></i>Compose Message</nuxt-link></li>
+									<li v-if="canViewSenderId"><nuxt-link to="/sms/sender-id-management"><i class="entypo-list m-r-10"></i>SMS Sender IDs</nuxt-link></li>
+									<li v-if="canViewDevices"><nuxt-link to="/devices"><i class="fa fa-barcode m-r-15 "></i>WhatsApp Devices</nuxt-link></li>
+									<li v-if="canViewNumbers"><nuxt-link to="/my-number"><i class="fa fa-tty m-r-15"></i>Numbers</nuxt-link></li>
+									<li v-if="canViewContacts"><nuxt-link to="/phone-book"><i class="entypo-user-add m-r-10"></i>Contacts</nuxt-link></li>
+									<li v-if="canComposeMessage"><nuxt-link to="/message/select-type"><i class="entypo-paper-plane m-r-10"></i>Send Messages</nuxt-link></li>
 								</template>
 						</SidebarProductItem>
 
@@ -46,7 +45,7 @@
 							</template>
 						</SidebarProductItem>
 
-						<SidebarProductItem item-name="Insight" icon-name="entypo-light-up" :product-number = 3>
+						<SidebarProductItem v-if="canViewDeliveryReport" item-name="Insight" icon-name="entypo-light-up" :product-number = 3>
 							<template v-slot:menu-item>
 								<li><nuxt-link to="/sms/insights"><i class="entypo-layout m-r-10 "></i>Overview</nuxt-link></li>
 								<li><nuxt-link to="/sms/history"><i class="entypo-chart-area m-r-10"></i>Message Report</nuxt-link></li>
@@ -56,33 +55,34 @@
 
 						<hr class="mb-10 mt-10">
 
-						<SidebarItem item-name="Sandbox" icon-name="icon-gift" :has-menu-item=false :is-main-item=false route-name="/sandbox">
+						<SidebarItem v-if="canViewSandbox" item-name="Sandbox" icon-name="icon-gift" :has-menu-item=false :is-main-item=false route-name="/sandbox">
 							<template v-slot:caret-icon >
 								 <span class="badge badge-sm badge-sidebar">New</span>
 							</template>
 						</SidebarItem>
-						<SidebarItem item-name="Teams" icon-name="entypo-user-add" :has-menu-item=false :is-main-item=false route-name="/teams">
+
+						<SidebarItem v-if="canViewCountryRoutes" item-name="Countries" icon-name="entypo-globe" :has-menu-item=false :is-main-item=false route-name="/sms/countries">
 								<template v-slot:caret-icon >
 									<span class="badge badge-sm badge-sidebar">New</span>
 								</template>
 						</SidebarItem>
-						<SidebarItem item-name="Countries" icon-name="entypo-globe" :has-menu-item=false :is-main-item=false route-name="/sms/countries">
-								<template v-slot:caret-icon >
-									<span class="badge badge-sm badge-sidebar">New</span>
-								</template>
-						</SidebarItem>
-						<SidebarProductItem item-name="Developers" icon-name="entypo-code" :product-number = 5>
+
+						<SidebarProductItem v-if="canViewDevelopersSettings" item-name="Developers" icon-name="entypo-code" :product-number = 5>
 							<template v-slot:menu-item>
 								<li v-if="canViewDevelopersSettings"><a href="https://developers.termii.com" target="_blank" ><i class="entypo-docs m-r-10"></i> API Guide</a></li>
 								<li v-if="canViewApiConsole"><nuxt-link to="/account/api"><i class="entypo-key m-r-10"></i> Api console</nuxt-link></li>
+								<li><a href="https://join.slack.com/t/termii-loop/shared_invite/zt-imbqlf68-w4lsPkOzibBXSQohu8_8dQ" target="_blank"><i class="entypo-users m-r-10"></i> Community</a></li>
 							</template>
 						</SidebarProductItem>
 
-					<SidebarItem item-name="Settings" icon-name="entypo-cog" :is-main-item=false route-name="/account/profile"/>
-						<div class="padd-x mb-10" style="margin-left: 1.5em">
-							<a target="_blank" class="color-a level-1 white"  href="https://join.slack.com/t/termii-loop/shared_invite/zt-imbqlf68-w4lsPkOzibBXSQohu8_8dQ">
-								<i class="entypo-users m-r-10"></i> Community</a>
-						</div>
+						<SidebarProductItem v-if="canViewSettings" item-name="Settings" icon-name="entypo-cog" :product-number = 6>
+							<template v-slot:menu-item>
+								<li><nuxt-link to="/account/profile"><i class="icon-user m-r-10"></i>Profile</nuxt-link></li>
+								<li><nuxt-link to="/account/api"><i class="icon-key m-r-10"></i>Api Token</nuxt-link></li>
+								<li><nuxt-link to="/account/webhook/config"><i class="entypo-tools m-r-10"></i>Webhook Config</nuxt-link></li>
+								<li><nuxt-link to="/teams"><i class="entypo-user-add m-r-10"></i>Teams</nuxt-link></li>
+							</template>
+						</SidebarProductItem>
 
 					</div>
 			</nav>
@@ -166,7 +166,7 @@
 							canViewApiConsole(){
 								return (this.customer_permissions.includes("view_api_key"));
 							},
-							viewSettings(){
+							canViewSettings(){
 								return (this.customer_permissions.includes("view_profile"));
 							},
 							canViewSandbox(){

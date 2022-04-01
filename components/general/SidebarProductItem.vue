@@ -44,7 +44,7 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	padding: 0.6em 2.5em 0.6em 1.5em;
-	margin: 1em 0 0 ;
+	margin: 0.5em 0 0 ;
 	color: #FFFFFF;
 	cursor: pointer;
 }
