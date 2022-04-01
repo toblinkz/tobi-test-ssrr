@@ -1,7 +1,20 @@
 <template>
 	<div class="kyc--card-container">
-		<a :href="`${this.documentObject.file_url}`" target="_blank"  style="width: 25%; font-size: 15px">{{ documentObject.name_of_file }}</a>
-		<p style="width:25%; margin-left: 20px">{{documentObject.customer}}</p>
+		<a class="kyc--card--document-name"
+					:href="`${this.documentObject.file_url}`"
+					target="_blank"
+					style="width: 25%; font-size: 15px;"
+					@mouseover="hover = true"
+					@mouseleave="hover = false"
+		>
+			{{ documentObject.name_of_file }}
+		</a>
+
+		<p v-if="hover" class="document-name--info">
+			Click to view
+		</p>
+
+		<p style="width:25%; margin-left: 20px">{{ documentObject.customer }}</p>
 		<div style="width:25%; margin-left: 20px">
 			<StatusPill
 				:status-value="documentObject.status"
@@ -37,16 +50,22 @@ export default {
 		}
 	},
 
+	data() {
+		return {
+			hover: false
+		}
+	},
+
 	methods: {
-		viewHistory(){
+		viewHistory() {
 			this.$emit('view-kyc-history', this.documentObject)
 		},
 
-		editKYCDocument(){
+		editKYCDocument() {
 			this.$emit('edit-kyc-document', this.documentObject)
 		},
 
-		deleteKYCDocument(){
+		deleteKYCDocument() {
 			this.$emit('delete-kyc-document', this.documentObject)
 		}
 	}
@@ -66,5 +85,24 @@ export default {
 	background-color: #FFFFFF;
 	box-shadow: 0 10px 45px 0 rgba(0, 0, 0, .1);
 	border-radius: 8px;
+	position: relative;
+}
+
+.kyc--card--document-name {
+	color: #2b2b2b;
+}
+
+.document-name--info {
+	/*width: 1px;*/
+	background: #365899;
+	border-radius: 0 6px 6px 6px;
+	font-size: 13px;
+	line-height: 18px;
+	color: #FFFFFF;
+	padding: 6px;
+	position: absolute;
+	top: 38px;
+	left: 50px;
+	z-index: 99;
 }
 </style>

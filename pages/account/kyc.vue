@@ -178,13 +178,13 @@ export default {
 }
 
 .kyc--add-document {
-	width: 220px;
+	width: 180px;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 	color: #FFFFFF;
-	padding: 10px 14px;
+	padding: 10px 8px;
 	background: linear-gradient(-48deg, #0DCBE5 -30%, #365899 60%);
 	box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.22);
 	border-radius: 8px;
