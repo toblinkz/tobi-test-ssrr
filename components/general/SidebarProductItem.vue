@@ -2,7 +2,8 @@
 	 <div>
 				<div class="sidebar-item-container"  @click="toggleMenuItem">
 					<div class="name-color"><i :class="iconName" class="m-r-10"></i> {{itemName}}</div>
-					<i class="caret"></i>
+					<i class="caret" v-if="showSidebarItemMenu || this.productNumber === 1"></i>
+					<i class="fa fa-angle-right" v-if="!showSidebarItemMenu && this.productNumber !== 1"></i>
 				</div>
 			 <div class="sidebar-product-item-menu-container"  v-if="productNumber === 1 || showSidebarItemMenu">
 				 	<slot name="menu-item"></slot>

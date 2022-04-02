@@ -78,9 +78,9 @@
 						<SidebarProductItem v-if="canViewSettings" item-name="Settings" icon-name="entypo-cog" :product-number = 6>
 							<template v-slot:menu-item>
 								<li><nuxt-link to="/account/profile"><i class="icon-user m-r-10"></i>Profile</nuxt-link></li>
+								<li><nuxt-link to="/teams"><i class="entypo-user-add m-r-10"></i>Teams</nuxt-link></li>
 								<li><nuxt-link to="/account/api"><i class="icon-key m-r-10"></i>Api Token</nuxt-link></li>
 								<li><nuxt-link to="/account/webhook/config"><i class="entypo-tools m-r-10"></i>Webhook Config</nuxt-link></li>
-								<li><nuxt-link to="/teams"><i class="entypo-user-add m-r-10"></i>Teams</nuxt-link></li>
 							</template>
 						</SidebarProductItem>
 

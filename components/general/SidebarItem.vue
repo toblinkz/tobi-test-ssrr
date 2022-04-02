@@ -2,11 +2,14 @@
 		<div>
 			  <a v-if="hasMenuItem" @click="toggleSidebarItemMenu" class="sidebar-item-container" :class="{ 'sidebar-item-margin':!isMainItem, 'sidebar-item-color': isMainItem, 'sidebar-main-item-margin':isMainItem}">
 						<div class="name-color"><i :class="iconName" class="m-r-10"></i> {{itemName}}</div>
-						<slot name="caret-icon"></slot>
+						<slot name="caret-icon" v-if="showSidebarItemMenu"></slot>
+						<i class="fa fa-angle-right" v-if="!showSidebarItemMenu"></i>
+
 					</a>
 					<nuxt-link v-if="!hasMenuItem" :to="routeName" class="sidebar-item-container " :class="{ 'sidebar-item-margin':!isMainItem, 'sidebar-item-color': isMainItem, 'sidebar-main-item-margin':isMainItem}">
 						<div class="name-color"><i :class="iconName" class="m-r-10"></i> {{itemName}}</div>
 						<slot name="caret-icon"></slot>
+
 					</nuxt-link>
 					<div class="sidebar-item-menu-container" v-if="showSidebarItemMenu && hasMenuItem">
 							<slot name="sidebar-item-menu"></slot>
