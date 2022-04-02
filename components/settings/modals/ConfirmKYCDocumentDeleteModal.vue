@@ -36,14 +36,8 @@ export default {
 	},
 	methods: {
 		close() {
-			this.$modal.hide('confirm-campaign-delete-modal');
+			this.$modal.hide('confirm-kyc-document-delete-modal');
 		},
-
-		// deleteKYCDocument() {
-		// 	this.del_btn_text = 'Yes, delete it'
-		// 	this.isLoading = false
-		// 	this.$emit('confirm-delete')
-		// },
 
 		async deleteKYCDocument(){
 			try {
