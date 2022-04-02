@@ -59,8 +59,8 @@
 		</div>
 
 		<AddKYCDocument @refresh-kyc-list="getKYC"/>
-		<EditKYCDocument @edit-document="editDocument"/>
-		<ConfirmKYCDocumentDeleteModal @confirm-delete="deleteKYCDocument" :id="kycDocument.id"/>
+		<EditKYCDocument :kyc-document="kycDocument" @refresh-kyc-list="getKYCWithoutSkeletonLoader"/>
+		<ConfirmKYCDocumentDeleteModal @refresh-kyc-list="getKYCWithoutSkeletonLoader" :id="kycDocument.id"/>
 
 	</div>
 </template>
@@ -97,7 +97,7 @@ export default {
 			isBreadCrumbShown: false,
 			documents: [],
 			customerPermissions: localStorage.getItem('permissions'),
-			kycDocument: Object,
+			kycDocument: {},
 			kycDocumentLogs: [],
 		}
 	},
@@ -110,6 +110,14 @@ export default {
 				this.documents = kyc.data
 
 				this.isLoading = false
+				this.isKYCListIsEmpty = this.documents.length === 0;
+			} catch (e){}
+		},
+
+		async getKYCWithoutSkeletonLoader() {
+			try {
+				let kyc = await this.$kyc.getKYC()
+				this.documents = kyc.data
 				this.isKYCListIsEmpty = this.documents.length === 0;
 			} catch (e){}
 		},
@@ -142,35 +150,6 @@ export default {
 			this.kycDocument = e
 			this.$modal.show('confirm-kyc-document-delete-modal')
 		},
-
-		async deleteKYCDocument(){
-			try {
-				await this.getKYC()
-			}catch (e) {}
-		},
-
-		async editDocument(e) {
-			this.submitDocument = 'Updating Document'
-			this.isLoading = true
-			try {
-				if (e.file_document !== ''){
-					let file_type = e.file_document.name.split('.').pop().toLowerCase();
-					let uploadS3Url = await this.$uploadFileTos3.uploadFileToS3(e.file_document, file_type).catch((e)=> {this.$toast.error(e)});
-					this.fileUrl = uploadS3Url.data;
-
-					await this.$kyc.editKYCDocument(this.kycDocument.id, e.name_of_file, this.fileUrl)
-				} else {
-					this.fileUrl = this.kycDocument.file_url
-					await this.$kyc.editKYCDocumentWithoutDocumentChange(this.kycDocument.id, e.name_of_file)
-				}
-
-				this.kycDocument = ''
-				this.$modal.hide('edit-kyc-document-modal');
-				this.$toast.success('Document successfully edited!')
-
-				await this.getKYC()
-			} catch (e) {}
-		}
 	},
 
 	mounted() {

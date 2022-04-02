@@ -12,7 +12,7 @@
 					<div style="width: 100%">
 						<label>Document Name</label>
 						<input
-							v-model="nameOfFile"
+							v-model="documentName"
 							class="form-control"
 						/>
 					</div>
@@ -20,13 +20,14 @@
 					<div class="upload-file">
 						<input @change="selectFile" type="file" id="upload-file" name="filename" hidden>
 						<label for="upload-file" id="upload-file-doc">Choose File</label>
-						<span id="file-chosen">{{ fileDocument.name	}}</span>
+						<span v-if="!isfileErrorShown" id="file-chosen">{{ fileDocument.name }}</span>
+						<span v-if="isfileErrorShown" style="color: #cf0404">Please, upload an appropriate document</span>
 					</div>
 				</div>
 			</div>
 
 			<div class="edit-kyc-document-modal-footer">
-				<a class="btn bg-blue" @click="submitDocumentFunc" :aria-disabled="isDisabled">
+				<a class="btn bg-blue" @click="editDocument" :aria-disabled="isDisabled">
 					{{submitDocument}}
 					<span v-show="isLoading" >
 						<img src="/images/black_spinner.svg" height="20px" width="30px"/>
@@ -47,21 +48,34 @@ export default {
 	middleware:'auth',
 	components: {ButtonSpinner, Switches},
 
+	props: {
+		kycDocument: {
+			type: Object
+		}
+	},
+
 	data() {
 		return {
+			documentName: '',
 			isLoading: false,
 			hover: false,
 			show_icon: true,
 			submitDocument: 'Update Document',
-			nameOfFile: '',
 			fileDocument: '',
 			fileUrl: '',
+			isfileErrorShown: false
+		}
+	},
+
+	watch: {
+		kycDocument: function () {
+			this.documentName = this.kycDocument.name_of_file
 		}
 	},
 
 	computed:{
 		isDisabled:function () {
-			return (!this.nameOfFile);
+			return (!this.documentName);
 		},
 	},
 
@@ -74,12 +88,43 @@ export default {
 
 		selectFile(e){
 			let files = e.target.files || e.dataTransfer.files
-			this.fileDocument = files[0]
+			const file_type = files[0].name.split('.').pop().toLowerCase();
+
+			if (file_type === 'pdf' || file_type === 'csv' || file_type === 'xlsx' || file_type === 'docx') {
+				this.isfileErrorShown = false
+				this.fileDocument = files[0]
+			} else {
+				this.isfileErrorShown = true
+			}
 		},
 
-		submitDocumentFunc()	{
-			const newDocument = {name_of_file: this.nameOfFile, file_document: this.fileDocument}
-			this.$emit('edit-document', newDocument)
+		// submitDocumentFunc()	{
+		// 	const newDocument = {name_of_file: this.nameOfFile, file_document: this.fileDocument}
+		// 	this.$emit('edit-document', newDocument)
+		// },
+
+		async editDocument() {
+			this.submitDocument = 'Updating Document'
+			this.isLoading = true
+
+			try {
+				if (this.fileDocument !== ''){
+					let file_type = this.fileDocument.name.split('.').pop().toLowerCase();
+					let uploadS3Url = await this.$uploadFileTos3.uploadFileToS3(this.fileDocument, file_type).catch((e)=> {this.$toast.error(e)});
+					this.fileUrl = uploadS3Url.data;
+
+					await this.$kyc.editKYCDocument(this.kycDocument.id, this.documentName, this.fileUrl)
+				} else {
+					await this.$kyc.editKYCDocumentWithoutDocumentChange(this.kycDocument.id, this.documentName)
+				}
+
+				this.submitDocument = 'Update Document'
+				this.isLoading = false
+				this.$modal.hide('edit-kyc-document-modal');
+				this.$toast.success('Document successfully edited!')
+
+				this.$emit('refresh-kyc-list')
+			} catch (e) {}
 		}
 	},
 

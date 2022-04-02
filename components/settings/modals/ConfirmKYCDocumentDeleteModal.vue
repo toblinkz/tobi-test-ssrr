@@ -53,12 +53,11 @@ export default {
 				await this.$kyc.deleteKYCDocument(this.id)
 				this.$modal.hide('confirm-kyc-document-delete-modal');
 				this.$toast.success('Document successfully deleted!')
-				// await this.getKYC()
 
 				this.del_btn_text = 'Yes, delete it'
 				this.isLoading = false
 
-					this.$emit('confirm-delete')
+					this.$emit('refresh-kyc-list')
 			}catch (e) {}
 		},
 
