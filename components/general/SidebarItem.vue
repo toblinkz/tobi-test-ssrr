@@ -102,5 +102,31 @@ export default {
 	background: #c8e9e6;
 	color: #000 !important;
 }
+.caret:after {
+	font-size: 18px;
+	font-weight: 800;
+	content: "\e9c5";
+	font-family: "icomoon";
+	display: block;
+	font-size: 16px;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.caret{
+	margin-top: 3px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.caret{
+	font-style: normal;
+	font-weight: 400;
+	border: 0;
+	width: auto;
+	height: auto;
+	text-align: center;
+	margin: -1px 0 0;
+	margin-left: 5px;
+}
 
 </style>
