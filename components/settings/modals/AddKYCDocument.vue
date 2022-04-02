@@ -7,49 +7,50 @@
 			</div>
 
 			<div class="add-kyc-document-modal-body">
-					<div class="form-group">
-						<div style="width: 100%">
-							<label>
-								Document Name
+				<div class="form-group">
+					<div style="width: 100%">
+						<label>
+							Document Name
 
-								<img
-									@mouseover="hover = true"
-									@mouseleave="hover = false"
-									style="margin-left: 6px; cursor: pointer"
-									src="/images/icons/svg_icons/more-info-icon.svg" alt="">
-							</label>
+							<img
+								@mouseover="hover = true"
+								@mouseleave="hover = false"
+								style="margin-left: 6px; cursor: pointer"
+								src="/images/icons/svg_icons/more-info-icon.svg" alt="">
+						</label>
 
-							<input
-								v-model="nameOfFile"
-								class="form-control"
-							/>
-						</div>
-
-						<div class="more-info" v-if="hover">
-							Sample document name:
-							<br>
-							<ul>
-								<li>NCC License</li>
-								<li>Payment License</li>
-								<li>CAC document or certificate</li>
-								<li>Letter of Authorization (Signed)</li>
-								<li>Trade License</li>
-								<li>NOC (No Objection Certificate)</li>
-							</ul>
-						</div>
-
-						<div class="upload-file">
-							<input @change="selectFile" type="file" id="upload-file" name="filename" hidden>
-							<label for="upload-file" id="upload-file-doc">Choose File</label>
-							<span id="file-chosen">{{ fileDocument.name	}}</span>
-						</div>
+						<input
+							v-model="nameOfFile"
+							class="form-control"
+						/>
 					</div>
+
+					<div class="more-info" v-if="hover">
+						Sample document name:
+						<br>
+						<ul>
+							<li>NCC License</li>
+							<li>Payment License</li>
+							<li>CAC document or certificate</li>
+							<li>Letter of Authorization (Signed)</li>
+							<li>Trade License</li>
+							<li>NOC (No Objection Certificate)</li>
+						</ul>
+					</div>
+
+					<div class="upload-file">
+						<input @change="selectFile" type="file" id="upload-file" name="filename" hidden>
+						<label for="upload-file" id="upload-file-doc">Choose File</label>
+						<span v-if="!isfileErrorShown" id="file-chosen">{{ fileDocument.name }}</span>
+						<span v-if="isfileErrorShown" style="color: #cf0404">Please, upload an appropriate document</span>
+					</div>
+				</div>
 			</div>
 
 			<div class="add-kyc-document-modal-footer">
 				<a class="btn bg-blue" @click="submitDocumentFunc" :aria-disabled="isDisabled">
-					{{submitDocument}}
-					<span v-show="isLoading" >
+					{{ submitDocument }}
+					<span v-show="isLoading">
 						<img src="/images/black_spinner.svg" height="20px" width="30px"/>
 					</span>
 				</a>
@@ -65,7 +66,7 @@ import Switches from "vue-switches";
 
 export default {
 	name: "AddKYCDocument",
-	middleware:'auth',
+	middleware: 'auth',
 	components: {ButtonSpinner, Switches},
 
 	data() {
@@ -77,11 +78,12 @@ export default {
 			nameOfFile: '',
 			fileDocument: '',
 			fileUrl: '',
+			isfileErrorShown: false
 		}
 	},
 
-	computed:{
-		isDisabled:function () {
+	computed: {
+		isDisabled: function () {
 			return (!this.nameOfFile || !this.fileDocument);
 		},
 	},
@@ -93,31 +95,39 @@ export default {
 			this.$modal.hide('add-kyc-document-modal');
 		},
 
-		selectFile(e){
+		selectFile(e) {
 			let files = e.target.files || e.dataTransfer.files
-			this.fileDocument = files[0]
+			const file_type = files[0].name.split('.').pop().toLowerCase();
+
+			if (file_type === 'pdf' || file_type === 'csv' || file_type === 'xlsx' || file_type === 'docx') {
+				this.isfileErrorShown = false
+				this.fileDocument = files[0]
+			} else {
+				this.isfileErrorShown = true
+			}
 		},
 
 		async submitDocumentFunc() {
 			this.submitDocument = 'Submitting Document'
 			this.isLoading = true
 			try {
-					const file_type = this.fileDocument.name.split('.').pop().toLowerCase();
-					const uploadS3Url = await this.$uploadFileTos3.uploadFileToS3(this.fileDocument, file_type).catch((e) => {
-						this.$toast.error(e)
-					});
+				const file_type = this.fileDocument.name.split('.').pop().toLowerCase();
+				const uploadS3Url = await this.$uploadFileTos3.uploadFileToS3(this.fileDocument, file_type).catch((e) => {
+					this.$toast.error(e)
+				});
 
-					this.fileUrl = uploadS3Url.data;
+				this.fileUrl = uploadS3Url.data;
 
-					let response = await this.$kyc.addKYCDocument(this.nameOfFile, this.fileUrl)
+				let response = await this.$kyc.addKYCDocument(this.nameOfFile, this.fileUrl)
 
-					this.isLoading = false
-					this.nameOfFile = ''
-					this.fileDocument = ''
-					this.submitDocument = 'Submit Document'
-					this.$modal.hide('add-kyc-document-modal');
-					this.$toast.success('Document successfully uploaded!')
-					this.$emit('refresh-kyc-list')
+				this.isLoading = false
+				this.nameOfFile = ''
+				this.fileDocument = ''
+				this.submitDocument = 'Submit Document'
+				this.$modal.hide('add-kyc-document-modal');
+				this.$toast.success('Document successfully uploaded!')
+				this.$emit('refresh-kyc-list')
+
 			} catch (e) {
 				this.isLoading = false
 				this.submitDocument = 'Submit Document'
@@ -156,6 +166,7 @@ export default {
 	line-height: 1;
 	cursor: pointer;
 }
+
 .close-icon:hover,
 .close-icon:focus {
 	outline: 0;
@@ -168,21 +179,25 @@ export default {
 	padding: 20px 30px;
 	position: relative;
 }
+
 .form-group {
 	margin-bottom: 10px;
 	position: relative;
 }
+
 .form-group label {
 	margin-bottom: 5px;
 	display: block;
 	font-weight: 600;
 	line-height: 24px;
 }
+
 label {
 	max-width: 100%;
 	color: #2b2b2b;
 }
-.form-control{
+
+.form-control {
 	font-size: 13px;
 	border-radius: 5px;
 	border: 1px solid rgba(204, 204, 204, 1);
@@ -198,9 +213,11 @@ label {
 	background-image: none;
 	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
+
 .form-control:hover {
 	border-color: #777777;
 }
+
 .form-control:focus {
 	border-color: #4DB6AC;
 	outline: none;

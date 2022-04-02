@@ -33,7 +33,7 @@
 							</li>
 							<li rel0="AccountController/api">
 								<nuxt-link to="/account/kyc" class="level-1  ">
-									<i class="icon-users icon"></i> KYC
+									<i class="entypo-newspaper icon"></i> KYC
 								</nuxt-link>
 							</li>
       </ul>

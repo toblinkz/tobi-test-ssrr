@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<SettingsTabHeader
-			:titleIcon="'icon-users'"
+			:titleIcon="'entypo-newspaper'"
 			:titleText="'Know Your Customer'"
 			:body="'You can upload your KYC documents to validate the identity of your business.'"
 			:tabImage="'/images/customers.gif'"
@@ -9,52 +9,58 @@
 
 		<ApiNavbar/>
 
-		<div v-if="!isBreadCrumbShown" class="kyc--add-document-container">
-			<div
-				class="kyc--add-document"
-				@click="showAddKYCModal"
-				:class="{
+		<TableVuePlaceHolder v-if="isLoading"  />
+
+		<div v-if="!isLoading">
+			<div v-if="!isBreadCrumbShown" class="kyc--add-document-container">
+				<div
+					class="kyc--add-document"
+					@click="showAddKYCModal"
+					:class="{
 				'kyc--add-document--left': !this.isKYCListIsEmpty,
 				'kyc--add-document--center': this.isKYCListIsEmpty
 			}"
-			>
-<!--				<i class="fa fa-plus" style="margin-right: 10px"></i> -->
-				Submit a KYC Document
+				>
+					<!--				<i class="fa fa-plus" style="margin-right: 10px"></i> -->
+					Submit a KYC Document
+				</div>
+			</div>
+
+			<div v-if="!isBreadCrumbShown" class="content-container">
+				<div v-if="!isKYCListIsEmpty" class="mt-40 hidden-xs"
+									style="display: flex; justify-content: space-between; font-size: 15px; font-weight: bold; width: 100%;">
+					<span style="width: 25%; margin-left: 2rem">Document Name</span>
+					<span style="width:25%; margin-left: 20px">Action By</span>
+					<span style="width:25%; margin-left: 20px">Status</span>
+					<span style="width:15%; margin-left: 20px"><span style="float: right; margin-right: 30px">Action</span></span>
+				</div>
+
+				<div v-if="!isKYCListIsEmpty" style="border-bottom: dotted #ddd!important; margin-top: 20px; width: 100%;"></div>
+
+				<KYCCard
+					v-for="row in documents"
+					:key="row.id"
+					:document-object="row"
+					@view-kyc-history="displayHistory"
+					@edit-kyc-document="showEditKYCModal"
+					@delete-kyc-document="showDeleteKYCModal"
+				/>
 			</div>
 		</div>
 
-		<div v-if="!isBreadCrumbShown" class="content-container">
-			<div v-if="!isKYCListIsEmpty" class="mt-40 hidden-xs"
-								style="display: flex; justify-content: space-between; font-size: 15px; font-weight: bold; width: 100%;">
-				<span style="width: 25%; margin-left: 2rem">Document Name</span>
-				<span style="width:25%; margin-left: 20px">Action By</span>
-				<span style="width:25%; margin-left: 20px">Status</span>
-				<span style="width:15%; margin-left: 20px"><span style="float: right; margin-right: 30px">Action</span></span>
+		<div v-if="isBreadCrumbShown">
+			<div class="kyc--breadcrumb">
+				<span class="kyc--list-link" @click="switchBackToKYCList">KYC List</span>
+				<i class="fa fa-chevron-right" aria-hidden="true" style="margin: 0 6px; font-size: 12px"></i>
+				<span>{{ kycDocument.name_of_file }}</span>
 			</div>
-
-			<div v-if="!isKYCListIsEmpty" style="border-bottom: dotted #ddd!important; margin-top: 20px; width: 100%;"></div>
-
-			<KYCCard
-				v-for="row in documents"
-				:key="row.id"
-				:document-object="row"
-				@view-kyc-history="displayHistory"
-				@edit-kyc-document="showEditKYCModal"
-				@delete-kyc-document="showDeleteKYCModal"
-			/>
+			<TableVuePlaceHolder v-if="isLogsLoading" style="margin-top: -4rem" />
+			<KYCHistoryCard v-if="!isLogsLoading" :kyc-document-logs="kycDocumentLogs"/>
 		</div>
-
-		<div v-if="isBreadCrumbShown" class="kyc--breadcrumb">
-			<span class="kyc--list-link" @click="switchBackToKYCList">KYC List</span>
-			<i class="fa fa-chevron-right" aria-hidden="true" style="margin: 0 6px; font-size: 12px"></i>
-			<span>{{ kycDocument.name_of_file }}</span>
-		</div>
-
-		<KYCHistoryCard v-if="isBreadCrumbShown" :kyc-document-logs="kycDocumentLogs"/>
 
 		<AddKYCDocument @refresh-kyc-list="getKYC"/>
 		<EditKYCDocument @edit-document="editDocument"/>
-		<ConfirmKYCDocumentDeleteModal @confirm-delete="deleteKYCDocument"/>
+		<ConfirmKYCDocumentDeleteModal @confirm-delete="deleteKYCDocument" :id="kycDocument.id"/>
 
 	</div>
 </template>
@@ -67,6 +73,7 @@ import AddKYCDocument from "@/components/settings/modals/AddKYCDocument";
 import EditKYCDocument from "@/components/settings/modals/EditKYCDocument";
 import KYCHistoryCard from "@/components/settings/KYCHistoryCard";
 import ConfirmKYCDocumentDeleteModal from "@/components/settings/modals/ConfirmKYCDocumentDeleteModal";
+import TableVuePlaceHolder from "@/components/general/TableVuePlaceHolder";
 
 export default {
 	name: "kyc",
@@ -78,11 +85,14 @@ export default {
 		EditKYCDocument,
 		KYCCard,
 		SettingsTabHeader,
-		ApiNavbar
+		ApiNavbar,
+		TableVuePlaceHolder
 	},
 
 	data() {
 		return {
+			isLoading: false,
+			isLogsLoading: false,
 			isKYCListIsEmpty: true,
 			isBreadCrumbShown: false,
 			documents: [],
@@ -94,10 +104,14 @@ export default {
 
 	methods: {
 		async getKYC() {
-			let kyc = await this.$kyc.getKYC()
-			this.documents = kyc.data
+			this.isLoading = true
+			try {
+				let kyc = await this.$kyc.getKYC()
+				this.documents = kyc.data
 
-			this.isKYCListIsEmpty = this.documents.length === 0;
+				this.isLoading = false
+				this.isKYCListIsEmpty = this.documents.length === 0;
+			} catch (e){}
 		},
 
 		switchBackToKYCList() {
@@ -108,7 +122,10 @@ export default {
 			this.isBreadCrumbShown = true
 			this.kycDocument = e
 
+			this.isLogsLoading = true
+
 			let response = await this.$kyc.getKYCLogs(e.id)
+			this.isLogsLoading = false
 			this.kycDocumentLogs = response.data
 		},
 
@@ -128,9 +145,6 @@ export default {
 
 		async deleteKYCDocument(){
 			try {
-				await this.$kyc.deleteKYCDocument(this.kycDocument.id)
-				this.$modal.hide('confirm-kyc-document-delete-modal');
-				this.$toast.success('Document successfully deleted!')
 				await this.getKYC()
 			}catch (e) {}
 		},

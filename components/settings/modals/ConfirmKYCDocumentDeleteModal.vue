@@ -22,6 +22,12 @@
 export default {
 	name: "ConfirmKYCDocumentDeleteModal",
 
+	props: {
+		id: {
+			type: Number
+		}
+	},
+
 	data() {
 		return {
 			del_btn_text: 'Yes, delete it',
@@ -33,11 +39,29 @@ export default {
 			this.$modal.hide('confirm-campaign-delete-modal');
 		},
 
-		deleteKYCDocument() {
-			this.del_btn_text = 'Yes, delete it'
-			this.isLoading = false
-			this.$emit('confirm-delete')
-		}
+		// deleteKYCDocument() {
+		// 	this.del_btn_text = 'Yes, delete it'
+		// 	this.isLoading = false
+		// 	this.$emit('confirm-delete')
+		// },
+
+		async deleteKYCDocument(){
+			try {
+					this.del_btn_text = 'Deleting'
+					this.isLoading = true
+
+				await this.$kyc.deleteKYCDocument(this.id)
+				this.$modal.hide('confirm-kyc-document-delete-modal');
+				this.$toast.success('Document successfully deleted!')
+				// await this.getKYC()
+
+				this.del_btn_text = 'Yes, delete it'
+				this.isLoading = false
+
+					this.$emit('confirm-delete')
+			}catch (e) {}
+		},
+
 	}
 }
 </script>
