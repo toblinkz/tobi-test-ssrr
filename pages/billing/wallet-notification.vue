@@ -27,6 +27,10 @@
 										</div>
 							</div>
 
+							<div>
+
+							</div>
+
 					<div v-if="enableWalletNotification" class="form-container">
 							<div class="select-container">
 								<label>Select Frequency</label>
@@ -66,7 +70,7 @@
 									<input v-model="webhook" class="input-form"/>
 									<span  class="error_field_message" v-if="errorMessage.webhook">{{errorMessage.webhook}}</span>
 								</div>
-						  <a v-if="cancelEdit" @click="cancelEditNotification" style="margin-top: 3em;" class="btn btn-danger">Cancel</a>
+						  <a v-if="cancelEdit && channelItemName" @click="cancelEditNotification" style="margin-top: 3em;" class="btn btn-danger">Cancel</a>
         <div style="margin-top: 2em; float: right">
 									<ButtonSpinner
 										 :action="setWalletBalanceNotificationFrequency"
@@ -99,7 +103,7 @@ export default {
 	components: {BoardSkeleton, DeleteBalanceNotificationModal, TableVuePlaceHolder, ButtonSpinner, Switches, DatePicker},
 	data() {
 		return {
-			buttonText:'save',
+			buttonText:'Save',
 			isLoading: false,
 			enableWalletNotification: false,
 			cancelEdit: false,
