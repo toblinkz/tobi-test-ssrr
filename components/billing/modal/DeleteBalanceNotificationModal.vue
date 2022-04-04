@@ -1,5 +1,5 @@
 <template>
- <modal name="delete-balance-notification-modal" height="400px"  width="440px">
+ <modal name="delete-balance-notification-modal" height="400px" width="500px">
 		<div class="container">
 			<div class="close-icon-container">
 				<img class="close-icon" @click="closeModal" src="/images/icons/svg_icons/close-svgrepo-com.svg" alt="">
@@ -77,7 +77,7 @@ export default {
 .delete-title {
 	font-weight: bold;
 	font-size: 16px;
-	line-height: 19px;
+	line-height: 25px;
 	color: #333333;
 	margin-top: 20px;
 }
