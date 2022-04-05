@@ -14,8 +14,9 @@
 			Click to view
 		</p>
 
-		<p style="width:25%; margin-left: 20px">{{ documentObject.customer }}</p>
-		<div style="width:25%; margin-left: 20px">
+		<p style="width:20%; margin-left: 20px">{{ documentObject.created_at.replace('T', ' ').replace('.000000Z', '') }}</p>
+		<p style="width:20%; margin-left: 20px">{{ documentObject.customer }}</p>
+		<div style="width:20%; margin-left: 20px">
 			<StatusPill
 				:status-value="documentObject.status"
 				style="width: 100px; font-size: 14px"
