@@ -1,7 +1,6 @@
 export default function ({ app,}) {
 
 	app.router.beforeEach((to, from, next) => {
-		console.log('page', to.name)
 		 if (!hasAccess(to.name)){
 				$nuxt.$router.push({ name: 'index', });
 				$nuxt.$modal.show('page-denied-modal')
@@ -29,6 +28,10 @@ function hasAccess(route_name){
 		case "invoices-all":
 			return customer_permissions.includes('view_invoice');
 		case "invoices-view-id":
+			return customer_permissions.includes('view_invoice');
+		case "tokens-overview":
+			return customer_permissions.includes('view_invoice');
+		case "tokens-logs":
 			return customer_permissions.includes('view_invoice');
 		case "invoices-iprint-id":
 			return customer_permissions.includes('view_invoice');

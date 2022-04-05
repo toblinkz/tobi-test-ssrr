@@ -20,6 +20,7 @@
 										delivered: campaign_status === 'Delivered',
 										scheduled: campaign_status === 'Scheduled',
 										running: campaign_status === 'Running',
+										insufficient_balance: campaign_status === 'Insufficient Balance'
 							}">
 			{{ campaign_status }}
 		</div>
@@ -189,6 +190,9 @@ export default {
 
 .delivered {
 	background: #4AB14E;
+}
+.insufficient_balance{
+	 background: #d94747;
 }
 .scheduled {
 	background: #BE6105;
