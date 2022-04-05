@@ -10,7 +10,7 @@
     <div v-if="!enableWalletNotification" style="padding: 0 7em">
 							<div class="header-style">
 								<p class="header-title m-l-10">Channel</p>
-								<p class="header-title ">Channel value</p>
+								<p class="header-title ">Channel address</p>
 								<p class="header-title ">Next notification</p>
 								<p class="header-title m-r-20">Action</p>
 							</div>
@@ -31,7 +31,7 @@
 
 										<div class="menu-option remove-teammate"  @click="deleteBalanceNotification">
 											<img src="/images/icons/svg_icons/delete-icon.svg" alt="">
-											<p>Remove notification</p>
+											<p>Delete notification</p>
 										</div>
 									</div>
 
@@ -296,7 +296,6 @@ export default {
 			}
 		},
 		showEditNotificationModal(){
-			console.log('ddj')
 			 this.$modal.show('edit-balance-notification-modal');
 		}
 	},
@@ -345,7 +344,7 @@ label{
 	display: flex;
 	justify-content: space-between;
 	background-color: #FFFFFF;
-	margin-top: 2em;
+	margin-top: 1em;
 	padding: 2.5em 1.5em;
 	border-radius: 8px;
 	box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.2);
@@ -410,12 +409,14 @@ label{
 	justify-content: space-between;
 	margin-top: 4em;
 	height: 40px;
-	color: #727272;
+	color: #333333;
 	font-weight: 600;
 }
 
 .header-title {
 	 font-size: 15px;
+	font-weight: 700;
+
 }
 .action {
 	cursor: pointer;

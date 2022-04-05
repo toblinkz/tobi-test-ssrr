@@ -7,7 +7,7 @@
 			<img src="/images/icons/svg_icons/exclaim_icon.svg" width="172px" alt="">
 			<p class="delete-title text-center">Are you sure you want to stop <br>receiving your balance Notification?</p>
 			<div class="delete-btn" @click="deleteBalanceNotification">
-				Remove
+				Delete
 				<span v-show="isLoading">
 							<img src="/images/spinner.svg" height="20px" width="30px"/>
 				</span>
@@ -34,7 +34,7 @@ export default {
 					await this.$billing.deleteWalletBalanceNotification(this.notificationId);
 					this.$emit('get-notification');
 					this.isLoading = false;
-					this.$toast.success('removed successfully');
+					this.$toast.success('Deleted successfully');
 				}catch (e) {
 					 this.isLoading = false;
 				}
