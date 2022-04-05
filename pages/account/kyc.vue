@@ -28,11 +28,11 @@
 			<div v-if="!isBreadCrumbShown" class="content-container">
 				<div v-if="!isKYCListIsEmpty" class="mt-40 hidden-xs"
 									style="display: flex; justify-content: space-between; font-size: 15px; font-weight: bold; width: 100%;">
-					<span style="width: 25%; margin-left: 2rem">Document Name</span>
-					<span style="width:20%; margin-left: 20px">Created At</span>
+					<span style="width: 15%; margin-left: 2rem">Document Name</span>
+					<span style="width:25%; margin-left: 20px">Created At</span>
 					<span style="width:20%; margin-left: 20px">Action By</span>
-					<span style="width:20%; margin-left: 20px">Status</span>
-					<span style="width:15%; margin-left: 20px"><span style="float: right; margin-right: 30px">Action</span></span>
+					<span style="width:15%; margin-left: 20px">Status</span>
+					<span style="width:10%; margin-left: 20px"><span style="float: right; margin-right: 30px">Action</span></span>
 				</div>
 
 				<div v-if="!isKYCListIsEmpty" style="border-bottom: dotted #ddd!important; margin-top: 20px; width: 100%;"></div>

@@ -3,7 +3,7 @@
 		<a class="kyc--card--document-name"
 					:href="`${this.documentObject.file_url}`"
 					target="_blank"
-					style="width: 25%; font-size: 15px;"
+					style="width: 15%; font-size: 15px;"
 					@mouseover="hover = true"
 					@mouseleave="hover = false"
 		>
@@ -14,15 +14,15 @@
 			Click to view
 		</p>
 
-		<p style="width:20%; margin-left: 20px">{{ documentObject.created_at.replace('T', ' ').replace('.000000Z', '') }}</p>
+		<p style="width:25%; margin-left: 20px">{{ documentObject.created_at.replace('T', ' ').replace('.000000Z', '') }}</p>
 		<p style="width:20%; margin-left: 20px">{{ documentObject.customer }}</p>
-		<div style="width:20%; margin-left: 20px">
+		<div style="width:15%; margin-left: 20px">
 			<StatusPill
 				:status-value="documentObject.status"
 				style="width: 100px; font-size: 14px"
 			/>
 		</div>
-		<div style="width:15%; margin-left: 20px">
+		<div style="width:10%; margin-left: 20px">
 			<div style="float: right; margin-right: 30px">
 				<KYCActionMenu
 					:id="documentObject.file_url"
