@@ -1,138 +1,112 @@
 <template>
-	<div class="padding-sides mt-70">
+	<div class="history-container">
 
-			<!-- /page header -->
-			<!-- Page container -->
-			<div class="page-container">
-				<!-- Page content -->
-				<div class="page-content">
-					<!-- Main content -->
-					<div class="content-wrapper">
-						<!-- main inner content -->
-						<main id="wrapper" class="wrapper">
-							<section class="wrapper-bottom-sec">
-								<div class="jumbotron" data-pages="parallax">
-									<div class="container-fluid container-fixed-lg">
-										<div class="inner">
-											<div class="mt-20 ">
-												<div class="row ">
-													<!--													<div class="col-lg-4 mb-20">-->
-													<!-- START PANEL -->
-													<div class="col-md-12">
-														<div class="panel-transparent mt-20">
-															<p class="insight text-center"  id="welcome" style="margin-top: 10px;margin-bottom: 10px; font-size: 18px!important;"><i class="entypo-chart-pie"></i> Message Report</p>
-															<p class="insight text-center" >View all your message reports. <br>Report captured here include all sent, failed and delivered messages.</p>
+							<div class="col-md-12">
+								<div class="panel-transparent mt-20">
+									<p class="insight text-center"  id="welcome" style="margin-top: 10px;margin-bottom: 10px; font-size: 18px!important;"><i class="entypo-chart-pie"></i> Message Report</p>
+									<p class="insight text-center" >View all your message reports. <br>Report captured here include all sent, failed and delivered messages.</p>
 
-														</div>
-              <center>
-															<nuxt-link to="/sms/insights" class="btn btn-primary mt-20"><i class="entypo-chart-bar"></i> View Insight graph</nuxt-link>
-														</center>
-														<div class="panel-body ">
-														</div>
-													</div>
-
-												</div>
-											</div>
-										</div>
-									</div>
 								</div>
+								<center>
+									<nuxt-link to="/sms/insights" class="btn btn-primary mt-20"><i class="entypo-chart-bar"></i> View Insight graph</nuxt-link>
+								</center>
+								<div class="panel-body ">
+								</div>
+							</div>
 
-								<div class="col-md-12" >
-									<div class="col-sm-12">
-										<div class="mb-20">
-											<div class="pill-container">
-												<div class="history-pill" >
-													<button class="channel-button " :class="{'all': all_active}" @click="display_all">All</button>
-													<button class="channel-button" :class="{'number-api': number_api_active}" @click="display_number_api">Number API</button>
-													<button class="channel-button" :class="{'dnd': dnd_active}" @click="display_dnd">DND</button>
-													<button class="channel-button" :class="{'generic': generic_active}" @click="display_generic">Generic</button>
-													<button class="channel-button" :class="{'whatsapp': whatsapp_active}" @click="display_whatsapp">Whatsapp</button>
-												</div>
-												<div class="hidden-xs" style="width: 20%"></div>
-												<div class="history-pill2">
-													<div  v-click-outside="hideDrop">
-														<a @click="showFilterModal" class="btn label-success wd-100 bx-line " >
-															<i class="fa fa-filter m-r-5"></i>Filter
-														</a>
-														<div class="filter-card mt-10"  v-show="filter_active">
-															<form @submit.prevent="filterSmsHistory" role="form" method="get" >
-																<div>
-																	<input type="text" placeholder="Phone Number" class="form-control" v-model="phone_number">
-																</div>
-																<div class="mt-20">
-																	<date-picker v-model="date_time" value-type="YYYY-MM-DD " type="date" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
-																</div>
-																<div class="mt-20">
-																	<button type="submit" class="btn btn-success wd-100 bx-line" :disabled="isDisabled">
-																		<i class="fa fa-search" v-show="showIcon"></i> {{searchText}}
-																		<span v-show="isLoading">
+		<div class="col-md-12 mt-30" >
+			<div class="col-sm-12">
+				<div class="mb-20">
+					<div class="pill-container">
+						<div class="history-pill" >
+							<button class="channel-button " :class="{'all': all_active}" @click="display_all">All</button>
+							<button class="channel-button" :class="{'number-api': number_api_active}" @click="display_number_api">Number API</button>
+							<button class="channel-button" :class="{'dnd': dnd_active}" @click="display_dnd">DND</button>
+							<button class="channel-button" :class="{'generic': generic_active}" @click="display_generic">Generic</button>
+							<button class="channel-button" :class="{'whatsapp': whatsapp_active}" @click="display_whatsapp">Whatsapp</button>
+						</div>
+						<div class="hidden-xs" style="width: 20%"></div>
+						<div class="history-pill2">
+							<div  v-click-outside="hideDrop">
+								<a @click="showFilterModal" class="btn label-success wd-100 bx-line " >
+									<i class="fa fa-filter m-r-5"></i>Filter
+								</a>
+								<div class="filter-card mt-10"  v-show="filter_active">
+									<form @submit.prevent="filterSmsHistory" role="form" method="get" >
+										<div>
+											<input type="text" placeholder="Phone Number" class="form-control" v-model="phone_number">
+										</div>
+										<div class="mt-20">
+											<date-picker v-model="date_time" value-type="YYYY-MM-DD " type="date" range style="width: 100%" placeholder="Select date range"  confirm></date-picker>
+										</div>
+										<div class="mt-20">
+											<button type="submit" class="btn btn-success wd-100 bx-line" :disabled="isDisabled">
+												<i class="fa fa-search" v-show="showIcon"></i> {{searchText}}
+												<span v-show="isLoading">
 																				<img src="/images/spinner.svg" height="20px" width="80px"/>
 																		</span>
-																	</button>
-																</div>
-															 </form>
-																	</div>
-																</div>
-																<center class="hidden-xs"> <button v-if="canDownloadDeliveryReport" @click="showExportModal" class="btn btn-primary wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
-															</div>
-														</div>
+											</button>
+										</div>
+									</form>
+								</div>
+							</div>
+							<center class="hidden-xs"> <button v-if="canDownloadDeliveryReport" @click="showExportModal" class="btn btn-primary wd-100 bx-line" ><i class="fa fa-level-down"></i> Download report in excel</button></center>
+						</div>
+					</div>
 
-														<div class="mb-10 hidden-xs" style="display: flex; flex-direction: row">
-															<span class="" style="width: 50%; font-size: 15px"><i class="fa fa-circle  m-r-10 m-l-30" :class="{'all-chat-color': all_active, 'number-api-chat-color': number_api_active, 'dnd-chat-color': dnd_active, 'generic-chat-color':generic_active, 'whatsapp-chat-color': whatsapp_active}" style="color: #2D74AC"></i>Description</span>
-															<span style="width: 15%; font-size: 15px">Receiver</span>
-															<span style="width: 15%;font-size: 15px">Pages</span>
-															<span style="width: 25%;font-size: 15px">Status</span>
-														</div>
-														<div class="m-l-10 " style="border-bottom: dotted #ddd!important;"></div>
-													</div>
-												<TableVuePlaceHolder v-if="!show_shimmer">
+					<div class="mb-10 hidden-xs" style="display: flex; flex-direction: row">
+						<span class="" style="width: 50%; font-size: 15px"><i class="fa fa-circle  m-r-10 m-l-30" :class="{'all-chat-color': all_active, 'number-api-chat-color': number_api_active, 'dnd-chat-color': dnd_active, 'generic-chat-color':generic_active, 'whatsapp-chat-color': whatsapp_active}" style="color: #2D74AC"></i>Description</span>
+						<span style="width: 15%; font-size: 15px">Receiver</span>
+						<span style="width: 15%;font-size: 15px">Pages</span>
+						<span style="width: 25%;font-size: 15px">Status</span>
+					</div>
+					<div class="m-l-10 " style="border-bottom: dotted #ddd!important;"></div>
+				</div>
+				<TableVuePlaceHolder v-if="!show_shimmer">
 
-												</TableVuePlaceHolder>
-										<div v-else>
-											<div class="row" v-for="row in messages_sent.data" :key="row.id" v-show="messages_sent.data.length > 0">
-												<div class="sms-history-card card-container">
-													<div><i class="entypo-chat" :class="{'all-chat-color': all_active, 'number-api-chat-color': number_api_active, 'dnd-chat-color': dnd_active, 'generic-chat-color':generic_active, 'whatsapp-chat-color': whatsapp_active}" style="font-size: 20px; color: green; width: 5%"></i></div>
-													<div class="section-width">
-														<div class="bold m-l-10" style="font-size: 15px; font-weight: 500" >Outgoing Message from {{ row.sender }}</div>
-														<div class="m-t-5 m-l-10">	<span style="color: #898989">{{ row.created_at }}</span> 	<span class="m-l-10" style="color: #898989">Channel: {{ row.channel }}</span></div>
-														<div class="m-t-5 m-l-10" v-if="row.id !== message_id">{{row.message_abbreviation}}</div>
-														<div class="m-t-5 m-l-10" v-if="row.id === message_id">{{row.message}}</div>
-													</div>
-													<div class="left-margin" style="width: 20%">
-														<div >{{row.receiver }}</div>
-													</div>
-													<div class="hidden-xs" style="width: 12%">
-														<div>{{ row.amount }}</div>
-													</div>
-													<div class="left-margin" style="width: 18%">
-														<div class="label " :class="rowStatusClass(row)">{{row.status }}</div>
-													</div>
-													<div class="">
+				</TableVuePlaceHolder>
+				<div v-else>
+					<div class="row" v-for="row in messages_sent.data" :key="row.id" v-show="messages_sent.data.length > 0">
+						<div class="sms-history-card card-container">
+							<div><i class="entypo-chat" :class="{'all-chat-color': all_active, 'number-api-chat-color': number_api_active, 'dnd-chat-color': dnd_active, 'generic-chat-color':generic_active, 'whatsapp-chat-color': whatsapp_active}" style="font-size: 20px; color: green; width: 5%"></i></div>
+							<div class="section-width">
+								<div class="bold m-l-10" style="font-size: 15px; font-weight: 500" >Outgoing Message from {{ row.sender }}</div>
+								<div class="m-t-5 m-l-10">	<span style="color: #898989">{{ row.created_at }}</span> 	<span class="m-l-10" style="color: #898989">Channel: {{ row.channel }}</span></div>
+								<div class="m-t-5 m-l-10" v-if="row.id !== message_id">{{row.message_abbreviation}}</div>
+								<div class="m-t-5 m-l-10" v-if="row.id === message_id">{{row.message}}</div>
+							</div>
+							<div class="left-margin" style="width: 20%">
+								<div >{{row.receiver }}</div>
+							</div>
+							<div class="hidden-xs" style="width: 12%">
+								<div>{{ row.amount }}</div>
+							</div>
+							<div class="left-margin" style="width: 18%">
+								<div class="label " :class="rowStatusClass(row)">{{row.status }}</div>
+							</div>
+							<div class="">
 																<span style="width: 5%" class="expand-icon" @click="expandMessageSent(row)">
 																		<i class="fa fa-expand" style="color: #2D74AC; cursor: pointer">
 																		</i>
 																</span>
-													</div>
-												</div>
-											</div>
-											<div>
-												<div style="text-align: center; cursor: pointer" v-show="messages_sent.data.length < 1">No data available</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<Pagination
-									:page="page"
-									:total_page="total_page"
-									:on-page-change="onPageChange"
-									v-show="showPagination === true"
-								>
-								</Pagination>
-							</section>
-						</main>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div style="text-align: center; cursor: pointer" v-show="messages_sent.data.length < 1">No data available</div>
 					</div>
 				</div>
 			</div>
+		</div>
+		<Pagination
+			:page="page"
+			:total_page="total_page"
+			:on-page-change="onPageChange"
+			v-show="showPagination === true"
+		>
+		</Pagination>
+
+
 		<ExportModal></ExportModal>
 		<SmsHistoryModal v-if="showSmsModal" @close="closeModal" :sms_id="sms_history_id"></SmsHistoryModal>
 		<VerificationModal></VerificationModal>
@@ -409,6 +383,12 @@ export default {
 </script>
 
 <style scoped>
+
+.history-container{
+	margin-top: 4em;
+	padding: 4.5em 4.5em 1em 4.5em;
+}
+
 @media (min-width: 769px){
 	.content-wrapper {
 		display: table-cell;
@@ -464,7 +444,7 @@ export default {
 	background-color: white;
 	box-shadow: 0 10px 45px 0 rgba(0,0,0,.1);
 	margin-bottom: 20px;
-	padding: 40px 30px;
+	padding: 30px 30px;
 }
 .filter-card{
 	z-index: 10;
