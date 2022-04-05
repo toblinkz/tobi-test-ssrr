@@ -70,7 +70,7 @@
 						<SidebarProductItem v-if="canViewDevelopersSettings" item-name="Developers" icon-name="entypo-code" :product-number = 5>
 							<template v-slot:menu-item>
 								<li v-if="canViewDevelopersSettings"><a href="https://developers.termii.com" target="_blank" ><i class="entypo-docs m-r-10"></i> API Guide</a></li>
-								<li v-if="canViewApiConsole"><nuxt-link to="/account/api"><i class="entypo-key m-r-10"></i> Api console</nuxt-link></li>
+								<li v-if="canViewApiConsole"><nuxt-link to="/account/api"><i class="entypo-key m-r-10"></i> API console</nuxt-link></li>
 								<li><a href="https://join.slack.com/t/termii-loop/shared_invite/zt-imbqlf68-w4lsPkOzibBXSQohu8_8dQ" target="_blank"><i class="entypo-users m-r-10"></i> Community</a></li>
 							</template>
 						</SidebarProductItem>
@@ -79,7 +79,7 @@
 							<template v-slot:menu-item>
 								<li><nuxt-link to="/account/profile"><i class="icon-user m-r-10"></i>Profile</nuxt-link></li>
 								<li><nuxt-link to="/teams"><i class="entypo-user-add m-r-10"></i>Teams</nuxt-link></li>
-								<li><nuxt-link to="/account/api"><i class="icon-key m-r-10"></i>Api Token</nuxt-link></li>
+								<li><nuxt-link to="/account/api"><i class="icon-key m-r-10"></i>API Token</nuxt-link></li>
 								<li><nuxt-link to="/account/webhook/config"><i class="entypo-tools m-r-10"></i>Webhook Config</nuxt-link></li>
 							</template>
 						</SidebarProductItem>
