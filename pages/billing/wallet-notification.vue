@@ -19,7 +19,7 @@
 								  <p v-if="isValidEmail(channelItemName)" style="font-size: 15px">Email</p>
 							  	<p v-if="isValidUrl(channelItemName)" style="font-size: 15px">Webhook</p>
 								  <p style="font-size: 15px">{{channelItemName}}</p>
-								  <p style="padding: 0.3em;font-size: 14px; background: #4caf50; border-radius: 10px; color: #FFFFFF">{{timeToSendNextNotification}}</p>
+								  <p style="padding: 2px 10px;;font-size: 14px; background: #4caf50; border-radius: 20px; color: #FFFFFF">{{timeToSendNextNotification}}</p>
 								<div class="action" v-click-outside="closeMenu">
 									<img src="/images/icons/svg_icons/overflow-menu-vertical.svg" alt="" @click="toggleMenu">
 

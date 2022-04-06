@@ -23,7 +23,7 @@
 												</nuxt-link>
 											</li>
 											<li v-if="canAccessBalanceLimit"><nuxt-link to="/billing/balance-limit"><i class="entypo-key"></i> Alert <span class="badge badge-sm badge-sidebar">New</span></nuxt-link></li>
-											<li><nuxt-link to="/billing/wallet-notification" ><i class="entypo-list-add"></i>Set Balance Notification</nuxt-link></li>
+											<li><nuxt-link to="/billing/wallet-notification" ><i class="entypo-list-add"></i>Balance Notification</nuxt-link></li>
 										</template>
 							</SidebarItem>
 
