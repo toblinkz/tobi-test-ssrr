@@ -16,8 +16,7 @@
 							</div>
 							<div  style="border-bottom: dotted #ddd!important;"></div>
 					  <div class="notification-card">
-								  <p v-if="isValidEmail(channelItemName)" style="font-size: 15px">Email</p>
-							  	<p v-if="isValidUrl(channelItemName)" style="font-size: 15px">Webhook</p>
+								  <p style="font-size: 15px">Email</p>
 								  <p style="font-size: 15px">{{channelItemName}}</p>
 								  <p style="padding: 2px 10px;;font-size: 14px; background: #4caf50; border-radius: 20px; color: #FFFFFF">{{timeToSendNextNotification}}</p>
 								<div class="action" v-click-outside="closeMenu">
@@ -47,7 +46,6 @@
 							<label>Select Channel</label>
 							<select class="select-dropdown" @change="selectChannel($event)">
 								<option>Email</option>
-								<option>Webhook</option>
 							</select>
 						</div>
 
@@ -76,11 +74,11 @@
 								<span  class="error_field_message" v-if="errorMessage.email">{{errorMessage.email}}</span>
 							</div>
 
-								<div v-if="channel === 'Webhook'" class="input-form-container">
-									<label>Webhook:</label>
-									<input v-model="webhook" class="input-form"/>
-									<span  class="error_field_message" v-if="errorMessage.webhook">{{errorMessage.webhook}}</span>
-								</div>
+<!--								<div v-if="channel === 'Webhook'" class="input-form-container">-->
+<!--									<label>Webhook:</label>-->
+<!--									<input v-model="webhook" class="input-form"/>-->
+<!--									<span  class="error_field_message" v-if="errorMessage.webhook">{{errorMessage.webhook}}</span>-->
+<!--								</div>-->
 						  <a v-if="cancelEdit && channelItemName" @click="cancelEditNotification" style="margin-top: 3em;" class="btn btn-danger">Cancel</a>
         <div style="margin-top: 2em; float: right">
 									<ButtonSpinner

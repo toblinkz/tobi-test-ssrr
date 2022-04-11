@@ -13,7 +13,7 @@
 								<label>Select Channel</label>
 								<select class="select-dropdown" @change="selectChannel($event)">
 									<option>Email</option>
-									<option>Webhook</option>
+<!--									<option>Webhook</option>-->
 								</select>
 							</div>
 
