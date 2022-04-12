@@ -36,7 +36,6 @@
 								confirm
 							/>
 
-
 							<div v-if="channel === 'Email'" class="input-form-container">
 								<label>Email:</label>
 								<input v-model="email" class="input-form"/>
