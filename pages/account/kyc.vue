@@ -189,7 +189,7 @@ export default {
 }
 
 .kyc--add-document--center {
-	margin: 40px auto;
+	margin: 100px auto;
 }
 
 .kyc--add-document:hover {
