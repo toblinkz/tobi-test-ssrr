@@ -6,13 +6,7 @@ export default {
 	},
 
 	render: {
-		csp: {
-			 policies:{
-					'Content-Security-Policy': "frame-ancestors 'none';",
-					'X-Frame-Options':"none"
-				},
-				addMeta: true
-		}
+		csp: true
 	},
 	/*
 	** Headers of the page
@@ -96,10 +90,16 @@ export default {
 	modules: [
 		'@nuxtjs/axios',
 		'@nuxtjs/toast',
+		'nuxt-helmet',
+
 		['nuxt-stripe-module', {
 			publishableKey: process.env.STRIPE_PK,
 		}],
 	],
+	helmet: {
+		'Content-Security-Policy': "frame-ancestors 'none';",
+		'X-Frame-Options':"none"
+	},
 	generate: {
 		fallback: true, // if you want to use '404.html' instead of the default '200.html'
 	},
