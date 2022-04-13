@@ -39,6 +39,8 @@ function hasAccess(route_name){
 			return customer_permissions.includes('view_wallet_history');
 		case "billing-balance-limit":
 			return customer_permissions.includes('view_balance_limit');
+		case "billing-wallet-notification":
+			return customer_permissions.includes('view_balance_limit');
 		case "sms-sender-id-management":
 			return customer_permissions.includes('view_sender_id');
 		case "devices":
