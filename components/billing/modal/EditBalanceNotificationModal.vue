@@ -49,7 +49,7 @@
 							</div>
 							<a v-if="cancelEdit && channelItemName" @click="cancelEditNotification" style="margin-top: 3em;" class="btn btn-danger">Cancel</a>
 							<div style="margin-top: 2em; float: right">
-								<ButtonSpinner
+								<CustomButtonSpinner
 									:action="setWalletBalanceNotificationFrequency"
 									:button_text="buttonText"
 									:is-disabled="isDisabled"
@@ -65,9 +65,10 @@
 import DatePicker from "vue2-datepicker";
 import 'vue2-datepicker/index.css';
 import ButtonSpinner from "@/components/general/ButtonSpinner";
+import CustomButtonSpinner from "@/components/general/CustomButtonSpinner";
 export default {
 	name: "EditBalanceNotificationModal",
-	components: {ButtonSpinner,  DatePicker},
+	components: {CustomButtonSpinner, ButtonSpinner,  DatePicker},
 	data(){
 		 return{
 				buttonText:'Set notification',

@@ -1,6 +1,6 @@
 <template>
   <a>
-    <button  @click="action"  class="btnl bg-blue m-t-10" :disabled="isDisabled">
+    <button type="submit"  class="btnl bg-blue m-t-10" :disabled="isDisabled">
       {{button_text}}
       <span v-show="isLoading">
         <img src="/images/spinner.svg" height="20px" width="30px"/>
@@ -23,8 +23,7 @@
         },
         isLoading: {
             type: Boolean
-        },
-								action: Function
+        }
       }
     }
 </script>

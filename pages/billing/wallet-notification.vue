@@ -81,7 +81,7 @@
 <!--								</div>-->
 						  <a v-if="cancelEdit && channelItemName" @click="cancelEditNotification" style="margin-top: 3em;" class="btn btn-danger">Cancel</a>
         <div style="margin-top: 2em; float: right">
-									<ButtonSpinner
+									<CustomButtonSpinner
 										 :action="setWalletBalanceNotificationFrequency"
 									  :button_text="buttonText"
 											:is-disabled="isDisabled"
@@ -110,11 +110,13 @@ import TableVuePlaceHolder from "@/components/general/TableVuePlaceHolder";
 import DeleteBalanceNotificationModal from "@/components/billing/modal/DeleteBalanceNotificationModal";
 import BoardSkeleton from "@/components/skeletons/BoardSkeleton";
 import EditBalanceNotificationModal from "@/components/billing/modal/EditBalanceNotificationModal";
+import CustomButtonSpinner from "@/components/general/CustomButtonSpinner";
 
 export default {
 	name: "wallet-notification",
 	middleware: ['auth', 'permission'],
 	components: {
+		CustomButtonSpinner,
 		EditBalanceNotificationModal,
 		BoardSkeleton, DeleteBalanceNotificationModal, TableVuePlaceHolder, ButtonSpinner, Switches, DatePicker},
 	data() {
