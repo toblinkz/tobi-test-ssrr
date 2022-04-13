@@ -4,7 +4,7 @@ export default {
 	router: {
 		mode: 'hash',
 	},
-	target: 'server',
+
 	render: {
 		csp: {
 			 policies:{
