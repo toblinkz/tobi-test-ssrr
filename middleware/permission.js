@@ -85,6 +85,8 @@ function hasAccess(route_name){
 			return customer_permissions.includes('change_password');
 		case "account-webhook-config":
 			return customer_permissions.includes('view_webhook_config');
+		case "account-kyc":
+			return customer_permissions.includes('view_webhook_config');
 		case "sms-countries":
 			return customer_permissions.includes('view_active_country_route');
 		case "sandbox":

@@ -127,41 +127,4 @@ export default {
 	padding: 0;
 	width: 1000px;
 }
-
-.email-form-control {
-	display: block;
-	width: 100%;
-	border: 1px solid rgba(204, 204, 204, 0.34);
-	height: 40px;
-	padding: 10px 16px;
-	font-size: 13px;
-	border-radius: 5px;
-	font-weight: 500;
-	box-shadow: none;
-	line-height: 1.5384616;
-	color: #333333;
-	background-color: #fff;
-	background-image: none;
-	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-}
-.email-form-control:focus {
-	border-color: #4DB6AC;
-	box-shadow: none;
-	outline: 0;
-}
-input[type="text"], input[type="password"]{
-	-webkit-appearance: none;
-	border: 1px solid rgba(0, 0, 0, 0.07);
-}
-.form-group i.password-visibility{
-	height: 16px;
-	cursor: pointer;
-	fill: #0a2e65;
-	top: 15px;
-	width: 16px;
-	opacity: 1;
-	position: absolute;
-	right: 16px;
-}
 </style>
