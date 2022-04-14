@@ -9,16 +9,18 @@
 		 <TableVuePlaceHolder  v-if="showShimmer"/>
     <div v-if="!enableWalletNotification" style="padding: 0 7em">
 							<div class="header-style">
-								<p class="header-title m-l-10">Channel</p>
-								<p class="header-title ">Channel address</p>
-								<p class="header-title ">Next notification</p>
-								<p class="header-title m-r-20">Action</p>
+									<p class="header-title m-l-10">Channel</p>
+									<p class="header-title ">Channel address</p>
+									<p class="header-title" >Next notification</p>
+									<p class="header-title m-r-20">Action</p>
 							</div>
+
 							<div  style="border-bottom: dotted #ddd!important;"></div>
-					  <div class="notification-card">
-								  <p style="font-size: 15px">Email</p>
-								  <p style="font-size: 15px">{{channelItemName}}</p>
-								  <p style="padding: 2px 10px;;font-size: 14px; background: #4caf50; border-radius: 20px; color: #FFFFFF">{{timeToSendNextNotification}}</p>
+
+					  <div class="notification-card" style="width: 100%">
+								  <p style="font-size: 15px;">Email</p>
+								  <div style="width: 20%"> <p style="font-size: 15px; overflow-wrap: break-word; word-wrap: break-word;">{{channelItemName}}</p></div>
+								 <div class="m-r-10"><p style="padding: 2px 10px; font-size: 14px; background: #4caf50; border-radius: 20px; color: #FFFFFF">{{timeToSendNextNotification}}</p></div>
 								<div class="action" v-click-outside="closeMenu">
 									<img src="/images/icons/svg_icons/overflow-menu-vertical.svg" alt="" @click="toggleMenu">
 
@@ -36,6 +38,7 @@
 
 								</div>
 							</div>
+
 				</div>
 
 
@@ -186,6 +189,7 @@ export default {
 		toggleMenu() {
 			this.isMenuOpen = !this.isMenuOpen
 		},
+
 		showWalletNotificationForm(){
 			 this.enableWalletNotification = true;
 				this.cancelEdit = true;
