@@ -249,7 +249,7 @@ export default {
 }
 .select-dropdown {
 	padding: 0.5em;
-	border-radius: 8px;
+	border-radius: 5px;
 	font-size: 14px;
 }
 .action-class{
@@ -259,7 +259,7 @@ export default {
 }
 .input-form {
 	padding: 0.5em;
-	border-radius: 8px;
+	border-radius: 5px;
 	border: 1px solid rgba(0, 0, 0, 0.2);
 }
 

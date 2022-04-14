@@ -1,7 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
 	<div class="wallet-notification-container">
 		<div class="text-center">
-			<p id="welcome" style="margin-top: 10px;margin-bottom: 15px"><i class="entypo-list-add"></i> Set Balance Notification</p>
+			<p id="welcome" style="margin-top: 10px;margin-bottom: 15px"><i class="entypo-bell"></i> Set Balance Notification</p>
 			<p style="font-size: 14px">Keep tabs on your Wallet Balance on the go!</p>
 			<p style="font-size: 14px">Receive updates at a customized frequency and on your preferred notification channel.<br></p>
 		</div>
@@ -337,7 +337,7 @@ label{
 	padding: 2em 6em;
 	align-self: center;
 	background-color: #FFFFFF;
-	box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.2);
+	box-shadow: 0 10px 45px 0 rgb(0 0 0 / 10%);
 }
 
 .notification-card{
@@ -347,7 +347,7 @@ label{
 	margin-top: 1em;
 	padding: 2.5em 1.5em;
 	border-radius: 8px;
-	box-shadow: 8px 10px 20px 0 rgba(0, 0, 0, 0.2);
+	box-shadow: 0 10px 45px 0 rgb(0 0 0 / 10%);
 }
 
 
@@ -374,7 +374,7 @@ label{
 
 .select-dropdown {
 	padding: 0.5em;
-	border-radius: 8px;
+	border-radius: 5px;
 	font-size: 14px;
 }
 .action-class{
@@ -384,7 +384,7 @@ label{
 }
 .input-form {
 	padding: 0.5em;
-	border-radius: 8px;
+	border-radius: 5px;
 	border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
