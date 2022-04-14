@@ -23,7 +23,7 @@
 												</nuxt-link>
 											</li>
 											<li v-if="canAccessBalanceLimit"><nuxt-link to="/billing/balance-limit"><i class="entypo-key"></i> Alert <span class="badge badge-sm badge-sidebar">New</span></nuxt-link></li>
-											<li><nuxt-link to="/billing/wallet-notification" ><i class="entypo-list-add"></i>Balance Notification</nuxt-link></li>
+											<li><nuxt-link to="/billing/wallet-notification" ><i class="entypo-bell"></i>Balance Notification </nuxt-link></li>
 										</template>
 							</SidebarItem>
 
@@ -35,6 +35,7 @@
 									<li v-if="canViewNumbers"><nuxt-link to="/my-number"><i class="fa fa-tty m-r-15"></i>Numbers</nuxt-link></li>
 									<li v-if="canViewContacts"><nuxt-link to="/phone-book"><i class="entypo-user-add m-r-10"></i>Contacts</nuxt-link></li>
 									<li v-if="canComposeMessage"><nuxt-link to="/message/select-type"><i class="entypo-paper-plane m-r-10"></i>Send Messages</nuxt-link></li>
+									<li><nuxt-link to="/account/kyc" style="display: flex; justify-content: space-between"><span><i class="entypo-newspaper m-r-10"></i>KYC</span> <span style="margin-right: 2em;" class="badge badge-sm badge-sidebar">New</span></nuxt-link></li>
 								</template>
 						</SidebarProductItem>
 
