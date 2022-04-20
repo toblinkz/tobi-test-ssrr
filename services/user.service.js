@@ -60,6 +60,19 @@ export class UserService {
 				})
 	}
 
+	async resendVerificationCode(verificationCode){
+		let data = {verification_code: verificationCode,};
+		let signature = hashRequestPayload(data);
+		return await this.$axios.$post('auth/account/token/resend', data, {
+			headers:{
+				'Authorization':  `Bearer ${localStorage.getItem('local')}`,
+				'X-TERMII-SIGNATURE': signature,
+				'IPAS': process.env.IPAS
+			}
+		})
+	}
+
+
 
 	async getPhonebook(){
 		return await this.$axios.$get('sms/phone-book?filter=unpaginated');
