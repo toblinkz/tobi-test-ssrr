@@ -60,9 +60,8 @@ export class UserService {
 				})
 	}
 
-	async resendVerificationCode(){
-		let currentDate = Date.now();
-		let data = {verification_code: currentDate};
+	async resendVerificationCode(currentDate){
+		let data = {verification_code: currentDate}
 		let signature = hashRequestPayload(data);
 		return await this.$axios.$post('auth/account/token/resend', data, {
 			headers:{
