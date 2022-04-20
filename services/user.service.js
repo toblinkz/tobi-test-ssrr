@@ -36,6 +36,7 @@ export class UserService {
 			phone: phone
 		});
 	}
+
 	async LoginUser(email, password){
 		let data = { email: email, password: password}
 		let signature = hashRequestPayload(data);
@@ -46,6 +47,19 @@ export class UserService {
 			}
 		});
 	}
+
+	async verifyUser(verificationCode){
+		  let data = {verification_code: verificationCode};
+				let signature = hashRequestPayload(data);
+				return await this.$axios.$post('auth/account/verify', data, {
+					 headers:{
+							'Authorization':  `Bearer ${localStorage.getItem('local')}`,
+							'X-TERMII-SIGNATURE': signature,
+							'IPAS': process.env.IPAS
+						}
+				})
+	}
+
 
 	async getPhonebook(){
 		return await this.$axios.$get('sms/phone-book?filter=unpaginated');

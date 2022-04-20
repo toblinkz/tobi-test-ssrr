@@ -84,10 +84,7 @@ name: "VerificationModal",
 				try{
 					this.isLoading = true;
 					this.button_text = "Verifying";
-					await this.$axios.$post('auth/account/verify',{
-						verification_code: this.verification_code
-					}, {headers: {'Authorization':  `Bearer ${localStorage.getItem('local')}`}});
-
+					await this.$user.verifyUser(this.verification_code)
 					let response = 	await this.$user.getUser();
 
  			 this.$utility.setExpiryTime();
