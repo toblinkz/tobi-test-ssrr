@@ -111,7 +111,7 @@ name: "VerificationModal",
 		},
 			async resendVerificationCode(){
 				try{
-					await this.$user.resendVerificationCode(Date.now);
+					await this.$user.resendVerificationCode();
 					this.$toast.success("Verification code has been resent")
 				}catch (e) {
 
