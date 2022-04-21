@@ -4,7 +4,8 @@ export class UserService {
 	constructor(axios) {
 		this.$axios = axios
 	}
-	async registerUser(first_name, last_name, email, password, phone_number, selected_country, sector_id, company, role_id, notification_opt_in){
+
+	async registerUser(first_name, last_name, email, password, phone_number, selected_country, sector_id, company, role_id, notification_opt_in, privacy_policy) {
 		let data = {
 			first_name: first_name,
 			last_name: last_name,
@@ -13,19 +14,21 @@ export class UserService {
 			phone_number: phone_number,
 			country: selected_country,
 			sector: sector_id,
-			company:company,
+			company: company,
 			role: role_id,
-			notification_opt_in: notification_opt_in
+			notification_opt_in: notification_opt_in,
+			privacy_policy: privacy_policy
 		}
 		let signature = hashRequestPayload(data);
 		return await this.$axios.$post('auth/register', data, {
-			headers:{
+			headers: {
 				'X-TERMII-SIGNATURE': signature,
 				'IPAS': process.env.IPAS
 			}
 		});
 	}
-	async updateProfile(first_name, last_name, email, password, company_sector, image, phone){
+
+	async updateProfile(first_name, last_name, email, password, company_sector, image, phone) {
 		return await this.$axios.$patch('user/profile', {
 			first_name: first_name,
 			last_name: last_name,
@@ -36,25 +39,27 @@ export class UserService {
 			phone: phone
 		});
 	}
-	async LoginUser(email, password){
-		let data = { email: email, password: password}
+
+	async LoginUser(email, password) {
+		let data = {email: email, password: password}
 		let signature = hashRequestPayload(data);
-		return await this.$axios.$post('auth/login',  data, {
-			headers:{
+		return await this.$axios.$post('auth/login', data, {
+			headers: {
 				'X-TERMII-SIGNATURE': signature,
 				'IPAS': process.env.IPAS
 			}
 		});
 	}
 
-	async getPhonebook(){
+	async getPhonebook() {
 		return await this.$axios.$get('sms/phone-book?filter=unpaginated');
 	}
-	async authenticateUserForCampaign(email, password){
-		let data = { email: email, password: password};
+
+	async authenticateUserForCampaign(email, password) {
+		let data = {email: email, password: password};
 		let signature = hashRequestPayload(data);
 		return await this.$axios.$post('auth/login', data, {
-			headers:{
+			headers: {
 				'X-TERMII-SIGNATURE': signature,
 				'IPAS': process.env.IPAS
 			}
@@ -62,26 +67,34 @@ export class UserService {
 	}
 
 
-	async getUser(){
-		return  await this.$axios.$get('user', {
+	async getUser() {
+		return await this.$axios.$get('user', {
 			headers: {
 				'Authorization': `Bearer ${localStorage.getItem('local')}`
 			}
 		});
 	}
 
-	async getLoggedInUserData () {
+	async getLoggedInUserData() {
 		return await this.$axios.$get('user');
 	}
 
-	async updateCompanyName(company_name){
+	async updateCompanyName(company_name) {
 		return await this.$axios.$patch('user/company', {
 			company_name: company_name
 		});
 	}
-	async updateIsWizardCompleted(){
+
+	async updateIsWizardCompleted() {
 		return await this.$axios.$patch('user/wizard', {
 			is_wizard_completed: 1
 		})
 	}
+
+	async acceptPrivacyPolicy() {
+		return await this.$axios.post('user/privacy/policy', {
+			privacy_policy: true
+		})
+	}
 }
+
