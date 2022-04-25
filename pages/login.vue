@@ -141,45 +141,49 @@ export default {
 			}
 		},
 
-		async loginUser() {
+		async loginUser(action) {
 			try{
-				this.isLoading = true;
-				this.button_text = "Logging in";
 
-				let campaign_auth_response =  await this.$user.authenticateUserForCampaign(this.email, this.password);
-				await 	localStorage.setItem('campaign_token', campaign_auth_response.access_token);
-				let response_data = await this.$user.LoginUser(this.email, this.password);
-				await 	localStorage.setItem('local', response_data.access_token);
-				localStorage.setItem('activity_log_error', 'false');
+				await this.$recaptcha.execute(action).then(async () => {
 
-				this.$utility.setExpiryTime();
-				this.$store.commit('setLIState', true);
-				let response = 	await this.$axios.$get('user', {
-					headers:{'Authorization': `Bearer ${localStorage.getItem('local')}`}
-				})
+					this.isLoading = true;
+					this.button_text = "Logging in";
 
-				this.permissions_data = await response.data.permissions
-				this.permissions_data.forEach((permission) => {
-					this.customer_permissions.push(permission.name);
+					let campaign_auth_response = await this.$user.authenticateUserForCampaign(this.email, this.password);
+					await localStorage.setItem('campaign_token', campaign_auth_response.access_token);
+					let response_data = await this.$user.LoginUser(this.email, this.password);
+					await localStorage.setItem('local', response_data.access_token);
+					localStorage.setItem('activity_log_error', 'false');
+
+					this.$utility.setExpiryTime();
+					this.$store.commit('setLIState', true);
+					let response = await this.$axios.$get('user', {
+						headers: {'Authorization': `Bearer ${localStorage.getItem('local')}`}
+					})
+
+					this.permissions_data = await response.data.permissions
+					this.permissions_data.forEach((permission) => {
+						this.customer_permissions.push(permission.name);
+					});
+					await localStorage.setItem('permissions', JSON.stringify(this.customer_permissions));
+
+					await localStorage.setItem('user_data', JSON.stringify(response.data));
+
+					if (JSON.parse(localStorage.getItem('user_data')).active_status_id.name === "Pending") {
+						this.$store.commit('setFirstName', JSON.parse(localStorage.getItem('user_data')).fname);
+						this.$store.commit('setViewVerificationPage', 'true');
+						await this.$router.push('/verify');
+					} else {
+						this.isLoading = false;
+						this.button_text = "Proceed";
+
+						let redirect_url = localStorage.getItem('redirect_path') || '/'
+						this.$axios.setHeader('Authorization', `Bearer ${localStorage.getItem('local')}`);
+						await this.$router.push(`${redirect_url}`)
+
+						this.$store.commit('setViewVerificationPage', 'false');
+					}
 				});
-				await localStorage.setItem('permissions', JSON.stringify(this.customer_permissions));
-
-				await localStorage.setItem('user_data', JSON.stringify(response.data));
-
-				if (JSON.parse(localStorage.getItem('user_data')).active_status_id.name === "Pending"){
-					this.$store.commit('setFirstName', JSON.parse(localStorage.getItem('user_data')).fname);
-					this.$store.commit('setViewVerificationPage', 'true');
-					await this.$router.push('/verify');
-				}else {
-					this.isLoading = false;
-					this.button_text = "Proceed";
-
-					let redirect_url = localStorage.getItem('redirect_path') || '/'
-					this.$axios.setHeader('Authorization', `Bearer ${localStorage.getItem('local')}`);
-					await this.$router.push(`${redirect_url}`)
-
-					this.$store.commit('setViewVerificationPage', 'false');
-				}
 
 			} catch (e) {
 				this.isLoading = false;
@@ -217,10 +221,18 @@ export default {
 			}
 		},
 	},
-	mounted() {
 
+	beforeDestroy() {
+		this.$recaptcha.destroy()
+	},
+
+	async mounted() {
+		try {
+			await this.$recaptcha.init();
+		} catch (e) {
+			console.error(e);
+		}
 	}
-
 }
 </script>
 

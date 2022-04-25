@@ -225,6 +225,7 @@ export default {
 		}
 	},
 	methods: {
+
 		validateEmail(value){
 			if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)){
 				this.error_message['email'] = '';
@@ -347,15 +348,17 @@ export default {
 		},
 
 
-		async registerUser(){
+		async registerUser(action){
 
 			this.isLoading = true;
 			this.button_text = "Creating..."
 			try{
-				 await this.$user.registerUser(this.first_name, this.last_name, this.email,
-					this.password, this.phone_number, this.selected_country,
-					this.sectors_id, this.company, this.role_id, this.notification_opt_in);
-				 await this.setUserData();
+				await this.$recaptcha.execute(action).then(async () => {
+					await this.$user.registerUser(this.first_name, this.last_name, this.email,
+						this.password, this.phone_number, this.selected_country,
+						this.sectors_id, this.company, this.role_id, this.notification_opt_in);
+					await this.setUserData();
+				});
 			} catch (e) {
 
 				this.isLoading = false;
@@ -385,8 +388,18 @@ export default {
 		},
 
 	},
-	mounted() {
-		this.fetch();
+
+	beforeDestroy() {
+		this.$recaptcha.destroy()
+	},
+
+	async mounted() {
+		try {
+			await this.fetch();
+			await this.$recaptcha.init();
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 

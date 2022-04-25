@@ -80,21 +80,24 @@ name: "VerificationModal",
 					'currency': 'USD'
 				});
 			},
-			async verifyCode(){
+			async verifyCode(action){
 				try{
-					this.isLoading = true;
-					this.button_text = "Verifying";
-					await this.$user.verifyUser(this.verification_code)
-					let response = 	await this.$user.getUser();
+					await this.$recaptcha.execute(action).then(async () => {
 
- 			 this.$utility.setExpiryTime();
-					await localStorage.setItem('user_data', JSON.stringify(response.data));
-					this.isLoading = false;
-					this.button_text = "Verify Code";
-					this.$toast.show("Successfully verified");
-					this.$store.commit('setViewVerificationPage', 'false');
-					this.triggerCustomerConversionScript();
-					await this.$router.push('/');
+							this.isLoading = true;
+							this.button_text = "Verifying";
+							await this.$user.verifyUser(this.verification_code)
+							let response = 	await this.$user.getUser();
+
+							this.$utility.setExpiryTime();
+							await localStorage.setItem('user_data', JSON.stringify(response.data));
+							this.isLoading = false;
+							this.button_text = "Verify Code";
+							this.$toast.show("Successfully verified");
+							this.$store.commit('setViewVerificationPage', 'false');
+							this.triggerCustomerConversionScript();
+							await this.$router.push('/');
+					});
 				}catch (error) {
 					if (navigator.onLine) {
 						this.isLoading = false;
@@ -109,11 +112,13 @@ name: "VerificationModal",
 
 				}
 		},
-			async resendVerificationCode(){
+			async resendVerificationCode(action){
 				try{
-					let currentDate = Date.now();
-					await this.$user.resendVerificationCode(currentDate);
-					this.$toast.success("Verification code has been resent")
+					await this.$recaptcha.execute(action).then(async () => {
+						let currentDate = Date.now();
+						await this.$user.resendVerificationCode(currentDate);
+						this.$toast.success("Verification code has been resent");
+					});
 				}catch (e) {
 
 				}
@@ -131,7 +136,18 @@ name: "VerificationModal",
 				}
 
 			}
-	}
+	},
+		beforeDestroy() {
+			this.$recaptcha.destroy()
+		},
+
+		async mounted() {
+			try {
+				await this.$recaptcha.init();
+			} catch (e) {
+				console.error(e);
+			}
+		}
 }
 </script>
 

@@ -1,6 +1,6 @@
 require('dotenv').config();
 export default {
-	mode: 'spa',
+ ssr:false,
 	router: {
 		mode: 'hash',
 	},
@@ -37,8 +37,14 @@ export default {
 		TERMII_API_KEY: process.env.TERMII_API_KEY,
 		PUBLIC_API_BASE_URL: process.env.PUBLIC_API_BASE_URL,
 		campaignApiBaseURL: process.env.CAMPAIGN_BASE_URL,
-		IPAS: process.env.IPAS
+		IPAS: process.env.IPAS,
+		recaptcha: {
+			hideBadge: true,
+			siteKey:  process.env.RECAPTCHA_SITE_KEY, // Better would be from 'process.env.API_KEY' and with '.env' file
+			version: 3,    // Size: 'compact', 'normal', 'invisible' (v2)
+		},
 	},
+
 	/*
 	** Customize the progress-bar color
 	*/
@@ -91,7 +97,7 @@ export default {
 		'@nuxtjs/axios',
 		'@nuxtjs/toast',
 		'nuxt-helmet',
-
+		'@nuxtjs/recaptcha',
 		['nuxt-stripe-module', {
 			publishableKey: process.env.STRIPE_PK,
 		}],
