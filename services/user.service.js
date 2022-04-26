@@ -90,9 +90,12 @@ export class UserService {
 
 
 	async getUser(){
+		let signature = hashRequestPayload({});
 		return  await this.$axios.$get('user', {
 			headers: {
-				'Authorization': `Bearer ${localStorage.getItem('local')}`
+				'Authorization': `Bearer ${localStorage.getItem('local')}`, // confirm if this is needed
+				'X-TERMII-SIGNATURE': signature,
+				'IPAS': process.env.IPAS
 			}
 		});
 	}
