@@ -118,7 +118,7 @@ export default {
 		termiiApiKey: process.env.TERMII_API_KEY,
 		ADSK: process.env.ADSK,
 		IPAS: process.env.IPAS,
-		RECAPTCHA_SITE_KEY: process.env.RECAPTCHA_SITE_KEY
+		RSK: process.env.RECAPTCHA_SITE_KEY
 	},
 	/*
 	** Build configuration

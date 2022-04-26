@@ -2,4 +2,4 @@ import Vue from 'vue'
 import { VueReCaptcha } from 'vue-recaptcha-v3'
 
 // For more options see below
-Vue.use(VueReCaptcha, { siteKey: process.env.RECAPTCHA_SITE_KEY })
+Vue.use(VueReCaptcha, { siteKey: process.env.RSK })
