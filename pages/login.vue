@@ -220,13 +220,10 @@ export default {
 		},
 	},
 
-	beforeDestroy() {
-		//this.$recaptcha.destroy()
-	},
+
 
 	async mounted() {
 		try {
-		//	await this.$recaptcha.init();
 		} catch (e) {
 			console.error(e);
 		}
