@@ -141,11 +141,10 @@ export default {
 			}
 		},
 
-		async loginUser(action) {
+		async loginUser() {
 			try{
-
-				await this.$recaptcha.execute(action).then(async () => {
-
+				const token = await this.$recaptcha('login');
+				if(token !== null || ''){
 					this.isLoading = true;
 					this.button_text = "Logging in";
 
@@ -183,8 +182,7 @@ export default {
 
 						this.$store.commit('setViewVerificationPage', 'false');
 					}
-				});
-
+				}
 			} catch (e) {
 				this.isLoading = false;
 				this.button_text = "Proceed";
@@ -223,12 +221,12 @@ export default {
 	},
 
 	beforeDestroy() {
-		this.$recaptcha.destroy()
+		//this.$recaptcha.destroy()
 	},
 
 	async mounted() {
 		try {
-			await this.$recaptcha.init();
+		//	await this.$recaptcha.init();
 		} catch (e) {
 			console.error(e);
 		}

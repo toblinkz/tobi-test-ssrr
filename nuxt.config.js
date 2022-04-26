@@ -38,11 +38,6 @@ export default {
 		PUBLIC_API_BASE_URL: process.env.PUBLIC_API_BASE_URL,
 		campaignApiBaseURL: process.env.CAMPAIGN_BASE_URL,
 		IPAS: process.env.IPAS,
-		recaptcha: {
-			hideBadge: true,
-			siteKey:  process.env.RECAPTCHA_SITE_KEY, // Better would be from 'process.env.API_KEY' and with '.env' file
-			version: 3,    // Size: 'compact', 'normal', 'invisible' (v2)
-		},
 	},
 
 	/*
@@ -83,7 +78,8 @@ export default {
 		{ src: '~plugins/idle-vue.js'},
 		{ src: '~plugins/vue-code-highlight.js'},
 		{ src: '~plugins/local-storage.js', ssr: false},
-		{ src: '~plugins/google_tag_no_script.js'}
+		{ src: '~plugins/google_tag_no_script.js'},
+		{ src: '~plugins/vue-captcha-v3.js'}
 	],
 	/*
 	** Nuxt.js dev-modules
@@ -97,7 +93,6 @@ export default {
 		'@nuxtjs/axios',
 		'@nuxtjs/toast',
 		'nuxt-helmet',
-		'@nuxtjs/recaptcha',
 		['nuxt-stripe-module', {
 			publishableKey: process.env.STRIPE_PK,
 		}],
@@ -122,7 +117,8 @@ export default {
 		apiBaseUrl: process.env.API_BASE_URL,
 		termiiApiKey: process.env.TERMII_API_KEY,
 		ADSK: process.env.ADSK,
-		IPAS: process.env.IPAS
+		IPAS: process.env.IPAS,
+		RECAPTCHA_SITE_KEY: process.env.RECAPTCHA_SITE_KEY
 	},
 	/*
 	** Build configuration

@@ -80,24 +80,24 @@ name: "VerificationModal",
 					'currency': 'USD'
 				});
 			},
-			async verifyCode(action){
+			async verifyCode(){
 				try{
-					await this.$recaptcha.execute(action).then(async () => {
+					const token = await this.$recaptcha('verify');
+					if(token !== null || '') {
+						this.isLoading = true;
+						this.button_text = "Verifying";
+						await this.$user.verifyUser(this.verification_code)
+						let response = await this.$user.getUser();
 
-							this.isLoading = true;
-							this.button_text = "Verifying";
-							await this.$user.verifyUser(this.verification_code)
-							let response = 	await this.$user.getUser();
-
-							this.$utility.setExpiryTime();
-							await localStorage.setItem('user_data', JSON.stringify(response.data));
-							this.isLoading = false;
-							this.button_text = "Verify Code";
-							this.$toast.show("Successfully verified");
-							this.$store.commit('setViewVerificationPage', 'false');
-							this.triggerCustomerConversionScript();
-							await this.$router.push('/');
-					});
+						this.$utility.setExpiryTime();
+						await localStorage.setItem('user_data', JSON.stringify(response.data));
+						this.isLoading = false;
+						this.button_text = "Verify Code";
+						this.$toast.show("Successfully verified");
+						this.$store.commit('setViewVerificationPage', 'false');
+						this.triggerCustomerConversionScript();
+						await this.$router.push('/');
+					}
 				}catch (error) {
 					if (navigator.onLine) {
 						this.isLoading = false;
@@ -114,11 +114,12 @@ name: "VerificationModal",
 		},
 			async resendVerificationCode(action){
 				try{
-					await this.$recaptcha.execute(action).then(async () => {
+					const token = await this.$recaptcha('login');
+					if(token !== null || ''){
 						let currentDate = Date.now();
 						await this.$user.resendVerificationCode(currentDate);
 						this.$toast.success("Verification code has been resent");
-					});
+					}
 				}catch (e) {
 
 				}
@@ -137,17 +138,7 @@ name: "VerificationModal",
 
 			}
 	},
-		beforeDestroy() {
-			this.$recaptcha.destroy()
-		},
 
-		async mounted() {
-			try {
-				await this.$recaptcha.init();
-			} catch (e) {
-				console.error(e);
-			}
-		}
 }
 </script>
 
