@@ -1,6 +1,6 @@
 require('dotenv').config();
 export default {
-	mode: 'spa',
+ ssr:false,
 	router: {
 		mode: 'hash',
 	},
@@ -37,8 +37,9 @@ export default {
 		TERMII_API_KEY: process.env.TERMII_API_KEY,
 		PUBLIC_API_BASE_URL: process.env.PUBLIC_API_BASE_URL,
 		campaignApiBaseURL: process.env.CAMPAIGN_BASE_URL,
-		IPAS: process.env.IPAS
+		IPAS: process.env.IPAS,
 	},
+
 	/*
 	** Customize the progress-bar color
 	*/
@@ -77,7 +78,8 @@ export default {
 		{ src: '~plugins/idle-vue.js'},
 		{ src: '~plugins/vue-code-highlight.js'},
 		{ src: '~plugins/local-storage.js', ssr: false},
-		{ src: '~plugins/google_tag_no_script.js'}
+		{ src: '~plugins/google_tag_no_script.js'},
+		{ src: '~plugins/vue-captcha-v3.js'}
 	],
 	/*
 	** Nuxt.js dev-modules
@@ -91,7 +93,6 @@ export default {
 		'@nuxtjs/axios',
 		'@nuxtjs/toast',
 		'nuxt-helmet',
-
 		['nuxt-stripe-module', {
 			publishableKey: process.env.STRIPE_PK,
 		}],
@@ -116,7 +117,8 @@ export default {
 		apiBaseUrl: process.env.API_BASE_URL,
 		termiiApiKey: process.env.TERMII_API_KEY,
 		ADSK: process.env.ADSK,
-		IPAS: process.env.IPAS
+		IPAS: process.env.IPAS,
+		RSK: process.env.RECAPTCHA_SITE_KEY
 	},
 	/*
 	** Build configuration

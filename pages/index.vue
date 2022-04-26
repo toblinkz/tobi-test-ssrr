@@ -172,7 +172,7 @@
 			<SuccessModal :modal_information="modal_information"></SuccessModal>
 			<AnnouncementModal :announcement_information="announcement_information"></AnnouncementModal>
 			<UpdateCompanyNameModal></UpdateCompanyNameModal>
-
+			<PrivacyPolicyModal @privacy-policy-accepted="acceptPrivacyPolicy" />
 
 		</div>
 	</div>
@@ -205,8 +205,11 @@ import AnnouncementModal from "../components/modals/AnnouncementModal";
 import SignUpWizardComponent from "../components/index/modals/SignUpWizardComponent";
 import DoughnutChart from "../components/general/charts/DoughnutChart";
 import OnBoardingModal from "../components/index/modals/OnBoardingModal";
+import PrivacyPolicyModal from "@/components/modals/PrivacyPolicyModal";
+import privacyPolicyModal from "@/components/modals/PrivacyPolicyModal";
 export default {
 	components: {
+		PrivacyPolicyModal,
 		OnBoardingModal,
 		DoughnutChart,
 		SignUpWizardComponent,
@@ -246,10 +249,10 @@ export default {
 			month:'',
 			labels: [],
 			array_of_doughnut_chart_count:[],
-			colors:[]
-
+			colors:[],
 		}
 	},
+
 	computed: {
 		...mapGetters([ 'getViewVerifyPage', 'getFirstName']),
 
@@ -296,11 +299,29 @@ export default {
 
 		// await this.getNuban();
 
+		this.checkIfPrivacyPolicyIsAccepted()
+
 		setInterval(this.getBalance, 60000);
 
 	},
 
 	methods: {
+		checkIfPrivacyPolicyIsAccepted() {
+			let isPrivacyPolicyAccepted
+			isPrivacyPolicyAccepted = JSON.parse(localStorage.getItem('user_data')).company.privacy_policy === false;
+			// isPrivacyPolicyAccepted = JSON.parse(localStorage.getItem('user_data')).is_main;
+
+			if (isPrivacyPolicyAccepted) {
+				this.$modal.show('privacy-policy-modal')
+			}
+		},
+
+		async acceptPrivacyPolicy() {
+			// make the request to the endpoint for accepted privacy policy
+			// console.log('accept the policy here')
+			await this.$user.acceptPrivacyPolicy()
+		},
+
 		async getChartData(){
 			try {
 				let data = await this.$insight.getFilteredChartData('this month');
