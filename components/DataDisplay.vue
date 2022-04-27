@@ -27,7 +27,7 @@ export default {
 
 	methods: {
 		async fetchFile() {
-			const url = "https://termii.s3.us-west-1.amazonaws.com/upload/files/privacy_policy.html"
+			const url = "https://termii.s3.us-west-1.amazonaws.com/upload/files/privacy-policy.html"
 			// const url = "https://termii.s3.us-west-1.amazonaws.com/upload/files/Z3wqtym9r9B35FhsqDy2.html"
 			await fetch(url)
 				.then(r => r.text())

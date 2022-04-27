@@ -146,11 +146,9 @@ export default {
 		async loginUser() {
 			try{
 				const token = await this.$recaptcha('login');
-				console.log(token);
 				if(token !== null || ''){
 					this.isLoading = true;
 					this.button_text = "Logging in";
-
 					let campaign_auth_response = await this.$user.authenticateUserForCampaign(this.email, this.password);
 					await localStorage.setItem('campaign_token', campaign_auth_response.access_token);
 					let response_data = await this.$user.LoginUser(this.email, this.password);
@@ -227,6 +225,7 @@ export default {
 
 	async mounted() {
 		try {
+			this.$recaptchaInstance.hideBadge();
 		} catch (e) {
 			console.error(e);
 		}
