@@ -92,7 +92,7 @@ export class UserService {
 	}
 
 	async acceptPrivacyPolicy() {
-		return await this.$axios.post('user/privacy/policy', {
+		return await this.$axios.patch('user/privacy/policy', {
 			privacy_policy: true
 		})
 	}
