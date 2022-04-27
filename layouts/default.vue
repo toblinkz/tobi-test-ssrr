@@ -34,9 +34,9 @@ export default {
 /*	width: 0;*/
 /*}*/
 
-::-webkit-scrollbar {
-	display: none;
-}
+/*::-webkit-scrollbar {*/
+/*	display: none;*/
+/*}*/
 
 .main-container{
 	width: 83%;
