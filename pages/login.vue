@@ -225,7 +225,7 @@ export default {
 
 	async mounted() {
 		try {
-			this.$recaptchaInstance.hideBadge();
+			//this.$recaptchaInstance.hideBadge();
 		} catch (e) {
 			console.error(e);
 		}
