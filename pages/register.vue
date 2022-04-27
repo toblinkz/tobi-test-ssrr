@@ -401,13 +401,16 @@ export default {
 
 
 		async registerUser() {
-			this.isLoading = true;
-			this.button_text = "Creating..."
 			try {
-				await this.$user.registerUser(this.first_name, this.last_name, this.email,
-					this.password, this.phone_number, this.selected_country,
-					this.sectors_id, this.company, this.role_id, this.notification_opt_in, this.privacyPolicyAccepted);
-				await this.setUserData();
+				const token = await this.$recaptcha('register');
+				if(token !== null || '') {
+					this.isLoading = true;
+					this.button_text = "Creating..."
+					await this.$user.registerUser(this.first_name, this.last_name, this.email,
+						this.password, this.phone_number, this.selected_country,
+						this.sectors_id, this.company, this.role_id, this.notification_opt_in, this.privacyPolicyAccepted);
+					await this.setUserData();
+				}
 			} catch (e) {
 
 				this.isLoading = false;
