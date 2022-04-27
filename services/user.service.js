@@ -43,6 +43,7 @@ export class UserService {
 	async LoginUser(email, password) {
 		let data = {email: email, password: password}
 		let signature = hashRequestPayload(data);
+		console.log(signature);
 		return await this.$axios.$post('auth/login', data, {
 			headers: {
 				'X-TERMII-SIGNATURE': signature,
@@ -58,6 +59,7 @@ export class UserService {
 	async authenticateUserForCampaign(email, password) {
 		let data = {email: email, password: password};
 		let signature = hashRequestPayload(data);
+		console.log(signature);
 		return await this.$axios.$post('auth/login', data, {
 			headers: {
 				'X-TERMII-SIGNATURE': signature,
