@@ -377,12 +377,9 @@ export default {
 		async setUserData() {
 
 			try {
-
 				let response_data = await this.$user.LoginUser(this.email, this.password);
 				localStorage.setItem('local', response_data.access_token);
-
 				let response = await this.$user.getUser();
-
 				await localStorage.setItem('user_data', JSON.stringify(response.data));
 				if (JSON.parse(localStorage.getItem('user_data')).active_status_id.name === "Pending") {
 					this.$store.commit('setFirstName', JSON.parse(localStorage.getItem('user_data')).fname);
@@ -401,13 +398,16 @@ export default {
 
 
 		async registerUser() {
-			this.isLoading = true;
-			this.button_text = "Creating..."
 			try {
-				await this.$user.registerUser(this.first_name, this.last_name, this.email,
-					this.password, this.phone_number, this.selected_country,
-					this.sectors_id, this.company, this.role_id, this.notification_opt_in, this.privacyPolicyAccepted);
-				await this.setUserData();
+				const token = await this.$recaptcha('register');
+				if(token !== null || '') {
+					this.isLoading = true;
+					this.button_text = "Creating..."
+					await this.$user.registerUser(this.first_name, this.last_name, this.email,
+						this.password, this.phone_number, this.selected_country,
+						this.sectors_id, this.company, this.role_id, this.notification_opt_in, this.privacyPolicyAccepted);
+					await this.setUserData();
+				}
 			} catch (e) {
 
 				this.isLoading = false;
