@@ -377,12 +377,9 @@ export default {
 		async setUserData() {
 
 			try {
-
 				let response_data = await this.$user.LoginUser(this.email, this.password);
 				localStorage.setItem('local', response_data.access_token);
-
 				let response = await this.$user.getUser();
-
 				await localStorage.setItem('user_data', JSON.stringify(response.data));
 				if (JSON.parse(localStorage.getItem('user_data')).active_status_id.name === "Pending") {
 					this.$store.commit('setFirstName', JSON.parse(localStorage.getItem('user_data')).fname);

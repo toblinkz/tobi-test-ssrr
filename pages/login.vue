@@ -67,10 +67,11 @@
 
 <script>
 import ButtonSpinner from "../components/general/ButtonSpinner";
+import { VueReCaptcha } from 'vue-recaptcha-v3'
 import Swal from "sweetalert2";
 export default {
 	name: "login",
-	components: {ButtonSpinner},
+	components: {ButtonSpinner, VueReCaptcha},
 	middleware: "guest",
 	layout: 'auth',
 	data(){
@@ -141,9 +142,11 @@ export default {
 			}
 		},
 
+
 		async loginUser() {
 			try{
 				const token = await this.$recaptcha('login');
+				console.log(token);
 				if(token !== null || ''){
 					this.isLoading = true;
 					this.button_text = "Logging in";
