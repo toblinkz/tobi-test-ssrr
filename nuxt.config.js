@@ -5,22 +5,9 @@ export default {
 		mode: 'hash',
 	},
 
-	render: {
-		csp: {
-			reportOnly: false,
-			addMeta: true,     // Add CSP meta-tag in addition to the HTTP header
-			hashAlgorithm: 'sha256',
-			unsafeInlineCompatiblity: true,
-			policies: {
-				'default-src': ["'self'",],
-				'script-src': ["'self'", "'strict-dynamic'", 'https:'],
-				'style-src': ["'self'", "'strict-dynamic'", 'https:'],
-				'frame-src': [],
-				'object-src': ["'none'"],
-				'base-uri': ["'self"]
-			}
-		}
-	},
+	// render: {
+	// 	csp: true
+	// },
 	/*
 	** Headers of the page
 	*/
@@ -113,10 +100,6 @@ export default {
 
 	helmet: {
 		frameguard: {action: "deny"},
-		contentSecurityPolicy: {
-			directives: {frameAncestors: ["'none'"],},
-
-		}
 	},
 	generate: {
 		fallback: true, // if you want to use '404.html' instead of the default '200.html'
