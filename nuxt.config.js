@@ -1,6 +1,6 @@
 require('dotenv').config();
 export default {
- ssr:false,
+ ssr: true,
 	router: {
 		mode: 'hash',
 	},
