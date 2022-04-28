@@ -6,7 +6,19 @@ export default {
 	},
 
 	render: {
-		csp: true
+		csp: {
+			reportOnly: false,
+			addMeta: true,     // Add CSP meta-tag in addition to the HTTP header
+			hashAlgorithm: 'sha256',
+			unsafeInlineCompatiblity: true,
+			policies: {
+				'script-src': ["'self'", "'strict-dynamic'", 'https:'],
+				'style-src': ["'self'", "'strict-dynamic'", 'https:'],
+				'frame-src': [],
+				'object-src': ["'none'"],
+				'base-uri': ["'self"]
+			}
+		}
 	},
 	/*
 	** Headers of the page
@@ -98,6 +110,7 @@ export default {
 		}],
 	],
 	helmet: {
+		frameguard: { action: "deny" },
 		'Content-Security-Policy': "frame-ancestors 'none';",
 		'X-Frame-Options':"none"
 	},
