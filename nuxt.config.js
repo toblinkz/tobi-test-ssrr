@@ -12,8 +12,12 @@ export default {
 			hashAlgorithm: 'sha256',
 			unsafeInlineCompatiblity: true,
 			policies: {
-				'frame-ancestors':["'none'"],
-				'frame-src': ["'self"],
+				'default-src': ["'self'",],
+				'script-src': ["'self'", "'strict-dynamic'", 'https:'],
+				'style-src': ["'self'", "'strict-dynamic'", 'https:'],
+				'frame-src': [],
+				'object-src': ["'none'"],
+				'base-uri': ["'self"]
 			}
 		}
 	},
