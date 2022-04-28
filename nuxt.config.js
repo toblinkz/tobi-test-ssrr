@@ -13,6 +13,7 @@ export default {
 			unsafeInlineCompatiblity: true,
 			policies: {
 				'frame-ancestors':["'none'"],
+				'frame-src': ["'none"],
 			}
 		}
 	},
