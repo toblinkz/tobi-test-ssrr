@@ -12,8 +12,7 @@ export default {
 			hashAlgorithm: 'sha256',
 			unsafeInlineCompatiblity: true,
 			policies: {
-				'Content-Security-Policy': ["frame-ancestors 'none';"],
-				'X-Frame-Options':"none",
+				'frame-ancestors':["'none'"],
 			}
 		}
 	},
