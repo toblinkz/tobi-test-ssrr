@@ -145,9 +145,8 @@ export default {
 
 		async loginUser() {
 			try{
-				const token = await this.$recaptcha('login');
-
-				if(token !== null || ''){
+				// const token = await this.$recaptcha('login');
+				// if(token !== null || ''){
 					this.isLoading = true;
 					this.button_text = "Logging in";
 					let campaign_auth_response = await this.$user.authenticateUserForCampaign(this.email, this.password);
@@ -184,7 +183,7 @@ export default {
 
 						this.$store.commit('setViewVerificationPage', 'false');
 					}
-				}
+				// }
 			} catch (e) {
 				this.isLoading = false;
 				this.button_text = "Proceed";
