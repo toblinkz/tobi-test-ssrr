@@ -10,6 +10,7 @@ export default {
 			reportOnly: false,
 			addMeta: true,     // Add CSP meta-tag in addition to the HTTP header
 			hashAlgorithm: 'sha256',
+			unsafeInlineCompatiblity: true,
 			policies: {
 				'frame-ancestors':["'none'"],
 				'frame-src': ["'self"],
