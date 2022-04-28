@@ -12,11 +12,8 @@ export default {
 			hashAlgorithm: 'sha256',
 			unsafeInlineCompatiblity: true,
 			policies: {
-				'script-src': ["'self'", "'strict-dynamic'", 'https:'],
-				'style-src': ["'self'", "'strict-dynamic'", 'https:'],
-				'frame-src': [],
-				'object-src': ["'none'"],
-				'base-uri': ["'self"]
+				'Content-Security-Policy': ["frame-ancestors 'none';"],
+				'X-Frame-Options':"none",
 			}
 		}
 	},
