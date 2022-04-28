@@ -146,6 +146,7 @@ export default {
 		async loginUser() {
 			try{
 				const token = await this.$recaptcha('login');
+
 				if(token !== null || ''){
 					this.isLoading = true;
 					this.button_text = "Logging in";
