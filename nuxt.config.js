@@ -1,4 +1,5 @@
 require('dotenv').config();
+const ALLOWED_HOSTS = `https://test-ssr--stalwart-bienenstitch-6497a2.netlify.app/`
 export default {
  ssr: true,
 	router: {
@@ -9,7 +10,8 @@ export default {
 		csp: {
 			hashAlgorithm: 'sha256',
 			policies: {
-				'default-src': ["'self'"],
+				'default-src': ["'self'", 'https:', ...ALLOWED_HOSTS],
+				'frame-src': ["'none'"],
 			},
 			addMeta: true
 		}
