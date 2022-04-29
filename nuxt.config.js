@@ -8,12 +8,18 @@ export default {
 
 	render: {
 		csp: {
+			reportOnly: false,
+			addMeta: true,     // Add CSP meta-tag in addition to the HTTP header
 			hashAlgorithm: 'sha256',
+			unsafeInlineCompatiblity: true,
 			policies: {
 				'default-src': ["'self'", 'https:', ...ALLOWED_HOSTS],
-				'frame-src': ["'none'"],
-			},
-			addMeta: true
+				'script-src': ["'self'", "'strict-dynamic'", 'https:'],
+				'style-src': ["'self'", "'strict-dynamic'", 'https:'],
+				'frame-src': [],
+				'object-src': ["'none'"],
+				'base-uri': ["'self"]
+			}
 		}
 	},
 	/*
@@ -100,21 +106,11 @@ export default {
 	modules: [
 		'@nuxtjs/axios',
 		'@nuxtjs/toast',
-		'nuxt-helmet',
 		['nuxt-stripe-module', {
 			publishableKey: process.env.STRIPE_PK,
 		}],
 	],
 
-	helmet: {
-		frameguard: {action: "deny"},
-		contentSecurityPolicy: {
-			directives: {
-				frameAncestors: ["'none'"],
-				defaultSrc: ["'self'"],
-			}
-		}
-	},
 	generate: {
 		fallback: true, // if you want to use '404.html' instead of the default '200.html'
 	},
