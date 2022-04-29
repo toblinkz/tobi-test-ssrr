@@ -6,7 +6,13 @@ export default {
 	},
 
 	render: {
-		csp: true
+		csp: {
+			hashAlgorithm: 'sha256',
+			policies: {
+				'default-src': ["'self'"],
+			},
+			addMeta: true
+		}
 	},
 	/*
 	** Headers of the page
