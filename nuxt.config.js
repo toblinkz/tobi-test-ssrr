@@ -100,6 +100,7 @@ export default {
 
 	helmet: {
 		frameguard: {action: "deny"},
+		contentSecurityPolicy: {directives: {frameAncestors: ["'none'"],},}
 	},
 	generate: {
 		fallback: true, // if you want to use '404.html' instead of the default '200.html'
