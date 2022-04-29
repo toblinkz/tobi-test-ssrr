@@ -5,9 +5,9 @@ export default {
 		mode: 'hash',
 	},
 
-	// render: {
-	// 	csp: true
-	// },
+	render: {
+		csp: true
+	},
 	/*
 	** Headers of the page
 	*/
