@@ -116,7 +116,7 @@ export default {
 		contentSecurityPolicy:{
 			directives: {
 				frameAncestors: ["'none'"],
-				defaultSrc: helmet.contentSecurityPolicy.dangerouslyDisableDefaultSrc,
+				defaultSrc: ["'self'"],
 			},}
 	},
 	generate: {
