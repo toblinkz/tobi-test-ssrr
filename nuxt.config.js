@@ -16,9 +16,7 @@ export default {
 				'default-src': ["'self'", 'https:', ...ALLOWED_HOSTS],
 				'script-src': ["'self'", "'strict-dynamic'", 'https:'],
 				'style-src': ["'self'", "'strict-dynamic'", 'https:'],
-				'frame-src': [],
-				'object-src': ["'none'"],
-				'base-uri': ["'self"]
+				'frame-src': ["'none'"],
 			}
 		}
 	},
