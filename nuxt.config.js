@@ -104,11 +104,16 @@ export default {
 	modules: [
 		'@nuxtjs/axios',
 		'@nuxtjs/toast',
+		'nuxt-helmet',
 		['nuxt-stripe-module', {
 			publishableKey: process.env.STRIPE_PK,
 		}],
 	],
+	helmet: {
 
+		frameguard: false,
+
+	},
 	generate: {
 		fallback: true, // if you want to use '404.html' instead of the default '200.html'
 	},
