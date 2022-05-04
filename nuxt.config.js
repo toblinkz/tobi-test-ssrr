@@ -1,3 +1,5 @@
+import helmet from "helmet";
+
 require('dotenv').config();
 const ALLOWED_HOSTS = `https://626bb6c0fe29bc6a4c2116d1--stalwart-bienenstitch-6497a2.netlify.app/#/login`
 export default {
@@ -111,8 +113,10 @@ export default {
 	],
 	helmet: {
 		frameguard: { action: "deny" },
-		contentSecurityPolicy:{ directives: {
+		contentSecurityPolicy:{
+			directives: {
 				frameAncestors: ["'none'"],
+				defaultSrc: helmet.contentSecurityPolicy.dangerouslyDisableDefaultSrc,
 			},}
 	},
 	generate: {
