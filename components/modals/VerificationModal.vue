@@ -86,6 +86,7 @@ name: "VerificationModal",
 					if(token !== null || '') {
 						this.isLoading = true;
 						this.button_text = "Verifying";
+
 						await this.$user.verifyUser(this.verification_code)
 						let response = await this.$user.getUser();
 

@@ -17,7 +17,7 @@
 				<div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 sm-p-l-15 sm-p-r-15 sm-p-t-40 wd-k">
 					<nuxt-link to="/"><img alt="logo" data-src-retina="/" height="auto" src="/images/logo.png" width="150px">
 					</nuxt-link>
-					<p class="p-t-35">Welcome to Termii! Join <strong
+					<p class="p-t-35">Welcome to Termii! Join Tobi <strong
 						class="text-bold   text-center">{{ registered_business }}+</strong> businesses across Africa building awesome
 						products with our communication APIs, create an account now!</p>
 					<!-- register Form -->
