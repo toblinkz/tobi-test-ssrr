@@ -3,7 +3,6 @@ import helmet from "helmet";
 require('dotenv').config();
 const ALLOWED_HOSTS = `https://626bb6c0fe29bc6a4c2116d1--stalwart-bienenstitch-6497a2.netlify.app/#/login`
 export default {
- ssr: true,
 	router: {
 		mode: 'hash',
 	},
