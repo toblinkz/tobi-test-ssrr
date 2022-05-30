@@ -98,7 +98,16 @@ export default {
 	** Nuxt.js dev-modules
 	*/
 	buildModules: [
+		'@aceforth/nuxt-netlify'
 	],
+	netlify: {
+		// configuration
+		headers: {
+			'/*': [
+				'Access-Control-Allow-Origin: *',
+			],
+		}
+	},
 	/*
 	** Nuxt.js modules
 	*/
